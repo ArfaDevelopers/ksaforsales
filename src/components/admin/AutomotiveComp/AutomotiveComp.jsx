@@ -1019,6 +1019,7 @@ const AutomotiveComp = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
+            marginTop:"15rem"
           }}
         >
           <div
@@ -1027,7 +1028,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
+              marginLeft: "7.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -1107,7 +1108,7 @@ const AutomotiveComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "4%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: "7.7%", marginTop: "20px", fontSize: "24px" }}
             >
               Used Cars for Sale
             </h1>
@@ -1119,7 +1120,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
+              marginLeft: "7.7%",
               marginBottom: "40px",
               marginTop: "20px",
             }}

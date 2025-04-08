@@ -762,7 +762,7 @@ const Home = () => {
   {/* Row 2: Next 5 items */}
  
   <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons">
-    <Link to="/RealEstateComp" className="category-links" calligraphy={{ textDecoration: "none" }}>
+    <Link to="/RealEstateComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Real Estate</h5>
       <img src={realestate} alt="icons" />
     </Link>

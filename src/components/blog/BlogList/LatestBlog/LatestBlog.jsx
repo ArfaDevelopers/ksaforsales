@@ -8,7 +8,7 @@ const LatestBlog = () => {
     <div className="latestblog-wrapper latestBlog_Card ">
       <div className="container">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5>Latest Blog</h5>
+          <h2>Latest Blog</h2>
           <button className="featuresection_btn featuresection_btn1 mt-4">
             Explore Blogs
           </button>

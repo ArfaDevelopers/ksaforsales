@@ -13,6 +13,8 @@ import { Link, useLocation } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
 import UserHeader from "../Userheader";
+import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
+import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
 
 const Dashboard = () => {
   const [change, setChange] = useState(false);
@@ -233,13 +235,14 @@ const Dashboard = () => {
                     <h4>Page Views</h4>
                     <div className="card-dropdown">
                       <ul>
-                        <li className="nav-item dropdown has-arrow logged-item">
+                        <li className="nav-item dropdown has-arrow logged-item " >
                           <Link
                             to="#"
                             className="dropdown-toggle pageviews-link"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                             onClick={() => setChange(!change)}
+                            style={{ textDecoration: "none" }}
                           >
                             <span>This week</span>
                           </Link>
@@ -298,6 +301,7 @@ const Dashboard = () => {
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                             onClick={() => setChange1(!change1)}
+                            style={{ textDecoration: "none" }}
                           >
                             <span>All Listing</span>
                           </Link>
@@ -398,6 +402,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <AutomativeCarousel/>
+      <LatestBlog/>
       {/* /Dashboard Content */}
       <Footer />
     </>
