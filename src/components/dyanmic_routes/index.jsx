@@ -1340,110 +1340,73 @@ const handleShowReport = () => {
             {/* Right Side: Profile Information Section */}
             <div className="col-md-4    border-none leftCard responsive_card">
             {" "}
+      
             <div className="col-md-11  border-none leftCard responsive_card">
-              <div className="profileInfo_div">
-              <div className="price_box" style={{marginBottom:10,marginTop:14}}>
-  <div
-    style={{
-      fontSize: "60px",
-      fontWeight: "bold",
-      textAlign:"center",
-      color: "#2d4495",
-    }}
-  >
-    ${itemData?.Price}
-  </div>
+                  <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+  {/* Card body to hold the price and heart button */}
+  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15}}>
+    <div
+      style={{
+        fontSize: "60px",
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#2d4495",
+        marginBottom:20
+      }}
+    >
+      ${itemData?.Price || "N/A"}
+    </div>
+    <h5>Safety Tips</h5>
+                        <ul
+                          style={{
+                            listStyleImage: `url(${bullet})`,
+                            marginLeft: "-1.1rem",
+                          }}
+                        >
+                          <li className="safteytip_para">
+                            Meet seller at a safe place.
+                          </li>
+                          <li className="safteytip_para">
+                            Check item before you buy
+                          </li>
+                          <li className="safteytip_para">
+                            Pay only after collecting item.
+                          </li>
+                        </ul>
+                        <hr
+  style={{
+    border: "none", // Default border hatao
+    borderTop: "3px solid #000", // Dark aur bold line
+  }}
+/>
 
-  {/* Adding styles for the box */}
-  <style jsx>{`
-    .price_box {
-      // background-color: #f0f7ff; /* Light blue background like in the image */
-      border: 1px solid gray; /* Subtle border */
-      border-radius: 8px; /* Rounded corners */
-      padding: 20px; /* Inner spacing */
-      width: 110%; /* Full width as requested */
-      box-sizing: border-box; /* Ensure padding doesn't affect width */
-      font-family: Arial, sans-serif; /* Font similar to the image */
-    }
-  `}</style>
-</div>
+<div className="col-md ">
+                        <h1 className="sallerinfo_para">Seller Information</h1>
+                        <div className="row profileinner_container ">
+                          
+                            <div className="col-5 profileimg">
+                                          <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
+                                          
+                            <img
+                              src={profile}
+                              alt="Profile"
+                              className="img-fluid rounded-circle"
+                            />
+                          </Link>
+                        </div>
+                          <div className="col-5 profile_rightbarTags">
+                            <p className="sallerInfo_para">
+                              {itemData.displayName}
+                            </p>
+                            <p className="sallerInfo_para">
+                              {itemData.creationTime}
+                            </p>
+                            <p className="s allerInfo_para">View all Ads</p>
+                          </div>
 
-<div className="profile_div1">
-  <h5>Safety Tips</h5>
-  <ul>
-    <li className="safteytip_para">Meet seller at a safe place.</li>
-    <li className="safteytip_para">Check item before you buy</li>
-    <li className="safteytip_para">Pay only after collecting item.</li>
-  </ul>
-
-  {/* Updated styles with full width */}
-  <style jsx>{`
-    .profile_div1 {
-      // background-color: #f0f7ff; /* Light blue background like in the image */
-      border: 1px solid gray; /* Subtle border */
-      border-radius: 8px; /* Rounded corners */
-      padding: 20px; /* Inner spacing */
-      width: 110%; /* Set to full width */
-      box-sizing: border-box; /* Ensure padding doesn't affect width */
-      font-family: Arial, sans-serif; /* Font similar to the image */
-    }
-
-    .profile_div1 h5 {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333; /* Dark text color */
-      margin-bottom: 15px;
-      text-transform: uppercase; /* Match the uppercase style in the image */
-    }
-
-    .profile_div1 ul {
-      list-style: none; /* Remove default bullets */
-      padding-left: 0;
-      margin-left: 0; /* Override the previous margin */
-    }
-
-    .safteytip_para {
-      position: relative;
-      padding-left: 25px; /* Space for the custom bullet */
-      margin-bottom: 10px; /* Space between list items */
-      font-size: 14px;
-      color: #333;
-      line-height: 1.5;
-    }
-
-    .safteytip_para::before {
-      content: "✔"; /* Checkmark as the bullet, like in the image */
-      color: #28a745; /* Green color for the checkmark */
-      position: absolute;
-      left: 0;
-      font-size: 16px;
-    }
-  `}</style>
-</div>
-                <div className="box" style={{marginBottom:10,marginTop:10}}>
-                <div className="col-md ">
-
-                  <h1 className="sallerinfo_para">Seller Information</h1>
-                  <div className="row profileinner_container ">
-                  <div className="col-5 profileimg">
-                  <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
-                  
-    <img
-      src={profile}
-      alt="Profile"
-      className="img-fluid rounded-circle"
-    />
-  </Link>
-</div>
-                    <div className="col-7 profile_rightbarTags">
-                      <p className="sallerInfo_para">Philp Martin</p>
-                      <p className="sallerInfo_para">Member Since</p>
-                      <p className="sallerInfo_para">View all Ads</p>
-                    </div>
-
-                    <div className="col mt-3 innerContainer2">
-                    <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
-  {/* Call Now Button */}
+                          <div className="col mt-3 innerContainer2">
+                          <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+ 
   <a href={`tel:${itemData.Phone}`}>
     <button
       className={`sign-in-button ${showPhone ? "expanded" : ""}`}
@@ -1456,7 +1419,7 @@ const handleShowReport = () => {
     </button>
   </a>
 
-  {/* WhatsApp Button */}
+
   <a href={`https://wa.me/${itemData.whatsapp}`} target="_blank" rel="noopener noreferrer">
     <button className={`sign-in-button ${showPhone ? "icon-only" : ""}`}>
       <FaWhatsapp />
@@ -1464,7 +1427,7 @@ const handleShowReport = () => {
     </button>
   </a>
 
-  {/* Message Button */}
+ 
   <button
     className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
     onClick={() => setShowModal(true)}
@@ -1473,7 +1436,7 @@ const handleShowReport = () => {
     <span className="button-text">Message</span>
   </button>
 
-  {/* Consolidated styles for all buttons */}
+ 
   <style jsx>{`
     .sign-in-button {
       background-color: #0055a5; /* Blue background color matching the image */
@@ -1519,32 +1482,33 @@ const handleShowReport = () => {
     }
   `}</style>
 </div>
-                      <div>
-                        <div
-                          className={`modal fade ${
-                            showModal ? "show d-block" : "d-none"
-                          }`}
-                          tabIndex="-1"
-                          role="dialog"
-                          style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                          }} // Backdrop effect
-                        >
-                          <div
-                            className="modal-dialog modal-dialog-centered"
-                            role="document"
-                          >
-                            <div className="modal-content">
-                              {/* Modal Header */}
-                              <div className="modal-header">
-                                <h5 className="modal-title">Send Message</h5>
-                                <button
-                                  type="button"
-                                  className="btn-close"
-                                  onClick={() => setShowModal(false)}
-                                ></button>
-                              </div>
-                              <div className="modal-body">
+                            <div>
+                                                    <div
+                                                      className={`modal fade ${
+                                                        showModal ? "show d-block" : "d-none"
+                                                      }`}
+                                                      tabIndex="-1"
+                                                      role="dialog"
+                                                      style={{
+                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                      }} // Backdrop effect
+                                                    >
+                                                      <div
+                                                        className="modal-dialog modal-dialog-centered"
+                                                        role="document"
+                                                      >
+                                                        <div className="modal-content">
+                                                       
+                                                          <div className="modal-header">
+                                                            <h5 className="modal-title">Send Message</h5>
+                                                            <button
+                                                              type="button"
+                                                              className="btn-close"
+                                                              onClick={() => setShowModal(false)}
+                                                            ></button>
+                                                          </div>
+                            
+                                                          <div className="modal-body">
                                 <div className="p-4 w-full max-w-lg mx-auto">
                                   {userId && recieverId ? (
                                     <Chat
@@ -1562,98 +1526,91 @@ const handleShowReport = () => {
                               </div>
 
 
-
-                              {/* Modal Footer */}
-                              <div className="modal-footer">
-                                <button
-                                  type="button"
-                                  className="btn btn-secondary"
-                                  onClick={() => setShowModal(false)}
-                                >
-                                  Close
-                                </button>
-                              </div>
-                            </div>
+                            
+                                                       
+                                                          <div className="modal-footer">
+                                                            <button
+                                                              type="button"
+                                                              className="btn btn-secondary"
+                                                              onClick={() => setShowModal(false)}
+                                                            >
+                                                              Close
+                                                            </button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                            
+                                                  
+                                                    {showModal && (
+                                                      <div
+                                                        className="modal-backdrop fade show"
+                                                        onClick={() => setShowModal(false)}
+                                                      ></div>
+                                                    )}
+                                                  </div>
+ 
+                            
                           </div>
                         </div>
-
-                        {/* Backdrop for Modal */}
-                        {showModal && (
-                          <div
-                            className="modal-backdrop fade show"
-                            onClick={() => setShowModal(false)}
-                          ></div>
-                        )}
                       </div>
-                  
-                     
-                    </div>
-                  </div>
-                </div>
-                <style jsx>{`
-    .box {
-      // background-color: #f0f7ff; /* Light blue background like in the image */
-      border: 1px solid gray; /* Subtle border */
-      border-radius: 8px; /* Rounded corners */
-      padding: 20px; /* Inner spacing */
-      width: 110%; /* Full width as requested */
-      box-sizing: border-box; /* Ensure padding doesn't affect width */
-      font-family: Arial, sans-serif; /* Font similar to the image */
-    }
-  `}</style>
-                </div>
-                <div className="box" style={{marginBottom:10,marginTop:10}}>
-                <h4 className="mt-4 mb-4">Location </h4>
+
+                      <h4 className="mt-4 mb-4">Location </h4>
 
 <button className="location_btn ">
   {itemData.location}{" "}
 </button>
-<div className="d-flex flex-column gap-3 mt-4 ms-0">
-  <img
-    src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-    alt="Dummy 1"
-    className="rounded shadow"
-    style={{
-      width: "375px",
-      height: "300px",
-      objectFit: "cover",
-    }}
-  />
-  <img
-    src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-    alt="Dummy 2"
-    className="rounded shadow"
-    style={{
-      width: "375px",
-      height: "300px",
-      objectFit: "cover",
-    }}
-  />
-  <img
-    src="https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
-    alt="Dummy 3"
-    className="rounded shadow"
-    style={{
-      width: "375px",
-      height: "300px",
-      objectFit: "cover",
-    }}
-  />
-</div>
-<style jsx>{`
-    .box {
-      // background-color: #f0f7ff; /* Light blue background like in the image */
-      border: 1px solid gray; /* Subtle border */
-      border-radius: 8px; /* Rounded corners */
-      padding: 20px; /* Inner spacing */
-      width: 110%; /* Full width as requested */
-      box-sizing: border-box; /* Ensure padding doesn't affect width */
-      font-family: Arial, sans-serif; /* Font similar to the image */
-    }
-  `}</style>
-</div>
-              </div>
-              </div>
+                        
+  </Card.Body>
+</Card>
+                   
+                      
+              
+                     
+                    <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+  {/* Card body to hold the price and heart button */}
+  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
+                     
+                      
+                    
+                            <div className="d-flex flex-column gap-3 mt-4 ms-0">
+                              <img
+                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
+                                alt="Dummy 1"
+                                className="rounded shadow"
+                                style={{
+                                  width: "375px",
+                                  height: "300px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                              <img
+                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
+                                alt="Dummy 2"
+                                className="rounded shadow"
+                                style={{
+                                  width: "375px",
+                                  height: "300px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                              <img
+                                src="https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                                alt="Dummy 3"
+                                className="rounded shadow"
+                                style={{
+                                  width: "375px",
+                                  height: "300px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </div>
+                      
+                            </Card.Body>
+</Card>   
+                   
+                  </div>
+         
             </div>
           </div>
         </div>

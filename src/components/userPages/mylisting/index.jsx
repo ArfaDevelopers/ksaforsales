@@ -762,11 +762,11 @@ const MyListe = () => {
                   <i className="feather-list" /> <span>My Listing</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/bookmarks">
                   <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/messages">
                   <i className="fa-solid fa-comment-dots" />{" "}

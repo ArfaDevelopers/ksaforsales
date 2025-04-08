@@ -153,11 +153,11 @@ const Dashboard = () => {
                   <i className="feather-list" /> <span>My Listing</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/bookmarks">
                   <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/messages">
                   <i className="fa-solid fa-comment-dots" />{" "}
@@ -180,7 +180,7 @@ const Dashboard = () => {
 
           <div className="dashboard-details">
             <div className="row">
-              <div className="col-lg-3 col-md-3">
+              <div className="col-lg-4 col-md-4">
                 <div className="card dash-cards">
                   <div className="card-body">
                     <div className="dash-top-content">
@@ -195,7 +195,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-3">
+              <div className="col-lg-4 col-md-4">
                 <div className="card dash-cards">
                   <div className="card-body">
                     <div className="dash-top-content">
@@ -210,7 +210,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-3">
+              <div className="col-lg-4 col-md-4">
                 <div className="card dash-cards">
                   <div className="card-body">
                     <div className="dash-top-content">
@@ -221,21 +221,6 @@ const Dashboard = () => {
                     <div className="dash-widget-info">
                       <h6>Messages</h6>
                       <h3>15</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-3">
-                <div className="card dash-cards">
-                  <div className="card-body">
-                    <div className="dash-top-content">
-                      <div className="dashcard-img">
-                        <img src={bookmark} className="img-fluid" alt="" />
-                      </div>
-                    </div>
-                    <div className="dash-widget-info">
-                      <h6>Bookmark</h6>
-                      <h3>30</h3>
                     </div>
                   </div>
                 </div>
