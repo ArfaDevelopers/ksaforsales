@@ -192,7 +192,9 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Active Listing</h6>
-                      <h3 className="counter">500</h3>
+                      <div>
+      500
+    </div>
                     </div>
                   </div>
                 </div>
@@ -207,7 +209,8 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Total Reviews</h6>
-                      <h3>15230</h3>
+                     
+                      <div>15230</div>
                     </div>
                   </div>
                 </div>
@@ -222,7 +225,7 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Messages</h6>
-                      <h3>15</h3>
+                      <div>15</div>
                     </div>
                   </div>
                 </div>
