@@ -122,7 +122,9 @@ const Bikes = () => {
     setToCCMileage(e.target.value);
     console.log("From Date:___To Date:", e.target.value);
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const handleStateChange1 = (e, state) => {
     if (e.target.checked) {
       setSelectedStates1((prevStates) => {

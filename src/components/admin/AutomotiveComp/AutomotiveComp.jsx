@@ -133,7 +133,9 @@ const AutomotiveComp = () => {
   const [states, setStates] = useState([]);
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [showModal, setShowModal] = useState(false);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
     value: country.isoCode,

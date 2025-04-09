@@ -128,7 +128,9 @@ const FashionStyle = () => {
   const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
   const [storageType, setStorageType] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [fromValueMileage, setFromCCMileage] = useState("");
   const [toValueMileage, setToCCMileage] = useState("");

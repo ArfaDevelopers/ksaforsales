@@ -178,7 +178,9 @@ const RealEstateComp = () => {
   const [cities, setCities] = useState([]);
   // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
   const [states, setStates] = useState([]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
     value: country.isoCode,

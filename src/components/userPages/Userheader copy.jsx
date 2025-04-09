@@ -92,7 +92,7 @@ const UserHeader = ({ parms }) => {
                   className="para-text "
                   style={{ fontFamily: "Inter", color: "#353535" }}
                 >
-                  +956 053071851
+                  +966 530 77 1851
                 </span>
               </div>
 

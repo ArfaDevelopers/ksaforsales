@@ -87,7 +87,9 @@ const MAGAZINESCOMP = () => {
 
   const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
     useState([]);
-
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location]);
   // Handle checkbox change for Toyota locations
   const [selectedCars1, setSelectedCars1] = useState([]);
   const [selectedOptionTransmission, setSelectedOptionTransmission] =

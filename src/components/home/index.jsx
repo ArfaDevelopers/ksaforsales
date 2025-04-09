@@ -486,63 +486,6 @@ const Home = () => {
     <>
       <div className="main-wrapper">
         <Header />
-        {/* Banner Section */}
-        {/* <section className="banner-section">
-          <div className="container">
-            <div className="home-banner">
-              <div className="home-banner-about">
-                <div
-                  className="section-search aos r homebannerwrapper_2"
-                  data-aos="fade-up"
-                >
-                  <p className="explore-text banner-text">
-                    <span>Explore top-rated attractions</span>
-                  </p>
-                  <h1>
-                    Let us help you
-                    <span>Find, Buy</span>
-                    <span>Find, Buy</span> & Own Dreams
-                  </h1>
-                  <p className="banner-para">
-                    Countrys most loved and trusted classified ad listing
-                    website. Randomised words which don't look even slightly
-                    Browse thousands of items near you.
-                  </p>
-                </div>
-                <div className="bannerimages_wrapper">
-                  <div className="wrapper_container">
-                    <img src={image1} className="banner_img" alt="" />
-                    <img src={image2} className="banner_img" />
-                  </div>
-                  <div className="wrapper_container">
-                    <img src={image3} className="banner_img" alt="" />
-                    <img src={image4} className="banner_img" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-        {/* <section
-          className="container rounded  bg-no-repeat bg-center w-full mb-0 pb-0"
-          style={{
-            backgroundImage: `url(${preview})`,
-            backgroundSize: "cover",
-            height: "50vh",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className=" mx-auto flex items-center justify-center h-full">
-            <div className="home-banner">
-              <div className="home-banner-about">
-                <div
-                  className="section-search aos r homebannerwrapper_2"
-                  data-aos="fade-up"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </section> */}
         <div
           id="carouselExampleIndicators"
           className="carousel slide container"
@@ -574,7 +517,7 @@ const Home = () => {
                   src={img}
                   className="d-block w-100 "
                   alt={`Slide ${index + 1}`}
-                  style={{ height: "600px", objectFit: "cover",borderRadius:"8px" }} // Fixed height and maintains aspect ratio
+                  style={{ height: "600px", objectFit: "cover",borderRadius:"8px" }} 
                 />
               </div>
             ))}
@@ -618,7 +561,7 @@ const Home = () => {
             className="trendingproducts_container"
             style={{ marginTop: 0, paddingTop: 0 }}
           >
-            {/* <button className="trendingProductsallname">Iphone 16</button> */}
+
             <button
               onClick={() => {
                 navigate("/SportGamesComp");
@@ -669,8 +612,6 @@ const Home = () => {
             </button>
           </div>
         </div>
-
-        {/* Trending Products */}
 
         {/* Category Section */}
         <section className="category-section">

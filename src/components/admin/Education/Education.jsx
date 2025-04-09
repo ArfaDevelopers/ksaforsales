@@ -160,7 +160,9 @@ const Education = () => {
     value: country.isoCode,
     label: country.name,
   }));
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   // Handle country selection
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);

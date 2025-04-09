@@ -26,7 +26,7 @@
 //         {/* Contact and Language Section */}
 //         <div className="contactAndLanguage">
 //           <div className="phoneInfo">
-//             <span className="phoneText">+956 053071851</span>
+//             <span className="phoneText">+966 530 77 1851</span>
 //           </div>
 
 //           {/* Language Selection */}
@@ -123,7 +123,7 @@ const UpperHeader = () => {
                 className="para-text "
                 style={{ fontFamily: "Inter", color: "#353535" }}
               >
-                +956 053071851
+                +966 530 77 1851
               </span>
             </div>
 
