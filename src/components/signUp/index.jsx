@@ -42,7 +42,9 @@ const SignUp = () => {
       setMobileNumber(input);
     }
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const validateNumber = () => {
     const saudiNumberRegex = /^\+9665\d{8}$/; // Saudi number pattern
     if (mobileNumber && !saudiNumberRegex.test(mobileNumber)) {
@@ -217,7 +219,7 @@ const SignUp = () => {
     <>
       <Header />
 
-      <div className="login-content" style={{ marginTop: "8rem" }}>
+      <div className="login-content" style={{ marginTop: "8rem",marginLeft:"2rem" }}>
         <div class="container breadcrumb mt-4  mt-4 d-flex justify-content-start align-items-start">
           <div class="row">
             <div class="col-12 text-start text-dark ">Home / Register</div>
@@ -231,14 +233,19 @@ const SignUp = () => {
                 <div className="login-header">
                   <h3>Create an Account</h3>
                   <p>
-                    Let's start with <span>KSA4Sale</span>
-                  </p>
+  Let's start with{" "}
+  <span>
+    <span style={{ color: "#2d4495" }}>ksa</span>
+    <span style={{ color: "#36a680" }}>4sale</span>
+  </span>
+</p>
+
                 </div>
 
                 <form onSubmit={handleSignup}>
                   <div className="form-group group-img">
                     <div className="group-img">
-                      <i className="feather-user" />
+                      <i className="feather-user" style={{color:"#2d4495"}} />
                       <input
                         type="text"
                         className="form-control"
@@ -250,7 +257,7 @@ const SignUp = () => {
                     </div>
                   </div>
                   <div className="group-img imageForm1 form-group">
-                    <i className="feather-file" />
+                    <i className="feather-file" style={{color:"#2d4495"}}/>
 
                     <input
                       type="file"
@@ -269,7 +276,7 @@ const SignUp = () => {
                   </div>
                   <div className="form-group group-img">
                     <div className="group-img">
-                      <i className="feather-mail" />
+                      <i className="feather-mail" style={{color:"#2d4495"}}/>
                       <input
                         type="email"
                         className="form-control"
@@ -283,7 +290,7 @@ const SignUp = () => {
 
                   <div className="form-group group-img">
                     <div className="group-img">
-                      <i className="feather-phone" />
+                      <i className="feather-phone" style={{color:"#2d4495"}}/>
                       <input
                         type="tel"
                         className="form-control"
@@ -302,7 +309,8 @@ const SignUp = () => {
                   {!otpSent ? (
                     <button
                       type="button"
-                      className="btn btn-secondary w-100"
+                      className="btn  w-100"
+                      style={{ backgroundColor: "#2d4495", color: "#fff", border: "none" }}
                       onClick={sendOtp}
                     >
                       Send OTP
@@ -311,7 +319,7 @@ const SignUp = () => {
                     <>
                       <div className="form-group group-img">
                         <div className="group-img">
-                          <i className="feather-key" />
+                          <i className="feather-key" style={{color:"#2d4495"}}/>
                           <input
                             type="text"
                             className="form-control"
@@ -325,7 +333,7 @@ const SignUp = () => {
 
                       <div className="form-group">
                         <div className="pass-group group-img">
-                          <i className="feather-lock" />
+                          <i className="feather-lock" style={{color:"#2d4495"}}/>
                           <input
                             type={passwordType}
                             className="form-control pass-input"

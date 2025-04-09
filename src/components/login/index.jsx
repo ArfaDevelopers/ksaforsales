@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../home/header";
 import Footer from "../home/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,7 +20,9 @@ const Login = () => {
   // Handle email & password input changes
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   // Toggle password visibility
   const togglePassword = () => {
     setPasswordType(passwordType === "password" ? "text" : "password");
@@ -74,7 +76,7 @@ const Login = () => {
 
       {/* Login Section */}
 
-      <div className="login-content" style={{ marginTop: "8rem" }}>
+      <div className="login-content" style={{ marginTop: "8rem" ,marginLeft:"2rem" }}>
         <div class="container breadcrumb mt-4  mt-4 d-flex justify-content-start align-items-start">
           <div class="row">
             <div class="col-12 text-start text-dark ">Home / Login</div>
@@ -98,7 +100,7 @@ const Login = () => {
                 {/* Login Form */}
                 <form onSubmit={handleLogin}>
                   <div className="form-group group-img">
-                    <i className="feather-mail" />
+                    <i className="feather-mail" style={{color:"#2d4495"}} />
                     <input
                       type="email"
                       className="form-control"
@@ -110,7 +112,7 @@ const Login = () => {
                   </div>
                   <div className="form-group">
                     <div className="pass-group group-img">
-                      <i className="feather-lock" />
+                      <i className="feather-lock" style={{color:"#2d4495"}} />
                       <input
                         type={passwordType}
                         className="form-control pass-input"
@@ -148,11 +150,13 @@ const Login = () => {
                     </div>
                   </div>
                   <button
-                    className="btn btn-primary w-100 login-btn"
-                    type="submit"
-                  >
-                    Sign in
-                  </button>
+  className="btn w-100 login-btn"
+  type="submit"
+  style={{ backgroundColor: "#2d4495", color: "#fff", border: "none" }}
+>
+  Sign in
+</button>
+
                   <div className="register-link text-center">
                     <p>
                       No account yet?{" "}
@@ -161,44 +165,40 @@ const Login = () => {
                       </Link>
                     </p>
                   </div>
-                  <div className="login-or">
+                  {/* <div className="login-or">
                     <span className="or-line" />
                     <span className="span-or">
                       Sign in with Social Media Accounts
                     </span>
-                  </div>
-                  <div className="social-login">
+                  </div> */}
+                  {/* <div className="social-login">
                     <Link to="#" className="btn btn-apple w-100">
-                      {/* <img src={apple} className="me-1" alt="img" /> */}
                       <FaApple
                         style={{ marginBottom: "1px" }}
-                        //  src={apple}
                         className="me-1"
                         alt="img"
                       />
                       Sign in with Apple
                     </Link>
-                  </div>
+                  </div> */}
 
-                  <div className="social-login">
+                  {/* <div className="social-login">
                     <Link to="#" className="btn btn-google w-100">
                       <img src={google} className="me-1" alt="img" />
                       Sign in with Google
                     </Link>
-                  </div>
-                  <div className="social-login">
+                  </div> */}
+                  {/* <div className="social-login">
                     <Link to="#" className="btn btn-facebook w-100 mb-0">
-                      {/* <img src={facebook} className="me-2" alt="img" />
-                       */}
                       <FaFacebookF
                         style={{ marginBottom: "2px" }}
-                        //  src={apple}
+                        
                         className="me-1"
                         alt="img"
                       />
                       Continue with Facebook
                     </Link>
-                  </div>
+                  </div> */}
                 </form>
                 {/* /Login Form */}
               </div>

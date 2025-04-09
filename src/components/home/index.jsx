@@ -123,6 +123,9 @@ const Home = () => {
   }, []);
   console.log(OurCategoryHouseHold, "adsList___________OurCategoryAutomative1");
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  useEffect(() => {
     const fetchAds = async () => {
       try {
         const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection

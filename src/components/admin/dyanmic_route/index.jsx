@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./footer/Footer";
+import Footer from "../../home/footer/Footer";
 import Header from "./header";
 import img from "./home-07.jpg";
 import tick from "./tick.png";
@@ -66,7 +66,9 @@ const Dynamic_Route = () => {
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   const link = getQueryParam("link") || window.location.href;
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
@@ -729,7 +731,7 @@ const Dynamic_Route = () => {
 
         <div
           className="container  border-none  containerWrapper"
-          style={{ marginTop: "270px" }}
+          style={{ marginTop: "220px" }}
         >
           <div className="d-flex flex-wrap justify-content-between align-items-center">
             {/* Breadcrumb buttons */}
@@ -790,15 +792,16 @@ const Dynamic_Route = () => {
             style={{
               color: "#000000",
               marginTop: "24.83px",
-              marginBottom: "24.3px",
+              marginBottom: "10.3px",
             }}
           />
-
+<div
+          style={{ fontSize:"40px",marginBottom:-35 }}
+        >
+{itemData?.title || "Default Title"}
+        </div>
           {/* More buttons */}
-          <h1 className="fw-bold" style={{ marginBottom: "24px" }}>
-            {itemData?.title || "Default Title"}{" "}
-            {/* Dynamically display the title */}
-          </h1>
+        
 
           <div className="head2_wrapper mt-4">
             <div className="CategoryInfodiv_btn2container mt-4">
@@ -1014,7 +1017,7 @@ const Dynamic_Route = () => {
           <div className="row  border-none">
             <div class="container">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-8" style={{marginTop:-30}}>
                   {callingFrom === "AutomotiveComp" ? (
                     // <div className="col  border-none container ">
                     //   <div className="col  border-none">\
@@ -1266,30 +1269,7 @@ const Dynamic_Route = () => {
                                 {" "}
                                 {itemData.description}
                               </p>
-                              {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                          
                               <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                 <div>
@@ -1327,109 +1307,7 @@ const Dynamic_Route = () => {
                                     officia praesentium facilis.
                                   </p>
 
-                                  {/* <div className="row">
-                                    <button
-                                      className="hovering"
-                                      style={{
-                                        color: "white",
-                                        border: "2px solid rgb(45, 68, 149)",
-                                        background: "#2D4495",
-                                        borderRadius: "0.7rem",
-                                        width: "7rem",
-                                        height: "2rem",
-                                        margin: "1.3rem",
-                                      }}
-                                    >
-                                      Loresm
-                                    </button>
-
-                                    <>
-                                      <button
-                                        className="hovering"
-                                        style={{
-                                          color: "white",
-                                          border: "2px solid rgb(45, 68, 149)",
-                                          background: "#2D4495",
-                                          borderRadius: "0.7rem",
-                                          width: "7rem",
-                                          height: "2rem",
-                                          margin: "1.3rem",
-                                        }}
-                                        onClick={handleShow}
-                                      >
-                                        Report
-                                      </button>
-
-                                      <Modal
-                                        show={show}
-                                        onHide={handleClose}
-                                        centered
-                                      >
-                                        <Modal.Header closeButton>
-                                          <Modal.Title>
-                                            Submit a Report
-                                          </Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body>
-                                          <Form>
-                                            <Form.Group controlId="reportText">
-                                              <Form.Label>
-                                                Report Details
-                                              </Form.Label>
-                                              <Form.Control
-                                                as="textarea"
-                                                rows={3}
-                                                placeholder="Describe the issue..."
-                                                value={reportText}
-                                                onChange={(e) =>
-                                                  setReportText(e.target.value)
-                                                }
-                                              />
-                                            </Form.Group>
-
-                                            <Form.Group className="mt-3">
-                                              <Form.Label>
-                                                Report Type
-                                              </Form.Label>
-                                              {reportTypes.map(
-                                                (type, index) => (
-                                                  <Form.Check
-                                                    key={index}
-                                                    type="checkbox"
-                                                    label={type}
-                                                    checked={selectedReports.includes(
-                                                      type
-                                                    )}
-                                                    onChange={() =>
-                                                      handleCheckboxChange(type)
-                                                    }
-                                                  />
-                                                )
-                                              )}
-                                            </Form.Group>
-                                          </Form>
-                                        </Modal.Body>
-                                        <Modal.Footer>
-                                          <Button
-                                            variant="secondary"
-                                            onClick={handleClose}
-                                          >
-                                            Close
-                                          </Button>
-                                          <Button
-                                            variant="primary"
-                                            onClick={handleSubmit}
-                                            disabled={
-                                              !reportText ||
-                                              selectedReports.length === 0
-                                            }
-                                          >
-                                            Submit Report
-                                          </Button>
-                                        </Modal.Footer>
-                                      </Modal>
-                                    </>
-                                  </div> */}
+                               
                                 </div>
                               </div>
                             </div>
@@ -1688,30 +1566,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                               
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -1749,109 +1604,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                               
                                </div>
                              </div>
                               </div>
@@ -2112,30 +1865,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                               
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -2173,109 +1903,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                            
                                </div>
                              </div>
                               </div>
@@ -2547,30 +2175,6 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -2608,109 +2212,6 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
                                </div>
                              </div>
                               </div>
@@ -2966,30 +2467,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                            
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -3027,109 +2505,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                                
                                </div>
                              </div>
                               </div>
@@ -3382,30 +2758,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                              
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -3443,109 +2796,6 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
                                </div>
                              </div>
                               </div>
@@ -3801,30 +3051,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                            
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -3862,109 +3089,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                               
                                </div>
                              </div>
                               </div>
@@ -4150,34 +3275,7 @@ const Dynamic_Route = () => {
                                         "Default last updated"}
                                     </td>
                                   </tr>
-                                  {/* <tr>
-                              <th className="table_text">Property Type :</th>
-                              <td className="table_text">
-                                {itemData?.PropertyType ||
-                                  "Default PropertyType"}
-                              </td>
-                              <th className="table_text">Seller Type :</th>
-                              <td className="table_text">
-                                {itemData?.SellerType || "No SellerType"}
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th className="table_text">Size :</th>
-                              <td className="table_text">
-                                {itemData?.Size || "Default Size"}
-                              </td>
-                              <th className="table_text">States :</th>
-                              <td className="table_text">
-                                {itemData?.States || "Default States"}
-                              </td>
-                            </tr>
-                            <tr>
-                              <th className="table_text">Location:</th>
-                              <td className="table_text">
-                                {itemData?.location || "Default location"}
-                              </td>
-                            </tr> */}
+                           
                                 </tbody>
                               </table>
                             </div>
@@ -4215,30 +3313,7 @@ const Dynamic_Route = () => {
                                   {" "}
                                   {itemData.description}
                                 </p>
-                                {/* <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Repellat nulla architecto molestias officiis,
-                            quis incidunt fugiat fugit pariatur voluptatum
-                            possimus modi repellendus dignissimos!
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p>
-                          <p className="descriptions_para">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Tempora impedit ea deserunt, possimus totam
-                            repellendus asperiores sequi? Debitis maxime optio
-                            unde nemo explicabo?
-                          </p> */}
+                            
                            <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
                                <div>
@@ -4276,109 +3351,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                            
                                </div>
                              </div>
                               </div>
@@ -4666,109 +3639,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                                
                                </div>
                              </div>
                               </div>
@@ -5064,109 +3935,7 @@ const Dynamic_Route = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                            
                                </div>
                              </div>
                               </div>
@@ -5179,7 +3948,7 @@ const Dynamic_Route = () => {
                     ""
                   )}
                 </div>
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-4" style={{marginTop:-30}}>
                   {" "}
                
                   <div className="col-md-11  border-none leftCard responsive_card">
