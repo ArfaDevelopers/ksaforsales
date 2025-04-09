@@ -522,7 +522,7 @@ const FashionStyle = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
-  const carsPerPage = 3;
+  const carsPerPage = 6;
 
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
   const renderPageNumbers = () => {
@@ -1601,7 +1601,9 @@ const FashionStyle = () => {
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
-            margin: "15rem auto", // Optional: Center the container if desired
+            margin: "0 auto", // Optional: Center the container if desired
+            marginTop:"13rem"
+           
           }}
         >
           <div
@@ -1703,7 +1705,7 @@ const FashionStyle = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: "7.7%",
-              marginBottom: "40px",
+              marginBottom: "20px",
               marginTop: "20px",
             }}
           >
@@ -1783,7 +1785,7 @@ const FashionStyle = () => {
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
-            margin: "-219px auto", // Optional: Center the container if desired
+            margin: "0 auto", // Optional: Center the container if desired
           }}
         >
           <Row>

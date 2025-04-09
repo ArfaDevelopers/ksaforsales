@@ -69,7 +69,7 @@
 
 // export default UpperHeader;
 
-import React, { useState } from "react";
+import React, { useState ,useRef,useEffect} from "react";
 import Flag from "react-world-flags";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMobileAlt } from "@fortawesome/free-solid-svg-icons";
@@ -99,7 +99,23 @@ const UpperHeader = () => {
       console.error("Error making the call:", error);
     }
   };
- 
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setIsDropdownVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     // <div style={{ backgroundColor: "#E9EEFF" }}>
     <div style={{ backgroundColor: "white" }}>
@@ -141,62 +157,63 @@ const UpperHeader = () => {
 
             {/* Language Dropdown Section */}
             <div
-              className="lang_dropdown"
-              style={{
-                display: "flex",
-              }}
-            >
-              <button
-                className="btn dropdown-toggle"
-                onClick={toggleDropdown}
-                aria-expanded={isDropdownVisible ? "true" : "false"}
-              >
-                <Flag
-                  code={selectedLanguage === "en" ? "GB" : "SA"}
-                  className="flag-icon"
-                  style={{
-                    width: "27px",
-                    marginRight: "5px",
-                    fontFamily: "Inter",
-                  }}
-                />
-                {selectedLanguage === "en" ? "EN" : "AR"}
-              </button>
+      ref={dropdownRef}
+      className="lang_dropdown"
+      style={{
+        display: "flex",
+      }}
+    >
+      <button
+        className="btn dropdown-toggle"
+        onClick={toggleDropdown}
+        aria-expanded={isDropdownVisible ? "true" : "false"}
+      >
+        <Flag
+          code={selectedLanguage === "en" ? "GB" : "SA"}
+          className="flag-icon"
+          style={{
+            width: "27px",
+            marginRight: "5px",
+            fontFamily: "Inter",
+          }}
+        />
+        {selectedLanguage === "en" ? "EN" : "AR"}
+      </button>
 
-              {/* Dropdown Menu */}
-              {isDropdownVisible && (
-                <ul className="dropdown-menu show">
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      style={{ fontFamily: "Inter" }}
-                      onClick={() => handleLanguageChange("en")}
-                    >
-                      <Flag
-                        code="GB"
-                        className="flag-icon"
-                        style={{ width: "27px", marginRight: "5px" }}
-                      />
-                      English
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      style={{ fontFamily: "VIP Rawy" }}
-                      className="dropdown-item"
-                      onClick={() => handleLanguageChange("ar")}
-                    >
-                      <Flag
-                        code="SA"
-                        className="flag-icon"
-                        style={{ width: "27px", marginRight: "5px" }}
-                      />
-                      Arabic
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </div>
+      {/* Dropdown Menu */}
+      {isDropdownVisible && (
+        <ul className="dropdown-menu show">
+          <li>
+            <button
+              className="dropdown-item"
+              style={{ fontFamily: "Inter" }}
+              onClick={() => handleLanguageChange("en")}
+            >
+              <Flag
+                code="GB"
+                className="flag-icon"
+                style={{ width: "27px", marginRight: "5px" }}
+              />
+              English
+            </button>
+          </li>
+          <li>
+            <button
+              style={{ fontFamily: "VIP Rawy" }}
+              className="dropdown-item"
+              onClick={() => handleLanguageChange("ar")}
+            >
+              <Flag
+                code="SA"
+                className="flag-icon"
+                style={{ width: "27px", marginRight: "5px" }}
+              />
+              Arabic
+            </button>
+          </li>
+        </ul>
+      )}
+    </div>
           </div>
         </div>
       </div>

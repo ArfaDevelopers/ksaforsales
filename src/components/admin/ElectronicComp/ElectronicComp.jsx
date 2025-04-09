@@ -376,7 +376,7 @@ const ElectronicComp = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
-  const carsPerPage = 3;
+  const carsPerPage = 6;
 
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
   const renderPageNumbers = () => {
@@ -1343,7 +1343,7 @@ const ElectronicComp = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop:"15rem"
+            marginTop:"13rem"
           }}
         >
           <div
@@ -1448,7 +1448,7 @@ const ElectronicComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: "7.7%",
-              marginBottom: "40px",
+              marginBottom: "20px",
               marginTop: "20px",
             }}
           >

@@ -726,7 +726,7 @@ const RealEstateComp = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
-  const carsPerPage = 3;
+  const carsPerPage = 6;
 
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
   const renderPageNumbers = () => {

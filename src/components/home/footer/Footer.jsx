@@ -247,11 +247,11 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer_end">
-          <h6 className="footerend_para">
+          <div className="footerend_para">
             All CopyRight Reserved &copy;{" "}
             <span style={{ fontFamily: "'Inter', sans-serif" }}>2025</span>
             -Ksa4sale
-          </h6>
+          </div>
         </div>
       </div>
     </footer>
