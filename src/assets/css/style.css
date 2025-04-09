@@ -6350,7 +6350,7 @@ ul.tags {
   border-radius: 4px;
   color: #757575;
   padding: 14px 10px;
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.084), 0px 1px 1px rgba(0, 0, 0, 0.168);
+  /* box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.084), 0px 1px 1px rgba(0, 0, 0, 0.168); */
 }
 .btn-check:checked + .btn,
 .btn.active,
