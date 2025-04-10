@@ -3152,7 +3152,7 @@ const ElectronicComp = () => {
           </Row>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

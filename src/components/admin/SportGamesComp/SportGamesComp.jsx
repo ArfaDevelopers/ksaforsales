@@ -3157,7 +3157,7 @@ const SPORTSGAMESComp = () => {
           </div>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

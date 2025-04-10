@@ -3482,7 +3482,7 @@ const HealthCareComp = () => {
           </div>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

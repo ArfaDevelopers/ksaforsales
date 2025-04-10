@@ -2907,7 +2907,7 @@ const MAGAZINESCOMP = () => {
                 </Row>
               </div>
               <ComercialsAds />
-              {/* <LatestBlog /> */}
+              <LatestBlog />
             </Col>
           </Row>
         </Container>

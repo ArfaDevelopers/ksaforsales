@@ -3522,7 +3522,7 @@ const FashionStyle = () => {
           </div>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

@@ -3473,7 +3473,7 @@ const RealEstateComp = () => {
         </div>
       </div>
       <ComercialsAds />
-      {/* <LatestBlog /> */}
+      <LatestBlog />
       <Footer />
     </>
   );

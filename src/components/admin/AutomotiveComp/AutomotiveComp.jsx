@@ -3561,7 +3561,7 @@ const AutomotiveComp = () => {
       `}</style>
 
       <ComercialsAds />
-      {/* <LatestBlog /> */}
+      <LatestBlog />
       <Footer />
     </>
   );

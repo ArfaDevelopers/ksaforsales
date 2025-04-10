@@ -3372,7 +3372,7 @@ const JobBoard = () => {
           </div>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

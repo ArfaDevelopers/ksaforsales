@@ -3954,7 +3954,7 @@ const Dynamic_Route = () => {
                   <div className="col-md-11  border-none leftCard responsive_card">
                   <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
   {/* Card body to hold the price and heart button */}
-  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15}}>
+  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15,marginBottom:-30}}>
     <div
       style={{
         fontSize: "60px",
@@ -4011,7 +4011,10 @@ const Dynamic_Route = () => {
                             <p className="sallerInfo_para">
                               {itemData.creationTime}
                             </p>
-                            <p className="s allerInfo_para">View all Ads</p>
+                            <p className="s allerInfo_para">
+                            <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
+                              View all Ads
+                              </Link></p>
                           </div>
 
                           <div className="col mt-3 innerContainer2">

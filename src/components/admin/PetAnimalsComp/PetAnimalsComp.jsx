@@ -3303,7 +3303,7 @@ const PetAnimalsComp = () => {
           </div>
         </div>
         <ComercialsAds />
-        {/* <LatestBlog /> */}
+        <LatestBlog />
       </div>
 
       <Footer />

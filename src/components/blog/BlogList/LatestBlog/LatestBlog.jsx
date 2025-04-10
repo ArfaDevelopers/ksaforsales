@@ -17,10 +17,10 @@ const LatestBlog = () => {
           <div className="col-md-6 latest_blog_box">
             <div className="image_box1 rounded-3 shadow-lg latest-blog-img">
               <img
-                height={514}
+                height={480}
                 src={img}
                 alt="The Best Spa Saloon"
-                className="w-100 rounded-top-3  blog_image1"
+                className="w-100  rounded-top-3  blog_image1"
               />
               <h6 className="text-center ">The Best Spa Saloon</h6>
             </div>
