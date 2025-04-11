@@ -138,22 +138,21 @@ const UpperHeader = () => {
             className="d-flex align-items-center  contantIndoPhone_Wrapper"
             style={{ gap: "67.8px" }}
           >
-            <div className="phone-info text-muted"
-            onClick={handleCall}
+            <div className="phone-info text-muted">
+  <FontAwesomeIcon
+    icon={faPhone}
+    style={{ color: "#36A680" }}
+    className="me-2"
+  />
+  <a
+    href="tel:+966530771851"
+    className="para-text"
+    style={{ fontFamily: "Inter", color: "#353535", textDecoration: "none" }}
+  >
+    +966 530 77 1851
+  </a>
+</div>
 
-            >
-              <FontAwesomeIcon
-                icon={faPhone}
-                style={{ color: "#36A680" }}
-                className="me-2"
-              />
-              <span
-                className="para-text "
-                style={{ fontFamily: "Inter", color: "#353535" }}
-              >
-                +966 530 77 1851
-              </span>
-            </div>
 
             {/* Language Dropdown Section */}
             <div
