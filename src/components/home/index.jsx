@@ -525,7 +525,7 @@ const Home = () => {
                   src={img}
                   className="d-block w-100 "
                   alt={`Slide ${index + 1}`}
-                  style={{ height: "400px", objectFit: "cover",borderRadius:"8px",marginTop:210 }} 
+                  style={{ height: "400px", objectFit: "cover",borderRadius:"8px",marginTop:230 }} 
                 />
               </div>
             ))}
