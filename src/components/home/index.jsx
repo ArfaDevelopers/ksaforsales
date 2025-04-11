@@ -57,6 +57,9 @@ import fb from "./fb.png";
 import tiktok from "./tiktoc.png";
 import whatapp from "./whatapp (3).png";
 import popup from "./popup_image.png";
+import banner1 from "../../../public/Banner 1.png"
+import banner2 from "../../../public/Banner 2 (1).png"
+
 import {
   collection,
   getDocs,
@@ -69,9 +72,11 @@ import {
 } from "firebase/firestore";
 import { db } from "./../Firebase/FirebaseConfig.jsx";
 const images = [
+  banner1,
+  banner2,
   "https://cdn.pixabay.com/photo/2016/05/18/10/52/buick-1400243_1280.jpg",
-  "https://cdn.pixabay.com/photo/2015/06/18/15/20/old-813814_1280.jpg",
-  "https://cdn.pixabay.com/photo/2016/01/06/12/52/camera-1124074_960_720.jpg",
+  // "https://cdn.pixabay.com/photo/2015/06/18/15/20/old-813814_1280.jpg",
+  // "https://cdn.pixabay.com/photo/2016/01/06/12/52/camera-1124074_960_720.jpg",
 
   // "https://hiline.pk/wp-content/uploads/2024/08/hiline-interior-design-architecture-firm-construction-building-shopping-mart-design-lahore-pakistan-main-3d-renders-portfolio-img-easy-mart-01.jpg",
   // "https://media.gettyimages.com/id/1412353022/photo/empty-aisle-at-a-supermarket.jpg?s=612x612&w=gi&k=20&c=kUFpM4Sz3Uw_MwRF3zDXe-sfarFz3fbSqzx_vD8ek7Q=",
@@ -520,7 +525,7 @@ const Home = () => {
                   src={img}
                   className="d-block w-100 "
                   alt={`Slide ${index + 1}`}
-                  style={{ height: "600px", objectFit: "cover",borderRadius:"8px" }} 
+                  style={{ height: "400px", objectFit: "cover",borderRadius:"8px",marginTop:210 }} 
                 />
               </div>
             ))}

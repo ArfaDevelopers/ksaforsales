@@ -49,6 +49,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "../../components/userPages/AddLisiting/PaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { FaBuysellads } from "react-icons/fa";
+import SuggestedAds from "../../components/home/SuggestedAds/SuggestedAds";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -585,7 +586,7 @@ const handleShowReport = () => {
     };
 
     fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db]); // Re-run if `id` changes
+  }, [id, callingFrom, db,location]); // Re-run if `id` changes
 
   if (loading) {
     return <p>Loading...</p>; // Display loading state
@@ -1185,7 +1186,7 @@ const handleShowReport = () => {
               <div className="descriptions_wrapper">
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px" ,marginLeft:-100}}
                                 >
                                   Description:
                                 </h1>
@@ -1615,6 +1616,7 @@ const handleShowReport = () => {
                   </div>
          
             </div>
+            <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
           </div>
         </div>
 

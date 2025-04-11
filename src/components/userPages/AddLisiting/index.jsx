@@ -268,7 +268,9 @@ const AddLisiting = () => {
     }
   };
   const [Category, setCategory] = useState(""); // Store a single URL, initially null
-  console.log(Category, "Category__________");
+  const [Category1, setCategory1] = useState(""); // Store a single URL, initially null
+
+  console.log(Category1, "Category__________");
   const isFormValid = () => {
     const nonEmptyFields = Object.values(formData).filter(
       (value) => value !== "" && value !== "$$$"
@@ -288,29 +290,29 @@ const AddLisiting = () => {
         }
         setError("");
         const Collection =
-          Category === "Automotive"
+          Category1 === "Automotive"
             ? "Cars"
-            : Category === "Electronics"
+            : Category1 === "Electronics"
             ? "ELECTRONICS"
-            : Category === "Fashion Style"
+            : Category1 === "Gifts"
             ? "FASHION"
-            : Category === "Health Care"
+            : Category1 === "Health Care"
             ? "HEALTHCARE"
-            : Category === "Job board"
+            : Category1 === "Jobs"
             ? "JOBBOARD"
-            : Category === "Education"
+            : Category1 === "Education"
             ? "Education"
-            : Category === "Real Estate"
+            : Category1 === "Property"
             ? "REALESTATECOMP"
-            : Category === "Travel"
+            : Category1 === "Services"
             ? "TRAVEL"
-            : Category === "Sports & Game"
+            : Category1 === "Sports & Game"
             ? "SPORTSGAMESComp"
-            : Category === "Pet & Animal"
+            : Category1 === "Animals"
             ? "PETANIMALCOMP"
-            : Category === "Magazines"
+            : Category1 === "Magazines"
             ? "Magazines"
-            : Category === "Household"
+            : Category1 === "Household"
             ? "Household"
             : "books";
         // Check if more than half of the form fields are filled
@@ -319,7 +321,7 @@ const AddLisiting = () => {
           await addDoc(collection(db, Collection), {
             ...formData,
             mediaImgLogo: mediaImgLogo,
-            Category: Category,
+            category: Category1,
             photoURL: photoURL,
             creationTime: creationTime,
             displayName: displayName,
@@ -354,12 +356,12 @@ const AddLisiting = () => {
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "dlfdvlmse"); // Replace with your actual preset
-    formData.append("cloud_name", "dlfdvlmse"); // Replace with your actual cloud name
+    formData.append("upload_preset", "ml_default"); // Replace with your actual preset
+    formData.append("cloud_name", "dv26wjoay"); // Replace with your actual cloud name
 
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dlfdvlmse/image/upload", // Your Cloudinary URL
+        "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload", // Your Cloudinary URL
         formData
       );
 
@@ -427,12 +429,12 @@ const AddLisiting = () => {
       const file = files[i];
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "dlfdvlmse");
-      formData.append("cloud_name", "dlfdvlmse");
+      formData.append("upload_preset", "ml_default");
+      formData.append("cloud_name", "dv26wjoay");
 
       try {
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dlfdvlmse/image/upload",
+          "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
           formData
         );
 
@@ -469,12 +471,12 @@ const AddLisiting = () => {
       // Prepare formData for uploading to Cloudinary
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "dlfdvlmse"); // Replace with your Cloudinary preset
-      formData.append("cloud_name", "dlfdvlmse"); // Replace with your actual cloud name
+      formData.append("upload_preset", "ml_default"); // Replace with your Cloudinary preset
+      formData.append("cloud_name", "dv26wjoay"); // Replace with your actual cloud name
 
       try {
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dlfdvlmse/image/upload",
+          "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
           formData
         );
         setMediaImgLogo(response.data.secure_url);
@@ -1295,6 +1297,7 @@ const AddLisiting = () => {
 
   useEffect(() => {
     console.log("Updated Category:", formData.category);
+    setCategory1(formData.category)
   }, [formData.category]);
 
   useEffect(() => {

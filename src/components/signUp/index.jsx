@@ -13,45 +13,58 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { db, auth, storage } from "../Firebase/FirebaseConfig.jsx"; // Ensure correct Firebase import
+import { db, auth, storage } from "../Firebase/FirebaseConfig.jsx";
 import axios from "axios";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import storage functions
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { apple, facebook, google } from "../imagepath";
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-
+import image from "../../../public/Banner1.png"
+import googlebutton from "../../components/home/footer/Google button.png";
+import mobileimage from "../../components/home/footer/mobileimg.png";
+import appstore from "../../components/home/footer/Appstore.png";
+import arrowimage from "../../components/home/footer/arrow.png";
+import scanner from "../../components/home/footer/scanner.png";
+import KSA from "../../components/home/footer/Logo ksa.svg";
 const SignUp = () => {
   const navigate = useNavigate();
 
   const [passwordType, setPasswordType] = useState("password");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState(""); // New state for mobile number
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
-  const [imgUrl, setImgUrl] = useState(""); // Store a single image URL
-  const [imageFile, setImageFile] = useState(null); // Store a single file
-  const [Saudinummsg, setSaudinummsg] = useState(null); // Store a single file
+  const [imgUrl, setImgUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [Saudinummsg, setSaudinummsg] = useState(null);
 
+  const handlePhoneNumberChange = (e) => {
+    setPhoneNumber(e.target.value);
+  };
+  
+  const fullPhoneNumber = `+965${phoneNumber}`;
+  
   const handleMobileChange = (e) => {
     let input = e.target.value;
-
-    // Allow typing numbers and "+"
     if (/^[\d+]*$/.test(input)) {
-      setMobileNumber(input);
+      setPhoneNumber(input);
     }
   };
+  
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
+  }, []);
+  
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+9665\d{8}$/; // Saudi number pattern
-    if (mobileNumber && !saudiNumberRegex.test(mobileNumber)) {
+    const saudiNumberRegex = /^\+9665\d{8}$/;
+    if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
       setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
-      setMobileNumber(""); // Clear invalid input
+      setPhoneNumber("");
     }
   };
+  
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -63,7 +76,7 @@ const SignUp = () => {
         "https://api.cloudinary.com/v1_1/dlfdvlmse/image/upload",
         formData
       );
-      setImgUrl(response.data.secure_url); // Save the image URL
+      setImgUrl(response.data.secure_url);
       console.log("Image uploaded successfully:", response.data.secure_url);
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -71,21 +84,13 @@ const SignUp = () => {
     }
   };
 
-  // Handle file selection for images
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      handleImageUpload(file); // Upload the selected file
-    }
-  };
+
+  
   const fetchUserData = async () => {
     try {
       const user = auth.currentUser;
-
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
-
         if (userDoc.exists()) {
           console.log("User Data:", userDoc.data());
         } else {
@@ -96,28 +101,24 @@ const SignUp = () => {
       console.error("Error fetching user data:", error.message);
     }
   };
+  
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  // Call this function when needed (e.g., on component mount)
-  // Send OTP
   const sendOtp = async () => {
-    if (!mobileNumber) {
+    if (!phoneNumber) {
       alert("Please enter your mobile number");
       return;
     }
 
     try {
       const response = await fetch(
-        // "https://ksaforsaleapis.vercel.app/route/send-otp",
-        // "https://ksaforsaleapis.vercel.app/route/send-otp",
         "http://localhost:9002/route/send-otp",
-
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone: mobileNumber }),
+          body: JSON.stringify({ phone: fullPhoneNumber }),
         }
       );
 
@@ -134,10 +135,8 @@ const SignUp = () => {
     }
   };
 
-  // Verify OTP
   const verifyOtp = async (event) => {
-    event.preventDefault(); // Ensure it receives the event
-
+    event.preventDefault();
     if (!otp) {
       alert("Please enter OTP");
       return;
@@ -147,12 +146,12 @@ const SignUp = () => {
       const response = await fetch("http://localhost:9002/route/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: mobileNumber, code: otp }),
+        body: JSON.stringify({ phone: phoneNumber, code: otp }),
       });
 
       const data = await response.json();
       if (data.success) {
-        handleSignup(event); // Pass event to handleSignup
+        handleSignup(event);
       } else {
         alert("Invalid OTP");
       }
@@ -162,17 +161,12 @@ const SignUp = () => {
     }
   };
 
-  console.log(imgUrl, "fullName____________1");
-  console.log(mobileNumber, "fullName____________2");
-  console.log(fullName, "fullName____________3");
-
   const handleSignup = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
-      // Check if the mobile number is already in use
       const q = query(
         collection(db, "users"),
-        where("phoneNumber", "==", mobileNumber)
+        where("phoneNumber", "==", phoneNumber)
       );
       const querySnapshot = await getDocs(q);
 
@@ -180,8 +174,7 @@ const SignUp = () => {
         alert("This mobile number is already associated with an account.");
         return;
       }
-      console.log(querySnapshot, "querySnapshot");
-      // Create user in Firebase Authentication
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -189,17 +182,18 @@ const SignUp = () => {
       );
       const user = userCredential.user;
 
-      // Update user profile in Firebase Authentication
       await updateProfile(user, {
         displayName: fullName,
         photoURL: imgUrl,
-        phoneNumber: mobileNumber,
+        phoneNumber: fullPhoneNumber,
       });
+
       await addDoc(collection(db, "users"), {
         uid: user.uid,
-        fullName: fullName, // Use fullName instead of displayName
+        fullName: fullName,
         email,
-        phoneNumber: mobileNumber,
+        phoneNumber: fullPhoneNumber,
+        password: password, // Added password to payload
         photoURL: imgUrl || null,
         createdAt: new Date(),
       });
@@ -211,6 +205,7 @@ const SignUp = () => {
       alert(error.message);
     }
   };
+
   const togglePassword = () => {
     setPasswordType(passwordType === "password" ? "text" : "password");
   };
@@ -218,31 +213,84 @@ const SignUp = () => {
   return (
     <>
       <Header />
-
-      <div className="login-content" style={{ marginTop: "8rem",marginLeft:"2rem" }}>
-        <div class="container breadcrumb mt-4  mt-4 d-flex justify-content-start align-items-start">
-          <div class="row">
-            <div class="col-12 text-start text-dark ">Home / Register</div>
-          </div>
-        </div>
+      <div className="login-content" style={{ marginTop: "12rem"}}>
+       
 
         <div className="container">
           <div className="row">
-            <div className="col-md-6 col-lg-5 mx-auto">
+
+       
+            <div className="col-md-6 col-lg-6 ">
               <div className="login-wrap register-form">
                 <div className="login-header">
-                  <h3>Create an Account</h3>
-                  <p>
-  Let's start with{" "}
-  <span>
-    <span style={{ color: "#2d4495" }}>ksa</span>
-    <span style={{ color: "#36a680" }}>4sale</span>
-  </span>
-</p>
-
+                  <h3>Sign Up</h3>
+                  <p style={{fontWeight:"bold"}}>
+                    By signing up you get full access to all of our features.<br/>Hurry up!
+                  </p>
                 </div>
 
                 <form onSubmit={handleSignup}>
+                  <div className="form-group group-img">
+                    <div style={{ position: "relative", marginBottom: "15px", width: "100%" }}>
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "10px",
+                        padding: "5px 10px",
+                        width: "100%",
+                        boxSizing: "border-box",
+                      }}>
+                        <span style={{ display: "flex", alignItems: "center", marginRight: "10px" }}>
+                          <img
+                            src="https://flagcdn.com/16x12/kw.png"
+                            alt="Kuwait Flag"
+                            style={{ width: "20px", height: "15px", marginRight: "5px" }}
+                          />
+                          <span style={{ color: "#2d4495", fontWeight: "500", fontSize: "14px" }}>
+                            +965
+                          </span>
+                        </span>
+                        <input
+                          type="number"
+                          placeholder="xxxxxxxxx"
+                          value={phoneNumber}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "").slice(0, 9);
+                            handlePhoneNumberChange({ target: { value } });
+                          }}
+                          maxLength={9}
+                          required
+                          style={{
+                            border: "none",
+                            outline: "none",
+                            flex: 1,
+                            backgroundColor: "transparent",
+                            color: "#666",
+                            fontSize: "14px",
+                            padding: "5px 0",
+                            width: "100%",
+                          }}
+                        />
+                      </div>
+                      <style>
+                        {`
+                          input[type="number"]::-webkit-inner-spin-button,
+                          input[type="number"]::-webkit-outer-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                          }
+                          input[type="number"] {
+                            -moz-appearance: textfield;
+                          }
+                          input::placeholder {
+                            color: #999;
+                          }
+                        `}
+                      </style>
+                    </div>
+                  </div>
+
                   <div className="form-group group-img">
                     <div className="group-img">
                       <i className="feather-user" style={{color:"#2d4495"}} />
@@ -256,24 +304,7 @@ const SignUp = () => {
                       />
                     </div>
                   </div>
-                  <div className="group-img imageForm1 form-group">
-                    <i className="feather-file" style={{color:"#2d4495"}}/>
 
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      required
-                    />
-                    {imgUrl && (
-                      <img
-                        style={{ width: "50%", height: "5rem" }}
-                        src={imgUrl}
-                        alt="Preview"
-                        className="w-12 h-12 object-cover border border-gray-300 rounded"
-                      />
-                    )}
-                  </div>
                   <div className="form-group group-img">
                     <div className="group-img">
                       <i className="feather-mail" style={{color:"#2d4495"}}/>
@@ -288,28 +319,30 @@ const SignUp = () => {
                     </div>
                   </div>
 
-                  <div className="form-group group-img">
-                    <div className="group-img">
-                      <i className="feather-phone" style={{color:"#2d4495"}}/>
+                  <div className="form-group">
+                    <div className="pass-group group-img">
+                      <i className="feather-lock" style={{color:"#2d4495"}}/>
                       <input
-                        type="tel"
-                        className="form-control"
-                        placeholder="+9665XXXXXXXX"
-                        value={mobileNumber}
-                        onChange={handleMobileChange}
-                        onBlur={validateNumber} // Validate when user leaves input
+                        type={passwordType}
+                        className="form-control pass-input"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                       />
-                      <p style={{ color: "red", fontSize: "12px" }}>
-                        {Saudinummsg}
-                      </p>
+                      <span
+                        className={`toggle-password ${
+                          passwordType === "password" ? "feather-eye" : "feather-eye-off"
+                        }`}
+                        onClick={togglePassword}
+                      ></span>
                     </div>
                   </div>
 
                   {!otpSent ? (
                     <button
                       type="button"
-                      className="btn  w-100"
+                      className="btn w-100"
                       style={{ backgroundColor: "#2d4495", color: "#fff", border: "none" }}
                       onClick={sendOtp}
                     >
@@ -331,27 +364,6 @@ const SignUp = () => {
                         </div>
                       </div>
 
-                      <div className="form-group">
-                        <div className="pass-group group-img">
-                          <i className="feather-lock" style={{color:"#2d4495"}}/>
-                          <input
-                            type={passwordType}
-                            className="form-control pass-input"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                          />
-                          <span
-                            className={`toggle-password ${
-                              passwordType === "password"
-                                ? "feather-eye"
-                                : "feather-eye-off"
-                            }`}
-                            onClick={togglePassword}
-                          ></span>
-                        </div>
-                      </div>
                       <button
                         type="submit"
                         className="btn btn-secondary w-100"
@@ -363,56 +375,74 @@ const SignUp = () => {
                   )}
 
                   <div className="register-link text-center">
-                    <p>
+                    <p style={{fontWeight:"bold",fontSize:16}}>
                       Already have an account?{" "}
-                      <Link className="forgot-link" to="/login">
+                      <Link className="forgot-link" to="/login" style={{textDecoration:"none"}}>
                         Sign In
                       </Link>
                     </p>
                   </div>
+                  <div className="register-link text-center">
+                    <p style={{fontWeight:"bold",fontSize:14}}>
+                      By using the ksa4sale app.you agree to our {" "}
+                      <br/>
+                      <Link className="forgot-link" to="/TermsAndConditions" >
+                        Terms&conditions
+                      </Link>
+                    </p>
+                  </div>
                 </form>
-
-                <div className="login-or">
-                  <span className="or-line" />
-                  <span className="span-or">
-                    Sign in with Social Media Accounts
-                  </span>
-                </div>
-
-                <div className="social-login">
-                  <Link to="#" className="btn btn-apple w-100">
-                    <FaApple
-                      style={{ marginBottom: "2px" }}
-                      className="me-1"
-                      alt="img"
-                    />
-                    Sign in with Apple
-                  </Link>
-                </div>
-
-                <div className="social-login">
-                  <Link to="#" className="btn btn-google w-100">
-                    <img src={google} className="me-1" alt="Google" />
-                    Sign in with Google
-                  </Link>
-                </div>
-
-                <div className="social-login">
-                  <Link to="#" className="btn btn-facebook w-100 mb-0">
-                    <FaFacebookF
-                      style={{ marginBottom: "2px" }}
-                      className="me-1"
-                      alt="img"
-                    />
-                    Continue with Facebook
-                  </Link>
-                </div>
               </div>
             </div>
+            <div className="col-md-6">
+  <div className="qr-section" style={{ position: 'relative', marginTop: -20 }}>
+    {/* QR Code with Phone Border */}
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      <img
+        src={image}
+        alt="QR Code"
+        style={{
+          width: '100%',
+          // maxWidth: '200px', // Adjust size as needed
+          height: '100%',
+          borderRadius: '10px',
+        }}
+      />
+    </div>
+    <div className="slogan-section" style={{ display: 'flex', alignItems: 'center',  borderRadius: '5px' }}>
+
+    <div className="topfooter_wrapper container d-flex justify-content-center align-items-center" >
+  <div className="d-flex flex-column" style={{ textAlign: "center" }}>
+    <div>
+      <h4 style={{ marginBottom: 20, marginTop: -30 }}>
+        Download the Ksa4sale App
+      </h4>
+    </div>
+    <div>
+      <i
+        className="topfooter-socialimg"
+        style={{
+          marginRight: "2rem",
+          width: "148px",
+          height: "50px",
+        }}
+      >
+        <img src={googlebutton} alt="Google Play Store" />
+      </i>
+      <i className="topfooter-socialimg">
+        <img src={appstore} alt="App Store" />
+      </i>
+    </div>
+  </div>
+</div>
+  {/* Double Arrow Icon (Flipped and Larger) */}
+ 
+</div>
+  </div>
+</div>
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );

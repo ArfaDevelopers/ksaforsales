@@ -49,6 +49,7 @@ import Chat from "./upperHeader/Chat";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "../../../components/userPages/AddLisiting/PaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
+import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -72,8 +73,7 @@ const Dynamic_Route = () => {
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
-
-    console.log("callingFrom______ID:ids", ids);
+     console.log("callingFrom______ID:ids", ids);
     console.log("callingFrom______Calling From:", callingFrom);
     setCallingFrom(callingFrom);
     setId(ids);
@@ -277,28 +277,7 @@ const Dynamic_Route = () => {
     }
   }, [userId, recieverId]);
  
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     const user = auth.currentUser;
-  //     const userId = user?.uid;
-  //     if (!userId) {
-  //       console.warn("User ID is missing, skipping API call");
-  //       return;
-  //     }
- 
-  //     try {
-  //       const { data } = await axios.get(
-  //         `https://ksaforsaleapis.vercel.app/api/messages/${userId}`
-  //       );
-  //       setReceivedMessages(data?.data || []);
-  //       console.log("Fetched messages:", data?.data);
-  //     } catch (error) {
-  //       console.error("Error fetching messages:", error);
-  //     }
-  //   };
- 
-  //   fetchMessages();
-  // }, [refresh, userId]);
+
   useEffect(() => {
     const fetchChatIdAndMessages = async () => {
       try {
@@ -392,11 +371,7 @@ const Dynamic_Route = () => {
   const handleNext = () => {
     setCurrentPage(currentPage + 1); // Go to next page
   };
-  // const handleSend = () => {
-  //   console.log("Message:", message);
-  //   setMessage(""); // Clear input after sending
-  //   setShowModal(false); // Close modal
-  // };
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // const handleImageSelect = (newImage) => setSelectedImage(newImage);
@@ -426,80 +401,7 @@ const Dynamic_Route = () => {
     );
   };
 
-  // const handleSubmit = async () => {
-  //   console.log("Report Submitted:", { reportText, selectedReports });
-
-  //   const NewId =
-  //     callingFrom === "AutomotiveComp" ||
-  //     callingFrom === "ElectronicComp" ||
-  //     callingFrom === "FashionStyle" ||
-  //     callingFrom === "HealthCareComp" ||
-  //     callingFrom === "JobBoard" ||
-  //     callingFrom === "EducationCmp" ||
-  //     callingFrom === "RealEstateComp" ||
-  //     callingFrom === "TravelComp" ||
-  //     callingFrom === "SportGamesComp" ||
-  //     callingFrom === "PetAnimalsComp"
-  //       ? _Id
-  //       : "default_id"; // Default if not matched
-
-  //   const collectionName =
-  //     callingFrom === "AutomotiveComp"
-  //       ? "Cars"
-  //       : callingFrom === "ElectronicComp"
-  //       ? "ELECTRONICS"
-  //       : callingFrom === "FashionStyle"
-  //       ? "FASHION"
-  //       : callingFrom === "HealthCareComp"
-  //       ? "HEALTHCARE"
-  //       : callingFrom === "JobBoard"
-  //       ? "JOBBOARD"
-  //       : callingFrom === "EducationCmp"
-  //       ? "Education"
-  //       : callingFrom === "RealEstateComp"
-  //       ? "REALESTATECOMP"
-  //       : callingFrom === "TravelComp"
-  //       ? "TRAVEL"
-  //       : callingFrom === "SportGamesComp"
-  //       ? "SPORTSGAMESComp"
-  //       : callingFrom === "PetAnimalsComp"
-  //       ? "PETANIMALCOMP"
-  //       : "books";
-
-  //   try {
-  //     const adsCollection = collection(db, collectionName);
-  //     const docRef = doc(adsCollection, "2DqryLlZR4w9H50xygCn"); // Use correct document ID
-
-  //     // Fetch existing document
-  //     const docSnapshot = await getDoc(docRef);
-
-  //     if (docSnapshot.exists()) {
-  //       // Get existing data
-  //       const existingData = docSnapshot.data();
-  //       const updatedReportTypes = existingData.reportTypes
-  //         ? [...existingData.reportTypes, ...selectedReports]
-  //         : selectedReports; // Add if missing
-
-  //       // Update only reportTypes field
-  //       await updateDoc(docRef, {
-  //         reportTypes: updatedReportTypes,
-  //       });
-
-  //       console.log("Document updated successfully:", updatedReportTypes);
-  //     } else {
-  //       // Document does not exist, create it with only reportTypes
-  //       await setDoc(docRef, {
-  //         reportTypes: selectedReports,
-  //       });
-
-  //       console.log("Document created successfully with reportTypes.");
-  //     }
-
-  //     handleClose();
-  //   } catch (error) {
-  //     console.error("Error updating document:", error);
-  //   }
-  // };
+ 
   const handleSubmit = async () => {
     console.log("Report Submitted:", { reportText, selectedReports });
 
@@ -658,7 +560,7 @@ const Dynamic_Route = () => {
     };
 
     fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db]); // Re-run if `id` changes
+  }, [id, callingFrom, db,location]); // Re-run if `id` changes
 
   if (loading) {
     return (
@@ -707,27 +609,7 @@ const Dynamic_Route = () => {
       <div className="main-wrapper ">
         <Header />
 
-        {/* Banner Section */}
-        {/* <section
-            className="banner-section bg-no-repeat bg-center w-full"
-            style={{
-              backgroundImage: `url(${"/12750.jpg"})`,
-              backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-              height: "50vh", // Adjust height as needed
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="container mx-auto flex items-center justify-center h-full">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </section> */}
+      
 
         <div
           className="container  border-none  containerWrapper"
@@ -1017,7 +899,7 @@ const Dynamic_Route = () => {
           <div className="row  border-none">
             <div class="container">
               <div class="row">
-                <div class="col-md-8" style={{marginTop:-30}}>
+                <div class="col-md-8" style={{marginTop:-30, height: '1800px' }}>
                   {callingFrom === "AutomotiveComp" ? (
                     // <div className="col  border-none container ">
                     //   <div className="col  border-none">\
@@ -4226,10 +4108,10 @@ const Dynamic_Route = () => {
                 </div>
               </div>
             </div>
-            {/*  */}
+            <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
           </div>
         </div>
-
+        
         {/* Footer */}
         <Footer />
       </div>

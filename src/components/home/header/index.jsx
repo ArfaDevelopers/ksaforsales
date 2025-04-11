@@ -91,7 +91,7 @@ const Header = ({ parms }) => {
               </div>
 
               {/* Search Bar (Hidden on Mobile) */}
-              {!isMobile && (
+              {/* {!isMobile && (
               <form
                 className="d-flex search-container"
                 style={{
@@ -131,7 +131,7 @@ const Header = ({ parms }) => {
                   <FaSearch style={{ color: "#0056b3" }} />
                 </button>
               </form>
-              )}
+              )} */}
               {/* Navigation Links */}
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
@@ -202,7 +202,11 @@ const Header = ({ parms }) => {
           </nav>
         </div>
       </div>
+       {
+        userId?
       <HeaderLower />
+:''
+       }
     </header>
   );
 };

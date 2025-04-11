@@ -6259,9 +6259,9 @@ ul.tags {
   padding: 70px 0;
 }
 .login-wrap {
-  box-shadow: 0px 4.4px 12px -1px rgb(19 16 34 / 6%),
-    0px 2px 6.4px -1px rgb(19 16 34 / 3%);
-  padding: 25px;
+  box-shadow: 0px 2px 8px -1px rgb(19 16 34 / 4%), /* Reduced blur radius and opacity */
+             0px 1px 4px -1px rgb(19 16 34 / 2%);  /* Reduced blur radius, vertical offset, and opacity */
+  padding: 50px;
   border: 1px solid #f1f1f1;
   border-radius: 10px;
 }
@@ -6279,7 +6279,7 @@ ul.tags {
 .login-wrap {
   color: #666;
   background: #fff;
-  max-width: 425px;
+  max-width: 100%;
   margin: 0 auto;
 }
 .login-wrap .group-img input {
@@ -16506,7 +16506,7 @@ section.advertisement {
 }
 .footer.footer-eight .update-form .form-control {
   min-height: auto;
-  background: #ffffff;
+  /* background: #ffffff; */
   border-radius: 0px;
   border: 1px solid #aaaaaa;
   font-size: 14px;
@@ -20730,6 +20730,7 @@ section.advertisement {
   }
   .login-header h3 {
     font-size: 28px;
+    font-weight: bold;
   }
   .login-content {
     padding: 60px 0;
@@ -22596,4 +22597,14 @@ section.advertisement {
 
 * {
   font-family: "Cairo", sans-serif;
+}
+/* Latets blogs css */
+.latest-blog-img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* lighter shadow */
+}
+
+.latest-blog-img:hover {
+  transform: none; /* no zoom or lift */
+  /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);   */
 }

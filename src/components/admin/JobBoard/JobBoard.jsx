@@ -1053,7 +1053,7 @@ const JobBoard = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(carsData, "carsData_____");
+        console.log(carsData, "carsData_____JOBBOARD");
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
       } catch (error) {
