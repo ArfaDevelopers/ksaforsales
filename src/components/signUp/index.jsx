@@ -52,7 +52,18 @@ const SignUp = () => {
       setPhoneNumber(input);
     }
   };
-  
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -213,7 +224,7 @@ const SignUp = () => {
   return (
     <>
       <Header />
-      <div className="login-content" style={{ marginTop: "12rem"}}>
+      <div className="login-content" style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem",}}>
        
 
         <div className="container">

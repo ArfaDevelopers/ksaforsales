@@ -20,7 +20,18 @@ const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [error, setError] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
- 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const handleChange = (e) => {
     setEmail(e.target.value);
     console.log('Entered Email:', e.target.value);
@@ -76,7 +87,7 @@ const Login = () => {
       </div> */}
 
       
-      <div className="login-content" style={{ marginTop: "12rem"  }}>
+      <div className="login-content" style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem",  }}>
         <div className="container">
           <div className="row">
         
@@ -284,7 +295,7 @@ const Login = () => {
               </div>
             </div>
             <div className="col-md-6 d-flex align-items-center justify-content-center">
-      <div className="qr-section " style={{ position: 'relative',marginTop:-20}}>
+      <div className="qr-section " style={{ position: 'relative'}}>
         {/* QR Code with Phone Border */}
         <div
           style={{
