@@ -77,7 +77,7 @@ export default function Carousel() {
   };
 
   return (
-    <section className="featured-section">
+    <section className="featured-section-color automotive_card_section">
       <div className="container">
         <div className="row align-items-center">
           <div

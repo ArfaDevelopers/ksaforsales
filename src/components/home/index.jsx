@@ -74,7 +74,7 @@ import { db } from "./../Firebase/FirebaseConfig.jsx";
 const images = [
   banner1,
   banner2,
-  "https://cdn.pixabay.com/photo/2016/05/18/10/52/buick-1400243_1280.jpg",
+  // "https://cdn.pixabay.com/photo/2016/05/18/10/52/buick-1400243_1280.jpg",
   // "https://cdn.pixabay.com/photo/2015/06/18/15/20/old-813814_1280.jpg",
   // "https://cdn.pixabay.com/photo/2016/01/06/12/52/camera-1124074_960_720.jpg",
 
@@ -101,7 +101,29 @@ const Home = () => {
   const [OurCategoryHouseHold, setOurCategoryHouseHold] = useState([]);
   const [OurCategoryEducation, setOurCategoryEducation] = useState([]);
   const [OurCategoryMAGAZINES, setOurCategoryMAGAZINES] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getImageHeight = () => {
+    if (windowWidth <= 576) return '180px';
+    if (windowWidth <= 768) return '300px';
+    return '600px';
+  };
+
+  const getMarginTop = () => {
+    if (windowWidth <= 576) return '100px';
+    return '170px';
+  };
   console.log(OurCategoryHouseHold, "adsList___________OurCategoryAutomative1");
   useEffect(() => {
     const fetchAds = async () => {
@@ -495,70 +517,84 @@ const Home = () => {
       <div className="main-wrapper">
         <Header />
         <div
-          id="carouselExampleIndicators"
-          className="carousel slide container"
-          data-bs-ride="carousel"
-        >
-          {/* Indicators */}
-          <div className="carousel-indicators">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to={index}
-                className={index === 0 ? "active" : ""}
-                aria-current={index === 0 ? "true" : "false"}
-                aria-label={`Slide ${index + 1}`}
-              ></button>
-            ))}
-          </div>
-
-          {/* Carousel Items */}
-          <div className="carousel-inner">
-            {images.map((img, index) => (
-              <div
-                key={index}
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-              >
-                <img
-                  src={img}
-                  className="d-block w-100 "
-                  alt={`Slide ${index + 1}`}
-                  style={{ height: "400px", objectFit: "cover",borderRadius:"8px",marginTop:230 }} 
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Controls */}
+      id="carouselExampleIndicators"
+      className="carousel slide container"
+      data-bs-ride="carousel"
+    >
+      {/* Indicators */}
+      <div className="carousel-indicators">
+        {images.map((_, index) => (
           <button
-            style={{ marginTop: "12rem" }}
-            className="carousel-control-prev"
+            key={index}
             type="button"
             data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
+            data-bs-slide-to={index}
+            className={index === 0 ? "active" : ""}
+            aria-current={index === 0 ? "true" : "false"}
+            aria-label={`Slide ${index + 1}`}
+          ></button>
+        ))}
+      </div>
+
+      {/* Carousel Items */}
+      <div className="carousel-inner">
+      {images.map((img, index) => {
+        const isMobile = windowWidth <= 576;
+        const isTablet = windowWidth > 576 && windowWidth <= 768;
+
+        return (
+          <div
+            key={index}
+            className={`carousel-item ${index === 0 ? "active" : ""}`}
           >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            style={{ marginTop: "12rem" }}
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
+            <img
+              src={img}
+              className="d-block"
+              alt={`Slide ${index + 1}`}
+              style={{
+                width: '100%',
+                height: isMobile ? '180px' : isTablet ? '300px' : 'auto',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                marginTop: isMobile ? '100px' : '170px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                maxWidth: '100%',
+              }}
+            />
+          </div>
+        );
+      })}
+      </div>
+
+      {/* Controls */}
+      <button
+        style={{ marginTop: "12rem" }}
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev"
+      >
+        <span
+          className="carousel-control-prev-icon"
+          aria-hidden="true"
+        ></span>
+        <span className="visually-hidden">Previous</span>
+      </button>
+      <button
+        style={{ marginTop: "12rem" }}
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next"
+      >
+        <span
+          className="carousel-control-next-icon"
+          aria-hidden="true"
+        ></span>
+        <span className="visually-hidden">Next</span>
+      </button>
+    </div>
         {/* Trending Products */}
         <div
           className="trendingprodct_wrapper container mt-3 pt-0"
@@ -624,7 +660,7 @@ const Home = () => {
         {/* Category Section */}
         <section className="category-section">
           <div className="container">
-            <div className="allMedia_Icons">
+            <div className="allMedia_Icons d-none d-md-flex">
               <div>
                 <img src={xIcon} alt="Xicon" style={{ cursor: "pointer" }} />
               </div>
@@ -778,8 +814,6 @@ const Home = () => {
 
         {/* Latest Blogs components */}
         <LatestBlog />
-
-        {/* Blog Section */}
 
         {/* Footer */}
         <Footer />

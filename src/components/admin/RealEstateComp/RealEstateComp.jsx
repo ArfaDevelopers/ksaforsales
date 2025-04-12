@@ -206,6 +206,18 @@ const RealEstateComp = () => {
       setCities([]);
     }
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const handleCityChange = (selectedOptions) => {
     const cityNames = selectedOptions
       ? selectedOptions.map((option) => option.label)
@@ -1832,73 +1844,9 @@ const RealEstateComp = () => {
         <Header parms={parms} />
         <div className="main-wrapper">
           <Header />
-          {/* Banner Section */}
-          {/* <section className="banner-section">
-            <div className="container">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  >
-                    <p className="explore-text banner-text">
-                      <span>Explore top-rated attractions</span>
-                    </p>
-                    <h1>
-                      Let us help you
-                      <span>Find, Buy</span>
-                      <span>Find, Buy</span> & Own Dreams
-                    </h1>
-                    <p className="banner-para">
-                      Countrys most loved and trusted classified ad listing
-                      website. Randomised words which don't look even slightly
-                      Browse thousands of items near you.
-                    </p>
-                  </div>
-                  <div className="bannerimages_wrapper">
-                    <div className="wrapper_container">
-                      <img src={image1} className="banner_img" alt="" />
-                      <img src={image2} className="banner_img" />
-                    </div>
-                    <div className="wrapper_container">
-                      <img src={image3} className="banner_img" alt="" />
-                      <img src={image4} className="banner_img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-          {/* Banner Section */}
-
-          {/* Trending Products */}
-
-          {/* Trending Products */}
-
-          {/* Category Section */}
-          {/* <section
-            className="banner-section bg-no-repeat bg-center w-full"
-            style={{
-              backgroundImage: `url(${"/12750.jpg"})`,
-              backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-              height: "50vh", // Adjust height as needed
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="container mx-auto flex items-center justify-center h-full">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </section> */}
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
-              <div className="allMedia_Icons">
+              <div className="allMedia_Icons d-none d-md-flex">
                 <div>
                   <img src={xIcon} alt="Xicon" />
                 </div>
@@ -1917,19 +1865,7 @@ const RealEstateComp = () => {
               </div>
             </div>
           </section>
-          {/* Category Section */}
 
-          {/* Featured Ads Section */}
-          {/* Featured Ads Section */}
-
-          {/* All carousel */}
-
-          {/* All carousel */}
-
-          {/* Blog Section */}
-
-          {/* Footer */}
-          {/* Footer */}
         </div>
         <Container
           className="parent-main"
@@ -1938,7 +1874,9 @@ const RealEstateComp = () => {
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
-            margin: "15rem auto", // Optional: Center the container if desired
+            margin: "0 auto", // Optional: Center the container if desired
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+
           }}
         >
           <div
@@ -1947,7 +1885,7 @@ const RealEstateComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -2027,7 +1965,7 @@ const RealEstateComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
             >
               Used Blood Pressure Monitor for Sale
             </h1>
@@ -2039,7 +1977,7 @@ const RealEstateComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: "40px",
               marginTop: "20px",
             }}
@@ -2120,7 +2058,8 @@ const RealEstateComp = () => {
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
-            margin: "-219px auto", // Optional: Center the container if desired
+            margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
           }}
         >
           <Row>
@@ -2222,38 +2161,7 @@ const RealEstateComp = () => {
                           )}
                         </div>
 
-                        {/* <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "New York",
-                            "Bogotá",
-                            "Dubai",
-                            "Tokyo",
-                            "Paris",
-                            "al-satwa",
-                          ].map((city) => (
-                            <div
-                              key={city}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={city}
-                                checked={selectedCities.includes(city)}
-                                onChange={(e) => handleCityChange(e, city)}
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div> */}
+                      
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -3132,7 +3040,7 @@ const RealEstateComp = () => {
                                 style={{
                                   position: "absolute",
                                   top: "-110px", // Adjust the top margin to place the price higher
-                                  left: "547px",
+                                  left: "500px",
                                   fontWeight: "bold",
                                   fontSize: "20px",
                                   zIndex: 2, // Ensure the price text stays above the image
@@ -3175,8 +3083,8 @@ const RealEstateComp = () => {
                                 style={{
                                   position: "absolute",
                                   right: "5px",
-                                  // fontSize: '12px',
-                                  marginTop: "54px",
+                                  marginTop: window.innerWidth <= 576 ? "35px" : "54px",
+                                  marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
                                   color: "black",
                                 }}
                               >
@@ -3226,7 +3134,7 @@ const RealEstateComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3244,7 +3152,7 @@ const RealEstateComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: "50px" }}
+    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3258,7 +3166,7 @@ const RealEstateComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -3280,8 +3188,9 @@ const RealEstateComp = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       margin: "5px",
-                                      marginRight: "60px",
-                                      marginTop: "50px",
+                                      marginRight: window.innerWidth <= 576 ? "20px" : "60px",
+
+                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
 
 
                                       
@@ -3314,7 +3223,7 @@ const RealEstateComp = () => {
       color: white; /* White text color */
       font-size: 12px; /* Approximate font size */
       font-weight: bold; /* Bold text */
-      width: 90px; /* Default fixed width */
+      // width: 90px; /* Default fixed width */
       height: 40px; /* Fixed height */
       border: none; /* No border */
       border-radius: 10px; /* Rounded corners */
@@ -3395,12 +3304,13 @@ const RealEstateComp = () => {
           color: "black",
           maxWidth: "100%", // Ensure content fits screen width
           margin: "0 auto",
-          // backgroundColor: "#E9EEFF",
+          marginLeft: window.innerWidth <= 576 ? "-3.5rem" : "-1rem",
+          marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+
           height: "auto", // Allow height to adjust dynamically
-          paddingLeft: "15%", // Adjusted padding for responsiveness
-          paddingRight: "14%",
+          paddingLeft: "16%", // Adjusted padding for responsiveness
+          paddingRight: "5%",
           paddingTop: "20px",
-          marginTop:'220px',
           paddingBottom: "30px",
         }}
       >

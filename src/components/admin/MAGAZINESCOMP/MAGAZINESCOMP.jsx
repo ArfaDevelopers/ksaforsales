@@ -1592,7 +1592,7 @@ const MAGAZINESCOMP = () => {
           {/* Category Section */}
           <section className="category-section">
             <div className="container">
-              <div className="allMedia_Icons">
+              <div className="allMedia_Icons d-none d-md-flex">
                 <div>
                   <img src={xIcon} alt="Xicon" />
                 </div>

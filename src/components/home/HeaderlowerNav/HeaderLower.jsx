@@ -647,6 +647,10 @@ subSubcategories: [
         { name: "Food & Beverages", path: "/Education/Food&Beverages" },
       ],
     },
+    {
+      name: "Commercial",
+      path: "/CommercialAdscom",
+    },
   ];
 
   if (isMobile) {
@@ -655,79 +659,79 @@ subSubcategories: [
 
   return (
     <div className="header-lower container">
-      <nav className="nav-links" style={{ fontFamily: "VIP Rawy Regular" }}>
-        {categories.map((category) => (
-          <div
-            key={category.name}
-            className="nav-link-wrapper"
-            onMouseEnter={() => setOpenDropdown(category.name)}
-            onMouseLeave={() => {
-              setOpenDropdown(null);
-              setOpenSubDropdown(null);
-            }}
+    <nav className="nav-links" style={{ fontFamily: "VIP Rawy Regular" }}>
+      {categories.map((category) => (
+        <div
+          key={category.name}
+          className="nav-link-wrapper"
+          onMouseEnter={() => setOpenDropdown(category.name)}
+          onMouseLeave={() => {
+            setOpenDropdown(null);
+            setOpenSubDropdown(null);
+          }}
+        >
+          <NavLink
+            to={category.path}
+            className={({ isActive }) =>
+              isActive || location.pathname.includes(category.path)
+                ? "nav-link active-link"
+                : "nav-link"
+            }
           >
-            <NavLink
-              to={category.path}
-              className={({ isActive }) =>
-                isActive || location.pathname.includes(category.path)
-                  ? "nav-link active-link"
-                  : "nav-link"
-              }
-            >
-              {category.name}
-            </NavLink>
-            {openDropdown === category.name && category.subcategories.length > 0 && (
-              <div className="mega-menu">
-                <ul
-                  className={`submenu-list ${
-                    category.name === "Real Estate" ? "real-estate-scroll" : ""
-                  }`}
-                >
-                  {category.subcategories.map((subcategory) => (
-                    <li
-                      key={subcategory.name}
-                      className="submenu-item"
-                      onMouseEnter={() => setOpenSubDropdown(subcategory.name)}
-                      onMouseLeave={() => setOpenSubDropdown(null)}
+            {category.name}
+          </NavLink>
+          {openDropdown === category.name && category.subcategories?.length > 0 && (
+            <div className="mega-menu">
+              <ul
+                className={`submenu-list ${
+                  category.name === "Real Estate" ? "real-estate-scroll" : ""
+                }`}
+              >
+                {category.subcategories?.map((subcategory) => (
+                  <li
+                    key={subcategory.name}
+                    className="submenu-item"
+                    onMouseEnter={() => setOpenSubDropdown(subcategory.name)}
+                    onMouseLeave={() => setOpenSubDropdown(null)}
+                  >
+                    <NavLink
+                      to={subcategory.path}
+                      className={({ isActive }) =>
+                        isActive ? "submenu-link active-link" : "submenu-link"
+                      }
                     >
-                      <NavLink
-                        to={subcategory.path}
-                        className={({ isActive }) =>
-                          isActive ? "submenu-link active-link" : "submenu-link"
-                        }
-                      >
-                        {subcategory.name}
-                        {subcategory.subSubcategories && (
-                          <span className="arrow"> ></span>
-                        )}
-                      </NavLink>
-                      {subcategory.subSubcategories && openSubDropdown === subcategory.name && (
-                        <div className="sub-submenu">
-                          <ul className="submenu-list">
-                            {subcategory.subSubcategories.map((subSubcategory) => (
-                              <li key={subSubcategory.name} className="submenu-item">
-                                <NavLink
-                                  to={subSubcategory.path}
-                                  className={({ isActive }) =>
-                                    isActive ? "submenu-link active-link" : "submenu-link"
-                                  }
-                                >
-                                  {subSubcategory.name}
-                                </NavLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                      {subcategory.name}
+                      {subcategory.subSubcategories && (
+                        <span className="arrow"> ></span>
                       )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
-    </div>
+                    </NavLink>
+                    {subcategory.subSubcategories && openSubDropdown === subcategory.name && (
+                      <div className="sub-submenu">
+                        <ul className="submenu-list">
+                          {subcategory.subSubcategories?.map((subSubcategory) => (
+                            <li key={subSubcategory.name} className="submenu-item">
+                              <NavLink
+                                to={subSubcategory.path}
+                                className={({ isActive }) =>
+                                  isActive ? "submenu-link active-link" : "submenu-link"
+                                }
+                              >
+                                {subSubcategory.name}
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+  </div>
   );
 };
 

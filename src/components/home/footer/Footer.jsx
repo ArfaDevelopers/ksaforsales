@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState  } from "react";
 import { Link } from "react-router-dom";
 import {
   Amexpay,
@@ -28,8 +28,34 @@ const Footer = () => {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <footer style={{ marginTop: "-3rem" }}>
+    <>
+    <style>
+        {`
+          footer {
+            margin-top: -3rem;
+          }
+
+          @media (max-width: 768px) {
+            footer {
+              margin-top: -65rem;
+            }
+          }
+        `}
+      </style>
+    <footer >
       <div className="footer">
         {/* footer_top */}
 
@@ -60,7 +86,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="topfooter_qrcodescanner">
+          <div className="topfooter_qrcodescanner" style={{marginLeft: window.innerWidth <= 576 ? "-1.5rem" : "0rem",marginTop: window.innerWidth <= 576 ? "-2rem" : "0rem"}}>
             <div className="qrcodescanner_socs">
               <i className="topfooter_arrow">
                 <img src={arrowimage} alt="" />
@@ -85,12 +111,12 @@ const Footer = () => {
 
         {/* footer mid */}
 
-        <div className="footermid-wrapper " style={{ marginTop: "-4rem" }}>
-          <div className="footermid-container container" style={{marginRight:"19rem"}}>
-            <h3 className="footermid-heading" >We are always here to help</h3>
+        <div className="footermid-wrapper " style={{  marginTop: window.innerWidth <= 576 ? "-8rem" : "-4rem"}}>
+          <div className="footermid-container container" style={{marginRight:"19rem" }}>
+            <h3 className="footermid-heading" style={{marginLeft: window.innerWidth <= 576 ? "-3rem" : "0rem"}}>We are always here to help</h3>
             <div className="footermidinfo-container">
               <div className="midfooterinfo">
-                <i className="midfooterinfo-icon">
+                <i className="midfooterinfo-icon" >
                   <img src={gmail} alt="" style={{ width: "3.5rem" }} />
                 </i>
                 <div className="footermidgmail">
@@ -100,9 +126,9 @@ const Footer = () => {
                   </p>
                 </div>
               </div>
-              <div className="midfooterinfo">
+              <div className="midfooterinfo"style={{marginTop: window.innerWidth <= 576 ? "-3rem" : "0rem",marginBottom: window.innerWidth <= 576 ? "-4rem" : "0rem"}}>
                 <i className="midfooterinfo-icon">
-                  <img src={whatapp} alt="" style={{ width: "3.5rem" }} />
+                  <img src={whatapp} alt="" style={{ marginRight: window.innerWidth <= 576 ? "2rem" : "0rem",marginLeft: window.innerWidth <= 576 ? "-3rem" : "0rem" , }} />
                 </i>
                 <div className="footermidgmail">
                   <h4 className="footermidgmailheading">Phone Number</h4>
@@ -114,10 +140,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        {/*                                                             */}
-        {/*                                                             */}
-        {/*                                                             */}
 
         <div
           className="footer-top aos  footer_shadow "
@@ -141,7 +163,7 @@ const Footer = () => {
                     style={{ marginLeft: "-1.5rem" }}
                   >
                     <h3>Download Our App</h3>
-                    <div className="socialicons " style={{marginLeft:"3.5rem"}}>
+                    <div className="socialicons " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "3.5rem"}}>
                       <i className="footer_socialsIcons">
                         <img src={googlebutton} />
                       </i>
@@ -179,7 +201,7 @@ const Footer = () => {
               <div className="col-lg-2 col-md-6">
                 <div className="footer-widget footer-menu">
                   {/* <h2 className="footer-title">Quick links</h2> */}
-                  <ul className="col_2">
+                  <ul className="col_2" style={{marginTop: window.innerWidth <= 576 ? "-1rem" : "30px"}}>
                     <li>
                       <Link to="/RealEstateComp">Property</Link>
                     </li>
@@ -255,6 +277,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 

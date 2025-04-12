@@ -225,7 +225,7 @@ const SignUp = () => {
                 <div className="login-header">
                   <h3>Sign Up</h3>
                   <p style={{fontWeight:"bold"}}>
-                    By signing up you get full access to all of our features.<br/>Hurry up!
+                  Hurry up! By signing up you get full access to all of our features.
                   </p>
                 </div>
 

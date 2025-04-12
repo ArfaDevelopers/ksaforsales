@@ -370,7 +370,18 @@ const ElectronicComp = () => {
     setSelectedStates1(stateNames);
     filterCars(searchQuery, selectedCities, stateNames); // Apply the filter
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [activePage, setActivePage] = useState(1);
   console.log(activePage, "activePage_________");
   const handlePageClick = (page) => {
@@ -1302,7 +1313,7 @@ const ElectronicComp = () => {
           {/* Category Section */}
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
-              <div className="allMedia_Icons">
+              <div className="allMedia_Icons d-none d-md-flex">
                 <div>
                   <img src={xIcon} alt="Xicon" />
                 </div>
@@ -1343,8 +1354,7 @@ const ElectronicComp = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop:"13rem"
-          }}
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",          }}
         >
           <div
             className="adsCategory_head"
@@ -1352,7 +1362,7 @@ const ElectronicComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -1435,7 +1445,7 @@ const ElectronicComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
             >
               Used Laptops for Sale
             </h1>
@@ -1447,7 +1457,7 @@ const ElectronicComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: "20px",
               marginTop: "20px",
             }}
@@ -1529,6 +1539,7 @@ const ElectronicComp = () => {
             color: "black", // Text color
             maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
           }}
         >
           <Row>
@@ -2809,7 +2820,7 @@ const ElectronicComp = () => {
                                 style={{
                                   position: "absolute",
                                   top: "-140px", // Adjust the top margin to place the price higher
-                                  left: "547px",
+                                  left: "500px",
                                   fontWeight: "bold",
                                   fontSize: "20px",
                                   zIndex: 2, // Ensure the price text stays above the image
@@ -2853,7 +2864,8 @@ const ElectronicComp = () => {
                                   position: "absolute",
                                   right: "5px",
                                   // fontSize: '12px',
-                                  marginTop: "54px",
+                                  marginTop: window.innerWidth <= 576 ? "35px" : "54px",
+                                  marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
                                   color: "black",
                                 }}
                               >
@@ -2907,7 +2919,7 @@ const ElectronicComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -2925,7 +2937,7 @@ const ElectronicComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: "50px" }}
+    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -2939,7 +2951,7 @@ const ElectronicComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -2961,8 +2973,9 @@ const ElectronicComp = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       margin: "5px",
-                                      marginRight: "60px",
-                                      marginTop: "50px",
+                                      marginRight: window.innerWidth <= 576 ? "20px" : "60px",
+
+                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
 
 
                                       
@@ -2995,7 +3008,7 @@ const ElectronicComp = () => {
       color: white; /* White text color */
       font-size: 12px; /* Approximate font size */
       font-weight: bold; /* Bold text */
-      width: 90px; /* Default fixed width */
+      // width: 90px; /* Default fixed width */
       height: 40px; /* Fixed height */
       border: none; /* No border */
       border-radius: 10px; /* Rounded corners */
@@ -3080,6 +3093,8 @@ const ElectronicComp = () => {
             color: "black",
             maxWidth: "100%", // Ensure content fits screen width
             margin: "0 auto",
+            marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+            marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
             backgroundColor: "white",
             height: "auto", // Allow height to adjust dynamically
             paddingLeft: "16%", // Adjusted padding for responsiveness

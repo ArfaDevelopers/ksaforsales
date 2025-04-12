@@ -28,36 +28,25 @@ const Footer = () => {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+  
   return (
+    <>
+    <style>
+        {`
+          footer {
+            margin-top: -3rem;
+          }
+
+          @media (max-width: 768px) {
+            footer {
+              margin-top: -65rem;
+            }
+          }
+        `}
+      </style>
     <footer>
       <div className="footer">
-        {/* <div className="container">
-        <div className="stay-tuned">
-          <h3>Stay Tuned With Us</h3>
-          <p>
-            Subcribe to our newletter and never miss our latest news and
-            promotions. Our newsletter is sent once a week, every thursday.
-          </p>
-          <form>
-            <div className="form-group">
-              <div className="group-img">
-                <i className="feather-mail"></i>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Email Address"
-                />
-              </div>
-            </div>
-            <button className="btn btn-primary" type="submit">
-              {" "}
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </div> */}
-
-        {/* footer_top */}
+      
 
         <div className="topfooter_wrapper container">
           <div className="topfooter_container1">
@@ -273,6 +262,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 

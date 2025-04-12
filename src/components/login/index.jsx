@@ -86,7 +86,7 @@ const Login = () => {
               <div className="login-wrap">
                 <div className="login-header">
                   <h3>Log in</h3>
-                  <p>Welcome back to ksa4sale. keep using our great features and find what you need.</p>
+                  <p>Welcome Back.Keep using our great features and find what you need.</p>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
 

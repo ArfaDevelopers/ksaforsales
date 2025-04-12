@@ -174,7 +174,18 @@ const PetAnimalsComp = () => {
     value: country.isoCode,
     label: country.name,
   }));
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   // Handle country selection
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
@@ -1631,54 +1642,10 @@ const PetAnimalsComp = () => {
         <Header parms={parms} />
         <div className="main-wrapper">
           <Header />
-          {/* Banner Section */}
-          {/* <section className="banner-section">
-            <div className="container">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  >
-                    <p className="explore-text banner-text">
-                      <span>Explore top-rated attractions</span>
-                    </p>
-                    <h1>
-                      Let us help you
-                      <span>Find, Buy</span>
-                      <span>Find, Buy</span> & Own Dreams
-                    </h1>
-                    <p className="banner-para">
-                      Countrys most loved and trusted classified ad listing
-                      website. Randomised words which don't look even slightly
-                      Browse thousands of items near you.
-                    </p>
-                  </div>
-                  <div className="bannerimages_wrapper">
-                    <div className="wrapper_container">
-                      <img src={image1} className="banner_img" alt="" />
-                      <img src={image2} className="banner_img" />
-                    </div>
-                    <div className="wrapper_container">
-                      <img src={image3} className="banner_img" alt="" />
-                      <img src={image4} className="banner_img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-       
-          {/* Banner Section */}
-
-          {/* Trending Products */}
-
-          {/* Trending Products */}
-
-          {/* Category Section */}
+        
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
-              <div className="allMedia_Icons">
+              <div className="allMedia_Icons d-none d-md-flex">
                 <div>
                   <img src={xIcon} alt="Xicon" />
                 </div>
@@ -1697,20 +1664,7 @@ const PetAnimalsComp = () => {
               </div>
             </div>
           </section>
-          {/* Category Section */}
-
-          {/* Featured Ads Section */}
-          {/* Featured Ads Section */}
-
-          {/* All carousel */}
-
-          {/* All carousel */}
-
-          {/* Blog Section */}
-
-          {/* Footer */}
-          {/* Footer */}
-          {/* Navbar */}
+         
         </div>
         <Container
           className="parent-main"
@@ -1720,7 +1674,8 @@ const PetAnimalsComp = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop:"13rem"
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+
           }}
         >
           <div
@@ -1729,7 +1684,7 @@ const PetAnimalsComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -1794,7 +1749,7 @@ const PetAnimalsComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
             >
               Labrador Retriever
             </h1>
@@ -1806,7 +1761,7 @@ const PetAnimalsComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: "20px",
               marginTop: "20px",
             }}
@@ -1888,6 +1843,7 @@ const PetAnimalsComp = () => {
             color: "black", // Text color
             maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
           }}
         >
           <Row>
@@ -3005,8 +2961,8 @@ const PetAnimalsComp = () => {
                                 style={{
                                   position: "absolute",
                                   right: "5px",
-                                  // fontSize: '12px',
-                                  marginTop: "54px",
+                                  marginTop: window.innerWidth <= 576 ? "35px" : "54px",
+                                  marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
                                   color: "black",
                                 }}
                               >
@@ -3056,7 +3012,7 @@ const PetAnimalsComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3074,7 +3030,7 @@ const PetAnimalsComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: "50px" }}
+    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3088,7 +3044,7 @@ const PetAnimalsComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -3110,8 +3066,9 @@ const PetAnimalsComp = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       margin: "5px",
-                                      marginRight: "60px",
-                                      marginTop: "50px",
+                                      marginRight: window.innerWidth <= 576 ? "20px" : "60px",
+
+                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
 
 
                                       
@@ -3144,7 +3101,7 @@ const PetAnimalsComp = () => {
       color: white; /* White text color */
       font-size: 12px; /* Approximate font size */
       font-weight: bold; /* Bold text */
-      width: 90px; /* Default fixed width */
+      // width: 90px; /* Default fixed width */
       height: 40px; /* Fixed height */
       border: none; /* No border */
       border-radius: 10px; /* Rounded corners */
@@ -3224,11 +3181,13 @@ const PetAnimalsComp = () => {
             color: "black",
             maxWidth: "100%", // Ensure content fits screen width
             margin: "0 auto",
+            marginLeft: window.innerWidth <= 576 ? "-3.5rem" : "-1rem",
+            marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+  
             height: "auto", // Allow height to adjust dynamically
-            paddingLeft: "15%", // Adjusted padding for responsiveness
-            paddingRight: "14%",
+            paddingLeft: "16%", // Adjusted padding for responsiveness
+            paddingRight: "5%",
             paddingTop: "20px",
-            marginTop:'220px',
             paddingBottom: "30px",
           }}
         >

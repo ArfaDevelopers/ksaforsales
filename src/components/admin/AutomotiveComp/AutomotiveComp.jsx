@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
-import Footer from "../../../components/dyanmic_routes/footer/Footer";
+import Footer from "../../../components/home/footer/Footer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -141,7 +141,18 @@ const AutomotiveComp = () => {
     value: country.isoCode,
     label: country.name,
   }));
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   // Handle country selection
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
@@ -936,50 +947,10 @@ const AutomotiveComp = () => {
         <Header parms={parms} />
         <div className="main-wrapper">
           <Header />
-          {/* Banner Section */}
-          {/* <section
-            className="banner-section bg-no-repeat bg-center w-full"
-            style={{
-              backgroundImage: `url(${"/12750.jpg"})`,
-              backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-              height: "50vh", // Adjust height as needed
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="container mx-auto flex items-center justify-center h-full">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-          {/* Banner Section */}
-
-          {/* Trending Products */}
-          {/* <div className="trendingprodct_wrapper container">
-            <h3 className="trendingproduct_heading"> Our Trending Product</h3>
-            <div className="trendingproducts_container">
-              <button className="trendingProductsallname">Iphone 16</button>
-              <button className="trendingProductsallname">Cricket Kit</button>
-              <button className="trendingProductsallname">Bags</button>
-              <button className="trendingProductsallname">Apparel</button>
-              <button className="trendingProductsallname">Mens Hoodies</button>
-              <button className="trendingProductsallname">Apparel</button>
-              <button className="trendingProductsallname">Magazines</button>
-              <button className="trendingProductsallname">Mens Hoodies</button>
-            </div>
-            
-          </div>  */}
-          {/* Trending Products */}
-
-          {/* Category Section */}
+      
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
-              <div className="allMedia_Icons">
+              <div className="allMedia_Icons d-none d-md-flex">
                 <div>
                   <img src={xIcon} alt="Xicon" />
                 </div>
@@ -998,19 +969,7 @@ const AutomotiveComp = () => {
               </div>
             </div>
           </section>
-          {/* Category Section */}
-
-          {/* Featured Ads Section */}
-          {/* Featured Ads Section */}
-
-          {/* All carousel */}
-
-          {/* All carousel */}
-
-          {/* Blog Section */}
-
-          {/* Footer */}
-          {/* Footer */}
+   
         </div>
 
         <Container
@@ -1021,7 +980,8 @@ const AutomotiveComp = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop:"13rem"
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+
           }}
         >
           <div
@@ -1030,7 +990,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -1110,7 +1070,7 @@ const AutomotiveComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
             >
               Used Cars for Sale
             </h1>
@@ -1122,7 +1082,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: "20px",
               marginTop: "20px",
             }}
@@ -1204,6 +1164,7 @@ const AutomotiveComp = () => {
             color: "black", // Text color
             maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
           }}
         >
           <Row>
@@ -2859,54 +2820,7 @@ const AutomotiveComp = () => {
             </Col>
 
             <Col md={9} className="p-3">
-              {/* <div className="adsCategory_head">
-      <button
-        className="btn border me-2 mb-2 mb-sm-0"
-        style={{ background: "#E9EEFF", fontWeight: "500" }}
-      >
-        Home
-      </button>
-      <span>
-        <img src={arrow} alt="arrow" />
-      </span>
-
-      <button
-        className="btn border me-2 mb-2 mb-sm-0"
-        style={{ background: "#E9EEFF", fontWeight: "500" }}
-      >
-        Automotive
-      </button>
-      <span>
-        <img src={arrow} alt="arrow" />
-      </span>
-
-      <button
-        className="btn border me-2 mb-2 mb-sm-0"
-        style={{ background: "#E9EEFF", fontWeight: "500" }}
-      >
-        All Cities
-      </button>
-      <span>
-        <img src={arrow} alt="arrow" />
-      </span>
-
-      <button
-        className="btn border mb-sm-0"
-        style={{ background: "#E9EEFF", fontWeight: "500" }}
-      >
-        Used Car for Sale
-      </button>
-      <span>
-        <img src={arrow} alt="arrow" />
-      </span>
-
-      <button
-        className="btn border mb-2 mb-sm-0"
-        style={{ background: "#E9EEFF", fontWeight: "500" }}
-      >
-        Mercedez Benz
-      </button>
-    </div> */}
+ 
               <Row className="mb-3">
                 <Col>
                   <Form.Check type="checkbox" label="With Photos" />
@@ -3114,7 +3028,8 @@ const AutomotiveComp = () => {
                                   right: "5px",
                                   // fontSize: '12px',
                                   color: "#6c757d",
-                                  marginTop: "54px",
+                                  marginTop: window.innerWidth <= 576 ? "35px" : "54px",
+                                  marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
                                   color: "black",
                                 }}
                               >
@@ -3127,6 +3042,7 @@ const AutomotiveComp = () => {
                                 style={{
                                   position: "relative",
                                   marginTop: "10px",
+                                  
                                 }}
                               >
                                 {/* Price for small screens */}
@@ -3163,7 +3079,7 @@ const AutomotiveComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{  marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3181,7 +3097,7 @@ const AutomotiveComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: "50px" }}
+    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3195,7 +3111,7 @@ const AutomotiveComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -3217,8 +3133,10 @@ const AutomotiveComp = () => {
                                       alignItems: "center",
                                       justifyContent: "center",
                                       margin: "5px",
-                                      marginRight: "60px",
-                                      marginTop: "50px",
+                                   
+                                      marginRight: window.innerWidth <= 576 ? "20px" : "60px",
+
+                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
 
 
                                       
@@ -3251,7 +3169,7 @@ const AutomotiveComp = () => {
       color: white; /* White text color */
       font-size: 12px; /* Approximate font size */
       font-weight: bold; /* Bold text */
-      width: 90px; /* Default fixed width */
+      // width: 90px; /* Default fixed width */
       height: 40px; /* Fixed height */
       border: none; /* No border */
       border-radius: 10px; /* Rounded corners */
@@ -3293,139 +3211,7 @@ const AutomotiveComp = () => {
 
 </div>
 
-                            {/* Responsive Grid for Small Screens */}
-                            {/* <div>
-                              <Row
-                                className="gx-2 gy-2 mt-4 mt-sm-5 text-center"
-                                style={{ margin: 0 }}
-                              >
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
-                                  <button
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 20px",
-                                      border: "none",
-                                      borderRadius: "20px",
-                                      backgroundColor: "#2d4fad",
-                                      color: "white",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
-                                      width: "100%",
-                                      maxWidth: "150px",
-                                      margin: "5px",
-                                    }}
-                                  >
-                                    <i className="fas fa-phone"></i> Call
-                                  </button>
-                                </Col>
-
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
-                                  <button
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 12px",
-                                      border: "1px solid #2d4fad",
-                                      borderRadius: "20px",
-                                      backgroundColor: "white",
-                                      color: "#2d4fad",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
-                                      width: "100%",
-                                      maxWidth: "150px",
-                                      margin: "5px",
-                                    }}
-                                  >
-                                    <i className="fas fa-comment"></i> Message
-                                  </button>
-                                </Col>
-
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
-                                  <button
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 10px",
-                                      border: "1px solid #2d4fad",
-                                      borderRadius: "20px",
-                                      backgroundColor: "white",
-                                      color: "#2d4fad",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
-                                      width: "100%",
-                                      maxWidth: "150px",
-                                      margin: "5px",
-                                    }}
-                                  >
-                                    <i
-                                      className="fab fa-whatsapp"
-                                      style={{ color: "#2D4495" }}
-                                    ></i>{" "}
-                                    WhatsApp
-                                  </button>
-                                </Col>
-
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center position-relative" style={{marginLeft:5}}
-                                >
-                                  <button
-                                    style={{
-                                      border: "1px solid #2D4495",
-                                      backgroundColor: "white",
-                                      borderRadius: "5px",
-                                      cursor: "pointer",
-                                      color: "#2D4495",
-                                      width: "fit-content",
-                                      height: "fit-content",
-                                      padding: "8px",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      margin: "5px",
-                                      marginRight: "60px",
-                                    }}
-                                  >
-                                
-                                    <FaRegHeart
-                                      onClick={() => toggleBookmark(car.id)}
-                                      style={{
-                                        color:
-                                          car.bookmarked === true &&
-                                          car.userId === userId
-                                            ? "red"
-                                            : "#2D4495",
-                                        fontSize: "30px",
-                                      }}
-                                    />
-                                  </button>
-                                </Col>
-                              </Row>
-                            </div> */}
+                          
                           </Card.Body>
                         </Col>
                       </Row>
@@ -3464,14 +3250,15 @@ const AutomotiveComp = () => {
             </Col>
           </Row>
         </Container>
-      </div>
-      <div
+        <div
         className="container-parent"
         style={{
           color: "black",
           maxWidth: "100%", // Ensure content fits screen width
           margin: "0 auto",
-          // backgroundColor: "#E9EEFF",
+          marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+          marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+
           height: "auto", // Allow height to adjust dynamically
           paddingLeft: "16%", // Adjusted padding for responsiveness
           paddingRight: "5%",
@@ -3535,7 +3322,7 @@ const AutomotiveComp = () => {
         </div>
       </div>
 
-      {/* Media Queries for Responsiveness */}
+
       <style jsx>{`
         @media (max-width: 768px) {
           .container-parent {
@@ -3561,8 +3348,11 @@ const AutomotiveComp = () => {
       `}</style>
 
       <ComercialsAds />
+      
+      </div>
       <LatestBlog />
       <Footer />
+    
     </>
   );
 };

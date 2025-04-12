@@ -7,6 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig";
 import { Phone, profile_img } from "../../imagepath";
+import { Offcanvas } from "react-bootstrap";
+import { FaThLarge, FaStickyNote, FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+
+
 
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
@@ -63,6 +68,9 @@ const Header = ({ parms }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setMenu(!menu);
+  };
   return (
     <header className="header">
       <UpperHeader />
@@ -74,7 +82,7 @@ const Header = ({ parms }) => {
               style={{ flexWrap: "nowrap" }}
             >
               {/* Logo and Mobile Menu */}
-              <div
+              {/* <div
                 className="navbar-header d-flex align-items-center"
                 style={{ flexShrink: 0 }}
               >
@@ -88,10 +96,197 @@ const Header = ({ parms }) => {
                 <Link to="/" className="navbar-brand logo" style={{ marginLeft: "33px",width:"9rem" }}>
                   <img src={LogoSvg} className="img-fluid" alt="Logo" />
                 </Link>
-              </div>
+              </div> */}
+ <div className="navbar-header d-flex align-items-center">
+                <Link id="mobile_btn" to="#" onClick={toggleMobileMenu}>
+                  <span className="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </Link>
+                <Link
+                  id="mobile_btn"
+                  to="#"
+                  onClick={toggleMobileMenu}
+                  className="menu-btn"
+                >
+                  <span className="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </Link>
 
+                <Offcanvas
+                  show={menu}
+                  onHide={toggleMobileMenu}
+                  placement="start"
+                  className="custom-sidebar"
+                >
+                  <Offcanvas.Header className="border-bottom">
+                    <Offcanvas.Title className="fs-5 fw-bold">
+                      Contrast Light
+                    </Offcanvas.Title>
+                    <FaTimes
+                      className="close-icon"
+                      onClick={toggleMobileMenu}
+                    />
+                  </Offcanvas.Header>
+                  <Offcanvas.Body>
+                    <nav className="sidenav">
+                      <NavLink
+                        to="/AutomotiveComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaThLarge className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Automotive</span>
+                      </NavLink>
+                      <NavLink
+                        to="/ElectronicComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Electronics</span>
+                      </NavLink>
+                      <NavLink
+                        to="/FashionStyle"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Fashion Style</span>
+                      </NavLink>
+                      <NavLink
+                        to="/HealthCareComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Health Care</span>
+                      </NavLink>
+                      <NavLink
+                        to="/JobBoard"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Job Board</span>
+                      </NavLink>
+                      <NavLink
+                        to="/Education"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Education</span>
+                      </NavLink>
+                      <NavLink
+                        to="/RealEstateComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Real Estate</span>
+                      </NavLink>
+                      <NavLink
+                        to="/TravelComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Travel</span>
+                      </NavLink>
+                      <NavLink
+                        to="/SportGamesComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Sport & Games</span>
+                      </NavLink>
+                      <NavLink
+                        to="/PetAnimalsComp"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Pet & Animals</span>
+                      </NavLink>
+                      <NavLink
+                        to="/CommercialAdscom"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Commercial</span>
+                        <span
+                          className="badge bg-danger ms-2"
+                          style={{ fontSize: "10px", padding: "3px 6px" }}
+                        >
+                          New
+                        </span>
+                      </NavLink>
+                    </nav>
+                    <div className="sidebar-footer text-center py-3 mt-3 border-top">
+                      KSA4Sale
+                    </div>
+                  </Offcanvas.Body>
+                </Offcanvas>
+
+                {/* Custom CSS */}
+                <style>
+                  {`
+          .custom-sidebar {
+            width: 280px !important;
+            background-color: #fff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+          }
+
+          .sidenav {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .sidebar-item {
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #333;
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            text-decoration: none;
+          }
+
+          .sidebar-item:hover {
+            background-color: #f8f9fa;
+          }
+
+          .close-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+          }
+
+          .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #36a680;
+            border-radius: 50%;
+            color: red;
+            cursor: pointer;
+          }
+
+          .bar-icon span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: white;
+            margin: 4px 0;
+          }
+        `}
+                </style>
+                <Link to="/" className="navbar-brand logo" style={{ marginLeft: "33px",width:"9rem" }}>
+                  <img src={LogoSvg} className="img-fluid" alt="Logo" />
+                </Link>
+              </div>
               {/* Search Bar (Hidden on Mobile) */}
-              {/* {!isMobile && (
+              {!isMobile && (
               <form
                 className="d-flex search-container"
                 style={{
@@ -131,7 +326,7 @@ const Header = ({ parms }) => {
                   <FaSearch style={{ color: "#0056b3" }} />
                 </button>
               </form>
-              )} */}
+              )}
               {/* Navigation Links */}
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"

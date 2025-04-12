@@ -81,7 +81,7 @@ export default function AutomativeCarousel() {
   return (
     <section
       className="featured-section-color automotive_card_section"
-      style={{ marginTop: "-5rem" }}
+      style={{ marginTop: "-2rem" }}
     >
       <div className="container">
         <div className="row align-items-center">

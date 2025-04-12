@@ -6538,7 +6538,7 @@ ul.tags {
 }
 .profile-userlink:hover,
 .profile-userlink.show {
-  color: #c10037;
+  color: #2d4495;
 }
 .card.dash-cards {
   padding: 25px;
@@ -22158,9 +22158,9 @@ section.advertisement {
 .footermid-wrapper {
   background-color: #fff;
 }
-.footer-menu .col_2 {
+/* .footer-menu .col_2 {
   margin-top: 30px !important;
-}
+} */
 .socialicons {
   display: flex;
   gap: 19px;
@@ -22291,7 +22291,7 @@ section.advertisement {
   display: flex;
   flex-wrap: wrap;
   gap: 24.5px;
-  margin-top: 3rem;
+ 
 }
 
 .head2btn {
