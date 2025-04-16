@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../dyanmic_routes/header/index";
+import Header from "../../home/header";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Container, Button, Card, Row, Col, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import Footer from "../../home/footer/Footer.jsx";
+import Footer from "../../home/footer/Footer";
 const ITEMS_PER_PAGE = 4; // Set number of items per page
 
 const CommercialAdscom = () => {
@@ -40,26 +40,28 @@ const CommercialAdscom = () => {
     setSelectedPhone(phone);
     setShowCall(true);
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const handleShowWhatsApp = (phone) => {
     setSelectedPhone(phone);
     setShowWhatsApp(true);
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const handleCloseCall = () => setShowCall(false);
   const handleCloseWhatsApp = () => setShowWhatsApp(false);
   const [loading, setLoading] = useState(false);
-
-  // const categories = [
-  //     { id: 1, title: "Cars", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq9FsDn0pGVm8ay0WCMuDsv98Xf56FAhFg3Q&s", phone: "+96541117775" },
-  //     { id: 2, title: "Jobs", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP60u2MUASTzHB83NhmYT0-CN_b4aS55fzhw&s", phone: "+96552223344" },
-  //     { id: 3, title: "Real Estate for Rent", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5KZCLqXG6DjZjCiOEndJcnXLqu6e-KafZjg&s", phone: "+96563334455" },
-  //     { id: 4, title: "Electronics",image:"https://vidico.com/app/uploads/2024/04/Best-Commercial-Ads-to-Inspire-Your-Marketing-1.webp", phone: "+96541117775" },
-  //     { id: 5 ,title: "Furniture", image: "https://i0.wp.com/www.superbowl-ads.com/wp-content/uploads/2021/01/usatoday_admeter2021.png?fit=1920%2C1080&ssl=1", phone: "+96541117775" },
-  //     { id: 6 ,title: "Fashion", image: "https://i.ytimg.com/vi/Tx2DPYeVngw/maxresdefault.jpg", phone: "+96541117775" },
-  //     { id: 7 ,title: "Sports", image:  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_J0RV_96GQjtxnPbfCFRCyNY4bg11sbHM0g&s", phone: "+96541117775" },
-  //     { id: 8, title: "Home & Garden", image: "https://i.ytimg.com/vi/CebzjiESbXc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBsYv5jhw86iScAgxYmyedNeSwfog", phone: "+96541117775" },
-  // ];
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -85,31 +87,93 @@ const CommercialAdscom = () => {
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
+  const [callButtonStyles, setCallButtonStyles] = useState({
+    backgroundColor: "#2d4495",
+    borderColor: "#2d4495",
+    color: "black",
+  });
+
+  // State to manage hover styles for WhatsApp button
+  const [whatsappButtonStyles, setWhatsappButtonStyles] = useState({
+    backgroundColor: "#0c9e6f",
+    borderColor: "#0c9e6f",
+    color: "black",
+  });
+
+  // Hover handlers for Call button
+  const handleCallMouseEnter = () => {
+    setCallButtonStyles({
+      backgroundColor: "white",
+      borderColor: "#2d4495",
+      color: "#2d4495",
+    });
+  };
+
+  const handleCallMouseLeave = () => {
+    setCallButtonStyles({
+      backgroundColor: "#2d4495",
+      borderColor: "#2d4495",
+      color: "black",
+    });
+  };
+
+  // Hover handlers for WhatsApp button
+  const handleWhatsappMouseEnter = () => {
+    setWhatsappButtonStyles({
+      backgroundColor: "white",
+      borderColor: "#0c9e6f",
+      color: "#0c9e6f",
+    });
+  };
+
+  const handleWhatsappMouseLeave = () => {
+    setWhatsappButtonStyles({
+      backgroundColor: "#0c9e6f",
+      borderColor: "#0c9e6f",
+      color: "black",
+    });
+  };
   return (
+    <>
     <section className="commercial_card_section">
       <div className="container">
         <Header />
         <Container
           className="parent-main"
-          style={{ maxWidth: "1530px", paddingTop: "230px" }}
+          style={{ maxWidth: "1530px", paddingTop: "230px",marginTop: window.innerWidth <= 576 ? "-7rem" : "-4rem", marginLeft:-10 }}
         >
           <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
-            <div className="d-flex align-items-center">
-              <button className="btn btn-light" onClick={() => navigate("/")}>
-                Home
-              </button>
-              <span className="mx-2">
-                <MdKeyboardArrowRight />
-              </span>
+            <div className="d-flex align-items-center"  style={{marginTop:15}}>
               <button
-                className="btn btn-light"
-                onClick={() => navigate("/ElectronicComp")}
-              >
-                CommercialAds
-              </button>
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+              onClick={() => navigate("/")}
+            >
+              Home
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+              <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+              onClick={() => navigate("/ElectronicComp")}
+            >
+              CommercialAds
+            </button>
+           
             </div>
-            <div className="d-flex align-items-center justify-content-end">
-              {/* Pagination Controls */}
+            {/* <div className="d-flex align-items-center justify-content-end">
               <div className="d-flex justify-content-center align-items-center mt-4">
                 <Button
                   variant="outline-primary"
@@ -144,7 +208,7 @@ const CommercialAdscom = () => {
                   Next <FaArrowRight />
                 </Button>
               </div>
-            </div>
+            </div> */}
           </div>
         </Container>
 
@@ -153,50 +217,82 @@ const CommercialAdscom = () => {
         <h1 className="m-lg-1">Commercial Ads</h1>
         <Container
           className="parent-main"
-          style={{ maxWidth: "1530px", paddingTop: "10px" }}
+          style={{ maxWidth: "1530px" }}
         >
-          <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
-            <div className="head2_wrapper">
-              <div className="CategoryInfodiv_btn2container">
-                <button className="head2btn">
+            <div
+            className="CategoryInfodiv_btn2container"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginLeft: window.innerWidth <= 576 ? "-0.5rem" : "0%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+            }}
+          >
+                <button className="head2btn" style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}>
                   <span>
                     <img src={left} alt="leftarrow" />
                   </span>{" "}
                   All
                 </button>
-                <button className="head2btn">
-                  <span>
+                <button className="head2btn" style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}>
+                  {/* <span>
                     <img src={left} alt="leftarrow" />
-                  </span>{" "}
+                  </span>{" "} */}
                   Favourite
                 </button>
 
-                <button className="head2btn">
+                <button className="head2btn"style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}>
                   <span>
                     <img src={report} alt="promote" />
                   </span>
                   Promote
                 </button>
-                <button className="head2btn">
+                <button className="head2btn"style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}>
                   <span>
                     <img src={report} alt="report" />
                   </span>
                   Report
                 </button>
-              </div>
-            </div>
           </div>
         </Container>
-        <Container>
+        <Container style={{marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem"}}>
           <Row className="g-4">
             {currentItems.map((item) => (
               <Col key={item.id} md={3} sm={6}>
-                {/* <Card className="shadow-sm" onClick={() => navigate(/routes/${item.id})} style={{ cursor: "pointer" }}> */}
+
                 <Card
                   className="shadow-sm"
                   onClick={() => {
-                    // console.log("Navigating to:", /CategoryDetail/${item.id});
-                    // navigate(/CategoryDetail/${item.id})
                     navigate(`/CategoryDetail/${item.id}`);
                   }}
                   style={{ cursor: "pointer" }}
@@ -207,35 +303,52 @@ const CommercialAdscom = () => {
                     alt={item.title}
                     style={{ height: "461px", objectFit: "fill", width: "328" }}
                   />
-                  <Card.Body className="text-center">
-                    <div className="d-flex justify-content-center align-items-center gap-2">
-                      <Button
-                        variant="primary"
-                        className="d-flex align-items-center gap-1"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleShowCall(item.phone);
-                          setSelectedPhone(item.phone);
-                        }}
-                      >
-                        <IoCallOutline style={{ width: "50%" }} />
-                        <span>Call</span>
-                      </Button>
-                      <Button
-                        variant="primary"
-                        className="d-flex align-items-center gap-1"
-                        style={{ background: "#09ba50" }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleShowWhatsApp(item.phone);
-                          setSelectedPhone(item.phone);
-                        }}
-                      >
-                        <FaWhatsapp style={{ width: "20%" }} />
-                        <span>WhatsApp</span>
-                      </Button>
-                    </div>
-                  </Card.Body>
+                  <Card>
+      <Card.Body>
+        <div className="d-flex justify-content-center gap-3 mt-3">
+          <Button
+            variant="primary"
+            className="d-flex align-items-center gap-1"
+            style={{
+              ...callButtonStyles,
+              transition: "all 0.2s ease", // Smooth transition
+              padding: "0.375rem 0.75rem", // Match Bootstrap default
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShowWhatsApp(item.phone);
+              setSelectedPhone(item.phone);
+            }}
+            onMouseEnter={handleCallMouseEnter}
+            onMouseLeave={handleCallMouseLeave}
+            
+          >
+            <IoCallOutline style={{ fontSize: "1.5rem", color: callButtonStyles.color }} />
+            <span style={{ color: callButtonStyles.color }}>Call</span>
+          </Button>
+          <Button
+            variant="primary"
+            className="d-flex align-items-center gap-1"
+            style={{
+              ...whatsappButtonStyles,
+              transition: "all 0.2s ease",
+              padding: "0.375rem 0.75rem",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShowWhatsApp(item.phone);
+              setSelectedPhone(item.phone);
+            }}
+            onMouseEnter={handleWhatsappMouseEnter}
+            onMouseLeave={handleWhatsappMouseLeave}
+          >
+            <FaWhatsapp style={{ fontSize: "1.5rem", color: whatsappButtonStyles.color }} />
+            <span style={{ color: whatsappButtonStyles.color }}>WhatsApp</span>
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
+               
                 </Card>
               </Col>
             ))}
@@ -277,7 +390,7 @@ const CommercialAdscom = () => {
         <Modal show={showWhatsApp} onHide={handleCloseWhatsApp} centered>
           <div className="p-4">
             <div className="d-flex justify-content-between align-items-center">
-              <h6 className="fw-bold text-dark">تواصل عبر واتساب</h6>
+              <h6 className="fw-bold text-dark">Whatsapp</h6>
               <button onClick={handleCloseWhatsApp} className="btn border-0">
                 ✕
               </button>
@@ -292,7 +405,7 @@ const CommercialAdscom = () => {
               <div className="d-flex align-items-center gap-3">
                 <BsWhatsapp
                   style={{
-                    width: "28px",
+                    width: "29px",
                     height: "32px",
                     color: "#25D366",
                     background: "#E7F9ED",
@@ -307,8 +420,10 @@ const CommercialAdscom = () => {
           </div>
         </Modal>
       </div>
-      <Footer />
+   
     </section>
+    <Footer />
+    </>
   );
 };
 

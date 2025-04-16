@@ -17,7 +17,7 @@ import {
   FaClipboardCheck,
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect } from "react"; // Import useEffect along with React
+import React, { useEffect,useState } from "react"; // Import useEffect along with React
 import { FaBan } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../../home/footer/Footer";
@@ -38,22 +38,32 @@ import { Link, useLocation, useNavigate } from "react-router-dom"; // Import Lin
 const Copyrights = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
   return (
     <>
       <Header />
 
-      <div>
-        {/* Hero Section */}
-        <section className="bg-dark text-light text-center py-5">
-          <div className="container">
-            <h1 className="display-4 fw-bold">Copyrights & Legal Notices</h1>
-            <p className="lead">Last Updated: March 2025</p>
-          </div>
-        </section>
+      <div
+      className="dashboard-content"
+      style={{
+        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+      }}
+      >
         <Container
           className="parent-main"
           style={{
@@ -62,7 +72,7 @@ const Copyrights = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: "12%",
+            marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
           }}
         >
           <div
@@ -229,7 +239,7 @@ const Copyrights = () => {
           <div className="container text-center">
             <h2 className="fw-bold">Have Questions?</h2>
             <p>If you have any copyright concerns, please contact us.</p>
-            <a href="mailto:copyright@KSA4Sale.com" className="btn btn-primary">
+            <a href="mailto:copyright@KSA4Sale.com" className="btn "style={{backgroundColor:"#2d4495",color:"white"}}>
               Report Copyright Issue
             </a>
           </div>

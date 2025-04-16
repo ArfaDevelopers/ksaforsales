@@ -920,82 +920,40 @@ const AboutUs = () => {
     };
     fetchExistingImage();
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <>
-      <div className="main-wrapper">
-  <Header parms={parms} />
-  <section className="category-section" style={{ padding: "0px" }}>
-    <div className="container">
-      <div className="allMedia_Icons d-none d-md-flex">
-        <div>
-          <img src={xIcon} alt="Xicon" />
-        </div>
-        <div>
-          <img src={insta} alt="instagram" />
-        </div>
-        <div>
-          <img src={fb} alt="facebook" />
-        </div>
-        <div>
-          <img src={tiktok} alt="tiktok" />
-        </div>
-        <div>
-          <img src={whatapp} alt="whatsapp" />
-        </div>
-      </div>
-    </div>
-  </section>
-  {/* Featured Ads Section */}
-  {/* All carousel */}
-  {/* Blog Section */}
-  {/* Footer */}
-</div>
-      {/* Media Queries for Responsiveness */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .container-parent {
-            padding-left: 5%; // Reduce padding on smaller screens
-            padding-right: 5%;
-          }
-          .responsive-row {
-            margin: 0 10px;
-          }
-        }
-        @media (max-width: 480px) {
-          .container-parent {
-            padding-left: 0%; // No left padding on very small screens
-            padding-right: 0%; // No right padding on very small screens
-          }
-          .responsive-row {
-            margin: 0;
-          }
-          h2 {
-            font-size: 1.2rem; // Smaller font size for headings on mobile
-          }
-        }
-      `}</style>
-      {/* i am about us page */}
+  <Header  />
       <div>
-        {/* Hero Section */}
-        {/* <section className="bg-dark text-light text-center py-5">
-          <div className="container">
-            <h1 className="display-4 fw-bold">About KSA4Sale</h1>
-            <p className="lead">
-              Bringing elegance & beauty to life since 2022.
-            </p>
-          </div>
-        </section> */}
+      <div
+      className="dashboard-content"
+      style={{
+        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+      }}
+      >
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "12px", // Padding on the left side
+            paddingLeft: "10px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: "12%",
-            marginTop:210
+            marginLeft: window.innerWidth <= 576 ? "-1rem" : "12.5%",
           }}
         >
           <div
@@ -1142,7 +1100,7 @@ const AboutUs = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section className="bg-dark text-light py-5">
+        <section className="bg-dark text-light py-5" style={{width: window.innerWidth <= 576 ? "100%" : "68%",marginLeft: window.innerWidth <= 576 ? "0rem" : "16%",}}>
           <div className="container text-center">
             <h2 className="fw-bold">What Our Clients Say</h2>
             <div className="row mt-4">
@@ -1190,6 +1148,7 @@ const AboutUs = () => {
           </div>
         </section>
       </div>{" "}
+      </div>
       {/* <LatestBlog /> */}
       <Footer />
     </>

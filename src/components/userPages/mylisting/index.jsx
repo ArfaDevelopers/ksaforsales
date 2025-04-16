@@ -27,6 +27,7 @@ import {
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import Header from "../../home/header";
 const MyListe = () => {
   const MySwal = withReactContent(Swal);
 
@@ -107,7 +108,9 @@ const MyListe = () => {
   const handleCloseview = () => setView(false);
   const [sortOrder, setSortOrder] = useState("Newest");
   const [searchQuery, setSearchQuery] = useState("");
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
     // Sort the filtered cars based on the new sort order
@@ -281,26 +284,7 @@ const MyListe = () => {
     });
   };
 
-  // const deleteItem = async (id, category) => {
-  //   try {
-  //     if (!id || !category) {
-  //       console.error("Invalid ID or Category");
-  //       return;
-  //     }
 
-  //     // Get the correct Firestore collection name
-  //     const tableName = categoryMapping[category] || category;
-
-  //     const docRef = doc(db, tableName, id);
-  //     await deleteDoc(docRef);
-
-  //     console.log(`Deleted item with ID: ${id} from collection: ${tableName}`);
-  //   } catch (error) {
-  //     console.error("Error deleting item:", error);
-  //   }
-  // };
-
-  // console.log(cars, "carsData_____SPORTSGAMESCompcars");
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true);
@@ -507,7 +491,7 @@ const MyListe = () => {
               <i className="fa-regular fa-circle-stop" />{" "}
               {formatCategory(record.category)}
             </Link>{" "}
-            <span className="discount-amt">${record.Price}</span>
+            <span className="discount-amt" style={{color:"#2d4495"}}>${record.Price}</span>
           </div>
           <p>{record.tagline}.</p>
         </>
@@ -565,7 +549,7 @@ const MyListe = () => {
             onClick={() =>
               deleteItem(record.id, formatCategory(record.Category))
             }
-            style={{ display: "inline-flex", alignItems: "center" }}
+            style={{ display: "inline-flex", alignItems: "center" ,backgroundColor:"#2d4495"}}
           >
             <i className="feather-trash-2" />
           </Link>
@@ -576,8 +560,24 @@ const MyListe = () => {
   ];
 
   const parms = useLocation().pathname;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <>
+
       <Modal show={view} onHide={handleCloseview} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="text-primary">Property Details</Modal.Title>
@@ -707,38 +707,13 @@ const MyListe = () => {
           )}
         </Modal.Footer>
       </Modal>
-      <UserHeader parms={parms} />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">My Listing</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/index">Home</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    My Listing
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / My Listing</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Dashboard Content */}
+
+      <Header  />
+   
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">
@@ -793,9 +768,10 @@ const MyListe = () => {
                 <h4>My Listings</h4>
                 <Link
                   className="nav-link header-login add-listing"
+                  style={{backgroundColor:"#2d4495"}}
                   to="/add-listing"
                 >
-                  <i className="fa-solid fa-plus" /> Add Listing
+                  <i className="fa-solid fa-plus"  /> Add Listing
                 </Link>
               </div>
               <div className="card-body">

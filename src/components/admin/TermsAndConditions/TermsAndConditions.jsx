@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   FaGavel,
   FaUserShield,
@@ -29,27 +29,28 @@ const TermsAndConditions = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <>
       <Header />
-
       <div
-        className="parent-main"
-        style={{
-          paddingLeft: "2px", // Padding on the left side
-          paddingRight: "2px", // Padding on the right side
-          color: "black", // Text color
-          maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
-          margin: "0 auto", // Optional: Center the container if desired
-        }}
+      className="dashboard-content"
+      style={{
+        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+      }}
       >
-        {/* Hero Section */}
-        <section className="bg-dark text-light text-center py-5">
-          <div className="container">
-            <h1 className="display-4 fw-bold">Terms and Conditions</h1>
-            <p className="lead">Last Updated: March 2025</p>
-          </div>
-        </section>
+  
         <Container
           className="parent-main"
           style={{
@@ -58,7 +59,7 @@ const TermsAndConditions = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: "3%",
+            marginLeft: window.innerWidth <= 576 ? "-1rem" : "12.5%",
           }}
         >
           <div
@@ -210,20 +211,7 @@ const TermsAndConditions = () => {
             </div>
           </div>
         </section>
-        {/* Contact Section */}
-        {/* <section className="bg-light py-5">
-          <div className="container text-center">
-            <h2 className="fw-bold">Need Help?</h2>
-            <p>
-              If you have any questions regarding these terms, please contact
-              us.
-            </p>
-            <a href="mailto:support@KSA4Sale.com" className="btn btn-primary">
-              Contact Support
-            </a>
-          </div>
-        </section> */}
-        {/* Footer */}
+    
         <Footer />
       </div>
     </>

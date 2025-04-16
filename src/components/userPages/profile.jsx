@@ -311,39 +311,12 @@ const Profile = () => {
   };
   return (
     <>
-      <UserHeader />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">Profile</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Profile
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / Profile</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Profile Content */}
+      <Header />
+      
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">
@@ -449,8 +422,8 @@ const Profile = () => {
                             Your Full Name
                           </label>
                           <div className="pass-group group-img">
-                            <span className="lock-icon">
-                              <i className="feather-user" />
+                            <span className="lock-icon" >
+                              <i className="feather-user"style={{color:"#2d4495"}} />
                             </span>
                             <input
                               type="text"
@@ -462,26 +435,7 @@ const Profile = () => {
                         </div>
 
                         <div className="row">
-                          {/* <div className="col-lg-6 col-md-6">
-                            <div className="form-group">
-                              <label className="col-form-label">
-                                Phone Number
-                              </label>
-                              <div className="pass-group group-img">
-                                <span className="lock-icon">
-                                  <i className="feather-phone-call" />
-                                </span>
-                                <input
-                                  type="tel"
-                                  className="form-control"
-                                  value={phoneNumber}
-                                  onChange={(e) =>
-                                    setPhoneNumber(e.target.value)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div> */}
+                         
 
                           <div className="col-lg-6 col-md-6">
                             <div className="form-group">
@@ -489,7 +443,7 @@ const Profile = () => {
                                 Email Address
                               </label>
                               <div className="group-img">
-                                <i className="feather-mail" />
+                                <i className="feather-mail" style={{color:"#2d4495"}}/>
                                 <input
                                   type="text"
                                   className="form-control"
@@ -501,7 +455,7 @@ const Profile = () => {
                           </div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn "style={{backgroundColor:"#2d4495",color:"white"}}>
                           Update Profile
                         </button>
                       </form>
@@ -523,7 +477,7 @@ const Profile = () => {
                           </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" />
+                              <i className="feather-lock" style={{color:"#2d4495"}}/>
                             </span>
                             <input
                               type="password"
@@ -542,7 +496,7 @@ const Profile = () => {
                           <label className="col-form-label">New Password</label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" />
+                              <i className="feather-lock" style={{color:"#2d4495"}} />
                             </span>
                             <input
                               type={passwordType}
@@ -569,7 +523,7 @@ const Profile = () => {
                           </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" />
+                              <i className="feather-lock" style={{color:"#2d4495"}}/>
                             </span>
                             <input
                               type={passwordType}
@@ -592,7 +546,7 @@ const Profile = () => {
                           </div>
                         </div>
 
-                        <button className="btn btn-primary" type="submit">
+                        <button className="btn" type="submit" style={{backgroundColor:"#2d4495",color:"white"}}>
                           Change Password
                         </button>
                       </form>

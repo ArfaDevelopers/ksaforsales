@@ -55,6 +55,7 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
+import { Modal, Button, Form } from "react-bootstrap";
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -65,7 +66,8 @@ const ServiceDetails = () => {
   };
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
-
+  const [successShow, setSuccessShow] = useState(false);
+  const handleSuccessClose = () => setSuccessShow(false);
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
@@ -85,6 +87,104 @@ const ServiceDetails = () => {
   const [userData, setUserData] = useState([]);
   const [filteredData, setfilteredData] = useState({});
 
+  const [showModal1, setShowModal1] = useState(false);
+  const link = getQueryParam("link") || window.location.href;
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(link);
+    alert("Link copied to clipboard!");
+  };
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const [reportText, setReportText] = useState("");
+  const [selectedReports, setSelectedReports] = useState([]);
+  const handleCheckboxChange = (type) => {
+    setSelectedReports((prev) =>
+      prev.includes(type)
+        ? prev.filter((item) => item !== type)
+        : [...prev, type]
+    );
+  };
+  const [show, setShow] = useState(false);
+  const [reportTypes, setReportTypes] = useState([
+    "Sexual",
+    "Illegal",
+    "Abusive",
+    "Harassment",
+    "Fraud",
+    "Spam",
+  ]);
+  const handleSubmit = async () => {
+    console.log("Report Submitted:", { reportText, selectedReports });
+
+    const NewId =
+      callingFrom === "AutomotiveComp" ||
+      callingFrom === "ElectronicComp" ||
+      callingFrom === "FashionStyle" ||
+      callingFrom === "HealthCareComp" ||
+      callingFrom === "JobBoard" ||
+      callingFrom === "Education" ||
+      callingFrom === "RealEstateComp" ||
+      callingFrom === "TravelComp" ||
+      callingFrom === "SportGamesComp" ||
+      callingFrom === "PetAnimalsComp"
+        ? _Id
+        : "default_id"; // Default if not matched
+
+    const collectionName =
+      callingFrom === "AutomotiveComp"
+        ? "Cars"
+        : callingFrom === "ElectronicComp"
+        ? "ELECTRONICS"
+        : callingFrom === "FashionStyle"
+        ? "FASHION"
+        : callingFrom === "HealthCareComp"
+        ? "HEALTHCARE"
+        : callingFrom === "JobBoard"
+        ? "JOBBOARD"
+        : callingFrom === "Education"
+        ? "Education"
+        : callingFrom === "RealEstateComp"
+        ? "REALESTATECOMP"
+        : callingFrom === "TravelComp"
+        ? "TRAVEL"
+        : callingFrom === "SportGamesComp"
+        ? "SPORTSGAMESComp"
+        : callingFrom === "PetAnimalsComp"
+        ? "PETANIMALCOMP"
+        : "books";
+
+    try {
+      const adsCollection = collection(db, collectionName);
+      const docRef = doc(adsCollection, NewId); // Target document ID
+
+      // Fetch existing document
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists()) {
+        // Get existing data
+        const existingData = docSnapshot.data();
+
+        // Merge new selectedReports with existing reportTypes (if present)
+        const updatedReportTypes = existingData.reportTypes
+          ? [...existingData.reportTypes, ...selectedReports]
+          : selectedReports; // If reportTypes is missing, initialize it
+
+        // Update only the reportTypes field
+        await updateDoc(docRef, {
+          reportTypes: updatedReportTypes,
+        });
+
+        console.log("Document updated successfully:", updatedReportTypes);
+      } else {
+        console.log("Document does not exist.");
+      }
+
+      handleClose();
+      setSuccessShow(true);
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
   const [userId, setUserId] = useState(null);
   console.log(filteredData, "userDataitemData__________itemData");
   const formatValue = (value) => {
@@ -202,7 +302,9 @@ const ServiceDetails = () => {
           return;
         }
         // const callingFrom = getQueryParam("callingFrom");
-
+        useEffect(() => {
+          window.scrollTo(0, 0);
+        }, [location]);
         const docRef = doc(db, collectionNames, ids);
         const docSnap = await getDoc(docRef);
         console.log("No document found docSnap___-", docSnap);
@@ -270,7 +372,7 @@ const ServiceDetails = () => {
       {/*Details Description  Section*/}
       <section className="details-description">
         <div className="container">
-          <div className="about-details">
+          <div className="about-details" style={{marginTop:130}}>
             <div className="about-headings">
               <div className="author-img">
                 <img src={ProfileAvatar10} alt="authorimg" />
@@ -294,7 +396,7 @@ const ServiceDetails = () => {
                     fontSize: "60px",
                     fontWeight: "bold",
                     marginLeft: 70,
-                    color:"blue"
+                    color:"#2d4495"
                   }}
                 >
                   ${filteredData?.Price}
@@ -306,43 +408,43 @@ const ServiceDetails = () => {
             <div className="row">
               <div className="col-lg-9">
                 <ul>
-                  <li>
+                  {/* <li>
                     <Link to="#">
-                      <i className="feather-map" /> Get Directions
+                      <i className="feather-map" style={{color:"#2d4495"}} /> Get Directions
                     </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <img src={website} alt="website" />
+                  </li> */}
+                  {/* <li>
+                    <Link to="#" >
+                      <img src={website} alt="website" style={{ filter: 'invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)' }} />
                       Website
                     </Link>
+                  </li> */}
+                  <li onClick={() => setShowModal1(true)}>
+                   
+                      <i className="feather-share-2"  style={{color:"#2d4495"}} /> share
+                   
+                    
                   </li>
+                  
                   <li>
                     <Link to="#">
-                      <i className="feather-share-2" /> share
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <i className="fa-regular fa-comment-dots" /> Write a
+                      <i className="fa-regular fa-comment-dots"  style={{color:"#2d4495"}}/> Write a
                       review
                     </Link>
                   </li>
-                  <li>
-                    <Link to="#">
-                      <i className="feather-flag" /> report
-                    </Link>
+                  <li onClick={handleShow}>
+                      <i className="feather-flag"  style={{color:"#2d4495"}}/> report
                   </li>
                   <li>
                     <Link to="#">
-                      <i className="feather-heart" /> Save
+                      <i className="feather-heart"  style={{color:"#2d4495"}}/> Save
                     </Link>
                   </li>
                 </ul>
               </div>
               <div className="col-lg-3">
                 <div className="callnow">
-                  <Link to="contact.html">
+                  <Link to="contact.html" style={{backgroundColor:"#2d4495",color:"white" }}>
                     {" "}
                     <i className="feather-phone-call" /> Call Now
                   </Link>
@@ -353,9 +455,190 @@ const ServiceDetails = () => {
         </div>
       </section>
       {/*/Details Description  Section*/}
+
+              <Modal 
+              style={{marginTop:20}}
+              show={show} onHide={handleClose} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Submit a Report</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group controlId="reportText">
+                    <Form.Label>Report Details</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="Describe the issue..."
+                      value={reportText}
+                      onChange={(e) => setReportText(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mt-3">
+                    <Form.Label>Report Type</Form.Label>
+                    {reportTypes.map((type, index) => (
+                      <Form.Check
+                        key={index}
+                        type="checkbox"
+                        label={type}
+                        checked={selectedReports.includes(type)}
+                        onChange={() => handleCheckboxChange(type)}
+                      />
+                    ))}
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button    style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+      }}
+       onClick={handleClose}
+       onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+        e.currentTarget.style.color = "#fff"; // Force same text color
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+        e.currentTarget.style.color = "#fff"; // Restore same text color
+      }}
+       >
+                  Close
+                </Button>
+                <Button
+                     style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      border: "none",
+                      fontWeight: "bold",
+                      borderRadius: 10,
+                      transition: "none", // Disable transitions
+                      outline: "none", // Remove focus outline
+                      boxShadow: "none", // Remove any shadow changes
+                      cursor: "pointer" // Maintain clickable appearance
+                    }}
+                  onClick={handleSubmit}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.color = "#fff"; // Force same text color
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.color = "#fff"; // Restore same text color
+                  }}
+                  // disabled={!reportText || selectedReports.length === 0}
+                  // disabled={selectedReports.length === 0}
+                >
+                  Submit Report
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          
+            <Modal
+  style={{ marginTop: 20 }}
+  show={successShow}
+  onHide={handleSuccessClose}
+  centered
+>
+  <Modal.Header closeButton>
+    <Modal.Title>Success</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <p>Your report has been submitted successfully!</p>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button
+      style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+      }}
+      onClick={handleSuccessClose}
+      onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+        e.currentTarget.style.color = "#fff"; // Force same text color
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+        e.currentTarget.style.color = "#fff"; // Restore same text color
+      }}
+    >
+      OK
+    </Button>
+  </Modal.Footer>
+</Modal>
+                {/* Modal */}
+                {showModal1 && (
+                  <>
+                    <div
+                      className="modal fade show d-block"
+                      tabIndex="-1"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100vw",
+                        height: "100vh",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+                        zIndex: 1050,
+                      }}
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title">Share</h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              onClick={() => setShowModal1(false)}
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <h3 style={{ wordBreak: "break-all" }}>{link}</h3>
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn"
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              onClick={copyToClipboard}
+                            >
+                              Copy
+                            </button>
+                            <button
+                              type="button"
+                              className="btn "
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              onClick={() => setShowModal1(false)}
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
       {/*Details Main  Section*/}
       <div className="details-main-wrapper">
-        <div className="container">
+        <div className="container" style={{marginTop:-60}}>
           <div className="row">
             <div className="col-lg-9">
               <div className="card ">
@@ -371,105 +654,10 @@ const ServiceDetails = () => {
                   <p>{filteredData?.description}</p>
                 </div>
               </div>
-              {/*Listing Features Section*/}
-              {/* <div className="card ">
-                <div className="card-header">
-                  <i className="feather-list" />
-                  <h4>Listing Features</h4>
-                </div>
-                <div className="card-body">
-                  <div className="lisiting-featues">
-                    <div className="row">
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_1_svg} alt="Room amenties" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Room <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_2_svg} alt="Bathroom amenities" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Bathroom <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_3_svg} alt="Media Technology" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Media &amp; Technology <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_4_svg} alt="Food Security" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Food &amp; Security <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_5_svg} alt="Media Technology" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Services &amp; Extra <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_6_svg} alt="Media Technology" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Outdoor &amp; View <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex  access-feature align-items-center col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_7_svg} alt="Media Technology" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Accessibility <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="featureslist d-flex align-items-center access-feature col-lg-4 col-md-4">
-                        <div className="feature-img">
-                          <img src={Feature_8_svg} alt="Media Technology" />
-                        </div>
-                        <div className="featues-info">
-                          <h6>
-                            Safety &amp; Security
-                            <br /> amenities
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-              {/*/Listing Features Section*/}
-              {/*Gallery Section*/}
+          
               <div className="card gallery-section ">
-                <div className="card-header ">
-                  <img src={galleryicon} alt="gallery" />
+                <div className="card-header " >
+                  <img src={galleryicon} alt="gallery" style={{ filter: 'invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)' }}/>
                   <h4>Gallery</h4>
                 </div>
                 <div className="card-body">
@@ -478,11 +666,10 @@ const ServiceDetails = () => {
                   </div>
                 </div>
               </div>
-              {/*/Gallery Section*/}
-              {/*Ratings Section*/}
+            
               <div className="card ">
                 <div className="card-header  align-items-center">
-                  <i className="feather-star" />
+                  <i className="feather-star" style={{color:"#2d4495"}}/>
                   <h4>Ratings</h4>
                 </div>
                 <div className="card-body">
@@ -582,226 +769,14 @@ const ServiceDetails = () => {
                   </div>
                 </div>
               </div>
-              {/*/Ratings Section*/}
-              {/*Review  Section*/}
-              {/* <div className="card review-sec  mb-0">
-                <div className="card-header  align-items-center">
-                  <i className="fa-regular fa-comment-dots" />
-                  <h4>Write a Review</h4>
-                </div>
-                <div className="card-body">
-                  <div className="review-list">
-                    <ul className="">
-                      <li className="review-box ">
-                        <div className="review-profile">
-                          <div className="review-img">
-                            <img
-                              src={avatar_11}
-                              className="img-fluid"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="review-details">
-                          <h6>Joseph</h6>
-                          <div className="rating">
-                            <div className="rating-star">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fa-regular fa-star rating-overall" />
-                            </div>
-                            <div>
-                              <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                              4 months ago
-                            </div>
-                            <div>by: Demo Test</div>
-                          </div>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book.
-                          </p>
-
-                          <RoomsProfile />
-
-                          <div className="reply-box ">
-                            <p>
-                              Was This Review...?{" "}
-                              <Link to="#" className="thumbsup">
-                                <i className="feather-thumbs-up" /> Like{" "}
-                              </Link>
-                              <Link to="#" className="thumbsdown">
-                                <i className="feather-thumbs-down" /> Dislike{" "}
-                              </Link>
-                            </p>
-                            <Link to="#" className="replylink">
-                              <i className="feather-corner-up-left" /> Reply
-                            </Link>
-                          </div>
-                        </div>
-                      </li>
-                      <li className="review-box">
-                        <div className="review-profile">
-                          <div className="review-img">
-                            <img
-                              src={ProfileAvatar02}
-                              className="img-fluid"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="review-details">
-                          <h6>Dev</h6>
-                          <div className="rating">
-                            <div className="rating-star">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fa-regular fa-star rating-overall" />
-                            </div>
-                            <div>
-                              <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                              4 months ago
-                            </div>
-                            <div>by: Demo Test</div>
-                          </div>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book.
-                          </p>
-                        </div>
-                      </li>
-                      <li className="review-box">
-                        <div className="review-profile">
-                          <div className="review-img">
-                            <img
-                              src={ProfileAvatar01}
-                              className="img-fluid"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="review-details">
-                          <h6>Johnson</h6>
-                          <div className="rating">
-                            <div className="rating-star">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fa-regular fa-star rating-overall" />
-                            </div>
-                            <div>
-                              <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                              4 months ago
-                            </div>
-                            <div>by: Demo Test</div>
-                          </div>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book.
-                          </p>
-                          <div className="reply-box ">
-                            <p>
-                              Was This Review...?{" "}
-                              <Link to="#" className="thumbsup">
-                                <i className="feather-thumbs-up" /> Like{" "}
-                              </Link>
-                              <Link to="#" className="thumbsdown">
-                                <i className="feather-thumbs-down" /> Dislike{" "}
-                              </Link>
-                            </p>
-                            <Link to="#" className="replylink">
-                              <i className="feather-corner-up-left" /> Reply
-                            </Link>
-                          </div>
-                        </div>
-                      </li>
-                      <li className="review-box feedbackbox mb-0">
-                        <div className="review-details">
-                          <h6>Leave feedback about this</h6>
-                        </div>
-                        <div className="card-body">
-                          <form className="">
-                            <div className="form-group">
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Title"
-                              />
-                            </div>
-                            <div className="namefield">
-                              <div className="form-group">
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="Name*"
-                                  required=""
-                                />
-                              </div>
-                              <div className="form-group me-0">
-                                <input
-                                  type="email"
-                                  className="form-control"
-                                  placeholder="Email*"
-                                  required=""
-                                />
-                              </div>
-                            </div>
-                            <div className="form-group">
-                              <textarea
-                                rows={4}
-                                className="form-control"
-                                placeholder="Write a Review*"
-                                required=""
-                                defaultValue={""}
-                              />
-                            </div>
-                            <div className="reviewbox-rating">
-                              <p>
-                                <span> Rating</span>
-                                <i className="fas fa-star filled" />
-                                <i className="fas fa-star filled" />
-                                <i className="fas fa-star filled" />
-                                <i className="fas fa-star filled" />
-                                <i className="fas fa-star filled" />
-                              </p>
-                            </div>
-                            <div className="submit-section">
-                              <button
-                                className="btn btn-primary submit-btn"
-                                type="submit"
-                              >
-                                {" "}
-                                Submit Review
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div> */}
-              {/*/Review Section*/}
+            
             </div>
             <div className="col-lg-3 theiaStickySidebar">
               <StickyBox>
                 <div className="rightsidebar">
                   <div className="card">
                     <h4>
-                      <img src={details_icon} alt="details-icon" /> Details
+                      <img src={details_icon} alt="details-icon" style={{ filter: 'invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)' }}/> Details
                     </h4>
                     <ul>
                       {[
@@ -917,13 +892,13 @@ const ServiceDetails = () => {
                   </div> */}
                   <div className="card">
                     <h4>
-                      <img src={statistic_icon} alt="location" /> Statistics
+                      <img src={statistic_icon} alt="location" style={{ filter: 'invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)' }}/> Statistics
                     </h4>
                     <ul className="statistics-list">
                       <li>
                         <div className="statistic-details">
                           <span className="icons">
-                            <i className="fa-regular fa-eye" />
+                            <i className="fa-regular fa-eye"style={{color:"#2d4495"}} />
                           </span>
                           Views{" "}
                         </div>
@@ -932,7 +907,7 @@ const ServiceDetails = () => {
                       <li>
                         <div className="statistic-details">
                           <span className="icons">
-                            <i className="feather-star" />
+                            <i className="feather-star" style={{color:"#2d4495"}}/>
                           </span>
                           Ratings{" "}
                         </div>
@@ -941,7 +916,7 @@ const ServiceDetails = () => {
                       <li>
                         <div className="statistic-details">
                           <span className="icons">
-                            <i className="feather-heart" />
+                            <i className="feather-heart"style={{color:"#2d4495"}} />
                           </span>
                           Favorites{" "}
                         </div>
@@ -950,7 +925,7 @@ const ServiceDetails = () => {
                       <li className="mb-0">
                         <div className="statistic-details">
                           <span className="icons">
-                            <i className="feather-share-2" />
+                            <i className="feather-share-2" style={{color:"#2d4495"}}/>
                           </span>
                           Shares{" "}
                         </div>
@@ -960,7 +935,7 @@ const ServiceDetails = () => {
                   </div>
                   <div className="card">
                     <h4>
-                      <i className="feather-user" /> {filteredData.title}
+                      <i className="feather-user" style={{color:"#2d4495"}}/> {filteredData.title}
                     </h4>
                     <div className="sidebarauthor-details align-items-center">
                       <div className="sideauthor-img">
@@ -972,43 +947,7 @@ const ServiceDetails = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="card mb-0">
-                    <h4>
-                      <i className="feather-phone-call" /> Contact Business
-                    </h4>
-                    <form className="contactbusinessform">
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Name"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="Email Address"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <textarea
-                          rows={6}
-                          className="form-control"
-                          placeholder="Message"
-                          defaultValue={""}
-                        />
-                      </div>
-                      <div className="submit-section">
-                        <button
-                          className="btn btn-primary submit-btn"
-                          type="submit"
-                        >
-                          Send Message
-                        </button>
-                      </div>
-                    </form>
-                  </div> */}
+            
                 </div>
               </StickyBox>
             </div>

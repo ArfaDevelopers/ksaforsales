@@ -255,19 +255,54 @@ const AutomotiveComp = () => {
         i === totalPages ||
         (i >= activePage - 1 && i <= activePage + 1)
       ) {
+        const isActive = i === activePage;
         pages.push(
-          <Button
+          <button
             key={i}
-            variant={i === activePage ? "primary" : "outline-primary"}
-            className="mx-1"
+            style={{
+              backgroundColor: isActive ? '#2d4495' : 'white',
+              color: isActive ? 'white' : 'black',
+              border: '1px solid #ccc', // Subtle border for non-active buttons
+              padding: '6px 12px',
+              margin: '0 4px',
+              cursor: 'pointer',
+              outline: 'none',
+              fontSize: '1rem',
+              lineHeight: '1.5',
+              borderRadius: '4px',
+              fontWeight: isActive ? 'bold' : 'normal'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </Button>
+          </button>
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
-          <span key={`ellipsis-${i}`} className="mx-1">
+          <span
+            key={`ellipsis-${i}`}
+            style={{
+              margin: '0 4px',
+              color: '#333',
+              display: 'inline-flex',
+              alignItems: 'center',
+              verticalAlign: 'middle',
+              fontSize: '1rem',
+              lineHeight: '1.5'
+            }}
+          >
             ...
           </span>
         );
@@ -998,10 +1033,11 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                // background: "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Home
@@ -1013,10 +1049,10 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Automotive
@@ -1028,10 +1064,10 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               All Cities
@@ -1043,10 +1079,10 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Used Car for Sale
@@ -1058,10 +1094,10 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Mercedez Benz
@@ -1070,7 +1106,7 @@ const AutomotiveComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               Used Cars for Sale
             </h1>
@@ -1083,8 +1119,8 @@ const AutomotiveComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-              marginBottom: "20px",
-              marginTop: "20px",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
           >
             <button
@@ -1095,8 +1131,9 @@ const AutomotiveComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Cars
@@ -1109,8 +1146,9 @@ const AutomotiveComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Jobs
@@ -1123,8 +1161,9 @@ const AutomotiveComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Real Estate for Rent
@@ -1134,8 +1173,9 @@ const AutomotiveComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Home & Garden
@@ -1148,8 +1188,9 @@ const AutomotiveComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Electronics
@@ -1178,8 +1219,8 @@ const AutomotiveComp = () => {
                   color: "white",
                   width: "auto",
                   height: "49.66px",
-                  paddingLeft: "6px",
-                  paddingTop: "6px",
+                  paddingLeft: "12px",
+                  paddingTop: "12px",
                 }}
               >
                 Show Results by:
@@ -2859,7 +2900,7 @@ const AutomotiveComp = () => {
 
                     return (
 
-                    <Card key={index} className="mt-3">
+                    <Card key={index} className="mt-3" style={{padding: window.innerWidth <= 576 ? "10px 10px" : "30px 20px",}}>
                       <Row className="g-0">
                         <Col md={4} style={{ position: "relative" }}>
                           {/* Featured Label */}
@@ -2870,7 +2911,7 @@ const AutomotiveComp = () => {
                               left: "10px",
                               backgroundColor: "#36A680",
                               color: "white",
-                              padding: "5px 10px",
+                              // padding: "5px 10px",
                               fontWeight: "bold",
                               borderRadius: "5px",
                               zIndex: 2, // Ensure it's above the image
@@ -2882,7 +2923,7 @@ const AutomotiveComp = () => {
                           <div
                             style={{
                               position: "absolute",
-                              top: "11%",
+                              top: "15%",
                               left: "90%",
                               transform: "translate(-50%, -50%)",
                               borderRadius: "50%",
@@ -2945,7 +2986,7 @@ const AutomotiveComp = () => {
 
                         <Col md={8}>
                           <Card.Body>
-                            <Card.Title style={{ color: "#2D4495" }}>
+                            <Card.Title style={{ color: "#2D4495",marginTop: window.innerWidth <= 576 ? "-2px" : "0px" }}>
                               {car.title || "Car"}
                             </Card.Title>
                             <Card.Text style={{ color: "black" }}>
@@ -2962,7 +3003,7 @@ const AutomotiveComp = () => {
                                 </span>
                               </small>
 
-                              <br />
+                              {/* <br /> */}
                               {/* <small style={{ color: "black" }}>
                                 {car.ManufactureYear || "Year"} |{" "}
                                 {car.DrivenKm || "0"} Km |{" "}
@@ -2976,13 +3017,15 @@ const AutomotiveComp = () => {
 
                             <Col
                               className="align-items-center"
-                              style={{ position: "relative" }}
-                            >
+                              style={{ position: "relative", marginTop: window.innerWidth <= 576 ? "-10px" : "30px"}}
+                              
+                              >
                               {/* Price displayed above the image */}
                               <p
                                 style={{
                                   position: "absolute",
                                   top: "-140px", // Adjust the top margin to place the price higher
+                                  
                                   left: "500px",
                                   fontWeight: "bold",
                                   fontSize: "20px",
@@ -3027,7 +3070,7 @@ const AutomotiveComp = () => {
                                   position: "absolute",
                                   right: "5px",
                                   // fontSize: '12px',
-                                  color: "#6c757d",
+                                  // color: "#6c757d",
                                   marginTop: window.innerWidth <= 576 ? "35px" : "54px",
                                   marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
                                   color: "black",
@@ -3079,7 +3122,7 @@ const AutomotiveComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{  marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
+      style={{  marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3097,7 +3140,7 @@ const AutomotiveComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3111,7 +3154,7 @@ const AutomotiveComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -3136,7 +3179,7 @@ const AutomotiveComp = () => {
                                    
                                       marginRight: window.innerWidth <= 576 ? "20px" : "60px",
 
-                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
+                                      marginTop: window.innerWidth <= 576 ? "5px" : "50px",
 
 
                                       
@@ -3225,26 +3268,38 @@ const AutomotiveComp = () => {
                 )}
               </div>
               <div className="d-flex align-items-center justify-content-center my-4">
-                <Button
-                  variant="outline-primary"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === 1}
-                  onClick={() => handlePageClick(activePage - 1)}
-                >
-                  <FaArrowLeft className="me-1" /> Previous
-                </Button>
+  <Button
+    variant="#2d4495"
+    className="d-flex align-items-center mx-2"
+    disabled={activePage === 1}
+    onClick={() => handlePageClick(activePage - 1)}
+    style={{
+      backgroundColor: '#2d4495',
+      color: 'white',
+      border: 'none',
+      transition: 'none',
+    }}
+  >
+    <FaArrowLeft className="me-1" /> Previous
+  </Button>
 
-                <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
+  <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
 
-                <Button
-                  variant="outline-primary"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === totalPages}
-                  onClick={() => handlePageClick(activePage + 1)}
-                >
-                  Next <FaArrowRight className="ms-1" />
-                </Button>
-              </div>
+  <Button
+    variant="#2d4495"
+    className="d-flex align-items-center mx-2"
+    disabled={activePage === totalPages}
+    onClick={() => handlePageClick(activePage + 1)}
+    style={{
+      backgroundColor: '#2d4495',
+      color: 'white',
+      border: 'none',
+      transition: 'none',
+    }}
+  >
+    Next <FaArrowRight className="ms-1" />
+  </Button>
+</div>
 
               {/*           parent div end here                                    */}
             </Col>

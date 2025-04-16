@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 // import categories from "../categoiresData/categoiresData";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import Footer from "../../home/footer/Footer.jsx";
-import Header from "../../dyanmic_routes/header/index";
+import Header from "../../home/header";
 import { v4 as uuidv4 } from "uuid"; // For unique visitor tracking
 
 import {
@@ -46,11 +46,24 @@ const CategoryDetail = () => {
   const handleShareClick = () => {
     setShowModal(true);
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const handleCopyLink = () => {
     navigator.clipboard.writeText(categories.image);
     alert("Link copied to clipboard!");
@@ -139,70 +152,102 @@ const CategoryDetail = () => {
 
     trackVisit();
   }, []);
-  // useEffect(() => {
-  //   const updateVisitCount = async () => {
-  //     const visitDocRef = doc(db, "WebsiteStats", "visitCount");
+  const [callButtonStyles, setCallButtonStyles] = useState({
+    backgroundColor: "#2d4495",
+    borderColor: "#2d4495",
+    color: "black",
+  });
 
-  //     try {
-  //       const visitDoc = await getDoc(visitDocRef);
+  // State to manage hover styles for WhatsApp button
+  const [whatsappButtonStyles, setWhatsappButtonStyles] = useState({
+    backgroundColor: "#0c9e6f",
+    borderColor: "#0c9e6f",
+    color: "black",
+  });
 
-  //       if (visitDoc.exists()) {
-  //         // Get the existing count
-  //         const currentCount = visitDoc.data().count || 0;
+  // Hover handlers for Call button
+  const handleCallMouseEnter = () => {
+    setCallButtonStyles({
+      backgroundColor: "white",
+      borderColor: "#2d4495",
+      color: "#2d4495",
+    });
+  };
 
-  //         // Update Firestore and increment count
-  //         await updateDoc(visitDocRef, { count: increment(1) });
+  const handleCallMouseLeave = () => {
+    setCallButtonStyles({
+      backgroundColor: "#2d4495",
+      borderColor: "#2d4495",
+      color: "black",
+    });
+  };
 
-  //         // Update local state
-  //         setVisitCount(currentCount + 1);
-  //       } else {
-  //         // If no record exists, create one
-  //         await setDoc(visitDocRef, { count: 1 });
-  //         setVisitCount(1);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error updating visit count:", error);
-  //     }
-  //   };
+  // Hover handlers for WhatsApp button
+  const handleWhatsappMouseEnter = () => {
+    setWhatsappButtonStyles({
+      backgroundColor: "white",
+      borderColor: "#0c9e6f",
+      color: "#0c9e6f",
+    });
+  };
 
-  //   updateVisitCount();
-  // }, []);
+  const handleWhatsappMouseLeave = () => {
+    setWhatsappButtonStyles({
+      backgroundColor: "#0c9e6f",
+      borderColor: "#0c9e6f",
+      color: "black",
+    });
+  };
   return (
+    <>
     <Container className="mt-5">
       <Header />
 
-      <Button variant="light" onClick={() => navigate(-1)}>
-        <FaArrowLeft /> Back
-      </Button>
+      <Container className="parent-main" style={{ maxWidth: "1530px", paddingTop: "230px",marginTop: window.innerWidth <= 576 ? "-9rem" : "-6rem", marginLeft:-10 }}>
       <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
-        <div
-          className="d-flex align-items-center mt-44"
-          style={{ marginTop: "7rem" }}
-        >
-          <button className="btn btn-light" onClick={() => navigate("/")}>
-            Home
-          </button>
-          <span className="mx-2">
-            <MdKeyboardArrowRight />
-          </span>
+        <div className="d-flex align-items-center flex-wrap gap-2">
+      <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+              onClick={() => navigate("/")}
+            >
+              Home
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
           <button
-            className="btn btn-light"
-            onClick={() => navigate("/CommercialAdscom")}
-          >
-            CommercialAds
-          </button>
-          <span className="mx-2">
-            <MdKeyboardArrowRight />
-          </span>
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+              onClick={() => navigate("/CommercialAdscom")}
+            >
+              CommercialAds
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
           <button
-            className="btn btn-light"
-            // onClick={() => navigate("/ElectronicComp")}
-          >
-            Commercial ad details
-          </button>
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              Commercial ad details
+            </button>
         </div>
       </div>
-      <Card className="text-center position-relative">
+    </Container>
+      <Card className="text-center position-relative" style={{marginBottom: window.innerWidth <= 576 ? "63rem" : "0rem",marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem",}}>
         {/* Wrapper for top-left and top-right text */}
         <div
           style={{
@@ -219,7 +264,8 @@ const CategoryDetail = () => {
             style={{
               height: "0rem",
               fontSize: "18px",
-              marginLeft: "1.6rem",
+              // marginLeft: "1.6rem",
+              marginLeft: window.innerWidth <= 576 ? "-7rem" : "1.6rem",
               paddingTop: "1rem",
             }}
           >
@@ -236,7 +282,7 @@ const CategoryDetail = () => {
               fontWeight: "bold",
               cursor: "pointer",
               fontSize: "18px",
-              marginRight: "1.6rem",
+              marginRight: window.innerWidth <= 576 ? "-7rem" : "1.6rem",
               // marginTop: "-5px", // Adjust this value as needed
             }}
             onClick={handleShareClick}
@@ -300,23 +346,49 @@ const CategoryDetail = () => {
           }}
         />
 
-        <Card.Body>
-          <div className="d-flex justify-content-center gap-3 mt-3">
-            <Button variant="success" onClick={handleOpenCall}>
-              <FaPhone /> Call
-            </Button>
-            <Button variant="success" onClick={handleOpenWhatsapp}>
-              <FaWhatsapp /> WhatsApp
-            </Button>
-          </div>
-        </Card.Body>
+<Card>
+      <Card.Body>
+        <div className="d-flex justify-content-center gap-3 mt-3">
+          <Button
+            variant="primary"
+            className="d-flex align-items-center gap-1"
+            style={{
+              ...callButtonStyles,
+              transition: "all 0.2s ease", // Smooth transition
+              padding: "0.375rem 0.75rem", // Match Bootstrap default
+            }}
+            onClick={handleOpenCall}
+            onMouseEnter={handleCallMouseEnter}
+            onMouseLeave={handleCallMouseLeave}
+          >
+            <IoCallOutline style={{ fontSize: "1.5rem", color: callButtonStyles.color }} />
+            <span style={{ color: callButtonStyles.color }}>Call</span>
+          </Button>
+          <Button
+            variant="primary"
+            className="d-flex align-items-center gap-1"
+            style={{
+              ...whatsappButtonStyles,
+              transition: "all 0.2s ease",
+              padding: "0.375rem 0.75rem",
+            }}
+            onClick={handleOpenWhatsapp}
+            onMouseEnter={handleWhatsappMouseEnter}
+            onMouseLeave={handleWhatsappMouseLeave}
+          >
+            <FaWhatsapp style={{ fontSize: "1.5rem", color: whatsappButtonStyles.color }} />
+            <span style={{ color: whatsappButtonStyles.color }}>WhatsApp</span>
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
       </Card>
 
       {/* Modal for Call */}
       <Modal show={showCall} onHide={handleCloseCall} centered>
         <Modal.Body className="text-end p-4">
           <div className="d-flex justify-content-between align-items-center">
-            <h5 className="fw-bold">اتصل بالبائع</h5>
+            <h5 className="fw-bold">Call</h5>
             <button onClick={handleCloseCall} className="btn btn-light">
               ✕
             </button>
@@ -334,11 +406,10 @@ const CategoryDetail = () => {
         </Modal.Body>
       </Modal>
 
-      {/* Modal for WhatsApp */}
       <Modal show={showWhatsapp} onHide={handleCloseWhatsapp} centered>
         <Modal.Body className="text-end p-4">
           <div className="d-flex justify-content-between align-items-center">
-            <h5 className="fw-bold">اتصل عبر WhatsApp</h5>
+            <h5 className="fw-bold">WhatsApp</h5>
             <button onClick={handleCloseWhatsapp} className="btn btn-light">
               ✕
             </button>
@@ -358,8 +429,10 @@ const CategoryDetail = () => {
         </Modal.Body>
       </Modal>
 
-      <Footer />
     </Container>
+    <Footer />
+
+    </>
   );
 };
 

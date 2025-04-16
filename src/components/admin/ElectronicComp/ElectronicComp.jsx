@@ -398,19 +398,54 @@ const ElectronicComp = () => {
         i === totalPages ||
         (i >= activePage - 1 && i <= activePage + 1)
       ) {
+        const isActive = i === activePage;
         pages.push(
-          <Button
+          <button
             key={i}
-            variant={i === activePage ? "primary" : "outline-primary"}
-            className="mx-1"
+            style={{
+              backgroundColor: isActive ? '#2d4495' : 'white',
+              color: isActive ? 'white' : 'black',
+              border: '1px solid #ccc', // Subtle border for non-active buttons
+              padding: '6px 12px',
+              margin: '0 4px',
+              cursor: 'pointer',
+              outline: 'none',
+              fontSize: '1rem',
+              lineHeight: '1.5',
+              borderRadius: '4px',
+              fontWeight: isActive ? 'bold' : 'normal'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
+              e.currentTarget.style.color = isActive ? 'white' : 'black';
+            }}
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </Button>
+          </button>
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
-          <span key={`ellipsis-${i}`} className="mx-1">
+          <span
+            key={`ellipsis-${i}`}
+            style={{
+              margin: '0 4px',
+              color: '#333',
+              display: 'inline-flex',
+              alignItems: 'center',
+              verticalAlign: 'middle',
+              fontSize: '1rem',
+              lineHeight: '1.5'
+            }}
+          >
             ...
           </span>
         );
@@ -1251,66 +1286,7 @@ const ElectronicComp = () => {
         <Header parms={parms} />
         <div className="main-wrapper">
           <Header />
-          {/* Banner Section */}
-          {/* <section className="banner-section">
-            <div className="container">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  >
-                    <p className="explore-text banner-text">
-                      <span>Explore top-rated attractions</span>
-                    </p>
-                    <h1>
-                      Let us help you
-                      <span>Find, Buy</span>
-                      <span>Find, Buy</span> & Own Dreams
-                    </h1>
-                    <p className="banner-para">
-                      Countrys most loved and trusted classified ad listing
-                      website. Randomised words which don't look even slightly
-                      Browse thousands of items near you.
-                    </p>
-                  </div>
-                  <div className="bannerimages_wrapper">
-                    <div className="wrapper_container">
-                      <img src={image1} className="banner_img" alt="" />
-                      <img src={image2} className="banner_img" />
-                    </div>
-                    <div className="wrapper_container">
-                      <img src={image3} className="banner_img" alt="" />
-                      <img src={image4} className="banner_img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-          {/* <section
-            className="banner-section bg-no-repeat bg-center w-full"
-            style={{
-              backgroundImage: `url(${"/12750.jpg"})`,
-              backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-              height: "50vh", // Adjust height as needed
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="container mx-auto flex items-center justify-center h-full">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-          {/* Banner Section */}
-
-          {/* Category Section */}
+       
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
               <div className="allMedia_Icons d-none d-md-flex">
@@ -1332,19 +1308,6 @@ const ElectronicComp = () => {
               </div>
             </div>
           </section>
-          {/* Category Section */}
-
-          {/* Featured Ads Section */}
-          {/* Featured Ads Section */}
-
-          {/* All carousel */}
-
-          {/* All carousel */}
-
-          {/* Blog Section */}
-
-          {/* Footer */}
-          {/* Footer */}
         </div>
         <Container
           className="parent-main"
@@ -1370,11 +1333,11 @@ const ElectronicComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
-              }}
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",           
+                 }}
             >
               Home
             </button>
@@ -1388,10 +1351,10 @@ const ElectronicComp = () => {
               }}
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px", 
               }}
             >
               Electronics
@@ -1403,10 +1366,10 @@ const ElectronicComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px", 
               }}
             >
               All Cities
@@ -1418,10 +1381,10 @@ const ElectronicComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px", 
               }}
             >
               Used Laptops for Sale
@@ -1433,10 +1396,10 @@ const ElectronicComp = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px", 
               }}
             >
               Apple Macbook Air M3
@@ -1445,7 +1408,7 @@ const ElectronicComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               Used Laptops for Sale
             </h1>
@@ -1458,9 +1421,8 @@ const ElectronicComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-              marginBottom: "20px",
-              marginTop: "20px",
-            }}
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"            }}
           >
             <button
               onClick={() => {
@@ -1470,8 +1432,9 @@ const ElectronicComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Cars
@@ -1484,8 +1447,9 @@ const ElectronicComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Jobs
@@ -1498,8 +1462,9 @@ const ElectronicComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Real Estate for Rent
@@ -1509,8 +1474,9 @@ const ElectronicComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Home & Garden
@@ -1523,8 +1489,9 @@ const ElectronicComp = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Electronics
@@ -1553,8 +1520,8 @@ const ElectronicComp = () => {
                   color: "white",
                   width: "auto",
                   height: "49.66px",
-                  paddingLeft: "6px",
-                  paddingTop: "6px",
+                  paddingLeft: "12px",
+                  paddingTop: "12px",
                 }}
               >
                 Show Results by:
@@ -2697,7 +2664,7 @@ const ElectronicComp = () => {
                     const isActive = activePhoneIndex === index;
 
                     return (
-                    <Card key={index} className="mt-3">
+                    <Card key={index} className="mt-3" style={{padding: window.innerWidth <= 576 ? "10px 10px" : "30px 20px",}}>
                       <Row className="g-0">
                         <Col md={4} style={{ position: "relative" }}>
                           {/* Featured Label */}
@@ -2708,7 +2675,7 @@ const ElectronicComp = () => {
                               left: "10px",
                               backgroundColor: "#36A680",
                               color: "white",
-                              padding: "5px 10px",
+                              // padding: "5px 10px",
                               fontWeight: "bold",
                               borderRadius: "5px",
                               zIndex: 2, // Ensure it's above the image
@@ -2722,7 +2689,7 @@ const ElectronicComp = () => {
                             onClick={() => toggleBookmark(car.id)}
                             style={{
                               position: "absolute",
-                              top: "11%",
+                              top: "15%",
                               left: "90%", // Centering horizontally
                               transform: "translate(-50%, -50%)", // Adjust to keep it centered
                               borderRadius: "50%",
@@ -2783,7 +2750,7 @@ const ElectronicComp = () => {
 
                         <Col md={8}>
                           <Card.Body>
-                            <Card.Title style={{ color: "#2D4495" }}>
+                            <Card.Title style={{ color: "#2D4495",marginTop: window.innerWidth <= 576 ? "-2px" : "0px" }}>
                               {car.title || "Car"}
                             </Card.Title>
                             <Card.Text style={{ color: "black" }}>
@@ -2800,7 +2767,7 @@ const ElectronicComp = () => {
                                 </span>
                               </small>
 
-                              <br />
+                              {/* <br /> */}
                               {/* <small style={{ color: "black" }}>
                                 {car.ManufactureYear || "Year"} |{" "}
                                 {car.RAM || "0"} |{" "}
@@ -2813,7 +2780,7 @@ const ElectronicComp = () => {
 
                             <Col
                               className="align-items-center"
-                              style={{ position: "relative" }}
+                              style={{ position: "relative", marginTop: window.innerWidth <= 576 ? "-10px" : "30px"}}
                             >
                               {/* Price displayed above the image */}
                               <p
@@ -2919,7 +2886,7 @@ const ElectronicComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+      style={{  marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -2937,7 +2904,7 @@ const ElectronicComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+    style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -2951,7 +2918,7 @@ const ElectronicComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+      style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -2975,7 +2942,7 @@ const ElectronicComp = () => {
                                       margin: "5px",
                                       marginRight: window.innerWidth <= 576 ? "20px" : "60px",
 
-                                      marginTop: window.innerWidth <= 576 ? "15px" : "50px",
+                                      marginTop: window.innerWidth <= 576 ? "5px" : "50px",
 
 
                                       
@@ -3064,26 +3031,38 @@ const ElectronicComp = () => {
                 )}
               </div>
               <div className="d-flex align-items-center justify-content-center my-4">
-                <Button
-                  variant="outline-primary"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === 1}
-                  onClick={() => handlePageClick(activePage - 1)}
-                >
-                  <FaArrowLeft className="me-1" /> Previous
-                </Button>
+  <Button
+    variant="#2d4495"
+    className="d-flex align-items-center mx-2"
+    disabled={activePage === 1}
+    onClick={() => handlePageClick(activePage - 1)}
+    style={{
+      backgroundColor: '#2d4495',
+      color: 'white',
+      border: 'none',
+      transition: 'none',
+    }}
+  >
+    <FaArrowLeft className="me-1" /> Previous
+  </Button>
 
-                <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
+  <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
 
-                <Button
-                  variant="outline-primary"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === totalPages}
-                  onClick={() => handlePageClick(activePage + 1)}
-                >
-                  Next <FaArrowRight className="ms-1" />
-                </Button>
-              </div>
+  <Button
+    variant="#2d4495"
+    className="d-flex align-items-center mx-2"
+    disabled={activePage === totalPages}
+    onClick={() => handlePageClick(activePage + 1)}
+    style={{
+      backgroundColor: '#2d4495',
+      color: 'white',
+      border: 'none',
+      transition: 'none',
+    }}
+  >
+    Next <FaArrowRight className="ms-1" />
+  </Button>
+</div>
             </Col>
           </Row>
         </Container>

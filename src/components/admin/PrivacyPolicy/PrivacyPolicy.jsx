@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   FaUserSecret,
   FaLock,
@@ -33,18 +33,28 @@ const PrivacyPolicy = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <>
       <Header />
 
-      <div>
-        {/* Hero Section */}
-        <section className="bg-dark text-light text-center py-5">
-          <div className="container">
-            <h1 className="display-4 fw-bold">Privacy Policy</h1>
-            <p className="lead">Last Updated: March 2025</p>
-          </div>
-        </section>{" "}
+      <div
+      className="dashboard-content"
+      style={{
+        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+      }}
+      >
         <Container
           className="parent-main"
           style={{
@@ -53,7 +63,7 @@ const PrivacyPolicy = () => {
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: "12%",
+            marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
           }}
         >
           <div
@@ -129,95 +139,7 @@ const PrivacyPolicy = () => {
             >
               Privacy Policy
             </button>
-            {/* <Container
-              className="parent-main"
-              style={{
-                paddingLeft: "2px", // Padding on the left side
-                paddingRight: "2px", // Padding on the right side
-                color: "black", // Text color
-                maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
-                margin: "0 auto", // Optional: Center the container if desired
-              }}
-            >
-              <div
-                className="adsCategory_head"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "10px",
-                  marginLeft: "4%",
-                  marginTop: "40px",
-                  alignItems: "center",
-                }}
-              >
-                <button
-                  className="btn"
-                  style={{
-                    background: "#E9EEFF",
-                    fontWeight: "500",
-                    pointerEvents: "none",
-                    padding: "10px 15px",
-                  }}
-                >
-                  Home
-                </button>
-
-                <span>
-                  <MdKeyboardArrowRight />
-                </span>
-
-                <button
-                  className="btn"
-                  style={{
-                    background: "#E9EEFF",
-                    fontWeight: "500",
-                    pointerEvents: "none",
-                    padding: "10px 15px",
-                  }}
-                >
-                  Terms & Conditions{" "}
-                </button>
-              </div>
-
-              <div>
-                <h1
-                  style={{
-                    marginLeft: "4%",
-                    marginTop: "20px",
-                    fontSize: "24px",
-                  }}
-                >
-                  Terms & Conditions{" "}
-                </h1>
-              </div>
-
-              <div
-                className="CategoryInfodiv_btn2container"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "10px",
-                  marginLeft: "4%",
-                  marginBottom: "40px",
-                  marginTop: "20px",
-                }}
-              >
-                <button
-                  onClick={() => {
-                    navigate("/AboutUs");
-                  }}
-                  className="head2btn"
-                  style={{
-                    backgroundColor: "white",
-                    border: "1px solid #2D4495",
-                    padding: "10px 15px",
-                    textAlign: "center",
-                  }}
-                >
-                  Terms & Conditions
-                </button>
-              </div>
-            </Container> */}
+          
           </div>
         </Container>
         {/* Introduction Section */}
@@ -310,7 +232,7 @@ const PrivacyPolicy = () => {
               If you have any questions regarding this Privacy Policy, contact
               us.
             </p>
-            <a href="mailto:support@KSA4Sale.com" className="btn btn-primary">
+            <a href="mailto:support@KSA4Sale.com" className="btn " style={{backgroundColor:"#2d4495",color:"white"}}>
               Contact Support
             </a>
           </div>

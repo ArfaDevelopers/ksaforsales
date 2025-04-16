@@ -24,6 +24,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/FirebaseConfig";
+import Header from "../../home/header";
 const Message = ({ recieverId }) => {
   const parms = useLocation().pathname;
 
@@ -114,12 +115,12 @@ const Message = ({ recieverId }) => {
 
   return (
     <>
-      <UserHeader parms={parms} />
+      <Header />
 
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">

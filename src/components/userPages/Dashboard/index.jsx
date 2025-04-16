@@ -11,8 +11,8 @@ import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
 import { Link, useLocation } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
-import { useState } from "react";
-import UserHeader from "../Userheader";
+import { useState,useEffect } from "react";
+
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
 
@@ -89,50 +89,29 @@ const Dashboard = () => {
   };
 
   const parms = useLocation().pathname;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <>
-     {/* <div
-        className="dashboard-content"
-        style={{
-          marginTop: "5rem",
-        }}
-      >
-        <div className="container"> */}
-        <UserHeader parms={parms} />
-        {/* </div>
-      </div> */}
-      
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">Dashboard</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Dashboard
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      {/* <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / Dashboard</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Dashboard Content */}
+ <div className="main-wrapper">
+ <Header />
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">
@@ -181,56 +160,53 @@ const Dashboard = () => {
           </div>
 
           <div className="dashboard-details">
-            <div className="row">
-              <div className="col-lg-4 col-md-4">
-                <div className="card dash-cards">
-                  <div className="card-body">
-                    <div className="dash-top-content">
-                      <div className="dashcard-img">
-                        <img src={verified} className="img-fluid" alt="" />
-                      </div>
-                    </div>
-                    <div className="dash-widget-info">
-                      <h6>Active Listing</h6>
-                      <div>
-      500
+          <div className="row" style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: '10px' }}>
+  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+    <div className="card dash-cards">
+      <div className="card-body">
+        <div className="dash-top-content">
+          <div className="dashcard-img">
+            <img src={verified} className="img-fluid" alt="" />
+          </div>
+        </div>
+        <div className="dash-widget-info">
+          <h6>Active Listing</h6>
+          <div>500</div>
+        </div>
+      </div>
     </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-4">
-                <div className="card dash-cards">
-                  <div className="card-body">
-                    <div className="dash-top-content">
-                      <div className="dashcard-img">
-                        <img src={rating} className="img-fluid" alt="" />
-                      </div>
-                    </div>
-                    <div className="dash-widget-info">
-                      <h6>Total Reviews</h6>
-                     
-                      <div>15230</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-4">
-                <div className="card dash-cards">
-                  <div className="card-body">
-                    <div className="dash-top-content">
-                      <div className="dashcard-img">
-                        <img src={chat} className="img-fluid" alt="" />
-                      </div>
-                    </div>
-                    <div className="dash-widget-info">
-                      <h6>Messages</h6>
-                      <div>15</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  </div>
+  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+    <div className="card dash-cards">
+      <div className="card-body">
+        <div className="dash-top-content">
+          <div className="dashcard-img">
+            <img src={rating} className="img-fluid" alt="" />
+          </div>
+        </div>
+        <div className="dash-widget-info">
+          <h6>Total Reviews</h6>
+          <div>15230</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+    <div className="card dash-cards">
+      <div className="card-body">
+        <div className="dash-top-content">
+          <div className="dashcard-img">
+            <img src={chat} className="img-fluid" alt="" />
+          </div>
+        </div>
+        <div className="dash-widget-info">
+          <h6>Messages</h6>
+          <div>15</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
             <div className="row dashboard-info">
               <div className="col-lg-6 d-flex">
                 <div className="card dash-cards w-100">
@@ -329,7 +305,7 @@ const Dashboard = () => {
                       </ul>
                     </div>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body" style={{marginLeft:-30}}>
                     <ul className="review-list">
                       <li className="review-box">
                         <div className="review-profile">
@@ -407,6 +383,8 @@ const Dashboard = () => {
       </div>
       <AutomativeCarousel/>
       <LatestBlog/>
+      </div>
+     
       {/* /Dashboard Content */}
       <Footer />
     </>

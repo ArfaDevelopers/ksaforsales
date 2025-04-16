@@ -3549,7 +3549,7 @@ a:focus {
   color: #fff;
   padding: 14px 58px;
   border-radius: 10px;
-  border: 1px solid #c10037;
+  /* border: 1px solid #c10037; */
 }
 .callnow a i {
   margin-right: 3px;
@@ -3557,7 +3557,7 @@ a:focus {
 .callnow a:hover {
   background: #fff;
   color: #c10037;
-  border: 1px solid #c10037;
+  /* border: 1px solid #c10037; */
 }
 .details-main-wrapper {
   background: #f9fafc;
@@ -7032,7 +7032,7 @@ body table.listing-table.datatable {
 }
 .profile-img-del,
 .profile-img-del:hover {
-  background: #c10037;
+  background: #2d4495;
   color: #fff;
   width: 40px;
   height: 40px;
@@ -7098,8 +7098,8 @@ textarea.form-control {
 }
 .settings-upload-btn .file-upload {
   color: #fff;
-  background: #c10037;
-  border: 1px solid #c10037;
+  background: #2d4495;
+  border: 1px solid #2d4495;
   box-shadow: inset 0 0 0 0 #fff;
   border-radius: 10px;
   padding: 12px 35px;
@@ -21164,9 +21164,9 @@ section.advertisement {
   .perfect-holiday-cabin-section {
     display: none;
   }
-  .property-counter-list.text-center {
+  /* .property-counter-list.text-center {
     margin-bottom: 15px;
-  }
+  } */
   .top-rent-room-info .top-rent-room-location {
     flex-direction: column;
     justify-content: center;
@@ -21929,10 +21929,6 @@ section.advertisement {
     margin-top: 1.3rem;
   }
 
-  .trendingproducts_container {
-    gap: 1.2%;
-  }
-
   .footermid-container {
     padding: 0;
     background-color: #e9eeff;
@@ -22049,10 +22045,10 @@ section.advertisement {
   left: 0;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  /* padding: 15px; */
   z-index: 1000;
   border-radius: 5px;
-  min-width: 250px;
+  min-width: 280px;
 }
 
 .submenu-list {
@@ -22075,7 +22071,7 @@ section.advertisement {
   text-decoration: none;
   color: #333;
   font-size: 14px;
-  padding: 8px 10px;
+  padding: 2px 20px 2px 2px; /* Adjusted padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22098,7 +22094,7 @@ section.advertisement {
   left: 100%; /* Position to the right of the submenu */
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 5px;
   z-index: 1000;
   border-radius: 5px;
   min-width: 200px;
@@ -22108,6 +22104,10 @@ section.advertisement {
 .arrow {
   font-size: 12px;
   color: #666;
+  position: absolute;
+  right: 10px; /* Distance from right edge */
+  top: 50%; /* Vertically center */
+  transform: translateY(-50%); /* Adjust for vertical centering */
 }
 
 /* Optional: Style the scrollbar for Real Estate */
@@ -22608,3 +22608,25 @@ section.advertisement {
   transform: none; /* no zoom or lift */
   /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);   */
 }
+.chat-container {
+  height: 400px;
+}
+
+.chat-box {
+  overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

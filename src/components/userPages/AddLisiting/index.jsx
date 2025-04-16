@@ -25,6 +25,7 @@ import PaymentForm from "./PaymentForm.jsx";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CountryList from "../../../CountryList.json"; // Adjust the path as needed
+import Header from "../../home/header";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -1337,40 +1338,34 @@ const AddLisiting = () => {
     });
     geocodeAddress(address);
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <>
-      <UserHeader parms={parms} />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">Add Listing</h2>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      {/* <nav aria-label="breadcrumb" className="page-breadcrumb text-black"> */}
-      {/* <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / Add Listing</div>
-        </div>
-      </div> */}
-
-      {/* </nav> */}
-
-      {/* /Breadscrumb Section */}
-      {/* Profile Content */}
-
+     <div className="main-wrapper">
+      <Header />
+   
       <div
-        className="dashboard-content "
+        className="dashboard-content"
         style={{
-          marginTop: "1.5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark ">Home / Add Listing</div>
+          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / Add Listing</div>
 
           <div className="mt-3">
             <ul className="dashborad-menus">
@@ -1564,105 +1559,63 @@ const AddLisiting = () => {
                 </div>
                 <div className="  ">
                   <div className="mt-2 d-flex flex-column gap-2">
-                    <div
-                      className="d-flex justify-content-between" // Use flexbox for horizontal alignment
-                      style={{
-                        // marginTop: "-1rem",
-                        width: "100vw", // Ensures full viewport width
-                        maxWidth: "100%", // Prevents overflow
-                      }}
-                    >
-                      <div
-                        className="d-flex justify-content-between gap-2"
-                        style={{ width: "100%" }}
-                      >
-                        <div className="card w-50">
-                          {" "}
-                          {/* Set width to 50% for each card */}
-                          <div
-                            className="card-header"
-                            // style={{ marginTop: "-1rem" }}
-                          >
-                            <h4>Select City</h4>
-                          </div>
-                          <div className="card-body">
-                            <Select
-                              options={citiesMake}
-                              value={Make}
-                              onChange={setSelectedCityMake}
-                              placeholder="Select a city"
-                              isClearable
-                              className="w-100" // Ensures full width for Select component
-                            />
-                          </div>
-                        </div>
+                  <div
+  className="d-flex justify-content-between"
+  style={{
+    width: "100vw",
+    maxWidth: "100%",
+  }}
+>
+  <div
+    className="d-flex flex-column flex-md-row justify-content-between gap-2"
+    style={{ width: "100%" }}
+  >
+    <div className="card w-100 w-md-50">
+      <div className="card-header">
+        <h4>Select City</h4>
+      </div>
+      <div className="card-body">
+        <Select
+          options={citiesMake}
+          value={Make}
+          onChange={setSelectedCityMake}
+          placeholder="Select a city"
+          isClearable
+          className="w-100"
+        />
+      </div>
+    </div>
 
-                        <div className="card w-50" style={{ marginTop: "0" }}>
-                          {" "}
-                          {/* Set width to 50% for each card */}
-                          <div
-                            className="card-header"
-                            // style={{ marginTop: "-1rem" }}
-                          >
-                            <h4>Select District</h4>
-                          </div>
-                          <div className="card-body">
-                            <Select
-                              options={[
-                                {
-                                  value: "Al Safa, Jeddah, Saudi Arabia",
-                                  label: "Al Safa, Jeddah, Saudi Arabia",
-                                },
-                                {
-                                  value: "Al Faisaliyah, Dammam, Saudi Arabia",
-                                  label: "Al Faisaliyah, Dammam, Saudi Arabia",
-                                },
-                                {
-                                  value:
-                                    "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia",
-                                  label:
-                                    "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia",
-                                },
-                                {
-                                  value:
-                                    "Al Faisaliyah, Al Qurayyat, Saudi Arabia",
-                                  label:
-                                    "Al Faisaliyah, Al Qurayyat, Saudi Arabia",
-                                },
-                                {
-                                  value:
-                                    "Industrial Area No 1, Dammam, Saudi Arabia",
-                                  label:
-                                    "Industrial Area No 1, Dammam, Saudi Arabia",
-                                },
-                                {
-                                  value: "Anak, Saudi Arabia",
-                                  label: "Anak, Saudi Arabia",
-                                },
-                                {
-                                  value:
-                                    "Awwad, Ar Rayyan, Riyadh, Saudi Arabia",
-                                  label:
-                                    "Awwad, Ar Rayyan, Riyadh, Saudi Arabia",
-                                },
-                              ]}
-                              value={formData.District} // Assuming formData.District is an object with value and label
-                              onChange={(selectedOption) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  District: selectedOption
-                                    ? selectedOption.value
-                                    : "", // Update the value based on selection
-                                }))
-                              }
-                              placeholder="Select a district"
-                              isClearable
-                              className="w-100" // Ensures full width for Select component
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+    <div className="card w-100 w-md-50">
+      <div className="card-header">
+        <h4>Select District</h4>
+      </div>
+      <div className="card-body">
+        <Select
+          options={[
+            { value: "Al Safa, Jeddah, Saudi Arabia", label: "Al Safa, Jeddah, Saudi Arabia" },
+            { value: "Al Faisaliyah, Dammam, Saudi Arabia", label: "Al Faisaliyah, Dammam, Saudi Arabia" },
+            { value: "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia", label: "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia" },
+            { value: "Al Faisaliyah, Al Qurayyat, Saudi Arabia", label: "Al Faisaliyah, Al Qurayyat, Saudi Arabia" },
+            { value: "Industrial Area No 1, Dammam, Saudi Arabia", label: "Industrial Area No 1, Dammam, Saudi Arabia" },
+            { value: "Anak, Saudi Arabia", label: "Anak, Saudi Arabia" },
+            { value: "Awwad, Ar Rayyan, Riyadh, Saudi Arabia", label: "Awwad, Ar Rayyan, Riyadh, Saudi Arabia" },
+          ]}
+          value={formData.District}
+          onChange={(selectedOption) =>
+            setFormData((prev) => ({
+              ...prev,
+              District: selectedOption ? selectedOption.value : "",
+            }))
+          }
+          placeholder="Select a district"
+          isClearable
+          className="w-100"
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
                     {/* <div className="form-group mx-4"> */}
                     <div
@@ -1684,73 +1637,58 @@ const AddLisiting = () => {
                         onChange={handleChange}
                       />
                     </div>
-                    <div
-                      className="d-flex justify-content-between" // Use flexbox for horizontal alignment
-                      style={{
-                        marginTop: "1rem",
-                        width: "100vw", // Ensures full viewport width
-                        maxWidth: "100%", // Prevents overflow
-                      }}
-                    >
-                      <div
-                        className="d-flex justify-content-between gap-2"
-                        style={{ width: "100%", marginTop: "-1rem" }}
-                      >
-                        <div className="card w-50">
-                          {" "}
-                          {/* Set width to 50% for each card */}
-                          <div className="form-group">
-                            <label className="col-form-label label-heading">
-                              Category
-                            </label>
-                            <div className="row category-listing">
-                              <Select
-                                options={categoryOptions}
-                                value={categoryOptions.find(
-                                  (option) => option.value === formData.category
-                                )}
-                                onChange={handleCategoryChange}
-                                className="basic-single"
-                                classNamePrefix="select"
-                                placeholder="Select Category"
-                              />
-                            </div>
-                            {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-                            {/* ✅ Show error message */}
-                          </div>
-                        </div>
+                   <div
+  className="d-flex justify-content-between"
+  style={{
+    marginTop: "1rem",
+    width: "100vw",
+    maxWidth: "100%",
+  }}
+>
+  <div
+    className="d-flex flex-column flex-md-row justify-content-between gap-2"
+    style={{ width: "100%", marginTop: "-1rem" }}
+  >
+    <div className="card w-100 w-md-50">
+      <div className="form-group">
+        <label className="col-form-label label-heading">Category</label>
+        <div className="row category-listing">
+          <Select
+            options={categoryOptions}
+            value={categoryOptions.find(
+              (option) => option.value === formData.category
+            )}
+            onChange={handleCategoryChange}
+            className="basic-single"
+            classNamePrefix="select"
+            placeholder="Select Category"
+          />
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
+    </div>
 
-                        <div className="card w-50" style={{ marginTop: "0" }}>
-                          {" "}
-                          {/* Set width to 50% for each card */}
-                          <div className="form-group">
-                            {/* <label className="col-form-label">
-                              Select SubCategory
-                            </label> */}
-                            {/* {subcategories.length > 0 && ( */}
-                            <>
-                              <label className="col-form-label label-heading">
-                                Select SubCategory
-                              </label>
-                              <div className="row category-listing">
-                                <Select
-                                  options={subcategories}
-                                  value={subcategories.find(
-                                    (option) =>
-                                      option.value === formData.SubCategory
-                                  )}
-                                  onChange={handleSubcategoryChange}
-                                  className="basic-single"
-                                  classNamePrefix="select"
-                                  placeholder="Select Subcategory"
-                                />
-                              </div>
-                            </>
-                            {/* )} */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+    <div className="card w-100 w-md-50">
+      <div className="form-group">
+        <label className="col-form-label label-heading">
+          Select SubCategory
+        </label>
+        <div className="row category-listing">
+          <Select
+            options={subcategories}
+            value={subcategories.find(
+              (option) => option.value === formData.SubCategory
+            )}
+            onChange={handleSubcategoryChange}
+            className="basic-single"
+            classNamePrefix="select"
+            placeholder="Select Subcategory"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
                     {Category.SubCategory === "Computers" ||
                     Category.SubCategory === "TV & Audio" ||
                     Category.SubCategory === "Electrical" ||
@@ -6898,6 +6836,7 @@ const AddLisiting = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       {/* /Profile Content */}
       <Footer />

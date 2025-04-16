@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ProfileAvatar01,
@@ -12,45 +12,34 @@ import {
 } from "../../imagepath";
 import UserHeader from "../Userheader";
 import Footer from "../../home/footer/Footer";
+import Header from "../../home/header";
 
 const Review = () => {
   const [change, setChange] = useState(false);
   const [change1, setChange1] = useState(false);
   const parms = useLocation().pathname;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <>
-      <UserHeader parms={parms} />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">Reviews</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item">
-                                        <Link to="/index">Home</Link>
-                                    </li>
-                                    <li className="breadcrumb-item active" aria-current="page">
-                                        Reviews
-                                    </li>
-                                </ol>
-                            </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / Reviews</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Reviews Content */}
+      <Header />
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "8rem",
         }}
       >
         <div className="container">
@@ -136,7 +125,7 @@ const Review = () => {
                     </ul>
                   </div>
                 </div>
-                <div className="card-body">
+                <div className="card-body"style={{marginLeft:-30}}>
                   <ul className="review-list">
                     <li className="review-box">
                       <div className="review-profile">
@@ -301,7 +290,7 @@ const Review = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-6 d-flex">
+            <div className="col-lg-6 d-flex" >
               <div className="card dash-cards">
                 <div className="card-header">
                   <h4>Your Review</h4>
@@ -338,7 +327,7 @@ const Review = () => {
                     </ul>
                   </div>
                 </div>
-                <div className="card-body">
+                <div className="card-body" style={{marginLeft:-30}}>
                   <ul className="review-list">
                     <li className="review-box">
                       <div className="review-profile">
