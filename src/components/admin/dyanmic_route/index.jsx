@@ -623,95 +623,112 @@ const Dynamic_Route = () => {
       <div className="main-wrapper ">
         <Header />
 
-      
-
-        <div
-          className="container  border-none  containerWrapper"
-          style={{ marginTop: "220px" }}
-        >
-          <div className="d-flex flex-wrap justify-content-between align-items-center">
-            {/* Breadcrumb buttons */}
-           
-            <div className="adsCategory_head" style={{marginTop: window.innerWidth <= 576 ? "-100px" : "0px"}}>
-              <button
-                className="btn border me-2 mb-2 mb-sm-0"
-                style={{ background: "#E9EEFF", fontWeight: "500", }}
-              >
-                Home
-              </button>
-              <span>
-                <img src={arrow} alt="" />
-              </span>
-              <button
-                className="btn border me-2 mb-2 mb-sm-0"
-                style={{ background: "#E9EEFF", fontWeight: "500" }}
-              >
-               {callingFrom}{" "}
-              </button>
-             
-             
-            
-            </div>
-
-            <div className="adsCategoryInfoheade2" style={{marginTop: window.innerWidth <= 576 ? "-20px" : "0px",marginBottom: window.innerWidth <= 576 ? "-10px" : "0px"}}>
-        <button
-          className="btn me-2 mb-2 mb-sm-0"
+        <Container
+          className="parent-main"
           style={{
-            color: "#2D4495",
-            background: "white",
-            border: "2px solid #2D4495",
+            paddingLeft: "2px", // Padding on the left side
+            paddingRight: "2px", // Padding on the right side
+            color: "black", // Text color
+            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
+            margin: "0 auto", // Optional: Center the container if desired
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+
           }}
-          onClick={handlePrevious} // Attach handler
         >
-          <span>
-            <img src={left} alt="left" />
-          </span>
-          Previous
-        </button>
-        <button
-          className="btn mb-2 mb-sm-0"
-          style={{
-            color: "#2D4495",
-            background: "white",
-            border: "2px solid #2D4495",
-          }}
-          onClick={handleNext} // Attach handler
-        >
-          <span>
-            <img src={right} alt="right" />
-          </span>
-          Next
-        </button>
-      </div>
+          <div
+            className="adsCategory_head"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginTop: "40px",
+              alignItems: "center",
+            }}
+          >
+            <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                // background: "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              Home
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+            <button
+              className="btn"
+              style={{
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              {callingFrom}{" "}
+            </button>
           </div>
           <hr
+  style={{
+    color: "#000000",
+    marginTop: "14.83px",
+    marginBottom: "14.3px",
+    width: window.innerWidth <= 576 ? "95%" : "85%",
+    marginLeft: "auto", // Center the line
+    marginRight: "auto",
+  }}
+/>
+          <div>
+            <h1
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
+            >
+              {itemData?.title || "Default Title"}{" "}
+            </h1>
+          </div>
+          <div
+            className="CategoryInfodiv_btn2container"
             style={{
-              color: "#000000",
-              marginTop: "24.83px",
-              marginBottom: "10.3px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
-          />
-<div
-          style={{ fontSize:"40px",marginBottom: window.innerWidth <= 576 ? "-20px" : "-30px" }}
-        >
-{itemData?.title || "Default Title"}
-        </div>
-          {/* More buttons */}
-        
-
-          <div className="head2_wrapper mt-4">
-            <div className="CategoryInfodiv_btn2container " style={{marginTop: window.innerWidth <= 576 ? "-50px" : "0px"}}>
-              <button className="head2btn mt-4" >
-                <span>
+          >
+            <button
+            
+              className="head2btn"
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}
+            >
+               <span>
                   <img src={left} alt="leftarrow" />
                 </span>{" "}
-                Favourite
-              </button>
-              <>
+              Favourite
+            </button>
+            <>
                 {/* Button to open modal */}
                 <button
-                  className="head2btn mt-4"
+                  className="head2btn"
                   onClick={() => setShowModal1(true)}
+                  style={{
+                    backgroundColor: "white",
+                    border: "1px solid #2D4495",
+                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                    textAlign: "center",
+                    width: window.innerWidth <= 576 ? "47%" : "auto"
+                  }}
                 >
                   <span>
                     <img src={share} alt="share" />
@@ -754,14 +771,16 @@ const Dynamic_Route = () => {
                           <div className="modal-footer">
                             <button
                               type="button"
-                              className="btn btn-primary"
+                              className="btn"
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
                               onClick={copyToClipboard}
                             >
                               Copy
                             </button>
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn "
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
                               onClick={() => setShowModal1(false)}
                             >
                               Close
@@ -773,16 +792,29 @@ const Dynamic_Route = () => {
                   </>
                 )}
               </>
-              <div>
-         {itemData.userId===userId?
+              {itemData.userId===userId?
 
-    <button className="head2btn mt-4" onClick={handleShowReport}>
+<button className="head2btn" onClick={handleShowReport}
+  style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}
+>
+              <span>
+                {/* <img src="your-report-image-source" alt="promote" /> */}
+                <FaBuysellads />
+              </span>
+              Promote
+            </button>:''     }    
+                {/* <button className="head2btn mt-4" onClick={handleShowReport}>
                   <span>
-                    {/* <img src="your-report-image-source" alt="promote" /> */}
-                    <FaBuysellads />
+                     <FaBuysellads />
                   </span>
                   Promote
-                </button>:''     }       
+                </button> */}
 
                 {/* Modal */}
                 {showReport && (
@@ -842,16 +874,24 @@ const Dynamic_Route = () => {
                     </div>
                   </div>
                 )}
-              </div>
-              <button className="head2btn mt-4"style={{marginTop: window.innerWidth <= 576 ? "9rem" : "0rem",}} onClick={handleShow} >
+              <button className="head2btn"
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #2D4495",
+                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  textAlign: "center",
+                  width: window.innerWidth <= 576 ? "47%" : "auto"
+                }}
+              onClick={handleShow}>
                 <span>
                   <img src={report} alt="report" />
                 </span>
                 Report
               </button>
-            </div>
 
-            <Modal style={{marginTop:20}} show={show} onHide={handleClose} centered>
+             <Modal 
+              style={{marginTop: window.innerWidth <= 576 ? 60 : 20}}
+              show={show} onHide={handleClose} centered>
               <Modal.Header closeButton>
                 <Modal.Title>Submit a Report</Modal.Title>
               </Modal.Header>
@@ -883,12 +923,50 @@ const Dynamic_Route = () => {
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button    style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+      }}
+       onClick={handleClose}
+       onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+        e.currentTarget.style.color = "#fff"; // Force same text color
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+        e.currentTarget.style.color = "#fff"; // Restore same text color
+      }}
+       >
                   Close
                 </Button>
                 <Button
-                  variant="primary"
+                     style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      border: "none",
+                      fontWeight: "bold",
+                      borderRadius: 10,
+                      transition: "none", // Disable transitions
+                      outline: "none", // Remove focus outline
+                      boxShadow: "none", // Remove any shadow changes
+                      cursor: "pointer" // Maintain clickable appearance
+                    }}
                   onClick={handleSubmit}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.color = "#fff"; // Force same text color
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.color = "#fff"; // Restore same text color
+                  }}
                   // disabled={!reportText || selectedReports.length === 0}
                   // disabled={selectedReports.length === 0}
                 >
@@ -896,29 +974,45 @@ const Dynamic_Route = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-            {/* Posted time */}
-            <div className="d-flex flex-wrap justify-content-end">
+
+
+          </div>
+        </Container>
+
+        <Container
+          fluid
+          style={{
+            paddingLeft: "10px", // Padding on the left side
+            paddingRight: "1px", // Padding on the right side
+            color: "black", // Text color
+            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
+            marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
+            // margintop: window.innerWidth <= 576 ? "0px" : "-30px",
+
+
+          }}
+        >
+              <div className="d-flex flex-wrap justify-content-end">
               <p
                 style={{
                   color: "black",
                   fontWeight: "400",
-                  marginBottom: "24.5px",
+                  // marginBottom: "24.5px",
                 }}
               >
                 Posted {itemData?.timeAgo || "Loading..."}
               </p>
             </div>
-          </div>
-
-          <div className="row  border-none">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-8" style={{marginTop:-30, height: '' }}>
-                  {callingFrom === "AutomotiveComp" ? (
+          <Row>
+            {/* Sidebar */}
+            <Col md={8} style={{marginLeft: window.innerWidth <= 576 ? -5 : -20}}>
+            {callingFrom === "AutomotiveComp" ? (
                     // <div className="col  border-none container ">
                     //   <div className="col  border-none">\
                     <>
-                      <div>
+                      <div style={{marginLeft: window.innerWidth <= 576 ? 5 : 10}}>
                        
                         {/* Main Image with Previous & Next Buttons */}
                         <div
@@ -1051,10 +1145,9 @@ const Dynamic_Route = () => {
 </div>
                       </div>
 
-                      <div className="row  border-none info_wrapper ">
+                      <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? 5 : 10,}}>
                         <div className="col">
-                          <div className="row  border-none info_wrapper">
-                            <div className="col">
+                    
                               <div className="table-responsive info_table">
                                 <table className="table">
                                  <tbody className="info_body">
@@ -1082,35 +1175,85 @@ const Dynamic_Route = () => {
 
                                 </table>
                               </div>
-                            </div>
-                          </div>
+                          
 
                           <div>
                             <h1
                               className="mb-3"
-                              style={{ paddingLeft: "15px" }}
+                             
                             >
                               More  Features
                             </h1>
-                            <div className="row">
-                              {featuresData.map((column, columnIndex) => (
-                                <div className="col-md-4" key={columnIndex}>
-                                  {column.map((feature, index) => (
-                                    <p className="feature_para " key={index}>
-                                      <span className="second_tableIcon">
-                                        <img src={tick} alt="tick" />
-                                      </span>
-                                      {feature}
-                                    </p>
-                                  ))}
-                                </div>
-                              ))}
-                            </div>
-
-                            <div className="descriptions_wrapper">
+                            <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
+                            <div className="descriptions_wrapper" >
                               <h1
                                 className="fw-bold"
-                                style={{ padding: "20px" }}
+                                style={{ padding: "20px",marginLeft:-12 }}
                               >
                                 Description:
                               </h1>
@@ -1299,88 +1442,62 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.sellerType ||
-                                        "Default Seller Type"}
-                                    </td>
-                                    <th className="table_text">RAM:</th>
-                                    <td className="table_text">
-                                      {itemData?.RAM || "No RAM"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Assembly:</th>
-                                    <td className="table_text">
-                                      {itemData?.Assembly || "Default Assembly"}
-                                    </td>
-                                    <th className="table_text">
-                                      Graphics Card:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.GraphicsCard ||
-                                        "No Graphics Card"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Body Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.bodyType ||
-                                        "Default Body Type"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default Last Updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Brand:</th>
-                                    <td className="table_text">
-                                      {itemData?.Brand || "Default Condition"}
-                                    </td>
-                                    <th className="table_text">
-                                      Battery Life:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.BatteryLife ||
-                                        "No Battery Life"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Operating System:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.OperatingSystem ||
-                                        "Default OS"}
-                                    </td>
-                                    <th className="table_text">Model:</th>
-                                    <td className="table_text">
-                                      {itemData?.model || "Default Model"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.type || "Default Type"}
-                                    </td>
-                                    <th className="table_text">Screen Size:</th>
-                                    <td className="table_text">
-                                      {itemData?.ScreenSize || "No Screen Size"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.sellerType || "Default Seller Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">RAM:</th>
+        <td className="table_text">{itemData?.RAM || "No RAM"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Assembly:</th>
+        <td className="table_text">{itemData?.Assembly || "Default Assembly"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Graphics Card:</th>
+        <td className="table_text">{itemData?.GraphicsCard || "No Graphics Card"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Body Type:</th>
+        <td className="table_text">{itemData?.bodyType || "Default Body Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default Last Updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Brand:</th>
+        <td className="table_text">{itemData?.Brand || "Default Condition"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Battery Life:</th>
+        <td className="table_text">{itemData?.BatteryLife || "No Battery Life"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Operating System:</th>
+        <td className="table_text">{itemData?.OperatingSystem || "Default OS"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Model:</th>
+        <td className="table_text">{itemData?.model || "Default Model"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Type:</th>
+        <td className="table_text">{itemData?.type || "Default Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Screen Size:</th>
+        <td className="table_text">{itemData?.ScreenSize || "No Screen Size"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -1389,25 +1506,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
                               <div className="descriptions_wrapper">
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -1597,89 +1766,66 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.sellerType ||
-                                        "Default Seller Type"}
-                                    </td>
-                                    <th className="table_text">Gender:</th>
-                                    <td className="table_text">
-                                      {itemData?.Gender || "No Gender"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Closure Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.ClosureType ||
-                                        "No ClosureType"}
-                                    </td>
-                                    <th className="table_text">Material:</th>
-                                    <td className="table_text">
-                                      {itemData?.Material || "No Material"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Collar Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.CollarType ||
-                                        "Default CollarType"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Brand:</th>
-                                    <td className="table_text">
-                                      {itemData?.Brand || "Default Condition"}
-                                    </td>
-                                    <th className="table_text">Season:</th>
-                                    <td className="table_text">
-                                      {itemData?.Season || "No Season"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Color:</th>
-                                    <td className="table_text">
-                                      {itemData?.Color || "Default Color"}
-                                    </td>
-                                    <th className="table_text">WashType:</th>
-                                    <td className="table_text">
-                                      {itemData?.WashType || "Default WashType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.type || "Default color"}
-                                    </td>
-                                    <th className="table_text">StyleDesign:</th>
-                                    <td className="table_text">
-                                      {itemData?.StyleDesign ||
-                                        "No StyleDesign"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Fit:</th>
-                                    <td className="table_text">
-                                      {itemData?.Fit || "No Fit"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.sellerType || "Default Seller Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Gender:</th>
+        <td className="table_text">{itemData?.Gender || "No Gender"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Closure Type:</th>
+        <td className="table_text">{itemData?.ClosureType || "No ClosureType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Material:</th>
+        <td className="table_text">{itemData?.Material || "No Material"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Collar Type:</th>
+        <td className="table_text">{itemData?.CollarType || "Default CollarType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Brand:</th>
+        <td className="table_text">{itemData?.Brand || "Default Condition"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Season:</th>
+        <td className="table_text">{itemData?.Season || "No Season"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Color:</th>
+        <td className="table_text">{itemData?.Color || "Default Color"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">WashType:</th>
+        <td className="table_text">{itemData?.WashType || "Default WashType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Type:</th>
+        <td className="table_text">{itemData?.type || "Default color"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">StyleDesign:</th>
+        <td className="table_text">{itemData?.StyleDesign || "No StyleDesign"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Fit:</th>
+        <td className="table_text">{itemData?.Fit || "No Fit"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -1688,25 +1834,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -1895,101 +2093,66 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Accuracy:</th>
-                                    <td className="table_text">
-                                      {itemData?.Accuracy || "No Accuracy"}
-                                    </td>
-                                    <th className="table_text">
-                                      Battery Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.BatteryType ||
-                                        "No BatteryType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Compatibility:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.Compatibility ||
-                                        "No Compatibility"}
-                                    </td>
-                                    <th className="table_text">CuffSize:</th>
-                                    <td className="table_text">
-                                      {itemData?.CuffSize || "No CuffSize"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Display Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.DisplayType ||
-                                        "Default DisplayType"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Features:</th>
-                                    <td className="table_text">
-                                      {itemData?.Features || "Default Features"}
-                                    </td>
-                                    <th className="table_text">
-                                      Measurement Range:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.MeasurementRange ||
-                                        "No MeasurementRange"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Measurement Units:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.MeasurementUnits ||
-                                        "Default MeasurementUnits"}
-                                    </td>
-                                    <th className="table_text">WashType:</th>
-                                    <td className="table_text">
-                                      {itemData?.WashType || "Default WashType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.Type || "Default Type"}
-                                    </td>
-                                    <th className="table_text">
-                                      Storage Capacity:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.StorageCapacity ||
-                                        "No StorageCapacity"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.SellerType || "No SellerType"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Accuracy:</th>
+        <td className="table_text">{itemData?.Accuracy || "No Accuracy"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Battery Type:</th>
+        <td className="table_text">{itemData?.BatteryType || "No BatteryType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Compatibility:</th>
+        <td className="table_text">{itemData?.Compatibility || "No Compatibility"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">CuffSize:</th>
+        <td className="table_text">{itemData?.CuffSize || "No CuffSize"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Display Type:</th>
+        <td className="table_text">{itemData?.DisplayType || "Default DisplayType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Features:</th>
+        <td className="table_text">{itemData?.Features || "Default Features"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Measurement Range:</th>
+        <td className="table_text">{itemData?.MeasurementRange || "No MeasurementRange"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Measurement Units:</th>
+        <td className="table_text">{itemData?.MeasurementUnits || "Default MeasurementUnits"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">WashType:</th>
+        <td className="table_text">{itemData?.WashType || "Default WashType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Type:</th>
+        <td className="table_text">{itemData?.Type || "Default Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Storage Capacity:</th>
+        <td className="table_text">{itemData?.StorageCapacity || "No StorageCapacity"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.SellerType || "No SellerType"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -1998,25 +2161,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -2204,84 +2419,58 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">City:</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "Default Seller Type"}
-                                    </td>
-                                    <th className="table_text">Company:</th>
-                                    <td className="table_text">
-                                      {itemData?.Company || "No Company"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Employment Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.EmploymentType ||
-                                        "No EmploymentType"}
-                                    </td>
-                                    <th className="table_text">
-                                      Experience Level:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.ExperienceLevel ||
-                                        "No ExperienceLevel"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Industry:</th>
-                                    <td className="table_text">
-                                      {itemData?.Industry || "Default Industry"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Job Title:</th>
-                                    <td className="table_text">
-                                      {itemData?.JobTitle || "Default JobTitle"}
-                                    </td>
-                                    <th className="table_text">
-                                      Salary Range:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.SalaryRange ||
-                                        "No SalaryRange"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Salary From:</th>
-                                    <td className="table_text">
-                                      {itemData?.SallaryFromRange ||
-                                        "Default SallaryFromRange"}
-                                    </td>
-                                    <th className="table_text">Salary To:</th>
-                                    <td className="table_text">
-                                      {itemData?.SallaryToRange ||
-                                        "Default SallaryToRange"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Location:</th>
-                                    <td className="table_text">
-                                      {itemData?.location || "Default location"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "Default Seller Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Company:</th>
+        <td className="table_text">{itemData?.Company || "No Company"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Employment Type:</th>
+        <td className="table_text">{itemData?.EmploymentType || "No EmploymentType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Experience Level:</th>
+        <td className="table_text">{itemData?.ExperienceLevel || "No ExperienceLevel"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Industry:</th>
+        <td className="table_text">{itemData?.Industry || "Default Industry"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Job Title:</th>
+        <td className="table_text">{itemData?.JobTitle || "Default JobTitle"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Salary Range:</th>
+        <td className="table_text">{itemData?.SalaryRange || "No SalaryRange"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Salary From:</th>
+        <td className="table_text">{itemData?.SallaryFromRange || "Default SallaryFromRange"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Salary To:</th>
+        <td className="table_text">{itemData?.SallaryToRange || "Default SallaryToRange"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Location:</th>
+        <td className="table_text">{itemData?.location || "Default location"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -2290,25 +2479,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -2498,81 +2739,58 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">City:</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "Default Seller Type"}
-                                    </td>
-                                    <th className="table_text">
-                                      Content Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.ContentType ||
-                                        "No ContentType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Duration:</th>
-                                    <td className="table_text">
-                                      {itemData?.Duration || "No Duration"}
-                                    </td>
-                                    <th className="table_text">Language:</th>
-                                    <td className="table_text">
-                                      {itemData?.Language || "No Language"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Skill Level:</th>
-                                    <td className="table_text">
-                                      {itemData?.SkillLevel ||
-                                        "Default SkillLevel"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">States:</th>
-                                    <td className="table_text">
-                                      {itemData?.States || "Default States"}
-                                    </td>
-                                    <th className="table_text">
-                                      Subject Categories:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.SubjectCategories ||
-                                        "No SubjectCategories"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Assembly:</th>
-                                    <td className="table_text">
-                                      {itemData?.assembly || "Default assembly"}
-                                    </td>
-                                    <th className="table_text">Condition:</th>
-                                    <td className="table_text">
-                                      {itemData?.condition ||
-                                        "Default condition"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Purpose:</th>
-                                    <td className="table_text">
-                                      {itemData?.purpose || "Default purpose"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "Default Seller Type"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Content Type:</th>
+        <td className="table_text">{itemData?.ContentType || "No ContentType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Duration:</th>
+        <td className="table_text">{itemData?.Duration || "No Duration"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Language:</th>
+        <td className="table_text">{itemData?.Language || "No Language"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Skill Level:</th>
+        <td className="table_text">{itemData?.SkillLevel || "Default SkillLevel"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">States:</th>
+        <td className="table_text">{itemData?.States || "Default States"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Subject Categories:</th>
+        <td className="table_text">{itemData?.SubjectCategories || "No SubjectCategories"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Assembly:</th>
+        <td className="table_text">{itemData?.assembly || "Default assembly"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Condition:</th>
+        <td className="table_text">{itemData?.condition || "Default condition"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Purpose:</th>
+        <td className="table_text">{itemData?.purpose || "Default purpose"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -2581,25 +2799,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -2787,85 +3057,58 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Accessibility:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.Accessibility ||
-                                        "Default Accessibility"}
-                                    </td>
-                                    <th className="table_text">Amenities:</th>
-                                    <td className="table_text">
-                                      {itemData?.Amenities || "No Amenities"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Building Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.BuildingType ||
-                                        "No BuildingType"}
-                                    </td>
-                                    <th className="table_text">City:</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "No City"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Property Features:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.PropertyFeatures ||
-                                        "Default PropertyFeatures"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Property Type:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.PropertyType ||
-                                        "Default PropertyType"}
-                                    </td>
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.SellerType || "No SellerType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Size:</th>
-                                    <td className="table_text">
-                                      {itemData?.Size || "Default Size"}
-                                    </td>
-                                    <th className="table_text">States:</th>
-                                    <td className="table_text">
-                                      {itemData?.States || "Default States"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Location:</th>
-                                    <td className="table_text">
-                                      {itemData?.location || "Default location"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Accessibility:</th>
+        <td className="table_text">{itemData?.Accessibility || "Default Accessibility"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Amenities:</th>
+        <td className="table_text">{itemData?.Amenities || "No Amenities"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Building Type:</th>
+        <td className="table_text">{itemData?.BuildingType || "No BuildingType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "No City"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Property Features:</th>
+        <td className="table_text">{itemData?.PropertyFeatures || "Default PropertyFeatures"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Property Type:</th>
+        <td className="table_text">{itemData?.PropertyType || "Default PropertyType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.SellerType || "No SellerType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Size:</th>
+        <td className="table_text">{itemData?.Size || "Default Size"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">States:</th>
+        <td className="table_text">{itemData?.States || "Default States"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Location:</th>
+        <td className="table_text">{itemData?.location || "Default location"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -2874,25 +3117,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -3081,53 +3376,38 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr>
-                                    <th className="table_text">Amenities:</th>
-                                    <td className="table_text">
-                                      {itemData?.Amenities ||
-                                        "Default Amenities "}
-                                    </td>
-                                    <th className="table_text">Checkin :</th>
-                                    <td className="table_text">
-                                      {itemData?.Checkin || "No Checkin"}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th className="table_text">City :</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "No City"}
-                                    </td>
-                                    <th className="table_text">
-                                      PropertyType :
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.PropertyType ||
-                                        "No PropertyType"}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th className="table_text">Room Type :</th>
-                                    <td className="table_text">
-                                      {itemData?.RoomType ||
-                                        "Default RoomType "}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                           
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Amenities:</th>
+        <td className="table_text">{itemData?.Amenities || "Default Amenities"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Checkin:</th>
+        <td className="table_text">{itemData?.Checkin || "No Checkin"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "No City"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">PropertyType:</th>
+        <td className="table_text">{itemData?.PropertyType || "No PropertyType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Room Type:</th>
+        <td className="table_text">{itemData?.RoomType || "Default RoomType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -3136,25 +3416,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -3343,80 +3675,58 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Availability:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.Availability ||
-                                        "Default Availability"}
-                                    </td>
-                                    <th className="table_text">Brand:</th>
-                                    <td className="table_text">
-                                      {itemData?.Brand || "No Brand"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Category:</th>
-                                    <td className="table_text">
-                                      {itemData?.Category || "No Category"}
-                                    </td>
-                                    <th className="table_text">City:</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "No City"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Color Options:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.ColorOptions ||
-                                        "Default ColorOptions"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Features:</th>
-                                    <td className="table_text">
-                                      {itemData?.Features || "Default Features"}
-                                    </td>
-                                    <th className="table_text">Gender:</th>
-                                    <td className="table_text">
-                                      {itemData?.Gender || "No Gender"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Material:</th>
-                                    <td className="table_text">
-                                      {itemData?.Material || "Default Material"}
-                                    </td>
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.SellerType ||
-                                        "Default SellerType"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Size:</th>
-                                    <td className="table_text">
-                                      {itemData?.Size || "Default Size"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Availability:</th>
+        <td className="table_text">{itemData?.Availability || "Default Availability"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Brand:</th>
+        <td className="table_text">{itemData?.Brand || "No Brand"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Category:</th>
+        <td className="table_text">{itemData?.Category || "No Category"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "No City"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Color Options:</th>
+        <td className="table_text">{itemData?.ColorOptions || "Default ColorOptions"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Features:</th>
+        <td className="table_text">{itemData?.Features || "Default Features"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Gender:</th>
+        <td className="table_text">{itemData?.Gender || "No Gender"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Material:</th>
+        <td className="table_text">{itemData?.Material || "Default Material"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.SellerType || "Default SellerType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Size:</th>
+        <td className="table_text">{itemData?.Size || "Default Size"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -3425,25 +3735,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -3632,88 +3994,62 @@ const Dynamic_Route = () => {
   )}
 </div>
                         </div>
-                        <div className="row  border-none info_wrapper ">
+                        <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
-                            <div className="table-responsive info_table">
-                              <table className="table table-borderless">
-                                <tbody className="info_body">
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Age:</th>
-                                    <td className="table_text">
-                                      {itemData?.Age || "Default Age"}
-                                    </td>
-                                    <th className="table_text">Breed:</th>
-                                    <td className="table_text">
-                                      {itemData?.Breed || "No Breed"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">City:</th>
-                                    <td className="table_text">
-                                      {itemData?.City || "No City"}
-                                    </td>
-                                    <th className="table_text">Color:</th>
-                                    <td className="table_text">
-                                      {itemData?.Color || "No Color"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">
-                                      Dietary Preferences:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.DietaryPreferences ||
-                                        "Default DietaryPreferences"}
-                                    </td>
-                                    <th className="table_text">
-                                      Last Updated:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.lastUpdated ||
-                                        "Default last updated"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Gender:</th>
-                                    <td className="table_text">
-                                      {itemData?.Gender || "Default Gender"}
-                                    </td>
-                                    <th className="table_text">
-                                      Health Status:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.HealthStatus ||
-                                        "No HealthStatus"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Seller Type:</th>
-                                    <td className="table_text">
-                                      {itemData?.SellerType ||
-                                        "Default SellerType"}
-                                    </td>
-                                    <th className="table_text">Size:</th>
-                                    <td className="table_text">
-                                      {itemData?.Size || "Default Size"}
-                                    </td>
-                                  </tr>
-                                  <tr className="border-bottom">
-                                    <th className="table_text">Temperament:</th>
-                                    <td className="table_text">
-                                      {itemData?.Temperament ||
-                                        "Default Temperament"}
-                                    </td>
-                                    <th className="table_text">
-                                      Training Level:
-                                    </th>
-                                    <td className="table_text">
-                                      {itemData?.TrainingLevel ||
-                                        "Default TrainingLevel"}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                          <div className="table-responsive info_table">
+  <table className="table table-borderless">
+    <tbody className="info_body">
+      <tr className="border-bottom">
+        <th className="table_text">Age:</th>
+        <td className="table_text">{itemData?.Age || "Default Age"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Breed:</th>
+        <td className="table_text">{itemData?.Breed || "No Breed"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "No City"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Color:</th>
+        <td className="table_text">{itemData?.Color || "No Color"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Dietary Preferences:</th>
+        <td className="table_text">{itemData?.DietaryPreferences || "Default DietaryPreferences"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Last Updated:</th>
+        <td className="table_text">{itemData?.lastUpdated || "Default last updated"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Gender:</th>
+        <td className="table_text">{itemData?.Gender || "Default Gender"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Health Status:</th>
+        <td className="table_text">{itemData?.HealthStatus || "No HealthStatus"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Seller Type:</th>
+        <td className="table_text">{itemData?.SellerType || "Default SellerType"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Size:</th>
+        <td className="table_text">{itemData?.Size || "Default Size"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Temperament:</th>
+        <td className="table_text">{itemData?.Temperament || "Default Temperament"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Training Level:</th>
+        <td className="table_text">{itemData?.TrainingLevel || "Default TrainingLevel"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
                             <div>
                               <h1
@@ -3722,25 +4058,77 @@ const Dynamic_Route = () => {
                               >
                                 Features
                               </h1>
-                              <div className="row">
-                                {featuresData.map((column, columnIndex) => (
-                                  <div className="col-md-4" key={columnIndex}>
-                                    {column.map((feature, index) => (
-                                      <p className="feature_para " key={index}>
-                                        <span className="second_tableIcon">
-                                          <img src={tick} alt="tick" />
-                                        </span>
-                                        {feature}
-                                      </p>
-                                    ))}
-                                  </div>
-                                ))}
-                              </div>
+                              <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "0 15px",
+      }}
+    >
+      {featuresData.map((column, columnIndex) => (
+        <div
+          key={columnIndex}
+          style={{
+            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
+            maxWidth: "32%",
+            // marginBottom: "15px",
+            "@media (max-width: 767.98px)": {
+              flex: "0 0 100%", // Full width on mobile
+              maxWidth: "100%",
+            },
+          }}
+        >
+          {column.map((feature, index) => (
+            <p
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
+                "@media (max-width: 767.98px)": {
+                  marginBottom: "8px", // Reduced gap on mobile
+                },
+              }}
+            >
+              <span
+                style={{
+                  marginRight: "8px",
+                }}
+              >
+                <img
+                  src={tick}
+                  alt="tick"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </span>
+              {feature}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+    <style>
+  {`
+    @media (max-width: 767.98px) {
+      div[style*="flex: 0 0 32%"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+      p[style*="margin-bottom: 15px"] {
+        margin-bottom: 8px !important;
+      }
+    }
+  `}
+</style>
 
-                              <div className="descriptions_wrapper">
+                              <div className="descriptions_wrapper" >
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" }}
+                                  style={{ padding: "20px",marginLeft:-12 }}
                                 >
                                   Description:
                                 </h1>
@@ -3796,265 +4184,277 @@ const Dynamic_Route = () => {
                   ) : (
                     ""
                   )}
-                </div>
-                <div class="col-6 col-md-4" style={{marginTop:-30}}>
-                  {" "}
-               
-                  <div className="col-md-11  border-none leftCard responsive_card">
-                  <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
-  {/* Card body to hold the price and heart button */}
-  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15,marginBottom:-30}}>
-    <div
-      style={{
-        fontSize: "60px",
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#2d4495",
-        marginBottom:20
-      }}
-    >
-      ${itemData?.Price || "N/A"}
-    </div>
-    <h5>Safety Tips</h5>
-                        <ul
-                          style={{
-                            listStyleImage: `url(${bullet})`,
-                            marginLeft: "-1.1rem",
-                          }}
-                        >
-                          <li className="safteytip_para">
-                            Meet seller at a safe place.
-                          </li>
-                          <li className="safteytip_para">
-                            Check item before you buy
-                          </li>
-                          <li className="safteytip_para">
-                            Pay only after collecting item.
-                          </li>
-                        </ul>
-                        <hr
-  style={{
-    border: "none", // Default border hatao
-    borderTop: "3px solid #000", // Dark aur bold line
-  }}
+
+          
+            </Col>
+            <Col md={4} className="p-3">
+ 
+           
+ <Col xs={11}  >
+ <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+{/* Card body to hold the price and heart button */}
+<Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15,marginBottom:-30}}>
+<div
+style={{
+fontSize: "60px",
+fontWeight: "bold",
+textAlign: "center",
+color: "#2d4495",
+marginBottom:20
+}}
+>
+${itemData?.Price || "N/A"}
+</div>
+<h5>Safety Tips</h5>
+         <ul
+           style={{
+             listStyleImage: `url(${bullet})`,
+             marginLeft: "-1.1rem",
+           }}
+         >
+           <li className="safteytip_para">
+             Meet seller at a safe place.
+           </li>
+           <li className="safteytip_para">
+             Check item before you buy
+           </li>
+           <li className="safteytip_para">
+             Pay only after collecting item.
+           </li>
+         </ul>
+         <hr
+style={{
+border: "none", // Default border hatao
+borderTop: "3px solid #000", // Dark aur bold line
+}}
 />
 
 <div className="col-md ">
-                        <h1 className="sallerinfo_para">Seller Information</h1>
-                        <div className="row profileinner_container ">
-                          
-                            <div className="col-5 profileimg">
-                                          <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
-                                          
-                            <img
-                              src={profile}
-                              alt="Profile"
-                              className="img-fluid rounded-circle"
-                            />
-                          </Link>
-                        </div>
-                          <div className="col-5 profile_rightbarTags">
-                            <p className="sallerInfo_para">
-                              {itemData.displayName}
-                            </p>
-                            <p className="sallerInfo_para">
-                              {itemData.creationTime}
-                            </p>
-                            <p className="s allerInfo_para">
-                            <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
-                              View all Ads
-                              </Link></p>
-                          </div>
+         <h1 className="sallerinfo_para">Seller Information</h1>
+         <div className="row profileinner_container ">
+           
+             <div className="col-5 profileimg">
+                           <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
+                           
+             <img
+               src={profile}
+               alt="Profile"
+               className="img-fluid rounded-circle"
+             />
+           </Link>
+         </div>
+           <div className="col-5 profile_rightbarTags">
+             <p className="sallerInfo_para">
+               {itemData.displayName}
+             </p>
+             <p className="sallerInfo_para">
+               {itemData.creationTime}
+             </p>
+             <p className="s allerInfo_para">
+             <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
+               View all Ads
+               </Link></p>
+           </div>
 
-                          <div className="col mt-3 innerContainer2">
-                          <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
- 
-  <a href={`tel:${itemData.Phone}`}>
-    <button
-      className={`sign-in-button ${showPhone ? "expanded" : ""}`}
-      onClick={() => setShowPhone(true)}
-    >
-      <FaPhoneAlt />
-      <span className="fw-semibold">
-        {showPhone ? itemData.Phone : "Call Now"}
-      </span>
-    </button>
-  </a>
+           <div className="col mt-3 innerContainer2">
+           <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+
+<a href={`tel:${itemData.Phone}`}>
+<button
+className={`sign-in-button ${showPhone ? "expanded" : ""}`}
+onClick={() => setShowPhone(true)}
+>
+<FaPhoneAlt />
+<span className="fw-semibold">
+{showPhone ? itemData.Phone : "Call Now"}
+</span>
+</button>
+</a>
 
 
-  <a href={`https://wa.me/${itemData.whatsapp}`} target="_blank" rel="noopener noreferrer">
-    <button className={`sign-in-button ${showPhone ? "icon-only" : ""}`}>
-      <FaWhatsapp />
-      <span className="button-text">WhatsApp</span>
-    </button>
-  </a>
+<a href={`https://wa.me/${itemData.whatsapp}`} target="_blank" rel="noopener noreferrer">
+<button className={`sign-in-button ${showPhone ? "icon-only" : ""}`}>
+<FaWhatsapp />
+<span className="button-text">WhatsApp</span>
+</button>
+</a>
 
- 
-  <button
-    className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
-    onClick={() => setShowModal(true)}
-  >
-    <MdMessage />
-    <span className="button-text">Message</span>
-  </button>
 
- 
-  <style jsx>{`
-    .sign-in-button {
-      background-color: #0055a5; /* Blue background color matching the image */
-      color: white; /* White text color */
-      font-size: 18px; /* Approximate font size */
-      font-weight: bold; /* Bold text */
-      width: 120px; /* Default fixed width */
-      height: 50px; /* Fixed height */
-      border: none; /* No border */
-      border-radius: 10px; /* Rounded corners */
-      cursor: pointer; /* Hand cursor on hover */
-      text-transform: capitalize; /* Capitalize the text like in the image */
-      display: flex; /* Use flexbox to center icon and text */
-      align-items: center; /* Vertically center */
-      justify-content: center; /* Horizontally center */
-      gap: 8px; /* Space between icon and text */
-      transition: width 0.3s ease; /* Smooth transition for width change */
-    }
+<button
+className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
+onClick={() => setShowModal(true)}
+>
+<MdMessage />
+<span className="button-text">Message</span>
+</button>
 
-    .sign-in-button:hover {
-      background-color: #004080; /* Slightly darker blue on hover for feedback */
-    }
 
-    /* Expanded state for Call Now button */
-    .expanded {
-      width: 200px; /* Larger width when showing phone number */
-      font-size: 16px; /* Slightly smaller font to fit the number */
-    }
+<style jsx>{`
+.sign-in-button {
+background-color: #0055a5; /* Blue background color matching the image */
+color: white; /* White text color */
+font-size: 18px; /* Approximate font size */
+font-weight: bold; /* Bold text */
+width: 120px; /* Default fixed width */
+height: 50px; /* Fixed height */
+border: none; /* No border */
+border-radius: 10px; /* Rounded corners */
+cursor: pointer; /* Hand cursor on hover */
+text-transform: capitalize; /* Capitalize the text like in the image */
+display: flex; /* Use flexbox to center icon and text */
+align-items: center; /* Vertically center */
+justify-content: center; /* Horizontally center */
+gap: 8px; /* Space between icon and text */
+transition: width 0.3s ease; /* Smooth transition for width change */
+}
 
-    /* Icon-only state for WhatsApp and Message buttons */
-    .icon-only {
-      width: 50px; /* Smaller width to fit just the icon */
-    }
+.sign-in-button:hover {
+background-color: #004080; /* Slightly darker blue on hover for feedback */
+}
 
-    /* Hide text in icon-only state */
-    .icon-only .button-text {
-      display: none; /* Hide the text */
-    }
+/* Expanded state for Call Now button */
+.expanded {
+width: 200px; /* Larger width when showing phone number */
+font-size: 16px; /* Slightly smaller font to fit the number */
+}
 
-    /* Remove underline from <a> tags */
-    a {
-      text-decoration: none;
-    }
-  `}</style>
+/* Icon-only state for WhatsApp and Message buttons */
+.icon-only {
+width: 50px; /* Smaller width to fit just the icon */
+}
+
+/* Hide text in icon-only state */
+.icon-only .button-text {
+display: none; /* Hide the text */
+}
+
+/* Remove underline from <a> tags */
+a {
+text-decoration: none;
+}
+`}</style>
 </div>
-                            <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {userId && recieverId ? (
-                                    <Chat
-                                      userId={userId}
-                                      recieverId={recieverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
+             <div>
+                                     <div
+                                       className={`modal fade ${
+                                         showModal ? "show d-block" : "d-none"
+                                       }`}
+                                       tabIndex="-1"
+                                       role="dialog"
+                                       style={{
+                                         backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                         marginTop:100
+                                       }} // Backdrop effect
+                                     >
+                                       <div
+                                         className="modal-dialog modal-dialog-centered"
+                                         role="document"
+                                       >
+                                         <div className="modal-content">
+                                        
+                                           <div className="modal-header">
+                                             <h5 className="modal-title">Send Message</h5>
+                                             <button
+                                               type="button"
+                                               className="btn-close"
+                                               onClick={() => setShowModal(false)}
+                                             ></button>
+                                           </div>
+             
+                                           <div className="modal-body">
+                 <div className="p-4 w-full max-w-lg mx-auto">
+                   {userId && recieverId ? (
+                     <Chat
+                       userId={userId}
+                       recieverId={recieverId}
+                     />
+                   ) : (
+                     <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                       <p className="text-lg font-semibold text-gray-600">
+                         Please log in to start messaging.
+                       </p>
+                     </div>
+                   )}
+                 </div>
+               </div>
+                                         </div>
+                                       </div>
+                                     </div>
+             
+                                   
+                                     {showModal && (
+                                       <div
+                                         className="modal-backdrop fade show"
+                                         onClick={() => setShowModal(false)}
+                                       ></div>
+                                     )}
+                                   </div>
 
+             
+           </div>
+         </div>
+       </div>
 
-                            
-                                                       
-                                                     
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
- 
-                            
-                          </div>
-                        </div>
-                      </div>
-
-                      <h4 className="mt-4 mb-4">Location </h4>
+       <h4 className="mt-4 mb-4">Location </h4>
 
 <button className="location_btn ">
-  {itemData.location}{" "}
+{itemData.location}{" "}
 </button>
-                        
-  </Card.Body>
+         
+</Card.Body>
 </Card>
-                   
-                      
-              
-                     
-                    <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
-  {/* Card body to hold the price and heart button */}
-  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
-                     
-                      
-                    
-                            <div className="d-flex flex-column gap-3 mt-4 ms-0">
-                              <div>
-                              <img
-                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-                                alt="Dummy 1"
-                                className="rounded shadow"
-                                style={{
-                                  width: "375px",
-                                  height: "",
-                                  objectFit: "cover",
-                                }}
-                              />
-                              </div>
-
-                            </div>
-                      
-                            </Card.Body>
+<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)" }}>
+{/* Card body to hold the price and heart button */}
+<Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
+      
+       
+     
+             <div className="d-flex flex-column gap-3 mt-4 ms-0">
+               <img
+                 src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
+                 alt="Dummy 1"
+                 className="rounded shadow"
+                 style={{
+                   width: window.innerWidth <= 576 ? "330px" : "375px",
+                   height: "300px",
+                   objectFit: "cover",
+                 }}
+               />
+               <img
+                 src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
+                 alt="Dummy 2"
+                 className="rounded shadow"
+                 style={{
+                   width: window.innerWidth <= 576 ? "330px" : "375px",
+                   height: "300px",
+                   objectFit: "cover",
+                 }}
+               />
+               <img
+                 src="https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
+                 alt="Dummy 3"
+                 className="rounded shadow"
+                 style={{
+                   width: window.innerWidth <= 576 ? "330px" : "375px",
+                   height: "300px",
+                   objectFit: "cover",
+                 }}
+               />
+             
+            
+             </div>
+       
+             </Card.Body>
 </Card>   
-                   
-                  </div>
-                </div>
-              </div>
-            </div>
-            <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
-          </div>
-        </div>
-        
+ </Col>       
+
+</Col>
+          
+          </Row>
+          <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
+        </Container>
+
+
         {/* Footer */}
         <Footer />
       </div>

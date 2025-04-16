@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./footer/Footer";
-import Header from "./header";
+import Footer from "./../home/footer/Footer";
+import Header from "../home/header";
 import img from "./home-07.jpg";
 import tick from "./tick.png";
 import bullet from "./bullet.png";
@@ -28,6 +28,7 @@ import image2 from "../../assets/img/banner/bannerimage2.png";
 import image3 from "../../assets/img/banner/bannerimage3.png";
 import image4 from "../../assets/img/banner/bannerimage4.png";
 import ads from "./adsimg.png";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import {
   getDocs,
   collection,
@@ -194,7 +195,21 @@ const handleShowReport = () => {
  const recieverId = itemData?.userId;
 
  const [chatIds, setChatIds] = useState([]);
+ useEffect(() => {
+  window.scrollTo(0, 0);
+}, [location]);
+const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+useEffect(() => {
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  // Cleanup on unmount
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
  useEffect(() => {
    const fetchChatIds = async () => {
      try {
@@ -615,147 +630,113 @@ const handleShowReport = () => {
       <div className="main-wrapper">
         <Header />
 
-        {/* Banner Section */}
-        {/* <section className="banner-section">
-          <div className="container">
-            <div className="home-banner">
-              <div className="home-banner-about">
-                <div className="section-search aos r" data-aos="fade-up">
-                  <p className="explore-text banner-text">
-                    <span>Explore top-rated attractions</span>
-                  </p>
-                  <h1>
-                    Let us help you <br />
-                    <span>Find, Buy</span> & Own Dreams
-                  </h1>
-                  <p className="banner-para">
-                    Countrys most loved and trusted classified ad listing
-                    website classified ad.randomised words which don't look even
-                    slightly Browse thousand of items near you.
-                  </p>
-                </div>
 
-                <div className="bannerimages_wrapper">
-                  <div className="wrapper_container">
-                    <img src={image1} alt="" />
-                    <img src={image2} alt="" />
-                  </div>
-                  <div className="wrapper_container">
-                    <img src={image3} alt="" />
-                    <img src={image4} alt="" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-        {/* <section
-          className="banner-section bg-no-repeat bg-center w-full"
+        <Container
+          className="parent-main"
           style={{
-            backgroundImage: `url(${"/12750.jpg"})`,
-            backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-            height: "50vh", // Adjust height as needed
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="container mx-auto flex items-center justify-center h-full">
-            <div className="home-banner">
-              <div className="home-banner-about">
-                <div
-                  className="section-search aos r homebannerwrapper_2"
-                  data-aos="fade-up"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </section> */}
-        <div
-          className="container    border-none h-auto containerWrapper"
-          style={{ marginTop: "220px" }}
-        >
-         <div className="d-flex flex-wrap justify-content-between align-items-center">
-            {/* Breadcrumb buttons */}
-           
-            <div className="adsCategory_head">
-              <button
-                className="btn border me-2 mb-2 mb-sm-0"
-                style={{ background: "#E9EEFF", fontWeight: "500" }}
-              >
-                Home
-              </button>
-              <span>
-                <img src={arrow} alt="" />
-              </span>
-              <button
-                className="btn border me-2 mb-2 mb-sm-0"
-                style={{ background: "#E9EEFF", fontWeight: "500" }}
-              >
-               {callingFrom}{" "}
-              </button>
-             
-             
-            
-            </div>
+            paddingLeft: "2px", // Padding on the left side
+            paddingRight: "2px", // Padding on the right side
+            color: "black", // Text color
+            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
+            margin: "0 auto", // Optional: Center the container if desired
+            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
 
-            <div className="adsCategoryInfoheade2">
-        <button
-          className="btn me-2 mb-2 mb-sm-0"
-          style={{
-            color: "#2D4495",
-            background: "white",
-            border: "2px solid #2D4495",
           }}
-          onClick={handlePrevious} // Attach handler
         >
-          <span>
-            <img src={left} alt="left" />
-          </span>
-          Previous
-        </button>
-        <button
-          className="btn mb-2 mb-sm-0"
-          style={{
-            color: "#2D4495",
-            background: "white",
-            border: "2px solid #2D4495",
-          }}
-          onClick={handleNext} // Attach handler
-        >
-          <span>
-            <img src={right} alt="right" />
-          </span>
-          Next
-        </button>
-      </div>
+          <div
+            className="adsCategory_head"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginTop: "40px",
+              alignItems: "center",
+            }}
+          >
+            <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                // background: "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              Home
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+            <button
+              className="btn"
+              style={{
+                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              {callingFrom}{" "}
+            </button>
           </div>
           <hr
+  style={{
+    color: "#000000",
+    marginTop: "14.83px",
+    marginBottom: "14.3px",
+    width: window.innerWidth <= 576 ? "95%" : "85%",
+    marginLeft: "auto", // Center the line
+    marginRight: "auto",
+  }}
+/>
+          <div>
+            <h1
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
+            >
+              {itemData?.title || "Default Title"}{" "}
+            </h1>
+          </div>
+          <div
+            className="CategoryInfodiv_btn2container"
             style={{
-              color: "#000000",
-              marginTop: "24.83px",
-              marginBottom: "24.3px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
-          />
-
-          {/* More buttons */}
-          <h1 className="fw-bold" style={{ marginBottom: "24px" }}>
-            {itemData?.title || "Default Title"}{" "}
-            {/* Dynamically display the title */}
-          </h1>
-      
-
-          <div className="head2_wrapper mt-4">
-            <div className="CategoryInfodiv_btn2container mt-4">
-              <button className="head2btn mt-4">
-                <span>
+          >
+            <button
+            
+              className="head2btn"
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}
+            >
+               <span>
                   <img src={left} alt="leftarrow" />
                 </span>{" "}
-                Favourite
-              </button>
-              <>
+              Favourite
+            </button>
+            <>
                 {/* Button to open modal */}
                 <button
-                  className="head2btn mt-4"
+                  className="head2btn"
                   onClick={() => setShowModal1(true)}
+                  style={{
+                    backgroundColor: "white",
+                    border: "1px solid #2D4495",
+                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                    textAlign: "center",
+                    width: window.innerWidth <= 576 ? "47%" : "auto"
+                  }}
                 >
                   <span>
                     <img src={share} alt="share" />
@@ -798,14 +779,16 @@ const handleShowReport = () => {
                           <div className="modal-footer">
                             <button
                               type="button"
-                              className="btn btn-primary"
+                              className="btn"
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
                               onClick={copyToClipboard}
                             >
                               Copy
                             </button>
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn "
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
                               onClick={() => setShowModal1(false)}
                             >
                               Close
@@ -817,10 +800,17 @@ const handleShowReport = () => {
                   </>
                 )}
               </>
-              <div>
               {itemData.userId===userId?
 
-<button className="head2btn mt-4" onClick={handleShowReport}>
+<button className="head2btn" onClick={handleShowReport}
+  style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
+              }}
+>
               <span>
                 {/* <img src="your-report-image-source" alt="promote" /> */}
                 <FaBuysellads />
@@ -892,16 +882,24 @@ const handleShowReport = () => {
                     </div>
                   </div>
                 )}
-              </div>
-              <button className="head2btn mt-4" onClick={handleShow}>
+              <button className="head2btn"
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #2D4495",
+                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  textAlign: "center",
+                  width: window.innerWidth <= 576 ? "47%" : "auto"
+                }}
+              onClick={handleShow}>
                 <span>
                   <img src={report} alt="report" />
                 </span>
                 Report
               </button>
-            </div>
 
-            <Modal show={show} onHide={handleClose} centered>
+             <Modal 
+              style={{marginTop: window.innerWidth <= 576 ? 60 : 20}}
+              show={show} onHide={handleClose} centered>
               <Modal.Header closeButton>
                 <Modal.Title>Submit a Report</Modal.Title>
               </Modal.Header>
@@ -933,21 +931,75 @@ const handleShowReport = () => {
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button    style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+      }}
+       onClick={handleClose}
+       onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+        e.currentTarget.style.color = "#fff"; // Force same text color
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+        e.currentTarget.style.color = "#fff"; // Restore same text color
+      }}
+       >
                   Close
                 </Button>
                 <Button
-                  variant="primary"
+                     style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      border: "none",
+                      fontWeight: "bold",
+                      borderRadius: 10,
+                      transition: "none", // Disable transitions
+                      outline: "none", // Remove focus outline
+                      boxShadow: "none", // Remove any shadow changes
+                      cursor: "pointer" // Maintain clickable appearance
+                    }}
                   onClick={handleSubmit}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.color = "#fff"; // Force same text color
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.color = "#fff"; // Restore same text color
+                  }}
                   // disabled={!reportText || selectedReports.length === 0}
-                  disabled={selectedReports.length === 0}
+                  // disabled={selectedReports.length === 0}
                 >
                   Submit Report
                 </Button>
               </Modal.Footer>
             </Modal>
-            {/* Posted time */}
-            <div className="d-flex flex-wrap justify-content-end">
+
+
+          </div>
+        </Container>
+            <Container
+          fluid
+          style={{
+            paddingLeft: "10px", // Padding on the left side
+            paddingRight: "1px", // Padding on the right side
+            color: "black", // Text color
+            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            margin: "0 auto", // Optional: Center the container if desired
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
+            marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
+
+          }}
+        >
+              <div className="d-flex flex-wrap justify-content-end">
               <p
                 style={{
                   color: "black",
@@ -958,15 +1010,10 @@ const handleShowReport = () => {
                 Posted {itemData?.timeAgo || "Loading..."}
               </p>
             </div>
-          </div>
-       
-          <div
-            className="row    border-none"
-            style={{ marginTop: "-2rem" }}
-          >
-            {/* Left Side: Image Section */}
-            <div className="col-md-8    border-none">
-              <div>
+          <Row>
+            {/* Sidebar */}
+            <Col md={8} className=" style={{ height: 'auto' }}">
+            <div>
               <div
   style={{
     position: "relative",
@@ -1096,8 +1143,7 @@ const handleShowReport = () => {
   )}
 </div>
               </div>
-
-              <div className="row    border-none info_wrapper p-3">
+              <div className="border-none info_wrapper" style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                 <div className="col">
                   <div className="table-responsive info_table">
                     <table className="table table-borderless">
@@ -1183,10 +1229,10 @@ const handleShowReport = () => {
                   </div>
                 </div>
               </div>
-              <div className="descriptions_wrapper">
+              <div className="descriptions_wrapper" style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                                 <h1
                                   className="fw-bold"
-                                  style={{ padding: "20px" ,marginLeft:-100}}
+                                  style={{ padding: "20px" ,marginLeft:-14}}
                                 >
                                   Description:
                                 </h1>
@@ -1230,120 +1276,19 @@ const handleShowReport = () => {
                                    officia praesentium facilis.
                                  </p>
 
-                                 {/* <div className="row">
-                                   <button
-                                     className="hovering"
-                                     style={{
-                                       color: "white",
-                                       border: "2px solid rgb(45, 68, 149)",
-                                       background: "#2D4495",
-                                       borderRadius: "0.7rem",
-                                       width: "7rem",
-                                       height: "2rem",
-                                       margin: "1.3rem",
-                                     }}
-                                   >
-                                     Loresm
-                                   </button>
-
-                                   <>
-                                     <button
-                                       className="hovering"
-                                       style={{
-                                         color: "white",
-                                         border: "2px solid rgb(45, 68, 149)",
-                                         background: "#2D4495",
-                                         borderRadius: "0.7rem",
-                                         width: "7rem",
-                                         height: "2rem",
-                                         margin: "1.3rem",
-                                       }}
-                                       onClick={handleShow}
-                                     >
-                                       Report
-                                     </button>
-
-                                     <Modal
-                                       show={show}
-                                       onHide={handleClose}
-                                       centered
-                                     >
-                                       <Modal.Header closeButton>
-                                         <Modal.Title>
-                                           Submit a Report
-                                         </Modal.Title>
-                                       </Modal.Header>
-                                       <Modal.Body>
-                                         <Form>
-                                           <Form.Group controlId="reportText">
-                                             <Form.Label>
-                                               Report Details
-                                             </Form.Label>
-                                             <Form.Control
-                                               as="textarea"
-                                               rows={3}
-                                               placeholder="Describe the issue..."
-                                               value={reportText}
-                                               onChange={(e) =>
-                                                 setReportText(e.target.value)
-                                               }
-                                             />
-                                           </Form.Group>
-
-                                           <Form.Group className="mt-3">
-                                             <Form.Label>
-                                               Report Type
-                                             </Form.Label>
-                                             {reportTypes.map(
-                                               (type, index) => (
-                                                 <Form.Check
-                                                   key={index}
-                                                   type="checkbox"
-                                                   label={type}
-                                                   checked={selectedReports.includes(
-                                                     type
-                                                   )}
-                                                   onChange={() =>
-                                                     handleCheckboxChange(type)
-                                                   }
-                                                 />
-                                               )
-                                             )}
-                                           </Form.Group>
-                                         </Form>
-                                       </Modal.Body>
-                                       <Modal.Footer>
-                                         <Button
-                                           variant="secondary"
-                                           onClick={handleClose}
-                                         >
-                                           Close
-                                         </Button>
-                                         <Button
-                                           variant="primary"
-                                           onClick={handleSubmit}
-                                           disabled={
-                                             !reportText ||
-                                             selectedReports.length === 0
-                                           }
-                                         >
-                                           Submit Report
-                                         </Button>
-                                       </Modal.Footer>
-                                     </Modal>
-                                   </>
-                                 </div> */}
+                            
                                </div>
                              </div>
                               </div>
-            </div>
 
-            {/* Right Side: Profile Information Section */}
-            <div className="col-md-4    border-none leftCard responsive_card">
-            {" "}
-      
-            <div className="col-md-11  border-none leftCard responsive_card">
-                  <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+          
+            </Col>
+
+            <Col md={4} className="p-3">
+ 
+           
+                <Col xs={11}  >
+                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15,marginBottom:-30}}>
     <div
@@ -1495,6 +1440,7 @@ const handleShowReport = () => {
                                                       role="dialog"
                                                       style={{
                                                         backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                        marginTop:100
                                                       }} // Backdrop effect
                                                     >
                                                       <div
@@ -1528,19 +1474,6 @@ const handleShowReport = () => {
                                   )}
                                 </div>
                               </div>
-
-
-                            
-                                                       
-                                                          <div className="modal-footer">
-                                                            <button
-                                                              type="button"
-                                                              className="btn btn-secondary"
-                                                              onClick={() => setShowModal(false)}
-                                                            >
-                                                              Close
-                                                            </button>
-                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -1567,11 +1500,7 @@ const handleShowReport = () => {
                         
   </Card.Body>
 </Card>
-                   
-                      
-              
-                     
-                    <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
                      
@@ -1583,7 +1512,7 @@ const handleShowReport = () => {
                                 alt="Dummy 1"
                                 className="rounded shadow"
                                 style={{
-                                  width: "375px",
+                                  width: window.innerWidth <= 576 ? "330px" : "375px",
                                   height: "300px",
                                   objectFit: "cover",
                                 }}
@@ -1593,7 +1522,7 @@ const handleShowReport = () => {
                                 alt="Dummy 2"
                                 className="rounded shadow"
                                 style={{
-                                  width: "375px",
+                                  width: window.innerWidth <= 576 ? "330px" : "375px",
                                   height: "300px",
                                   objectFit: "cover",
                                 }}
@@ -1603,23 +1532,24 @@ const handleShowReport = () => {
                                 alt="Dummy 3"
                                 className="rounded shadow"
                                 style={{
-                                  width: "375px",
+                                  width: window.innerWidth <= 576 ? "330px" : "375px",
                                   height: "300px",
                                   objectFit: "cover",
                                 }}
                               />
+                             
+                           
                             </div>
                       
                             </Card.Body>
 </Card>   
-                   
-                  </div>
-         
-            </div>
-            <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
-          </div>
-        </div>
+                </Col>       
 
+            </Col>
+          </Row>
+          <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
+        </Container>
+    
         {/* Footer */}
         <Footer />
       </div>
