@@ -22608,9 +22608,9 @@ section.advertisement {
   transform: none; /* no zoom or lift */
   /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);   */
 }
-.chat-container {
+/* .chat-container {
   height: 400px;
-}
+} */
 
 .chat-box {
   overflow-y: auto;

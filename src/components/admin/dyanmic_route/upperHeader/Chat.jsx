@@ -1,58 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
-// import {
-//   db,
-//   collection,
-//   query,
-//   where,
-//   orderBy,
-//   onSnapshot,
-//   addDoc,
-//   serverTimestamp,
-// } from "../../../firebase/firestore";
-import {
-  getDocs,
-  collection,
-  addDoc,
-  setDoc,
-  getDoc,
-  doc,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../../../Firebase/FirebaseConfig";
-import io from "socket.io-client";
 
-// import { db } from "../../Firebase/FirebaseConfig";
-let socket;
+// Debounce utility to limit fetchMessages calls
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
 
 const Chat = ({ recieverId, userId }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [refresh, setRefresh] = useState(false);
-
-  console.log(recieverId, "recieverId__________");
-  console.log(userId, "recieverId__________userId");
+  const [isSending, setIsSending] = useState(false); // Prevent double sends
   const chatEndRef = useRef(null);
 
-  //   useEffect(() => {
-  //     if (!chatId) return;
-
-  //     const messagesQuery = query(
-  //       collection(db, "messages"),
-  //       where("chat_id", "==", chatId),
-  //       orderBy("created_at", "asc")
-  //     );
-
-  //     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-  //       setMessages(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-  //     });
-
-  //     return () => unsubscribe();
-  //   }, [chatId]);
   const fetchMessages = async () => {
     try {
       const response = await fetch(
@@ -61,14 +25,26 @@ const Chat = ({ recieverId, userId }) => {
       );
       const data = await response.json();
       console.log("Messages Data:", data);
-      setMessages(data.messages || []);
+
+      // Deduplicate messages by id or composite key
+      const uniqueMessages = Array.from(
+        new Map(
+          (data.messages || []).map((msg) => [
+            msg.id || `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`,
+            msg,
+          ])
+        ).values()
+      );
+      setMessages(uniqueMessages);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
 
+  const debouncedFetchMessages = debounce(fetchMessages, 500);
+
   useEffect(() => {
-    fetchMessages(); // Fetch initial messages
+    fetchMessages();
 
     const messagesRef = collection(db, "messages");
     const messagesQuery = query(
@@ -79,38 +55,29 @@ const Chat = ({ recieverId, userId }) => {
 
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
       console.log("Messages table updated. Fetching new messages...");
-      fetchMessages(); // Re-fetch messages when Firestore changes
+      debouncedFetchMessages();
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
-  }, []);
+    return () => unsubscribe();
+  }, [userId, recieverId]);
 
-  //   useEffect(() => {
-  //     const fetchMessages = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           "https://ksaforsaleapis.vercel.app/api/getmessages?userId=tQmx7v6VjFdPbrEMPrZCLHJP58s2&receiverId=DqlbCkK1DzaTSP95sqJPrT6IDAx1",
-  //           {
-  //             method: "GET",
-  //           }
-  //         );
-  //         const data = await response.json();
-  //         console.log("Messages Data:", data);
-  //         setMessages(data.messages || []); // Extract messages array
-  //       } catch (error) {
-  //         console.error("Error fetching messages:", error);
-  //       }
-  //     };
-
-  //     fetchMessages();
-  //   }, [refresh]);
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
   const sendMessage = async () => {
-    if (newMessage.trim() === "") return;
+    if (newMessage.trim() === "" || isSending) return;
+
+    setIsSending(true);
+    const messagePayload = {
+      content: newMessage,
+      sender: userId,
+      receiver: recieverId,
+      from: userId,
+    };
 
     try {
+      console.log("Sending message:", messagePayload);
       const response = await fetch(
         "https://ksaforsaleapis.vercel.app/api/messages",
         {
@@ -118,86 +85,178 @@ const Chat = ({ recieverId, userId }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            content: newMessage,
-            sender: userId,
-            receiver: recieverId,
-            from: userId,
-          }),
+          body: JSON.stringify(messagePayload),
         }
       );
+
+      const responseData = await response.json();
+      console.log("Send Message Response:", responseData);
 
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-      setRefresh(!refresh);
+
       setNewMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
-  //   const sendMessage = async () => {
-  //     if (newMessage.trim() === "") return;
-
-  //     await addDoc(collection(db, "messages"), {
-  //       chat_id: 0,
-  //       content: newMessage,
-  //       created_at: serverTimestamp(),
-  //       sender: userId,
-  //       receiver: userId === "client" ? "admin" : "client", // Example logic
-  //       from: userId === "client" ? "client" : "admin",
-  //     });
-  //     setRefresh(!refresh);
-  //     setNewMessage("");
-  //   };
-
   return (
-    <div className="container mt-4">
-      <div className="card shadow-sm p-3 chat-container">
-        <div className="chat-box overflow-auto">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`d-flex ${
-                msg.sender === userId
-                  ? "justify-content-end"
-                  : "justify-content-start"
-              } my-2`}
-            >
-              <div
-                className={`chat-bubble p-3 rounded ${
-                  msg.sender === userId ? "bg-primary text-white" : "bg-light"
-                }`}
-              >
-                <p className="mb-1">{msg.content}</p>
-                <small className="text-muted d-block text-end">
-                  {new Date(
-                    msg.created_at?._seconds * 1000
-                  ).toLocaleTimeString()}
-                </small>
-              </div>
-            </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
+    <div className="chat-container" style={styles.container}>
 
-        {/* Input Box */}
-        <div className="input-group mt-3">
-          <input
-            type="text"
-            className="form-control"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message..."
-          />
-          <button className="btn btn-primary" onClick={sendMessage}>
-            Send
-          </button>
-        </div>
+      {/* Messages Area */}
+      <div style={styles.messagesArea}>
+        {messages.map((msg) => (
+          <div
+            key={msg.id || `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`}
+            style={
+              msg.sender === userId
+                ? styles.userMessageContainer
+                : styles.botMessageContainer
+            }
+          >
+            {msg.sender !== userId && (
+              <div style={styles.avatar}>🤖</div> // Bot avatar
+            )}
+            <div
+              style={
+                msg.sender === userId ? styles.userMessage : styles.botMessage
+              }
+            >
+              {msg.content}
+            </div>
+          </div>
+        ))}
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Input Area */}
+      <div style={styles.inputArea}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
+            }
+          }}
+          placeholder="Message..."
+          style={styles.input}
+        />
+        <button onClick={sendMessage} style={styles.sendButton}>
+          ↑
+        </button>
       </div>
     </div>
   );
+};
+
+// Inline styles to match the design
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    height: "500px",
+    width: "auto",
+    borderRadius: "15px",
+    overflow: "hidden",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f5f5f5",
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+    backgroundColor: "#6b48ff", // Purple header
+    color: "#fff",
+  },
+  backArrow: {
+    marginRight: "10px",
+    cursor: "pointer",
+  },
+  headerTitle: {
+    margin: 0,
+    fontSize: "18px",
+    fontWeight: "bold",
+  },
+  messagesArea: {
+    flex: 1,
+    padding: "15px",
+    overflowY: "auto",
+    backgroundColor: "#f5f5f5",
+  },
+  botMessageContainer: {
+    display: "flex",
+    alignItems: "flex-start",
+    marginBottom: "15px",
+  },
+  userMessageContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "15px",
+  },
+  avatar: {
+    width: "30px",
+    height: "30px",
+    borderRadius: "50%",
+    backgroundColor: "#6b48ff", // Purple avatar
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: "10px",
+    fontSize: "16px",
+  },
+  botMessage: {
+    backgroundColor: "#fff",
+    color: "#6b48ff", // Purple text for bot messages
+    padding: "10px 15px",
+    borderRadius: "15px 15px 15px 0",
+    maxWidth: "70%",
+    fontSize: "14px",
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+  },
+  userMessage: {
+    backgroundColor: "#e6e1ff", // Light purple for user messages
+    color: "#333",
+    padding: "10px 15px",
+    borderRadius: "15px 15px 0 15px",
+    maxWidth: "70%",
+    fontSize: "14px",
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+  },
+  inputArea: {
+    display: "flex",
+    padding: "10px",
+    borderTop: "1px solid #ddd",
+    backgroundColor: "#fff",
+  },
+  input: {
+    flex: 1,
+    padding: "10px",
+    border: "1px solid #ddd",
+    borderRadius: "20px",
+    fontSize: "14px",
+    outline: "none",
+  },
+  sendButton: {
+    marginLeft: "10px",
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    backgroundColor: "#6b48ff", // Purple send button
+    color: "#fff",
+    border: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
 };
 
 export default Chat;

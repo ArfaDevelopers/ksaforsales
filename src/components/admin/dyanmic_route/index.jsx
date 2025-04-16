@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../../home/footer/Footer";
-import Header from "./header";
+import Header from "../../home/header";
 import img from "./home-07.jpg";
 import tick from "./tick.png";
 import bullet from "./bullet.png";
@@ -78,7 +78,17 @@ const Dynamic_Route = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [loading, setLoading] = useState(false); // Loading state
   const [show, setShow] = useState(false);
 
@@ -401,7 +411,8 @@ const Dynamic_Route = () => {
     );
   };
 
- 
+  const [successShow, setSuccessShow] = useState(false);
+  const handleSuccessClose = () => setSuccessShow(false);
   const handleSubmit = async () => {
     console.log("Report Submitted:", { reportText, selectedReports });
 
@@ -469,6 +480,8 @@ const Dynamic_Route = () => {
       }
 
       handleClose();
+      setSuccessShow(true);
+
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -604,6 +617,7 @@ const Dynamic_Route = () => {
   ];
   const visibleImages = showAllThumbnails ? images : images.slice(0, 5); // Show 5 or all
 
+  
   return (
     <>
       <div className="main-wrapper ">
@@ -618,10 +632,10 @@ const Dynamic_Route = () => {
           <div className="d-flex flex-wrap justify-content-between align-items-center">
             {/* Breadcrumb buttons */}
            
-            <div className="adsCategory_head">
+            <div className="adsCategory_head" style={{marginTop: window.innerWidth <= 576 ? "-100px" : "0px"}}>
               <button
                 className="btn border me-2 mb-2 mb-sm-0"
-                style={{ background: "#E9EEFF", fontWeight: "500" }}
+                style={{ background: "#E9EEFF", fontWeight: "500", }}
               >
                 Home
               </button>
@@ -639,7 +653,7 @@ const Dynamic_Route = () => {
             
             </div>
 
-            <div className="adsCategoryInfoheade2">
+            <div className="adsCategoryInfoheade2" style={{marginTop: window.innerWidth <= 576 ? "-20px" : "0px",marginBottom: window.innerWidth <= 576 ? "-10px" : "0px"}}>
         <button
           className="btn me-2 mb-2 mb-sm-0"
           style={{
@@ -678,7 +692,7 @@ const Dynamic_Route = () => {
             }}
           />
 <div
-          style={{ fontSize:"40px",marginBottom:-35 }}
+          style={{ fontSize:"40px",marginBottom: window.innerWidth <= 576 ? "-20px" : "-30px" }}
         >
 {itemData?.title || "Default Title"}
         </div>
@@ -686,8 +700,8 @@ const Dynamic_Route = () => {
         
 
           <div className="head2_wrapper mt-4">
-            <div className="CategoryInfodiv_btn2container mt-4">
-              <button className="head2btn mt-4">
+            <div className="CategoryInfodiv_btn2container " style={{marginTop: window.innerWidth <= 576 ? "-50px" : "0px"}}>
+              <button className="head2btn mt-4" >
                 <span>
                   <img src={left} alt="leftarrow" />
                 </span>{" "}
@@ -829,7 +843,7 @@ const Dynamic_Route = () => {
                   </div>
                 )}
               </div>
-              <button className="head2btn mt-4" onClick={handleShow}>
+              <button className="head2btn mt-4"style={{marginTop: window.innerWidth <= 576 ? "9rem" : "0rem",}} onClick={handleShow} >
                 <span>
                   <img src={report} alt="report" />
                 </span>
@@ -837,7 +851,7 @@ const Dynamic_Route = () => {
               </button>
             </div>
 
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal style={{marginTop:20}} show={show} onHide={handleClose} centered>
               <Modal.Header closeButton>
                 <Modal.Title>Submit a Report</Modal.Title>
               </Modal.Header>
@@ -899,7 +913,7 @@ const Dynamic_Route = () => {
           <div className="row  border-none">
             <div class="container">
               <div class="row">
-                <div class="col-md-8" style={{marginTop:-30, height: '1800px' }}>
+                <div class="col-md-8" style={{marginTop:-30, height: '' }}>
                   {callingFrom === "AutomotiveComp" ? (
                     // <div className="col  border-none container ">
                     //   <div className="col  border-none">\
@@ -1043,76 +1057,29 @@ const Dynamic_Route = () => {
                             <div className="col">
                               <div className="table-responsive info_table">
                                 <table className="table">
-                                  <tbody className="info_body">
-                                    {Object.entries({
-                                      "Seller Type":
-                                        itemData?.SellerType ||
-                                        "Default Seller Type",
-                                      "Registered City":
-                                        itemData?.Registeredin ||
-                                        "Default Registered City",
-                                      Assembly:
-                                        itemData?.Assembly ||
-                                        "Default Assembly",
-                                      "Engine Capacity":
-                                        itemData?.EngineCapacity ||
-                                        "Default Engine Capacity",
-                                      "Body Type":
-                                        itemData?.BodyType ||
-                                        "Default Body Type",
-                                      "Last Updated":
-                                        itemData?.timeAgo ||
-                                        "Default Last Updated",
-                                      Condition:
-                                        itemData?.Condition ||
-                                        "Default Condition",
-                                      "Exterior Color":
-                                        itemData?.ExteriorColor ||
-                                        "Default Color",
-                                      Purpose:
-                                        itemData?.Purpose || "Default Purpose",
-                                      Model: itemData?.Model || "Default Model",
-                                      Color: itemData?.Color || "Default Color",
-                                    })
-                                      .filter(([_, value]) => value)
-                                      .reduce(
-                                        (
-                                          rows,
-                                          [label, value],
-                                          index,
-                                          array
-                                        ) => {
-                                          if (index % 2 === 0) {
-                                            rows.push([
-                                              [label, value],
-                                              array[index + 1] || null,
-                                            ]);
-                                          }
-                                          return rows;
-                                        },
-                                        []
-                                      )
-                                      .map((row, index) => (
-                                        <tr
-                                          key={index}
-                                          className="border-bottom"
-                                        >
-                                          {row.map(
-                                            (col, idx) =>
-                                              col && (
-                                                <>
-                                                  <th className="table_text">
-                                                    {col[0]}:
-                                                  </th>
-                                                  <td className="table_text">
-                                                    {col[1]}
-                                                  </td>
-                                                </>
-                                              )
-                                          )}
-                                        </tr>
-                                      ))}
-                                  </tbody>
+                                 <tbody className="info_body">
+  {Object.entries({
+    "Seller Type": itemData?.SellerType || "Default Seller Type",
+    "Registered City": itemData?.Registeredin || "Default Registered City",
+    Assembly: itemData?.Assembly || "Default Assembly",
+    "Engine Capacity": itemData?.EngineCapacity || "Default Engine Capacity",
+    "Body Type": itemData?.BodyType || "Default Body Type",
+    "Last Updated": itemData?.timeAgo || "Default Last Updated",
+    Condition: itemData?.Condition || "Default Condition",
+    "Exterior Color": itemData?.ExteriorColor || "Default Color",
+    Purpose: itemData?.Purpose || "Default Purpose",
+    Model: itemData?.Model || "Default Model",
+    Color: itemData?.Color || "Default Color",
+  })
+    .filter(([_, value]) => value)
+    .map(([label, value], index) => (
+      <tr key={index} className="border-bottom">
+        <th className="table_text">{label}:</th>
+        <td className="table_text">{value}</td>
+      </tr>
+    ))}
+</tbody>
+
                                 </table>
                               </div>
                             </div>
@@ -3986,6 +3953,7 @@ const Dynamic_Route = () => {
                                                       role="dialog"
                                                       style={{
                                                         backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                        marginTop:100
                                                       }} // Backdrop effect
                                                     >
                                                       <div
@@ -4023,15 +3991,7 @@ const Dynamic_Route = () => {
 
                             
                                                        
-                                                          <div className="modal-footer">
-                                                            <button
-                                                              type="button"
-                                                              className="btn btn-secondary"
-                                                              onClick={() => setShowModal(false)}
-                                                            >
-                                                              Close
-                                                            </button>
-                                                          </div>
+                                                     
                                                         </div>
                                                       </div>
                                                     </div>
@@ -4069,36 +4029,19 @@ const Dynamic_Route = () => {
                       
                     
                             <div className="d-flex flex-column gap-3 mt-4 ms-0">
+                              <div>
                               <img
                                 src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
                                 alt="Dummy 1"
                                 className="rounded shadow"
                                 style={{
                                   width: "375px",
-                                  height: "300px",
+                                  height: "",
                                   objectFit: "cover",
                                 }}
                               />
-                              <img
-                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-                                alt="Dummy 2"
-                                className="rounded shadow"
-                                style={{
-                                  width: "375px",
-                                  height: "300px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                              <img
-                                src="https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
-                                alt="Dummy 3"
-                                className="rounded shadow"
-                                style={{
-                                  width: "375px",
-                                  height: "300px",
-                                  objectFit: "cover",
-                                }}
-                              />
+                              </div>
+
                             </div>
                       
                             </Card.Body>
