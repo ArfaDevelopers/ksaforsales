@@ -65,7 +65,7 @@ function RatingSection({ ratings }) {
               </span>
             ))}
           </div>
-          <div style={{ fontSize: '12px', color: '#888' }}>Based on {totalReviews} listing</div>
+          <div style={{ fontSize: '12px', color: '#888' }}>Based on {totalReviews} Review</div>
         </div>
         <div style={{ flex: 1 }}>
           {[...Array(5)].map((_, i) => {
