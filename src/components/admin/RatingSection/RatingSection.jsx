@@ -162,7 +162,7 @@ function UserReviews({ reviews, onAddReview, onLike, onDislike }) {
     alt="Write Icon"
     style={{ width: '20px', height: '20px', marginRight: '8px' }}
   />
-  <span style={{ color: '#2D4495', fontWeight: 'bold', fontSize: '16px' }}>
+  <span style={{ color: 'black', fontWeight: 'bold', fontSize: '16px' }}>
     Write a Review
   </span>
 </div>
