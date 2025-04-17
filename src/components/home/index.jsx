@@ -710,73 +710,73 @@ const Home = () => {
                 ></div>
               </div>
             </div>
-            <div className="row cat_icon_main" style={{ marginTop: "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px"}}>
+            <div className="row cat_icon_main" style={{ marginTop: "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px",marginLeft: window.innerWidth <= 576 ? "-0.8rem" : "0rem"}}>
   {/* Row 1: 5 items */}
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/AutomotiveComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Automotive</h5>
       <img src={automative} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/ElectronicComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Electronics</h5>
       <img src={electronic} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/FashionStyle" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Fashion Style</h5>
       <img src={fashion} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/HealthCareComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Health Care</h5>
       <img src={healthcare} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/JobBoard" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Job Board</h5>
       <img src={job} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/Education" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Education</h5>
       <img src={education} alt="icons" />
     </Link>
   </div>
 </div>
-<div className="row cat_icon_main"style={{ marginTop: window.innerWidth <= 576 ? "0.5rem" : "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px"}}>
+<div className="row cat_icon_main"style={{ marginTop: window.innerWidth <= 576 ? "0.5rem" : "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px",marginLeft: window.innerWidth <= 576 ? "-0.8rem" : "0rem"}}>
   {/* Row 2: Next 5 items */}
  
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/RealEstateComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Real Estate</h5>
       <img src={realestate} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/TravelComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Travel</h5>
       <img src={travel} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/SportGamesComp" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Sports & Game</h5>
       <img src={sport} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
     <Link to="/MAGAZINESCOMP" className="category-links" style={{ textDecoration: "none" }}>
       <h5>Magazines</h5>
       <img src={magazine} alt="icons" />
     </Link>
   </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
                 <Link
                   to="/PetAnimalsComp"
                   className="category-links"
@@ -786,7 +786,7 @@ const Home = () => {
                   <img src={pet} alt="icons" />
                 </Link>
               </div>
-              <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "210px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+              <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
                 <Link
                   to="/index"
                   className="category-links"

@@ -20773,7 +20773,7 @@ section.advertisement {
   }
   .settings-upload-btn .file-upload {
     padding: 12px 30px;
-    margin: 15px 20px 15px 0;
+    margin: 15px 20px 15px 20px;
   }
   .profile-photo {
     display: block;
@@ -22147,10 +22147,10 @@ section.advertisement {
   flex-direction: column;
   align-items: center;
 }
-
+/* 
 .cat_icon_main .category_icons {
   width: 210px;
-}
+} */
 .latest_blog_inner .latest_blog_box h6 {
   padding: 10px 0;
   margin: 0;

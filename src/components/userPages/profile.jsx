@@ -27,15 +27,7 @@ const Profile = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  // const handlePasswordChange = (evnt) => {
-  //   setPasswordInput(evnt.target.value);
-  // };
-  // const [userId, setUserId] = useState(""); // State for image preview
-  // const [error, setError] = useState(""); // ✅ Error state
-  // const [isChecked, setIsChecked] = useState(false);
-  // const [displayName, setdisplayName] = useState(""); // State for image preview
-  // const [photoURL, setphotoURL] = useState(""); // State for image preview
-  // const [creationTime, setcreationTime] = useState(""); // State for image preview
+
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -161,43 +153,8 @@ const Profile = () => {
     return () => unsubscribe();
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       setUserId(user.uid);
-  //       setDisplayName(user.displayName || "");
-  //       setPhotoURL(user.photoURL || "");
-  //       setCreationTime(user.metadata.creationTime);
-  //       setEmail(user.email || "");
-  //       setPhoneNumber(user.phoneNumber || "");
-  //     } else {
-  //       console.log("No user is logged in.");
-  //     }
-  //   });
 
-  //   return () => unsubscribe();
-  // }, []);
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
-  //     if (user) {
-  //       const token = await user.getIdToken();
-  //       console.log("User ID Token:", token);
-  //       console.log("User UID:", user.uid);
-  //       console.log("User Display Name:", user.displayName); // Now it should not be null
-  //       console.log("User Display creationTime:", user.metadata.creationTime); // Now it should not be null
-  //       setcreationTime(user.metadata.creationTime);
-  //       setdisplayName(user.displayName);
-  //       setphotoURL(user.photoURL);
 
-  //       setUserId(user.uid);
-  //     } else {
-  //       console.log("No user is logged in. Redirecting to /login...");
-  //       // navigate("/login", { replace: true });
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [navigate]);
   const togglePassword = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -239,41 +196,15 @@ const Profile = () => {
       alert("Error uploading image.");
     }
   };
-  // const handleUpdate = async (e) => {
-  //   e.preventDefault();
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
 
-  //   if (!auth.currentUser) {
-  //     console.error("No authenticated user found.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Update Firebase Authentication profile
-  //     await updateProfile(auth.currentUser, {
-  //       displayName,
-  //       photoURL, // Only these fields can be updated in Firebase Auth
-  //     });
-
-  //     // Store the phone number separately in Firestore
-  //     const userRef = doc(db, "users", auth.currentUser.uid);
-  //     await setDoc(userRef, { phoneNumber, email }, { merge: true });
-
-  //     console.log("Profile updated successfully!");
-  //     Swal.fire({
-  //       title: "Success!",
-  //       text: "Profile Updated Successfully",
-  //       icon: "success",
-  //       timer: 1000,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error updating profile:", error);
-  //     Swal.fire({
-  //       title: "Error!",
-  //       text: "Failed to update profile.",
-  //       icon: "error",
-  //     });
-  //   }
-  // };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -316,7 +247,7 @@ const Profile = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "8rem",
+          marginTop: window.innerWidth <= 576 ? "6rem" : "8rem"
         }}
       >
         <div className="container">
@@ -377,41 +308,52 @@ const Profile = () => {
                     <h4>Profile Details</h4>
                   </div>
                   <div className="card-body">
-                    <div className="profile-photo">
-                      <div className="profile-img">
-                        <div className="settings-upload-img">
-                          <img src={photoURL} alt="profile" />
-                        </div>
-                        <div className="settings-upload-btn">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            name="image"
-                            className="hide-input image-upload"
-                            id="file"
-                            onChange={handleImageChange} // Handle file selection
-                          />
-                          <label htmlFor="file" className="file-upload">
-                            Upload New Photo
-                          </label>
-                        </div>
-                        <span>Max file size: 10 MB</span>
-                      </div>
-                      <Link
-                        to="#"
-                        className="profile-img-del"
-                        onClick={handleDeleteUser}
-                      >
-                        <i className="feather-trash-2" />
-                      </Link>
-                      {/* <button
-                        onClick={() =>
-                          handleChangePassword("newSecurePassword123!")
-                        }
-                      >
-                        Change Password
-                      </button> */}
-                    </div>
+                  <div
+      className="profile-photo"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: isSmallScreen ? 'center' : 'space-between',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        textAlign: isSmallScreen ? 'center' : 'left'
+      }}
+    >
+      <div
+        className="profile-img"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          margin: isSmallScreen ? '10px 0' : '0'
+        }}
+      >
+        <div className="settings-upload-img">
+          <img src={photoURL} alt="profile" />
+        </div>
+        <div className="settings-upload-btn" style={{ margin: 'px 0' }}>
+          <input
+            type="file"
+            accept="image/*"
+            name="image"
+            className="hide-input image-upload"
+            id="file"
+            onChange={handleImageChange}
+          />
+          <label htmlFor="file" className="file-upload">
+            Upload New Photo
+          </label>
+        </div>
+        <span>Max file size: 10 MB</span>
+      </div>
+      <Link
+        to="#"
+        className="profile-img-del"
+        onClick={handleDeleteUser}
+        style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}
+      >
+        <i className="feather-trash-2" />
+      </Link>
+    </div>
 
                     <div className="profile-form">
                       <form onSubmit={handleUpdate}>

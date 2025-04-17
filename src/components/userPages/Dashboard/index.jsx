@@ -111,7 +111,7 @@ const Dashboard = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "8rem",
+          marginTop: window.innerWidth <= 576 ? "6rem" : "8rem"
         }}
       >
         <div className="container">
@@ -160,23 +160,23 @@ const Dashboard = () => {
           </div>
 
           <div className="dashboard-details">
-          <div className="row" style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: '10px' }}>
-  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
-    <div className="card dash-cards">
-      <div className="card-body">
-        <div className="dash-top-content">
-          <div className="dashcard-img">
-            <img src={verified} className="img-fluid" alt="" />
-          </div>
-        </div>
-        <div className="dash-widget-info">
-          <h6>Active Listing</h6>
-          <div>500</div>
+          <div className="row g-2">
+              <div className="col-lg-4 col-md-4 col-6" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+                <div className="card dash-cards">
+                  <div className="card-body">
+                    <div className="dash-top-content">
+                      <div className="dashcard-img">
+                        <img src={verified} className="img-fluid" alt="" />
+                      </div>
+                    </div>
+                    <div className="dash-widget-info">
+                      <h6>Active Listing</h6>
+                      <div>500</div>
         </div>
       </div>
     </div>
   </div>
-  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+  <div className="col-lg-4 col-md-4 col-6" style={{ flex: '0 0 auto', minWidth: '100px' }}>
     <div className="card dash-cards">
       <div className="card-body">
         <div className="dash-top-content">
@@ -191,7 +191,7 @@ const Dashboard = () => {
       </div>
     </div>
   </div>
-  <div className="col-lg-4 col-md-4 col-4" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+  <div className="col-lg-4 col-md-4 col-12" style={{ flex: '0 0 auto', minWidth: '100px', marginTop: window.innerWidth <= 576 ? "-15px" : "8px" }}>
     <div className="card dash-cards">
       <div className="card-body">
         <div className="dash-top-content">

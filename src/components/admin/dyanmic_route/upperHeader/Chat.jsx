@@ -161,7 +161,7 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
-    height: "500px",
+    height: window.innerWidth <= 576 ? "300px" : "500px",
     width: "auto",
     borderRadius: "15px",
     overflow: "hidden",

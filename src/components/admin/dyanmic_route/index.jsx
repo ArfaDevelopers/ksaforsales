@@ -50,6 +50,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "../../../components/userPages/AddLisiting/PaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
 import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
+import RatingAndReviews from "../../admin/RatingSection/RatingSection";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -766,7 +767,7 @@ const Dynamic_Route = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <h3 style={{ wordBreak: "break-all" }}>{link}</h3>
+                            <h6 style={{ wordBreak: "break-all" }}>{link}</h6>
                           </div>
                           <div className="modal-footer">
                             <button
@@ -4185,15 +4186,26 @@ const Dynamic_Route = () => {
                     ""
                   )}
 
-          
+<div
+            className="adsCategory_head"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              marginLeft: window.innerWidth <= 576 ? "0px" : "-40px",
+              alignItems: "center",
+            }}
+          >
+                           <RatingAndReviews currentAdId={_Id} />
+
+          </div>
             </Col>
-            <Col md={4} className="p-3">
+            <Col md={4} className="p-0">
  
            
  <Col xs={11}  >
- <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+ <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
 {/* Card body to hold the price and heart button */}
-<Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-15,marginBottom:-30}}>
+<Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
 <div
 style={{
 fontSize: "60px",
