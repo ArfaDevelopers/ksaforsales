@@ -13,19 +13,18 @@ import {
 import UserHeader from "../Userheader";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
-import { db } from "../../Firebase/FirebaseConfig"; // Import your Firebase config
-import { collection, getDocs } from "firebase/firestore"; // Firestore methods
+import { db } from "../../Firebase/FirebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
 const Review = () => {
   const [change, setChange] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [visitorReviews, setVisitorReviews] = useState([]); // State to store fetched reviews
-  const [filteredReviews, setFilteredReviews] = useState([]); // State to store filtered reviews
-  const [visibleCount, setVisibleCount] = useState(4); // Number of reviews to show
-  const [filter, setFilter] = useState("All Listing"); // State to track selected filter
+  const [visitorReviews, setVisitorReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [filter, setFilter] = useState("All Listing");
   const location = useLocation();
 
-  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -34,12 +33,10 @@ const Review = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Scroll to top on location change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // Fetch and sort reviews from Firestore
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -50,7 +47,6 @@ const Review = () => {
           ...doc.data(),
         }));
 
-        // Sort reviews by createdAt (descending)
         reviewsList.sort((a, b) => {
           const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
           const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
@@ -58,9 +54,8 @@ const Review = () => {
         });
 
         setVisitorReviews(reviewsList);
-        setFilteredReviews(reviewsList); // Initially show all reviews
+        setFilteredReviews(reviewsList);
 
-        // Log reviews to console for verification
         console.log("=== All Visitor Reviews ===");
         console.log(`Total Reviews: ${reviewsList.length}`);
         reviewsList.forEach((review, index) => {
@@ -89,7 +84,6 @@ const Review = () => {
     fetchReviews();
   }, []);
 
-  // Filter reviews based on selected filter
   useEffect(() => {
     const now = new Date();
     let filtered;
@@ -115,22 +109,20 @@ const Review = () => {
         return reviewDate >= lastYearStart && reviewDate <= lastYearEnd;
       });
     } else {
-      filtered = visitorReviews; // Show all reviews for "All Listing"
+      filtered = visitorReviews;
     }
 
     setFilteredReviews(filtered);
-    setVisibleCount(4); // Reset visible count when filter changes
+    setVisibleCount(4);
   }, [filter, visitorReviews]);
 
-  // Load more reviews
   const loadMoreReviews = () => {
     setVisibleCount((prevCount) => prevCount + 4);
   };
 
-  // Handle filter selection
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
-    setChange(false); // Close dropdown after selection
+    setChange(false);
   };
 
   return (
@@ -143,10 +135,14 @@ const Review = () => {
         }}
       >
         <div className="container">
-          <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
+          <div
+            className="col-12 text-start text-dark"
+            style={{ fontSize: "26px", fontWeight: 500 }}
+          >
             Home / Reviews
           </div>
 
+        
           <div className="">
             <ul className="dashborad-menus">
               <li>
@@ -192,27 +188,70 @@ const Review = () => {
               marginBottom: window.innerWidth <= 576 ? "3rem" : "0rem",
             }}
           >
-            <div className="card-header d-flex align-items-center justify-content-between">
-              <h1 style={{ margin: 20 }}>All Review</h1>
-              <div className="card-dropdown">
-                <ul className="nav">
-                  <li className="nav-item dropdown has-arrow logged-item">
+            <div
+              className="card-header"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 20px",
+              }}
+            >
+              <h1 style={{ margin: "20px", fontSize: "24px", fontWeight: 600 }}>
+                All Review
+              </h1>
+              <div
+                className="card-dropdown"
+                style={{ position: "relative" }}
+              >
+                <ul
+                  className="nav"
+                  style={{ listStyle: "none", padding: 0, margin: 0 }}
+                >
+                  <li
+                    className="nav-item dropdown has-arrow logged-item"
+                    style={{ position: "relative" }}
+                  >
                     <Link
                       to="#"
                       className="dropdown-toggle pageviews-link"
                       data-bs-toggle="dropdown"
                       aria-expanded={change}
                       onClick={() => setChange(!change)}
+                      style={{
+                        textDecoration: "none",
+                        color: "#000",
+                        padding: "8px 16px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        display: "inline-block",
+                      }}
                     >
                       <span>{filter}</span>
                     </Link>
                     <div
                       className={`dropdown-menu dropdown-menu-end ${change ? "show" : ""}`}
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        right: 0,
+                        backgroundColor: "#fff",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                        borderRadius: "4px",
+                        display: change ? "block" : "none",
+                        zIndex: 1000,
+                      }}
                     >
                       <Link
                         className="dropdown-item"
                         to="#"
                         onClick={() => handleFilterChange("All Listing")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
                       >
                         All Listing
                       </Link>
@@ -220,6 +259,12 @@ const Review = () => {
                         className="dropdown-item"
                         to="#"
                         onClick={() => handleFilterChange("Last Week")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
                       >
                         Last Week
                       </Link>
@@ -227,6 +272,12 @@ const Review = () => {
                         className="dropdown-item"
                         to="#"
                         onClick={() => handleFilterChange("Last Month")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
                       >
                         Last Month
                       </Link>
@@ -234,6 +285,12 @@ const Review = () => {
                         className="dropdown-item"
                         to="#"
                         onClick={() => handleFilterChange("Last Year")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
                       >
                         Last Year
                       </Link>
@@ -242,98 +299,292 @@ const Review = () => {
                 </ul>
               </div>
             </div>
+            <div
+                  className="card dash-cards"
+                  style={{
+                    border: "none",
+                    borderRadius: "8px",
+                    backgroundColor: "#f8f9fa",
+                    padding:"0px"
+                  }}
+                >
+          <div
+  className="card-header"
+  style={{
+    padding: "15px",
+    borderBottom: "1px solid #e0e0e0",
+  }}
+>
+  {/* Inline <style> tag for media query */}
+  <style>
+    {`
+      @media (max-width: 768px) {
+        .your-reviews {
+          display: none;
+        }
+      }
+    `}
+  </style>
+  <div
+    className="row"
+    style={{ margin: 0 }}
+  >
+    <div
+      className="col-lg-6"
+      style={{ padding: 0 }}
+    >
+      <h4
+        style={{
+          margin: 0,
+          fontSize: "18px",
+          fontWeight: 500,
+        }}
+      >
+        Visitor Review
+      </h4>
+    </div>
+    <div
+      className="col-lg-6 your-reviews" // Add a unique class
+      style={{ padding: 0 }}
+    >
+      <h4
+        style={{
+          margin: 0,
+          fontSize: "18px",
+          fontWeight: 500,
+        }}
+      >
+        Your Reviews
+      </h4>
+    </div>
+  </div>
+</div>
+                 
             <div className="row dashboard-info reviewpage-content">
-              {/* Visitor Review Section */}
-              <div className="col-lg-6 d-flex">
-                <div className="card dash-cards">
-                  <div className="card-header">
-                    <h4>Visitor Review</h4>
-                  </div>
-                  <div className="card-body" style={{ marginLeft: -30 }}>
-                    <ul className="review-list">
-                      {filteredReviews.length > 0 ? (
-                        filteredReviews.slice(0, visibleCount).map((review) => (
-                          <li key={review.id} className="review-box">
-                            <div className="review-profile">
-                              <div className="review-img">
-                                <img
-                                  src={ProfileAvatar11}
-                                  className="img-fluid"
-                                  alt="img"
-                                />
-                              </div>
-                            </div>
-                            <div className="review-details">
-                              <h6>{review.name}</h6>
-                              <div className="rating">
-                                <div className="rating-star">
-                                  {[...Array(5)].map((_, i) => (
+              {/* Main container for both sections */}
+              <div className="col-12">
+                <div
+                  className="card dash-cards"
+                  style={{
+                    border: "none",
+                    borderRadius: "8px",
+                    backgroundColor: "#f8f9fa",
+                  }}
+                >
+                  
+                  <div
+                    className="card-body"
+                    style={{ padding: "0" }}
+                  >
+                    {filteredReviews.length > 0 ? (
+                      filteredReviews.slice(0, visibleCount).map((review) => (
+                        <div
+                          key={review.id}
+                          className="row"
+                          style={{
+                            display: "flex",
+                            alignItems: "stretch",
+                            margin: "0",
+                            borderBottom: "1px solid #e0e0e0",
+                            padding: "10px 0",
+                          }}
+                        >
+                          {/* Visitor Review Box */}
+                          <div
+                            className="col-lg-6 d-flex"
+                            style={{ padding: "0 15px" }}
+                          >
+                            <div
+                              className="review-box"
+                              style={{
+                                display: "flex",
+                                flex: 1,
+                                padding: "10px",
+                                backgroundColor: "#fff",
+                                borderRadius: "5px",
+                                transition: "all 0.3s ease",
+                              }}
+                            >
+                              {/* <div
+                                className="review-profile"
+                                style={{ marginRight: "10px" }}
+                              >
+                                <div
+                                  className="review-img"
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "50%",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <img
+                                    src={ProfileAvatar11}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                    alt="img"
+                                  />
+                                </div>
+                              </div> */}
+                              <div
+                                className="review-details"
+                                style={{ flex: 1 }}
+                              >
+                                <h6
+                                  style={{
+                                    margin: "0 0 5px",
+                                    fontSize: "16px",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {review.name}
+                                </h6>
+                                <div
+                                  className="rating"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginBottom: "5px",
+                                  }}
+                                >
+                                  <div
+                                    className="rating-star"
+                                    style={{ display: "flex", gap: "2px" }}
+                                  >
+                                    {[...Array(5)].map((_, i) => (
+                                      <i
+                                        key={i}
+                                        className={`fas fa-star`}
+                                        style={{
+                                          color: i < review.rating ? "#f5c518" : "#ccc",
+                                          fontSize: "14px",
+                                        }}
+                                      />
+                                    ))}
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "5px",
+                                      fontSize: "14px",
+                                      color: "#666",
+                                    }}
+                                  >
                                     <i
-                                      key={i}
-                                      className={`fas fa-star ${i < review.rating ? "filled" : ""}`}
+                                      className="fa-sharp fa-solid fa-calendar-days"
+                                      style={{ color: "#ff0000" }}
                                     />
-                                  ))}
+                                    {review.date}
+                                  </div>
                                 </div>
-                                <div>
-                                  <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                                  {review.date}
-                                </div>
+                                <p
+                                  style={{
+                                    margin: "5px 0",
+                                    fontSize: "14px",
+                                    color: "#666",
+                                  }}
+                                >
+                                  Product Id: {review.adId}
+                                </p>
+                                <p
+                                  style={{
+                                    margin: "5px 0",
+                                    fontSize: "14px",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {review.review}
+                                </p>
                               </div>
-                              <p>{review.review}</p>
                             </div>
-                          </li>
-                        ))
-                      ) : (
-                        <li className="review-box">
-                          <p>No reviews available.</p>
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
-              </div>
+                          </div>
 
-              {/* Your Reviews Section (Only Replies) */}
-              <div className="col-lg-6 d-flex">
-                <div className="card dash-cards">
-                  <div className="card-header">
-                    <h4>Your Reviews</h4>
-                  </div>
-                  <div className="card-body" style={{ marginLeft: -30 }}>
-                    <ul className="review-list">
-                      {filteredReviews.length > 0 ? (
-                        filteredReviews.slice(0, visibleCount).map((review) => (
-                          <li key={review.id} className="review-box">
-                            <div className="review-details">
-                              <div className="replies" style={{ height: "108px" }}>
+                          {/* Your Review (Reply) Box */}
+                          <div
+                            className="col-lg-6 d-flex"
+                            style={{ padding: "0 15px" }}
+                          >
+                            <div
+                              className="review-box"
+                              style={{
+                                display: "flex",
+                                flex: 1,
+                                padding: "10px",
+                                backgroundColor: "#fff",
+                                borderRadius: "5px",
+                                transition: "all 0.3s ease",
+                              }}
+                            >
+                              <div
+                                className="review-details"
+                                style={{ flex: 1 }}
+                              >
                                 {review.replies && review.replies.length > 0 ? (
                                   review.replies.map((reply, index) => (
-                                    <div
-                                      key={index}
-                                      style={{
-                                        backgroundColor: "#f9f9f9",
-                                        borderRadius: "5px",
-                                        marginBottom: "5px",
-                                      }}
-                                    >
-                                      <div className="review-details">
-                                        <h6>{reply.by}</h6>
-                                        <div className="rating">
-                                          <div className="rating-star">
-                                            {[...Array(5)].map((_, i) => (
-                                              <i
-                                                key={i}
-                                                className={`fas fa-star ${i < review.rating ? "filled" : ""}`}
-                                              />
-                                            ))}
-                                          </div>
-                                          <div>
-                                            <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                                            {review.date}
-                                          </div>
+                                    <div key={index}>
+                                      <h6
+                                        style={{
+                                          margin: "0 0 5px",
+                                          fontSize: "16px",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {reply.by}
+                                      </h6>
+                                      <div
+                                        className="rating"
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                          marginBottom: "5px",
+                                        }}
+                                      >
+                                        <div
+                                          className="rating-star"
+                                          style={{ display: "flex", gap: "2px" }}
+                                        >
+                                          {[...Array(5)].map((_, i) => (
+                                            <i
+                                              key={i}
+                                              className={`fas fa-star`}
+                                              style={{
+                                                color: i < review.rating ? "#f5c518" : "#ccc",
+                                                fontSize: "14px",
+                                              }}
+                                            />
+                                          ))}
                                         </div>
-                                        <p>{reply.reply}</p>
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "5px",
+                                            fontSize: "14px",
+                                            color: "#666",
+                                          }}
+                                        >
+                                          <i
+                                            className="fa-sharp fa-solid fa-calendar-days"
+                                            style={{ color: "#ff0000" }}
+                                          />
+                                          {review.date}
+                                        </div>
                                       </div>
+                                      <p
+                                        style={{
+                                          margin: "5px 0",
+                                          fontSize: "14px",
+                                          color: "#333",
+                                        }}
+                                      >
+                                        {reply.reply}
+                                      </p>
                                     </div>
                                   ))
                                 ) : (
@@ -341,7 +592,8 @@ const Review = () => {
                                     style={{
                                       fontStyle: "italic",
                                       color: "#888",
-                                      marginLeft: "20px",
+                                      margin: "5px 0",
+                                      fontSize: "14px",
                                     }}
                                   >
                                     No reply from client
@@ -349,29 +601,70 @@ const Review = () => {
                                 )}
                               </div>
                             </div>
-                          </li>
-                        ))
-                      ) : (
-                        <li className="review-box">
-                          <p>No replies available.</p>
-                        </li>
-                      )}
-                    </ul>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div
+                        className="row"
+                        style={{ margin: 0 }}
+                      >
+                        <div
+                          className="col-lg-6"
+                          style={{ padding: "15px" }}
+                        >
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#666",
+                              margin: 0,
+                            }}
+                          >
+                            No reviews available.
+                          </p>
+                        </div>
+                        <div
+                          className="col-lg-6"
+                          style={{ padding: "15px" }}
+                        >
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#666",
+                              margin: 0,
+                            }}
+                          >
+                            No replies available.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             {filteredReviews.length > visibleCount && (
-              <div className="text-center mt-3">
+              <div
+                className="text-center mt-3"
+                style={{ marginTop: "20px" }}
+              >
                 <button
                   className="btn"
                   onClick={loadMoreReviews}
-                  style={{ padding: "10px 20px", backgroundColor: "#2d4495", color: "white" }}
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#2d4495",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
                 >
                   Load More
                 </button>
               </div>
             )}
+          </div>
           </div>
         </div>
       </div>
