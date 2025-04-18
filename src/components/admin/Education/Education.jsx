@@ -2358,7 +2358,7 @@ const Education = () => {
                           <Link
                             //  to={`/car-details/${ad.id}`}
                             // to={`/Dynamic_Route?id=${car.id}&callingFrom=EducationCmp`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=${car.Category}`}
+                            to={`/Dynamic_Route?id=${car.id}&callingFrom=${'Education'}`}
                           >
                             {/* Image */}
                             <Card.Img
