@@ -1528,7 +1528,7 @@ table.dataTable thead .sorting_desc_disabled:after {
   background-color: #fff;
   border: 1px solid #c10037;
   box-shadow: inset 210px 0 0 0 #ffffff;
-  color: #c10037;
+  color: #2d4495;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
@@ -6894,6 +6894,9 @@ body table.listing-table.datatable {
 }
 .dashboard-info.reviewpage-content .card-header {
   margin: 0;
+}
+.dashboard-info .card {
+ width: 100%;
 }
 .dashboard-info .review-list .review-gallery li {
   width: auto;

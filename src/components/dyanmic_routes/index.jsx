@@ -1296,7 +1296,7 @@ useEffect(() => {
           </div>
             </Col>
 
-            <Col md={4} >
+            <Col md={4} className="p-3">
  
            
                 <Col xs={11}  >

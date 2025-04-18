@@ -4199,7 +4199,7 @@ const Dynamic_Route = () => {
 
           </div>
             </Col>
-            <Col md={4} className="p-0">
+            <Col md={4} className="p-3">
  
            
  <Col xs={11}  >
