@@ -26,7 +26,7 @@ export default function Carousel() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const slider = useRef();
-  console.log(ads, "ads____________________");
+  console.log(ads, "ads____________________111");
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -104,7 +104,7 @@ export default function Carousel() {
                   <div key={index}>
                     <Link
                       //  to={`/routes/${item.id}`}
-                      to={`/Dynamic_Route?id=${item.id}&callingFrom=${item.Category}`}
+                      to={`/Dynamic_Route?id=${item.id}&callingFrom=${'Education'}`}
                     >
                       <div
                         className="card aos"
