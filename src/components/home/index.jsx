@@ -57,8 +57,8 @@ import fb from "./fb.png";
 import tiktok from "./tiktoc.png";
 import whatapp from "./whatapp (3).png";
 import popup from "./popup_image.png";
-import banner1 from "../../../public/Banner 1.png"
-import banner2 from "../../../public/Banner 2 (1).png"
+import banner1 from "../../../public/Banner 1.png";
+import banner2 from "../../../public/Banner 2 (1).png";
 
 import {
   collection,
@@ -90,17 +90,56 @@ const Home = () => {
   }, []);
   const [loading, setLoading] = useState(false); // Add loading state
   const [OurCategoryAutomative, setOurCategoryAutomative] = useState([]);
+  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState(
+    []
+  );
+  const [ElectronicsTitle, setElectronicsTitle] = useState([]);
+
   const [Electronics, setElectronics] = useState([]);
   const [FashionStyle, setFashionStyle] = useState([]);
+  const [FashionStyleTitle, setFashionStyleTitle] = useState([]);
+
   const [OurCategoryHealthCare, setOurCategoryHealthCare] = useState([]);
+  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] = useState(
+    []
+  );
+
   const [OurCategoryJobBoard, setOurCategoryJobBoard] = useState([]);
+  const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState([]);
+
   const [OurCategoryRealEstate, setOurCategoryRealEstate] = useState([]);
+  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] = useState(
+    []
+  );
+
   const [OurCategoryTravel, setOurCategoryTravel] = useState([]);
+  const [OurCategoryTravelTitle, setOurCategoryTravelTitle] = useState([]);
+
   const [OurCategorySportGames, setOurCategorySportGames] = useState([]);
+  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] = useState(
+    []
+  );
+
   const [OurCategoryPetAnimals, setOurCategoryPetAnimals] = useState([]);
+  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] = useState(
+    []
+  );
+
   const [OurCategoryHouseHold, setOurCategoryHouseHold] = useState([]);
+  const [OurCategoryHouseHoldTitle, setOurCategoryHouseHoldTitle] = useState(
+    []
+  );
+
   const [OurCategoryEducation, setOurCategoryEducation] = useState([]);
+  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] = useState(
+    []
+  );
+
   const [OurCategoryMAGAZINES, setOurCategoryMAGAZINES] = useState([]);
+  const [OurCategoryMAGAZINESTitle, setOurCategoryMAGAZINESTitle] = useState(
+    []
+  );
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -108,21 +147,21 @@ const Home = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const getImageHeight = () => {
-    if (windowWidth <= 576) return '180px';
-    if (windowWidth <= 768) return '300px';
-    return '600px';
+    if (windowWidth <= 576) return "180px";
+    if (windowWidth <= 768) return "300px";
+    return "600px";
   };
 
   const getMarginTop = () => {
-    if (windowWidth <= 576) return '100px';
-    return '170px';
+    if (windowWidth <= 576) return "100px";
+    return "170px";
   };
   console.log(OurCategoryHouseHold, "adsList___________OurCategoryAutomative1");
   useEffect(() => {
@@ -137,8 +176,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryMAGAZINES(imageOnly[0].image);
+        setOurCategoryMAGAZINESTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -164,8 +206,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryEducation(imageOnly[0].image);
+        setOurCategoryEducationTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -187,10 +232,13 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         console.log(imageOnly, "adsList___________OurCategoryAutomative2");
 
         setOurCategoryHouseHold(imageOnly[0].image);
+        setOurCategoryHouseHoldTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -212,8 +260,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategorySportGames(imageOnly[0].image);
+        setOurCategorySportGamesTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -235,8 +286,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryPetAnimals(imageOnly[0].image);
+        setOurCategoryPetAnimalsTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -258,8 +312,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryTravel(imageOnly[0].image);
+        setOurCategoryTravelTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -281,8 +338,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryRealEstate(imageOnly[0].image);
+        setOurCategoryRealEstateTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -304,8 +364,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryJobBoard(imageOnly[0].image);
+        setOurCategoryJobBoardTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -327,8 +390,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setOurCategoryHealthCare(imageOnly[0].image);
+        setOurCategoryHealthCareTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -350,8 +416,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setFashionStyle(imageOnly[0].image);
+        setFashionStyleTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -374,8 +443,11 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
         setElectronics(imageOnly[0].image);
+        setElectronicsTitle(imageOnly[0].Title);
+
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -397,8 +469,13 @@ const Home = () => {
         console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
+          Title: item.Title,
         }));
+
         setOurCategoryAutomative(imageOnly[0].image);
+        setOurCategoryAutomativeTitle(imageOnly[0].Title);
+
+        console.log(imageOnly, "imageOnly________________");
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads:", error);
@@ -517,84 +594,84 @@ const Home = () => {
       <div className="main-wrapper">
         <Header />
         <div
-      id="carouselExampleIndicators"
-      className="carousel slide container"
-      data-bs-ride="carousel"
-    >
-      {/* Indicators */}
-      <div className="carousel-indicators">
-        {images.map((_, index) => (
+          id="carouselExampleIndicators"
+          className="carousel slide container"
+          data-bs-ride="carousel"
+        >
+          {/* Indicators */}
+          <div className="carousel-indicators">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide-to={index}
+                className={index === 0 ? "active" : ""}
+                aria-current={index === 0 ? "true" : "false"}
+                aria-label={`Slide ${index + 1}`}
+              ></button>
+            ))}
+          </div>
+
+          {/* Carousel Items */}
+          <div className="carousel-inner">
+            {images.map((img, index) => {
+              const isMobile = windowWidth <= 576;
+              const isTablet = windowWidth > 576 && windowWidth <= 768;
+
+              return (
+                <div
+                  key={index}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
+                >
+                  <img
+                    src={img}
+                    className="d-block"
+                    alt={`Slide ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: isMobile ? "180px" : isTablet ? "300px" : "auto",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                      marginTop: isMobile ? "100px" : "170px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      maxWidth: "100%",
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Controls */}
           <button
-            key={index}
+            style={{ marginTop: "12rem" }}
+            className="carousel-control-prev"
             type="button"
             data-bs-target="#carouselExampleIndicators"
-            data-bs-slide-to={index}
-            className={index === 0 ? "active" : ""}
-            aria-current={index === 0 ? "true" : "false"}
-            aria-label={`Slide ${index + 1}`}
-          ></button>
-        ))}
-      </div>
-
-      {/* Carousel Items */}
-      <div className="carousel-inner">
-      {images.map((img, index) => {
-        const isMobile = windowWidth <= 576;
-        const isTablet = windowWidth > 576 && windowWidth <= 768;
-
-        return (
-          <div
-            key={index}
-            className={`carousel-item ${index === 0 ? "active" : ""}`}
+            data-bs-slide="prev"
           >
-            <img
-              src={img}
-              className="d-block"
-              alt={`Slide ${index + 1}`}
-              style={{
-                width: '100%',
-                height: isMobile ? '180px' : isTablet ? '300px' : 'auto',
-                objectFit: 'contain',
-                borderRadius: '8px',
-                marginTop: isMobile ? '100px' : '170px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                maxWidth: '100%',
-              }}
-            />
-          </div>
-        );
-      })}
-      </div>
-
-      {/* Controls */}
-      <button
-        style={{ marginTop: "12rem" }}
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="prev"
-      >
-        <span
-          className="carousel-control-prev-icon"
-          aria-hidden="true"
-        ></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        style={{ marginTop: "12rem" }}
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="next"
-      >
-        <span
-          className="carousel-control-next-icon"
-          aria-hidden="true"
-        ></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            style={{ marginTop: "12rem" }}
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
         {/* Trending Products */}
         <div
           className="trendingprodct_wrapper container mt-3 pt-0"
@@ -603,11 +680,15 @@ const Home = () => {
           <h2 className="trendingproduct_heading">Our Trending Product</h2>
           <div
             className="trendingproducts_container"
-            style={{ marginTop: 0, paddingTop: 0 ,gap: window.innerWidth <= 576 ? "5px" : "10px",fontSize: window.innerWidth <= 576 ? "12px" : "16px"}}
+            style={{
+              marginTop: 0,
+              paddingTop: 0,
+              gap: window.innerWidth <= 576 ? "5px" : "10px",
+              fontSize: window.innerWidth <= 576 ? "12px" : "16px",
+            }}
           >
-
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/SportGamesComp");
               }}
@@ -616,7 +697,7 @@ const Home = () => {
               Cricket Kit
             </button>
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/SportGamesComp");
               }}
@@ -625,7 +706,7 @@ const Home = () => {
               Bags
             </button>
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/HealthCareComp");
               }}
@@ -634,7 +715,7 @@ const Home = () => {
               Apparel
             </button>
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/SportGamesComp");
               }}
@@ -643,7 +724,7 @@ const Home = () => {
               Mens Hoodies
             </button>
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/MAGAZINESCOMP");
               }}
@@ -652,7 +733,7 @@ const Home = () => {
               Apparel
             </button>
             <button
-            style={{width: window.innerWidth <= 576 ? "32%" : "auto"}}
+              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
               onClick={() => {
                 navigate("/MAGAZINESCOMP");
               }}
@@ -710,94 +791,266 @@ const Home = () => {
                 ></div>
               </div>
             </div>
-            <div className="row cat_icon_main" style={{ marginTop: "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px",marginLeft: window.innerWidth <= 576 ? "-0.8rem" : "0rem"}}>
-  {/* Row 1: 5 items */}
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/AutomotiveComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Automotive</h5>
-      <img src={automative} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/ElectronicComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Electronics</h5>
-      <img src={electronic} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/FashionStyle" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Fashion Style</h5>
-      <img src={fashion} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/HealthCareComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Health Care</h5>
-      <img src={healthcare} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/JobBoard" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Job Board</h5>
-      <img src={job} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/Education" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Education</h5>
-      <img src={education} alt="icons" />
-    </Link>
-  </div>
-</div>
-<div className="row cat_icon_main"style={{ marginTop: window.innerWidth <= 576 ? "0.5rem" : "-1rem" ,gap: window.innerWidth <= 576 ? "5px" : "10px",marginLeft: window.innerWidth <= 576 ? "-0.8rem" : "0rem"}}>
-  {/* Row 2: Next 5 items */}
- 
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/RealEstateComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Real Estate</h5>
-      <img src={realestate} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/TravelComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Travel</h5>
-      <img src={travel} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/SportGamesComp" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Sports & Game</h5>
-      <img src={sport} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
-    <Link to="/MAGAZINESCOMP" className="category-links" style={{ textDecoration: "none" }}>
-      <h5>Magazines</h5>
-      <img src={magazine} alt="icons" />
-    </Link>
-  </div>
-  <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+            <div
+              className="row cat_icon_main"
+              style={{
+                marginTop: "-1rem",
+                gap: window.innerWidth <= 576 ? "5px" : "10px",
+              }}
+            >
+              {/* Row 1: 5 items */}
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/AutomotiveComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryAutomativeTitle}</h5>
+                  <img
+                    src={OurCategoryAutomative}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/ElectronicComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{ElectronicsTitle}</h5>
+                  <img
+                    src={Electronics}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/FashionStyle"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{FashionStyleTitle}</h5>
+                  <img
+                    src={FashionStyle}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/HealthCareComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryHealthCareTitle}</h5>
+                  <img
+                    src={OurCategoryHealthCare}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/JobBoard"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryJobBoardTitle}</h5>
+                  <img
+                    src={OurCategoryJobBoard}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/Education"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryEducationTitle}</h5>
+                  <img
+                    src={OurCategoryEducation}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+            </div>
+            <div
+              className="row cat_icon_main"
+              style={{
+                marginTop: window.innerWidth <= 576 ? "0.5rem" : "-1rem",
+                gap: window.innerWidth <= 576 ? "5px" : "10px",
+              }}
+            >
+              {/* Row 2: Next 5 items */}
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/RealEstateComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryRealEstateTitle}</h5>
+                  <img
+                    src={OurCategoryRealEstate}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/TravelComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryTravelTitle}</h5>
+                  <img
+                    src={OurCategoryTravel}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/SportGamesComp"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategorySportGamesTitle}</h5>
+                  <img
+                    src={OurCategorySportGames}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
+                <Link
+                  to="/MAGAZINESCOMP"
+                  className="category-links"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5>{OurCategoryMAGAZINESTitle}</h5>
+                  <img
+                    src={OurCategoryMAGAZINES}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
+                </Link>
+              </div>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
                 <Link
                   to="/PetAnimalsComp"
                   className="category-links"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>Pet & Animal</h5>
-                  <img src={pet} alt="icons" />
+                  <h5>{OurCategoryPetAnimalsTitle}</h5>
+                  <img
+                    src={OurCategoryPetAnimals}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
                 </Link>
               </div>
-              <div className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons" style={{maxWidth: window.innerWidth <= 576 ? "45%" : "205px",marginBottom: window.innerWidth <= 576 ? "-20px" : "10px"}}>
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                }}
+              >
                 <Link
                   to="/index"
                   className="category-links"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>House Hold</h5>
-                  <img src={iron} alt="icons" />
+                  <h5>{OurCategoryHouseHoldTitle}</h5>
+                  <img
+                    src={OurCategoryHouseHold}
+                    alt="icon"
+                    style={{ height: "48px", objectFit: "contain" }}
+                  />{" "}
                 </Link>
               </div>
-</div>
-{/* Add more rows as needed */}
+            </div>
+            {/* Add more rows as needed */}
           </div>
         </section>
         {/* Category Section */}
