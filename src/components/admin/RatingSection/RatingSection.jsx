@@ -7,6 +7,8 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
+
 import { getAuth } from "firebase/auth";
 
 // RatingSection Component (unchanged)
@@ -180,6 +182,9 @@ function UserReviews({
 }) {
   const [newReview, setNewReview] = useState({ review: "", rating: 0 });
   const [replyInputs, setReplyInputs] = useState({});
+  const user1 = auth.currentUser.uid;
+  console.log(user1, "user1_______________");
+  console.log(listingUserId, "user1_______________166");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -371,7 +376,7 @@ function UserReviews({
               >
                 👎 Dislike · {review.dislikes}
               </span>
-              {currentAdId === listingUserId ? (
+              {user1 === listingUserId ? (
                 <span
                   style={{ cursor: "pointer", color: "#1890ff" }}
                   onClick={() => toggleReplyInput(index)}
@@ -383,41 +388,38 @@ function UserReviews({
               )}
             </div>
           </div>
-
-          {isAdmin && replyInputs[index] !== undefined && (
-            <div style={{ marginLeft: "20%", marginBottom: "10px" }}>
-              <textarea
-                placeholder="Write your reply..."
-                value={replyInputs[index]}
-                onChange={(e) => handleReplyInputChange(index, e.target.value)}
-                style={{
-                  padding: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  fontSize: "14px",
-                  width: "100%",
-                  minHeight: "60px",
-                  resize: "vertical",
-                }}
-              />
-              <button
-                onClick={() => handleReplySubmit(index)}
-                style={{
-                  backgroundColor: "#2D4495",
-                  color: "#fff",
-                  padding: "8px 16px",
-                  border: "none",
-                  borderRadius: "20px",
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  marginTop: "5px",
-                }}
-              >
-                Submit Reply
-              </button>
-            </div>
-          )}
-
+          {/* {replyInputs[index] ? ( */}
+          <div style={{ marginLeft: "20%", marginBottom: "10px" }}>
+            <textarea
+              placeholder="Write your reply..."
+              value={replyInputs[index]}
+              onChange={(e) => handleReplyInputChange(index, e.target.value)}
+              style={{
+                padding: "10px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "14px",
+                width: "100%",
+                minHeight: "60px",
+                resize: "vertical",
+              }}
+            />
+            <button
+              onClick={() => handleReplySubmit(index)}
+              style={{
+                backgroundColor: "#2D4495",
+                color: "#fff",
+                padding: "8px 16px",
+                border: "none",
+                borderRadius: "20px",
+                fontSize: "14px",
+                cursor: "pointer",
+                marginTop: "5px",
+              }}
+            >
+              Submit Reply
+            </button>
+          </div>
           {review.replies && review.replies.length > 0 && (
             <div style={{ marginLeft: "20%", marginBottom: "20px" }}>
               {review.replies.map((reply, replyIndex) => (
@@ -451,7 +453,7 @@ function UserReviews({
         </div>
       ))}
 
-      {user ? (
+      {user1 !== listingUserId && user ? (
         <div
           style={{
             padding: "20px",
@@ -574,7 +576,7 @@ function UserReviews({
         </div>
       ) : (
         <div style={{ padding: "20px", textAlign: "center", color: "#888" }}>
-          Please log in to write a review
+          {/* Please log in to write a review */}
         </div>
       )}
     </div>
