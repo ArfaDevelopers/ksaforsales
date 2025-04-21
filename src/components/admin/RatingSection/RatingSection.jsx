@@ -123,34 +123,28 @@ function RatingSection({ ratings }) {
   );
 }
 
-// UserReviews Component (unchanged)
-function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAdmin, userId }) {
-  const [newReview, setNewReview] = useState({ name: '', email: '', review: '', rating: 0 });
+// UserReviews Component (modified)
+function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAdmin, userId, user, hasReviewed,listingUserId,currentAdId }) {
+  const [newReview, setNewReview] = useState({ review: '', rating: 0 });
   const [replyInputs, setReplyInputs] = useState({});
-  const [adminEmail, setAdminEmail] = useState('');
-
-  useEffect(() => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      setAdminEmail(user.displayName );
-    }
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newReview.name && newReview.email && newReview.review && newReview.rating > 0) {
+    if (user && newReview.review && newReview.review.length <= 250 && newReview.rating > 0 && !hasReviewed) {
       onAddReview({
-        ...newReview,
+        name: user.displayName || 'Anonymous',
+        email: user.email,
+        review: newReview.review,
+        rating: newReview.rating,
         date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-        by: `by ${newReview.email}`,
+        by: `by ${user.email}`,
         images: [],
         likes: 0,
         dislikes: 0,
         replies: [],
         userId: userId,
       });
-      setNewReview({ name: '', email: '', review: '', rating: 0 });
+      setNewReview({ review: '', rating: 0 });
     }
   };
 
@@ -162,10 +156,10 @@ function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAd
   };
 
   const handleReplySubmit = (index) => {
-    if (replyInputs[index]) {
+    if (replyInputs[index] && isAdmin) {
       const reply = {
         reply: replyInputs[index],
-        by: adminEmail,
+        by: user?.displayName || 'Admin',
         date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         userId: userId,
       };
@@ -179,10 +173,12 @@ function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAd
   };
 
   const toggleReplyInput = (index) => {
-    setReplyInputs((prev) => ({
-      ...prev,
-      [index]: prev[index] === undefined ? '' : undefined,
-    }));
+    if (isAdmin) {
+      setReplyInputs((prev) => ({
+        ...prev,
+        [index]: prev[index] === undefined ? '' : undefined,
+      }));
+    }
   };
 
   return (
@@ -276,14 +272,14 @@ function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAd
               >
                 👎 Dislike · {review.dislikes}
               </span>
-              {isAdmin && (
+              { currentAdId===listingUserId  ? (
                 <span
                   style={{ cursor: 'pointer', color: '#1890ff' }}
                   onClick={() => toggleReplyInput(index)}
                 >
                   💬 Reply
                 </span>
-              )}
+              ):""}
             </div>
           </div>
 
@@ -346,105 +342,140 @@ function UserReviews({ reviews, onAddReview, onLike, onDislike, onAddReply, isAd
         </div>
       ))}
 
-      <div
-        style={{
-          padding: '20px',
-          borderRadius: '8px',
-          backgroundColor: '#f9f9f9',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
-        }}
-      >
-        <h3 style={{ fontSize: '16px', marginBottom: '20px' }}>Leave feedback about this</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <input
-            type="text"
-            placeholder="Name*"
-            value={newReview.name}
-            onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
-            style={{
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
-          />
-          <input
-            type="email"
-            placeholder="Email*"
-            value={newReview.email}
-            onChange={(e) => setNewReview({ ...newReview, email: e.target.value })}
-            style={{
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
-          />
-          <textarea
-            placeholder="Write a Review*"
-            value={newReview.review}
-            onChange={(e) => setNewReview({ ...newReview, review: e.target.value })}
-            style={{
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '14px',
-              minHeight: '100px',
-              resize: 'vertical'
-            }}
-          />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '14px' }}>Rating</span>
-            {[...Array(5)].map((_, i) => (
-              <span
-                key={i}
+      {user ? (
+        <div
+          style={{
+            padding: '20px',
+            borderRadius: '8px',
+            backgroundColor: '#f9f9f9',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
+          }}
+        >
+          <h3 style={{ fontSize: '16px', marginBottom: '20px' }}>Leave feedback about this</h3>
+          {hasReviewed ? (
+            <div style={{ color: '#888', textAlign: 'center' }}>
+              This product has already been reviewed
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <input
+                type="text"
+                placeholder="Name*"
+                value={user.displayName || 'Anonymous'}
+                disabled
                 style={{
-                  color: i < newReview.rating ? '#fadb14' : '#d9d9d9',
-                  fontSize: '20px',
-                  cursor: 'pointer'
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  backgroundColor: '#f0f0f0'
                 }}
-                onClick={() => setNewReview({ ...newReview, rating: i + 1 })}
+              />
+              <input
+                type="email"
+                placeholder="Email*"
+                value={user.email}
+                disabled
+                style={{
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  backgroundColor: '#f0f0f0'
+                }}
+              />
+              <div style={{ position: 'relative' }}>
+                <textarea
+                  placeholder="Write a Review* (max 250 characters)"
+                  value={newReview.review}
+                  onChange={(e) => {
+                    if (e.target.value.length <= 250) {
+                      setNewReview({ ...newReview, review: e.target.value });
+                    }
+                  }}
+                  style={{
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '14px',
+                    minHeight: '100px',
+                    resize: 'vertical',
+                    width: '100%'
+                  }}
+                />
+                <div style={{ fontSize: '12px', color: '#888', textAlign: 'right', marginTop: '5px' }}>
+                  {newReview.review.length}/250
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '14px' }}>Rating</span>
+                {[...Array(5)].map((_, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      color: i < newReview.rating ? '#fadb14' : '#d9d9d9',
+                      fontSize: '20px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => setNewReview({ ...newReview, rating: i + 1 })}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <button
+                onClick={handleSubmit}
+                disabled={!newReview.review || newReview.rating === 0}
+                style={{
+                  backgroundColor: (!newReview.review || newReview.rating === 0) ? '#cccccc' : '#2D4495',
+                  color: '#fff',
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  cursor: (!newReview.review || newReview.rating === 0) ? 'not-allowed' : 'pointer',
+                  alignSelf: 'flex-start'
+                }}
               >
-                ★
-              </span>
-            ))}
-          </div>
-          <button
-            onClick={handleSubmit}
-            style={{
-              backgroundColor: '#2D4495',
-              color: '#fff',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '20px',
-              fontSize: '14px',
-              cursor: 'pointer',
-              alignSelf: 'flex-start'
-            }}
-          >
-            Submit Review
-          </button>
+                Submit Review
+              </button>
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>
+          Please log in to write a review
+        </div>
+      )}
     </div>
   );
 }
 
 // Parent Component (RatingAndReviews)
-function RatingAndReviews({ currentAdId }) {
+function RatingAndReviews({ currentAdId,listingUserId }) {
   const [reviews, setReviews] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
+  const [hasReviewed, setHasReviewed] = useState(false);
 
   // Check if the logged-in user is an admin and get user UID
   useEffect(() => {
     const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      setUserId(user.uid); // Store the user UID
-      const adminEmails = user.displayName;
-      setIsAdmin(adminEmails.includes(user.displayName));
-    }
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        setUserId(currentUser.uid);
+        const adminEmails = ['admin@example.com']; // Update with actual admin emails
+        setIsAdmin(adminEmails.includes(currentUser.email));
+      } else {
+        setUser(null);
+        setUserId(null);
+        setIsAdmin(false);
+        setHasReviewed(false);
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
   // Function to log all reviews in the reviews collection
@@ -484,7 +515,7 @@ function RatingAndReviews({ currentAdId }) {
     }
   };
 
-  // Fetch reviews for the current ad and log all reviews
+  // Fetch reviews for the current ad and check if a review exists
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -525,8 +556,8 @@ function RatingAndReviews({ currentAdId }) {
         console.log('========================================');
 
         setReviews(reviewsList);
+        setHasReviewed(reviewsList.length > 0); // Set to true if any review exists for this ad
 
-        // Log all reviews (not filtered by adId)
         await logAllReviews();
       } catch (error) {
         console.error('Error fetching reviews:', error);
@@ -553,9 +584,10 @@ function RatingAndReviews({ currentAdId }) {
       });
       const updatedReview = { id: docRef.id, ...newReview, adId: currentAdId, liked: false, disliked: false, replies: [], userId: newReview.userId };
       setReviews([...reviews, updatedReview]);
+      setHasReviewed(true);
 
       console.log('New review added:', updatedReview);
-      await logAllReviews(); // Log all reviews after adding a new one
+      await logAllReviews();
     } catch (error) {
       console.error('Error adding review:', error);
     }
@@ -586,7 +618,7 @@ function RatingAndReviews({ currentAdId }) {
       }
       setReviews(reviews.map((r, i) => (i === index ? updatedReview : r)));
       console.log('Review liked:', updatedReview);
-      await logAllReviews(); // Log all reviews after liking
+      await logAllReviews();
     } catch (error) {
       console.error('Error updating like:', error);
     }
@@ -617,7 +649,7 @@ function RatingAndReviews({ currentAdId }) {
       }
       setReviews(reviews.map((r, i) => (i === index ? updatedReview : r)));
       console.log('Review disliked:', updatedReview);
-      await logAllReviews(); // Log all reviews after disliking
+      await logAllReviews();
     } catch (error) {
       console.error('Error updating dislike:', error);
     }
@@ -634,7 +666,7 @@ function RatingAndReviews({ currentAdId }) {
       const updatedReview = { ...review, replies: updatedReplies };
       setReviews(reviews.map((r, i) => (i === index ? updatedReview : r)));
       console.log('Reply added to review:', updatedReview);
-      await logAllReviews(); // Log all reviews after adding a reply
+      await logAllReviews();
     } catch (error) {
       console.error('Error adding reply:', error);
     }
@@ -653,6 +685,10 @@ function RatingAndReviews({ currentAdId }) {
         onAddReply={handleAddReply}
         isAdmin={isAdmin}
         userId={userId}
+        user={user}
+        hasReviewed={hasReviewed}
+        listingUserId={listingUserId}
+        currentAdId={currentAdId}
       />
     </div>
   );

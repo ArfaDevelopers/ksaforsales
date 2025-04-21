@@ -148,7 +148,7 @@ const Dynamic_Route = () => {
   const [itemData, setItemData] = useState(null); // State to store ads data
   const [showPhone, setShowPhone] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log(itemData, "selectedReports_______", reportText);
+  console.log(itemData?.userId, "selectedReports_______itemData");
   console.log(selectedImage, "selectedReports_______", reportText);
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
@@ -4195,7 +4195,7 @@ const Dynamic_Route = () => {
               alignItems: "center",
             }}
           >
-                           <RatingAndReviews currentAdId={_Id} />
+                           <RatingAndReviews currentAdId={_Id} listingUserId={itemData?.userId} />
 
           </div>
             </Col>
