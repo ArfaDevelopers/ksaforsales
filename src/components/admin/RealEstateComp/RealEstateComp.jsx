@@ -3167,7 +3167,7 @@ const RealEstateComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
+      style={{ marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",  }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3185,7 +3185,7 @@ const RealEstateComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
+    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",  }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3199,7 +3199,7 @@ const RealEstateComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",  }}
+      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",  }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>

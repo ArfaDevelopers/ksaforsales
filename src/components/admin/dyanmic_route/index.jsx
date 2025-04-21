@@ -26,6 +26,7 @@ import image2 from "../../../assets/img/banner/bannerimage2.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import { HiMiniSlash } from "react-icons/hi2";
+import { FaRegHeart } from "react-icons/fa";
 
 import ads from "./adsimg.png";
 import {
@@ -248,7 +249,7 @@ const Dynamic_Route = () => {
   const user = auth.currentUser;
  //  const userId = user?.uid;
   const recieverId = itemData?.userId;
- 
+  console.log('userid__________',recieverId)
   const [chatIds, setChatIds] = useState([]);
  
   useEffect(() => {
@@ -714,7 +715,8 @@ const Dynamic_Route = () => {
               }}
             >
                <span>
-                  <img src={left} alt="leftarrow" />
+                  {/* <img src={left} alt="leftarrow" /> */}
+                  <FaRegHeart/>
                 </span>{" "}
               Favourite
             </button>

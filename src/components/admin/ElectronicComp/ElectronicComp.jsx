@@ -2886,7 +2886,7 @@ const ElectronicComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{  marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
+      style={{  marginTop: window.innerWidth <= 576 ? "15px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",     }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -2904,7 +2904,7 @@ const ElectronicComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
+    style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",     }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -2918,7 +2918,7 @@ const ElectronicComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
+      style={{  marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",     }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>

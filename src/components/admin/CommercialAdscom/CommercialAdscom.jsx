@@ -15,6 +15,10 @@ import Vector from "../../dyanmic_routes/Vector.png";
 import tick from "../../dyanmic_routes/tick.png";
 import categories from "../categoiresData/categoiresData";
 import { BsWhatsapp } from "react-icons/bs";
+import { FaRegHeart } from "react-icons/fa";
+import { Form } from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import { useParams, useLocation } from "react-router";
 
 import {
   getDocs,
@@ -35,6 +39,101 @@ const CommercialAdscom = () => {
   const [selectedPhone, setSelectedPhone] = useState("");
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const [reportText, setReportText] = useState("");
+  const [reportTypes, setReportTypes] = useState([
+    "Sexual",
+    "Illegal",
+    "Abusive",
+    "Harassment",
+    "Fraud",
+    "Spam",
+  ]);
+  const [selectedReports, setSelectedReports] = useState([]);
+  const [itemData, setItemData] = useState(null); // State to store ads data
+console.log('itemData_____________111',itemData)
+  const { id } = useParams();
+  const location = useLocation(); // Access the full location object
+
+
+  const [_Id, setId] = useState(null); // State to store ads data
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  useEffect(() => {
+    const callingFrom = getQueryParam("callingFrom");
+    const ids = getQueryParam("id");
+     console.log("callingFrom______ID:ids", ids);
+    console.log("callingFrom______Calling From:", callingFrom);
+    setCallingFrom(callingFrom);
+    setId(ids);
+  }, [id, location]);
+  useEffect(() => {
+    const fetchItem = async () => {
+      setLoading(true); // Start loading
+      try {
+        const collectionName =
+          callingFrom === "AutomotiveComp"
+            ? "Cars"
+            : callingFrom === "ElectronicComp"
+            ? "ELECTRONICS"
+            : callingFrom === "FashionStyle"
+            ? "FASHION"
+            : callingFrom === "HealthCareComp"
+            ? "HEALTHCARE"
+            : callingFrom === "JobBoard"
+            ? "JOBBOARD"
+            : callingFrom === "Education"
+            ? "Education"
+            : callingFrom === "RealEstateComp"
+            ? "REALESTATECOMP"
+            : callingFrom === "TravelComp"
+            ? "TRAVEL"
+            : callingFrom === "SportGamesComp"
+            ? "SPORTSGAMESComp"
+            : callingFrom === "PetAnimalsComp"
+            ? "PETANIMALCOMP"
+            : "books";
+        // Determine collection based on `callingFrom`
+        // const collectionName = callingFrom === "automotive" ? "carData" : "books";
+        const adsCollection = collection(db, collectionName); // Reference to dynamic collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id, // Include document ID
+          ...doc.data(), // Spread document data
+        }));
+
+        console.log(adsList, "Fetched Ads");
+
+        // Find the ad that matches the `id` from the URL
+        const selectedAd = adsList.find((ad) => ad.id === NewId);
+        if (selectedAd) {
+          setItemData({
+            ...selectedAd,
+            timeAgo: selectedAd.createdAt
+              ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+                  addSuffix: true,
+                })
+              : "Unknown time",
+          });
+        } else {
+          setItemData(null);
+        }
+
+        setLoading(false); // Stop loading
+      } catch (error) {
+        console.error("Error fetching item:", error);
+        // setError("Failed to fetch data");
+        setLoading(false); // Stop loading on error
+      }
+    };
+
+    fetchItem(); // Call the fetch function
+  }, [id, callingFrom, db,location]); // Re-run if `id` changes
+
 
   const handleShowCall = (phone) => {
     setSelectedPhone(phone);
@@ -62,6 +161,90 @@ const CommercialAdscom = () => {
   const handleCloseCall = () => setShowCall(false);
   const handleCloseWhatsApp = () => setShowWhatsApp(false);
   const [loading, setLoading] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const link = getQueryParam("link") || window.location.href;
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(link);
+    alert("Link copied to clipboard!");
+  };
+  const handleSubmit = async () => {
+    console.log("Report Submitted:", { reportText, selectedReports });
+
+    const NewId =
+      callingFrom === "AutomotiveComp" ||
+      callingFrom === "ElectronicComp" ||
+      callingFrom === "FashionStyle" ||
+      callingFrom === "HealthCareComp" ||
+      callingFrom === "JobBoard" ||
+      callingFrom === "Education" ||
+      callingFrom === "RealEstateComp" ||
+      callingFrom === "TravelComp" ||
+      callingFrom === "SportGamesComp" ||
+      callingFrom === "PetAnimalsComp"
+        ? _Id
+        : "default_id"; // Default if not matched
+
+    const collectionName =
+      callingFrom === "AutomotiveComp"
+        ? "Cars"
+        : callingFrom === "ElectronicComp"
+        ? "ELECTRONICS"
+        : callingFrom === "FashionStyle"
+        ? "FASHION"
+        : callingFrom === "HealthCareComp"
+        ? "HEALTHCARE"
+        : callingFrom === "JobBoard"
+        ? "JOBBOARD"
+        : callingFrom === "Education"
+        ? "Education"
+        : callingFrom === "RealEstateComp"
+        ? "REALESTATECOMP"
+        : callingFrom === "TravelComp"
+        ? "TRAVEL"
+        : callingFrom === "SportGamesComp"
+        ? "SPORTSGAMESComp"
+        : callingFrom === "PetAnimalsComp"
+        ? "PETANIMALCOMP"
+        : "books";
+
+    try {
+      const adsCollection = collection(db, collectionName);
+      const docRef = doc(adsCollection, NewId); // Target document ID
+
+      // Fetch existing document
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists()) {
+        // Get existing data
+        const existingData = docSnapshot.data();
+
+        // Merge new selectedReports with existing reportTypes (if present)
+        const updatedReportTypes = existingData.reportTypes
+          ? [...existingData.reportTypes, ...selectedReports]
+          : selectedReports; // If reportTypes is missing, initialize it
+
+        // Update only the reportTypes field
+        await updateDoc(docRef, {
+          reportTypes: updatedReportTypes,
+        });
+
+        console.log("Document updated successfully:", updatedReportTypes);
+      } else {
+        console.log("Document does not exist.");
+      }
+
+      handleClose();
+      setSuccessShow(true);
+
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -219,70 +402,279 @@ const CommercialAdscom = () => {
           className="parent-main"
           style={{ maxWidth: "1530px" }}
         >
-            <div
+           <div
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "-0.5rem" : "0%",
+              // marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
           >
-                <button className="head2btn" style={{
+            <button
+            
+              className="head2btn"
+              style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto"
-              }}>
+              }}
+            >
+               <span>
+                  {/* <img src={left} alt="leftarrow" /> */}
+                  <FaRegHeart/>
+                </span>{" "}
+              Favourite
+            </button>
+            <>
+                {/* Button to open modal */}
+                <button
+                  className="head2btn"
+                  onClick={() => setShowModal1(true)}
+                  style={{
+                    backgroundColor: "white",
+                    border: "1px solid #2D4495",
+                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                    textAlign: "center",
+                    width: window.innerWidth <= 576 ? "47%" : "auto"
+                  }}
+                >
                   <span>
-                    <img src={left} alt="leftarrow" />
-                  </span>{" "}
-                  All
-                </button>
-                <button className="head2btn" style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: "10px 15px",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
-              }}>
-                  {/* <span>
-                    <img src={left} alt="leftarrow" />
-                  </span>{" "} */}
-                  Favourite
+                    <img src={share} alt="share" />
+                  </span>
+                  Share
                 </button>
 
-                <button className="head2btn"style={{
+                {/* Modal */}
+                {showModal1 && (
+                  <>
+                    <div
+                      className="modal fade show d-block"
+                      tabIndex="-1"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100vw",
+                        height: "100vh",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+                        zIndex: 1050,
+                      }}
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title">Share</h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              onClick={() => setShowModal1(false)}
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <h6 style={{ wordBreak: "break-all" }}>{link}</h6>
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn"
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              onClick={copyToClipboard}
+                            >
+                              Copy
+                            </button>
+                            <button
+                              type="button"
+                              className="btn "
+                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              onClick={() => setShowModal1(false)}
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
+              {/* {itemData.userId===userId?
+
+<button className="head2btn" onClick={handleShowReport}
+  style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto"
-              }}>
-                  <span>
-                    <img src={report} alt="promote" />
-                  </span>
-                  Promote
-                </button>
-                <button className="head2btn"style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: "10px 15px",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
-              }}>
-                  <span>
-                    <img src={report} alt="report" />
-                  </span>
-                  Report
-                </button>
+              }}
+>
+              <span>
+              
+                <FaBuysellads />
+              </span>
+              Promote
+            </button>:''     }    
+              
+                {showReport && (
+                  <div
+                    className="modal fade show d-block"
+                    tabIndex="-1"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      width: "100vw",
+                      height: "100vh",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+                      zIndex: 1050,
+                    }}
+                  >
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Share</h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            onClick={() => setshowReport(false)}
+                          ></button>
+                        </div>
+                        <div className="modal-body">
+                        
+                          <Elements stripe={stripePromise}>
+                            <PaymentForm
+                              _Id={_Id}
+                              collectionName1={collectionName1}
+                              getpaymentSuccess={setFeaturedAds}
+                            />
+                          </Elements>
+                        </div>
+                        <div className="modal-footer">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => setshowReport(false)}
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )} */}
+              <button className="head2btn"
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #2D4495",
+                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  textAlign: "center",
+                  width: window.innerWidth <= 576 ? "47%" : "auto"
+                }}
+              onClick={handleShow}>
+                <span>
+                  <img src={report} alt="report" />
+                </span>
+                Report
+              </button>
+
+             <Modal 
+              style={{marginTop: window.innerWidth <= 576 ? 60 : 20}}
+              show={show} onHide={handleClose} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Submit a Report</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group controlId="reportText">
+                    <Form.Label>Report Details</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="Describe the issue..."
+                      value={reportText}
+                      onChange={(e) => setReportText(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mt-3">
+                    <Form.Label>Report Type</Form.Label>
+                    {reportTypes.map((type, index) => (
+                      <Form.Check
+                        key={index}
+                        type="checkbox"
+                        label={type}
+                        checked={selectedReports.includes(type)}
+                        onChange={() => handleCheckboxChange(type)}
+                      />
+                    ))}
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button    style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+      }}
+       onClick={handleClose}
+       onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+        e.currentTarget.style.color = "#fff"; // Force same text color
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+        e.currentTarget.style.color = "#fff"; // Restore same text color
+      }}
+       >
+                  Close
+                </Button>
+                <Button
+                     style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      border: "none",
+                      fontWeight: "bold",
+                      borderRadius: 10,
+                      transition: "none", // Disable transitions
+                      outline: "none", // Remove focus outline
+                      boxShadow: "none", // Remove any shadow changes
+                      cursor: "pointer" // Maintain clickable appearance
+                    }}
+                  onClick={handleSubmit}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.color = "#fff"; // Force same text color
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.color = "#fff"; // Restore same text color
+                  }}
+                  // disabled={!reportText || selectedReports.length === 0}
+                  // disabled={selectedReports.length === 0}
+                >
+                  Submit Report
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+
           </div>
         </Container>
         <Container style={{marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem"}}>

@@ -3122,7 +3122,7 @@ const AutomotiveComp = () => {
   <a href={`tel:${car.Phone}`}>
     <button
       className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{  marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px",     }}
+      style={{  marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",     }}
       onClick={(e) => {
         if (!isActive) {
           e.preventDefault(); // Only prevent if not active
@@ -3140,7 +3140,7 @@ const AutomotiveComp = () => {
   {/* Message Button */}
   <button
     className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto", }}
     onClick={() => setShowModal(true)}
   >
     <MdMessage />
@@ -3154,7 +3154,7 @@ const AutomotiveComp = () => {
   >
     <button
       className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "90px", }}
+      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto", }}
     >
       <FaWhatsapp />
       <span className="button-text">WhatsApp</span>
@@ -3309,13 +3309,13 @@ const AutomotiveComp = () => {
         className="container-parent"
         style={{
           color: "black",
-          maxWidth: "100%", // Ensure content fits screen width
+          maxWidth: "100%", 
           margin: "0 auto",
           marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
           marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
-          height: "auto", // Allow height to adjust dynamically
-          paddingLeft: "16%", // Adjusted padding for responsiveness
+          height: "auto", 
+          paddingLeft: "16%", 
           paddingRight: "5%",
           paddingTop: "20px",
           paddingBottom: "30px",
