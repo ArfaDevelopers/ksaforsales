@@ -965,1009 +965,6 @@ const AddLisiting = () => {
   const subcategoriesMapping = {
     categories: [
       {
-        name: "Services",
-        subcategories: [
-          {
-            name: "Other Services",
-            subcategories: [{ name: "Cleaning" }, { name: "Maintenance" }],
-          },
-          {
-            name: "Contracting Services",
-            subcategories: [{ name: "Repair" }, { name: "Detailing" }],
-          },
-          {
-            name: "Government Paperwork Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Delivery Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Furniture Moving Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Cleaning Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "International Shopping Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Legal Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Accounting & Financial Services",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-        ],
-      },
-
-      {
-        name: "Other",
-        subcategories: [
-          {
-            name: "Hunting & Trips",
-            subcategories: [{ name: "Cleaning" }, { name: "Maintenance" }],
-          },
-          {
-            name: "Gardening & Agriculture",
-            subcategories: [{ name: "Repair" }, { name: "Detailing" }],
-          },
-          {
-            name: "Parties & Events",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Travel & Tourism",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Roommate",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Lost & Found",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Education & Training",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Sports Training",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Stock & Forex Education",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Driving Lessons",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Private Tutoring",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-
-          {
-            name: "Training Courses",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Antiques & Collectibles",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Projects & Investments",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Books & Arts",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Programming & Design",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-
-          {
-            name: "Food & Beverages",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Gardening & Agriculture",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-          {
-            name: "Hunting & Trips",
-            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
-          },
-        ],
-      },
-
-      // {
-      //   name: "Health Care",
-      //   subcategories: [
-      //     {
-      //       name: "Health Care",
-      //       subcategories: [{ name: "Health Care" }, { name: "Health Care" }],
-      //     },
-      //   ],
-      // },
-
-      {
-        name: "Sports & Game",
-        subcategories: [
-          {
-            name: "Gaming Consoles",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Video Games",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Controllers",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Gaming Accessories",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Gift Cards",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Accounts",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-          {
-            name: "Toys",
-            subcategories: [
-              { name: "Sports & Game" },
-              { name: "Sports & Game" },
-            ],
-          },
-        ],
-      },
-      // {
-      //   name: "Travel",
-      //   subcategories: [
-      //     {
-      //       name: "Travel",
-      //       subcategories: [{ name: "Travel" }, { name: "Travel" }],
-      //     },
-      //   ],
-      // },
-      {
-        name: "Pet & Animals",
-        subcategories: [
-          {
-            name: "Sheep",
-            subcategories: [
-              { name: "Dogs" },
-              { name: "Cats" },
-              { name: "Birds" },
-              { name: "Fish" },
-            ],
-          },
-          {
-            name: "Goats",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Parrot",
-            subcategories: [],
-          },
-
-          {
-            name: "Dove/Pigeon",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Cats",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Chickens",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Camels",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Horses",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Dogs",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Cows",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Fish & Turtles",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Rabbits",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Ducks",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Squirrels",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Hamsters",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-          {
-            name: "Fur",
-            subcategories: [
-              { name: "Cattle" },
-              { name: "Sheep" },
-              { name: "Goats" },
-            ],
-          },
-        ],
-      },
-      // {
-      //   name: "Family",
-      //   subcategories: [
-      //     {
-      //       name: "Kids",
-      //       subcategories: [{ name: "Clothing" }, { name: "Toys" }],
-      //     },
-      //     {
-      //       name: "Baby Products",
-      //       subcategories: [{ name: "Strollers" }, { name: "Maternity Wear" }],
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: "Gifts",
-      //   subcategories: [
-      //     {
-      //       name: "Occasions",
-      //       subcategories: [
-      //         { name: "Birthday" },
-      //         { name: "Anniversary" },
-      //         { name: "Wedding" },
-      //       ],
-      //     },
-      //     {
-      //       name: "Personalized Gifts",
-      //       subcategories: [],
-      //     },
-      //     {
-      //       name: "Gift Cards",
-      //       subcategories: [],
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: "Furniture",
-      //   subcategories: [
-      //     {
-      //       name: "Living Room",
-      //       subcategories: [
-      //         { name: "Sofas" },
-      //         { name: "Coffee Tables" },
-      //         { name: "TV Stands" },
-      //       ],
-      //     },
-      //     {
-      //       name: "Bedroom",
-      //       subcategories: [
-      //         { name: "Beds" },
-      //         { name: "Wardrobes" },
-      //         { name: "Dressers" },
-      //       ],
-      //     },
-      //     {
-      //       name: "Office",
-      //       subcategories: [{ name: "Desks" }, { name: "Chairs" }],
-      //     },
-      //   ],
-      // },
-      // {
-      //   name: "Jobs",
-      //   subcategories: [
-      //     { name: "Full-Time", subcategories: [] },
-      //     { name: "Part-Time", subcategories: [] },
-      //     { name: "Freelance", subcategories: [] },
-      //     { name: "Internship", subcategories: [] },
-      //   ],
-      // },
-      // {
-      //   name: "Education",
-      //   subcategories: [{ name: "Education", subcategories: [] }],
-      // },
-      {
-        name: "Real Estate",
-        subcategories: [
-          {
-            name: "Apartments for Rent",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Land" },
-              { name: "Villas" },
-            ],
-          },
-          {
-            name: "Apartments for Sale",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Commercial Spaces" },
-            ],
-          },
-          {
-            name: "Building for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Building for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Camps for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Chalets for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Chalets for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Commercial Lands for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Compound for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Compound for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Farm for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Farms for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Floor for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Floors for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Hall for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Houses for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Houses for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Offices for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Rest Houses for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Rooms for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Shops for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Shops for Transfer",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Warehouse for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Villas for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Villas for Rent",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Camping",
-            subcategories: [
-              {
-                name: "Tents",
-                subcategories: [],
-              },
-              {
-                name: "Sleeping Bags",
-                subcategories: [],
-              },
-              {
-                name: "Outdoor Gear",
-                subcategories: [
-                  { name: "Backpacking" },
-                  { name: "Family Camping" },
-                ],
-              },
-            ],
-          },
-
-          {
-            name: "Others",
-            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
-          },
-        ],
-      },
-      {
-        name: "Fashion Style",
-        subcategories: [
-          {
-            name: "Watches",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Land" },
-              { name: "Villas" },
-            ],
-          },
-          {
-            name: "Perfumes & Incense",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Commercial Spaces" },
-            ],
-          },
-          {
-            name: "Sports Equipment",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Men's Fashion",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Women's Fashion",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Children's Clothing & Accessories",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Sleepwear",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Gifts",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Luggage",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Health & Beauty",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Others",
-            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
-          },
-        ],
-      },
-
-      {
-        name: "Home & Furnituer",
-        subcategories: [
-          {
-            name: "Outdoor Furniture",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Land" },
-              { name: "Villas" },
-            ],
-          },
-          {
-            name: "Majlis & Sofas",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Commercial Spaces" },
-            ],
-          },
-          {
-            name: "Cabinets & Wardrobes",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Beds & Mattresses",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Tables & Chairs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Kitchens",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Sleepwear",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Bathrooms",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Carpets",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Curtains",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Decoration & Accessories",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Lighting",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Decoration & Accessories",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Lighting",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Household Items",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Garden - Plants",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Office Furniture",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Doors - Windows - Aluminium",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Tiles & Flooring",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Others",
-            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
-          },
-        ],
-      },
-
-      {
-        name: "Job Board",
-        subcategories: [
-          {
-            name: "Administrative Jobs",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Land" },
-              { name: "Villas" },
-            ],
-          },
-          {
-            name: "Fashion & Beauty Jobs",
-            subcategories: [
-              { name: "Houses" },
-              { name: "Apartments" },
-              { name: "Commercial Spaces" },
-            ],
-          },
-          {
-            name: "Security & Safety Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Teaching Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "IT & Design Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Agriculture & Farming Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Industrial Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Medical & Nursing Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Architecture & Construction Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Industrial Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Housekeeping Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
-            name: "Restaurant Jobs",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-
-          {
-            name: "Others",
-            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
-          },
-        ],
-      },
-
-      {
         name: "Automotive",
         subcategories: [
           {
@@ -2259,7 +1256,913 @@ const AddLisiting = () => {
           },
         ],
       },
-      // Add other categories here...
+      {
+        name: "Fashion Style",
+        subcategories: [
+          {
+            name: "Watches",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Land" },
+              { name: "Villas" },
+            ],
+          },
+          {
+            name: "Perfumes & Incense",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Commercial Spaces" },
+            ],
+          },
+          {
+            name: "Sports Equipment",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Men's Fashion",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Women's Fashion",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Children's Clothing & Accessories",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Sleepwear",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Gifts",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Luggage",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Health & Beauty",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Others",
+            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
+          },
+        ],
+      },
+      {
+        name: "Home & Furnituer",
+        subcategories: [
+          {
+            name: "Outdoor Furniture",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Land" },
+              { name: "Villas" },
+            ],
+          },
+          {
+            name: "Majlis & Sofas",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Commercial Spaces" },
+            ],
+          },
+          {
+            name: "Cabinets & Wardrobes",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Beds & Mattresses",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Tables & Chairs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Kitchens",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Sleepwear",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Bathrooms",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Carpets",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Curtains",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Decoration & Accessories",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Lighting",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Decoration & Accessories",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Lighting",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Household Items",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Garden - Plants",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Office Furniture",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Doors - Windows - Aluminium",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Tiles & Flooring",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Others",
+            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
+          },
+        ],
+      },
+      {
+        name: "Job Board",
+        subcategories: [
+          {
+            name: "Administrative Jobs",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Land" },
+              { name: "Villas" },
+            ],
+          },
+          {
+            name: "Fashion & Beauty Jobs",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Commercial Spaces" },
+            ],
+          },
+          {
+            name: "Security & Safety Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Teaching Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "IT & Design Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Agriculture & Farming Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Industrial Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Medical & Nursing Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Architecture & Construction Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Industrial Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Housekeeping Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Restaurant Jobs",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Others",
+            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
+          },
+        ],
+      },
+      {
+        name: "Real Estate",
+        subcategories: [
+          {
+            name: "Apartments for Rent",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Land" },
+              { name: "Villas" },
+            ],
+          },
+          {
+            name: "Apartments for Sale",
+            subcategories: [
+              { name: "Houses" },
+              { name: "Apartments" },
+              { name: "Commercial Spaces" },
+            ],
+          },
+          {
+            name: "Building for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Building for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Camps for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Chalets for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Chalets for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Commercial Lands for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Compound for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Compound for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Farm for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Farms for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Floor for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Floors for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Hall for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Houses for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Houses for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Offices for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Rest Houses for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Rooms for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Shops for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Shops for Transfer",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Warehouse for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Villas for Sale",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+          {
+            name: "Villas for Rent",
+            subcategories: [
+              { name: "Office Spaces" },
+              { name: "Retail" },
+              { name: "Industrial" },
+            ],
+          },
+
+          {
+            name: "Camping",
+            subcategories: [
+              {
+                name: "Tents",
+                subcategories: [],
+              },
+              {
+                name: "Sleeping Bags",
+                subcategories: [],
+              },
+              {
+                name: "Outdoor Gear",
+                subcategories: [
+                  { name: "Backpacking" },
+                  { name: "Family Camping" },
+                ],
+              },
+            ],
+          },
+
+          {
+            name: "Others",
+            subcategories: [{ name: "Miscellaneous", subcategories: [] }],
+          },
+        ],
+      },
+      {
+        name: "Services",
+        subcategories: [
+          {
+            name: "Other Services",
+            subcategories: [{ name: "Cleaning" }, { name: "Maintenance" }],
+          },
+          {
+            name: "Contracting Services",
+            subcategories: [{ name: "Repair" }, { name: "Detailing" }],
+          },
+          {
+            name: "Government Paperwork Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Delivery Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Furniture Moving Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Cleaning Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "International Shopping Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Legal Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Accounting & Financial Services",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+        ],
+      },
+      {
+        name: "Sports & Game",
+        subcategories: [
+          {
+            name: "Gaming Consoles",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Video Games",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Controllers",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Gaming Accessories",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Gift Cards",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Accounts",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+          {
+            name: "Toys",
+            subcategories: [
+              { name: "Sports & Game" },
+              { name: "Sports & Game" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Pet & Animals",
+        subcategories: [
+          {
+            name: "Sheep",
+            subcategories: [
+              { name: "Dogs" },
+              { name: "Cats" },
+              { name: "Birds" },
+              { name: "Fish" },
+            ],
+          },
+          {
+            name: "Goats",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Parrot",
+            subcategories: [],
+          },
+
+          {
+            name: "Dove/Pigeon",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Cats",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Chickens",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Camels",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Horses",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Dogs",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Cows",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Fish & Turtles",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Rabbits",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Ducks",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Squirrels",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Hamsters",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+          {
+            name: "Fur",
+            subcategories: [
+              { name: "Cattle" },
+              { name: "Sheep" },
+              { name: "Goats" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Other",
+        subcategories: [
+          {
+            name: "Hunting & Trips",
+            subcategories: [{ name: "Cleaning" }, { name: "Maintenance" }],
+          },
+          {
+            name: "Gardening & Agriculture",
+            subcategories: [{ name: "Repair" }, { name: "Detailing" }],
+          },
+          {
+            name: "Parties & Events",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Travel & Tourism",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Roommate",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Lost & Found",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Education & Training",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Sports Training",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Stock & Forex Education",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Driving Lessons",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Private Tutoring",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+
+          {
+            name: "Training Courses",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Antiques & Collectibles",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Projects & Investments",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Books & Arts",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Programming & Design",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+
+          {
+            name: "Food & Beverages",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Gardening & Agriculture",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+          {
+            name: "Hunting & Trips",
+            subcategories: [{ name: "Tutoring" }, { name: "Coaching" }],
+          },
+        ],
+      },
     ],
   };
 
@@ -2929,7 +2832,7 @@ const AddLisiting = () => {
                         className="file-upload"
                         style={{
                           padding: "8px 16px",
-                          backgroundColor: "#007bff",
+                          backgroundColor: "#2d4495",
                           color: "#fff",
                           borderRadius: "5px",
                           cursor: "pointer",
@@ -9157,7 +9060,7 @@ const AddLisiting = () => {
                                 bottom: 0,
                                 backgroundColor: !showPhone
                                   ? "#ccc"
-                                  : "#2196F3",
+                                  : "#2d4495",
                                 transition: ".4s",
                                 borderRadius: "34px",
                                 height: "24px",
@@ -9255,7 +9158,7 @@ const AddLisiting = () => {
                                 bottom: 0,
                                 backgroundColor: !showPrice
                                   ? "#ccc"
-                                  : "#2196F3",
+                                  : "#2d4495",
                                 transition: ".4s",
                                 borderRadius: "34px",
                                 height: "24px",
@@ -9409,7 +9312,8 @@ const AddLisiting = () => {
                 <button
                   onClick={saveToFirestore}
                   disabled={uploading} // Disable unless checkbox is checked & not uploading
-                  className="btn btn-primary"
+                  className="btn"
+                  style={{backgroundColor:"#2d4495",color:"white"}}
                   type="button"
                 >
                   {" "}

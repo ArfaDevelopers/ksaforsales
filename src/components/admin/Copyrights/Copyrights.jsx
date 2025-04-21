@@ -61,7 +61,7 @@ const Copyrights = () => {
       <div
       className="dashboard-content"
       style={{
-        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+        marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
       }}
       >
         <Container
@@ -73,6 +73,7 @@ const Copyrights = () => {
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
+            
           }}
         >
           <div
@@ -82,6 +83,7 @@ const Copyrights = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: "4%",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -89,10 +91,10 @@ const Copyrights = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Home
@@ -105,10 +107,10 @@ const Copyrights = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Copyrights{" "}
@@ -117,7 +119,7 @@ const Copyrights = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "4%", marginTop: "20px", fontSize: "24px" }}
+              style={{marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%", marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               Copyrights{" "}
             </h1>
@@ -129,9 +131,9 @@ const Copyrights = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
-              marginBottom: "40px",
-              marginTop: "20px",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
           >
             <button
@@ -142,8 +144,9 @@ const Copyrights = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Copyrights
@@ -152,7 +155,7 @@ const Copyrights = () => {
           </div>
         </Container>
         {/* Introduction Section */}
-        <section className="container my-5">
+        <section className="container ">
           <h2 className="fw-bold">Copyright Notice</h2>
           <p>
             All content, including text, images, graphics, logos, and code,
@@ -235,8 +238,8 @@ const Copyrights = () => {
         </section>
 
         {/* Contact Section */}
-        <section className="bg-light py-5">
-          <div className="container text-center">
+        <section className=" py-5">
+          <div className="container text-center" style={{marginTop: window.innerWidth <= 576 ? "-30px" : "0px",}}>
             <h2 className="fw-bold">Have Questions?</h2>
             <p>If you have any copyright concerns, please contact us.</p>
             <a href="mailto:copyright@KSA4Sale.com" className="btn "style={{backgroundColor:"#2d4495",color:"white"}}>

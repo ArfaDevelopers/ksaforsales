@@ -47,19 +47,19 @@ const TermsAndConditions = () => {
       <div
       className="dashboard-content"
       style={{
-        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+        marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
       }}
       >
   
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "10px", // Padding on the left side
+            paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-1rem" : "12.5%",
+            marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
           }}
         >
           <div
@@ -68,7 +68,7 @@ const TermsAndConditions = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -76,10 +76,10 @@ const TermsAndConditions = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Home
@@ -92,10 +92,10 @@ const TermsAndConditions = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Terms & Conditions{" "}
@@ -104,7 +104,7 @@ const TermsAndConditions = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "4%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%", marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               Terms & Conditions{" "}
             </h1>
@@ -116,9 +116,9 @@ const TermsAndConditions = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
-              marginBottom: "40px",
-              marginTop: "20px",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
             }}
           >
             <button
@@ -129,7 +129,8 @@ const TermsAndConditions = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                width: window.innerWidth <= 576 ? "47%" : "auto",
                 textAlign: "center",
               }}
             >
@@ -138,7 +139,7 @@ const TermsAndConditions = () => {
           </div>
         </Container>
         {/* Introduction Section */}
-        <section className="container my-5">
+        <section className="container " >
           <h2 className="fw-bold">Welcome to KSA4Sale</h2>
           <p>
             By accessing or using KSA4Sale, you agree to abide by the following
@@ -147,8 +148,8 @@ const TermsAndConditions = () => {
           </p>
         </section>
         {/* Terms Sections */}
-        <section className="container">
-          <div className="row">
+        <section className="container" >
+          <div className="row" >
             {/* User Responsibilities */}
             <div className="col-md-6 my-3">
               <h3 className="fw-bold">
@@ -200,7 +201,7 @@ const TermsAndConditions = () => {
             </div>
 
             {/* Legal Action */}
-            <div className="col-md-6 my-3">
+            <div className="col-md-6 my-3" >
               <h3 className="fw-bold">
                 <FaGavel className="text-dark" /> Legal Action
               </h3>

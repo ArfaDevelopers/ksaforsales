@@ -942,18 +942,18 @@ const AboutUs = () => {
       <div
       className="dashboard-content"
       style={{
-        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+        marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
       }}
       >
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "10px", // Padding on the left side
+            paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-1rem" : "12.5%",
+            marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
           }}
         >
           <div
@@ -962,7 +962,7 @@ const AboutUs = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -970,10 +970,10 @@ const AboutUs = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Home
@@ -986,10 +986,10 @@ const AboutUs = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               About Us{" "}
@@ -998,7 +998,7 @@ const AboutUs = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "4%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%", marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               About Us{" "}
             </h1>
@@ -1010,9 +1010,9 @@ const AboutUs = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
-              marginBottom: "40px",
-              marginTop: "20px",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
             }}
           >
             <button
@@ -1023,8 +1023,9 @@ const AboutUs = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               About Us
@@ -1032,7 +1033,7 @@ const AboutUs = () => {
           </div>
         </Container>
         {/* About Content */}
-        <section className="container my-5">
+        <section className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
               <h2 className="fw-bold">Our Story</h2>
@@ -1054,7 +1055,7 @@ const AboutUs = () => {
         </section>
 
         {/* Our Mission */}
-        <section className="bg-light py-5">
+        <section className=" py-5">
           <div className="container text-center">
             <h2 className="fw-bold">Our Mission</h2>
             <p className="lead">
@@ -1066,7 +1067,7 @@ const AboutUs = () => {
         </section>
 
         {/* Team Section */}
-        <section className="container my-5">
+        <section className="container my-3">
           <h2 className="text-center fw-bold">Meet Our Team</h2>
           <div className="row text-center mt-4">
             <div className="col-md-4">

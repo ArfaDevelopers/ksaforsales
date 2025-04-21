@@ -6317,8 +6317,8 @@ ul.tags {
 }
 .login-wrap .custom_check input:checked ~ .checkmark,
 .messages-form .custom_check input:checked ~ .checkmark {
-  background-color: #c10037;
-  border: 1px solid #c10037;
+  background-color: #2d4495;
+  border: 1px solid #2d4495;
 }
 .login-wrap .custom_check .checkmark,
 .messages-form .custom_check .checkmark {
@@ -20757,7 +20757,7 @@ section.advertisement {
     margin-bottom: 0;
   }
   .dashboard-content {
-    background: #f9fafc;
+    /* background: #f9fafc; */
   }
   .listing-search {
     flex-direction: column;

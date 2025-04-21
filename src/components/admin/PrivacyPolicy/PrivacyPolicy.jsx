@@ -52,7 +52,7 @@ const PrivacyPolicy = () => {
       <div
       className="dashboard-content"
       style={{
-        marginTop: window.innerWidth <= 576 ? "5rem" : "6rem",
+        marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
       }}
       >
         <Container
@@ -72,7 +72,7 @@ const PrivacyPolicy = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -80,10 +80,10 @@ const PrivacyPolicy = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Home
@@ -96,10 +96,10 @@ const PrivacyPolicy = () => {
             <button
               className="btn"
               style={{
-                background: "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Privacy Policy{" "}
@@ -108,7 +108,7 @@ const PrivacyPolicy = () => {
 
           <div>
             <h1
-              style={{ marginLeft: "4%", marginTop: "20px", fontSize: "24px" }}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%", marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
             >
               Privacy Policy{" "}
             </h1>
@@ -120,9 +120,9 @@ const PrivacyPolicy = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: "4%",
-              marginBottom: "40px",
-              marginTop: "20px",
+              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
           >
             <button
@@ -133,8 +133,9 @@ const PrivacyPolicy = () => {
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto"
               }}
             >
               Privacy Policy
@@ -143,7 +144,7 @@ const PrivacyPolicy = () => {
           </div>
         </Container>
         {/* Introduction Section */}
-        <section className="container my-5">
+        <section className="container">
           <h2 className="fw-bold">Your Privacy Matters</h2>
           <p>
             At KSA4Sale, we value your privacy and are committed to protecting
@@ -225,8 +226,8 @@ const PrivacyPolicy = () => {
           </div>
         </section>
         {/* Contact Section */}
-        <section className="bg-light py-5">
-          <div className="container text-center">
+        <section className="py-5">
+          <div className="container text-center" style={{marginTop: window.innerWidth <= 576 ? "-30px" : "0px"}}>
             <h2 className="fw-bold">Have Questions?</h2>
             <p>
               If you have any questions regarding this Privacy Policy, contact
