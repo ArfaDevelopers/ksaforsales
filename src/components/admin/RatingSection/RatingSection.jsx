@@ -182,9 +182,9 @@ function UserReviews({
 }) {
   const [newReview, setNewReview] = useState({ review: "", rating: 0 });
   const [replyInputs, setReplyInputs] = useState({});
-  const user1 = auth.currentUser.uid;
+  const user1 = auth.currentUser?.uid; // Add null check for safety
   console.log(user1, "user1_______________");
-  console.log(listingUserId, "user1_______________166");
+  console.log(listingUserId, "listingUserId_______________");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -224,10 +224,10 @@ function UserReviews({
   };
 
   const handleReplySubmit = (index) => {
-    if (replyInputs[index] && isAdmin) {
+    if (replyInputs[index] && user1 === listingUserId) {
       const reply = {
         reply: replyInputs[index],
-        by: user?.displayName || "Admin",
+        by: user?.displayName || "Owner",
         date: new Date().toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
@@ -245,7 +245,7 @@ function UserReviews({
   };
 
   const toggleReplyInput = (index) => {
-    if (isAdmin) {
+    if (user1 === listingUserId) {
       setReplyInputs((prev) => ({
         ...prev,
         [index]: prev[index] === undefined ? "" : undefined,
@@ -376,7 +376,7 @@ function UserReviews({
               >
                 👎 Dislike · {review.dislikes}
               </span>
-              {user1 === listingUserId ? (
+              {user1 && listingUserId && user1 === listingUserId ? (
                 <span
                   style={{ cursor: "pointer", color: "#1890ff" }}
                   onClick={() => toggleReplyInput(index)}
@@ -388,38 +388,40 @@ function UserReviews({
               )}
             </div>
           </div>
-          {/* {replyInputs[index] ? ( */}
-          <div style={{ marginLeft: "20%", marginBottom: "10px" }}>
-            <textarea
-              placeholder="Write your reply..."
-              value={replyInputs[index]}
-              onChange={(e) => handleReplyInputChange(index, e.target.value)}
-              style={{
-                padding: "10px",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "14px",
-                width: "100%",
-                minHeight: "60px",
-                resize: "vertical",
-              }}
-            />
-            <button
-              onClick={() => handleReplySubmit(index)}
-              style={{
-                backgroundColor: "#2D4495",
-                color: "#fff",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "20px",
-                fontSize: "14px",
-                cursor: "pointer",
-                marginTop: "5px",
-              }}
-            >
-              Submit Reply
-            </button>
-          </div>
+          {/* Conditionally render reply input section */}
+          {replyInputs[index] !== undefined && user1 === listingUserId && (
+            <div style={{ marginLeft: "20%", marginBottom: "10px" }}>
+              <textarea
+                placeholder="Write your reply..."
+                value={replyInputs[index] || ""}
+                onChange={(e) => handleReplyInputChange(index, e.target.value)}
+                style={{
+                  padding: "10px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  fontSize: "14px",
+                  width: "100%",
+                  minHeight: "60px",
+                  resize: "vertical",
+                }}
+              />
+              <button
+                onClick={() => handleReplySubmit(index)}
+                style={{
+                  backgroundColor: "#2D4495",
+                  color: "#fff",
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: "20px",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  marginTop: "5px",
+                }}
+              >
+                Submit Reply
+              </button>
+            </div>
+          )}
           {review.replies && review.replies.length > 0 && (
             <div style={{ marginLeft: "20%", marginBottom: "20px" }}>
               {review.replies.map((reply, replyIndex) => (
@@ -452,7 +454,6 @@ function UserReviews({
           )}
         </div>
       ))}
-
       {user1 !== listingUserId && user ? (
         <div
           style={{
@@ -810,7 +811,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
   const handleAddReply = async (index, reply) => {
     const review = reviews[index];
     const reviewRef = doc(db, "reviews", review.id);
-
+  
     try {
       const updatedReplies = [...(review.replies || []), reply];
       await updateDoc(reviewRef, { replies: updatedReplies });

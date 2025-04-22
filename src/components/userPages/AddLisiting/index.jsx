@@ -9285,43 +9285,54 @@ const AddLisiting = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div
-                className="settings-upload-btn"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginTop: "10px",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={isChecked}
-                  onChange={() => setIsChecked((prev) => !prev)}
-                  style={{ margin: "0" }}
-                />
-                <label style={{ fontSize: "14px" }}>
-                  Agree to terms of services
-                </label>
-              </div> */}
+             
+
+                <div
+  className="settings-upload-btn"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: "10px",
+  }}
+>
+  <input
+    type="checkbox"
+    checked={isChecked}
+    onChange={() => setIsChecked((prev) => !prev)}
+    style={{ marginTop: "10px" }}
+  />
+  <label style={{ fontSize: "24px", marginTop: "20px", fontWeight: "bold" }}>
+    <Link
+      to="/TermsAndConditions"
+      style={{
+        textDecoration: "underline",
+        color: "#2d4495", // Blue color to indicate a link
+      }}
+      onMouseEnter={(e) => (e.target.style.textDecoration = "none")} // Remove underline on hover
+      onMouseLeave={(e) => (e.target.style.textDecoration = "underline")} // Restore underline
+    >
+      Agree to terms and conditions
+    </Link>
+  </label>
+</div>
                 {showPayment && (
                   <Elements stripe={stripePromise}>
                     <PaymentForm />
                   </Elements>
                 )}
-                <button
-                  onClick={saveToFirestore}
-                  disabled={uploading} // Disable unless checkbox is checked & not uploading
-                  className="btn"
-                  style={{backgroundColor:"#2d4495",color:"white"}}
-                  type="button"
-                >
-                  {" "}
-                  Submit
-                </button>
-                {error && (
-                  <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
-                )}{" "}
+               <button
+  onClick={saveToFirestore}
+  disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
+  className="btn"
+  style={{ backgroundColor: "#2d4495", color: "white" }}
+  type="button"
+>
+  Submit
+</button>
+{error && (
+  <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
+)}
                 {/* ✅ Show error message */}
               </div>
             </div>
