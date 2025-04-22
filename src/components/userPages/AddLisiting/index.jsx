@@ -9296,12 +9296,16 @@ const AddLisiting = () => {
     marginTop: "10px",
   }}
 >
-  <input
-    type="checkbox"
-    checked={isChecked}
-    onChange={() => setIsChecked((prev) => !prev)}
-    style={{ marginTop: "10px" }}
-  />
+<input
+  type="checkbox"
+  checked={isChecked}
+  onChange={() => setIsChecked((prev) => !prev)}
+  style={{
+    marginTop: "15px",
+    width: "20px", // Increase the width
+    height: "20px", // Increase the height
+  }}
+/>
   <label style={{ fontSize: "24px", marginTop: "20px", fontWeight: "bold" }}>
     <Link
       to="/TermsAndConditions"
