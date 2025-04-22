@@ -22031,17 +22031,13 @@ section.advertisement {
 .nav-link-wrapper {
   position: relative;
 }
-
-
 .nav-link:hover {
-  color: #007bff;
+  color:  #333;
 }
-
 .nav-link.active-link {
-  color: #007bff;
+  color:  #333;
   font-weight: bold;
 }
-
 .mega-menu {
   position: absolute;
   top: 100%;
@@ -22053,23 +22049,21 @@ section.advertisement {
   border-radius: 5px;
   min-width: 280px;
 }
-
 .submenu-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .submenu-list.real-estate-scroll {
   max-height: 650px; /* Adjusted to a more reasonable height for 15 items */
   overflow-y: auto;
   overflow-x: hidden;
 }
-
 .submenu-item {
   position: relative;
+  border: none; /* Ensure no border on the item */
+  outline: none;
 }
-
 .submenu-link {
   text-decoration: none;
   color: #333;
@@ -22079,18 +22073,26 @@ section.advertisement {
   justify-content: space-between;
   align-items: center;
   transition: color 0.3s ease, background-color 0.3s ease;
+  border: none; /* Ensure no border on the link */
+  outline: none;
 }
-
-.submenu-link:hover {
-  color: #007bff;
+.submenu-link:hover,
+.submenu-link:focus {
+  color: #333;
   background-color: #f5f5f5;
+  border: none;
+  outline: none;
 }
-
 .submenu-link.active-link {
-  color: #007bff;
+  color:  #333;
   font-weight: bold;
 }
-
+.submenu-item::before,
+.submenu-item::after,
+.submenu-link::before,
+.submenu-link::after {
+  content: none; /* Disable pseudo-elements */
+}
 .sub-submenu {
   position: absolute;
   top: 0; /* Align the top of sub-submenu with the top of the submenu-item */
@@ -22103,7 +22105,6 @@ section.advertisement {
   min-width: 200px;
   /* Removed transform: translateY(-50%) to prevent vertical centering */
 }
-
 .arrow {
   font-size: 12px;
   color: #666;
@@ -22112,31 +22113,25 @@ section.advertisement {
   top: 50%; /* Vertically center */
   transform: translateY(-50%); /* Adjust for vertical centering */
 }
-
 /* Optional: Style the scrollbar for Real Estate */
 .submenu-list.real-estate-scroll::-webkit-scrollbar {
   width: 8px;
 }
-
 .submenu-list.real-estate-scroll::-webkit-scrollbar-thumb {
   background-color: #007bff;
   border-radius: 4px;
 }
-
 .submenu-list.real-estate-scroll::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
-
 /* Optional: Style the scrollbar */
 .submenu-list.real-estate-scroll::-webkit-scrollbar {
   width: 8px;
 }
-
 .submenu-list.real-estate-scroll::-webkit-scrollbar-thumb {
   background-color: gray;
   border-radius: 4px;
 }
-
 .submenu-list.real-estate-scroll::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
