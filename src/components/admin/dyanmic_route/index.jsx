@@ -251,7 +251,10 @@ const Dynamic_Route = () => {
   const recieverId = itemData?.userId;
   console.log('userid__________',recieverId)
   const [chatIds, setChatIds] = useState([]);
- 
+  const [isFullScreen, setIsFullScreen] = useState(false);
+ const handleFullScreenToggle = () => {
+   setIsFullScreen(!isFullScreen);
+ };
   useEffect(() => {
     const fetchChatIds = async () => {
       try {
@@ -1019,133 +1022,257 @@ const Dynamic_Route = () => {
                        
                         {/* Main Image with Previous & Next Buttons */}
                         <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                       </div>
 
                       <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? 5 : 10,}}>
@@ -1317,133 +1444,257 @@ const Dynamic_Route = () => {
                         <div>
                           {/* Main Image with Previous & Next Buttons */}
                           <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -1641,133 +1892,257 @@ const Dynamic_Route = () => {
                         <div>
                           {/* Main Image with Previous & Next Buttons */}
                           <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -1967,134 +2342,258 @@ const Dynamic_Route = () => {
                       <div className="col  border-none">
                         <div>
                          
-                          <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
+                        <div
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -2294,133 +2793,257 @@ const Dynamic_Route = () => {
                           {/* Main Image with Previous & Next Buttons */}
                         
                           <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -2612,135 +3235,258 @@ const Dynamic_Route = () => {
                       <div className="col  border-none">
                         <div>
                         
-                          {/* Main Image with Previous & Next Buttons */}
-                          <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
+                        <div
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -2932,133 +3678,257 @@ const Dynamic_Route = () => {
                        
                         <div>
                         <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -3250,134 +4120,258 @@ const Dynamic_Route = () => {
                       <div className="col  border-none">
                         <div>
                         
-                          <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
+                        <div
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -3549,134 +4543,258 @@ const Dynamic_Route = () => {
                       <div className="col  border-none">
                         <div>
                        
-                          <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
+                        <div
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">
@@ -3869,133 +4987,257 @@ const Dynamic_Route = () => {
                        
                           {/* Main Image with Previous & Next Buttons */}
                           <div
-  style={{
-    position: "relative",
-    textAlign: "center",
-  }}
->
-  <img
-    src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
-    className="w-md-24 heightofDetailpageimage"
-    alt={itemData?.title || "Default Item"}
-    style={{
-      width: "100%",
-      marginTop: "1rem",
-      borderRadius: "0.3rem",
-    }}
-  />
-  {/* Previous Button */}
-  <button
-    onClick={handlePrevImage}
-    style={{
-      position: "absolute",
-      left: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(252, 252, 252)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={left} alt="Previous" width={30} />
-  </button>
-
-  {/* Next Button */}
-  <button
-    onClick={handleNextImage}
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      background: "rgb(236, 236, 236)",
-      color: "white",
-      border: "none",
-      padding: "10px",
-      cursor: "pointer",
-    }}
-  >
-    <img src={right} alt="Next" width={30} />
-  </button>
-
-  {/* Image Counter */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: "10px",
-      right: "10px",
-      background: "rgba(0, 0, 0, 0.5)",
-      color: "white",
-      padding: "5px 10px",
-      borderRadius: "15px",
-      fontSize: "14px",
-    }}
-  >
-    {`${
-      itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
-    } of ${itemData?.galleryImages.length} photos`}
-  </div>
-</div>
-
-{/* Thumbnail Images */}
-<div
-  className="multiplesimage-wrapper"
-  style={{
-    display: "flex",
-    gap: "10px",
-    marginTop: "1rem",
-    flexWrap: "nowrap",
-    overflow: "hidden",
-  }}
->
-  {visibleImages.map((image, index) => (
-    <div
-      className="multiplesimage-wrapper-item"
-      key={index}
-      onClick={() => handleImageSelect(image)}
-      style={{
-        cursor: "pointer",
-        border: selectedImage === image ? "2px solid blue" : "none",
-        padding: "5px",
-      }}
-    >
-      <img
-        src={image}
-        alt={`Car ${index + 1}`}
-        className="images"
         style={{
-          width: "80px",
-          height: "60px",
-          borderRadius: "5px",
+          position: "relative",
+          textAlign: "center",
         }}
-      />
-    </div>
-  ))}
-  {/* Arrow Button for More Images */}
-  {images.length > 5 && (
-    <button
-      onClick={() => setShowAllThumbnails(!showAllThumbnails)}
-      style={{
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        border: "none",
-        backgroundColor: "#007bff",
-        color: "white",
-        fontSize: "16px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: "10px",
-      }}
-    >
-      {showAllThumbnails ? "−" : "+"}
-    </button>
-  )}
-</div>
+        onClick={handleFullScreenToggle}
+      >
+        <img
+          src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+          className="w-md-24 heightofDetailpageimage"
+          alt={itemData?.title || "Default Item"}
+          style={{
+            width: "100%",
+            marginTop: "1rem",
+            borderRadius: "0.3rem",
+          }}
+        />
+        {/* Previous Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePrevImage();
+          }}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ◄
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleNextImage();
+          }}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+            color: "white",
+            border: "none",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            fontSize: "20px",
+          }}
+        >
+          ►
+        </button>
+
+        {/* Image Counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "15px",
+            fontSize: "14px",
+          }}
+        >
+          {`${
+            itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+          } of ${itemData?.galleryImages.length} photos`}
+        </div>
+      </div>
+
+      {/* Full-Screen Overlay */}
+      {isFullScreen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgb(0, 0, 0)", // Fully opaque black background
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000, // High z-index to ensure it covers everything
+            overflow: "hidden", // Prevent any overflow
+          }}
+          onClick={handleFullScreenToggle}
+        >
+          <img
+            src={selectedImage ? selectedImage : itemData?.galleryImages[0]}
+            alt={itemData?.title || "Default Item"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+
+          {/* Previous Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ◄
+          </button>
+
+          {/* Next Button in Full-Screen */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+              color: "white",
+              border: "none",
+              padding: "15px",
+              cursor: "pointer",
+              borderRadius: "50%",
+              fontSize: "20px",
+            }}
+          >
+            ►
+          </button>
+
+          {/* Close Button */}
+          <button
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              background: "transparent",
+              border: "none",
+              color: "white",
+              fontSize: "30px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFullScreen(false);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image Counter in Full-Screen */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              background: "rgba(0, 0, 0, 0.5)", // Match the image's counter style
+              color: "white",
+              padding: "5px 10px",
+              borderRadius: "15px",
+              fontSize: "14px",
+            }}
+          >
+            {`${
+              itemData?.galleryImages.indexOf(selectedImage) + 1 || 1
+            } of ${itemData?.galleryImages.length} photos`}
+          </div>
+        </div>
+      )}
+
+      {/* Thumbnail Images */}
+      <div
+        className="multiplesimage-wrapper"
+        style={{
+          display: "flex",
+          gap: "10px",
+          marginTop: "1rem",
+          flexWrap: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {visibleImages.map((image, index) => (
+          <div
+            className="multiplesimage-wrapper-item"
+            key={index}
+            onClick={() => handleImageSelect(image)}
+            style={{
+              cursor: "pointer",
+              border: selectedImage === image ? "2px solid blue" : "none",
+              padding: "5px",
+            }}
+          >
+            <img
+              src={image}
+              alt={`Car ${index + 1}`}
+              className="images"
+              style={{
+                width: "80px",
+                height: "60px",
+                borderRadius: "5px",
+              }}
+            />
+          </div>
+        ))}
+        {images.length > 5 && (
+          <button
+            onClick={() => setShowAllThumbnails(!showAllThumbnails)}
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              border: "none",
+              backgroundColor: "#007bff",
+              color: "white",
+              fontSize: "16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "10px",
+            }}
+          >
+            {showAllThumbnails ? "−" : "+"}
+          </button>
+        )}
+      </div>
                         </div>
                         <div className="border-none info_wrapper " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                           <div className="col">

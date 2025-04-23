@@ -1,24 +1,112 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import ReactApexChart from "react-apexcharts";
 import {
-  ProfileAvatar01,
-  ProfileAvatar11,
-  bookmark,
+  verified,
   chat,
   rating,
-  verified,
 } from "../../imagepath";
 import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
-import { Link, useLocation } from "react-router-dom";
-import ReactApexChart from "react-apexcharts";
-import { useState,useEffect } from "react";
-
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
+import { db } from "../../Firebase/FirebaseConfig"; // Import Firebase config
+import { collection, onSnapshot } from "firebase/firestore";
 
 const Dashboard = () => {
-  const [change, setChange] = useState(false);
-  const [change1, setChange1] = useState(false);
+  const [change, setChange] = useState(false); // For Page Views dropdown
+  const [change1, setChange1] = useState(false); // For Page Views dropdown
+
+  const [filter, setFilter] = useState("All Listing"); // For Visitor Reviews filter
+  const [visitorReviews, setVisitorReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(2); // Show 2 reviews initially
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const location = useLocation();
+
+  // Scroll to top on location change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Fetch reviews from Firebase in real-time
+  useEffect(() => {
+    const reviewsCollection = collection(db, "reviews");
+    const unsubscribe = onSnapshot(reviewsCollection, (snapshot) => {
+      const reviewsList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // Sort reviews by createdAt date (newest first)
+      reviewsList.sort((a, b) => {
+        const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+        const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+        return dateB - dateA;
+      });
+
+      setVisitorReviews(reviewsList);
+      setFilteredReviews(reviewsList);
+    }, (error) => {
+      console.error("Error listening to reviews:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Filter reviews based on selected filter
+  useEffect(() => {
+    const now = new Date();
+    let filtered;
+
+    if (filter === "Last Week") {
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      filtered = visitorReviews.filter((review) => {
+        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        return reviewDate >= oneWeekAgo && reviewDate <= now;
+      });
+    } else if (filter === "Last Month") {
+      const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+      filtered = visitorReviews.filter((review) => {
+        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        return reviewDate >= lastMonthStart && reviewDate <= lastMonthEnd;
+      });
+    } else if (filter === "Last Year") {
+      const lastYearStart = new Date(now.getFullYear() - 1, 0, 1);
+      const lastYearEnd = new Date(now.getFullYear() - 1, 11, 31);
+      filtered = visitorReviews.filter((review) => {
+        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        return reviewDate >= lastYearStart && reviewDate <= lastYearEnd;
+      });
+    } else {
+      filtered = visitorReviews;
+    }
+
+    setFilteredReviews(filtered);
+    setVisibleCount(2); // Reset visible count when filter changes
+  }, [filter, visitorReviews]);
+
+  const loadMoreReviews = () => {
+    setVisibleCount((prevCount) => prevCount + 2);
+  };
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    setChange(false);
+    setChange1(false)
+  };
+
+  // Chart options (unchanged)
   const optionss = {
     series: [
       {
@@ -83,39 +171,27 @@ const Dashboard = () => {
         "Tuesday",
         "Wednesday",
         "Thursday",
-        "Fridau",
+        "Friday",
       ],
     },
   };
 
-  const parms = useLocation().pathname;
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
   return (
-    <>
- <div className="main-wrapper">
- <Header />
+    <div className="main-wrapper">
+      <Header />
       <div
         className="dashboard-content"
         style={{
-          marginTop: window.innerWidth <= 576 ? "6rem" : "8rem"
+          marginTop: windowWidth <= 576 ? "6rem" : "8rem",
         }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / Dashboard</div>
+          <div
+            className="col-12 text-start text-dark"
+            style={{ fontSize: 26, fontWeight: 500 }}
+          >
+            Home / Dashboard
+          </div>
 
           <div className="">
             <ul className="dashborad-menus">
@@ -134,15 +210,9 @@ const Dashboard = () => {
                   <i className="feather-list" /> <span>My Listing</span>
                 </Link>
               </li>
-              {/* <li>
-                <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
-                </Link>
-              </li> */}
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
                 </Link>
               </li>
               <li>
@@ -152,16 +222,18 @@ const Dashboard = () => {
               </li>
               <li>
                 <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                  <span>Logout</span>
+                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           <div className="dashboard-details">
-          <div className="row g-2">
-              <div className="col-lg-4 col-md-4 col-6" style={{ flex: '0 0 auto', minWidth: '100px' }}>
+            <div className="row g-2">
+              <div
+                className="col-lg-4 col-md-4 col-6"
+                style={{ flex: "0 0 auto", minWidth: "100px" }}
+              >
                 <div className="card dash-cards">
                   <div className="card-body">
                     <div className="dash-top-content">
@@ -172,41 +244,51 @@ const Dashboard = () => {
                     <div className="dash-widget-info">
                       <h6>Active Listing</h6>
                       <div>500</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col-lg-4 col-md-4 col-6" style={{ flex: '0 0 auto', minWidth: '100px' }}>
-    <div className="card dash-cards">
-      <div className="card-body">
-        <div className="dash-top-content">
-          <div className="dashcard-img">
-            <img src={rating} className="img-fluid" alt="" />
-          </div>
-        </div>
-        <div className="dash-widget-info">
-          <h6>Total Reviews</h6>
-          <div>15230</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col-lg-4 col-md-4 col-12" style={{ flex: '0 0 auto', minWidth: '100px', marginTop: window.innerWidth <= 576 ? "-15px" : "8px" }}>
-    <div className="card dash-cards">
-      <div className="card-body">
-        <div className="dash-top-content">
-          <div className="dashcard-img">
-            <img src={chat} className="img-fluid" alt="" />
-          </div>
-        </div>
-        <div className="dash-widget-info">
-          <h6>Messages</h6>
-          <div>15</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="col-lg-4 col-md-4 col-6"
+                style={{ flex: "0 0 auto", minWidth: "100px" }}
+              >
+                <div className="card dash-cards">
+                  <div className="card-body">
+                    <div className="dash-top-content">
+                      <div className="dashcard-img">
+                        <img src={rating} className="img-fluid" alt="" />
+                      </div>
+                    </div>
+                    <div className="dash-widget-info">
+                      <h6>Total Reviews</h6>
+                      <div>15230</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="col-lg-4 col-md-4 col-12"
+                style={{
+                  flex: "0 0 auto",
+                  minWidth: "100px",
+                  marginTop: windowWidth <= 576 ? "-15px" : "8px",
+                }}
+              >
+                <div className="card dash-cards">
+                  <div className="card-body">
+                    <div className="dash-top-content">
+                      <div className="dashcard-img">
+                        <img src={chat} className="img-fluid" alt="" />
+                      </div>
+                    </div>
+                    <div className="dash-widget-info">
+                      <h6>Messages</h6>
+                      <div>15</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="row dashboard-info">
               <div className="col-lg-6 d-flex">
                 <div className="card dash-cards w-100">
@@ -214,40 +296,29 @@ const Dashboard = () => {
                     <h4>Page Views</h4>
                     <div className="card-dropdown">
                       <ul>
-                        <li className="nav-item dropdown has-arrow logged-item " >
+                        <li className="nav-item dropdown has-arrow logged-item">
                           <Link
                             to="#"
                             className="dropdown-toggle pageviews-link"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
-                            onClick={() => setChange(!change)}
+                            onClick={() => setChange1(!change1)}
                             style={{ textDecoration: "none" }}
                           >
                             <span>This week</span>
                           </Link>
                           <div
-                            className={`${
-                              change === true
-                                ? "dropdown-menu dropdown-menu-end show"
-                                : "dropdown-menu dropdown-menu-end"
+                            className={`dropdown-menu dropdown-menu-end ${
+                              change1 ? "show" : ""
                             }`}
                           >
-                            <Link
-                              className="dropdown-item"
-                              to="javascript:void();"
-                            >
+                            <Link className="dropdown-item" to="javascript:void();">
                               Next Week
                             </Link>
-                            <Link
-                              className="dropdown-item"
-                              to="javascript:void()"
-                            >
+                            <Link className="dropdown-item" to="javascript:void()">
                               Last Month
                             </Link>
-                            <Link
-                              className="dropdown-item"
-                              to="javascript:void()"
-                            >
+                            <Link className="dropdown-item" to="javascript:void()">
                               Next Month
                             </Link>
                           </div>
@@ -264,6 +335,7 @@ const Dashboard = () => {
                         height={350}
                       />
                     </div>
+                   
                   </div>
                 </div>
               </div>
@@ -278,102 +350,103 @@ const Dashboard = () => {
                             to="#"
                             className="dropdown-toggle pageviews-link"
                             data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            onClick={() => setChange1(!change1)}
+                            aria-expanded={change}
+                            onClick={() => setChange(!change)}
                             style={{ textDecoration: "none" }}
                           >
-                            <span>All Listing</span>
+                            <span>{filter}</span>
                           </Link>
                           <div
-                            className={`${
-                              change1 === true
-                                ? "dropdown-menu dropdown-menu-end show"
-                                : "dropdown-menu dropdown-menu-end"
+                            className={`dropdown-menu dropdown-menu-end ${
+                              change ? "show" : ""
                             }`}
                           >
-                            <Link className="dropdown-item" to="#">
-                              Next Week
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleFilterChange("All Listing")}
+                            >
+                              All Listing
                             </Link>
-                            <Link className="dropdown-item" to="#">
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleFilterChange("Last Week")}
+                            >
+                              Last Week
+                            </Link>
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleFilterChange("Last Month")}
+                            >
                               Last Month
                             </Link>
-                            <Link className="dropdown-item" to="#">
-                              Next Month
+                            <Link
+                              W
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleFilterChange("Last Year")}
+                            >
+                              Last Year
                             </Link>
                           </div>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div className="card-body" style={{marginLeft:-30}}>
+                  <div className="card-body" style={{ marginLeft: -30 }}>
                     <ul className="review-list">
-                      <li className="review-box">
-                        <div className="review-profile">
-                          <div className="review-img">
-                            <img
-                              src={ProfileAvatar11}
-                              className="img-fluid"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="review-details">
-                          <h6>Joseph</h6>
-                          <div className="rating">
-                            <div className="rating-star">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
+                      {filteredReviews.length > 0 ? (
+                        filteredReviews.slice(0, visibleCount).map((review) => (
+                          <li className="review-box" key={review.id}>
+                            <div className="review-details">
+                              <h6>{review.name}</h6>
+                              <div className="rating">
+                                <div className="rating-star">
+                                  {[...Array(5)].map((_, i) => (
+                                    <i
+                                      key={i}
+                                      className={`fas fa-star ${
+                                        i < review.rating ? "filled" : ""
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                                <div>
+                                  <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
+                                  {review.date}
+                                </div>
+                                {/* <div>by: {review.by}</div> */}
+                              </div>
+                              <p>{review.review}</p>
                             </div>
-                            <div>
-                              <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                              4 months ago
-                            </div>
-                            <div>by: Demo Test</div>
-                          </div>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. It has been the industry's
-                            standard dummy.
-                          </p>
-                        </div>
-                      </li>
-                      <li className="review-box">
-                        <div className="review-profile">
-                          <div className="review-img">
-                            <img
-                              src={ProfileAvatar01}
-                              className="img-fluid"
-                              alt="img"
-                            />
-                          </div>
-                        </div>
-                        <div className="review-details">
-                          <h6>Dev</h6>
-                          <div className="rating">
-                            <div className="rating-star">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                            </div>
-                            <div>
-                              <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                              4 months ago
-                            </div>
-                            <div>by: Demo Test</div>
-                          </div>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. It has been the industry's
-                            standard dummy.
-                          </p>
-                        </div>
-                      </li>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="review-box">
+                          <p>No reviews available.</p>
+                        </li>
+                      )}
                     </ul>
+                    {filteredReviews.length > visibleCount && (
+                      <div className="text-center mt-3">
+                        <button
+                          className="btn"
+                          onClick={loadMoreReviews}
+                          style={{
+                            padding: "10px 20px",
+                            backgroundColor: "#2d4495",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Load More
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -381,13 +454,11 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <AutomativeCarousel/>
-      <LatestBlog/>
-      </div>
-     
-      {/* /Dashboard Content */}
+      <AutomativeCarousel />
+      <LatestBlog />
       <Footer />
-    </>
+    </div>
   );
 };
+
 export default Dashboard;

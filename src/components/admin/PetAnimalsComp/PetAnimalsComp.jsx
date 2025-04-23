@@ -2925,7 +2925,12 @@ const PetAnimalsComp = () => {
                         <Col md={8}>
                           <Card.Body>
                             <Card.Title style={{ color: "#2D4495",marginTop: window.innerWidth <= 576 ? "-2px" : "0px" }}>
+                            <Link
+                            //  to={`/car-details/${ad.id}`}
+                            to={`/Dynamic_Route?id=${car.id}&callingFrom=PetAnimalsComp`}
+                          >
                               {car.title || "Car"}
+                              </Link>
                             </Card.Title>
                             <Card.Text>
                               <small className="text-muted">

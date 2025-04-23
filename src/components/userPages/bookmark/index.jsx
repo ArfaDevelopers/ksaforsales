@@ -1,35 +1,9 @@
-import React from "react";
-import Header from "../../home/header";
-import {
-  ProfileAvatar02,
-  ProfileAvatar03,
-  ProfileAvatar04,
-  ProfileAvatar05,
-  ProfileAvatar06,
-  ProfileAvatar07,
-  eye,
-  listgrid_1,
-  listgrid_2,
-  listgrid_3,
-  listgrid_4,
-  listgrid_5,
-  listgrid_6,
-  listgrid_7,
-  listgrid_8,
-} from "../../imagepath";
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Footer from "../../home/footer/Footer";
-import UserHeader from "../Userheader";
-import { useEffect, useState } from "react";
-// import { Modal, Button, Form } from "react-bootstrap";
+import { Table } from "antd";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-// import Spinner from "react-bootstrap/Spinner";
-import Spinner from "react-bootstrap/Spinner";
-import { FaHeart } from "react-icons/fa";
-
+import { auth, db } from "../../Firebase/FirebaseConfig";
 import {
   collection,
   getDocs,
@@ -40,9 +14,18 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "./../../Firebase/FirebaseConfig.jsx";
+import Spinner from "react-bootstrap/Spinner";
+import { FaHeart } from "react-icons/fa";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import UserHeader from "../Userheader";
+import Footer from "../../home/footer/Footer";
+import {
+  ProfileAvatar02,
+  eye,
+} from "../../imagepath";
+
+const MySwal = withReactContent(Swal);
 
 const Bookmarks = () => {
   const [loading, setLoading] = useState(true);
@@ -50,26 +33,18 @@ const Bookmarks = () => {
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [userId, setUserId] = useState(""); // State for image preview
-  const [error, setError] = useState(""); // ✅ Error state
-  console.log("User UID:cars", cars);
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [itemCategory, setItemCategory] = useState("");
+  const [itemId, setItemId] = useState(null);
+  const [FormDataView, setFormDataView] = useState({});
+  const [view, setView] = useState(false);
+  const [sortOrder, setSortOrder] = useState("Newest");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const token = await user.getIdToken();
-        console.log("User ID Token:", token);
-        console.log("User UID:", user.uid);
-        setUserId(user.uid);
-        localStorage.setItem(user.uid, "user.uid1");
-      } else {
-        console.log("No user is logged in. Redirecting to /login...");
-        // navigate("/login", { replace: true }); // Redirect to login page
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup on unmount
-  }, []);
   const categoryMapping = {
     "Sports & Game": "SPORTSGAMESComp",
     Electronics: "ELECTRONICS",
@@ -80,153 +55,222 @@ const Bookmarks = () => {
     Travel: "TRAVEL",
     "Pet & Animal": "PETANIMALCOMP",
     "Health Care": "HEALTHCARE",
-
-    // Add more categories as needed
   };
-  // const editItem = async (id, category) => {
-  //   try {
-  //     const tableName = categoryMapping[category] || category;
-  //     const docRef = doc(db, tableName, id);
 
-  //     const docSnap = await getDoc(docRef);
-  //     console.log("Document Data:category", category);
-  //     console.log("Document Data:categoryid11", id);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserId(user.uid);
+        localStorage.setItem(user.uid, "user.uid1");
+      } else {
+        console.log("No user is logged in. Redirecting to /login...");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-  //     if (docSnap.exists()) {
-  //       console.log(
-  //         `Fetched item with ID: ${id} from collection: ${tableName}`
-  //       );
-  //       console.log("Document Data:", docSnap.data());
-  //     } else {
-  //       console.log("No document found with this ID.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching item:", error);
-  //   }
-  // };
-  const [show, setShow] = useState(false);
-  const [editData, setEditData] = useState(null);
-  const [formData, setFormData] = useState({});
-  const [itemCategory, setItemCategory] = useState(""); // To store the item category
-  const [itemId, setItemId] = useState(null); // To store the item id
-  const [FormDataView, setFormDataView] = useState({});
-  const [view, setView] = useState(false);
-  console.log("Document Data:FormDataView", FormDataView);
+  useEffect(() => {
+    const fetchCars = async () => {
+      setLoading(true);
+      try {
+        const collections = [
+          "SPORTSGAMESComp",
+          "REALESTATECOMP",
+          "Cars",
+          "ELECTRONICS",
+          "Education",
+          "FASHION",
+          "HEALTHCARE",
+          "JOBBOARD",
+          "MAGAZINESCOMP",
+          "PETANIMALCOMP",
+          "TRAVEL",
+        ];
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleView = () => setView(true);
-  const handleCloseview = () => setView(false);
-  const [sortOrder, setSortOrder] = useState("Newest");
-  const [searchQuery, setSearchQuery] = useState("");
+        const allData = [];
+        for (const coll of collections) {
+          const collRef = collection(db, coll);
+          const querySnapshot = await getDocs(collRef);
+          const collData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            category: Object.keys(categoryMapping).find(
+              (key) => categoryMapping[key] === coll
+            ) || coll,
+            ...doc.data(),
+          }));
+          allData.push(...collData);
+        }
+
+        const combinedData = [
+          ...new Map(allData.map((item) => [item.id, item])).values(),
+        ];
+
+        const user = auth.currentUser;
+        const filteredData = combinedData.filter(
+          (item) => item.userId === user.uid
+        );
+
+        const sortedData = filteredData.sort((a, b) => {
+          const dateA = a.createdAt?.seconds || 0;
+          const dateB = b.createdAt?.seconds || 0;
+          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
+        });
+
+        setCars(sortedData);
+        setFilteredCars(sortedData.filter((val) => val.bookmarked === true));
+      } catch (error) {
+        console.error("Error getting cars:", error);
+        setError("Failed to fetch data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCars();
+  }, [sortOrder]);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredCars(cars.filter((val) => val.bookmarked === true));
+      return;
+    }
+
+    const lowercasedQuery = searchQuery.toLowerCase();
+    const filteredResults = cars.filter(
+      (car) =>
+        car.bookmarked === true &&
+        (car.title?.toLowerCase().includes(lowercasedQuery) ||
+          car.description?.toLowerCase().includes(lowercasedQuery))
+    );
+
+    setFilteredCars(filteredResults);
+  }, [searchQuery, cars]);
 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
-    // Sort the filtered cars based on the new sort order
     const sortedCars = [...filteredCars].sort((a, b) => {
-      const dateA = a.createdAt.seconds;
-      const dateB = b.createdAt.seconds;
-
+      const dateA = a.createdAt?.seconds || 0;
+      const dateB = b.createdAt?.seconds || 0;
       return event.target.value === "Newest" ? dateB - dateA : dateA - dateB;
     });
-    setCars(sortedCars);
+    setFilteredCars(sortedCars);
   };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  // Filter cars based on search query
-  const displayedCars = filteredCars.filter((car) => {
-    return (
-      car.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Assuming you want to search by title
-      car.description.toLowerCase().includes(searchQuery.toLowerCase()) // You can add more fields to search
-    );
-  });
-  // Function to fetch document by ID and open modal
+  const toggleBookmark = async (id, category, currentBookmarkState) => {
+    try {
+      const tableName = categoryMapping[category] || category;
+      const docRef = doc(db, tableName, id);
+      await updateDoc(docRef, { bookmarked: !currentBookmarkState });
+
+      setCars((prevCars) =>
+        prevCars.map((car) =>
+          car.id === id && car.category === category
+            ? { ...car, bookmarked: !currentBookmarkState }
+            : car
+        )
+      );
+      setFilteredCars((prevCars) =>
+        prevCars.map((car) =>
+          car.id === id && car.category === category
+            ? { ...car, bookmarked: !currentBookmarkState }
+            : car
+        )
+      );
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      setError("Failed to update bookmark");
+    }
+  };
+
   const viewItem = async (id, category) => {
     try {
       const tableName = categoryMapping[category] || category;
       const docRef = doc(db, tableName, id);
       const docSnap = await getDoc(docRef);
-      console.log(category, "category_________");
-      console.log(id, "category_________id");
 
       if (docSnap.exists()) {
-        console.log("Document Data:", docSnap.data());
-
-        // Filter out empty fields
+        const data = docSnap.data();
         const filteredData = Object.fromEntries(
-          Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+          Object.entries(data).filter(([_, value]) => value !== "" && value !== null)
         );
-        console.log("No document found with this ID.", filteredData);
 
         setFormDataView(filteredData);
         setItemId(id);
-        setItemCategory(category); // Save the category for later use
-        handleView();
+        setItemCategory(category);
+        setView(true);
       } else {
         console.log("No document found with this ID.");
+        setError("Item not found");
       }
     } catch (error) {
       console.error("Error fetching item:", error);
+      setError("Failed to fetch item details");
     }
   };
+
   const editItem = async (id, category) => {
     try {
-      const tableName = categoryMapping[category];
+      const tableName = categoryMapping[category] || category;
       const docRef = doc(db, tableName, id);
       const docSnap = await getDoc(docRef);
-      console.log(category, "category_________");
-      console.log(id, "category_________id");
 
       if (docSnap.exists()) {
-        console.log("Document Data:", docSnap.data());
-
-        // Filter out empty fields
+        const data = docSnap.data();
         const filteredData = Object.fromEntries(
-          Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+          Object.entries(data).filter(([_, value]) => value !== "" && value !== null)
         );
 
         setFormData(filteredData);
         setItemId(id);
-        setItemCategory(category); // Save the category for later use
-        handleShow();
+        setItemCategory(category);
+        setShow(true);
       } else {
         console.log("No document found with this ID.");
+        setError("Item not found");
       }
     } catch (error) {
       console.error("Error fetching item:", error);
+      setError("Failed to fetch item details");
     }
   };
+
   const updateItem = async () => {
     try {
       const tableName = categoryMapping[itemCategory] || itemCategory;
       const docRef = doc(db, tableName, itemId);
-
-      // Update the document with the modified form data
       await updateDoc(docRef, formData);
 
-      console.log("Document successfully updated!");
+      setCars((prevCars) =>
+        prevCars.map((car) =>
+          car.id === itemId && car.category === itemCategory
+            ? { ...car, ...formData }
+            : car
+        )
+      );
+      setFilteredCars((prevCars) =>
+        prevCars.map((car) =>
+          car.id === itemId && car.category === itemCategory
+            ? { ...car, ...formData }
+            : car
+        )
+      );
 
-      // Close the modal after updating
-      handleClose();
+      setShow(false);
     } catch (error) {
       console.error("Error updating document:", error);
+      setError("Failed to update item");
     }
   };
 
-  // Handle input change for editable fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const deleteItem = async (id, category) => {
-    console.log(category, "combinedData___________category");
-    // Display confirmation dialog
     MySwal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -237,32 +281,33 @@ const Bookmarks = () => {
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // Proceed with deletion
-        MySwal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-          timer: 1000,
-        });
-
-        // Delete the ad from Firestore (Firebase)
         try {
-          // Delete the document from Firestore using the ad's id
-          // Get the correct Firestore collection name
           const tableName = categoryMapping[category] || category;
-
           const docRef = doc(db, tableName, id);
           await deleteDoc(docRef);
-          console.log(
-            `Deleted item with ID: ${id} from collection: ${tableName}`
+
+          setCars((prevCars) =>
+            prevCars.filter(
+              (car) => !(car.id === id && car.category === category)
+            )
+          );
+          setFilteredCars((prevCars) =>
+            prevCars.filter(
+              (car) => !(car.id === id && car.category === category)
+            )
           );
 
-          // Optionally, update the state or re-fetch the data after deletion
-          // For example, you can call a function to refetch ads here
+          MySwal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+            timer: 1000,
+          });
         } catch (error) {
-          console.error("Error deleting ad from Firestore:", error);
+          console.error("Error deleting item:", error);
+          setError("Failed to delete item");
         }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      } else {
         MySwal.fire({
           title: "Cancelled",
           text: "Your file is safe :)",
@@ -273,183 +318,11 @@ const Bookmarks = () => {
     });
   };
 
-  // const deleteItem = async (id, category) => {
-  //   try {
-  //     if (!id || !category) {
-  //       console.error("Invalid ID or Category");
-  //       return;
-  //     }
+  const paginatedData = [...new Set(filteredCars)].slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
-  //     // Get the correct Firestore collection name
-  //     const tableName = categoryMapping[category] || category;
-
-  //     const docRef = doc(db, tableName, id);
-  //     await deleteDoc(docRef);
-
-  //     console.log(`Deleted item with ID: ${id} from collection: ${tableName}`);
-  //   } catch (error) {
-  //     console.error("Error deleting item:", error);
-  //   }
-  // };
-
-  // console.log(cars, "carsData_____SPORTSGAMESCompcars");
-  useEffect(() => {
-    const fetchCars = async () => {
-      setLoading(true);
-      try {
-        // Fetch data from the first collection
-        const sportsCollectionRef = collection(db, "SPORTSGAMESComp");
-        const sportsQuerySnapshot = await getDocs(sportsCollectionRef);
-        const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // Fetch data from the second collection
-        const realEstateCollectionRef = collection(db, "REALESTATECOMP");
-        const realEstateQuerySnapshot = await getDocs(realEstateCollectionRef);
-        const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const CarsCollectionRef = collection(db, "Cars");
-        const CarsQuerySnapshot = await getDocs(CarsCollectionRef);
-        const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
-        const ELECTRONICSQuerySnapshot = await getDocs(
-          ELECTRONICSCollectionRef
-        );
-        const ELECTRONICSData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const EducationCollectionRef = collection(db, "Education");
-        const EducationQuerySnapshot = await getDocs(EducationCollectionRef);
-        const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const FASHIONCollectionRef = collection(db, "FASHION");
-        const FASHIONQuerySnapshot = await getDocs(FASHIONCollectionRef);
-        const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
-        const HEALTHCAREQuerySnapshot = await getDocs(HEALTHCARECollectionRef);
-        const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
-        const JOBBOARDQuerySnapshot = await getDocs(JOBBOARDCollectionRef);
-        const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
-        const MAGAZINESCOMPQuerySnapshot = await getDocs(
-          MAGAZINESCOMPCollectionRef
-        );
-        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
-        const PETANIMALCOMPQuerySnapshot = await getDocs(
-          PETANIMALCOMPCollectionRef
-        );
-        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const TRAVELCollectionRef = collection(db, "TRAVEL");
-        const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
-        const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        // Combine both datasets
-        const combinedData = [
-          ...sportsData,
-          ...realEstateData,
-          ...CarsData,
-          ...ELECTRONICSData,
-          ...EducationData,
-          ...FASHIONData,
-          ...HEALTHCAREData,
-          ...JOBBOARDData,
-          ...MAGAZINESCOMPData,
-          ...PETANIMALCOMPData,
-          ...TRAVELData,
-        ];
-
-        const user = auth.currentUser;
-
-        // Filter by userId (replace 'yourUser Id' with the actual userId you want to filter by)
-        const userId = user.uid; // Replace with the actual userId you want to filter by
-        const filteredData = combinedData.filter(
-          (item) => item.userId === userId
-        );
-        console.log(combinedData, "combinedData___________");
-        const searchedData = filteredData.filter((item) => {
-          return (
-            item.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Assuming 'title' is a field in your data
-            item.description.toLowerCase().includes(searchQuery.toLowerCase()) // Assuming 'description' is another field
-          );
-        });
-
-        const sortedData = searchedData.sort((a, b) => {
-          const dateA = a.createdAt.seconds; // Assuming createdAt is a timestamp
-          const dateB = b.createdAt.seconds;
-
-          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
-        });
-        // Set the state with the sorted data
-        setCars(sortedData);
-        setFilteredCars(sortedData);
-        // Set the state with the filtered data
-        // setCars(filteredData);
-        // setFilteredCars(filteredData); // Initially, show filtered cars
-        setLoading(false);
-
-        // console.log(filteredData, "Filtered Data by userId");
-      } catch (error) {
-        console.error("Error getting cars:", error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCars();
-  }, [searchQuery]);
-  useEffect(() => {
-    if (!searchQuery) {
-      setFilteredCars(cars);
-      return;
-    }
-
-    const lowercasedQuery = searchQuery.toLowerCase();
-    const filteredResults = cars.filter(
-      (car) =>
-        car.name?.toLowerCase().includes(lowercasedQuery) ||
-        car.description?.toLowerCase().includes(lowercasedQuery)
-    );
-
-    setFilteredCars(filteredResults);
-  }, [searchQuery, cars]);
-
-  const paginatedData = cars
-    .filter((val) => val.bookmarked === true)
-    .slice((currentPage - 1) * pageSize, currentPage * pageSize);
   const formatCategory = (category) => {
     return category
       .split(" ")
@@ -458,44 +331,18 @@ const Bookmarks = () => {
   };
 
   const parms = useLocation().pathname;
+
   return (
     <>
       <UserHeader parms={parms} />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">Bookmarks</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/index">Home</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Bookmarks
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / Bookmarks</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Bookmark Content */}
       <div
         className="dashboard-content"
-        style={{
-          marginTop: "5rem",
-        }}
+        style={{ marginTop: "5rem" }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / Favourite</div>
+          <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
+            Home / Favourite
+          </div>
 
           <div className="">
             <ul className="dashborad-menus">
@@ -514,15 +361,14 @@ const Bookmarks = () => {
                   <i className="feather-list" /> <span>My Listing</span>
                 </Link>
               </li>
-              {/* <li className="active">
+              <li className="active">
                 <Link to="/bookmarks">
                   <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
                 </Link>
-              </li> */}
+              </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
                 </Link>
               </li>
               <li>
@@ -532,14 +378,18 @@ const Bookmarks = () => {
               </li>
               <li>
                 <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                  <span>Logout</span>
+                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* here show daa */}
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
+
           <div className="bookmarks-content grid-view featured-slider">
             <div className="row">
               {loading ? (
@@ -555,45 +405,43 @@ const Bookmarks = () => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 </div>
+              ) : paginatedData.length === 0 ? (
+                <div className="col-12 text-center">
+                  <p>No bookmarked items found.</p>
+                </div>
               ) : (
-                paginatedData?.map((car) => (
-                  <div className="col-lg-4 col-md-4 col-sm-6" key={car.id}>
-                    <div
-                      className="card aos aos-init aos-animate"
-                      data-aos="fade-up"
-                    >
+                paginatedData.map((car) => (
+                  <div className="col-lg-4 col-md-4 col-sm-6" key={`${car.id}-${car.category}`}>
+                    <div className="card aos aos-init aos-animate" data-aos="fade-up">
                       <div className="blog-widget">
                         <div className="blog-img">
-                          {/* <Link to="/service-details"> */}
                           <Link
-                            to={`/service-details?id=${
-                              car.id
-                            }&callingFrom=${formatCategory(car.category)}`}
+                            to={`/service-details?id=${car.id}&category=${encodeURIComponent(car.category)}`}
                           >
                             <img
                               style={{ height: "322px" }}
-                              src={car.galleryImages[0]}
+                              src={car.galleryImages?.[0] || "placeholder.jpg"}
                               className="img-fluid"
                               alt="car-img"
                             />
                           </Link>
                           <div className="fav-item">
-                            {car.FeaturedAds == "Featured Ads" ? (
-                              <span className="Featured-text">
-                                {car.FeaturedAds == "Featured Ads"
-                                  ? "Featured"
-                                  : ""}
-                              </span>
-                            ) : (
-                              ""
+                            {car.FeaturedAds === "Featured Ads" && (
+                              <span className="Featured-text">Featured</span>
                             )}
-                            <Link to="#" className="fav-icon">
+                            <Link
+                              to="#"
+                              className="fav-icon"
+                              onClick={() =>
+                                toggleBookmark(car.id, car.category, car.bookmarked)
+                              }
+                            >
                               <FaHeart
                                 style={{
                                   color: car.bookmarked ? "red" : "white",
                                   fontSize: "30px",
                                 }}
-                              />{" "}
+                              />
                             </Link>
                           </div>
                         </div>
@@ -619,7 +467,11 @@ const Bookmarks = () => {
                               </div>
                             </div>
                             <h6>
-                              <Link to="/service-details">{car.title}</Link>
+                              <Link
+                                to={`/service-details?id=${car.id}&category=${encodeURIComponent(car.category)}`}
+                              >
+                                {car.title}
+                              </Link>
                             </h6>
                             <div className="blog-location-details">
                               <div className="location-info">
@@ -627,16 +479,14 @@ const Bookmarks = () => {
                               </div>
                               <div className="location-info">
                                 <i className="fa-solid fa-calendar-days" />{" "}
-                                {new Date(
-                                  car.createdAt.seconds * 1000
-                                ).toLocaleDateString()}
+                                {car.createdAt
+                                  ? new Date(car.createdAt.seconds * 1000).toLocaleDateString()
+                                  : "N/A"}
                               </div>
                             </div>
                             <div className="amount-details">
                               <div className="amount">
-                                <span className="validrate">
-                                  ${car.priceFrom}
-                                </span>
+                                <span className="validrate">${car.priceFrom}</span>
                                 <span>${car.priceTo}</span>
                               </div>
                               <div className="ratings">
@@ -650,93 +500,75 @@ const Bookmarks = () => {
                   </div>
                 ))
               )}
+            </div>
 
-              {/* </div>
-</div> */}
-
-              {/*Pagination*/}
-              <div className="blog-pagination">
-                <nav>
-                  <div className="blog-pagination">
-                    <nav>
-                      <ul className="pagination">
-                        <li
-                          className={`page-item previtem ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
-                        >
-                          <Link
-                            className="page-link"
-                            to="#"
-                            onClick={() =>
-                              setCurrentPage((prev) => Math.max(prev - 1, 1))
-                            }
+            <div className="blog-pagination">
+              <nav>
+                <ul className="pagination">
+                  <li
+                    className={`page-item previtem ${currentPage === 1 ? "disabled" : ""}`}
+                  >
+                    <Link
+                      className="page-link"
+                      to="#"
+                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    >
+                      <i className="fas fa-regular fa-arrow-left" /> Prev
+                    </Link>
+                  </li>
+                  <li className="justify-content-center pagination-center">
+                    <div className="pagelink">
+                      <ul>
+                        {[
+                          ...Array(Math.ceil(filteredCars.length / pageSize)),
+                        ].map((_, index) => (
+                          <li
+                            key={index}
+                            className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
                           >
-                            <i className="fas fa-regular fa-arrow-left" /> Prev
-                          </Link>
-                        </li>
-                        <li className="justify-content-center pagination-center">
-                          <div className="pagelink">
-                            <ul>
-                              {[
-                                ...Array(
-                                  Math.ceil(paginatedData.length / pageSize)
-                                ),
-                              ].map((_, index) => (
-                                <li
-                                  key={index}
-                                  className={`page-item ${
-                                    currentPage === index + 1 ? "active" : ""
-                                  }`}
-                                >
-                                  <Link
-                                    className="page-link"
-                                    to="#"
-                                    onClick={() => setCurrentPage(index + 1)}
-                                  >
-                                    {index + 1}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          className={`page-item nextlink ${
-                            currentPage ===
-                            Math.ceil(paginatedData.length / pageSize)
-                              ? "disabled"
-                              : ""
-                          }`}
-                        >
-                          <Link
-                            className="page-link"
-                            to="#"
-                            onClick={() =>
-                              setCurrentPage((prev) =>
-                                Math.min(
-                                  prev + 1,
-                                  Math.ceil(paginatedData.length / pageSize)
-                                )
-                              )
-                            }
-                          >
-                            Next <i className="fas fa-regular fa-arrow-right" />
-                          </Link>
-                        </li>
+                            <Link
+                              className="page-link"
+                              to="#"
+                              onClick={() => setCurrentPage(index + 1)}
+                            >
+                              {index + 1}
+                            </Link>
+                          </li>
+                        ))}
                       </ul>
-                    </nav>
-                  </div>
-                </nav>
-              </div>
-              {/*/Pagination*/}
+                    </div>
+                  </li>
+                  <li
+                    className={`page-item nextlink ${
+                      currentPage === Math.ceil(filteredCars.length / pageSize)
+                        ? "disabled"
+                        : ""
+                    }`}
+                  >
+                    <Link
+                      className="page-link"
+                      to="#"
+                      onClick={() =>
+                        setCurrentPage((prev) =>
+                          Math.min(
+                            prev + 1,
+                            Math.ceil(filteredCars.length / pageSize)
+                          )
+                        )
+                      }
+                    >
+                      Next <i className="fas fa-regular fa-arrow-right" />
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
       </div>
-      {/* /Bookmark Content */}
       <Footer />
     </>
   );
 };
+
 export default Bookmarks;
