@@ -28,6 +28,8 @@ const ServiceDetails = () => {
   const { id } = useParams();
   const location = useLocation();
   const [itemData, setItemData] = useState(null);
+  console.log(itemData,"itemData______________")
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showModal1, setShowModal1] = useState(false);
@@ -70,7 +72,6 @@ const ServiceDetails = () => {
   // Category mapping aligned with MyListe
   const categoryMapping = {
     "Job board": "JOBBOARD",
-    "Real Estate": "REALESTATECOMP",
     Education: "Education",
     Travel: "TRAVEL",
     "Pet": "PETANIMALCOMP",
@@ -665,107 +666,7 @@ const ServiceDetails = () => {
                   </div>
                 </div>
               </div>
-              <div className="card">
-                <div className="card-header align-items-center">
-                  <i className="feather-star" style={{ color: "#2d4495" }} />
-                  <h4>Ratings</h4>
-                </div>
-                <div className="card-body">
-                  <div className="ratings-content">
-                    <div className="row">
-                      <div className="col-lg-3">
-                        <div className="ratings-info">
-                          <p className="ratings-score">
-                            <span>4</span>/5
-                          </p>
-                          <p>OVERALL</p>
-                          <p>
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fas fa-star filled" />
-                            <i className="fa-regular fa-star" />
-                          </p>
-                          <p>Based on Listing</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-9">
-                        <div className="ratings-table table-responsive">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <td className="star-ratings">
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                </td>
-                                <td className="scrore-width">
-                                  <span></span>
-                                </td>
-                                <td>0</td>
-                              </tr>
-                              <tr>
-                                <td className="star-ratings">
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                </td>
-                                <td className="scrore-width selected">
-                                  <span></span>
-                                </td>
-                                <td>1</td>
-                              </tr>
-                              <tr>
-                                <td className="star-ratings">
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                </td>
-                                <td className="score-width">
-                                  <span></span>
-                                </td>
-                                <td>0</td>
-                              </tr>
-                              <tr>
-                                <td className="star-ratings">
-                                  <i className="fas fa-star filled" />
-                                  <i className="fas fa-star filled" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                </td>
-                                <td className="score-width">
-                                  <span></span>
-                                </td>
-                                <td>0</td>
-                              </tr>
-                              <tr>
-                                <td className="star-ratings">
-                                  <i className="fas fa-star filled" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                  <i className="fa-regular fa-star rating-color" />
-                                </td>
-                                <td className="score-width">
-                                  <span></span>
-                                </td>
-                                <td>0</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          
               
               <div
     style={{

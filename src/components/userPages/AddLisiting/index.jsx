@@ -3,11 +3,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
+import {  useParams } from "react-router-dom";
+
 
 import {
   gallerymedia_1,
@@ -45,6 +47,8 @@ const AddLisiting = () => {
   const [statesList, setStatesList] = useState([]);
   const [showPrice, setShowPrice] = useState(true);
   const [showPhone, setShowPhone] = useState(true);
+  const [loading, setLoading] = useState(true);
+
   const toggleSwitch = () => {
     setIsChecked(!isChecked);
   };
@@ -315,6 +319,147 @@ const AddLisiting = () => {
     const totalFields = Object.values(formData).length;
     return nonEmptyFields.length > 2 / 2;
   };
+
+  const location = useLocation();
+
+
+  const { id } = useParams();
+  const [itemData, setItemData] = useState(null);
+console.log(itemData,"itemData______________111")
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const [_Id, setId] = useState(null); // State to store ads data
+  console.log(_Id,"callingFrom____________")
+
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  console.log(callingFrom,"callingFrom____________")
+  const link = getQueryParam("link") || window.location.href;
+  useEffect(() => {
+    const callingFrom = getQueryParam("callingFrom");
+    const ids = getQueryParam("id");
+
+    console.log("callingFrom______ID:ids", ids);
+    console.log("callingFrom______Calling From:", callingFrom);
+    setCallingFrom(callingFrom);
+    setId(ids);
+  }, [id, location]);
+
+
+  const categoryMapping = {
+    "Job board": "JOBBOARD",
+    Education: "Education",
+    Travel: "TRAVEL",
+    "Pet": "PETANIMALCOMP",
+
+
+    "Automotive": "Cars",
+    "Sports": "SPORTSGAMESComp",
+    "Electronics": "ELECTRONICS",
+    "Fashion Style": "FASHION",
+    "Job Board": "JOBBOARD",
+    "Real Estate": "REALESTATECOMP",
+    "Other": "Education",
+    "Services": "TRAVEL",
+    "Pet & Animal": "PETANIMALCOMP",
+    "Home": "HEALTHCARE",
+  };
+  const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
+    (acc, key) => {
+      const formattedKey = key
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+      acc[formattedKey] = categoryMapping[key];
+      return acc;
+    },
+    {}
+  );
+
+  
+  useEffect(() => {
+    const fetchItem = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const callingFrom = getQueryParam("callingFrom");
+        const itemId = getQueryParam("id") || id;
+
+        if (!itemId || !callingFrom) {
+          setError("Missing ID or category.");
+          setLoading(false);
+          return;
+        }
+
+        // Map formatted category to Firestore collection
+        const collectionName = reverseCategoryMapping[callingFrom];
+        if (!collectionName) {
+          setError("Invalid category.");
+          setLoading(false);
+          return;
+        }
+
+        // Fetch document
+        const docRef = doc(db, collectionName, itemId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          // Filter out empty, null, or undefined fields
+          const filteredData = Object.fromEntries(
+            Object.entries(data).filter(
+              ([_, value]) =>
+                value !== "" && value !== null && value !== undefined
+            )
+          );
+          setItemData(filteredData);
+        } else {
+          setError("No item found with this ID.");
+        }
+      } catch (err) {
+        console.error("Error fetching item:", err);
+        setError("Failed to load item details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItem();
+  }, [id, location.search]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const docRef = doc(db, "Cars", "5ZodideWNBnpbzF1Qb4p");
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching document:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+  
 
   const saveToFirestore = async () => {
     try {

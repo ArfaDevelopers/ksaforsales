@@ -482,13 +482,13 @@ const MyListe = () => {
             <i className="feather-eye" />
           </Link>
           <Link
-            to="#"
+            to={`/add-listing?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
             className="action-btn btn-edit"
-            onClick={() => {
-              console.log("Record ID:__", record.id);
-              console.log("Record ID:___", record.Category);
-              editItem(record.id, formatCategory(record.Category));
-            }}
+            // onClick={() => {
+            //   // console.log("Record ID:__", record.id);
+            //   // console.log("Record ID:___", record.Category);
+            //   // editItem(record.id, formatCategory(record.Category));
+            // }}
             style={{ display: "inline-flex", alignItems: "center" }}
           >
             <i className="feather-edit-3" />
