@@ -347,109 +347,251 @@ console.log(itemData,"itemData______________111")
   }, [id, location]);
 
 
-  const categoryMapping = {
-    "Job board": "JOBBOARD",
-    Education: "Education",
-    Travel: "TRAVEL",
-    "Pet": "PETANIMALCOMP",
+  // const categoryMapping = {
+  //   "Job board": "JOBBOARD",
+  //   Education: "Education",
+  //   Travel: "TRAVEL",
+  //   "Pet": "PETANIMALCOMP",
 
 
-    "Automotive": "Cars",
-    "Sports": "SPORTSGAMESComp",
-    "Electronics": "ELECTRONICS",
-    "Fashion Style": "FASHION",
-    "Job Board": "JOBBOARD",
-    "Real Estate": "REALESTATECOMP",
-    "Other": "Education",
-    "Services": "TRAVEL",
-    "Pet & Animal": "PETANIMALCOMP",
-    "Home": "HEALTHCARE",
-  };
-  const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
-    (acc, key) => {
-      const formattedKey = key
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join("");
-      acc[formattedKey] = categoryMapping[key];
-      return acc;
-    },
-    {}
-  );
+  //   "Automotive": "Cars",
+  //   "Sports": "SPORTSGAMESComp",
+  //   "Electronics": "ELECTRONICS",
+  //   "Fashion Style": "FASHION",
+  //   "Job Board": "JOBBOARD",
+  //   "Real Estate": "REALESTATECOMP",
+  //   "Other": "Education",
+  //   "Services": "TRAVEL",
+  //   "Pet & Animal": "PETANIMALCOMP",
+  //   "Home": "HEALTHCARE",
+  // };
+  // const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
+  //   (acc, key) => {
+  //     const formattedKey = key
+  //       .split(" ")
+  //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+  //       .join("");
+  //     acc[formattedKey] = categoryMapping[key];
+  //     return acc;
+  //   },
+  //   {}
+  // );
 
   
-  useEffect(() => {
-    const fetchItem = async () => {
-      setLoading(true);
-      setError("");
+  // useEffect(() => {
+  //   const fetchItem = async () => {
+  //     setLoading(true);
+  //     setError("");
 
-      try {
-        const callingFrom = getQueryParam("callingFrom");
-        const itemId = getQueryParam("id") || id;
+  //     try {
+  //       const callingFrom = getQueryParam("callingFrom");
+  //       const itemId = getQueryParam("id") || id;
 
-        if (!itemId || !callingFrom) {
-          setError("Missing ID or category.");
-          setLoading(false);
-          return;
-        }
+  //       if (!itemId || !callingFrom) {
+  //         setError("Missing ID or category.");
+  //         setLoading(false);
+  //         return;
+  //       }
 
-        // Map formatted category to Firestore collection
-        const collectionName = reverseCategoryMapping[callingFrom];
-        if (!collectionName) {
-          setError("Invalid category.");
-          setLoading(false);
-          return;
-        }
+  //       // Map formatted category to Firestore collection
+  //       const collectionName = reverseCategoryMapping[callingFrom];
+  //       if (!collectionName) {
+  //         setError("Invalid category.");
+  //         setLoading(false);
+  //         return;
+  //       }
 
-        // Fetch document
-        const docRef = doc(db, collectionName, itemId);
-        const docSnap = await getDoc(docRef);
+  //       // Fetch document
+  //       const docRef = doc(db, collectionName, itemId);
+  //       const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          // Filter out empty, null, or undefined fields
-          const filteredData = Object.fromEntries(
-            Object.entries(data).filter(
-              ([_, value]) =>
-                value !== "" && value !== null && value !== undefined
-            )
-          );
-          setItemData(filteredData);
-        } else {
-          setError("No item found with this ID.");
-        }
-      } catch (err) {
-        console.error("Error fetching item:", err);
-        setError("Failed to load item details.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       if (docSnap.exists()) {
+  //         const data = docSnap.data();
+  //         // Filter out empty, null, or undefined fields
+  //         const filteredData = Object.fromEntries(
+  //           Object.entries(data).filter(
+  //             ([_, value]) =>
+  //               value !== "" && value !== null && value !== undefined
+  //           )
+  //         );
+  //         setItemData(filteredData);
+  //       } else {
+  //         setError("No item found with this ID.");
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching item:", err);
+  //       setError("Failed to load item details.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchItem();
-  }, [id, location.search]);
+  //   fetchItem();
+  // }, [id, location.search]);
+
+
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const docRef = doc(db, "Cars", "5ZodideWNBnpbzF1Qb4p");
+        const docRef = doc(db, "Cars", "tXyJu59DYCYDwOJqCUme");
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+          const data = docSnap.data();
           console.log("Document data:", docSnap.data());
+          
+          setFormData({
+            Accessibility: data.Accessibility || "" ,
+            Accuracy : data.Accuracy || "",
+            Age :data.Age || "",
+            AgeGroup : data.AgeGroup || "",
+            Amenities : data.Amenities || "",
+            Assembly : data.AgeGAssemblyroup || "",
+            Availability : data.Availability || "",
+            BagType : data.BagType || "",
+            BatteryLife : data.BatteryLife || "",
+            BatteryType : data.BatteryType || "",
+            Bedroom : data.Bedroom || "",
+            BodyType : data.BodyType || "",
+            Breed : data.Breed || "",
+            BuildingType : data.BuildingType || "",
+            Capacity : data.Capacity || "",
+            Checkin : data.Checkin || "",
+            City : data.City || "",
+            ClosureType : data.ClosureType || "",
+            CollarType : data.CollarType || "",
+            Color : data.Color || "",
+            ColorOptions : data.ColorOptions || "",
+            Company : data.Company || "",
+            Compatibility : data.Compatibility || "",
+            Connectivity : data.Connectivity || "",
+            ContentType : data.ContentType || "",
+            CuffSize : data.CuffSize || "",
+            DietaryPreferences : data.DietaryPreferences || "",
+            DisplayQuality : data.DisplayQuality || "",
+            DisplayType : data.DisplayType || "",
+            District : data.District || "",
+            Duration : data.Duration || "",
+            Email : data.Email || "",
+            Emirates : data.Emirates || "",
+            EmploymentType : data.EmploymentType || "",
+            EngineCapacity : data.EngineCapacity || "",
+            EngineType : data.EngineType || "",
+            ExperienceLevel : data.ExperienceLevel || "",
+            ExteriorColor : data.ExteriorColor || "",
+            FeaturedAds : data.FeaturedAds || "",
+            Features : data.Features || "",
+            Fit : data.Fit || "",
+            Gender : data.Gender || "",
+            GraphicsCard : data.GraphicsCard || "",
+            HealthStatus : data.HealthStatus || "",
+            Industry : data.Industry || "",
+            IssueType : data.IssueType || "",
+            JobDescription : data.JobDescription || "",
+            JobTitle : data.JobTitle || "",
+            JobType : data.JobType || "",
+            Language : data.Language || "",
+            MAGAZINESCategory : data.MAGAZINESCategory || "",
+            Make : data.Make || "",
+            ManufactureYear : data.ManufactureYear || "",
+            Material : data.Material || "",
+            MeasurementRange : data.MeasurementRange || "",
+            MeasurementUnits : data.MeasurementUnits || "",
+            ModelCategory : data.ModelCategory || "",
+            NestedSubCategory : data.NestedSubCategory || "",
+            NoiseLevel : data.NoiseLevel || "",
+            NumberofDoors : data.NumberofDoors || "",
+            OperatingSystem : data.OperatingSystem || "",
+            Phone : data.Phone || "",
+            PictureAvailability : data.PictureAvailability || "",
+            PowerSource : data.PowerSource || "",
+            Price : data.Price || "",
+            Processor : data.Processor || "",
+            PropertyFeatures : data.PropertyFeatures || "",
+            PropertyType : data.PropertyType || "",
+            Purpose : data.Purpose || "",
+            RAM : data.RAM || "",
+            Registeredin : data.Registeredin || "",
+            RequiredSkills : data.RequiredSkills || "",
+            RoomType : data.RoomType || "",
+            ScreenSize : data.ScreenSize || "",
+            Season : data.Season || "",
+            SeatingCapacity : data.SeatingCapacity || "",
+            SellerType : data.SellerType || "",
+            ShoeCategory : data.ShoeCategory || "",
+            Size : data.Size || "",
+            SkillLevel : data.SkillLevel || "",
+            SleeveLength : data.SleeveLength || "",
+            SpecialFeatures : data.SpecialFeatures || "",
+            SpeedofMeasurement : data.SpeedofMeasurement || "",
+            States : data.States || "",
+            StorageCapacity : data.StorageCapacity || "",
+            StorageType : data.StorageType || "",
+            Storagecapacity : data.Storagecapacity || "",
+            StyleDesign : data.StyleDesign || "",
+            SubCategory : data.SubCategory || "",
+            SubjectCategories : data.SubjectCategories || "",
+            SubscriptionType : data.SubscriptionType || "",
+            Temperament : data.Temperament || "",
+            TrainingLevel : data.TrainingLevel || "",
+            Transmission : data.Transmission || "",
+            TrustedCars : data.TrustedCars || "",
+            Type : data.Type || "",
+            VideoAvailability : data.VideoAvailability || "",
+            WashType : data.WashType || "",
+            Website : data.Website || "",
+            address : data.address || "",
+            category : data.category || "",
+            creationTime : data.creationTime || "",
+            description : data.description || "",
+            displayName : data.displayName || "",
+            facebook : data.facebook || "",
+            googlePlus : data.googlePlus || "",
+            imageUrl : data.imageUrl || "",
+            instagram : data.instagram || "",
+            kmDriven : data.kmDriven || "",
+            latitude : data.latitude || "",
+            location : data.location || "",
+            longitude : data.longitude || "",
+            mapAddress : data.mapAddress || "",
+            mediaImgLogo : data.mediaImgLogo || "",
+            photoURL : data.photoURL || "",
+            priceFrom : data.priceFrom || "",
+            priceRange : data.priceRange || "",
+            priceTo : data.priceTo || "",
+            selectedFeature : data.selectedFeature || "",
+            tagline : data.tagline || "",
+            title : data.title || "",
+            twitter : data.twitter || "",
+            userId : data.userId || "",
+
+          });
+          const selectedCategory = subcategoriesMapping.categories.find(
+            (category) => category.name === data.category
+          );
+          if (selectedCategory) {
+            setSubcategories(
+              selectedCategory.subcategories.map((sub) => ({
+                value: sub.name,
+                label: sub.name,
+              }))
+            );
+          } else {
+            setSubcategories([]);
+          }
         } else {
-          console.log("No such document!");
+          setError("No such document!");
         }
       } catch (error) {
         console.error("Error fetching document:", error);
+        setError("Failed to fetch data.");
       }
     };
 
     fetchData();
   }, []);
-
-
 
 
 
@@ -9483,9 +9625,9 @@ console.log(itemData,"itemData______________111")
 >
   Submit
 </button>
-{error && (
+{/* {error && (
   <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
-)}
+)} */}
                 {/* ✅ Show error message */}
               </div>
             </div>
