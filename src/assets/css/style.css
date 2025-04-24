@@ -22613,11 +22613,42 @@ section.advertisement {
 .chat-box {
   overflow-y: auto;
 }
+.gallery-section {
+  pointer-events: none;
+}
+.bannergallery-section {
+  pointer-events: none;
+}
 
+.action-btn.btn-trash.disabled {
+  background-color: #cccccc !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
+.action-btn.btn-trash.disabled:hover {
+  background-color: #cccccc !important;
+}
+.invoice-cell {
+  font-size: 14px;
+}
 
+.invoice-date {
+  color: #666;
+  font-size: 12px;
+  margin-top: 4px;
+}
 
+.invoice-status {
+  color: #2d4495;
+  font-weight: 500;
+  margin-top: 4px;
+}
 
+.no-invoice {
+  color: #999;
+  font-style: italic;
+}
 
 
 

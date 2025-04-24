@@ -42,7 +42,7 @@ function RatingSection({ ratings }) {
         borderRadius: "8px",
         backgroundColor: "#fff",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        width: windowWidth <= 576 ? "auto" : "850px",
+        width: windowWidth <= 576 ? "auto" : "100%",
         marginBottom: "20px",
       }}
     >
@@ -256,7 +256,7 @@ function UserReviews({
   return (
     <div
       style={{
-        width: window.innerWidth <= 576 ? "auto" : "850px",
+        width: window.innerWidth <= 576 ? "auto" : "100%",
         padding: "20px",
         borderRadius: "12px",
         backgroundColor: "#fff",
@@ -827,7 +827,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
   const ratings = reviews.map((review) => review.rating);
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+    <div style={{ width: "100%", margin: "0 auto" }}>
       <RatingSection ratings={ratings} />
       <UserReviews
         reviews={reviews}

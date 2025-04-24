@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -77,7 +77,38 @@ const AutomotiveComp = () => {
 
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const location = useLocation();
+  const [subCatgory, setsubCatgory] = useState("");
+  const [nestedSubCategory, setNestedSubCategory] = useState("");
+  console.log(nestedSubCategory, "subCatgory___________2222");
+  console.log(subCatgory, "subCatgory___________1111");
 
+  const updateIsMobile = () => {
+    setIsMobile(window.innerWidth <= 767);
+  };
+  const { id } = useParams();
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const [_Id, setId] = useState(null); // State to store ads data
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  useEffect(() => {
+    const callingFrom = getQueryParam("callingFrom");
+    const subCatgory = getQueryParam("subCatgory");
+    const NestedSubCategory = getQueryParam("NestedSubCategory");
+    setsubCatgory(subCatgory);
+    setNestedSubCategory(NestedSubCategory);
+    const ids = getQueryParam("id");
+    console.log("callingFrom______ID:ids11", ids);
+    console.log("callingFrom______Calling From:11", callingFrom);
+
+    setCallingFrom(callingFrom);
+    setId(ids);
+  }, [id, location]);
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
   const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
@@ -148,10 +179,10 @@ const AutomotiveComp = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   // Handle country selection
   const handleCountryChange = (selected) => {
@@ -260,29 +291,35 @@ const AutomotiveComp = () => {
           <button
             key={i}
             style={{
-              backgroundColor: isActive ? '#2d4495' : 'white',
-              color: isActive ? 'white' : 'black',
-              border: '1px solid #ccc', // Subtle border for non-active buttons
-              padding: '6px 12px',
-              margin: '0 4px',
-              cursor: 'pointer',
-              outline: 'none',
-              fontSize: '1rem',
-              lineHeight: '1.5',
-              borderRadius: '4px',
-              fontWeight: isActive ? 'bold' : 'normal'
+              backgroundColor: isActive ? "#2d4495" : "white",
+              color: isActive ? "white" : "black",
+              border: "1px solid #ccc", // Subtle border for non-active buttons
+              padding: "6px 12px",
+              margin: "0 4px",
+              cursor: "pointer",
+              outline: "none",
+              fontSize: "1rem",
+              lineHeight: "1.5",
+              borderRadius: "4px",
+              fontWeight: isActive ? "bold" : "normal",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
-              e.currentTarget.style.color = isActive ? 'white' : 'black';
+              e.currentTarget.style.backgroundColor = isActive
+                ? "#2d4495"
+                : "white";
+              e.currentTarget.style.color = isActive ? "white" : "black";
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
-              e.currentTarget.style.color = isActive ? 'white' : 'black';
+              e.currentTarget.style.backgroundColor = isActive
+                ? "#2d4495"
+                : "white";
+              e.currentTarget.style.color = isActive ? "white" : "black";
             }}
             onFocus={(e) => {
-              e.currentTarget.style.backgroundColor = isActive ? '#2d4495' : 'white';
-              e.currentTarget.style.color = isActive ? 'white' : 'black';
+              e.currentTarget.style.backgroundColor = isActive
+                ? "#2d4495"
+                : "white";
+              e.currentTarget.style.color = isActive ? "white" : "black";
             }}
             onClick={() => handlePageClick(i)}
           >
@@ -294,13 +331,13 @@ const AutomotiveComp = () => {
           <span
             key={`ellipsis-${i}`}
             style={{
-              margin: '0 4px',
-              color: '#333',
-              display: 'inline-flex',
-              alignItems: 'center',
-              verticalAlign: 'middle',
-              fontSize: '1rem',
-              lineHeight: '1.5'
+              margin: "0 4px",
+              color: "#333",
+              display: "inline-flex",
+              alignItems: "center",
+              verticalAlign: "middle",
+              fontSize: "1rem",
+              lineHeight: "1.5",
             }}
           >
             ...
@@ -581,7 +618,7 @@ const AutomotiveComp = () => {
         setTimeout(() => setPopoverCarId(null), 3000); // Hide after 3 seconds
         return;
       }
-  
+
       const userId = user.uid; // Replace with the actual userId you want to filter by
 
       // Toggle bookmark status
@@ -650,7 +687,9 @@ const AutomotiveComp = () => {
       pictureAvailability,
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
-      SortBy
+      SortBy,
+      subCatgory,
+      nestedSubCategory
     );
   }, [
     selectedCities,
@@ -678,6 +717,8 @@ const AutomotiveComp = () => {
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
     SortBy,
+    subCatgory,
+    nestedSubCategory,
   ]);
 
   // Handle search input change
@@ -711,7 +752,9 @@ const AutomotiveComp = () => {
       pictureAvailability,
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
-      SortBy
+      SortBy,
+      subCatgory,
+      nestedSubCategory
     );
   };
   const filterCars = (
@@ -739,7 +782,9 @@ const AutomotiveComp = () => {
     pictureAvailability,
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
-    SortBy
+    SortBy,
+    subCatgory,
+    nestedSubCategory
   ) => {
     let filtered = carsData;
 
@@ -765,7 +810,9 @@ const AutomotiveComp = () => {
           car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
           car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
           car.AdType?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
+          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
     setLoading(false);
@@ -773,8 +820,18 @@ const AutomotiveComp = () => {
     if (cities?.length > 0) {
       filtered = filtered.filter((car) => cities.includes(car.City));
     }
+    if (nestedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        nestedSubCategory.includes(car.NestedSubCategory)
+      );
+    }
+
+    if (subCatgory?.length > 0) {
+      filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
+    }
+
     // Filter by selected cities
-    if (selectedOptionVideoAvailability?.length > 0) {
+    else if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedOptionVideoAvailability.includes(car.VideoAvailability)
       );
@@ -982,7 +1039,7 @@ const AutomotiveComp = () => {
         <Header parms={parms} />
         <div className="main-wrapper">
           <Header />
-      
+
           <section className="category-section" style={{ padding: "0px" }}>
             <div className="container">
               <div className="allMedia_Icons d-none d-md-flex">
@@ -1004,7 +1061,6 @@ const AutomotiveComp = () => {
               </div>
             </div>
           </section>
-   
         </div>
 
         <Container
@@ -1016,7 +1072,6 @@ const AutomotiveComp = () => {
             maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
-
           }}
         >
           <div
@@ -1049,7 +1104,7 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
@@ -1064,7 +1119,7 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
@@ -1079,7 +1134,7 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
@@ -1094,7 +1149,7 @@ const AutomotiveComp = () => {
             <button
               className="btn"
               style={{
-                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
                 pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
@@ -1106,7 +1161,11 @@ const AutomotiveComp = () => {
 
           <div>
             <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
+              style={{
+                marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                fontSize: "24px",
+              }}
             >
               Used Cars for Sale
             </h1>
@@ -1120,7 +1179,7 @@ const AutomotiveComp = () => {
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
+              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
             }}
           >
             <button
@@ -1133,7 +1192,7 @@ const AutomotiveComp = () => {
                 border: "1px solid #2D4495",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
               Cars
@@ -1148,7 +1207,7 @@ const AutomotiveComp = () => {
                 border: "1px solid #2D4495",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
               Jobs
@@ -1163,7 +1222,7 @@ const AutomotiveComp = () => {
                 border: "1px solid #2D4495",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
               Real Estate for Rent
@@ -1175,7 +1234,7 @@ const AutomotiveComp = () => {
                 border: "1px solid #2D4495",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
               Home & Garden
@@ -1190,7 +1249,7 @@ const AutomotiveComp = () => {
                 border: "1px solid #2D4495",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
               Electronics
@@ -2861,7 +2920,6 @@ const AutomotiveComp = () => {
             </Col>
 
             <Col md={9} className="p-3">
- 
               <Row className="mb-3">
                 <Col>
                   <Form.Check type="checkbox" label="With Photos" />
@@ -2895,209 +2953,162 @@ const AutomotiveComp = () => {
                   </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
-
                     const isActive = activePhoneIndex === index;
 
                     return (
-
-                    <Card key={index} className="mt-3" style={{padding: window.innerWidth <= 576 ? "10px 10px" : "30px 20px",}}>
-                      <Row className="g-0">
-                        <Col md={4} style={{ position: "relative" }}>
-                          {/* Featured Label */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "10px",
-                              left: "10px",
-                              backgroundColor: "#36A680",
-                              color: "white",
-                              // padding: "5px 10px",
-                              fontWeight: "bold",
-                              borderRadius: "5px",
-                              zIndex: 2, // Ensure it's above the image
-                            }}
-                          >
-                            Featured
-                          </div>
-                          {/* Heart Icon */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "15%",
-                              left: "90%",
-                              transform: "translate(-50%, -50%)",
-                              borderRadius: "50%",
-                              padding: "10px",
-                              zIndex: 3,
-                              cursor: "pointer",
-                            }}
-                            onClick={() => toggleBookmark(car.id)}
-                          >
-                            <FaHeart
-                            style={{
-                                color:
-                                  car.bookmarked === true &&
-                                  car.userId === userId
-                                    ? "red"
-                                    : "gray",
-                                fontSize: "30px",
-                              }}
-                            />{" "}
-                          </div>
-                          {popoverCarId === car.id && (
-    <div
-      style={{
-        position: "absolute",
-        top: "-30px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        backgroundColor: "#333",
-        color: "#fff",
-        padding: "8px 12px",
-        borderRadius: "5px",
-        fontSize: "14px",
-        whiteSpace: "nowrap",
-        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-      }}
-    >
-      Please log in to bookmark
-    </div>
-  )}
-                          <Link
-                            //  to={`/car-details/${ad.id}`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
-                          >
-                            {/* Image */}
-                            <Card.Img
-                              src={
-                                car?.galleryImages[0] ||
-                                "https://via.placeholder.com/150"
-                              }
-                              alt={car.title || "Car"}
+                      <Card
+                        key={index}
+                        className="mt-3"
+                        style={{
+                          padding:
+                            window.innerWidth <= 576
+                              ? "10px 10px"
+                              : "30px 20px",
+                        }}
+                      >
+                        <Row className="g-0">
+                          <Col md={4} style={{ position: "relative" }}>
+                            {/* Featured Label */}
+                            <div
                               style={{
-                                width: "100%", // Make the image responsive
-                                height: "250px",
-                                borderTopLeftRadius: "20px",
-                                borderBottomLeftRadius: "20px",
+                                position: "absolute",
+                                top: "10px",
+                                left: "10px",
+                                backgroundColor: "#36A680",
+                                color: "white",
+                                // padding: "5px 10px",
+                                fontWeight: "bold",
+                                borderRadius: "5px",
+                                zIndex: 2, // Ensure it's above the image
                               }}
-                            />
-                          </Link>
-                        </Col>
-
-                        <Col md={8}>
-                          <Card.Body>
-                            <Card.Title style={{ color: "#2D4495",marginTop: window.innerWidth <= 576 ? "-2px" : "0px" }}   >
+                            >
+                              Featured
+                            </div>
+                            {/* Heart Icon */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "15%",
+                                left: "90%",
+                                transform: "translate(-50%, -50%)",
+                                borderRadius: "50%",
+                                padding: "10px",
+                                zIndex: 3,
+                                cursor: "pointer",
+                              }}
+                              onClick={() => toggleBookmark(car.id)}
+                            >
+                              <FaHeart
+                                style={{
+                                  color:
+                                    car.bookmarked === true &&
+                                    car.userId === userId
+                                      ? "red"
+                                      : "gray",
+                                  fontSize: "30px",
+                                }}
+                              />{" "}
+                            </div>
+                            {popoverCarId === car.id && (
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "-30px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  backgroundColor: "#333",
+                                  color: "#fff",
+                                  padding: "8px 12px",
+                                  borderRadius: "5px",
+                                  fontSize: "14px",
+                                  whiteSpace: "nowrap",
+                                  boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
+                                }}
+                              >
+                                Please log in to bookmark
+                              </div>
+                            )}
                             <Link
+                              //  to={`/car-details/${ad.id}`}
+                              to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
+                            >
+                              {/* Image */}
+                              <Card.Img
+                                src={
+                                  car?.galleryImages[0] ||
+                                  "https://via.placeholder.com/150"
+                                }
+                                alt={car.title || "Car"}
+                                style={{
+                                  width: "100%", // Make the image responsive
+                                  height: "250px",
+                                  borderTopLeftRadius: "20px",
+                                  borderBottomLeftRadius: "20px",
+                                }}
+                              />
+                            </Link>
+                          </Col>
+
+                          <Col md={8}>
+                            <Card.Body>
+                              <Card.Title
+                                style={{
+                                  color: "#2D4495",
+                                  marginTop:
+                                    window.innerWidth <= 576 ? "-2px" : "0px",
+                                }}
+                              >
+                                 <Link
                             //  to={`/car-details/${ad.id}`}
                             to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
                           >{car.title || "Car"}</Link>
-                              
-                            </Card.Title>
-                            <Card.Text style={{ color: "black" }}>
-                              <small className="text-muted">
-                                <i
-                                  className="fas fa-map-marker-alt"
-                                  style={{
-                                    marginRight: "5px",
-                                    color: "#6c757d",
-                                  }}
-                                ></i>
-                                <span style={{ color: "black" }}>
-                                  {car.City || "Location"}
-                                </span>
-                              </small>
+                              </Card.Title>
+                              <Card.Text style={{ color: "black" }}>
+                                <small className="text-muted">
+                                  <i
+                                    className="fas fa-map-marker-alt"
+                                    style={{
+                                      marginRight: "5px",
+                                      color: "#6c757d",
+                                    }}
+                                  ></i>
+                                  <span style={{ color: "black" }}>
+                                    {car.City || "Location"}
+                                  </span>
+                                </small>
 
-                              {/* <br /> */}
-                              {/* <small style={{ color: "black" }}>
+                                {/* <br /> */}
+                                {/* <small style={{ color: "black" }}>
                                 {car.ManufactureYear || "Year"} |{" "}
                                 {car.DrivenKm || "0"} Km |{" "}
                                 {car.EngineType || "Engine Type"} |{" "}
                                 {car.Transmission || "Transmission"}
                               </small> */}
 
-                              <br />
-                              {car.description || "Description not available."}
-                            </Card.Text>
+                                <br />
+                                {car.description ||
+                                  "Description not available."}
+                              </Card.Text>
 
-                            <Col
-                              className="align-items-center"
-                              style={{ position: "relative", marginTop: window.innerWidth <= 576 ? "-10px" : "30px"}}
-                              
-                              >
-                              {/* Price displayed above the image */}
-                              <p
-                                style={{
-                                  position: "absolute",
-                                  top: "-140px", // Adjust the top margin to place the price higher
-                                  
-                                  left: "500px",
-                                  fontWeight: "bold",
-                                  fontSize: "20px",
-                                  zIndex: 2, // Ensure the price text stays above the image
-                                  color: "#2D4495",
-                                }}
-                              >
-                                {car.Price
-                                  ? `$${car.Price}`
-                                  : "Price not available"}
-                              </p>
-
-                              {/* Small Image on the Right with Top Margin */}
-                              <div>
-                                {loading ? (
-                                  <p>Loading...</p>
-                                ) : (
-                                  ads.map((car) => (
-                                    <div
-                                    style={{
-                                      position: "absolute",
-                                      top: "-70px", // Adjust the top margin to place the price higher
-                                      left: "500px",
-                                      fontWeight: "bold",
-                                      fontSize: "20px",
-                                      zIndex: 2, // Ensure the price text stays above the image
-                                      color: "#2D4495",
-                                    }} >            
-                      <img
-                        src={profile}
-                        alt="Profile"
-                        className="img-fluid rounded-circle"
-                      />
-                  </div>
-                                  ))
-                                )}
-                              </div>
-
-                              {/* Updated text at the bottom-right corner */}
-                              <p
-                                style={{
-                                  position: "absolute",
-                                  right: "5px",
-                                  // fontSize: '12px',
-                                  // color: "#6c757d",
-                                  marginTop: window.innerWidth <= 576 ? "35px" : "54px",
-                                  marginLeft: window.innerWidth <= 576 ? "10rem" : "0rem",
-                                  color: "black",
-                                }}
-                              >
-                                Updated about {timeAgo(car.createdAt)}
-                              </p>
-
-                              {/* Responsive layout for small screens */}
-                              <div
-                                className="d-block d-sm-none"
+                              <Col
+                                className="align-items-center"
                                 style={{
                                   position: "relative",
-                                  marginTop: "10px",
-                                  
+                                  marginTop:
+                                    window.innerWidth <= 576 ? "-10px" : "30px",
                                 }}
                               >
-                                {/* Price for small screens */}
+                                {/* Price displayed above the image */}
                                 <p
                                   style={{
+                                    position: "absolute",
+                                    top: "-140px", // Adjust the top margin to place the price higher
+
+                                    left: "500px",
                                     fontWeight: "bold",
-                                    fontSize: "16px",
-                                    marginBottom: "5px",
+                                    fontSize: "20px",
+                                    zIndex: 2, // Ensure the price text stays above the image
+                                    color: "#2D4495",
                                   }}
                                 >
                                   {car.Price
@@ -3105,313 +3116,406 @@ const AutomotiveComp = () => {
                                     : "Price not available"}
                                 </p>
 
-                                {/* Small Image for small screens */}
-                                <Card.Img
-                                  src={
-                                    car?.galleryImages[0] ||
-                                    "https://via.placeholder.com/150"
-                                  }
-                                  alt={car.title || "Car"}
+                                {/* Small Image on the Right with Top Margin */}
+                                <div>
+                                  {loading ? (
+                                    <p>Loading...</p>
+                                  ) : (
+                                    ads.map((car) => (
+                                      <div
+                                        style={{
+                                          position: "absolute",
+                                          top: "-70px", // Adjust the top margin to place the price higher
+                                          left: "500px",
+                                          fontWeight: "bold",
+                                          fontSize: "20px",
+                                          zIndex: 2, // Ensure the price text stays above the image
+                                          color: "#2D4495",
+                                        }}
+                                      >
+                                        <img
+                                          src={profile}
+                                          alt="Profile"
+                                          className="img-fluid rounded-circle"
+                                        />
+                                      </div>
+                                    ))
+                                  )}
+                                </div>
+
+                                {/* Updated text at the bottom-right corner */}
+                                <p
                                   style={{
-                                    width: "120px", // Adjust size for small screens
-                                    height: "60px",
-                                    objectFit: "fill",
-                                    borderRadius: "6px",
+                                    position: "absolute",
+                                    right: "5px",
+                                    // fontSize: '12px',
+                                    // color: "#6c757d",
+                                    marginTop:
+                                      window.innerWidth <= 576
+                                        ? "35px"
+                                        : "54px",
+                                    marginLeft:
+                                      window.innerWidth <= 576
+                                        ? "10rem"
+                                        : "0rem",
+                                    color: "black",
                                   }}
-                                />
-                              </div>
-                            </Col>
-                            <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
-   {/* Call Now Button */}
-  <a href={`tel:${car.Phone}`}>
-    <button
-      className={`sign-in-button ${isActive ? "expanded" : ""}`}
-      style={{  marginTop: window.innerWidth <= 576 ? "10px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto",     }}
-      onClick={(e) => {
-        if (!isActive) {
-          e.preventDefault(); // Only prevent if not active
-          setActivePhoneIndex(index);
-        }
-      }}
-    >
-      <FaPhoneAlt />
-      <span className="fw-semibold">
-        {isActive ? car.Phone : "Call Now"}
-      </span>
-    </button>
-  </a>
+                                >
+                                  Updated about {timeAgo(car.createdAt)}
+                                </p>
 
-  {/* Message Button */}
-  <button
-    className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-    style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto", }}
-    onClick={() => setShowModal(true)}
-  >
-    <MdMessage />
-    <span className="button-text">Message</span>
-  </button>
-  {/* WhatsApp Button */}
-  <a
-    href={`https://wa.me/${car.whatsapp}`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <button
-      className={`sign-in-button ${isActive ? "icon-only" : ""}`}
-      style={{ marginTop: window.innerWidth <= 576 ? "5px" : "50px",width: window.innerWidth <= 576 ? "150px" : "auto", }}
-    >
-      <FaWhatsapp />
-      <span className="button-text">WhatsApp</span>
-    </button>
-  </a>
-
- 
-  <button className={`sign-in-button`}
+                                {/* Responsive layout for small screens */}
+                                <div
+                                  className="d-block d-sm-none"
+                                  style={{
+                                    position: "relative",
+                                    marginTop: "10px",
+                                  }}
+                                >
+                                  {/* Price for small screens */}
+                                  <p
                                     style={{
-                                      border: "1px solid #2D4495",
-                                      backgroundColor: "white",
-                                      borderRadius: "5px",
-                                      cursor: "pointer",
-                                      color: "#2D4495",
-                                      width: "fit-content",
-                                      height: "fit-content",
-                                      padding: "8px",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      margin: "5px",
-                                   
-                                      marginRight: window.innerWidth <= 576 ? "20px" : "60px",
-
-                                      marginTop: window.innerWidth <= 576 ? "5px" : "50px",
-
-
-                                      
+                                      fontWeight: "bold",
+                                      fontSize: "16px",
+                                      marginBottom: "5px",
                                     }}
                                   >
-                                    {/* <FaHeart
+                                    {car.Price
+                                      ? `$${car.Price}`
+                                      : "Price not available"}
+                                  </p>
+
+                                  {/* Small Image for small screens */}
+                                  <Card.Img
+                                    src={
+                                      car?.galleryImages[0] ||
+                                      "https://via.placeholder.com/150"
+                                    }
+                                    alt={car.title || "Car"}
+                                    style={{
+                                      width: "120px", // Adjust size for small screens
+                                      height: "60px",
+                                      objectFit: "fill",
+                                      borderRadius: "6px",
+                                    }}
+                                  />
+                                </div>
+                              </Col>
+                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                                {/* Call Now Button */}
+                                <a href={`tel:${car.Phone}`}>
+                                  <button
+                                    className={`sign-in-button ${
+                                      isActive ? "expanded" : ""
+                                    }`}
+                                    style={{
+                                      marginTop:
+                                        window.innerWidth <= 576
+                                          ? "10px"
+                                          : "50px",
+                                      width:
+                                        window.innerWidth <= 576
+                                          ? "150px"
+                                          : "auto",
+                                    }}
+                                    onClick={(e) => {
+                                      if (!isActive) {
+                                        e.preventDefault(); // Only prevent if not active
+                                        setActivePhoneIndex(index);
+                                      }
+                                    }}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span className="fw-semibold">
+                                      {isActive ? car.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+
+                                {/* Message Button */}
+                                <button
+                                  className={`sign-in-button ${
+                                    isActive ? "icon-only" : ""
+                                  }`}
+                                  style={{
+                                    marginTop:
+                                      window.innerWidth <= 576 ? "5px" : "50px",
+                                    width:
+                                      window.innerWidth <= 576
+                                        ? "150px"
+                                        : "auto",
+                                  }}
+                                  onClick={() => setShowModal(true)}
+                                >
+                                  <MdMessage />
+                                  <span className="button-text">Message</span>
+                                </button>
+                                {/* WhatsApp Button */}
+                                <a
+                                  href={`https://wa.me/${car.whatsapp}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <button
+                                    className={`sign-in-button ${
+                                      isActive ? "icon-only" : ""
+                                    }`}
+                                    style={{
+                                      marginTop:
+                                        window.innerWidth <= 576
+                                          ? "5px"
+                                          : "50px",
+                                      width:
+                                        window.innerWidth <= 576
+                                          ? "150px"
+                                          : "auto",
+                                    }}
+                                  >
+                                    <FaWhatsapp />
+                                    <span className="button-text">
+                                      WhatsApp
+                                    </span>
+                                  </button>
+                                </a>
+
+                                <button
+                                  className={`sign-in-button`}
+                                  style={{
+                                    border: "1px solid #2D4495",
+                                    backgroundColor: "white",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    color: "#2D4495",
+                                    width: "fit-content",
+                                    height: "fit-content",
+                                    padding: "8px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    margin: "5px",
+
+                                    marginRight:
+                                      window.innerWidth <= 576
+                                        ? "20px"
+                                        : "60px",
+
+                                    marginTop:
+                                      window.innerWidth <= 576 ? "5px" : "50px",
+                                  }}
+                                >
+                                  {/* <FaHeart
                               style={{
                                 color:  "white",
                                 fontSize: "30px",
                               }}
                             />{" "} */}
-                                    <FaRegHeart
-                                      onClick={() => toggleBookmark(car.id)}
-                                      style={{
-                                        color:
-                                          car.bookmarked === true &&
-                                          car.userId === userId
-                                            ? "red"
-                                            : "#2D4495",
-                                        fontSize: "20px",
+                                  <FaRegHeart
+                                    onClick={() => toggleBookmark(car.id)}
+                                    style={{
+                                      color:
+                                        car.bookmarked === true &&
+                                        car.userId === userId
+                                          ? "red"
+                                          : "#2D4495",
+                                      fontSize: "20px",
+                                    }}
+                                  />
+                                </button>
 
-                                      }}
-                                    />
-                                  </button>
+                                {/* Consolidated styles for all buttons */}
+                                <style jsx>{`
+                                  .sign-in-button {
+                                    background-color: #0055a5; /* Blue background color matching the image */
+                                    color: white; /* White text color */
+                                    font-size: 12px; /* Approximate font size */
+                                    font-weight: bold; /* Bold text */
+                                    // width: 90px; /* Default fixed width */
+                                    height: 40px; /* Fixed height */
+                                    border: none; /* No border */
+                                    border-radius: 10px; /* Rounded corners */
+                                    cursor: pointer; /* Hand cursor on hover */
+                                    text-transform: capitalize; /* Capitalize the text like in the image */
+                                    display: flex; /* Use flexbox to center icon and text */
+                                    align-items: center; /* Vertically center */
+                                    justify-content: center; /* Horizontally center */
+                                    gap: 8px; /* Space between icon and text */
+                                    transition: width 0.3s ease; /* Smooth transition for width change */
+                                  }
 
-  {/* Consolidated styles for all buttons */}
-  <style jsx>{`
-    .sign-in-button {
-      background-color: #0055a5; /* Blue background color matching the image */
-      color: white; /* White text color */
-      font-size: 12px; /* Approximate font size */
-      font-weight: bold; /* Bold text */
-      // width: 90px; /* Default fixed width */
-      height: 40px; /* Fixed height */
-      border: none; /* No border */
-      border-radius: 10px; /* Rounded corners */
-      cursor: pointer; /* Hand cursor on hover */
-      text-transform: capitalize; /* Capitalize the text like in the image */
-      display: flex; /* Use flexbox to center icon and text */
-      align-items: center; /* Vertically center */
-      justify-content: center; /* Horizontally center */
-      gap: 8px; /* Space between icon and text */
-      transition: width 0.3s ease; /* Smooth transition for width change */
-      
-    }
+                                  .sign-in-button:hover {
+                                    background-color: #004080; /* Slightly darker blue on hover for feedback */
+                                  }
 
-    .sign-in-button:hover {
-      background-color: #004080; /* Slightly darker blue on hover for feedback */
-    }
+                                  /* Expanded state for Call Now button */
+                                  .expanded {
+                                    width: 200px; /* Larger width when showing phone number */
+                                    font-size: 16px; /* Slightly smaller font to fit the number */
+                                  }
 
-    /* Expanded state for Call Now button */
-    .expanded {
-      width: 200px; /* Larger width when showing phone number */
-      font-size: 16px; /* Slightly smaller font to fit the number */
-    }
+                                  /* Icon-only state for WhatsApp and Message buttons */
+                                  .icon-only {
+                                    width: 50px; /* Smaller width to fit just the icon */
+                                  }
 
-    /* Icon-only state for WhatsApp and Message buttons */
-    .icon-only {
-      width: 50px; /* Smaller width to fit just the icon */
-    }
+                                  /* Hide text in icon-only state */
+                                  .icon-only .button-text {
+                                    display: none; /* Hide the text */
+                                  }
 
-    /* Hide text in icon-only state */
-    .icon-only .button-text {
-      display: none; /* Hide the text */
-    }
-
-    /* Remove underline from <a> tags */
-    a {
-      text-decoration: none;
-    }
-  `}</style>
-
-</div>
-
-                          
-                          </Card.Body>
-                        </Col>
-                      </Row>
-                    </Card>
-                  )
-                }
-                  )
-                  
+                                  /* Remove underline from <a> tags */
+                                  a {
+                                    text-decoration: none;
+                                  }
+                                `}</style>
+                              </div>
+                            </Card.Body>
+                          </Col>
+                        </Row>
+                      </Card>
+                    );
+                  })
                 ) : (
                   "No Record Found"
                 )}
               </div>
               <div className="d-flex align-items-center justify-content-center my-4">
-  <Button
-    variant="#2d4495"
-    className="d-flex align-items-center mx-2"
-    disabled={activePage === 1}
-    onClick={() => handlePageClick(activePage - 1)}
-    style={{
-      backgroundColor: '#2d4495',
-      color: 'white',
-      border: 'none',
-      transition: 'none',
-    }}
-  >
-    <FaArrowLeft className="me-1" /> Previous
-  </Button>
+                <Button
+                  variant="#2d4495"
+                  className="d-flex align-items-center mx-2"
+                  disabled={activePage === 1}
+                  onClick={() => handlePageClick(activePage - 1)}
+                  style={{
+                    backgroundColor: "#2d4495",
+                    color: "white",
+                    border: "none",
+                    transition: "none",
+                  }}
+                >
+                  <FaArrowLeft className="me-1" /> Previous
+                </Button>
 
-  <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
+                <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
 
-  <Button
-    variant="#2d4495"
-    className="d-flex align-items-center mx-2"
-    disabled={activePage === totalPages}
-    onClick={() => handlePageClick(activePage + 1)}
-    style={{
-      backgroundColor: '#2d4495',
-      color: 'white',
-      border: 'none',
-      transition: 'none',
-    }}
-  >
-    Next <FaArrowRight className="ms-1" />
-  </Button>
-</div>
+                <Button
+                  variant="#2d4495"
+                  className="d-flex align-items-center mx-2"
+                  disabled={activePage === totalPages}
+                  onClick={() => handlePageClick(activePage + 1)}
+                  style={{
+                    backgroundColor: "#2d4495",
+                    color: "white",
+                    border: "none",
+                    transition: "none",
+                  }}
+                >
+                  Next <FaArrowRight className="ms-1" />
+                </Button>
+              </div>
 
               {/*           parent div end here                                    */}
             </Col>
           </Row>
         </Container>
         <div
-        className="container-parent"
-        style={{
-          color: "black",
-          maxWidth: "100%", 
-          margin: "0 auto",
-          marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
-          marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+          className="container-parent"
+          style={{
+            color: "black",
+            maxWidth: "100%",
+            margin: "0 auto",
+            marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
+            marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
-          height: "auto", 
-          paddingLeft: "16%", 
-          paddingRight: "5%",
-          paddingTop: "20px",
-          paddingBottom: "30px",
-        }}
-      >
-        <div className="cars data">
-          <h2>Cars for Sale in Dubai</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-            gravida quam urna arcu integer.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-            gravida quam urna arcu integer.
-          </p>
+            height: "auto",
+            paddingLeft: "16%",
+            paddingRight: "5%",
+            paddingTop: "20px",
+            paddingBottom: "30px",
+          }}
+        >
+          <div className="cars data">
+            <h2>Cars for Sale in Dubai</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
+              gravida quam urna arcu integer.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
+              gravida quam urna arcu integer.
+            </p>
 
-          <h2>Used Cars for Sale in Dubai</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-            gravida quam urna arcu integer.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-            gravida quam urna arcu integer.
-          </p>
+            <h2>Used Cars for Sale in Dubai</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
+              gravida quam urna arcu integer.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
+              gravida quam urna arcu integer.
+            </p>
 
-          <h2>Browse More Used Cars</h2>
-          <p style={{ color: "#2d4fad" }}>View Cars by Cities</p>
+            <h2>Browse More Used Cars</h2>
+            <p style={{ color: "#2d4fad" }}>View Cars by Cities</p>
 
-          <Row
-            className="responsive-row"
-            style={{ color: "#2d4fad", margin: "0 auto" }}
-          >
-            <Col xs={12} sm={6} md={4} lg={3}>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={3}>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={3}>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-            </Col>
-            <Col xs={12} sm={6} md={4} lg={3}>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-              <div>Downtown Dubai (123456)</div>
-            </Col>
-          </Row>
+            <Row
+              className="responsive-row"
+              style={{ color: "#2d4fad", margin: "0 auto" }}
+            >
+              <Col xs={12} sm={6} md={4} lg={3}>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+              </Col>
+              <Col xs={12} sm={6} md={4} lg={3}>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+              </Col>
+              <Col xs={12} sm={6} md={4} lg={3}>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+              </Col>
+              <Col xs={12} sm={6} md={4} lg={3}>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+                <div>Downtown Dubai (123456)</div>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
 
+        <style jsx>{`
+          @media (max-width: 768px) {
+            .container-parent {
+              padding-left: 5%; // Reduce padding on smaller screens
+              padding-right: 5%;
+            }
+            .responsive-row {
+              margin: 0 10px;
+            }
+          }
+          @media (max-width: 480px) {
+            .container-parent {
+              padding-left: 0%; // No left padding on very small screens
+              padding-right: 0%; // No right padding on very small screens
+            }
+            .responsive-row {
+              margin: 0;
+            }
+            h2 {
+              font-size: 1.2rem; // Smaller font size for headings on mobile
+            }
+          }
+        `}</style>
 
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .container-parent {
-            padding-left: 5%; // Reduce padding on smaller screens
-            padding-right: 5%;
-          }
-          .responsive-row {
-            margin: 0 10px;
-          }
-        }
-        @media (max-width: 480px) {
-          .container-parent {
-            padding-left: 0%; // No left padding on very small screens
-            padding-right: 0%; // No right padding on very small screens
-          }
-          .responsive-row {
-            margin: 0;
-          }
-          h2 {
-            font-size: 1.2rem; // Smaller font size for headings on mobile
-          }
-        }
-      `}</style>
-
-      <ComercialsAds />
-      
+        <ComercialsAds />
       </div>
       <LatestBlog />
       <Footer />
-    
     </>
   );
 };

@@ -9290,7 +9290,13 @@ const AddLisiting = () => {
                 </div>
              
 
-                <div
+         
+                {showPayment && (
+                  <Elements stripe={stripePromise}>
+                    <PaymentForm />
+                  </Elements>
+                )}
+                       <div
   className="settings-upload-btn"
   style={{
     display: "flex",
@@ -9323,11 +9329,6 @@ const AddLisiting = () => {
     </Link>
   </label>
 </div>
-                {showPayment && (
-                  <Elements stripe={stripePromise}>
-                    <PaymentForm />
-                  </Elements>
-                )}
                <button
   onClick={saveToFirestore}
   disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked

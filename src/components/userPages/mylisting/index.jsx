@@ -1,47 +1,49 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import Mylistings from "../../json/Mylisting";
 import { Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import Footer from "../../home/footer/Footer";
-
+import Header from "../../home/header";
 import UserHeader from "../Userheader";
-import { useEffect, useState } from "react";
-// import { Modal, Button, Form } from "react-bootstrap";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-// import Spinner from "react-bootstrap/Spinner";
+import { auth, db } from "../../Firebase/FirebaseConfig";
 import Spinner from "react-bootstrap/Spinner";
-
 import {
   collection,
   getDocs,
   getDoc,
-  query,
-  where,
   deleteDoc,
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import Header from "../../home/header";
+
 const MyListe = () => {
   const MySwal = withReactContent(Swal);
 
   const data = Mylistings.Mylistings;
-  const dataSource = {
-    data,
-  };
+  const dataSource = { data };
   const [loading, setLoading] = useState(true);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [userId, setUserId] = useState(""); // State for image preview
-  const [error, setError] = useState(""); // ✅ Error state
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [itemCategory, setItemCategory] = useState("");
+  const [itemId, setItemId] = useState(null);
+  const [FormDataView, setFormDataView] = useState({});
+  const [view, setView] = useState(false);
+  const [change, setChange] = useState(false);
+  const [filter, setFilter] = useState("All Listing");
+  const [sortOrder, setSortOrder] = useState("Newest");
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -53,88 +55,205 @@ const MyListe = () => {
         localStorage.setItem(user.uid, "user.uid1");
       } else {
         console.log("No user is logged in. Redirecting to /login...");
-        // navigate("/login", { replace: true }); // Redirect to login page
       }
     });
 
-    return () => unsubscribe(); // Cleanup on unmount
+    return () => unsubscribe();
   }, []);
+
   const categoryMapping = {
+    "Automotive": "Cars",
     "Sports & Game": "SPORTSGAMESComp",
-    Electronics: "ELECTRONICS",
-    FashionStyle: "FASHION",
-    "Job board": "JOBBOARD",
+    "Electronics": "ELECTRONICS",
+    "Fashion Style": "FASHION",
+    "Job Board": "JOBBOARD",
     "Real Estate": "REALESTATECOMP",
-    Education: "Education",
-    Travel: "TRAVEL",
+    "Other": "Education",
+    "Services": "TRAVEL",
     "Pet & Animal": "PETANIMALCOMP",
-    "Health Care": "HEALTHCARE",
-
-    // Add more categories as needed
+    "Home & Furnituer": "HEALTHCARE",
   };
-  // const editItem = async (id, category) => {
-  //   try {
-  //     const tableName = categoryMapping[category] || category;
-  //     const docRef = doc(db, tableName, id);
-
-  //     const docSnap = await getDoc(docRef);
-  //     console.log("Document Data:category", category);
-  //     console.log("Document Data:categoryid11", id);
-
-  //     if (docSnap.exists()) {
-  //       console.log(
-  //         `Fetched item with ID: ${id} from collection: ${tableName}`
-  //       );
-  //       console.log("Document Data:", docSnap.data());
-  //     } else {
-  //       console.log("No document found with this ID.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching item:", error);
-  //   }
-  // };
-  const [show, setShow] = useState(false);
-  const [editData, setEditData] = useState(null);
-  const [formData, setFormData] = useState({});
-  const [itemCategory, setItemCategory] = useState(""); // To store the item category
-  const [itemId, setItemId] = useState(null); // To store the item id
-  const [FormDataView, setFormDataView] = useState({});
-  const [view, setView] = useState(false);
-  console.log("Document Data:FormDataView", FormDataView);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleView = () => setView(true);
   const handleCloseview = () => setView(false);
-  const [sortOrder, setSortOrder] = useState("Newest");
-  const [searchQuery, setSearchQuery] = useState("");
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+  const [showInvoiceColumn, setShowInvoiceColumn] = useState(false);
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
-    // Sort the filtered cars based on the new sort order
-    const sortedCars = [...filteredCars].sort((a, b) => {
-      const dateA = a.createdAt.seconds;
-      const dateB = b.createdAt.seconds;
-
-      return event.target.value === "Newest" ? dateB - dateA : dateA - dateB;
-    });
-    setCars(sortedCars);
   };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  // Filter cars based on search query
-  const displayedCars = filteredCars.filter((car) => {
-    return (
-      car.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Assuming you want to search by title
-      car.description.toLowerCase().includes(searchQuery.toLowerCase()) // You can add more fields to search
-    );
-  });
-  // Function to fetch document by ID and open modal
+  const handleFilterChange = (selectedFilter) => {
+    setFilter(selectedFilter);
+    setShowInvoiceColumn(selectedFilter === "Featured Ads");
+    setCurrentPage(1); // Reset to first page when filter changes
+    setChange(false);
+
+  };
+
+  // Fetch data
+  useEffect(() => {
+    const fetchCars = async () => {
+      setLoading(true);
+      try {
+        const sportsCollectionRef = collection(db, "SPORTSGAMESComp");
+        const sportsQuerySnapshot = await getDocs(sportsCollectionRef);
+        const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const realEstateCollectionRef = collection(db, "REALESTATECOMP");
+        const realEstateQuerySnapshot = await getDocs(realEstateCollectionRef);
+        const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const CarsCollectionRef = collection(db, "Cars");
+        const CarsQuerySnapshot = await getDocs(CarsCollectionRef);
+        const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
+        const ELECTRONICSQuerySnapshot = await getDocs(ELECTRONICSCollectionRef);
+        const ELECTRONICSData = ELECTRONICSQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const EducationCollectionRef = collection(db, "Education");
+        const EducationQuerySnapshot = await getDocs(EducationCollectionRef);
+        const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const FASHIONCollectionRef = collection(db, "FASHION");
+        const FASHIONQuerySnapshot = await getDocs(FASHIONCollectionRef);
+        const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
+        const HEALTHCAREQuerySnapshot = await getDocs(HEALTHCARECollectionRef);
+        const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
+        const JOBBOARDQuerySnapshot = await getDocs(JOBBOARDCollectionRef);
+        const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
+        const MAGAZINESCOMPQuerySnapshot = await getDocs(MAGAZINESCOMPCollectionRef);
+        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
+        const PETANIMALCOMPQuerySnapshot = await getDocs(PETANIMALCOMPCollectionRef);
+        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const TRAVELCollectionRef = collection(db, "TRAVEL");
+        const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
+        const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const combinedData = [
+          ...sportsData,
+          ...realEstateData,
+          ...CarsData,
+          ...ELECTRONICSData,
+          ...EducationData,
+          ...FASHIONData,
+          ...HEALTHCAREData,
+          ...JOBBOARDData,
+          ...MAGAZINESCOMPData,
+          ...PETANIMALCOMPData,
+          ...TRAVELData,
+        ];
+
+        // Deduplicate combinedData by id
+        const uniqueData = Array.from(
+          new Map(combinedData.map((item) => [item.id, item])).values()
+        );
+
+        const user = auth.currentUser;
+        if (!user) {
+          console.log("No user logged in");
+          setLoading(false);
+          return;
+        }
+
+        const userId = user.uid;
+        const filteredData = uniqueData.filter((item) => item.userId === userId);
+        console.log(uniqueData, "+");
+
+        console.log("Combined Data Count:", uniqueData.length);
+        console.log("Filtered Data Count (by userId):", filteredData.length);
+
+        setCars(filteredData);
+        setFilteredCars(filteredData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error getting cars:", error);
+        setError("Failed to fetch listings");
+        setLoading(false);
+      }
+    };
+
+    fetchCars();
+  }, []); // Removed searchQuery dependency
+ 
+  useEffect(() => {
+    let result = [...cars];
+
+    // Apply dropdown filter based on FeaturedAds field
+    if (filter === "Featured Ads") {
+      result = result.filter((item) => item.FeaturedAds === "Featured Ads");
+    } else if (filter === "Not Featured Ads") {
+      result = result.filter((item) => item.FeaturedAds !== "Featured Ads");
+    }
+
+    // Apply search query
+    if (searchQuery) {
+      const lowercasedQuery = searchQuery.toLowerCase();
+      result = result.filter(
+        (car) =>
+          car.title?.toLowerCase().includes(lowercasedQuery) ||
+          car.description?.toLowerCase().includes(lowercasedQuery)
+      );
+    }
+
+    // Apply sort order
+    result = result.sort((a, b) => {
+      const dateA = a.createdAt?.seconds || 0;
+      const dateB = b.createdAt?.seconds || 0;
+      return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
+    });
+
+    console.log("Filtered Cars Count (after filter/search/sort):", result.length);
+    setFilteredCars(result);
+  }, [cars, filter, searchQuery, sortOrder]);
+
   const viewItem = async (id, category) => {
     try {
       const tableName = categoryMapping[category] || category;
@@ -145,18 +264,15 @@ const MyListe = () => {
 
       if (docSnap.exists()) {
         console.log("Document Data:", docSnap.data());
-
-        // Filter out empty fields
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
             ([_, value]) => value !== "" && value !== null
           )
         );
         console.log("No document found with this ID.", filteredData);
-
         setFormDataView(filteredData);
         setItemId(id);
-        setItemCategory(category); // Save the category for later use
+        setItemCategory(category);
         handleView();
       } else {
         console.log("No document found with this ID.");
@@ -165,43 +281,28 @@ const MyListe = () => {
       console.error("Error fetching item:", error);
     }
   };
+
   const editItem = async (id, category) => {
     try {
-      const trimmedCategory = category.trim(); // Remove unexpected spaces
+      const trimmedCategory = category.trim();
       const tableName = categoryMapping[trimmedCategory];
 
       if (!tableName) {
-        console.error(
-          "Invalid category:",
-          category,
-          "Mapped table:",
-          tableName
-        );
+        console.error("Invalid category:", category, "Mapped table:", tableName);
         return;
       }
 
-      console.log(
-        "Category:",
-        trimmedCategory,
-        "Table Name:",
-        tableName,
-        "ID:",
-        id
-      );
-
+      console.log("Category:", trimmedCategory, "Table Name:", tableName, "ID:", id);
       const docRef = doc(db, tableName, id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         console.log("Document Data:", docSnap.data());
-
-        // Filter out empty fields
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
             ([_, value]) => value !== "" && value !== null
           )
         );
-
         setFormData(filteredData);
         setItemId(id);
         setItemCategory(category);
@@ -218,26 +319,20 @@ const MyListe = () => {
     try {
       const tableName = categoryMapping[itemCategory] || itemCategory;
       const docRef = doc(db, tableName, itemId);
-
-      // Update the document with the modified form data
       await updateDoc(docRef, formData);
-
       console.log("Document successfully updated!");
-
-      // Close the modal after updating
       handleClose();
     } catch (error) {
       console.error("Error updating document:", error);
     }
   };
 
-  // Handle input change for editable fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+ 
   const deleteItem = async (id, category) => {
     console.log(category, "combinedData___________category");
-    // Display confirmation dialog
     MySwal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -248,28 +343,17 @@ const MyListe = () => {
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // Proceed with deletion
         MySwal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
           icon: "success",
           timer: 1000,
         });
-
-        // Delete the ad from Firestore (Firebase)
         try {
-          // Delete the document from Firestore using the ad's id
-          // Get the correct Firestore collection name
           const tableName = categoryMapping[category] || category;
-
           const docRef = doc(db, tableName, id);
           await deleteDoc(docRef);
-          console.log(
-            `Deleted item with ID: ${id} from collection: ${tableName}`
-          );
-
-          // Optionally, update the state or re-fetch the data after deletion
-          // For example, you can call a function to refetch ads here
+          console.log(`Deleted item with ID: ${id} from collection: ${tableName}`);
         } catch (error) {
           console.error("Error deleting ad from Firestore:", error);
         }
@@ -284,171 +368,20 @@ const MyListe = () => {
     });
   };
 
-
-  useEffect(() => {
-    const fetchCars = async () => {
-      setLoading(true);
-      try {
-        // Fetch data from the first collection
-        const sportsCollectionRef = collection(db, "SPORTSGAMESComp");
-        const sportsQuerySnapshot = await getDocs(sportsCollectionRef);
-        const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // Fetch data from the second collection
-        const realEstateCollectionRef = collection(db, "REALESTATECOMP");
-        const realEstateQuerySnapshot = await getDocs(realEstateCollectionRef);
-        const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const CarsCollectionRef = collection(db, "Cars");
-        const CarsQuerySnapshot = await getDocs(CarsCollectionRef);
-        const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
-        const ELECTRONICSQuerySnapshot = await getDocs(
-          ELECTRONICSCollectionRef
-        );
-        const ELECTRONICSData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const EducationCollectionRef = collection(db, "Education");
-        const EducationQuerySnapshot = await getDocs(EducationCollectionRef);
-        const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const FASHIONCollectionRef = collection(db, "FASHION");
-        const FASHIONQuerySnapshot = await getDocs(FASHIONCollectionRef);
-        const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
-        const HEALTHCAREQuerySnapshot = await getDocs(HEALTHCARECollectionRef);
-        const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
-        const JOBBOARDQuerySnapshot = await getDocs(JOBBOARDCollectionRef);
-        const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
-        const MAGAZINESCOMPQuerySnapshot = await getDocs(
-          MAGAZINESCOMPCollectionRef
-        );
-        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
-        const PETANIMALCOMPQuerySnapshot = await getDocs(
-          PETANIMALCOMPCollectionRef
-        );
-        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const TRAVELCollectionRef = collection(db, "TRAVEL");
-        const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
-        const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        // Combine both datasets
-        const combinedData = [
-          ...sportsData,
-          ...realEstateData,
-          ...CarsData,
-          ...ELECTRONICSData,
-          ...EducationData,
-          ...FASHIONData,
-          ...HEALTHCAREData,
-          ...JOBBOARDData,
-          ...MAGAZINESCOMPData,
-          ...PETANIMALCOMPData,
-          ...TRAVELData,
-        ];
-
-        const user = auth.currentUser;
-
-        // Filter by userId (replace 'yourUser Id' with the actual userId you want to filter by)
-        const userId = user.uid; // Replace with the actual userId you want to filter by
-        const filteredData = combinedData.filter(
-          (item) => item.userId === userId
-        );
-        console.log(combinedData, "combinedData___________");
-        const searchedData = filteredData.filter((item) => {
-          return (
-            item.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Assuming 'title' is a field in your data
-            item.description.toLowerCase().includes(searchQuery.toLowerCase()) // Assuming 'description' is another field
-          );
-        });
-
-        const sortedData = searchedData.sort((a, b) => {
-          const dateA = a.createdAt.seconds; // Assuming createdAt is a timestamp
-          const dateB = b.createdAt.seconds;
-
-          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
-        });
-        // Set the state with the sorted data
-        setCars(sortedData);
-        setFilteredCars(sortedData);
-        // Set the state with the filtered data
-        // setCars(filteredData);
-        // setFilteredCars(filteredData); // Initially, show filtered cars
-        setLoading(false);
-
-        // console.log(filteredData, "Filtered Data by userId");
-      } catch (error) {
-        console.error("Error getting cars:", error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCars();
-  }, [searchQuery]);
-  useEffect(() => {
-    if (!searchQuery) {
-      setFilteredCars(cars);
-      return;
-    }
-
-    const lowercasedQuery = searchQuery.toLowerCase();
-    const filteredResults = cars.filter(
-      (car) =>
-        car.name?.toLowerCase().includes(lowercasedQuery) ||
-        car.description?.toLowerCase().includes(lowercasedQuery)
-    );
-
-    setFilteredCars(filteredResults);
-  }, [searchQuery, cars]);
-  const paginatedData = cars.slice(
+  const paginatedData = filteredCars.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
   const formatCategory = (category) => {
     return category
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join("");
   };
-
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  // console.log(record.category,'record.category________')
   const columns = [
     {
       title: "Image",
@@ -456,13 +389,11 @@ const MyListe = () => {
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
-            to={`/service-details?id=${record.id}&callingFrom=${formatCategory(
-              record.category
-            )}`}
+            to={`/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim()==='Pet & Animals'?"Pet":formatCategory(record.category))}`}
           >
             <img
               className="img-fluid avatar-img"
-              src={images?.[0] || "placeholder.jpg"} // Handle undefined case
+              src={images?.[0] || "placeholder.jpg"}
               alt=""
               style={{
                 width: "150px",
@@ -475,8 +406,7 @@ const MyListe = () => {
         </div>
       ),
       sorter: (a, b) =>
-        (a.galleryImages?.[0]?.length || 0) -
-        (b.galleryImages?.[0]?.length || 0),
+        (a.galleryImages?.[0]?.length || 0) - (b.galleryImages?.[0]?.length || 0),
     },
     {
       title: "Details",
@@ -488,15 +418,16 @@ const MyListe = () => {
           </h6>
           <div className="listingtable-rate">
             <Link to="#" className="cat-icon">
-              <i className="fa-regular fa-circle-stop" />{" "}
-              {formatCategory(record.category)}
+              <i className="fa-regular fa-circle-stop" /> {formatCategory(record.category)}
             </Link>{" "}
-            <span className="discount-amt" style={{color:"#2d4495"}}>${record.Price}</span>
+            <span className="discount-amt" style={{ color: "#2d4495" }}>
+              ${record.Price}
+            </span>
           </div>
           <p>{record.tagline}.</p>
         </>
       ),
-      sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0), // Fixed incorrect sorter
+      sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0),
     },
     {
       title: "Status",
@@ -504,11 +435,31 @@ const MyListe = () => {
       render: (text, record) => <span className={record.bg}>{"Active"}</span>,
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
     },
+    ...(showInvoiceColumn ? [{
+      title: "Invoice",
+      dataIndex: "invoiceNumber",
+      render: (text, record) => (
+        <div 
+          className="invoice-cell"
+          onClick={() => {
+            setSelectedInvoice(record);
+            setShowInvoiceModal(true);
+          }}
+        >
+          <div>
+            <div><strong>Invoice #{text || 'N/A'}</strong></div>
+            <div className="invoice-date">{record.invoiceDate}</div>
+            <div className="invoice-status">{record.invoiceStatus}</div>
+          </div>
+        </div>
+      ),
+      sorter: (a, b) => (a.invoiceNumber?.length || 0) - (b.invoiceNumber?.length || 0),
+    }] : []),
     {
       title: "Views",
       dataIndex: "numbers",
       render: (text) => <span>{text}</span>,
-      sorter: (a, b) => (a.numbers || 0) - (b.numbers || 0), // Ensure numbers are valid
+      sorter: (a, b) => (a.numbers || 0) - (b.numbers || 0),
     },
     {
       title: "Action",
@@ -523,9 +474,9 @@ const MyListe = () => {
           }}
         >
           <Link
-            to="#"
+            to={`/service-details?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
             className="action-btn btn-view"
-            onClick={() => viewItem(record.id, formatCategory(record.Category))}
+            onClick={() => viewItem(record.id, formatCategory(record.category))}
             style={{ display: "inline-flex", alignItems: "center" }}
           >
             <i className="feather-eye" />
@@ -536,7 +487,6 @@ const MyListe = () => {
             onClick={() => {
               console.log("Record ID:__", record.id);
               console.log("Record ID:___", record.Category);
-
               editItem(record.id, formatCategory(record.Category));
             }}
             style={{ display: "inline-flex", alignItems: "center" }}
@@ -546,10 +496,8 @@ const MyListe = () => {
           <Link
             to="#"
             className="action-btn btn-trash"
-            onClick={() =>
-              deleteItem(record.id, formatCategory(record.Category))
-            }
-            style={{ display: "inline-flex", alignItems: "center" ,backgroundColor:"#2d4495"}}
+            onClick={() => deleteItem(record.id, formatCategory(record.Category))}
+            style={{ display: "inline-flex", alignItems: "center", backgroundColor: "#2d4495" }}
           >
             <i className="feather-trash-2" />
           </Link>
@@ -559,7 +507,6 @@ const MyListe = () => {
     },
   ];
 
-  const parms = useLocation().pathname;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -567,17 +514,16 @@ const MyListe = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
   return (
     <>
-
       <Modal show={view} onHide={handleCloseview} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="text-primary">Property Details</Modal.Title>
@@ -586,9 +532,7 @@ const MyListe = () => {
           <div className="container p-3">
             <div className="row g-3">
               {Object.entries(FormDataView).map(([key, value]) =>
-                value &&
-                typeof value !== "object" &&
-                key !== "galleryImages" ? (
+                value && typeof value !== "object" && key !== "galleryImages" ? (
                   <div key={key} className="col-md-6">
                     <strong className="text-dark">
                       {key.replace(/([A-Z])/g, " $1").trim()}:
@@ -598,23 +542,22 @@ const MyListe = () => {
                 ) : null
               )}
             </div>
-            {FormDataView.galleryImages &&
-              FormDataView.galleryImages.length > 0 && (
-                <div className="mt-4">
-                  <strong className="text-dark">Gallery Images:</strong>
-                  <div className="d-flex flex-wrap gap-3 mt-3">
-                    {FormDataView.galleryImages.map((img, index) => (
-                      <img
-                        key={index}
-                        src={img}
-                        alt={`Gallery ${index}`}
-                        className="img-thumbnail rounded"
-                        style={{ width: 100, height: 100, objectFit: "cover" }}
-                      />
-                    ))}
-                  </div>
+            {FormDataView.galleryImages && FormDataView.galleryImages.length > 0 && (
+              <div className="mt-4">
+                <strong className="text-dark">Gallery Images:</strong>
+                <div className="d-flex flex-wrap gap-3 mt-3">
+                  {FormDataView.galleryImages.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt={`Gallery ${index}`}
+                      className="img-thumbnail rounded"
+                      style={{ width: 100, height: 100, objectFit: "cover" }}
+                    />
+                  ))}
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -623,6 +566,55 @@ const MyListe = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal
+  show={showInvoiceModal}
+  onHide={() => setShowInvoiceModal(false)}
+  style={{marginTop:"70px"}}
+  size="lg"
+  centered
+>
+  <Modal.Header closeButton>
+    <Modal.Title>Invoice Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedInvoice && (
+      <div className="invoice-detail">
+        <h2>Invoice #{selectedInvoice.invoiceNumber}</h2>
+        <p><strong>Date:</strong> {selectedInvoice.invoiceDate}</p>
+        <p><strong>Status:</strong> {selectedInvoice.invoiceStatus}</p>
+        <hr />
+        <h3>Billing To:</h3>
+        <p>
+          {selectedInvoice.billingName}<br />
+          Email: {selectedInvoice.billingEmail}<br />
+          Phone: {selectedInvoice.billingPhone}
+        </p>
+        <h3>Ad Details:</h3>
+        <p><strong>Title:</strong> {selectedInvoice.adTitle}</p>
+        <p><strong>Ad ID:</strong> {selectedInvoice.adId}</p>
+        <h3>Payment Details:</h3>
+        <table className="invoice-items">
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+          {selectedInvoice.paymentDetails?.map((item, index) => (
+            <tr key={index}>
+              <td>{item.description}</td>
+              <td>{item.amount}</td>
+            </tr>
+          ))}
+          <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>{selectedInvoice.totalAmount}</strong></td>
+          </tr>
+        </table>
+        <hr />
+        <p>Payment Method: {selectedInvoice.paymentMethod}</p>
+      </div>
+    )}
+  </Modal.Body>
+</Modal>
       <Modal
         show={show}
         onHide={handleClose}
@@ -638,9 +630,7 @@ const MyListe = () => {
               <Form>
                 {Object.keys(formData).map((key) => (
                   <Form.Group className="mt-3" key={key}>
-                    <Form.Label>
-                      {key.replace(/([A-Z])/g, " $1").trim()}
-                    </Form.Label>
+                    <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
                     <Form.Control
                       type="text"
                       name={key}
@@ -657,9 +647,7 @@ const MyListe = () => {
             <div className="container">
               <Row>
                 {Object.entries(formData).map(([key, value]) =>
-                  value &&
-                  typeof value !== "object" &&
-                  key !== "galleryImages" ? (
+                  value && typeof value !== "object" && key !== "galleryImages" ? (
                     <Col md={6} key={key} className="mb-3">
                       <strong className="text-primary">
                         {key.replace(/([A-Z])/g, " $1").trim()}:
@@ -708,17 +696,13 @@ const MyListe = () => {
         </Modal.Footer>
       </Modal>
 
-      <Header  />
-   
-      <div
-        className="dashboard-content"
-        style={{
-          marginTop: "8rem",
-        }}
-      >
-        <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / My Listing</div>
+      <Header />
 
+      <div className="dashboard-content" style={{ marginTop: "8rem" }}>
+        <div className="container">
+          <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
+            Home / My Listing
+          </div>
 
           <div className="">
             <ul className="dashborad-menus">
@@ -744,19 +728,17 @@ const MyListe = () => {
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
                 </Link>
               </li>
               <li>
                 <Link to="/reviews">
                   <i className="fas fa-solid fa-star" /> <span>Reviews</span>
                 </Link>
-              </li>
+                </li>
               <li>
                 <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                  <span>Logout</span>
+                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -766,13 +748,100 @@ const MyListe = () => {
             <div className="dash-cards card">
               <div className="card-header">
                 <h4>My Listings</h4>
-                <Link
-                  className="nav-link header-login add-listing"
-                  style={{backgroundColor:"#2d4495"}}
-                  to="/add-listing"
-                >
-                  <i className="fa-solid fa-plus"  /> Add Listing
-                </Link>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div className="card-dropdown" style={{ position: "relative" }}>
+                    <ul className="nav" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                      <li className="nav-item dropdown has-arrow logged-item" style={{ position: "relative" }}>
+                        <Link
+                          to="#"
+                          className="dropdown-toggle pageviews-link"
+                          data-bs-toggle="dropdown"
+                          aria-expanded={change}
+                          onClick={() => setChange(!change)}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            padding: "8px 12px",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            display: "inline-block",
+                          }}
+                        >
+                          <span>{filter}</span>
+                        </Link>
+                        <div
+                          className={`dropdown-menu dropdown-menu-end ${change ? "show" : ""}`}
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            right: 0,
+                            backgroundColor: "#fff",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                            borderRadius: "4px",
+                            display: change ? "block" : "none",
+                            zIndex: 1000,
+                          }}
+                        >
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => handleFilterChange("All Listing")}
+                            style={{
+                              display: "block",
+                              padding: "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                            }}
+                          >
+                            All Listing
+                          </Link>
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => handleFilterChange("Featured Ads")}
+                            style={{
+                              display: "block",
+                              padding: "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                            }}
+                          >
+                            Featured Ads
+                          </Link>
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => handleFilterChange("Not Featured Ads")}
+                            style={{
+                              display: "block",
+                              padding: "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                            }}
+                          >
+                            Not Featured Ads
+                          </Link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <Link
+                    className="nav-link header-login add-listing"
+                    style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      padding: "8px 12px",
+                      borderRadius: "4px",
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    to="/add-listing"
+                  >
+                    <i className="fa-solid fa-plus" /> Add Listing
+                  </Link>
+                </div>
               </div>
               <div className="card-body">
                 <div className="listing-search">
@@ -785,7 +854,6 @@ const MyListe = () => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                       />
-
                       <i className="feather-search" />
                     </div>
                   </div>
@@ -823,9 +891,9 @@ const MyListe = () => {
                     <Table
                       className="listing-table datatable"
                       columns={columns}
-                      dataSource={paginatedData} // Use manually paginated data
+                      dataSource={paginatedData}
                       rowKey={(record) => record.id}
-                      pagination={false} // Disable built-in pagination
+                      pagination={false}
                     />
                   )}
                 </div>
@@ -833,16 +901,12 @@ const MyListe = () => {
                   <nav>
                     <ul className="pagination">
                       <li
-                        className={`page-item previtem ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item previtem ${currentPage === 1 ? "disabled" : ""}`}
                       >
                         <Link
                           className="page-link"
                           to="#"
-                          onClick={() =>
-                            setCurrentPage((prev) => Math.max(prev - 1, 1))
-                          }
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                         >
                           <i className="fas fa-regular fa-arrow-left" /> Prev
                         </Link>
@@ -850,32 +914,26 @@ const MyListe = () => {
                       <li className="justify-content-center pagination-center">
                         <div className="pagelink">
                           <ul>
-                            {[...Array(Math.ceil(cars.length / pageSize))].map(
-                              (_, index) => (
-                                <li
-                                  key={index}
-                                  className={`page-item ${
-                                    currentPage === index + 1 ? "active" : ""
-                                  }`}
+                            {[...Array(Math.ceil(filteredCars.length / pageSize))].map((_, index) => (
+                              <li
+                                key={index}
+                                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                              >
+                                <Link
+                                  className="page-link"
+                                  to="#"
+                                  onClick={() => setCurrentPage(index + 1)}
                                 >
-                                  <Link
-                                    className="page-link"
-                                    to="#"
-                                    onClick={() => setCurrentPage(index + 1)}
-                                  >
-                                    {index + 1}
-                                  </Link>
-                                </li>
-                              )
-                            )}
+                                  {index + 1}
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </li>
                       <li
                         className={`page-item nextlink ${
-                          currentPage === Math.ceil(cars.length / pageSize)
-                            ? "disabled"
-                            : ""
+                          currentPage === Math.ceil(filteredCars.length / pageSize) ? "disabled" : ""
                         }`}
                       >
                         <Link
@@ -883,10 +941,7 @@ const MyListe = () => {
                           to="#"
                           onClick={() =>
                             setCurrentPage((prev) =>
-                              Math.min(
-                                prev + 1,
-                                Math.ceil(cars.length / pageSize)
-                              )
+                              Math.min(prev + 1, Math.ceil(filteredCars.length / pageSize))
                             )
                           }
                         >
@@ -901,9 +956,9 @@ const MyListe = () => {
           </div>
         </div>
       </div>
-      {/* /Dashboard Content */}
       <Footer />
     </>
   );
 };
+
 export default MyListe;

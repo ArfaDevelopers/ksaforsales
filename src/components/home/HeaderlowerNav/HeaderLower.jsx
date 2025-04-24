@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 
 const HeaderLower = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -10,7 +10,30 @@ const HeaderLower = () => {
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
+  const { id } = useParams();
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const [_Id, setId] = useState(null); // State to store ads data
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  useEffect(() => {
+    const callingFrom = getQueryParam("callingFrom");
+    const subCatgory = getQueryParam("subCatgory");
+    const NestedSubCategory = getQueryParam("NestedSubCategory");
 
+    const ids = getQueryParam("id");
+    console.log("callingFrom______ID:ids", ids);
+    console.log("callingFrom______Calling From:", callingFrom);
+    console.log(subCatgory, "subCatgory___________");
+    console.log(NestedSubCategory, "subCatgory___________1");
+
+    setCallingFrom(callingFrom);
+    setId(ids);
+  }, [id, location]);
   useEffect(() => {
     updateIsMobile();
     window.addEventListener("resize", updateIsMobile);
@@ -26,29 +49,29 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Cars For Sale",
-          path: "/AutomotiveComp?subCatgory=CarsForSale",
+          path: "/AutomotiveComp?subCatgory=Cars For Sale",
         },
-        { name: "Car Rental", path: "/AutomotiveComp?subCatgory=CarRental" },
+        { name: "Car Rental", path: "/AutomotiveComp?subCatgory=Car Rental" },
         {
           name: "Plates Number",
-          path: "/AutomotiveComp?subCatgory=PlatesNumber",
+          path: "/AutomotiveComp?subCatgory=Plates Number",
         },
         {
           name: "Spare Parts",
-          path: "/AutomotiveComp?subCatgory=SpareParts",
+          path: "/AutomotiveComp?subCatgory=Spare Parts",
           subSubcategories: [
             {
               name: "Body Parts",
               // path: "/AutomotiveComp/SpareParts?NestedSubCategory=BodyParts",
-              path: "/AutomotiveComp?NestedSubCategory=BodyParts",
+              path: "/AutomotiveComp?NestedSubCategory=Body Parts",
             },
             {
               name: "Mechanical Parts",
-              path: "/AutomotiveComp?NestedSubCategory=MechanicalParts",
+              path: "/AutomotiveComp?NestedSubCategory=Mechanical Parts",
             },
             {
               name: "Spare Parts",
-              path: "/AutomotiveComp?NestedSubCategory=SpareParts",
+              path: "/AutomotiveComp?NestedSubCategory=Spare Parts",
             },
             {
               name: "Batteries",
@@ -63,11 +86,11 @@ const HeaderLower = () => {
         { name: "Accessories", path: "/AutomotiveComp?subCatgory=Accessories" },
         {
           name: "Wheels & Rims",
-          path: "/AutomotiveComp?subCatgory=WheelsRims",
+          path: "/AutomotiveComp?subCatgory=Wheels Rims",
         },
         {
           name: "Trucks & Heavy Machinery",
-          path: "/AutomotiveComp?subCatgory=TrucksHeavyMachinery",
+          path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery",
           subSubcategories: [
             {
               name: "Trucks",
@@ -76,11 +99,11 @@ const HeaderLower = () => {
             },
             {
               name: "Dump Truck",
-              path: "/AutomotiveComp?NestedSubCategory=DumpTruck",
+              path: "/AutomotiveComp?NestedSubCategory=Dump Truck",
             },
             {
               name: "Wheel Loader",
-              path: "/AutomotiveComp?NestedSubCategory=WheelLoader",
+              path: "/AutomotiveComp?NestedSubCategory=Wheel Loader",
             },
             {
               name: "Recovery",
@@ -88,7 +111,7 @@ const HeaderLower = () => {
             },
             {
               name: "Agricultural Equipment",
-              path: "/AutomotiveComp?NestedSubCategory=AgriculturalEquipment",
+              path: "/AutomotiveComp?NestedSubCategory=Agricultural Equipment",
             },
             {
               name: "Crane",
@@ -108,18 +131,18 @@ const HeaderLower = () => {
             },
             {
               name: "Heavy Equipment",
-              path: "/AutomotiveComp?NestedSubCategory=HeavyEquipment",
+              path: "/AutomotiveComp?NestedSubCategory=Heavy Equipment",
             },
           ],
         },
         { name: "Tshaleeh", path: "/AutomotiveComp?subCatgory=Tshaleeh" },
         {
           name: "Boats & Jet Ski",
-          path: "/AutomotiveComp?subCatgory=BoatsJetSki",
+          path: "/AutomotiveComp?subCatgory=Boats & Jet Ski",
           subSubcategories: [
             {
               name: "Motorboats",
-              path: "/AutomotiveComp?NestedSubCategory=Motorboats",
+              path: "/AutomotiveComp?NestedSubCategory=Motor boats",
               // path: "/AutomotiveComp/BoatsJetSki/Motorboats",
             },
             {
@@ -134,23 +157,23 @@ const HeaderLower = () => {
         },
         {
           name: "Classic Cars",
-          path: "/AutomotiveComp?subCatgory=ClassicCars",
+          path: "/AutomotiveComp?subCatgory=Classic Cars",
         },
         {
           name: "Salvage Cars",
-          path: "/AutomotiveComp?subCatgory=SalvageCars",
+          path: "/AutomotiveComp?subCatgory=Salvage Cars",
         },
         {
           name: "Mortgaged Cars",
-          path: "/AutomotiveComp?subCatgory=MortgagedCars",
+          path: "/AutomotiveComp?subCatgory=Mortgaged Cars",
         },
         { name: "Recovery", path: "/AutomotiveComp?subCatgory=Recovery" },
-        { name: "Food Truck", path: "/AutomotiveComp?subCatgory=FoodTruck" },
+        { name: "Food Truck", path: "/AutomotiveComp?subCatgory=Food Truck" },
         { name: "Caravans", path: "/AutomotiveComp?subCatgory=Caravans" },
         { name: "Reports", path: "/AutomotiveComp?subCatgory=Reports" },
         {
           name: "Car Cleaning",
-          path: "/AutomotiveComp?subCatgory=CarCleaning",
+          path: "/AutomotiveComp?subCatgory=Car Cleaning",
         },
       ],
     },
@@ -160,12 +183,12 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Mobile Phones",
-          path: "/ElectronicComp?subCatgory=MobilePhones",
+          path: "/ElectronicComp?subCatgory=Mobile Phones",
           subSubcategories: [
             {
               name: "Smart Watches",
               // path: "/ElectronicComp/MobilePhones/SmartWatches",
-              path: "/ElectronicComp?NestedSubCategory=SmartWatches",
+              path: "/ElectronicComp?NestedSubCategory=Smart Watches",
             },
             {
               name: "Headsets",
@@ -173,56 +196,56 @@ const HeaderLower = () => {
             },
             {
               name: "Chargers & Cables",
-              path: "/ElectronicComp?NestedSubCategory=Chargers&Cables",
+              path: "/ElectronicComp?NestedSubCategory=Chargers & Cables",
             },
             {
               name: "Covers & Protectors",
-              path: "/ElectronicComp?NestedSubCategory=Covers&Protectors",
+              path: "/ElectronicComp?NestedSubCategory=Covers & Protectors",
             },
           ],
         },
         {
           name: "Tablet Devices",
-          path: "/ElectronicComp?subCatgory=TabletDevices",
+          path: "/ElectronicComp?subCatgory=Tablet Devices",
           subSubcategories: [
             // { name: "iPad", path: "/ElectronicComp/TabletDevices/iPad" },
             { name: "iPad", path: "/ElectronicComp?NestedSubCategory=iPad" },
 
             {
               name: "Galaxy Tab",
-              path: "/ElectronicComp?NestedSubCategory=GalaxyTab",
+              path: "/ElectronicComp?NestedSubCategory=Galaxy Tab",
             },
           ],
         },
 
         {
           name: "Computers & Laptops",
-          path: "/ElectronicComp?subCatgory=Computers&Laptops",
+          path: "/ElectronicComp?subCatgory=Computers & Laptops",
         },
         {
           name: "Video Games",
-          path: "/ElectronicComp?subCatgory=VideoGames",
+          path: "/ElectronicComp?subCatgory=Video Games",
           subSubcategories: [
             {
               name: "VR Glasses",
               // path: "/ElectronicComp/VideoGames/VRGlasses",
-              path: "/ElectronicComp?NestedSubCategory=VRGlasses",
+              path: "/ElectronicComp?NestedSubCategory=VR Glasses",
             },
             {
               name: "PlayStation (PS) Devices",
-              path: "/ElectronicComp?NestedSubCategory=PlayStationDevices",
+              path: "/ElectronicComp?NestedSubCategory=PlayStation (PS) Devices",
             },
             {
               name: "PlayStation (PS) Games",
-              path: "/ElectronicComp?NestedSubCategory=PlayStationGames",
+              path: "/ElectronicComp?NestedSubCategory=PlayStation (PS) Games",
             },
             {
               name: "Xbox Devices",
-              path: "/ElectronicComp?NestedSubCategory=XboxDevices",
+              path: "/ElectronicComp?NestedSubCategory=Xbox Devices",
             },
             {
               name: "Xbox Games",
-              path: "/ElectronicComp?NestedSubCategory=XboxGames",
+              path: "/ElectronicComp?NestedSubCategory=Xbox Games",
             },
             {
               name: "Nintendo",
@@ -232,11 +255,11 @@ const HeaderLower = () => {
         },
         {
           name: "Television & Audio System",
-          path: "/ElectronicComp?subCatgory=Television&AudioSystem",
+          path: "/ElectronicComp?subCatgory=Television & Audio System",
         },
         {
           name: "Accounts & Subscriptions",
-          path: "/ElectronicComp?subCatgory=Accounts&Subscriptions",
+          path: "/ElectronicComp?subCatgory=Accounts & Subscriptions",
           subSubcategories: [
             {
               name: "PUBG",
@@ -253,45 +276,45 @@ const HeaderLower = () => {
             },
             {
               name: "Clash of Clans",
-              path: "/ElectronicComp?NestedSubCategory=ClashofClans",
+              path: "/ElectronicComp?NestedSubCategory=Clash of Clans",
             },
             {
               name: "Clash Royale",
-              path: "/ElectronicComp?NestedSubCategory=ClashRoyale",
+              path: "/ElectronicComp?NestedSubCategory=Clash Royale",
             },
             {
               name: "Instagram Accounts",
-              path: "/ElectronicComp?NestedSubCategory=InstagramAccounts",
+              path: "/ElectronicComp?NestedSubCategory=Instagram Accounts",
             },
             {
               name: "Twitter Accounts",
-              path: "/ElectronicComp?NestedSubCategory=TwitterAccounts",
+              path: "/ElectronicComp?NestedSubCategory=Twitter Accounts",
             },
             {
               name: "TikTok Accounts",
-              path: "/ElectronicComp?NestedSubCategory=TikTokAccounts",
+              path: "/ElectronicComp?NestedSubCategory=TikTok Accounts",
             },
             {
               name: "Snapchat Accounts",
-              path: "/ElectronicComp?NestedSubCategory=SnapchatAccounts",
+              path: "/ElectronicComp?NestedSubCategory=Snapchat Accounts",
             },
             {
               name: "Facebook Accounts",
-              path: "/ElectronicComp?NestedSubCategory=FacebookAccounts",
+              path: "/ElectronicComp?NestedSubCategory=Facebook Accounts",
             },
             {
               name: "YouTube Accounts",
-              path: "/ElectronicComp?NestedSubCategory=YouTubeAccounts",
+              path: "/ElectronicComp?NestedSubCategory=YouTub eAccounts",
             },
             {
               name: "Other Accounts",
-              path: "/ElectronicComp?NestedSubCategory=OtherAccounts",
+              path: "/ElectronicComp?NestedSubCategory=Other Accounts",
             },
           ],
         },
         {
           name: "Special Number",
-          path: "/ElectronicComp?subCatgory=SpecialNumber",
+          path: "/ElectronicComp?subCatgory=Special Number",
           subSubcategories: [
             // { name: "STC", path: "/ElectronicComp/SpecialNumber/STC" },
             { name: "STC", path: "/ElectronicComp?NestedSubCategory=STC" },
@@ -305,24 +328,24 @@ const HeaderLower = () => {
         },
         {
           name: "Home & Kitchen Appliance",
-          path: "/ElectronicComp?subCatgory=Home&KitchenAppliance",
+          path: "/ElectronicComp?subCatgory=Home & Kitchen Appliance",
           subSubcategories: [
             {
               name: "Stoves & Ovens",
               // path: "/ElectronicComp/Home&KitchenAppliance/Stoves&Ovens",
-              path: "/ElectronicComp?NestedSubCategory=Stoves&Ovens",
+              path: "/ElectronicComp?NestedSubCategory=Stoves & Ovens",
             },
             {
               name: "Refrigerators & Coolers",
-              path: "/ElectronicComp?NestedSubCategory=Refrigerators&Coolers",
+              path: "/ElectronicComp?NestedSubCategory=Refrigerators & Coolers",
             },
             {
               name: "Mixers & Blenders",
-              path: "/ElectronicComp?NestedSubCategory=Mixers&Blenders",
+              path: "/ElectronicComp?NestedSubCategory=Mixers & Blenders",
             },
             {
               name: "Washing Machines",
-              path: "/ElectronicComp?NestedSubCategory=WashingMachines",
+              path: "/ElectronicComp?NestedSubCategory=Washing Machines",
             },
             {
               name: "Kettles",
@@ -334,29 +357,29 @@ const HeaderLower = () => {
             },
             {
               name: "Coffee Machines",
-              path: "/ElectronicComp?NestedSubCategory=CoffeeMachines",
+              path: "/ElectronicComp?NestedSubCategory=Coffee Machines",
             },
             {
               name: "Microwaves & Toasters",
-              path: "/ElectronicComp?NestedSubCategory=MicrowavesS&Toasters",
+              path: "/ElectronicComp?NestedSubCategory=MicrowavesS & Toasters",
             },
             {
               name: "Vacuum Cleaners",
-              path: "/ElectronicComp?NestedSubCategory=VacuumCleaners",
+              path: "/ElectronicComp?NestedSubCategory=Vacuum Cleaners",
             },
             {
               name: "Clothing Irons",
-              path: "/ElectronicComp?NestedSubCategory=ClothingIrons",
+              path: "/ElectronicComp?NestedSubCategory=Clothing Irons",
             },
             {
               name: "Air Conditioners",
-              path: "/ElectronicComp?NestedSubCategory=AirConditioners",
+              path: "/ElectronicComp?NestedSubCategory=Air Conditioners",
             },
           ],
         },
         {
           name: "Motors & Generators",
-          path: "/ElectronicComp?subCatgory=Motors&Generators",
+          path: "/ElectronicComp?subCatgory=Motors & Generators",
         },
         {
           name: "Cameras",
@@ -371,26 +394,26 @@ const HeaderLower = () => {
             { name: "Drone", path: "/ElectronicComp?NestedSubCategory=Drone " },
             {
               name: "Camera Accessories",
-              path: "/ElectronicComp?NestedSubCategory=CameraAccessories",
+              path: "/ElectronicComp?NestedSubCategory=Camera Accessories",
             },
           ],
         },
 
         {
           name: "Networking Devices",
-          path: "/ElectronicComp?subCatgory=NetworkingDevices",
+          path: "/ElectronicComp?subCatgory=Networking Devices",
         },
         {
           name: "Screens & Projectors",
-          path: "/ElectronicComp?subCatgory=Screens&Projectors",
+          path: "/ElectronicComp?subCatgory=Screens & Projectors",
         },
         {
           name: "Printer & Scanner",
-          path: "/ElectronicComp?subCatgory=Printer&Scanner",
+          path: "/ElectronicComp?subCatgory=Printer & Scanner",
         },
         {
           name: "Computer Accessories",
-          path: "/ElectronicComp?subCatgory=ComputerAccessories",
+          path: "/ElectronicComp?subCatgory=Computer Accessories",
         },
       ],
     },
@@ -405,44 +428,44 @@ const HeaderLower = () => {
             {
               name: "Other Watches",
               // path: "/FashionStyle/Watches/OtherWatches",
-              path: "/FashionStyle?NestedSubCategory=OtherWatches",
+              path: "/FashionStyle?NestedSubCategory=Other Watches",
             },
             {
               name: "Men's Watches",
-              path: "/FashionStyle?NestedSubCategory=Men'sWatches",
+              path: "/FashionStyle?NestedSubCategory=Men' sWatches",
             },
             {
               name: "Women's Watches",
-              path: "/FashionStyle?NestedSubCategory=Women'sWatches",
+              path: "/FashionStyle?NestedSubCategory=Women' sWatches",
             },
           ],
         },
         {
           name: "Perfumes & Incense",
-          path: "/FashionStyle?subCatgory=Perfumes&Incense",
+          path: "/FashionStyle?subCatgory=Perfumes & Incense",
           subSubcategories: [
             {
               name: "Other Perfumes",
-              path: "/FashionStyle?NestedSubCategory=OtherPerfumes",
+              path: "/FashionStyle?NestedSubCategory=Other Perfumes",
               // path: "/FashionStyle/Perfumes&Incense/OtherPerfumes",
             },
             {
               name: "Men's Perfumes",
-              path: "/FashionStyle?NestedSubCategory=Men'sPerfumes",
+              path: "/FashionStyle?NestedSubCategory=Men's Perfumes",
             },
             {
               name: "Women's Perfumes",
-              path: "/FashionStyle?NestedSubCategory=Women'sPerfumes",
+              path: "/FashionStyle?NestedSubCategory=Women's Perfumes",
             },
             {
               name: "Oud & Incense",
-              path: "/FashionStyle?NestedSubCategory=Oud&Incense",
+              path: "/FashionStyle?NestedSubCategory=Oud & Incense",
             },
           ],
         },
         {
           name: "Sports Equipment",
-          path: "/FashionStyle?subCatgory=SportsEquipment",
+          path: "/FashionStyle?subCatgory=Sports Equipment",
           subSubcategories: [
             {
               name: "Eyeglasses",
@@ -451,73 +474,73 @@ const HeaderLower = () => {
             },
             {
               name: "Other Eyeglasses",
-              path: "/FashionStyle?NestedSubCategory=OtherEyeglasses",
+              path: "/FashionStyle?NestedSubCategory=Other Eyeglasses",
             },
             {
               name: "Men's Eyeglasses",
-              path: "/FashionStyle?NestedSubCategory=Men'sEyeglasses",
+              path: "/FashionStyle?NestedSubCategory=Men's Eyeglasses",
             },
             {
               name: "HeadsWomen's Eyeglassesets",
-              path: "/FashionStyle?NestedSubCategory=Women'sEyeglasses",
+              path: "/FashionStyle?NestedSubCategory=Women's Eyeglasses",
             },
           ],
         },
         {
           name: "Men's Fashion",
-          path: "/FashionStyle?subCatgory=Men'sFashion",
+          path: "/FashionStyle?subCatgory=Men's Fashion",
           subSubcategories: [
             {
               name: "Men's Shemaghs",
               // path: "/FashionStyle/Men'sFashion/Men'sShemaghs",
-              path: "/FashionStyle?subCatgory=Men'sShemaghs",
+              path: "/FashionStyle?subCatgory=Men's Shemaghs",
             },
             {
               name: "Men's Accessories",
-              path: "/FashionStyle?subCatgory=Men'sAccessories",
+              path: "/FashionStyle?subCatgory=Men's Accessories",
             },
             {
               name: "Men's Clothing",
-              path: "/FashionStyle?subCatgory=Men'sClothing",
+              path: "/FashionStyle?subCatgory=Men's Clothing",
             },
             {
               name: "Men's Jackets",
-              path: "/FashionStyle?subCatgory=Men'sJackets",
+              path: "/FashionStyle?subCatgory=Men's Jackets",
             },
             {
               name: "Men's Bags",
-              path: "/FashionStyle?subCatgory=Men'sBags",
+              path: "/FashionStyle?subCatgory=Men's Bags",
             },
             {
               name: "Men's Shirts & Trousers",
-              path: "/FashionStyle?subCatgory=Men'sShirts&Trousers",
+              path: "/FashionStyle?subCatgory=Men's Shirts & Trousers",
             },
             {
               name: "Men's Sportswear",
-              path: "/FashionStyle?subCatgory=Men'sSportswear",
+              path: "/FashionStyle?subCatgory=Men's Sportswear",
             },
           ],
         },
         {
           name: "Women's Fashion",
-          path: "/FashionStyle?subCatgory=Women'sFashion",
+          path: "/FashionStyle?subCatgory=Women's Fashion",
           subSubcategories: [
             {
               name: "Women's Accessories & Jewelry",
               // path: "/FashionStyle/Women'sFashion/Women'sAccessories&Jewelry",
-              path: "/FashionStyle?NestedSubCategory=Women'sAccessories&Jewelry",
+              path: "/FashionStyle?NestedSubCategory=Women's Accessories & Jewelry",
             },
             {
               name: "Women's Blouses & T-Shirts",
-              path: "/FashionStyle?NestedSubCategory=Women'sBlouses&T-Shirts",
+              path: "/FashionStyle?NestedSubCategory=Women's Blouses & T-Shirts",
             },
             {
               name: "Women's Skirts & Trousers",
-              path: "/FashionStyle?NestedSubCategory=Women'sSkirts&Trousers",
+              path: "/FashionStyle?NestedSubCategory=Women's Skirts & Trousers",
             },
             {
               name: "Women's Jackets",
-              path: "/FashionStyle?NestedSubCategory=Women'sJackets",
+              path: "/FashionStyle?NestedSubCategory=Women's Jackets",
             },
             {
               name: "Kaftans",
@@ -525,7 +548,7 @@ const HeaderLower = () => {
             },
             {
               name: "Women's Bags",
-              path: "/FashionStyle?NestedSubCategory=Women'sBags",
+              path: "/FashionStyle?NestedSubCategory=Women's Bags",
             },
             { name: "Abayas", path: "/FashionStyle?NestedSubCategory=Abayas" },
             {
@@ -538,34 +561,34 @@ const HeaderLower = () => {
             },
             {
               name: "Women's Sportswear",
-              path: "/FashionStyle?NestedSubCategory=Women'sSportswear",
+              path: "/FashionStyle?NestedSubCategory=Women's Sportswear",
             },
           ],
         },
         {
           name: "Children's Clothing & Accessories",
-          path: "/FashionStyle?subCatgory=Children'sClothing&Accessories",
+          path: "/FashionStyle?subCatgory=Children's Clothing & Accessories",
           subSubcategories: [
             {
               name: "Baby Care Products",
               // path: "/FashionStyle/Children'sClothing&Accessories/BabyCareProducts",
-              path: "/FashionStyle?NestedSubCategory=BabyCareProducts",
+              path: "/FashionStyle?NestedSubCategory=Baby Care Products",
             },
             {
               name: "Children's Accessories",
-              path: "/FashionStyle?NestedSubCategory=Children'sAccessories",
+              path: "/FashionStyle?NestedSubCategory=Children's Accessories",
             },
             {
               name: "Toys for Kids",
-              path: "/FashionStyle?NestedSubCategory=ToysforKids",
+              path: "/FashionStyle?NestedSubCategory=Toys for Kids",
             },
             {
               name: "Children's Cribs & Chairs",
-              path: "/FashionStyle?NestedSubCategory=Children'sCribs&Chairs",
+              path: "/FashionStyle?NestedSubCategory=Children's Cribs & Chairs",
             },
             {
               name: "Children's Bags",
-              path: "/FashionStyle?NestedSubCategory=Children'sBags",
+              path: "/FashionStyle?NestedSubCategory=Children's Bags",
             },
             {
               name: "Strollers",
@@ -573,15 +596,15 @@ const HeaderLower = () => {
             },
             {
               name: "Car Seats for Kids",
-              path: "/FashionStyle?NestedSubCategory=CarSeatsforKids",
+              path: "/FashionStyle?NestedSubCategory=Car Seats for Kids",
             },
             {
               name: "Girls' Clothing",
-              path: "/FashionStyle?NestedSubCategory=Girls'Clothing",
+              path: "/FashionStyle?NestedSubCategory=Girl's Clothing",
             },
             {
               name: "Boys' Clothing",
-              path: "/FashionStyle?NestedSubCategory=Boys'Clothing",
+              path: "/FashionStyle?NestedSubCategory=Boys's Clothing",
             },
           ],
         },
@@ -590,7 +613,7 @@ const HeaderLower = () => {
         { name: "Luggage", path: "/FashionStyle?subCatgory=Luggage" },
         {
           name: "Health & Beauty",
-          path: "/FashionStyle?subCatgory=Health&Beauty",
+          path: "/FashionStyle?subCatgory=Health & Beauty",
           subSubcategories: [
             // { name: "Skincare", path: "/FashionStyle/Health&Beauty/Skincare" },
             {
@@ -600,12 +623,12 @@ const HeaderLower = () => {
 
             {
               name: "Hair Care",
-              path: "/FashionStyle?NestedSubCategory=HairCare",
+              path: "/FashionStyle?NestedSubCategory=Hair Care",
             },
             { name: "Makeup", path: "/FashionStyle?NestedSubCategory=Makeup" },
             {
               name: "Other Beauty Products",
-              path: "/FashionStyle?NestedSubCategory=OtherBeautyProducts",
+              path: "/FashionStyle?NestedSubCategory=Other Beauty Products",
             },
           ],
         },
@@ -617,23 +640,23 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Outdoor Furniture",
-          path: "/HealthCareComp?subCatgory=OutdoorFurniture",
+          path: "/HealthCareComp?subCatgory=Outdoor Furniture",
         },
         {
           name: "Majlis & Sofas",
-          path: "/HealthCareComp?subCatgory=Majlis&Sofas",
+          path: "/HealthCareComp?subCatgory=Majlis & Sofas",
         },
         {
           name: "Cabinets & Wardrobes",
-          path: "/HealthCareComp?subCatgory=Cabinets&Wardrobes",
+          path: "/HealthCareComp?subCatgory=Cabinets & Wardrobes",
         },
         {
           name: "Beds & Mattresses",
-          path: "/HealthCareComp?subCatgory=Beds&Mattresses",
+          path: "/HealthCareComp?subCatgory=Beds & Mattresses",
         },
         {
           name: "Tables & Chairs",
-          path: "/HealthCareComp?subCatgory=Tables&Chairs",
+          path: "/HealthCareComp?subCatgory=Tables & Chairs",
         },
         { name: "Kitchens", path: "/HealthCareComp?subCatgory=Kitchens" },
         { name: "Bathrooms", path: "/HealthCareComp?subCatgory=Bathrooms" },
@@ -641,28 +664,28 @@ const HeaderLower = () => {
         { name: "Curtains", path: "/HealthCareComp?subCatgory=Curtains" },
         {
           name: "Decoration & Accessories",
-          path: "/HealthCareComp?subCatgory=Decoration&Accessories",
+          path: "/HealthCareComp?subCatgory=Decoration & Accessories",
         },
         { name: "Lighting", path: "/HealthCareComp?subCatgory=Lighting" },
         {
           name: "Household Items",
-          path: "/HealthCareComp?subCatgory=HouseholdItems",
+          path: "/HealthCareComp?subCatgory=Household Items",
         },
         {
           name: "Garden - Plants",
-          path: "/HealthCareComp?subCatgory=GardenPlants",
+          path: "/HealthCareComp?subCatgory=Garden Plants",
         },
         {
           name: "Office Furniture",
-          path: "/HealthCareComp?subCatgory=OfficeFurniture",
+          path: "/HealthCareComp?subCatgory=Office Furniture",
         },
         {
           name: "Doors - Windows - Aluminium",
-          path: "/HealthCareComp?subCatgory=DoorsWindowsAluminium",
+          path: "/HealthCareComp?subCatgory=Doors Windows Aluminium",
         },
         {
           name: "Tiles & Flooring",
-          path: "/HealthCareComp?subCatgory=Tiles&Flooring",
+          path: "/HealthCareComp?subCatgory=Tiles & Flooring",
         },
       ],
     },
@@ -672,16 +695,16 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Administrative Jobs",
-          path: "/JobBoard?subCatgory=AdministrativeJobs",
+          path: "/JobBoard?subCatgory=Administrative Jobs",
           subSubcategories: [
             {
               name: "Marketing & Sales",
               // path: "/JobBoard/AdministrativeJobs/Marketing&Sales",
-              path: "/JobBoard?NestedSubCategory=Marketing&Sales",
+              path: "/JobBoard?NestedSubCategory=Marketing & Sales",
             },
             {
               name: "Customer Service",
-              path: "/JobBoard?NestedSubCategory=CustomerService",
+              path: "/JobBoard?NestedSubCategory=Customer Service",
             },
             {
               name: "Secretary",
@@ -689,7 +712,7 @@ const HeaderLower = () => {
             },
             {
               name: "Tourism & Hospitality",
-              path: "/JobBoard?NestedSubCategory=Tourism&Hospitality",
+              path: "/JobBoard?NestedSubCategory=Tourism & Hospitality",
             },
             {
               name: "Accountant",
@@ -697,15 +720,15 @@ const HeaderLower = () => {
             },
             {
               name: "Delivery Representative",
-              path: "/JobBoard?NestedSubCategory=DeliveryRepresentative",
+              path: "/JobBoard?NestedSubCategory=Delivery Representative",
             },
             {
               name: "Other Administrative Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherAdministrativeJobs",
+              path: "/JobBoard?NestedSubCategory=Other Administrative Jobs",
             },
             {
               name: "Public Relations & Media",
-              path: "/JobBoard?NestedSubCategory=PublicRelations&Media",
+              path: "/JobBoard?NestedSubCategory=Public Relations & Media",
             },
             {
               name: "Translator",
@@ -713,73 +736,73 @@ const HeaderLower = () => {
             },
             {
               name: "Lawyer & Legal Jobs",
-              path: "/JobBoard?NestedSubCategory=Lawyer&LegalJobs",
+              path: "/JobBoard?NestedSubCategory=Lawyer & LegalJobs",
             },
           ],
         },
         {
           name: "Fashion & Beauty Jobs",
-          path: "/JobBoard?subCatgory=Fashion&BeautyJobs",
+          path: "/JobBoard?subCatgory=Fashion & Beauty Jobs",
           subSubcategories: [
             // { name: "Tailor", path: "/JobBoard/Fashion&BeautyJobs/Tailor" },
             { name: "Tailor", path: "/JobBoard?NestedSubCategory=Tailor" },
 
             {
               name: "Female Hairdresser",
-              path: "/JobBoard?NestedSubCategory=FemaleHairdresser",
+              path: "/JobBoard?NestedSubCategory=Female Hair dresser",
             },
             {
               name: "Fashion Designer",
-              path: "/JobBoard?NestedSubCategory=FashionDesigner",
+              path: "/JobBoard?NestedSubCategory=Fashion Designer",
             },
             { name: "Model", path: "/JobBoard?NestedSubCategory=Model" },
             {
               name: "Makeup Artist",
-              path: "/JobBoard?NestedSubCategory=MakeupArtist",
+              path: "/JobBoard?NestedSubCategory=Makeup Artist",
             },
             {
               name: "Hair Stylist",
-              path: "/JobBoard?NestedSubCategory=HairStylist",
+              path: "/JobBoard?NestedSubCategory=Hair Stylist",
             },
             {
               name: "Other Beauty Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherBeautyJobs",
+              path: "/JobBoard?NestedSubCategory=Other Beauty Jobs",
             },
           ],
         },
         {
           name: "Security & Safety Jobs",
-          path: "/JobBoard?subCatgory=Security&SafetyJobs",
+          path: "/JobBoard?subCatgory=Security & Safety Jobs",
           subSubcategories: [
             {
               name: "Security Guard",
               // path: "/JobBoard/Security&SafetyJobs/SecurityGuard",
-              path: "/JobBoard?NestedSubCategory=SecurityGuard",
+              path: "/JobBoard?NestedSubCategory=Security Guard",
             },
             {
               name: "Safety Technician",
-              path: "/JobBoard?NestedSubCategory=SafetyTechnician",
+              path: "/JobBoard?NestedSubCategory=Safety Technician",
             },
           ],
         },
-        { name: "Teaching Jobs", path: "/JobBoard?subCatgory=TeachingJobs" },
+        { name: "Teaching Jobs", path: "/JobBoard?subCatgory=Teaching Jobs" },
 
         {
           name: "IT & Design Jobs",
-          path: "/JobBoard?subCatgory=IT&DesignJobs",
+          path: "/JobBoard?subCatgory=IT & DesignJobs",
           subSubcategories: [
             {
               name: "Other IT Jobs",
               // path: "/JobBoard/IT&DesignJobs/OtherITJobs",
-              path: "/JobBoard?NestedSubCategory=OtherITJobs",
+              path: "/JobBoard?NestedSubCategory=Other IT Jobs",
             },
             {
               name: "Network & Telecommunications Specialist",
-              path: "/JobBoard?NestedSubCategory=Network&TelecommunicationsSpecialist",
+              path: "/JobBoard?NestedSubCategory=Network & Telecommunications Specialist",
             },
             {
               name: "Content Writer",
-              path: "/JobBoard?NestedSubCategory=ContentWriter",
+              path: "/JobBoard?NestedSubCategory=Content Writer",
             },
             {
               name: "Programmer",
@@ -787,51 +810,51 @@ const HeaderLower = () => {
             },
             {
               name: "Media Designer",
-              path: "/JobBoard?NestedSubCategory=MediaDesigner",
+              path: "/JobBoard?NestedSubCategory=Media Designer",
             },
           ],
         },
         {
           name: "Agriculture & Farming Jobs",
           // path: "/JobBoard/Agriculture&FarmingJobs",
-          path: "/JobBoard?subCatgory=Agriculture&FarmingJobs",
+          path: "/JobBoard?subCatgory=Agriculture & Farming Jobs",
 
           subSubcategories: [
             {
               name: "Farm Worker",
-              path: "/JobBoard?NestedSubCategory=FarmWorker",
+              path: "/JobBoard?NestedSubCategory=Farm Worker",
             },
             {
               name: "Other Agricultural Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherAgriculturalJobs",
+              path: "/JobBoard?NestedSubCategory=Other Agricultural Jobs",
             },
           ],
         },
         {
           name: "Industrial Jobs",
-          path: "/JobBoard?subCatgory=IndustrialJobs",
+          path: "/JobBoard?subCatgory=Industrial Jobs",
           subSubcategories: [
             {
               name: "Bodywork Technician",
-              path: "/JobBoard?NestedSubCategory=BodyworkTechnician",
+              path: "/JobBoard?NestedSubCategory=Bodywork Technician",
             },
             {
               name: "Auto Electrician",
-              path: "/JobBoard?NestedSubCategory=AutoElectrician",
+              path: "/JobBoard?NestedSubCategory=Auto Electrician",
             },
             {
               name: "Car Mechanic",
-              path: "/JobBoard?NestedSubCategory=CarMechanic",
+              path: "/JobBoard?NestedSubCategory=Car Mechanic",
             },
             {
               name: "Other Industrial Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherIndustrialJobs",
+              path: "/JobBoard?NestedSubCategory=Other Industrial Jobs",
             },
           ],
         },
         {
           name: "Medical & Nursing Jobs",
-          path: "/JobBoard?subCatgory=Medical&NursingJobs",
+          path: "/JobBoard?subCatgory=Medical & Nursing Jobs",
           subSubcategories: [
             {
               name: "Pharmacist",
@@ -841,31 +864,31 @@ const HeaderLower = () => {
             { name: "Doctor", path: "/JobBoard?NestedSubCategory=Doctor" },
             {
               name: "Physical Therapy Technician",
-              path: "/JobBoard?NestedSubCategory=PhysicalTherapyTechnician",
+              path: "/JobBoard?NestedSubCategory=Physical Therapy Technician",
             },
             {
               name: "Massage Therapist",
-              path: "/JobBoard?NestedSubCategory=MassageTherapist",
+              path: "/JobBoard?NestedSubCategory=Massage Therapist",
             },
             { name: "Nurse", path: "/JobBoard?NestedSubCategory=Nurse" },
             {
               name: "Other Medical Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherMedicalJobs",
+              path: "/JobBoard?NestedSubCategory=Other Medical Jobs",
             },
           ],
         },
         {
           name: "Architecture & Construction Jobs",
-          path: "/JobBoard?subCatgory=Architecture&ConstructionJobs",
+          path: "/JobBoard?subCatgory=Architecture & Construction Jobs",
           subSubcategories: [
             {
               name: "Building Painter",
               // path: "/JobBoard/Architecture&ConstructionJobs/BuildingPainter",
-              path: "/JobBoard?NestedSubCategory=BuildingPainter",
+              path: "/JobBoard?NestedSubCategory=Building Painter",
             },
             {
               name: "AC Technician",
-              path: "/JobBoard?NestedSubCategory=ACTechnician",
+              path: "/JobBoard?NestedSubCategory=AC Technician",
             },
             {
               name: "Decorator",
@@ -873,7 +896,7 @@ const HeaderLower = () => {
             },
             {
               name: "Building Electrician",
-              path: "/JobBoard?NestedSubCategory=BuildingElectrician",
+              path: "/JobBoard?NestedSubCategory=Building Electrician",
             },
             {
               name: "Tiler",
@@ -881,11 +904,11 @@ const HeaderLower = () => {
             },
             {
               name: "Building Supervisor",
-              path: "/JobBoard?NestedSubCategory=BuildingSupervisor",
+              path: "/JobBoard?NestedSubCategory=Building Supervisor",
             },
             {
               name: "Building Contractor",
-              path: "/JobBoard?NestedSubCategory=BuildingContractor",
+              path: "/JobBoard?NestedSubCategory=Building Contractor",
             },
             {
               name: "Plasterer",
@@ -897,7 +920,7 @@ const HeaderLower = () => {
             },
             {
               name: "Other Construction Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherConstructionJobs",
+              path: "/JobBoard?NestedSubCategory=Other Construction Jobs",
             },
             {
               name: "Plumber",
@@ -907,43 +930,43 @@ const HeaderLower = () => {
         },
         {
           name: "Housekeeping Jobs",
-          path: "/JobBoard?subCatgory=HousekeepingJobs",
+          path: "/JobBoard?subCatgory=Housekeeping Jobs",
           subSubcategories: [
             {
               name: "Private Driver",
               // path: "/JobBoard/HousekeepingJobs/PrivateDriver",
-              path: "/JobBoard?NestedSubCategory=PrivateDriver",
+              path: "/JobBoard?NestedSubCategory=Private Driver",
             },
             {
               name: "Household Worker",
-              path: "/JobBoard?NestedSubCategory=HouseholdWorker",
+              path: "/JobBoard?NestedSubCategory=Household Worker",
             },
             {
               name: "Domestic Worker",
-              path: "/JobBoard?NestedSubCategory=DomesticWorker",
+              path: "/JobBoard?NestedSubCategory=Domestic Worker",
             },
             {
               name: "Other Labor Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherLaborJobs",
+              path: "/JobBoard?NestedSubCategory=Other Labor Jobs",
             },
           ],
         },
         {
           name: "Restaurant Jobs",
-          path: "/JobBoard?subCatgory=RestaurantJobs",
+          path: "/JobBoard?subCatgory=Restaurant Jobs",
           subSubcategories: [
             {
               name: "Chef & Cook Instructor",
               // path: "/JobBoard/RestaurantJobs/Chef&CookInstructor",
-              path: "/JobBoard?NestedSubCategory=Chef&CookInstructor",
+              path: "/JobBoard?NestedSubCategory=Chef & Cook Instructor",
             },
             {
               name: "Waiter & Host",
-              path: "/JobBoard?NestedSubCategory=Waiter&Host",
+              path: "/JobBoard?NestedSubCategory=Waiter & Host",
             },
             {
               name: "Other Restaurant Jobs",
-              path: "/JobBoard?NestedSubCategory=OtherRestaurantJobs",
+              path: "/JobBoard?NestedSubCategory=Other Restaurant Jobs",
             },
           ],
         },
@@ -956,111 +979,111 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Apartments for Rent",
-          path: "/RealEstateComp?subCatgory=ApartmentsforRent",
+          path: "/RealEstateComp?subCatgory=Apartments for Rent",
         },
         {
           name: "Apartments for Sale",
-          path: "/RealEstateComp?subCatgory=ApartmentsforSale",
+          path: "/RealEstateComp?subCatgory=Apartments for Sale",
         },
         {
           name: "Building for Rent",
-          path: "/RealEstateComp?subCatgory=BuildingforRent",
+          path: "/RealEstateComp?subCatgory=Building for Rent",
         },
         {
           name: "Building for Sale",
-          path: "/RealEstateComp?subCatgory=BuildingforSale",
+          path: "/RealEstateComp?subCatgory=Building for Sale",
         },
         {
           name: "Camps for Rent",
-          path: "/RealEstateComp?subCatgory=CampsforRent",
+          path: "/RealEstateComp?subCatgory=Camps for Rent",
         },
         {
           name: "Chalets for Sale",
-          path: "/RealEstateComp?subCatgory=ChaletsforSale",
+          path: "/RealEstateComp?subCatgory=Chalets for Sale",
         },
         {
           name: "Commercial Lands for Sale",
-          path: "/RealEstateComp?subCatgory=CommercialLandsforSale",
+          path: "/RealEstateComp?subCatgory=Commercial Lands for Sale",
         },
         {
           name: "Compound for Rent",
-          path: "/RealEstateComp?subCatgory=CompoundforRent",
+          path: "/RealEstateComp?subCatgory=Compound for Rent",
         },
         {
           name: "Compound for Sale",
-          path: "/RealEstateComp?subCatgory=CompoundforSale",
+          path: "/RealEstateComp?subCatgory=Compound for Sale",
         },
         {
           name: "Farm for Rent",
-          path: "/RealEstateComp?subCatgory=FarmforRent",
+          path: "/RealEstateComp?subCatgory=Farm for Rent",
         },
         {
           name: "Farms for Sale",
-          path: "/RealEstateComp?subCatgory=FarmsforSale",
+          path: "/RealEstateComp?subCatgory=Farms for Sale",
         },
         {
           name: "Floor for Sale",
-          path: "/RealEstateComp?subCatgory=FloorforSale",
+          path: "/RealEstateComp?subCatgory=Floor for Sale",
         },
         {
           name: "Floors for Rent",
-          path: "/RealEstateComp?subCatgory=FloorsforRent",
+          path: "/RealEstateComp?subCatgory=Floors for Rent",
         },
         {
           name: "Hall for Rent",
-          path: "/RealEstateComp?subCatgory=HallforRent",
+          path: "/RealEstateComp?subCatgory=Hall for Rent",
         },
         {
           name: "Houses for Rent",
-          path: "/RealEstateComp?subCatgory=HousesforRent",
+          path: "/RealEstateComp?subCatgory=Houses for Rent",
         },
         {
           name: "Houses for Sale",
-          path: "/RealEstateComp?subCatgory=HousesforSale",
+          path: "/RealEstateComp?subCatgory=Houses for Sale",
         },
         {
           name: "Lands for Sale",
-          path: "/RealEstateComp?subCatgory=LandsforSale",
+          path: "/RealEstateComp?subCatgory=Lands for Sale",
         },
         {
           name: "Offices for Rent",
-          path: "/RealEstateComp?subCatgory=OfficesforRent",
+          path: "/RealEstateComp?subCatgory=Offices for Rent",
         },
         {
           name: "Rest Houses for Rent",
-          path: "/RealEstateComp?subCatgory=RestHousesforRent",
+          path: "/RealEstateComp?subCatgory=RestHouses for Rent",
         },
         {
           name: "Rest Houses for Sale",
-          path: "/RealEstateComp?subCatgory=RestHousesforSale",
+          path: "/RealEstateComp?subCatgory=RestHouses for Sale",
         },
         {
           name: "Rooms for Rent",
-          path: "/RealEstateComp?subCatgory=RoomsforRent",
+          path: "/RealEstateComp?subCatgory=Rooms for Rent",
         },
         {
           name: "Shops for Rent",
-          path: "/RealEstateComp?subCatgory=ShopsforRent",
+          path: "/RealEstateComp?subCatgory=Shops for Rent",
         },
         {
           name: "Shops for Transfer",
-          path: "/RealEstateComp?subCatgory=ShopsforTransfer",
+          path: "/RealEstateComp?subCatgory=Shops for Transfer",
         },
         {
           name: "Villas for Rent",
-          path: "/RealEstateComp?subCatgory=VillasforRent",
+          path: "/RealEstateComp?subCatgory=Villas for Rent",
         },
         {
           name: "Villas for Sale",
-          path: "/RealEstateComp?subCatgory=VillasforSale",
+          path: "/RealEstateComp?subCatgory=Villas for Sale",
         },
         {
           name: "Warehouse for Sale",
-          path: "/RealEstateComp?subCatgory=WarehouseforSale",
+          path: "/RealEstateComp?subCatgory=Warehouse for Sale",
         },
         {
           name: "Warehouse for Rent",
-          path: "/RealEstateComp?subCatgory=WarehouseforRent",
+          path: "/RealEstateComp?subCatgory=Warehouse for Rent",
         },
       ],
     },
@@ -1070,39 +1093,39 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Other Services",
-          path: "/TravelComp?subCatgory=OtherServices",
+          path: "/TravelComp?subCatgory=Other Services",
         },
         {
           name: "Contracting Services",
-          path: "/TravelComp?subCatgory=ContractingServices",
+          path: "/TravelComp?subCatgory=Contracting Services",
         },
         {
           name: "Government Paperwork Services",
-          path: "/TravelComp?subCatgory=GovernmentPaperworkServices",
+          path: "/TravelComp?subCatgory=Government Paperwork Services",
         },
         {
           name: "Delivery Services",
-          path: "/TravelComp?subCatgory=DeliveryServices",
+          path: "/TravelComp?subCatgory=Delivery Services",
         },
         {
           name: "Furniture Moving Services",
-          path: "/TravelComp?subCatgory=FurnitureMovingServices",
+          path: "/TravelComp?subCatgory=Furniture Moving Services",
         },
         {
           name: "Cleaning Services",
-          path: "/TravelComp?subCatgory=CleaningServices",
+          path: "/TravelComp?subCatgory=Cleaning Services",
         },
         {
           name: "International Shopping Services",
-          path: "/TravelComp?subCatgory=InternationalShoppingServices",
+          path: "/TravelComp?subCatgory=International Shopping Services",
         },
         {
           name: "Legal Services",
-          path: "/TravelComp?subCatgory=LegalServices",
+          path: "/TravelComp?subCatgory=Legal Services",
         },
         {
           name: "Accounting & Financial Services",
-          path: "/TravelComp?subCatgory=Accounting&FinancialServices",
+          path: "/TravelComp?subCatgory=Accounting & Financial Services",
         },
       ],
     },
@@ -1112,15 +1135,15 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Gaming Consoles",
-          path: "/SportGamesComp?subCatgory=GamingConsoles",
+          path: "/SportGamesComp?subCatgory=Gaming Consoles",
         },
         { name: "Video Games", path: "/SportGamesComp?subCatgory=Video Games" },
         { name: "Controllers", path: "/SportGamesComp?subCatgory=Controllers" },
         {
           name: "Gaming Accessories",
-          path: "/SportGamesComp?subCatgory=GamingAccessories",
+          path: "/SportGamesComp?subCatgory=Gaming Accessories",
         },
-        { name: "Gift Cards", path: "/SportGamesComp?subCatgory=GiftCards" },
+        { name: "Gift Cards", path: "/SportGamesComp?subCatgory=Gift Cards" },
         { name: "Accounts", path: "/SportGamesComp?subCatgory=Accounts" },
         { name: "Toys", path: "/SportGamesComp?subCatgory=Toys" },
       ],
@@ -1136,35 +1159,35 @@ const HeaderLower = () => {
             {
               name: "Barbary Sheep",
               // path: "/PetAnimalsComp/Sheep/BarbarySheep",
-              path: "/PetAnimalsComp?NestedSubCategory=BarbarySheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Barbary Sheep",
             },
             {
               name: "Hure Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=HureSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Hure Sheep",
             },
             {
               name: "Romanian Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=RomanianSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Romanian Sheep",
             },
             {
               name: "Sawakni Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=SawakniSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Sawakni Sheep",
             },
             {
               name: "Najdi Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=NajdiSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Najdi Sheep",
             },
             {
               name: "Naemi Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=NaemiSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Naemi Sheep",
             },
             {
               name: "Rafidi Sheep",
-              path: "/PetAnimalsComp?NestedSubCategory=RafidiSheep",
+              path: "/PetAnimalsComp?NestedSubCategory=Rafidi Sheep",
             },
             {
               name: "Sheep Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=SheepSupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Sheep Supplies",
             },
             {
               name: "Sheep Products",
@@ -1179,36 +1202,36 @@ const HeaderLower = () => {
             // { name: "Local Goats", path: "/PetAnimalsComp/Goats/LocalGoats" },
             {
               name: "Local Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=LocalGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Local Goats",
             },
 
             {
               name: "Bishi Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=BishiGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Bishi Goats",
             },
             {
               name: "Southern Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=SouthernGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Southern Goats",
             },
             {
               name: "Hejaz Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=HejazGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Hejaz Goats",
             },
             {
               name: "Shami Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=ShamiGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Shami Goats",
             },
             {
               name: "Ardi Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=ArdiGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Ardi Goats",
             },
             {
               name: "Dutch Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=DutchGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Dutch Goats",
             },
             {
               name: "Dwarf Goats",
-              path: "/PetAnimalsComp?NestedSubCategory=DwarfGoats",
+              path: "/PetAnimalsComp?NestedSubCategory=Dwarf Goats",
             },
           ],
         },
@@ -1219,23 +1242,23 @@ const HeaderLower = () => {
             {
               name: "Amazoni Parrot",
               // path: "/PetAnimalsComp/Parrot/AmazoniParrot",
-              path: "/PetAnimalsComp?NestedSubCategory=AmazoniParrot",
+              path: "/PetAnimalsComp?NestedSubCategory=Amazoni Parrot",
             },
             {
               name: "Congo African Grey Parrot",
-              path: "/PetAnimalsComp?NestedSubCategory=CongoAfricanGreyParrot",
+              path: "/PetAnimalsComp?NestedSubCategory=Congo African Grey Parrot",
             },
             {
               name: "Cockatoo Parrot",
-              path: "/PetAnimalsComp?NestedSubCategory=CockatooParrot",
+              path: "/PetAnimalsComp?NestedSubCategory=Cockatoo Parrot",
             },
             {
               name: "Macaw Parrot",
-              path: "/PetAnimalsComp?NestedSubCategory=MacawParrot",
+              path: "/PetAnimalsComp?NestedSubCategory=Macaw Parrot",
             },
             {
               name: "Pet Birds",
-              path: "/PetAnimalsComp?NestedSubCategory=PetBirds",
+              path: "/PetAnimalsComp?NestedSubCategory=Pet Birds",
             },
             {
               name: "Bird Supplies",
@@ -1245,16 +1268,16 @@ const HeaderLower = () => {
         },
         {
           name: "Dove/Pigeon",
-          path: "/PetAnimalsComp?subCatgory=Dove&Pigeon",
+          path: "/PetAnimalsComp?subCatgory=Dove & Pigeon",
           subSubcategories: [
             {
               name: "Pakistani Pigeon",
               // path: "/PetAnimalsComp/Dove&Pigeon/PakistaniPigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=PakistaniPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Pakistani Pigeon",
             },
             {
               name: "Turkish Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=TurkishPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Turkish Pigeon",
             },
             {
               name: "Homers (Pigeons)",
@@ -1262,35 +1285,35 @@ const HeaderLower = () => {
             },
             {
               name: "Sudanese Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=SudanesePigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Sudanese Pigeon",
             },
             {
               name: "Shami Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=ShamiPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Shami Pigeon",
             },
             {
               name: "Sanaani Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=SanaaniPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Sanaani Pigeon",
             },
             {
               name: "French Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=FrenchPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=French Pigeon",
             },
             {
               name: "Egyptian Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=EgyptianPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Egyptian Pigeon",
             },
             {
               name: "Indian Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=IndianPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Indian Pigeon",
             },
             {
               name: "Dutch Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=DutchPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Dutch Pigeon",
             },
             {
               name: "Qatifi Pigeon",
-              path: "/PetAnimalsComp?NestedSubCategory=QatifiPigeon",
+              path: "/PetAnimalsComp?NestedSubCategory=Qatifi Pigeon",
             },
           ],
         },
@@ -1301,23 +1324,23 @@ const HeaderLower = () => {
             {
               name: "Scottish Cats",
               // path: "/PetAnimalsComp/Cats/ScottishCats",
-              path: "/PetAnimalsComp?NestedSubCategory=ScottishCats",
+              path: "/PetAnimalsComp?NestedSubCategory=Scottish Cats",
             },
             {
               name: "Persian Cats",
-              path: "/PetAnimalsComp?NestedSubCategory=PersianCats",
+              path: "/PetAnimalsComp?NestedSubCategory=Persian Cats",
             },
             {
               name: "Cats for Adoption",
-              path: "/PetAnimalsComp?NestedSubCategory=CatsforAdoption",
+              path: "/PetAnimalsComp?NestedSubCategory=Cats for Adoption",
             },
             {
               name: "Himalayan Cats",
-              path: "/PetAnimalsComp?NestedSubCategory=HimalayanCats",
+              path: "/PetAnimalsComp?NestedSubCategory=Himalayan Cats",
             },
             {
               name: "Cat Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=CatSupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Cat Supplies",
             },
           ],
         },
@@ -1328,39 +1351,39 @@ const HeaderLower = () => {
             {
               name: "Brahma Chickens",
               // path: "/PetAnimalsComp/Chickens/BrahmaChickens",
-              path: "/PetAnimalsComp?NestedSubCategory=BrahmaChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Brahma Chickens",
             },
             {
               name: "Local Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=LocalChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Local Chickens",
             },
             {
               name: "Turkish Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=TurkishChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Turkish Chickens",
             },
             {
               name: "Turkey Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=TurkeyChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Turkey Chickens",
             },
             {
               name: "Persian Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=PersianChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Persian Chickens",
             },
             {
               name: "French Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=FrenchChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=French Chickens",
             },
             {
               name: "Fayoumi Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=FayoumiChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Fayoumi Chickens",
             },
             {
               name: "Pakistani Chickens",
-              path: "/PetAnimalsComp?NestedSubCategory=PakistaniChickens",
+              path: "/PetAnimalsComp?NestedSubCategory=Pakistani Chickens",
             },
             {
               name: "Poultry Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=PoultrySupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Poultry Supplies",
             },
           ],
         },
@@ -1371,15 +1394,15 @@ const HeaderLower = () => {
             {
               name: "Bakar Camels",
               // path: "/PetAnimalsComp/Camels/BakarCamels",
-              path: "/PetAnimalsComp?NestedSubCategory=BakarCamels",
+              path: "/PetAnimalsComp?NestedSubCategory=Bakar Camels",
             },
             {
               name: "Stud Camels",
-              path: "/PetAnimalsComp?NestedSubCategory=StudCamels",
+              path: "/PetAnimalsComp?NestedSubCategory=Stud Camels",
             },
             {
               name: "Camel Stallions",
-              path: "/PetAnimalsComp?NestedSubCategory=CamelStallions",
+              path: "/PetAnimalsComp?NestedSubCategory=Camel Stallions",
             },
             {
               name: "Female Camels",
@@ -1387,7 +1410,7 @@ const HeaderLower = () => {
             },
             {
               name: "Camel Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=CamelSupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Camel Supplies",
             },
           ],
         },
@@ -1398,23 +1421,23 @@ const HeaderLower = () => {
             {
               name: "Popular Horses",
               // path: "/PetAnimalsComp/Horses/PopularHorses",
-              path: "/PetAnimalsComp?NestedSubCategory=PopularHorses",
+              path: "/PetAnimalsComp?NestedSubCategory=Popular Horses",
             },
             {
               name: "Mixed Horses",
-              path: "/PetAnimalsComp?NestedSubCategory=MixedHorses",
+              path: "/PetAnimalsComp?NestedSubCategory=Mixed Horses",
             },
             {
               name: "Wahho Horses",
-              path: "/PetAnimalsComp?NestedSubCategory=WahhoHorses",
+              path: "/PetAnimalsComp?NestedSubCategory=Wahho Horses",
             },
             {
               name: "English Horses",
-              path: "/PetAnimalsComp?NestedSubCategory=EnglishHorses",
+              path: "/PetAnimalsComp?NestedSubCategory=English Horses",
             },
             {
               name: "Horse Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=HorseSupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Horse Supplies",
             },
           ],
         },
@@ -1425,40 +1448,40 @@ const HeaderLower = () => {
             // { name: "Pitbull Dogs", path: "/PetAnimalsComp/Dogs/PitbullDogs" },
             {
               name: "Pitbull Dogs",
-              path: "/PetAnimalsComp?NestedSubCategory=PitbullDogs",
+              path: "/PetAnimalsComp?NestedSubCategory=Pitbull Dogs",
             },
 
             {
               name: "Pomeranian Dogs",
-              path: "/PetAnimalsComp?NestedSubCategory=PomeranianDogs",
+              path: "/PetAnimalsComp?NestedSubCategory=Pomeranian Dogs",
             },
             {
               name: "Golden Retriever Dogs",
-              path: "/PetAnimalsComp?NestedSubCategory=GoldenRetrieverDogs",
+              path: "/PetAnimalsComp?NestedSubCategory=Golden Retriever Dogs",
             },
             {
               name: "German Shepherd Dogs",
-              path: "/PetAnimalsComp?NestedSubCategory=GermanShepherdDogs",
+              path: "/PetAnimalsComp?NestedSubCategory=German Shepherd Dogs",
             },
             {
               name: "Shih Tzu Dog",
-              path: "/PetAnimalsComp?NestedSubCategory=ShihTzuDog",
+              path: "/PetAnimalsComp?NestedSubCategory=ShihTzu Dog",
             },
             {
               name: "Chihuahua Dog",
-              path: "/PetAnimalsComp?NestedSubCategory=ChihuahuaDog",
+              path: "/PetAnimalsComp?NestedSubCategory=Chihuahua Dog",
             },
             {
               name: "Maltese Dog",
-              path: "/PetAnimalsComp?NestedSubCategory=MalteseDog",
+              path: "/PetAnimalsComp?NestedSubCategory=Maltese Dog",
             },
             {
               name: "Husky Dog",
-              path: "/PetAnimalsComp?NestedSubCategory=HuskyDog",
+              path: "/PetAnimalsComp?NestedSubCategory=Husky Dog",
             },
             {
               name: "Dog Supplies",
-              path: "/PetAnimalsComp?NestedSubCategory=DogSupplies",
+              path: "/PetAnimalsComp?NestedSubCategory=Dog Supplies",
             },
           ],
         },
@@ -1468,33 +1491,33 @@ const HeaderLower = () => {
           subSubcategories: [
             {
               name: "German Cows",
-              path: "/PetAnimalsComp?NestedSubCategory=GermanCows",
+              path: "/PetAnimalsComp?NestedSubCategory=German Cows",
             },
             {
               name: "Local Cows",
-              path: "/PetAnimalsComp?NestedSubCategory=LocalCows",
+              path: "/PetAnimalsComp?NestedSubCategory=Local Cows",
             },
             {
               name: "Jersey Cows",
-              path: "/PetAnimalsComp?NestedSubCategory=JerseyCows",
+              path: "/PetAnimalsComp?NestedSubCategory=Jersey Cows",
             },
             {
               name: "Swiss Cows",
-              path: "/PetAnimalsComp?NestedSubCategory=SwissCows",
+              path: "/PetAnimalsComp?NestedSubCategory=Swiss Cows",
             },
             {
               name: "Dutch Cows",
-              path: "/PetAnimalsComp?NestedSubCategory=DutchCows",
+              path: "/PetAnimalsComp?NestedSubCategory=Dutch Cows",
             },
             {
               name: "Dairy Products",
-              path: "/PetAnimalsComp?NestedSubCategory=DairyProducts",
+              path: "/PetAnimalsComp?NestedSubCategory=Dairy Products",
             },
           ],
         },
         {
           name: "Fish & Turtles",
-          path: "/PetAnimalsComp?subCatgory=Fish&Turtles",
+          path: "/PetAnimalsComp?subCatgory=Fish & Turtles",
         },
         { name: "Rabbits", path: "/PetAnimalsComp?subCatgory=Rabbits" },
 
@@ -1505,18 +1528,18 @@ const HeaderLower = () => {
             // { name: "Bikini Ducks", path: "/PetAnimalsComp/Ducks/BikiniDucks" },
             {
               name: "Bikini Ducks",
-              path: "/PetAnimalsComp?NestedSubCategory=BikiniDucks",
+              path: "/PetAnimalsComp?NestedSubCategory=Bikini Ducks",
             },
 
             {
               name: "Sharshari Ducks",
-              path: "/PetAnimalsComp?NestedSubCategory=SharshariDucks",
+              path: "/PetAnimalsComp?NestedSubCategory=Sharshari Ducks",
             },
             { name: "Geese", path: "/PetAnimalsComp?NestedSubCategory=Geese" },
             { name: "Fish", path: "/PetAnimalsComp?NestedSubCategory=Fish" },
             {
               name: "Bikini Ducks",
-              path: "/PetAnimalsComp?NestedSubCategory=BikiniDucks",
+              path: "/PetAnimalsComp?NestedSubCategory=Bikini Ducks",
             },
           ],
         },
@@ -1532,7 +1555,7 @@ const HeaderLower = () => {
 
             {
               name: "Sharshari Ducks",
-              path: "/PetAnimalsComp?NestedSubCategory=SharshariDucks",
+              path: "/PetAnimalsComp?NestedSubCategory=Sharshari Ducks",
             },
           ],
         },
@@ -1553,62 +1576,62 @@ const HeaderLower = () => {
       subcategories: [
         {
           name: "Hunting & Trips",
-          path: "/Education?subCatgory=Hunting&Trips",
+          path: "/Education?subCatgory=Hunting & Trips",
         },
         {
           name: "Gardening & Agriculture",
-          path: "/Education?subCatgory=Gardening&Agriculture",
+          path: "/Education?subCatgory=Gardening & Agriculture",
         },
         {
           name: "Parties & Events",
-          path: "/Education?subCatgory=Parties&Events",
+          path: "/Education?subCatgory=Parties & Events",
         },
         {
           name: "Travel & Tourism",
-          path: "/Education?subCatgory=Travel&Tourism",
+          path: "/Education?subCatgory=Travel & Tourism",
         },
         { name: "Roommate", path: "/Education?subCatgory=Roommate" },
-        { name: "Lost & Found", path: "/Education?subCatgory=Lost&Found" },
+        { name: "Lost & Found", path: "/Education?subCatgory=Lost & Found" },
         {
           name: "Education & Training",
-          path: "/Education?subCatgory=Education&Training",
+          path: "/Education?subCatgory=Education & Training",
         },
         {
           name: "Sports Training",
-          path: "/Education?subCatgory=SportsTraining",
+          path: "/Education?subCatgory=Sports Training",
         },
         {
           name: "Stock & Forex Education",
-          path: "/Education?subCatgory=Stock&ForexEducation",
+          path: "/Education?subCatgory=Stock & Forex Education",
         },
         {
           name: "Driving Lessons",
-          path: "/Education?subCatgory=DrivingLessons",
+          path: "/Education?subCatgory=Driving Lessons",
         },
         {
           name: "Private Tutoring",
-          path: "/Education?subCatgory=PrivateTutoring",
+          path: "/Education?subCatgory=Private Tutoring",
         },
         {
           name: "Training Courses",
-          path: "/Education?subCatgory=TrainingCourses",
+          path: "/Education?subCatgory=Training Courses",
         },
         {
           name: "Antiques & Collectibles",
-          path: "/Education?subCatgory=Antiques&Collectibles",
+          path: "/Education?subCatgory=Antiques & Collectibles",
         },
         {
           name: "Projects & Investments",
-          path: "/Education?subCatgory=Projects&Investments",
+          path: "/Education?subCatgory=Projects & Investments",
         },
         { name: "Books & Arts", path: "/Education?subCatgory=Books&Arts" },
         {
           name: "Programming & Design",
-          path: "/Education?subCatgory=Programming&Design",
+          path: "/Education?subCatgory=Programming & Design",
         },
         {
           name: "Food & Beverages",
-          path: "/Education?subCatgory=Food&Beverages",
+          path: "/Education?subCatgory=Food & Beverages",
         },
       ],
     },
