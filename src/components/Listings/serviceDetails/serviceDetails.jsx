@@ -155,12 +155,22 @@ const ServiceDetails = () => {
 
     fetchItem();
   }, [id, location.search]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   // Handle report submission
   const handleSubmitReport = async () => {
     const callingFrom = getQueryParam("callingFrom");
@@ -283,7 +293,8 @@ const ServiceDetails = () => {
                 style={{
                   fontSize: "60px",
                   fontWeight: "bold",
-                  marginLeft: 70,
+                  marginLeft: window.innerWidth <= 576 ? 0 : 70,
+
                   color: "#2d4495",
                 }}
               >
@@ -636,11 +647,7 @@ const ServiceDetails = () => {
             <div className="col-lg-9">
               <div className="card">
                 <div className="card-header">
-                  <span className="bar-icon">
-                    <span />
-                    <span />
-                    <span />
-                  </span>
+                  
                   <h4>Description</h4>
                 </div>
                 <div className="card-body">

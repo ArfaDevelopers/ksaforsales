@@ -48,6 +48,7 @@ const AddLisiting = () => {
   const [showPrice, setShowPrice] = useState(true);
   const [showPhone, setShowPhone] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [DataCatorgySHow, setDataCatorgySHow] = useState(""); // State for image preview
 
   const toggleSwitch = () => {
     setIsChecked(!isChecked);
@@ -135,7 +136,7 @@ const AddLisiting = () => {
     ColorOptions: "",
 
     Availability: "",
-
+    galleryImages: [],
     NumberofDoors: "",
     SeatingCapacity: "",
     ModelCategory: "",
@@ -240,6 +241,7 @@ const AddLisiting = () => {
   const [citiesMake, setcitiesMake] = useState([]);
   const [Make, setSelectedCityMake] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
+  console.log(subcategories,'subcategories____')
   const districtOptions = [
     {
       value: "Al Safa, Jeddah, Saudi Arabia",
@@ -347,35 +349,35 @@ console.log(itemData,"itemData______________111")
   }, [id, location]);
 
 
-  // const categoryMapping = {
-  //   "Job board": "JOBBOARD",
-  //   Education: "Education",
-  //   Travel: "TRAVEL",
-  //   "Pet": "PETANIMALCOMP",
+  const categoryMapping = {
+    "Job board": "JOBBOARD",
+    Education: "Education",
+    Travel: "TRAVEL",
+    "Pet": "PETANIMALCOMP",
 
 
-  //   "Automotive": "Cars",
-  //   "Sports": "SPORTSGAMESComp",
-  //   "Electronics": "ELECTRONICS",
-  //   "Fashion Style": "FASHION",
-  //   "Job Board": "JOBBOARD",
-  //   "Real Estate": "REALESTATECOMP",
-  //   "Other": "Education",
-  //   "Services": "TRAVEL",
-  //   "Pet & Animal": "PETANIMALCOMP",
-  //   "Home": "HEALTHCARE",
-  // };
-  // const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
-  //   (acc, key) => {
-  //     const formattedKey = key
-  //       .split(" ")
-  //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-  //       .join("");
-  //     acc[formattedKey] = categoryMapping[key];
-  //     return acc;
-  //   },
-  //   {}
-  // );
+    "Automotive": "Cars",
+    "Sports": "SPORTSGAMESComp",
+    "Electronics": "ELECTRONICS",
+    "Fashion Style": "FASHION",
+    "Job Board": "JOBBOARD",
+    "Real Estate": "REALESTATECOMP",
+    "Other": "Education",
+    "Services": "TRAVEL",
+    "Pet & Animal": "PETANIMALCOMP",
+    "Home": "HEALTHCARE",
+  };
+  const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
+    (acc, key) => {
+      const formattedKey = key
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+      acc[formattedKey] = categoryMapping[key];
+      return acc;
+    },
+    {}
+  );
 
   
   // useEffect(() => {
@@ -434,140 +436,155 @@ console.log(itemData,"itemData______________111")
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError("");
+
       try {
-        const docRef = doc(db, "Cars", "tXyJu59DYCYDwOJqCUme");
+        const itemId = _Id; // Prefer useParams id, fallback to query param
+        const collectionName = reverseCategoryMapping[callingFrom] || "Cars"; // Fallback to "Cars"
+
+        if (!itemId || !collectionName) {
+          setError("Missing ID or invalid category.");
+          setLoading(false);
+          return;
+        }
+        
+        const docRef = doc(db, collectionName, itemId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
-          console.log("Document data:", docSnap.data());
-          
+          console.log("Document data:", data);
+setDataCatorgySHow(data.SubCategory)
           setFormData({
-            Accessibility: data.Accessibility || "" ,
-            Accuracy : data.Accuracy || "",
-            Age :data.Age || "",
-            AgeGroup : data.AgeGroup || "",
-            Amenities : data.Amenities || "",
-            Assembly : data.AgeGAssemblyroup || "",
-            Availability : data.Availability || "",
-            BagType : data.BagType || "",
-            BatteryLife : data.BatteryLife || "",
-            BatteryType : data.BatteryType || "",
-            Bedroom : data.Bedroom || "",
-            BodyType : data.BodyType || "",
-            Breed : data.Breed || "",
-            BuildingType : data.BuildingType || "",
-            Capacity : data.Capacity || "",
-            Checkin : data.Checkin || "",
-            City : data.City || "",
-            ClosureType : data.ClosureType || "",
-            CollarType : data.CollarType || "",
-            Color : data.Color || "",
-            ColorOptions : data.ColorOptions || "",
-            Company : data.Company || "",
-            Compatibility : data.Compatibility || "",
-            Connectivity : data.Connectivity || "",
-            ContentType : data.ContentType || "",
-            CuffSize : data.CuffSize || "",
-            DietaryPreferences : data.DietaryPreferences || "",
-            DisplayQuality : data.DisplayQuality || "",
-            DisplayType : data.DisplayType || "",
-            District : data.District || "",
-            Duration : data.Duration || "",
-            Email : data.Email || "",
-            Emirates : data.Emirates || "",
-            EmploymentType : data.EmploymentType || "",
-            EngineCapacity : data.EngineCapacity || "",
-            EngineType : data.EngineType || "",
-            ExperienceLevel : data.ExperienceLevel || "",
-            ExteriorColor : data.ExteriorColor || "",
-            FeaturedAds : data.FeaturedAds || "",
-            Features : data.Features || "",
-            Fit : data.Fit || "",
-            Gender : data.Gender || "",
-            GraphicsCard : data.GraphicsCard || "",
-            HealthStatus : data.HealthStatus || "",
-            Industry : data.Industry || "",
-            IssueType : data.IssueType || "",
-            JobDescription : data.JobDescription || "",
-            JobTitle : data.JobTitle || "",
-            JobType : data.JobType || "",
-            Language : data.Language || "",
-            MAGAZINESCategory : data.MAGAZINESCategory || "",
-            Make : data.Make || "",
-            ManufactureYear : data.ManufactureYear || "",
-            Material : data.Material || "",
-            MeasurementRange : data.MeasurementRange || "",
-            MeasurementUnits : data.MeasurementUnits || "",
-            ModelCategory : data.ModelCategory || "",
-            NestedSubCategory : data.NestedSubCategory || "",
-            NoiseLevel : data.NoiseLevel || "",
-            NumberofDoors : data.NumberofDoors || "",
-            OperatingSystem : data.OperatingSystem || "",
-            Phone : data.Phone || "",
-            PictureAvailability : data.PictureAvailability || "",
-            PowerSource : data.PowerSource || "",
-            Price : data.Price || "",
-            Processor : data.Processor || "",
-            PropertyFeatures : data.PropertyFeatures || "",
-            PropertyType : data.PropertyType || "",
-            Purpose : data.Purpose || "",
-            RAM : data.RAM || "",
-            Registeredin : data.Registeredin || "",
-            RequiredSkills : data.RequiredSkills || "",
-            RoomType : data.RoomType || "",
-            ScreenSize : data.ScreenSize || "",
-            Season : data.Season || "",
-            SeatingCapacity : data.SeatingCapacity || "",
-            SellerType : data.SellerType || "",
-            ShoeCategory : data.ShoeCategory || "",
-            Size : data.Size || "",
-            SkillLevel : data.SkillLevel || "",
-            SleeveLength : data.SleeveLength || "",
-            SpecialFeatures : data.SpecialFeatures || "",
-            SpeedofMeasurement : data.SpeedofMeasurement || "",
-            States : data.States || "",
-            StorageCapacity : data.StorageCapacity || "",
-            StorageType : data.StorageType || "",
-            Storagecapacity : data.Storagecapacity || "",
-            StyleDesign : data.StyleDesign || "",
-            SubCategory : data.SubCategory || "",
-            SubjectCategories : data.SubjectCategories || "",
-            SubscriptionType : data.SubscriptionType || "",
-            Temperament : data.Temperament || "",
-            TrainingLevel : data.TrainingLevel || "",
-            Transmission : data.Transmission || "",
-            TrustedCars : data.TrustedCars || "",
-            Type : data.Type || "",
-            VideoAvailability : data.VideoAvailability || "",
-            WashType : data.WashType || "",
-            Website : data.Website || "",
-            address : data.address || "",
-            category : data.category || "",
-            creationTime : data.creationTime || "",
-            description : data.description || "",
-            displayName : data.displayName || "",
-            facebook : data.facebook || "",
-            googlePlus : data.googlePlus || "",
-            imageUrl : data.imageUrl || "",
-            instagram : data.instagram || "",
-            kmDriven : data.kmDriven || "",
-            latitude : data.latitude || "",
-            location : data.location || "",
-            longitude : data.longitude || "",
-            mapAddress : data.mapAddress || "",
-            mediaImgLogo : data.mediaImgLogo || "",
-            photoURL : data.photoURL || "",
-            priceFrom : data.priceFrom || "",
-            priceRange : data.priceRange || "",
-            priceTo : data.priceTo || "",
-            selectedFeature : data.selectedFeature || "",
-            tagline : data.tagline || "",
-            title : data.title || "",
-            twitter : data.twitter || "",
-            userId : data.userId || "",
-
+            Accessibility: data.Accessibility || "",
+            Accuracy: data.Accuracy || "",
+            Age: data.Age || "",
+            AgeGroup: data.AgeGroup || "",
+            Amenities: data.Amenities || "",
+            Assembly: data.Assembly || "",
+            Availability: data.Availability || "",
+            BagType: data.BagType || "",
+            BatteryLife: data.BatteryLife || "",
+            BatteryType: data.BatteryType || "",
+            Bedroom: data.Bedroom || "",
+            BodyType: data.BodyType || "",
+            Breed: data.Breed || "",
+            BuildingType: data.BuildingType || "",
+            Capacity: data.Capacity || "",
+            Checkin: data.Checkin || "",
+            City: data.City || "",
+            ClosureType: data.ClosureType || "",
+            CollarType: data.CollarType || "",
+            Color: data.Color || "",
+            ColorOptions: data.ColorOptions || "",
+            Company: data.Company || "",
+            Compatibility: data.Compatibility || "",
+            Connectivity: data.Connectivity || "",
+            ContentType: data.ContentType || "",
+            CuffSize: data.CuffSize || "",
+            DietaryPreferences: data.DietaryPreferences || "",
+            DisplayQuality: data.DisplayQuality || "",
+            DisplayType: data.DisplayType || "",
+            District: data.District || "",
+            Duration: data.Duration || "",
+            Email: data.Email || "",
+            Emirates: data.Emirates || "",
+            EmploymentType: data.EmploymentType || "",
+            EngineCapacity: data.EngineCapacity || "",
+            EngineType: data.EngineType || "",
+            ExperienceLevel: data.ExperienceLevel || "",
+            ExteriorColor: data.ExteriorColor || "",
+            FeaturedAds: data.FeaturedAds || "",
+            Features: data.Features || "",
+            Fit: data.Fit || "",
+            Gender: data.Gender || "",
+            GraphicsCard: data.GraphicsCard || "",
+            HealthStatus: data.HealthStatus || "",
+            Industry: data.Industry || "",
+            IssueType: data.IssueType || "",
+            JobDescription: data.JobDescription || "",
+            JobTitle: data.JobTitle || "",
+            JobType: data.JobType || "",
+            Language: data.Language || "",
+            MAGAZINESCategory: data.MAGAZINESCategory || "",
+            Make: data.Make || "",
+            ManufactureYear: data.ManufactureYear || "",
+            Material: data.Material || "",
+            MeasurementRange: data.MeasurementRange || "",
+            MeasurementUnits: data.MeasurementUnits || "",
+            ModelCategory: data.ModelCategory || "",
+            NestedSubCategory: data.NestedSubCategory || "",
+            NoiseLevel: data.NoiseLevel || "",
+            NumberofDoors: data.NumberofDoors || "",
+            OperatingSystem: data.OperatingSystem || "",
+            Phone: data.Phone || "",
+            PictureAvailability: data.PictureAvailability || "",
+            PowerSource: data.PowerSource || "",
+            Price: data.Price || "",
+            Processor: data.Processor || "",
+            PropertyFeatures: data.PropertyFeatures || "",
+            PropertyType: data.PropertyType || "",
+            Purpose: data.Purpose || "",
+            RAM: data.RAM || "",
+            Registeredin: data.Registeredin || "",
+            RequiredSkills: data.RequiredSkills || "",
+            RoomType: data.RoomType || "",
+            ScreenSize: data.ScreenSize || "",
+            Season: data.Season || "",
+            SeatingCapacity: data.SeatingCapacity || "",
+            SellerType: data.SellerType || "",
+            ShoeCategory: data.ShoeCategory || "",
+            Size: data.Size || "",
+            SkillLevel: data.SkillLevel || "",
+            SleeveLength: data.SleeveLength || "",
+            SpecialFeatures: data.SpecialFeatures || "",
+            SpeedofMeasurement: data.SpeedofMeasurement || "",
+            States: data.States || "",
+            StorageCapacity: data.StorageCapacity || "",
+            StorageType: data.StorageType || "",
+            Storagecapacity: data.Storagecapacity || "",
+            StyleDesign: data.StyleDesign || "",
+            SubCategory: data.SubCategory || "",
+            SubjectCategories: data.SubjectCategories || "",
+            SubscriptionType: data.SubscriptionType || "",
+            Temperament: data.Temperament || "",
+            TrainingLevel: data.TrainingLevel || "",
+            Transmission: data.Transmission || "",
+            TrustedCars: data.TrustedCars || "",
+            Type: data.Type || "",
+            VideoAvailability: data.VideoAvailability || "",
+            WashType: data.WashType || "",
+            Website: data.Website || "",
+            address: data.address || "",
+            category: data.category || "",
+            creationTime: data.creationTime || "",
+            description: data.description || "",
+            displayName: data.displayName || "",
+            facebook: data.facebook || "",
+            googlePlus: data.googlePlus || "",
+            imageUrl: data.imageUrl || "",
+            instagram: data.instagram || "",
+            kmDriven: data.kmDriven || "",
+            latitude: data.latitude || "",
+            location: data.location || "",
+            longitude: data.longitude || "",
+            mapAddress: data.mapAddress || "",
+            mediaImgLogo: data.mediaImgLogo || "",
+            photoURL: data.photoURL || "",
+            priceFrom: data.priceFrom || "",
+            priceRange: data.priceRange || "",
+            priceTo: data.priceTo || "",
+            selectedFeature: data.selectedFeature || "",
+            tagline: data.tagline || "",
+            title: data.title || "",
+            twitter: data.twitter || "",
+            userId: data.userId || "",
+            galleryImages: data.galleryImages || [],
           });
+
+          setGalleryImages(data.galleryImages || []);
+
           const selectedCategory = subcategoriesMapping.categories.find(
             (category) => category.name === data.category
           );
@@ -587,11 +604,15 @@ console.log(itemData,"itemData______________111")
       } catch (error) {
         console.error("Error fetching document:", error);
         setError("Failed to fetch data.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    if ( _Id || callingFrom) {
+      fetchData();
+    }
+  }, [_Id, callingFrom]);
 
 
 
@@ -1204,22 +1225,38 @@ console.log(itemData,"itemData______________111")
 
   const saudiNumberRegex = /^\+9665\d{8}$/; // Saudi mobile number pattern
 
+  // const handleChangePhone = (e) => {
+  //   const { name, value } = e.target;
+
+  //   // Allow only numbers and "+" while typing
+  //   if (/^[\d+]*$/.test(value)) {
+  //     setFormData((prev) => ({ ...prev, [name]: value }));
+  //   }
+  // };
   const handleChangePhone = (e) => {
     const { name, value } = e.target;
-
-    // Allow only numbers and "+" while typing
-    if (/^[\d+]*$/.test(value)) {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+  
+    // Allow only numeric characters and limit to 12 digits
+    const numericValue = value.replace(/[^0-9+]/g, ''); // Remove non-numeric characters except +
+    if (numericValue.length <= 13) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: numericValue,
+      }));
+      // Optionally reset error message
+      setSaudinummsg('');
+    } else {
+      setSaudinummsg('Phone number cannot exceed 13 digits');
     }
   };
-
   const validatePhone = () => {
-    if (formData.Phone && !saudiNumberRegex.test(formData.Phone)) {
-      setSaudinummsg(
-        "Please enter a valid Saudi number in format: +9665XXXXXXXX"
-      );
-      setFormData((prev) => ({ ...prev, Phone: "" })); // Clear invalid input
-      setSaudinummsg(null);
+    const phone = formData.Phone;
+    if (phone.length > 13) {
+      setSaudinummsg('Phone number cannot exceed 13 digits');
+    } else if (!phone.startsWith('+966') || phone.length !== 13) {
+      setSaudinummsg('Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)');
+    } else {
+      setSaudinummsg('');
     }
   };
 
@@ -3073,7 +3110,7 @@ console.log(itemData,"itemData______________111")
                                 style={{
                                   marginTop: "5px",
                                   textDecoration: "none",
-                                  color: "red",
+                                  color: "white",
                                   fontWeight: "bold",
                                 }}
                               >
@@ -4299,7 +4336,7 @@ console.log(itemData,"itemData______________111")
                         "Screens & Projectors",
                         "Printer & Scanner",
                         "Computer Accessories",
-                      ].includes(Category.SubCategory) ? (
+                      ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           <div className="card">
                             <div className="card-header">
@@ -4782,7 +4819,7 @@ console.log(itemData,"itemData______________111")
                           "Car Cleaning",
                           "Vehicle Services",
                           "Cars",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           <div className="card gap-2">
                             <div className="card-header">
@@ -5375,7 +5412,7 @@ console.log(itemData,"itemData______________111")
                           "Gifts",
                           "Luggage",
                           "Health & Beauty",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -5964,7 +6001,7 @@ console.log(itemData,"itemData______________111")
                           "Office Furniture",
                           "Doors - Windows - Aluminium",
                           "Tiles & Flooring",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -6520,7 +6557,7 @@ console.log(itemData,"itemData______________111")
                           "Architecture & Construction Jobs",
                           "Housekeeping Jobs",
                           "Restaurant Jobs",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -6915,7 +6952,7 @@ console.log(itemData,"itemData______________111")
                           "Books & Arts",
                           "Programming & Design",
                           "Food & Beverages",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7179,7 +7216,7 @@ console.log(itemData,"itemData______________111")
                           "Hall for Rent",
                           "Houses for Rent",
                           "Houses for Sale",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7572,7 +7609,7 @@ console.log(itemData,"itemData______________111")
                           "International Shopping Services",
                           "Legal Services",
                           "Accounting & Financial Services",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7768,7 +7805,7 @@ console.log(itemData,"itemData______________111")
                           "Gift Cards",
                           "Accounts",
                           "Toys",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -8173,7 +8210,7 @@ console.log(itemData,"itemData______________111")
                           "Squirrels",
                           "Hamsters",
                           "Fur",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -8610,7 +8647,7 @@ console.log(itemData,"itemData______________111")
                           "Gifts",
                           "Luggage",
                           "Health & Beauty",
-                        ].includes(Category.SubCategory) ? (
+                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -9309,7 +9346,7 @@ console.log(itemData,"itemData______________111")
                       ) : (
                         ""
                       )}
-                      <div
+                      {/* <div
                         className="form-group formlast-input w-50 d-flex align-items-center"
                         style={{
                           padding: "20px 0 10px 0",
@@ -9374,12 +9411,11 @@ console.log(itemData,"itemData______________111")
                             {showPhone ? "Check to hide" : "Check to show"}
                           </span>
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* {showPhone && ( */}
-                      <>
+                      {/* <>
                         <input
-                          // type="text"
                           type={showPhone ? "text" : "password"} // Change type based on showPhone
                           name="Phone"
                           value={formData.Phone}
@@ -9393,120 +9429,162 @@ console.log(itemData,"itemData______________111")
                         <p style={{ color: "red", fontSize: "12px" }}>
                           {Saudinummsg}
                         </p>
-                      </>
-                      {/* )} */}
-                      {/* <div className="form-group">
-                      <label className="col-form-label">
-                        {showPrice && "Price"}{" "}
-                      </label>
-                      <button
-                        type="button"
-                        className="btn btn-secondary ml-3"
-                        onClick={() => setShowPrice(!showPrice)}
-                      >
-                        {showPrice ? "Hide" : "Show"}
-                      </button>
-                 
-                    </div> */}
-                      <div
-                        className="form-group formlast-input w-50 d-flex align-items-center"
-                        style={{
-                          padding: "20px 0 10px 0",
-                        }}
-                      >
-                        <span className="me-auto">{"Price Range"}</span>
-                        <div className="mx-auto d-flex align-items-center">
-                          <label
-                            style={{
-                              position: "relative",
-                              display: "inline-block",
-                              width: "40px",
-                              height: "23px",
-                              width: "3rem",
+                      </> */}
+                      
+                      <div className="card-body">
+  <div className="row">
+    {/* Phone Field - 6 columns on medium screens and above */}
+    <div className="col-md-6">
+      <div className="form-group">
+        <label
+          className="col-form-label"
+          style={{
+            padding: "10px 0 0 0",
+            fontWeight:"bold",
+            fontSize:"18px"
+          }}
+        >
+          Phone
+        </label>
+        <div style={{ position: "relative", width: "100%" }}>
+          <input
+            type={showPhone ? "text" : "password"} // Toggle type based on showPhone
+            name="Phone"
+            value={formData.Phone}
+            onChange={handleChangePhone}
+            onBlur={validatePhone} // Validate when user leaves input
+            className="form-control"
+            placeholder="+9665XXXXXXXX"
+            maxLength="13" // Restrict input to 13 characters
+            required
+            style={{
+              paddingRight: "30px", // Make space for the icon
+              paddingLeft: "10px", // Add left padding for better appearance
+              width: "100%", // Ensure input takes full width
+              boxSizing: "border-box", // Prevent padding from affecting width
+              height: "48px", // Default height (~24px) doubled to 48px
+              fontSize: "16px", // Ensure text remains readable
+              lineHeight: "48px", // Vertically center text in the taller input
+            }}
+          />
+          <span
+            onClick={() => setShowPhone(!showPhone)}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              fontSize: "16px",
+              color: "#666",
+            }}
+          >
+            {showPhone ? "👁️‍🗨️" : "👁️"} {/* Unicode eye icons */}
+          </span>
+        </div>
+        <p style={{ color: "red", fontSize: "12px" }}>
+          {Saudinummsg}
+        </p>
+      </div>
+    </div>
 
-                              marginRight: "10px",
-                              marginBottom: "0", // Space between switch and text
-                            }}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={!showPrice}
-                              onChange={() => setShowPrice(!showPrice)}
-                              style={{
-                                opacity: 0,
-                                width: 0,
-                                height: 0,
-                              }}
-                            />
-                            <span
-                              style={{
-                                position: "absolute",
-                                cursor: "pointer",
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                backgroundColor: !showPrice
-                                  ? "#ccc"
-                                  : "#2d4495",
-                                transition: ".4s",
-                                borderRadius: "34px",
-                                height: "24px",
-                              }}
-                            >
-                              <span
-                                style={{
-                                  position: "absolute",
-                                  height: "16px",
-                                  width: "16px",
-                                  left: !showPrice ? "30px" : "4px",
-                                  bottom: "4px",
-                                  backgroundColor: "white",
-                                  transition: ".4s",
-                                  borderRadius: "50%",
-                                }}
-                              />
-                            </span>
-                          </label>
-                          <span>
-                            {showPrice ? "Check to hide" : "Check to show"}
-                          </span>
-                        </div>
-                      </div>
-                      {/* {showPrice && ( */}
-                      <input
-                        type={showPrice ? "text" : "password"} // Change type based on showPhone
-                        // type="text"
-                        name="Price"
-                        className="form-control pass-input"
-                        placeholder="Price"
-                        value={formData.Price}
-                        style={{ width: "50%" }}
-                        onChange={handleChange}
-                      />
-                      {/* )} */}
+    {/* Price Range Field - 6 columns on medium screens and above */}
+    <div className="col-md-6">
+      <div className="form-group">
+        <label
+          className="col-form-label"
+          style={{
+            padding: "10px 0 0 0",
+            fontWeight:"bold",
+            fontSize:"18px"
+
+          }}
+        >
+          Price Range
+        </label>
+        <div style={{ position: "relative", width: "100%" }}>
+          <input
+            type={showPrice ? "text" : "password"} // Toggle type based on showPrice
+            name="Price"
+            value={formData.Price}
+            onChange={handleChange}
+            placeholder="Price"
+            maxLength="13" // Restrict input to 13 characters
+            required
+            style={{
+              paddingRight: "30px", // Make space for the icon
+              paddingLeft: "10px", // Optional: Add left padding for better appearance
+              width: "100%", // Full width as previously set
+              boxSizing: "border-box", // Prevent padding from affecting width
+              height: "48px", // Default height (~24px) doubled to 48px
+              fontSize: "16px", // Ensure text remains readable
+              lineHeight: "48px", // Vertically center text in the taller input
+            }}
+          />
+          <span
+            onClick={() => setShowPrice(!showPrice)}
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              fontSize: "16px",
+              color: "#666",
+            }}
+          >
+            {showPrice ? "👁️‍🗨️" : "👁️"} {/* Unicode eye icons */}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+            
+
                     </div>
                   </div>
 
                   <div className="card-body">
-                    <div className="form-group">
-                      <label
-                        className="col-form-label"
-                        style={{
-                          padding: "10px 0 0 0",
-                        }}
-                      >
-                        Listing Description <span>*</span>
-                      </label>
-                      <textarea
-                        rows={6}
-                        name="description"
-                        className="form-control listingdescription"
-                        placeholder="Message"
-                        value={formData.description}
-                        onChange={handleChange}
-                      />
-                    </div>
+                  <div className="form-group">
+  <label
+    className="col-form-label"
+    style={{
+      padding: "10px 0 0 0",
+      fontWeight: "bold",
+      fontSize: "18px",
+    }}
+  >
+    Listing Description :
+  </label>
+  <textarea
+    rows={6}
+    name="description"
+    className="form-control listingdescription"
+    placeholder="Message"
+    value={formData.description}
+    onChange={(e) => {
+      const text = e.target.value;
+      // Count only alphabetic characters (a-z, A-Z)
+      const alphaCount = (text.match(/[a-zA-Z]/g) || []).length;
+      if (alphaCount <= 1000) {
+        handleChange(e); // Update state only if within limit
+      }
+    }}
+  />
+  {/* Display alphabetic character count and warning */}
+  <div style={{ marginTop: "5px", fontSize: "12px" }}>
+    <span>
+      Characters: {(formData.description.match(/[a-zA-Z]/g) || []).length}/1000
+    </span>
+    {(formData.description.match(/[a-zA-Z]/g) || []).length > 1000 && (
+      <span style={{ color: "red", marginLeft: "10px" }}>
+        Alphabetic character limit exceeded! Maximum 100 allowed.
+      </span>
+    )}
+  </div>
+</div>
 
                     {/* <div className="row">
                     <div className="p-4" style={{ marginTop: "-1rem" }}>
