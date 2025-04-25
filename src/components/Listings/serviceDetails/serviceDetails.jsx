@@ -268,7 +268,7 @@ const ServiceDetails = () => {
       </div> */}
 
       {/* Details Description Section */}
-      <section className="details-description" style={{marginTop:'200px'}}>
+      <section className="details-description" style={{marginTop: window.innerWidth <= 576 ? "130px" : "200px"}}>
         <div className="container">
           <div className="about-details" >
             <div className="about-headings">
@@ -704,7 +704,7 @@ const ServiceDetails = () => {
                       />{" "}
                       Details
                     </h4>
-                    <ul>
+                    <ul style={{marginLeft:-30}}>
                       {[
                         { label: "City", value: itemData.City },
                         { label: "Closure Type", value: itemData.ClosureType },
@@ -764,7 +764,7 @@ const ServiceDetails = () => {
                       />{" "}
                       Statistics
                     </h4>
-                    <ul className="statistics-list">
+                    <ul className="statistics-list" style={{marginLeft:-35}}>
                       <li>
                         <div className="statistic-details">
                           <span className="icons">

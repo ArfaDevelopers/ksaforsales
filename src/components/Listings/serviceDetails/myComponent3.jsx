@@ -46,8 +46,8 @@ const Roomspics = (props) => {
                   alt="Image"
                   src={item.original}
                   style={{
-                    width: "209px",
-                    height: "220px",
+                    width: "auto",
+                    height: "auto",
                     objectFit: "cover",
                     borderRadius: "10px",
                     display: "block",
