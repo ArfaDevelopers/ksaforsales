@@ -452,12 +452,12 @@ const Bookmarks = () => {
                                 <img src={ProfileAvatar02} alt="author" />
                               </div>
                               <div className="blog-features">
-                                <Link to="#">
+                                {/* <Link to="#"> */}
                                   <span>
                                     <i className="fa-regular fa-circle-stop" />{" "}
                                     {car.SubjectCategories}
                                   </span>
-                                </Link>
+                                {/* </Link> */}
                               </div>
                               <div className="blog-author text-end">
                                 <span>

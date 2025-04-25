@@ -728,8 +728,8 @@ const Dynamic_Route = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
+              marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
+              marginTop: window.innerWidth <= 576 ? "10px" : "0px"
             }}
           >
             <button

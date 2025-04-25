@@ -13,8 +13,8 @@ import {
 import UserHeader from "../Userheader";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
-import { db } from "../../Firebase/FirebaseConfig";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { db, auth } from "../../Firebase/FirebaseConfig";
+import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 
 const Review = () => {
   const [change, setChange] = useState(false);
@@ -23,7 +23,24 @@ const Review = () => {
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
   const [filter, setFilter] = useState("All Listing");
+  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [replyInputs, setReplyInputs] = useState({}); // State to manage reply inputs
   const location = useLocation();
+
+  // Fetch current user
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        setUserId(currentUser.uid);
+      } else {
+        setUser(null);
+        setUserId(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -125,6 +142,51 @@ const Review = () => {
     setChange(false);
   };
 
+  // Handle reply input change
+  const handleReplyInputChange = (reviewId, value) => {
+    setReplyInputs((prev) => ({
+      ...prev,
+      [reviewId]: value,
+    }));
+  };
+
+  // Handle reply submission
+  const handleAddReply = async (reviewId) => {
+    if (replyInputs[reviewId] && userId) {
+      const reply = {
+        reply: replyInputs[reviewId],
+        by: user?.displayName || "Owner",
+        date: new Date().toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }),
+        userId: userId,
+      };
+
+      const reviewRef = doc(db, "reviews", reviewId);
+      const review = filteredReviews.find((r) => r.id === reviewId);
+      const updatedReplies = [...(review.replies || []), reply];
+
+      try {
+        await updateDoc(reviewRef, { replies: updatedReplies });
+        setFilteredReviews((prev) =>
+          prev.map((r) =>
+            r.id === reviewId ? { ...r, replies: updatedReplies } : r
+          )
+        );
+        setReplyInputs((prev) => {
+          const updatedInputs = { ...prev };
+          delete updatedInputs[reviewId];
+          return updatedInputs;
+        });
+        console.log("Reply added to review:", { reviewId, reply });
+      } catch (error) {
+        console.error("Error adding reply:", error);
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -151,7 +213,7 @@ const Review = () => {
               </li>
               <li>
                 <Link to="/profile">
-                  <i className="fa-solid fa-user" /> <span>Profile</span>
+                  <i className="fa-solid  fa-solid fa-user" /> <span>Profile</span>
                 </Link>
               </li>
               <li>
@@ -314,7 +376,6 @@ const Review = () => {
                   borderBottom: "1px solid #e0e0e0",
                 }}
               >
-                {/* Inline <style> tag for media query */}
                 <style>
                   {`
                     @media (max-width: 768px) {
@@ -499,35 +560,36 @@ const Review = () => {
                                     {reply.by}
                                   </h6>
                                   <div
-  className="rating"
-  style={{
-    display: "flex",
-    justifyContent: "flex-end", // Align content to the right
-    alignItems: "center",
-    marginBottom: "5px",
-  }}
->
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "5px",
-      fontSize: "14px",
-      color: "#666",
-    }}
-  >
-    <i
-      className="fa-sharp fa-solid fa-calendar-days"
-      style={{ color: "#ff0000" }}
-    />
-    {reply.date}
-  </div>
-</div>
+                                    className="rating"
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                      alignItems: "center",
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "5px",
+                                        fontSize: "14px",
+                                        color: "#666",
+                                      }}
+                                    >
+                                      <i
+                                        className="fa-sharp fa-solid fa-calendar-days"
+                                        style={{ color: "#ff0000" }}
+                                      />
+                                      {reply.date}
+                                    </div>
+                                  </div>
                                   <p
                                     style={{
                                       margin: "5px 0",
                                       fontSize: "14px",
                                       color: "#333",
+                               
                                     }}
                                   >
                                     {reply.reply}
@@ -535,16 +597,59 @@ const Review = () => {
                                 </div>
                               ))
                             ) : (
-                              <p
-                                style={{
-                                  fontStyle: "italic",
-                                  color: "#888",
-                                  margin: "5px 0",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                No reply from client
-                              </p>
+                              <>
+                                {userId && userId === review.userId ? (
+                                  <div style={{ marginBottom: "10px" }}>
+                                    <textarea
+                                      placeholder="Write your reply..."
+                                      value={replyInputs[review.id] || ""}
+                                      onChange={(e) =>
+                                        handleReplyInputChange(review.id, e.target.value)
+                                      }
+                                      style={{
+                                        padding: "10px",
+                                        border: "1px solid #ddd",
+                                        borderRadius: "4px",
+                                        fontSize: "14px",
+                                        width: "100%",
+                                        minHeight: "60px",
+                                        resize: "vertical",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={() => handleAddReply(review.id)}
+                                      disabled={!replyInputs[review.id]}
+                                      style={{
+                                        backgroundColor: replyInputs[review.id]
+                                          ? "#2D4494"
+                                          : "#cccccc",
+                                        color: "#fff",
+                                        padding: "8px 16px",
+                                        border: "none",
+                                        borderRadius: "20px",
+                                        fontSize: "14px",
+                                        cursor: replyInputs[review.id]
+                                          ? "pointer"
+                                          : "not-allowed",
+                                        marginTop: "5px",
+                                      }}
+                                    >
+                                      Submit Reply
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <p
+                                    style={{
+                                      fontStyle: "italic",
+                                      color: "#888",
+                                      margin: "5px 0",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    No reply from Product Owner
+                                  </p>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
