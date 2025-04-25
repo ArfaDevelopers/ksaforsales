@@ -1,5 +1,5 @@
 // import React from "react";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import { HashRouter, Route, Routes } from "react-router-dom";
 // import Home from "./components/home";
 // import "./assets/css/bootstrap-datetimepicker.min.css";
 // import "./assets/css/bootstrap.min.css";
@@ -83,7 +83,7 @@
 
 // export const App = () => {
 //   return (
-//     <BrowserRouter basename={`${config.publicPath}`}>
+//     <HashRouter basename={`${config.publicPath}`}>
 //       <Routes>
 //         {/* Home Routes */}
 //         <Route path="/" element={<Home />} />
@@ -166,11 +166,11 @@
 
 //         {/* <Route path="/car-details" element={<Dynamic_Routes />} /> */}
 //       </Routes>
-//     </BrowserRouter>
+//     </HashRouter>
 //   );
 // };
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { LanguageProvider } from "./LanguageContext"; // Import LanguageProvider
 import Home from "./components/home";
 import "./assets/css/bootstrap-datetimepicker.min.css";
@@ -256,7 +256,7 @@ export const App = () => {
   return (
     <AuthProvider>
 
-    <BrowserRouter basename={`${config.publicPath}`}>
+    <HashRouter basename={`${config.publicPath}`}>
       <LanguageProvider> {/* Wrap all routes with LanguageProvider */}
       <Routes>
   {/* Public Routes */}
@@ -338,7 +338,7 @@ export const App = () => {
 </Routes>
 
       </LanguageProvider>
-    </BrowserRouter>
+    </HashRouter>
     </AuthProvider>
 
   );
