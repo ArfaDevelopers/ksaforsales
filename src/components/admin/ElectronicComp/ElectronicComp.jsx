@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa";
 import profile from "../dyanmic_route/profileimage.png";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
+import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
@@ -165,6 +166,11 @@ const ElectronicComp = () => {
   };
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  const [receiverId, setReceiverId] = useState(null);
+
+ 
+  const user = auth.currentUser;
+const currentUserId = user?.uid;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -800,7 +806,14 @@ const ElectronicComp = () => {
 
     fetchCars();
   }, [bookmarkedCar]);
+  const handleShowModal = (userId) => {
 
+    console.log("Opening modal for receiverId:", receiverId); // Debug
+    console.log("Opening modal for Current User ID:", currentUserId); // Debug
+    setReceiverId(userId);
+    setShowModal(true);
+    // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
+  };
   useEffect(() => {
     // Filter cars for the current page
     const startIndex = (activePage - 1) * carsPerPage;
@@ -2807,6 +2820,7 @@ const ElectronicComp = () => {
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
+                                  objectFit:"contain",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -3015,7 +3029,7 @@ const ElectronicComp = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => setShowModal(true)}
+                                  onClick={() => handleShowModal(car.userId)}
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -3137,6 +3151,61 @@ const ElectronicComp = () => {
                                   }
                                 `}</style>
                               </div>
+                              <div>
+                                                    <div
+                                                      className={`modal fade ${
+                                                        showModal ? "show d-block" : "d-none"
+                                                      }`}
+                                                      tabIndex="-1"
+                                                      role="dialog"
+                                                      style={{
+                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                        marginTop:100
+                                                      }} // Backdrop effect
+                                                    >
+                                                      <div
+                                                        className="modal-dialog modal-dialog-centered"
+                                                        role="document"
+                                                      >
+                                                        <div className="modal-content">
+                                                       
+                                                          <div className="modal-header">
+                                                            <h5 className="modal-title">Send Message</h5>
+                                                            <button
+                                                              type="button"
+                                                              className="btn-close"
+                                                              onClick={() => setShowModal(false)}
+                                                            ></button>
+                                                          </div>
+                            
+                                                          <div className="modal-body">
+                                <div className="p-4 w-full max-w-lg mx-auto">
+                                  {currentUserId && receiverId ? (
+                                    <Chat
+                                      userId={currentUserId}
+                                      recieverId={receiverId}
+                                    />
+                                  ) : (
+                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                      <p className="text-lg font-semibold text-gray-600">
+                                        Please log in to start messaging.
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                            
+                                                  
+                                                    {showModal && (
+                                                      <div
+                                                        className="modal-backdrop fade show"
+                                                        onClick={() => setShowModal(false)}
+                                                      ></div>
+                                                    )}
+                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>

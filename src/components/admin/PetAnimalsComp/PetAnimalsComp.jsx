@@ -26,6 +26,8 @@ import xIcon from "../../home/x.png";
 import insta from "../../home/insta.png";
 import fb from "../../home/fb.png";
 import tiktok from "../../home/tiktoc.png";
+import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
+
 import whatapp from "../../home/whatapp (3).png";
 import Carousel from "../../home/slider/Carousel";
 import AutomativeCarosuel from "../..//home/slider/AutomativeCarousel.jsx";
@@ -166,6 +168,11 @@ const PetAnimalsComp = () => {
   const [cities, setCities] = useState([]);
   // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
   const [states, setStates] = useState([]);
+  const [receiverId, setReceiverId] = useState(null);
+
+ 
+  const user = auth.currentUser;
+const currentUserId = user?.uid;
 
   const [subCatgory, setsubCatgory] = useState("");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
@@ -1012,7 +1019,14 @@ const PetAnimalsComp = () => {
 
     fetchCars();
   }, [bookmarkedCar]);
+  const handleShowModal = (userId) => {
 
+    console.log("Opening modal for receiverId:", receiverId); // Debug
+    console.log("Opening modal for Current User ID:", currentUserId); // Debug
+    setReceiverId(userId);
+    setShowModal(true);
+    // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
+  };
   useEffect(() => {
     // Filter cars for the current page
     const startIndex = (activePage - 1) * carsPerPage;
@@ -2971,6 +2985,7 @@ const PetAnimalsComp = () => {
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
+                                  objectFit:"contain",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -3026,7 +3041,7 @@ const PetAnimalsComp = () => {
                                   style={{
                                     position: "absolute",
                                     top: "-110px", // Adjust the top margin to place the price higher
-                                    left: "547px",
+                                    left: "500px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
                                     zIndex: 2, // Ensure the price text stays above the image
@@ -3167,7 +3182,7 @@ const PetAnimalsComp = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => setShowModal(true)}
+                                  onClick={() => handleShowModal(car.userId)}
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -3289,6 +3304,61 @@ const PetAnimalsComp = () => {
                                   }
                                 `}</style>
                               </div>
+                              <div>
+                                                    <div
+                                                      className={`modal fade ${
+                                                        showModal ? "show d-block" : "d-none"
+                                                      }`}
+                                                      tabIndex="-1"
+                                                      role="dialog"
+                                                      style={{
+                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                        marginTop:100
+                                                      }} // Backdrop effect
+                                                    >
+                                                      <div
+                                                        className="modal-dialog modal-dialog-centered"
+                                                        role="document"
+                                                      >
+                                                        <div className="modal-content">
+                                                       
+                                                          <div className="modal-header">
+                                                            <h5 className="modal-title">Send Message</h5>
+                                                            <button
+                                                              type="button"
+                                                              className="btn-close"
+                                                              onClick={() => setShowModal(false)}
+                                                            ></button>
+                                                          </div>
+                            
+                                                          <div className="modal-body">
+                                <div className="p-4 w-full max-w-lg mx-auto">
+                                  {currentUserId && receiverId ? (
+                                    <Chat
+                                      userId={currentUserId}
+                                      recieverId={receiverId}
+                                    />
+                                  ) : (
+                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                      <p className="text-lg font-semibold text-gray-600">
+                                        Please log in to start messaging.
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                            
+                                                  
+                                                    {showModal && (
+                                                      <div
+                                                        className="modal-backdrop fade show"
+                                                        onClick={() => setShowModal(false)}
+                                                      ></div>
+                                                    )}
+                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>

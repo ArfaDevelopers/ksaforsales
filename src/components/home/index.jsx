@@ -1084,11 +1084,12 @@ const Home = () => {
               className="popup_cnt"
               onClick={handleClose} // Close modal when clicking outside the image
             >
+                {ads.length > 0 && (
               <div className="img" onClick={(e) => e.stopPropagation()}>
                 <div className="close_btn" onClick={handleClose}>
                   X
                 </div>
-                {ads.length > 0 && (
+              
                   <div
                     style={{
                       background: "rgba(0, 0, 0, 0.5)",
@@ -1106,9 +1107,11 @@ const Home = () => {
                   >
                     <img src={ads[0].imageUrl} alt="popup" />
                   </div>
-                )}
+               
               </div>
+               )}
             </div>
+            
           )}
         </div>
       </div>
