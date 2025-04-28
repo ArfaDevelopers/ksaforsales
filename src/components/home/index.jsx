@@ -1092,7 +1092,7 @@ const Home = () => {
               
                   <div
                     style={{
-                      background: "rgba(0, 0, 0, 0.5)",
+                      // background: "rgba(0, 0, 0, 0.5)",
                       height: "750px",
                       width: "750px",
                       // position: "fixed",

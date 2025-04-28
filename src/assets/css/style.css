@@ -22479,8 +22479,8 @@ section.advertisement {
 @media (max-width: 600px) {
   .popup_cnt .close_btn {
     font-size: 20px;
-    top: 5px;
-    right: 5px;
+    top: 105px;
+    right: 15px;
   }
 }
 
