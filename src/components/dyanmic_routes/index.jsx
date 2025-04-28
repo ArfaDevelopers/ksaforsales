@@ -1447,84 +1447,124 @@ useEffect(() => {
                 <div className="col">
                   <div className="table-responsive info_table">
                     <table className="table table-borderless">
-                      <tbody className="info_body">
-                        {Object.entries({
-                          "Seller Type": itemData?.SellerType,
-                          Duration: itemData?.Duration,
-                          "Registered City": itemData?.Registeredin,
-                          Assembly: itemData?.Assembly,
-                          "Engine Capacity": itemData?.EngineCapacity,
-                          Make: itemData?.Make || "California",
-                          Language: itemData?.Language,
-                          "Body Type": itemData?.BodyType,
-                          ContentType: itemData?.ContentType,
-                          "Last Updated":
-                            itemData?.timeAgo || "about 18 hours ago",
-                          Condition: itemData?.Condition,
-                          "Exterior Color": itemData?.ExteriorColor,
-                          Purpose: itemData?.Purpose,
-                          Model: itemData?.Model,
-                          Color: itemData?.Color,
-                          City: itemData?.City || "Paris",
-                          "Price From": itemData?.priceFrom || "65",
-                          "Price To": itemData?.priceTo || "120",
-                          "Skill Level": itemData?.SkillLevel,
-                          Website: itemData?.Website,
-                          Phone: itemData?.Phone || "03136424039",
-                          Email: itemData?.Email || "tofarhanali@gmail.com",
-                          Facebook: itemData?.facebook || "http://facebook.com",
-                          Twitter: itemData?.twitter || "http://twitter.com",
-                          Instagram:
-                            itemData?.instagram || "http://instagram.com",
-                          "Google Plus":
-                            itemData?.googlePlus || "http://google.com",
-                          Address:
-                            itemData?.address ||
-                            "8697-8747 Stirling Rd, Florida",
-                          Location: itemData?.location || "$$$islmabad",
-                          Latitude: itemData?.latitude || "26.045197767574102",
-                          Longitude:
-                            itemData?.longitude || "-80.26095677163161",
-                          "Manufacture Year": itemData?.ManufactureYear,
-                          Processor: itemData?.Processor || "Apple M1",
-                          "Display Quality":
-                            itemData?.DisplayQuality || "Full HD",
-                          "Storage Capacity":
-                            itemData?.Storagecapacity || "1TB",
-                          "Storage Type":
-                            itemData?.StorageType || "SSD (Solid State Drive)",
-                          "Battery Life": itemData?.BatteryLife || "8-12 hours",
-                          Connectivity: itemData?.Connectivity || "Wi-Fi 5",
-                          "Graphics Card":
-                            itemData?.GraphicsCard || "AMD Radeon",
-                          "Special Features":
-                            itemData?.SpecialFeatures || "Backlit keyboard",
-                          "Screen Size": itemData?.ScreenSize || "14-inch",
-                          "Picture Availability":
-                            itemData?.PictureAvailability || "Without Pictures",
-                          "Video Availability":
-                            itemData?.VideoAvailability || "Without video",
-                          "Featured Ads":
-                            itemData?.FeaturedAds || "Featured Ads",
-                          Category: itemData?.category || "Electronics",
-                          State: itemData?.States || "Illinois",
-                          "Created At": formatTimestamp(itemData?.createdAt), // Format timestamp
-                        })
-                          .filter(([_, value]) => value) // Remove empty values
-                          .map(([label, value], index) => (
-                            <tr
-                              key={index}
-                              className="border-bottom border-gray-300"
-                            >
-                              <th className="table_text px-3 py-2 text-left font-medium w-1/3">
-                                {label}:
-                              </th>
-                              <td className="table_text px-3 py-2 w-2/3">
-                                {value}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
+                    <tbody className="info_body">
+  {Object.entries({
+    "Seller Type": itemData?.SellerType,
+    "Duration": itemData?.Duration,
+    "Registered City": itemData?.Registeredin,
+    "Assembly": itemData?.Assembly,
+    "Accuracy": itemData?.Accuracy,
+    "Battery Type": itemData?.BatteryType,
+    "Compatibility": itemData?.Compatibility,
+    "CuffSize": itemData?.CuffSize,
+    "Display Type": itemData?.DisplayType,
+    "Features": itemData?.Features,
+    "MeasurementRange": itemData?.MeasurementRange,
+    "MeasurementUnits": itemData?.MeasurementUnits,
+    "Wash Type": itemData?.WashType,
+    "Type": itemData?.Type,
+    "RAM": itemData?.RAM,
+    "bodyType": itemData?.bodyType,
+    "Brand": itemData?.Brand,
+    "Operating System": itemData?.OperatingSystem,
+    "type": itemData?.type,
+    "Screen Size": itemData?.ScreenSize,
+    "Registeredin": itemData?.Registeredin,
+    "EngineCapacity": itemData?.EngineCapacity,
+    "BodyType": itemData?.BodyType,
+    "ExteriorColor": itemData?.ExteriorColor,
+    "Condition": itemData?.Condition,
+    "Purpose": itemData?.Purpose,
+    "ClosureType": itemData?.ClosureType,
+    "Material": itemData?.Material,
+    "CollarType": itemData?.CollarType,
+    "Season": itemData?.Season,
+    "StyleDesign": itemData?.StyleDesign,
+    "Fit": itemData?.Fit,
+    "City": itemData?.City,
+    "Company": itemData?.Company,
+    "EmploymentType": itemData?.EmploymentType,
+    "ExperienceLevel": itemData?.ExperienceLevel,
+    "Industry": itemData?.Industry,
+    "SalaryRange": itemData?.SalaryRange,
+    "Sallary From": itemData?.SallaryFromRange,
+    "Sallary To": itemData?.SallaryToRange,
+    "Content Type": itemData?.ContentType,
+    "Language": itemData?.Language,
+    "SkillLevel": itemData?.SkillLevel,
+    "States": itemData?.States,
+    "Subject Categories": itemData?.SubjectCategories,
+    "assembly": itemData?.assembly,
+    "purpose": itemData?.purpose,
+    "Accessibility": itemData?.Accessibility,
+    "Amenities": itemData?.Amenities,
+    "Building Type": itemData?.BuildingType,
+    "Property Features": itemData?.PropertyFeatures,
+    "Property Type": itemData?.PropertyType,
+    "Size": itemData?.Size,
+    "Checkin": itemData?.Checkin,
+    "RoomType": itemData?.RoomType,
+    "Availability": itemData?.Availability,
+    "ColorOptions": itemData?.ColorOptions,
+    "Material": itemData?.Material,
+    "Age": itemData?.Age,
+    "Breed": itemData?.Breed,
+    "Color": itemData?.Color,
+    "Dietary Preferences": itemData?.DietaryPreferences,
+    "Health Status": itemData?.HealthStatus,
+    "Temperament": itemData?.Temperament,
+    "Training Level": itemData?.TrainingLevel,
+    "Engine Capacity": itemData?.EngineCapacity,
+    "Make": itemData?.Make,
+    "Language": itemData?.Language,
+    "Body Type": itemData?.BodyType,
+    "ContentType": itemData?.ContentType,
+    "Last Updated": itemData?.timeAgo,
+    "Condition": itemData?.Condition,
+    "Exterior Color": itemData?.ExteriorColor,
+    "Purpose": itemData?.Purpose,
+    "Model": itemData?.Model,
+    "Color": itemData?.Color,
+    "Price From": itemData?.priceFrom,
+    "Price To": itemData?.priceTo,
+    "Skill Level": itemData?.SkillLevel,
+    "Website": itemData?.Website,
+    "Phone": itemData?.Phone,
+    "Email": itemData?.Email,
+    "Address": itemData?.address,
+    "Location": itemData?.location,
+    "Manufacture Year": itemData?.ManufactureYear,
+    "Processor": itemData?.Processor,
+    "Display Quality": itemData?.DisplayQuality,
+    "Storage Capacity": itemData?.Storagecapacity,
+    "Storage Type": itemData?.StorageType,
+    "Battery Life": itemData?.BatteryLife,
+    "Connectivity": itemData?.Connectivity,
+    "Graphics Card": itemData?.GraphicsCard,
+    "Special Features": itemData?.SpecialFeatures,
+    "Screen Size": itemData?.ScreenSize,
+    "Picture Availability": itemData?.PictureAvailability,
+    "Video Availability": itemData?.VideoAvailability,
+    "Featured Ads": itemData?.FeaturedAds,
+    "Category": itemData?.category,
+    "State": itemData?.States,
+    "Created At": itemData?.createdAt ? formatTimestamp(itemData.createdAt) : undefined,
+  })
+    .filter(([_, value]) => value !== undefined && value !== null && value !== "") // Strict filter
+    .map(([label, value], index) => (
+      <tr
+        key={index}
+        className="border-bottom border-gray-300"
+      >
+        <th className="table_text px-3 py-2 text-left font-medium w-1/3">
+          {label}:
+        </th>
+        <td className="table_text px-3 py-2 w-2/3">
+          {value}
+        </td>
+      </tr>
+    ))}
+</tbody>
                     </table>
                   </div>
                 </div>
@@ -1537,47 +1577,13 @@ useEffect(() => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {itemData.descdescription}
-                                </p>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
                                 <div className="col-md-1  border-none w-100 ads_features_wrapper ">
                                
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                            
-                               </div>
+                             
                              </div>
                               </div>
                               <div

@@ -1549,50 +1549,11 @@ const Dynamic_Route = () => {
                                 Description:
                               </h1>
                               <p className="descriptions_para">
-                                {" "}
-                                {itemData.description}
-                              </p>
-                          
-                              <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                                <div>
-                                  
-                                  <p className="morefeatures_para">
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Itaque ipsam aperiam vero
-                                    officia praesentium facilis.
-                                  </p>
-
-                               
-                                </div>
-                              </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                     
                             </div>
                           </div>
                         </div>
@@ -2131,50 +2092,12 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
                                
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                               
-                               </div>
-                             </div>
+                       
                               </div>
                             </div>
                           </div>
@@ -2718,50 +2641,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
-                               
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                            
-                               </div>
-                             </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                    
                               </div>
                             </div>
                           </div>
@@ -3304,48 +3188,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                               </div>
-                             </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                    
                               </div>
                             </div>
                           </div>
@@ -3881,50 +3728,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
-                            
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                                
-                               </div>
-                             </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                   
                               </div>
                             </div>
                           </div>
@@ -4459,49 +4267,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
                               
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                               </div>
-                             </div>
                               </div>
                             </div>
                           </div>
@@ -5036,50 +4806,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
                             
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                               
-                               </div>
-                             </div>
                               </div>
                             </div>
                           </div>
@@ -5594,50 +5325,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
-                            
-                           <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                            
-                               </div>
-                             </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                   
                               </div>
                             </div>
                           </div>
@@ -6172,49 +5864,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {" "}
-                                  {itemData.description}
-                                </p>
-                                <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
-                                
-                               </div>
-                             </div>
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
+                              
                               </div>
                             </div>
                           </div>
@@ -6754,48 +6408,11 @@ const Dynamic_Route = () => {
                                   Description:
                                 </h1>
                                 <p className="descriptions_para">
-                                  {itemData.descdescription}
-                                </p>
-                                <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                               <div>
-                                 
-                                 <p className="morefeatures_para">
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                   Lorem ipsum, dolor sit amet consectetur
-                                   adipisicing elit. Itaque ipsam aperiam vero
-                                   officia praesentium facilis.
-                                 </p>
-
+        {itemData?.description && itemData.description.trim() !== ""
+          ? itemData.description
+          : "No description"}
+      </p>
                             
-                               </div>
-                             </div>
                               </div>
                             </div>
                           </div>
