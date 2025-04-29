@@ -802,7 +802,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -822,7 +822,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -842,7 +842,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -862,7 +862,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -882,7 +882,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -899,26 +899,7 @@ const Home = () => {
                   />{" "}
                 </Link>
               </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
-                }}
-              >
-                <Link
-                  to="/Education"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryEducationTitle}</h5>
-                  <img
-                    src={OurCategoryEducation}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
+            
             </div>
             <div
               className="row cat_icon_main"
@@ -932,7 +913,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -952,7 +933,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -972,7 +953,7 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -989,30 +970,11 @@ const Home = () => {
                   />{" "}
                 </Link>
               </div>
+           
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
-                }}
-              >
-                <Link
-                  to="/MAGAZINESCOMP"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryMAGAZINESTitle}</h5>
-                  <img
-                    src={OurCategoryMAGAZINES}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
@@ -1032,18 +994,18 @@ const Home = () => {
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "210px",
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
                 }}
               >
                 <Link
-                  to="/index"
+                  to="/Education"
                   className="category-links"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>{OurCategoryHouseHoldTitle}</h5>
+                  <h5>{OurCategoryEducationTitle}</h5>
                   <img
-                    src={OurCategoryHouseHold}
+                    src={OurCategoryEducation}
                     alt="icon"
                     style={{ height: "48px", objectFit: "contain" }}
                   />{" "}

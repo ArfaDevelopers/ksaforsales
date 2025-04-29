@@ -21782,10 +21782,12 @@ section.advertisement {
     padding-left: 29px;
   }
 
-  .category_icons {
+  /* .category_icons {
     width: 315px !important;
-  }
-
+  } */
+  .category_icons {
+    width: 19% !important;
+}
   .banner-para {
     width: 220px !important;
   }
