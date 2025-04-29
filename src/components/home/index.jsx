@@ -1079,41 +1079,22 @@ const Home = () => {
         {/* Footer */}
 
         <div>
-          {isVisible && (
-            <div
-              className="popup_cnt"
-              onClick={handleClose} // Close modal when clicking outside the image
-            >
-                {ads.length > 0 && (
-              <div className="img" onClick={(e) => e.stopPropagation()}>
-                <div className="close_btn" onClick={handleClose}>
-                  X
-                </div>
-              
-                  <div
-                    style={{
-                      // background: "rgba(0, 0, 0, 0.5)",
-                      height: "750px",
-                      width: "750px",
-                      // position: "fixed",
-                      top: "20%",
-                      left: "20%",
-                      // zIndex: 99999,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <img src={ads[0].imageUrl} alt="popup" />
-                  </div>
-               
-              </div>
-               )}
-            </div>
-            
-          )}
+  {isVisible && ads.length > 0 && (
+    <div
+      className="popup_cnt"
+      onClick={handleClose} // Close modal when clicking outside the image
+    >
+      <div className="img" onClick={(e) => e.stopPropagation()}>
+        <div className="close_btn" onClick={handleClose}>
+          X
         </div>
+        <div>
+          <img src={ads[0].imageUrl} alt="popup" />
+        </div>
+      </div>
+    </div>
+  )}
+</div>
       </div>
       {/* scrollToTop start */}
       <div className="progress-wrap active-progress">

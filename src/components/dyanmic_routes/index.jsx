@@ -8,6 +8,7 @@ import profile from "./profileimage.png";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { BsChatDots } from "react-icons/bs";
 import { MdMessage } from "react-icons/md";
+import Loading1 from "../../../public/Progress circle.png";
 
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -645,7 +646,26 @@ useEffect(() => {
   }, [id, callingFrom, db,location]); // Re-run if `id` changes
 
   if (loading) {
-    return <p>Loading...</p>; // Display loading state
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+          <img
+    src={Loading1}
+    alt="Loading..."
+    style={{
+      width: "200px",
+      height: "200px",
+      animation: "spin 1s linear infinite"
+    }}
+  />
+      </div>
+    ); // Display loading state
   }
 
   if (!itemData) {

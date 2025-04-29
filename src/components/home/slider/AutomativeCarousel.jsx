@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
+import Loading1 from "../../../../public/Progress circle.png";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -117,7 +118,24 @@ export default function AutomativeCarousel() {
           <div className="col-md-12">
             <div>
               {loading ? (
-                <div className="loading">Loading...</div> // Show loading message or spinner
+                  <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                    <img
+              src={Loading1}
+              alt="Loading..."
+              style={{
+                width: "200px",
+                height: "200px",
+                animation: "spin 1s linear infinite"
+              }}
+            />
+                </div>
               ) : (
                 <Slider
                   ref={slider}

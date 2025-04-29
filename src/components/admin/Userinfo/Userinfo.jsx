@@ -14,6 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 // import Spinner from "react-bootstrap/Spinner";
 import Spinner from "react-bootstrap/Spinner";
+import Loading1 from "../../../../public/Progress circle.png";
 
 import {
   collection,
@@ -887,18 +888,24 @@ const Userinfo = () => {
                 </div> */}
                 <div>
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+         <div
+         style={{
+           display: "flex",
+           justifyContent: "center",
+           alignItems: "center",
+           height: "100vh",
+         }}
+       >
+           <img
+     src={Loading1}
+     alt="Loading..."
+     style={{
+       width: "200px",
+       height: "200px",
+       animation: "spin 1s linear infinite"
+     }}
+   />
+       </div>
       ) : (
         paginatedData.map((item, index) => (
           <Card key={index} className="mt-3">

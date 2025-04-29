@@ -10,6 +10,7 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { auth } from "../../Firebase/FirebaseConfig";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
+import Loading1 from "../../../../public/Progress circle.png";
 
 import {
   ProfileAvatar10,
@@ -244,9 +245,15 @@ const copyToClipboard = () => {
           height: "100vh",
         }}
       >
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+          <img
+    src={Loading1}
+    alt="Loading..."
+    style={{
+      width: "200px",
+      height: "200px",
+      animation: "spin 1s linear infinite"
+    }}
+  />
       </div>
     );
   }

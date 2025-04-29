@@ -25,7 +25,7 @@ import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
-
+import Loading1 from "../../../../public/Progress circle.png";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
@@ -2828,14 +2828,24 @@ const currentUserId = user?.uid;
               </Row>
               <div>
                 {loading ? (
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ height: "100vh" }}
-                  >
-                    <Spinner animation="border" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                   <div
+                   style={{
+                     display: "flex",
+                     justifyContent: "center",
+                     alignItems: "center",
+                     height: "100vh",
+                   }}
+                 >
+                     <img
+               src={Loading1}
+               alt="Loading..."
+               style={{
+                 width: "200px",
+                 height: "200px",
+                 animation: "spin 1s linear infinite"
+               }}
+             />
+                 </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -3001,7 +3011,24 @@ const currentUserId = user?.uid;
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
-                                    <p>Loading...</p>
+                                      <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100vh",
+                                      }}
+                                    >
+                                        <img
+                                  src={Loading1}
+                                  alt="Loading..."
+                                  style={{
+                                    width: "200px",
+                                    height: "200px",
+                                    animation: "spin 1s linear infinite"
+                                  }}
+                                />
+                                    </div>
                                   ) : (
                                     ads.map((car) => (
                                       <div

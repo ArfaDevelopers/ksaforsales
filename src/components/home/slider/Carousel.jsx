@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
+import Loading1 from "../../../../public/Progress circle.png";
 
 function timeAgo(timestamp) {
   const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
@@ -93,7 +94,24 @@ export default function Carousel() {
         <div className="row">
           <div className="col-md-12">
             {loading ? (
-              <div className="loading">Loading...</div>
+                <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                  <img
+            src={Loading1}
+            alt="Loading..."
+            style={{
+              width: "200px",
+              height: "200px",
+              animation: "spin 1s linear infinite"
+            }}
+          />
+              </div>
             ) : (
               <Slider
                 ref={slider}

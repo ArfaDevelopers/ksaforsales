@@ -21593,7 +21593,7 @@ section.advertisement {
   }
 
   .popup_cnt .img img {
-    width: 390px !important;
+    width: 100% !important;
   }
 
   .banner-text {
@@ -22426,7 +22426,8 @@ section.advertisement {
 }
 
 .popup_cnt {
-  /* background: rgba(0, 0, 0, 0.5); */
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 3;
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -22437,6 +22438,7 @@ section.advertisement {
   justify-content: center;
   align-items: center;
   overflow: auto; /* change to auto for scroll when content is too large */
+  backdrop-filter: blur(10px);
 }
 
 .popup_cnt .img {
@@ -22446,6 +22448,7 @@ section.advertisement {
 }
 
 .popup_cnt .close_btn {
+  
   font-family: verdana;
   font-size: 24px;
   color: #fff;
@@ -22479,8 +22482,8 @@ section.advertisement {
 @media (max-width: 600px) {
   .popup_cnt .close_btn {
     font-size: 20px;
-    top: 105px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
   }
 }
 

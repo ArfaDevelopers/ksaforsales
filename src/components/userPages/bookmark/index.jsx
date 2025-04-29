@@ -4,6 +4,7 @@ import { Table } from "antd";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../Firebase/FirebaseConfig";
+import Loading1 from "../../../../public/Progress circle.png";
 import {
   collection,
   getDocs,
@@ -401,9 +402,15 @@ const Bookmarks = () => {
                     height: "100vh",
                   }}
                 >
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
+                    <img
+    src={Loading1}
+    alt="Loading..."
+    style={{
+      width: "200px",
+      height: "200px",
+      animation: "spin 1s linear infinite"
+    }}
+  />
                 </div>
               ) : paginatedData.length === 0 ? (
                 <div className="col-12 text-center">

@@ -20,7 +20,7 @@ import carimg from "./carimg.png";
 import { MdMessage } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { FaBuysellads } from "react-icons/fa";
-
+import Loading1 from "../../../../public/Progress circle.png";
 import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
@@ -609,22 +609,23 @@ const Dynamic_Route = () => {
   if (loading) {
     return (
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.8)", // Optional: Add a light overlay
-        }}
-      >
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+        <img
+  src={Loading1}
+  alt="Loading..."
+  style={{
+    width: "200px",
+    height: "200px",
+    animation: "spin 1s linear infinite"
+  }}
+/>
+    </div>
     ); // Display loading state
   }
 

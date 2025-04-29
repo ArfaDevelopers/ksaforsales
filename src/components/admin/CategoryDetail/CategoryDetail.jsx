@@ -17,7 +17,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import Footer from "../../home/footer/Footer.jsx";
 import Header from "../../home/header";
 import { v4 as uuidv4 } from "uuid"; // For unique visitor tracking
-
+import Loading1 from "../../../../public/Progress circle.png";
 import {
   getDocs,
   collection,
@@ -96,7 +96,24 @@ const CategoryDetail = () => {
   }, [id]); // Run this effect every time the `id` changes
 
   if (!categories) {
-    return <div>Loading...</div>; // Show a loading message while fetching
+    return   <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+    }}
+  >
+      <img
+src={Loading1}
+alt="Loading..."
+style={{
+  width: "200px",
+  height: "200px",
+  animation: "spin 1s linear infinite"
+}}
+/>
+  </div>// Show a loading message while fetching
   }
   // Find the selected category
   //   const selectedCategory = categories?.find(
