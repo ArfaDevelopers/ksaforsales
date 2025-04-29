@@ -10,19 +10,31 @@ import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
-import { db } from "../../Firebase/FirebaseConfig"; // Import Firebase config
+import { db, auth } from "../../Firebase/FirebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 
 const Dashboard = () => {
-  const [change, setChange] = useState(false); // For Page Views dropdown
-  const [change1, setChange1] = useState(false); // For Page Views dropdown
-
-  const [filter, setFilter] = useState("All Listing"); // For Visitor Reviews filter
+  const [filter, setFilter] = useState("All Listing");
   const [visitorReviews, setVisitorReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(2); // Show 2 reviews initially
+  const [visibleCount, setVisibleCount] = useState(2);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [userId, setUserId] = useState(null);
+  const [userReviews1, setuserReviews1] = useState(null);
+console.log(userReviews1,"userReviews1___________")
   const location = useLocation();
+
+  // Fetch current user
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        setUserId(currentUser.uid);
+      } else {
+        setUserId(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Scroll to top on location change
   useEffect(() => {
@@ -56,12 +68,38 @@ const Dashboard = () => {
 
       setVisitorReviews(reviewsList);
       setFilteredReviews(reviewsList);
+     
+      if (userId) {
+        const userReviews = reviewsList.filter((review) => review.listingUserId === userId);
+        console.log("Total Reviews for User ID", userId, ":", userReviews.length);
+        setuserReviews1(userReviews.length)
+      } else {
+        console.log("No user logged in, cannot filter reviews by user ID");
+      }
+
+
+      console.log("=== Dashboard Visitor Reviews ===");
+      console.log(`Total Reviews: ${reviewsList.length}`);
+      reviewsList.forEach((review, index) => {
+        console.log(`Review ${index + 1}:`, {
+          id: review.id,
+          adId: review.adId,
+          name: review.name,
+          review: review.review,
+          rating: review.rating,
+          date: review.date,
+          by: review.by,
+          listingUserId: review.listingUserId || "Not found",
+          createdAt: review.createdAt?.toDate().toLocaleString(),
+        });
+      });
+      console.log("========================");
     }, (error) => {
       console.error("Error listening to reviews:", error);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [userId]);
 
   // Filter reviews based on selected filter
   useEffect(() => {
@@ -93,7 +131,7 @@ const Dashboard = () => {
     }
 
     setFilteredReviews(filtered);
-    setVisibleCount(2); // Reset visible count when filter changes
+    setVisibleCount(2);
   }, [filter, visitorReviews]);
 
   const loadMoreReviews = () => {
@@ -102,8 +140,6 @@ const Dashboard = () => {
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
-    setChange(false);
-    setChange1(false)
   };
 
   // Chart options (unchanged)
@@ -261,7 +297,7 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Total Reviews</h6>
-                      <div>15230</div>
+                      <div>{userReviews1}</div>
                     </div>
                   </div>
                 </div>
@@ -302,23 +338,18 @@ const Dashboard = () => {
                             className="dropdown-toggle pageviews-link"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
-                            onClick={() => setChange1(!change1)}
                             style={{ textDecoration: "none" }}
                           >
                             <span>This week</span>
                           </Link>
-                          <div
-                            className={`dropdown-menu dropdown-menu-end ${
-                              change1 ? "show" : ""
-                            }`}
-                          >
+                          <div className="dropdown-menu dropdown-menu-end">
                             <Link className="dropdown-item" to="javascript:void();">
                               Next Week
                             </Link>
-                            <Link className="dropdown-item" to="javascript:void()">
+                            <Link className="dropdown-item" to="javascript:void();">
                               Last Month
                             </Link>
-                            <Link className="dropdown-item" to="javascript:void()">
+                            <Link className="dropdown-item" to="javascript:void();">
                               Next Month
                             </Link>
                           </div>
@@ -335,7 +366,6 @@ const Dashboard = () => {
                         height={350}
                       />
                     </div>
-                   
                   </div>
                 </div>
               </div>
@@ -350,17 +380,12 @@ const Dashboard = () => {
                             to="#"
                             className="dropdown-toggle pageviews-link"
                             data-bs-toggle="dropdown"
-                            aria-expanded={change}
-                            onClick={() => setChange(!change)}
+                            aria-expanded="false"
                             style={{ textDecoration: "none" }}
                           >
                             <span>{filter}</span>
                           </Link>
-                          <div
-                            className={`dropdown-menu dropdown-menu-end ${
-                              change ? "show" : ""
-                            }`}
-                          >
+                          <div className="dropdown-menu dropdown-menu-end">
                             <Link
                               className="dropdown-item"
                               to="#"
@@ -383,7 +408,6 @@ const Dashboard = () => {
                               Last Month
                             </Link>
                             <Link
-                              W
                               className="dropdown-item"
                               to="#"
                               onClick={() => handleFilterChange("Last Year")}
@@ -397,39 +421,49 @@ const Dashboard = () => {
                   </div>
                   <div className="card-body" style={{ marginLeft: -30 }}>
                     <ul className="review-list">
-                      {filteredReviews.length > 0 ? (
-                        filteredReviews.slice(0, visibleCount).map((review) => (
-                          <li className="review-box" key={review.id}>
-                            <div className="review-details">
-                              <h6>{review.name}</h6>
-                              <div className="rating">
-                                <div className="rating-star">
-                                  {[...Array(5)].map((_, i) => (
-                                    <i
-                                      key={i}
-                                      className={`fas fa-star ${
-                                        i < review.rating ? "filled" : ""
-                                      }`}
-                                    />
-                                  ))}
+                      {userId ? (
+                        (() => {
+                          const ownerReviews = filteredReviews.filter(
+                            (review) => userId === review.listingUserId
+                          );
+                          return ownerReviews.length > 0 ? (
+                            ownerReviews.slice(0, visibleCount).map((review) => (
+                              <li className="review-box" key={review.id}>
+                                <div className="review-details">
+                                  <h6>{review.name}</h6>
+                                  <div className="rating">
+                                    <div className="rating-star">
+                                      {[...Array(5)].map((_, i) => (
+                                        <i
+                                          key={i}
+                                          className={`fas fa-star ${
+                                            i < review.rating ? "filled" : ""
+                                          }`}
+                                        />
+                                      ))}
+                                    </div>
+                                    <div>
+                                      <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
+                                      {review.date}
+                                    </div>
+                                  </div>
+                                  <p>{review.review}</p>
                                 </div>
-                                <div>
-                                  <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                                  {review.date}
-                                </div>
-                                {/* <div>by: {review.by}</div> */}
-                              </div>
-                              <p>{review.review}</p>
-                            </div>
-                          </li>
-                        ))
+                              </li>
+                            ))
+                          ) : (
+                            <li className="review-box">
+                              <p>No product found</p>
+                            </li>
+                          );
+                        })()
                       ) : (
                         <li className="review-box">
-                          <p>No reviews available.</p>
+                          <p>No product found</p>
                         </li>
                       )}
                     </ul>
-                    {filteredReviews.length > visibleCount && (
+                    {userId && filteredReviews.filter((review) => userId === review.listingUserId).length > visibleCount && (
                       <div className="text-center mt-3">
                         <button
                           className="btn"

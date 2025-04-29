@@ -7,8 +7,7 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-
+import { auth } from "../../Firebase/FirebaseConfig";
 import { getAuth } from "firebase/auth";
 
 // RatingSection Component (unchanged)
@@ -166,7 +165,7 @@ function RatingSection({ ratings }) {
   );
 }
 
-// UserReviews Component (modified)
+// UserReviews Component (unchanged)
 function UserReviews({
   reviews,
   onAddReview,
@@ -182,9 +181,7 @@ function UserReviews({
 }) {
   const [newReview, setNewReview] = useState({ review: "", rating: 0 });
   const [replyInputs, setReplyInputs] = useState({});
-  const user1 = auth.currentUser?.uid; // Add null check for safety
-  console.log(user1, "user1_______________");
-  console.log(listingUserId, "listingUserId_______________");
+  const user1 = auth.currentUser?.uid;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -388,7 +385,6 @@ function UserReviews({
               )}
             </div>
           </div>
-          {/* Conditionally render reply input section */}
           {replyInputs[index] !== undefined && user1 === listingUserId && (
             <div style={{ marginLeft: "20%", marginBottom: "10px" }}>
               <textarea
@@ -599,7 +595,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
       if (currentUser) {
         setUser(currentUser);
         setUserId(currentUser.uid);
-        const adminEmails = ["admin@example.com"]; // Update with actual admin emails
+        const adminEmails = ["admin@example.com"];
         setIsAdmin(adminEmails.includes(currentUser.email));
       } else {
         setUser(null);
@@ -639,6 +635,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
           disliked: review.disliked,
           replies: review.replies,
           userId: review.userId,
+          listingUserId: review.listingUserId,
           createdAt: review.createdAt?.toDate().toLocaleString(),
         });
       });
@@ -662,6 +659,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
             disliked: doc.data().disliked || false,
             replies: doc.data().replies || [],
             userId: doc.data().userId || "",
+            listingUserId: doc.data().listingUserId || "",
           }))
           .filter((review) => review.adId === currentAdId);
 
@@ -683,13 +681,14 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
             disliked: review.disliked,
             replies: review.replies,
             userId: review.userId,
+            listingUserId: review.listingUserId,
             createdAt: review.createdAt?.toDate().toLocaleString(),
           });
         });
         console.log("========================================");
 
         setReviews(reviewsList);
-        setHasReviewed(reviewsList.length > 0); // Set to true if any review exists for this ad
+        setHasReviewed(reviewsList.length > 0);
 
         await logAllReviews();
       } catch (error) {
@@ -709,6 +708,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
       const docRef = await addDoc(reviewsCollection, {
         ...newReview,
         adId: currentAdId,
+        listingUserId: listingUserId, // Store listingUserId
         liked: false,
         disliked: false,
         createdAt: new Date(),
@@ -719,6 +719,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
         id: docRef.id,
         ...newReview,
         adId: currentAdId,
+        listingUserId: listingUserId, // Include listingUserId
         liked: false,
         disliked: false,
         replies: [],
@@ -811,7 +812,7 @@ function RatingAndReviews({ currentAdId, listingUserId }) {
   const handleAddReply = async (index, reply) => {
     const review = reviews[index];
     const reviewRef = doc(db, "reviews", review.id);
-  
+
     try {
       const updatedReplies = [...(review.replies || []), reply];
       await updateDoc(reviewRef, { replies: updatedReplies });

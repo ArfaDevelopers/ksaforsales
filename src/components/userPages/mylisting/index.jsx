@@ -414,10 +414,10 @@ const MyListe = () => {
       render: (text, record) => (
         <>
           <h6>
-            <Link to="/service-details">{text}</Link>
+            <Link  to={`/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim()==='Pet & Animals'?"Pet":formatCategory(record.category))}`}>{text}</Link>
           </h6>
           <div className="listingtable-rate">
-            <Link to="#" className="cat-icon">
+            <Link  to={`/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim()==='Pet & Animals'?"Pet":formatCategory(record.category))}`} className="cat-icon">
               <i className="fa-regular fa-circle-stop" /> {formatCategory(record.category)}
             </Link>{" "}
             <span className="discount-amt" style={{ color: "#2d4495" }}>

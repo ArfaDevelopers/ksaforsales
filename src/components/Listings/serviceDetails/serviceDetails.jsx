@@ -172,6 +172,7 @@ const ServiceDetails = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   // Handle report submission
+  
   const handleSubmitReport = async () => {
     const callingFrom = getQueryParam("callingFrom");
     const itemId = getQueryParam("id") || id;
@@ -199,12 +200,30 @@ const ServiceDetails = () => {
     }
   };
 
-  // Copy link to clipboard
-  const copyToClipboard = () => {
-    const link = getQueryParam("link") || window.location.href;
-    navigator.clipboard.writeText(link);
-    alert("Link copied to clipboard!");
-  };
+  // Add this state at the top of your component with other states
+const [copyCount, setCopyCount] = useState(0);
+console.log("copyCount___________",copyCount)
+// Modify your existing copyToClipboard function
+
+const copyToClipboard = () => {
+  const link = getQueryParam("link") || window.location.href;
+  navigator.clipboard.writeText(link)
+    .then(() => {
+      // Increment copy count only after successful copy
+      setCopyCount(prevCount => prevCount + 1);
+      alert("Link copied to clipboard!");
+    })
+    .catch(err => {
+      console.error("Failed to copy:", err);
+      alert("Failed to copy link!");
+    });
+};
+  // // Copy link to clipboard
+  // const copyToClipboard = () => {
+  //   const link = getQueryParam("link") || window.location.href;
+  //   navigator.clipboard.writeText(link);
+  //   alert("Link copied to clipboard!");
+  // };
 
   // Format timestamp
   const formatValue = (value) => {
@@ -311,25 +330,7 @@ const ServiceDetails = () => {
                     <i className="feather-share-2" style={{ color: "#2d4495" }} />{" "}
                     Share
                   </li>
-                  <li>
-                    {/* <Link to="#"> */}
-                      <i
-                        className="fa-regular fa-comment-dots"
-                        style={{ color: "#2d4495" }}
-                      />{" "}
-                      Write a review
-                    {/* </Link> */}
-                  </li>
-                  <li onClick={() => setShowReportModal(true)}>
-                    <i className="feather-flag" style={{ color: "#2d4495" }} />{" "}
-                    Report
-                  </li>
-                  <li>
-                    {/* <Link to="#"> */}
-                      <i className="feather-heart" style={{ color: "#2d4495" }} />{" "}
-                      Save
-                    {/* </Link> */}
-                  </li>
+          
                 </ul>
               </div>
               <div className="col-lg-4">
@@ -473,50 +474,47 @@ const ServiceDetails = () => {
         </div>
       </section>
 
-      {/* Report Modal */}
-      <Modal
-        style={{ marginTop: 20 }}
-        show={showReportModal}
-        onHide={() => setShowReportModal(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Submit a Report</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="reportText">
-              <Form.Label>Report Details</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Describe the issue..."
-                value={reportText}
-                onChange={(e) => setReportText(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mt-3">
-              <Form.Label>Report Type</Form.Label>
-              {reportTypes.map((type, index) => (
-                <Form.Check
-                  key={index}
-                  type="checkbox"
-                  label={type}
-                  checked={selectedReports.includes(type)}
-                  onChange={() => {
-                    setSelectedReports((prev) =>
-                      prev.includes(type)
-                        ? prev.filter((item) => item !== type)
-                        : [...prev, type]
-                    );
-                  }}
-                />
-              ))}
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
+  
+
+      {showModal1 && (
+  <div className="modal fade show d-block"
+    tabIndex="-1"
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 1050,
+    }}
+  >
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">Share</h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowModal1(false)}
+          ></button>
+        </div>
+        <div className="modal-body">
+          <div style={{ wordBreak: "break-all" }}>
+            {getQueryParam("link") || window.location.href}
+          </div>
+          {/* Add copy count display */}
+          <p className="text-muted mt-2">
+            Copied {copyCount} time{copyCount !== 1 ? 's' : ''} so far
+          </p>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn"
             style={{
               backgroundColor: "#2d4495",
               color: "#fff",
@@ -524,122 +522,29 @@ const ServiceDetails = () => {
               fontWeight: "bold",
               borderRadius: 10,
             }}
-            onClick={() => setShowReportModal(false)}
+            onClick={copyToClipboard}
+          >
+            Copy
+          </button>
+          <button
+            type="button"
+            className="btn"
+            style={{
+              backgroundColor: "#2d4495",
+              color: "#fff",
+              border: "none",
+              fontWeight: "bold",
+              borderRadius: 10,
+            }}
+            onClick={() => setShowModal1(false)}
           >
             Close
-          </Button>
-          <Button
-            style={{
-              backgroundColor: "#2d4495",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              borderRadius: 10,
-            }}
-            onClick={handleSubmitReport}
-          >
-            Submit Report
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Success Modal */}
-      <Modal
-        style={{ marginTop: 20 }}
-        show={successShow}
-        onHide={() => setSuccessShow(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Success</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your report has been submitted successfully!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            style={{
-              backgroundColor: "#2d4495",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              borderRadius: 10,
-            }}
-            onClick={() => setSuccessShow(false)}
-          >
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Share Modal */}
-      {showModal1 && (
-        <div
-          className="modal fade show d-block"
-          tabIndex="-1"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1050,
-          }}
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Share</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowModal1(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <h6 style={{ wordBreak: "break-all" }}>
-                  {getQueryParam("link") || window.location.href}
-                </h6>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn"
-                  style={{
-                    backgroundColor: "#2d4495",
-                    color: "#fff",
-                    border: "none",
-                    fontWeight: "bold",
-                    borderRadius: 10,
-                  }}
-                  onClick={copyToClipboard}
-                >
-                  Copy
-                </button>
-                <button
-                  type="button"
-                  className="btn"
-                  style={{
-                    backgroundColor: "#2d4495",
-                    color: "#fff",
-                    border: "none",
-                    fontWeight: "bold",
-                    borderRadius: 10,
-                  }}
-                  onClick={() => setShowModal1(false)}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
+          </button>
         </div>
-      )}
-
+      </div>
+    </div>
+  </div>
+)}
       {/* Details Main Section */}
       <div className="details-main-wrapper">
         <div className="container" style={{ marginTop: -60 }}>
@@ -811,7 +716,7 @@ const ServiceDetails = () => {
                           </span>
                           Shares
                         </div>
-                        <span className="text-end">50</span>
+                        <span className="text-end">{copyCount}</span>
                       </li>
                     </ul>
                   </div>

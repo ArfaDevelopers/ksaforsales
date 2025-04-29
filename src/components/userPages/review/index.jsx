@@ -15,7 +15,7 @@ import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
-
+import { Dropdown } from 'bootstrap';
 const Review = () => {
   const [change, setChange] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -25,7 +25,7 @@ const Review = () => {
   const [filter, setFilter] = useState("All Listing");
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [replyInputs, setReplyInputs] = useState({}); // State to manage reply inputs
+  const [replyInputs, setReplyInputs] = useState({});
   const location = useLocation();
 
   // Fetch current user
@@ -42,6 +42,7 @@ const Review = () => {
     return () => unsubscribe();
   }, []);
 
+  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -50,12 +51,13 @@ const Review = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Scroll to top on location change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
+  // Fetch reviews
   useEffect(() => {
-    // Set up real-time listener for reviews
     const reviewsCollection = collection(db, "reviews");
     const unsubscribe = onSnapshot(reviewsCollection, (snapshot) => {
       const reviewsList = snapshot.docs.map((doc) => ({
@@ -89,6 +91,7 @@ const Review = () => {
           dislikes: review.dislikes,
           replies: review.replies || [],
           userId: review.userId,
+          listingUserId: review.listingUserId || "Not found",
           createdAt: review.createdAt?.toDate().toLocaleString(),
         });
       });
@@ -97,10 +100,10 @@ const Review = () => {
       console.error("Error listening to reviews:", error);
     });
 
-    // Clean up the listener on component unmount
     return () => unsubscribe();
   }, []);
 
+  // Filter reviews based on selected filter
   useEffect(() => {
     const now = new Date();
     let filtered;
@@ -136,7 +139,10 @@ const Review = () => {
   const loadMoreReviews = () => {
     setVisibleCount((prevCount) => prevCount + 4);
   };
-
+  useEffect(() => {
+    const dropdownElement = document.querySelector('.dropdown-toggle');
+    new Dropdown(dropdownElement);
+  }, []);
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
     setChange(false);
@@ -213,7 +219,7 @@ const Review = () => {
               </li>
               <li>
                 <Link to="/profile">
-                  <i className="fa-solid  fa-solid fa-user" /> <span>Profile</span>
+                  <i className="fa-solid fa-user" /> <span>Profile</span>
                 </Link>
               </li>
               <li>
@@ -228,12 +234,12 @@ const Review = () => {
               </li>
               <li className="active">
                 <Link to="/reviews">
-                  <i className="fas fa-solid fa-star" /> <span>Reviews</span>
+                  <i className="fas fa-star" /> <span>Reviews</span>
                 </Link>
               </li>
               <li>
                 <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
+                  <i className="fas fa-circle-arrow-left" /> <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -249,117 +255,118 @@ const Review = () => {
               marginBottom: window.innerWidth <= 576 ? "3rem" : "0rem",
             }}
           >
-            <div
-              className="card-header"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "0 20px",
-              }}
-            >
-              <h1 style={{ margin: "20px", fontSize: "24px", fontWeight: 600 }}>
-                All Review
-              </h1>
-              <div
-                className="card-dropdown"
-                style={{ position: "relative" }}
-              >
-                <ul
-                  className="nav"
-                  style={{ listStyle: "none", padding: 0, margin: 0 }}
-                >
-                  <li
-                    className="nav-item dropdown has-arrow logged-item"
-                    style={{ position: "relative" }}
-                  >
-                    <Link
-                      to="#"
-                      className="dropdown-toggle pageviews-link"
-                      data-bs-toggle="dropdown"
-                      aria-expanded={change}
-                      onClick={() => setChange(!change)}
-                      style={{
-                        textDecoration: "none",
-                        color: "#000",
-                        padding: "8px 16px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        display: "inline-block",
-                      }}
-                    >
-                      <span>{filter}</span>
-                    </Link>
-                    <div
-                      className={`dropdown-menu dropdown-menu-end ${change ? "show" : ""}`}
-                      style={{
-                        position: "absolute",
-                        top: "100%",
-                        right: 0,
-                        backgroundColor: "#fff",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                        borderRadius: "4px",
-                        display: change ? "block" : "none",
-                        zIndex: 1000,
-                      }}
-                    >
-                      <Link
-                        className="dropdown-item"
-                        to="#"
-                        onClick={() => handleFilterChange("All Listing")}
-                        style={{
-                          display: "block",
-                          padding: "8px 16px",
-                          textDecoration: "none",
-                          color: "#000",
-                        }}
-                      >
-                        All Listing
-                      </Link>
-                      <Link
-                        className="dropdown-item"
-                        to="#"
-                        onClick={() => handleFilterChange("Last Week")}
-                        style={{
-                          display: "block",
-                          padding: "8px 16px",
-                          textDecoration: "none",
-                          color: "#000",
-                        }}
-                      >
-                        Last Week
-                      </Link>
-                      <Link
-                        className="dropdown-item"
-                        to="#"
-                        onClick={() => handleFilterChange("Last Month")}
-                        style={{
-                          display: "block",
-                          padding: "8px 16px",
-                          textDecoration: "none",
-                          color: "#000",
-                        }}
-                      >
-                        Last Month
-                      </Link>
-                      <Link
-                        className="dropdown-item"
-                        to="#"
-                        onClick={() => handleFilterChange("Last Year")}
-                        style={{
-                          display: "block",
-                          padding: "8px 16px",
-                          textDecoration: "none",
-                          color: "#000",
-                        }}
-                      >
-                        Last Year
-                      </Link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div
+  className="card-header"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "0 20px",
+  }}
+>
+  <h1 style={{ margin: "20px", fontSize: "24px", fontWeight: 600 }}>
+    All Review
+  </h1>
+  <div className="card-dropdown" style={{ position: "relative" }}>
+    <ul className="nav" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      <li className="nav-item dropdown has-arrow logged-item">
+     <Link
+  to="#"
+  className="dropdown-toggle pageviews-link"
+  data-bs-toggle="dropdown"
+  data-bs-popper-config={JSON.stringify({
+    strategy: 'absolute',
+    modifiers: [
+      {
+        name: 'offset',
+        options: { offset: [0, 8] }, // Adjust vertical offset
+      },
+      {
+        name: 'preventOverflow',
+        options: { boundary: 'viewport' },
+      },
+    ],
+  })}
+  style={{
+    textDecoration: "none",
+    color: "#000",
+    padding: "8px 16px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    display: "inline-block",
+  }}
+>
+  <span>{filter}</span>
+</Link>
+        <div
+          className="dropdown-menu dropdown-menu-end"
+          style={{
+            position: "absolute",
+            top: "100%",
+            right: 0,
+            backgroundColor: "#fff",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            borderRadius: "4px",
+            zIndex: 1000,
+          }}
+        >
+          <Link
+            className="dropdown-item"
+            to="#"
+            onClick={() => handleFilterChange("All Listing")}
+            style={{
+              display: "block",
+              padding: "8px 16px",
+              textDecoration: "none",
+              color: "#000",
+            }}
+          >
+            All Listing
+          </Link>
+          <Link
+            className="dropdown-item"
+            to="#"
+            onClick={() => handleFilterChange("Last Week")}
+            style={{
+              display: "block",
+              padding: "8px 16px",
+              textDecoration: "none",
+              color: "#000",
+            }}
+          >
+            Last Week
+          </Link>
+          <Link
+            className="dropdown-item"
+            to="#"
+            onClick={() => handleFilterChange("Last Month")}
+            style={{
+              display: "block",
+              padding: "8px 16px",
+              textDecoration: "none",
+              color: "#000",
+            }}
+          >
+            Last Month
+          </Link>
+          <Link
+            className="dropdown-item"
+            to="#"
+            onClick={() => handleFilterChange("Last Year")}
+            style={{
+              display: "block",
+              padding: "8px 16px",
+              textDecoration: "none",
+              color: "#000",
+            }}
+          >
+            Last Year
+          </Link>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
             <div
               className="card dash-cards"
               style={{
@@ -385,14 +392,8 @@ const Review = () => {
                     }
                   `}
                 </style>
-                <div
-                  className="row"
-                  style={{ margin: 0 }}
-                >
-                  <div
-                    className="col-lg-6"
-                    style={{ padding: 0 }}
-                  >
+                <div className="row" style={{ margin: 0 }}>
+                  <div className="col-lg-6" style={{ padding: 0 }}>
                     <h4
                       style={{
                         margin: 0,
@@ -419,252 +420,275 @@ const Review = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="card-body"
-                style={{ padding: "0" }}
-              >
-                {filteredReviews.length > 0 ? (
-                  filteredReviews.slice(0, visibleCount).map((review) => (
-                    <div
-                      key={review.id}
-                      className="row"
-                      style={{
-                        display: "flex",
-                        alignItems: "stretch",
-                        margin: "0",
-                        borderBottom: "1px solid #e0e0e0",
-                        padding: "10px 0",
-                      }}
-                    >
-                      {/* Visitor Review Box */}
-                      <div
-                        className="col-lg-6 d-flex"
-                        style={{ padding: "0 15px" }}
-                      >
+              <div className="card-body" style={{ padding: "0" }}>
+                {userId ? (
+                  (() => {
+                    // Filter reviews for products owned by the logged-in user
+                    const ownerReviews = filteredReviews.filter(
+                      (review) => userId === review.listingUserId
+                    );
+                    return ownerReviews.length > 0 ? (
+                      ownerReviews.slice(0, visibleCount).map((review) => (
                         <div
-                          className="review-box"
+                          key={review.id}
+                          className="row"
                           style={{
                             display: "flex",
-                            flex: 1,
-                            padding: "10px",
-                            backgroundColor: "#fff",
-                            borderRadius: "5px",
-                            transition: "all 0.3s ease",
+                            alignItems: "stretch",
+                            margin: "0",
+                            borderBottom: "1px solid #e0e0e0",
+                            padding: "10px 0",
                           }}
                         >
+                          {/* Visitor Review Box */}
                           <div
-                            className="review-details"
-                            style={{ flex: 1 }}
+                            className="col-lg-6 d-flex"
+                            style={{ padding: "0 15px" }}
                           >
-                            <h6
-                              style={{
-                                margin: "0 0 5px",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {review.name}
-                            </h6>
                             <div
-                              className="rating"
+                              className="review-box"
                               style={{
                                 display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                marginBottom: "5px",
+                                flex: 1,
+                                padding: "10px",
+                                backgroundColor: "#fff",
+                                borderRadius: "5px",
+                                transition: "all 0.3s ease",
                               }}
                             >
                               <div
-                                className="rating-star"
-                                style={{ display: "flex", gap: "2px" }}
+                                className="review-details"
+                                style={{ flex: 1 }}
                               >
-                                {[...Array(5)].map((_, i) => (
-                                  <i
-                                    key={i}
-                                    className={`fas fa-star`}
-                                    style={{
-                                      color: i < review.rating ? "#f5c518" : "#ccc",
-                                      fontSize: "14px",
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                  fontSize: "14px",
-                                  color: "#666",
-                                }}
-                              >
-                                <i
-                                  className="fa-sharp fa-solid fa-calendar-days"
-                                  style={{ color: "#ff0000" }}
-                                />
-                                {review.date}
-                              </div>
-                            </div>
-                            <p
-                              style={{
-                                margin: "5px 0",
-                                fontSize: "14px",
-                                color: "#666",
-                              }}
-                            >
-                              Product Id: {review.adId}
-                            </p>
-                            <p
-                              style={{
-                                margin: "5px 0",
-                                fontSize: "14px",
-                                color: "#333",
-                              }}
-                            >
-                              {review.review}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Your Review (Reply) Box */}
-                      <div
-                        className="col-lg-6 d-flex"
-                        style={{ padding: "0 15px" }}
-                      >
-                        <div
-                          className="review-box"
-                          style={{
-                            display: "flex",
-                            flex: 1,
-                            padding: "10px",
-                            backgroundColor: "#fff",
-                            borderRadius: "5px",
-                            transition: "all 0.3s ease",
-                          }}
-                        >
-                          <div
-                            className="review-details"
-                            style={{ flex: 1 }}
-                          >
-                            {review.replies && review.replies.length > 0 ? (
-                              review.replies.map((reply, index) => (
-                                <div key={index}>
-                                  <h6
-                                    style={{
-                                      margin: "0 0 5px",
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {reply.by}
-                                  </h6>
+                                <h6
+                                  style={{
+                                    margin: "0 0 5px",
+                                    fontSize: "16px",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {review.name}
+                                </h6>
+                                <div
+                                  className="rating"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginBottom: "5px",
+                                  }}
+                                >
                                   <div
-                                    className="rating"
+                                    className="rating-star"
+                                    style={{ display: "flex", gap: "2px" }}
+                                  >
+                                    {[...Array(5)].map((_, i) => (
+                                      <i
+                                        key={i}
+                                        className={`fas fa-star`}
+                                        style={{
+                                          color: i < review.rating ? "#f5c518" : "#ccc",
+                                          fontSize: "14px",
+                                        }}
+                                      />
+                                    ))}
+                                  </div>
+                                  <div
                                     style={{
                                       display: "flex",
-                                      justifyContent: "flex-end",
                                       alignItems: "center",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "5px",
-                                        fontSize: "14px",
-                                        color: "#666",
-                                      }}
-                                    >
-                                      <i
-                                        className="fa-sharp fa-solid fa-calendar-days"
-                                        style={{ color: "#ff0000" }}
-                                      />
-                                      {reply.date}
-                                    </div>
-                                  </div>
-                                  <p
-                                    style={{
-                                      margin: "5px 0",
+                                      gap: "5px",
                                       fontSize: "14px",
-                                      color: "#333",
-                               
+                                      color: "#666",
                                     }}
                                   >
-                                    {reply.reply}
-                                  </p>
-                                </div>
-                              ))
-                            ) : (
-                              <>
-                                {userId && userId === review.userId ? (
-                                  <div style={{ marginBottom: "10px" }}>
-                                    <textarea
-                                      placeholder="Write your reply..."
-                                      value={replyInputs[review.id] || ""}
-                                      onChange={(e) =>
-                                        handleReplyInputChange(review.id, e.target.value)
-                                      }
-                                      style={{
-                                        padding: "10px",
-                                        border: "1px solid #ddd",
-                                        borderRadius: "4px",
-                                        fontSize: "14px",
-                                        width: "100%",
-                                        minHeight: "60px",
-                                        resize: "vertical",
-                                      }}
+                                    <i
+                                      className="fa-sharp fa-solid fa-calendar-days"
+                                      style={{ color: "#ff0000" }}
                                     />
-                                    <button
-                                      onClick={() => handleAddReply(review.id)}
-                                      disabled={!replyInputs[review.id]}
-                                      style={{
-                                        backgroundColor: replyInputs[review.id]
-                                          ? "#2D4494"
-                                          : "#cccccc",
-                                        color: "#fff",
-                                        padding: "8px 16px",
-                                        border: "none",
-                                        borderRadius: "20px",
-                                        fontSize: "14px",
-                                        cursor: replyInputs[review.id]
-                                          ? "pointer"
-                                          : "not-allowed",
-                                        marginTop: "5px",
-                                      }}
-                                    >
-                                      Submit Reply
-                                    </button>
+                                    {review.date}
                                   </div>
+                                </div>
+                                <p
+                                  style={{
+                                    margin: "5px 0",
+                                    fontSize: "14px",
+                                    color: "#666",
+                                  }}
+                                >
+                                  Product Id: {review.adId}
+                                </p>
+                                <p
+                                  style={{
+                                    margin: "5px 0",
+                                    fontSize: "14px",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {review.review}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Your Review (Reply) Box */}
+                          <div
+                            className="col-lg-6 d-flex"
+                            style={{ padding: "0 15px" }}
+                          >
+                            <div
+                              className="review-box"
+                              style={{
+                                display: "flex",
+                                flex: 1,
+                                padding: "10px",
+                                backgroundColor: "#fff",
+                                borderRadius: "5px",
+                                transition: "all 0.3s ease",
+                              }}
+                            >
+                              <div
+                                className="review-details"
+                                style={{ flex: 1 }}
+                              >
+                                {review.replies && review.replies.length > 0 ? (
+                                  review.replies.map((reply, index) => (
+                                    <div key={index}>
+                                      <h6
+                                        style={{
+                                          margin: "0 0 5px",
+                                          fontSize: "16px",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {reply.by}
+                                      </h6>
+                                      <div
+                                        className="rating"
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "flex-end",
+                                          alignItems: "center",
+                                          marginBottom: "5px",
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "5px",
+                                            fontSize: "14px",
+                                            color: "#666",
+                                          }}
+                                        >
+                                          <i
+                                            className="fa-sharp fa-solid fa-calendar-days"
+                                            style={{ color: "#ff0000" }}
+                                          />
+                                          {reply.date}
+                                        </div>
+                                      </div>
+                                      <p
+                                        style={{
+                                          margin: "5px 0",
+                                          fontSize: "14px",
+                                          color: "#333",
+                                        }}
+                                      >
+                                        {reply.reply}
+                                      </p>
+                                    </div>
+                                  ))
                                 ) : (
-                                  <p
-                                    style={{
-                                      fontStyle: "italic",
-                                      color: "#888",
-                                      margin: "5px 0",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    No reply from Product Owner
-                                  </p>
+                                  <>
+                                    {userId && userId === review.listingUserId ? (
+                                      <div style={{ marginBottom: "10px" }}>
+                                        <textarea
+                                          placeholder="Write your reply..."
+                                          value={replyInputs[review.id] || ""}
+                                          onChange={(e) =>
+                                            handleReplyInputChange(review.id, e.target.value)
+                                          }
+                                          style={{
+                                            padding: "10px",
+                                            border: "1px solid #ddd",
+                                            borderRadius: "4px",
+                                            fontSize: "14px",
+                                            width: "100%",
+                                            minHeight: "60px",
+                                            resize: "vertical",
+                                          }}
+                                        />
+                                        <button
+                                          onClick={() => handleAddReply(review.id)}
+                                          disabled={!replyInputs[review.id]}
+                                          style={{
+                                            backgroundColor: replyInputs[review.id]
+                                              ? "#2D4494"
+                                              : "#cccccc",
+                                            color: "#fff",
+                                            padding: "8px 16px",
+                                            border: "none",
+                                            borderRadius: "20px",
+                                            fontSize: "14px",
+                                            cursor: replyInputs[review.id]
+                                              ? "pointer"
+                                              : "not-allowed",
+                                            marginTop: "5px",
+                                          }}
+                                        >
+                                          Submit Reply
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <p
+                                        style={{
+                                          fontStyle: "italic",
+                                          color: "#888",
+                                          margin: "5px 0",
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        No reply from Product Owner
+                                      </p>
+                                    )}
+                                  </>
                                 )}
-                              </>
-                            )}
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      ))
+                    ) : (
+                      <div className="row" style={{ margin: 0 }}>
+                        <div className="col-lg-6" style={{ padding: "itha15px" }}>
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#666",
+                              margin: 0,
+                            }}
+                          >
+                            No product found
+                          </p>
+                        </div>
+                        <div className="col-lg-6" style={{ padding: "15px" }}>
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "#666",
+                              margin: 0,
+                            }}
+                          >
+                            No product found
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })()
                 ) : (
-                  <div
-                    className="row"
-                    style={{ margin: 0 }}
-                  >
-                    <div
-                      className="col-lg-6"
-                      style={{ padding: "15px" }}
-                    >
+                  <div className="row" style={{ margin: 0 }}>
+                    <div className="col-lg-6" style={{ padding: "15px" }}>
                       <p
                         style={{
                           fontSize: "14px",
@@ -672,13 +696,10 @@ const Review = () => {
                           margin: 0,
                         }}
                       >
-                        No reviews available.
+                        No product found
                       </p>
                     </div>
-                    <div
-                      className="col-lg-6"
-                      style={{ padding: "15px" }}
-                    >
+                    <div className="col-lg-6" style={{ padding: "15px" }}>
                       <p
                         style={{
                           fontSize: "14px",
@@ -686,17 +707,14 @@ const Review = () => {
                           margin: 0,
                         }}
                       >
-                        No replies available.
+                        No product found
                       </p>
                     </div>
                   </div>
                 )}
               </div>
-              {filteredReviews.length > visibleCount && (
-                <div
-                  className="text-center mt-3"
-                  style={{ marginTop: "20px" }}
-                >
+              {userId && filteredReviews.filter((review) => userId === review.listingUserId).length > visibleCount && (
+                <div className="text-center mt-3" style={{ marginTop: "20px" }}>
                   <button
                     className="btn"
                     onClick={loadMoreReviews}
