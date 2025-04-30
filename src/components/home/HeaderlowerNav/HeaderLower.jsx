@@ -1,11 +1,299 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-
+import {
+  collection,
+  getDocs,
+  getDoc,
+  query,
+  where,
+  deleteDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "./../../Firebase/FirebaseConfig";
 const HeaderLower = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [openSubDropdown, setOpenSubDropdown] = useState(null);
   const location = useLocation();
+
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState("");
+  const [ElectronicsTitle, setElectronicsTitle] = useState("");
+  const [FashionStyleTitle, setFashionStyleTitle] = useState("");
+  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] = useState("");
+  console.log("title1111",OurCategoryHealthCareTitle)
+
+  const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState("");
+  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] = useState("");
+  const [OurCategoryTravelTitle, setOurCategoryTravelTitle] = useState("");
+  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] = useState("");
+  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] = useState("");
+  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] = useState("");
+
+
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+
+        // setOurCategoryAutomative(imageOnly[0].image);
+        setOurCategoryAutomativeTitle(imageOnly[0].Title);
+
+        console.log(imageOnly, "imageOnly________________");
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryElectronics"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setElectronics(imageOnly[0].image);
+        setElectronicsTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryFashionStyle"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setFashionStyle(imageOnly[0].image);
+        setFashionStyleTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryHealthCare"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryHealthCare(imageOnly[0].image);
+        setOurCategoryHealthCareTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryJobBoardAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryJobBoard(imageOnly[0].image);
+        setOurCategoryJobBoardTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryRealEstateAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryRealEstate(imageOnly[0].image);
+        setOurCategoryRealEstateTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryTravelAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryTravel(imageOnly[0].image);
+        setOurCategoryTravelTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategorySportGamesAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategorySportGames(imageOnly[0].image);
+        setOurCategorySportGamesTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryPetAnimalsAutomative"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryPetAnimals(imageOnly[0].image);
+        setOurCategoryPetAnimalsTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection
+        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(), // Spread the document data
+        }));
+        console.log(adsList, "adsList___________OurCategoryAutomative");
+        const imageOnly = adsList.map((item) => ({
+          image: item.image,
+          Title: item.Title,
+        }));
+        // setOurCategoryEducation(imageOnly[0].image);
+        setOurCategoryEducationTitle(imageOnly[0].Title);
+
+        setLoading(false); // Stop loading when data is fetched
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
 
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -635,7 +923,7 @@ const HeaderLower = () => {
       ],
     },
     {
-      name: "Home & Furnituer",
+      name: "Home & Furniture",
       path: "/HealthCareComp",
       subcategories: [
         {
@@ -1640,7 +1928,69 @@ const HeaderLower = () => {
       path: "/CommercialAdscom",
     },
   ];
-
+  const updatedCategories = categories.map((category) => {
+    switch (category.name) {
+      case "Automotive":
+        return {
+          ...category,
+          name: OurCategoryAutomativeTitle, // Keep null until data is fetched
+        };
+      case "Electronics":
+        return {
+          ...category,
+          name: ElectronicsTitle,
+        };
+      case "Fashion Style":
+        return {
+          ...category,
+          name: FashionStyleTitle,
+        };
+      case "Home & Furniture":
+        return {
+          ...category,
+          name: OurCategoryHealthCareTitle,
+        };
+      case "Job Board":
+        return {
+          ...category,
+          name: OurCategoryJobBoardTitle,
+        };
+      case "Real Estate":
+        return {
+          ...category,
+          name: OurCategoryRealEstateTitle,
+        };
+      case "Services":
+        return {
+          ...category,
+          name: OurCategoryTravelTitle,
+        };
+      case "Sport & Games":
+        return {
+          ...category,
+          name: OurCategorySportGamesTitle,
+        };
+      case "Pet & Animals":
+        return {
+          ...category,
+          name: OurCategoryPetAnimalsTitle,
+        };
+      case "Other":
+        return {
+          ...category,
+          name: OurCategoryEducationTitle,
+        };
+        case "Commercial":
+          return {
+            ...category,
+            name: "Commercial",
+          };
+      default:
+        return category;
+    }
+  });
+  
+  console.log(updatedCategories,"updatedCategories");
   if (isMobile) {
     return null;
   }
@@ -1648,9 +1998,9 @@ const HeaderLower = () => {
   return (
     <div className="header-lower container">
       <nav className="nav-links" style={{ fontFamily: "VIP Rawy Regular" }}>
-        {categories.map((category) => (
+        {updatedCategories.map((category,index) => (
           <div
-            key={category.name}
+            key={index}
             className="nav-link-wrapper"
             onMouseEnter={() => setOpenDropdown(category.name)}
             onMouseLeave={() => {

@@ -3201,7 +3201,7 @@ const FashionStyle = () => {
                                 style={{
                                   width: "100%",
                                   height: "250px",
-                                  objectFit:"contain",
+                                  objectFit:"cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}

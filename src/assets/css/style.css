@@ -58,7 +58,10 @@ html,
 body {
   font-family: "Cairo", sans-serif;
 }
-
+.category_icons {
+  width: 19% !important;
+  max-width: 19% !important;
+}
 .trendingprodct_wrapper {
   display: flex;
   flex-direction: column;
@@ -21785,9 +21788,7 @@ section.advertisement {
   /* .category_icons {
     width: 315px !important;
   } */
-  .category_icons {
-    width: 19% !important;
-}
+  
   .banner-para {
     width: 220px !important;
   }

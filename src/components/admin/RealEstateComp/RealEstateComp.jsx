@@ -3099,7 +3099,7 @@ const currentUserId = user?.uid;
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
-                                  objectFit:"contain",
+                                  objectFit:"cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}

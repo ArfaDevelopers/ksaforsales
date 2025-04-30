@@ -155,6 +155,7 @@ const AutomotiveComp = () => {
     useState("");
   const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
   const [activePage, setActivePage] = useState(1);
+  console.log(activePage,"activePage____________")
   const [ads, setCarsData] = useState([]);
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
@@ -3071,9 +3072,9 @@ const AutomotiveComp = () => {
                                 }
                                 alt={car.title || "Car"}
                                 style={{
-                                  width: "100%", // Make the image responsive
+                                  width: "100%", 
                                   height: "250px",
-                                  objectFit:"contain",
+                                  objectFit:"cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}

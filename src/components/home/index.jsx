@@ -93,6 +93,7 @@ const Home = () => {
   const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState(
     []
   );
+
   const [ElectronicsTitle, setElectronicsTitle] = useState([]);
 
   const [Electronics, setElectronics] = useState([]);
@@ -624,6 +625,7 @@ const Home = () => {
                   key={index}
                   className={`carousel-item ${index === 0 ? "active" : ""}`}
                 >
+                  <Link to="/login">
                   <img
                     src={img}
                     className="d-block"
@@ -639,6 +641,7 @@ const Home = () => {
                       maxWidth: "100%",
                     }}
                   />
+                  </Link>
                 </div>
               );
             })}
