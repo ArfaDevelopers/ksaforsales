@@ -648,23 +648,35 @@ useEffect(() => {
   if (loading) {
     return (
       <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <img
+        src={Loading1}
+        alt="Loading..."
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
+          width: "200px",
+          height: "200px",
+          animation: "spin 1s linear infinite", // Apply the spin animation
         }}
-      >
-          <img
-    src={Loading1}
-    alt="Loading..."
-    style={{
-      width: "200px",
-      height: "200px",
-      animation: "spin 1s linear infinite"
-    }}
-  />
-      </div>
+      />
+      <style>
+        {`
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}
+      </style>
+    </div>
     ); // Display loading state
   }
 
@@ -748,16 +760,16 @@ useEffect(() => {
     marginTop: "14.83px",
     marginBottom: "14.3px",
     width: window.innerWidth <= 576 ? "95%" : "85%",
-    marginLeft: "auto", // Center the line
+    marginLeft: "auto", 
     marginRight: "auto",
   }}
 />
           <div>
-            <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
+            <div
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize:"40px",fontWeight:"bold"}}
             >
               {itemData?.title || "Default Title"}{" "}
-            </h1>
+            </div>
           </div>
           <div
             className="CategoryInfodiv_btn2container"
@@ -1624,8 +1636,8 @@ useEffect(() => {
             <Col md={4} className="p-3">
  
            
-                <Col xs={11}  >
-                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+                <Col xs={12}  >
+                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
     <div
@@ -1671,7 +1683,7 @@ useEffect(() => {
                                           <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
                                           
                             <img
-                              src={profile}
+                              src={itemData.photoURL}
                               alt="Profile"
                               className="img-fluid rounded-circle"
                             />
@@ -1837,7 +1849,7 @@ useEffect(() => {
                         
   </Card.Body>
 </Card>
-<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
+<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
                      

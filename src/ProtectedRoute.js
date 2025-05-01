@@ -6,7 +6,7 @@ import React from "react";
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  if (loading) return   <div
+  if (loading) return    <div
   style={{
     display: "flex",
     justifyContent: "center",
@@ -14,15 +14,27 @@ const ProtectedRoute = ({ children }) => {
     height: "100vh",
   }}
 >
-    <img
-src={Loading1}
-alt="Loading..."
-style={{
-width: "200px",
-height: "200px",
-animation: "spin 1s linear infinite"
-}}
-/>
+  <img
+    src={Loading1}
+    alt="Loading..."
+    style={{
+      width: "200px",
+      height: "200px",
+      animation: "spin 1s linear infinite", // Apply the spin animation
+    }}
+  />
+  <style>
+    {`
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `}
+  </style>
 </div>;
   if (!user) return <Navigate to="/login" />;
   return children;

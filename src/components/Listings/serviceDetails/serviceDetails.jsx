@@ -238,23 +238,35 @@ const copyToClipboard = () => {
   if (loading) {
     return (
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-          <img
-    src={Loading1}
-    alt="Loading..."
-    style={{
-      width: "200px",
-      height: "200px",
-      animation: "spin 1s linear infinite"
-    }}
-  />
-      </div>
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                  <img
+                    src={Loading1}
+                    alt="Loading..."
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      animation: "spin 1s linear infinite", // Apply the spin animation
+                    }}
+                  />
+                  <style>
+                    {`
+                      @keyframes spin {
+                        from {
+                          transform: rotate(0deg);
+                        }
+                        to {
+                          transform: rotate(360deg);
+                        }
+                      }
+                    `}
+                  </style>
+                </div>
     );
   }
 

@@ -2360,24 +2360,36 @@ const currentUserId = user?.uid;
               </Row>
               <div>
                 {loading ? (
-                  <div
+                <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                <img
+                  src={Loading1}
+                  alt="Loading..."
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
+                    width: "200px",
+                    height: "200px",
+                    animation: "spin 1s linear infinite", // Apply the spin animation
                   }}
-                >
-                    <img
-              src={Loading1}
-              alt="Loading..."
-              style={{
-                width: "200px",
-                height: "200px",
-                animation: "spin 1s linear infinite"
-              }}
-            />
-                </div>
+                />
+                <style>
+                  {`
+                    @keyframes spin {
+                      from {
+                        transform: rotate(0deg);
+                      }
+                      to {
+                        transform: rotate(360deg);
+                      }
+                    }
+                  `}
+                </style>
+              </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -2556,15 +2568,27 @@ const currentUserId = user?.uid;
                                         height: "100vh",
                                       }}
                                     >
-                                        <img
-                                  src={Loading1}
-                                  alt="Loading..."
-                                  style={{
-                                    width: "200px",
-                                    height: "200px",
-                                    animation: "spin 1s linear infinite"
-                                  }}
-                                />
+                                      <img
+                                        src={Loading1}
+                                        alt="Loading..."
+                                        style={{
+                                          width: "200px",
+                                          height: "200px",
+                                          animation: "spin 1s linear infinite", // Apply the spin animation
+                                        }}
+                                      />
+                                      <style>
+                                        {`
+                                          @keyframes spin {
+                                            from {
+                                              transform: rotate(0deg);
+                                            }
+                                            to {
+                                              transform: rotate(360deg);
+                                            }
+                                          }
+                                        `}
+                                      </style>
                                     </div>
                                   ) : (
                                     ads.map((car) => (

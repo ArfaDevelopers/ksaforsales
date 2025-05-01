@@ -146,7 +146,9 @@ const Dynamic_Route = () => {
   ]);
   const [selectedReports, setSelectedReports] = useState([]);
   const [reportText, setReportText] = useState("");
-  const [itemData, setItemData] = useState(null); // State to store ads data
+  const [itemData, setItemData] = useState(null); // State to store ads 
+  
+  console.log(itemData,"itemData111111111111111")
   const [showPhone, setShowPhone] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   console.log(itemData?.userId, "selectedReports_______itemData");
@@ -616,15 +618,27 @@ const Dynamic_Route = () => {
         height: "100vh",
       }}
     >
-        <img
-  src={Loading1}
-  alt="Loading..."
-  style={{
-    width: "200px",
-    height: "200px",
-    animation: "spin 1s linear infinite"
-  }}
-/>
+      <img
+        src={Loading1}
+        alt="Loading..."
+        style={{
+          width: "200px",
+          height: "200px",
+          animation: "spin 1s linear infinite", // Apply the spin animation
+        }}
+      />
+      <style>
+        {`
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}
+      </style>
     </div>
     ); // Display loading state
   }
@@ -716,11 +730,11 @@ const Dynamic_Route = () => {
   }}
 />
           <div>
-            <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
+            <div
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px",fontSize :"40px",fontWeight:"bold" }}
             >
               {itemData?.title || "Default Title"}{" "}
-            </h1>
+            </div>
           </div>
           <div
             className="CategoryInfodiv_btn2container"
@@ -6440,8 +6454,8 @@ const Dynamic_Route = () => {
             <Col md={4} className="p-3">
  
            
- <Col xs={11}  >
- <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+ <Col xs={12}  >
+ <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
 {/* Card body to hold the price and heart button */}
 <Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
 <div
@@ -6487,9 +6501,9 @@ borderTop: "3px solid #000", // Dark aur bold line
                            <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
                            
              <img
-               src={profile}
+               src={itemData.photoURL}
                alt="Profile"
-               className="img-fluid rounded-circle"
+               className="settings-upload-img"
              />
            </Link>
          </div>
@@ -6653,7 +6667,7 @@ text-decoration: none;
          
 </Card.Body>
 </Card>
-<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"110%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)" }}>
+<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)" }}>
 {/* Card body to hold the price and heart button */}
 <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
       

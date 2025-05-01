@@ -395,23 +395,35 @@ const Bookmarks = () => {
             <div className="row">
               {loading ? (
                 <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                <img
+                  src={Loading1}
+                  alt="Loading..."
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
+                    width: "200px",
+                    height: "200px",
+                    animation: "spin 1s linear infinite", // Apply the spin animation
                   }}
-                >
-                    <img
-    src={Loading1}
-    alt="Loading..."
-    style={{
-      width: "200px",
-      height: "200px",
-      animation: "spin 1s linear infinite"
-    }}
-  />
-                </div>
+                />
+                <style>
+                  {`
+                    @keyframes spin {
+                      from {
+                        transform: rotate(0deg);
+                      }
+                      to {
+                        transform: rotate(360deg);
+                      }
+                    }
+                  `}
+                </style>
+              </div>
               ) : paginatedData.length === 0 ? (
                 <div className="col-12 text-center">
                   <p>No bookmarked items found.</p>

@@ -118,24 +118,36 @@ export default function AutomativeCarousel() {
           <div className="col-md-12">
             <div>
               {loading ? (
-                  <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                    <img
-              src={Loading1}
-              alt="Loading..."
+              <div
               style={{
-                width: "200px",
-                height: "200px",
-                animation: "spin 1s linear infinite"
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
               }}
-            />
-                </div>
+            >
+              <img
+                src={Loading1}
+                alt="Loading..."
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  animation: "spin 1s linear infinite", // Apply the spin animation
+                }}
+              />
+              <style>
+                {`
+                  @keyframes spin {
+                    from {
+                      transform: rotate(0deg);
+                    }
+                    to {
+                      transform: rotate(360deg);
+                    }
+                  }
+                `}
+              </style>
+            </div>
               ) : (
                 <Slider
                   ref={slider}

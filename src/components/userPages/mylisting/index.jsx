@@ -877,24 +877,36 @@ const MyListe = () => {
                 </div>
                 <div className="table-responsive">
                   {loading ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100vh",
-                      }}
-                    >
-                      <img
-    src={Loading1}
-    alt="Loading..."
-    style={{
-      width: "200px",
-      height: "200px",
-      animation: "spin 1s linear infinite"
-    }}
-  />
-                    </div>
+                  <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                  <img
+                    src={Loading1}
+                    alt="Loading..."
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      animation: "spin 1s linear infinite", // Apply the spin animation
+                    }}
+                  />
+                  <style>
+                    {`
+                      @keyframes spin {
+                        from {
+                          transform: rotate(0deg);
+                        }
+                        to {
+                          transform: rotate(360deg);
+                        }
+                      }
+                    `}
+                  </style>
+                </div>
                   ) : (
                     <Table
                       className="listing-table datatable"

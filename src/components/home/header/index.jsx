@@ -17,6 +17,8 @@ const Header = ({ parms }) => {
   const [userId, setUserId] = useState("");
   const [drops, setDrops] = useState(false);
   const [divideName, setDivideName] = useState(null);
+  const [divideImage, setDivideImage] = useState(null);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [openCategories, setOpenCategories] = useState({});
   const [openSubcategories, setOpenSubcategories] = useState({});
@@ -24,8 +26,11 @@ const Header = ({ parms }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        console.log("user1111",user)
         setUserId(user.uid);
         setDivideName(user.displayName || "User");
+        setDivideImage(user.photoURL || "User");
+
       } else {
         console.log("No user is logged in.");
       }
@@ -1055,7 +1060,7 @@ const Header = ({ parms }) => {
                         aria-expanded={drops}
                         onClick={() => setDrops(!drops)}
                       >
-                        <img src={profile_img} alt="" />
+                        <img src={divideImage} alt="" />
                         <span>{divideName}</span>
                       </Link>
                       <div className={`dropdown-menu dropdown-menu-end ${drops ? "show" : ""}`}>
