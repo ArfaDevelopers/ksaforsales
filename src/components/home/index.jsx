@@ -806,7 +806,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -826,7 +826,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -846,7 +846,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -866,7 +866,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -886,7 +886,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -902,22 +902,11 @@ const Home = () => {
                   />{" "}
                 </Link>
               </div>
-            
-            </div>
-            <div
-              className="row cat_icon_main"
-              style={{
-                marginTop: window.innerWidth <= 576 ? "0.5rem" : "-1rem",
-                gap: window.innerWidth <= 576 ? "5px" : "10px",
-              }}
-            >
-              {/* Row 2: Next 5 items */}
-
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -937,7 +926,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -957,7 +946,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -978,7 +967,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link
@@ -998,7 +987,7 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "10px",
+                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
                 }}
               >
                 <Link

@@ -1346,6 +1346,10 @@ table.dataTable thead .sorting_desc_disabled:after {
   .container-fluid {
     flex-wrap: nowrap !important; /* Keep everything in one row */
   }
+  .category_icons {
+    width: 45% !important;
+    max-width: 45% !important;
+}
 }
 /*-----------------
     7. Header
