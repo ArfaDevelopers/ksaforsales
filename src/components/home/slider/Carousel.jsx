@@ -149,7 +149,7 @@ export default function Carousel() {
                       >
                         <div className="blog-widget">
                           <div
-                            className="blog-img"
+                            // className="blog-img"
                             style={{
                               height: "200px",
                               width: "100%",

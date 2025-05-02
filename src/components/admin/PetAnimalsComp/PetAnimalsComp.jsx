@@ -1319,7 +1319,6 @@ const currentUserId = user?.uid;
   ) => {
     let filtered = carsData;
 
-    // Filter by search query
     if (query.trim() !== "") {
       const lowercasedQuery = query?.toLowerCase();
       filtered = filtered.filter(

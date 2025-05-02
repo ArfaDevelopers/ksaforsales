@@ -311,7 +311,7 @@ const copyToClipboard = () => {
           <div className="about-details" >
             <div className="about-headings">
               <div className="author-img">
-                <img src={ProfileAvatar10} alt="authorimg" />
+                <img src={itemData?.galleryImages[0]} alt="authorimg" />
               </div>
               <div className="authordetails">
                 <h5>{itemData.title || "N/A"}</h5>
@@ -525,10 +525,6 @@ const copyToClipboard = () => {
           <div style={{ wordBreak: "break-all" }}>
             {getQueryParam("link") || window.location.href}
           </div>
-          {/* Add copy count display */}
-          <p className="text-muted mt-2">
-            Copied {copyCount} time{copyCount !== 1 ? 's' : ''} so far
-          </p>
         </div>
         <div className="modal-footer">
           <button
@@ -747,7 +743,7 @@ const copyToClipboard = () => {
                     </h4>
                     <div className="sidebarauthor-details align-items-center">
                       <div className="sideauthor-img">
-                        <img src={ProfileAvatar12} alt="author" />
+                        <img src={itemData.photoURL} alt="author" />
                       </div>
                       <div className="sideauthor-info">
                         <p className="authorname">

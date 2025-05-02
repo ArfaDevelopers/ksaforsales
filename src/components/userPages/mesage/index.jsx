@@ -143,11 +143,11 @@ const Message = ({ recieverId }) => {
                   <i className="feather-list" /> <span>My Listing</span>
                 </Link>
               </li>
-              {/* <li>
+              <li>
                 <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Bookmarks</span>
+                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
                 </Link>
-              </li> */}
+              </li>
               <li className="active">
                 <Link to="/messages">
                   <i className="fa-solid fa-comment-dots" />{" "}

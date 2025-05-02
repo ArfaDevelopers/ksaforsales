@@ -113,6 +113,8 @@ const AutomotiveComp = () => {
   }, [id, location]);
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
+  console.log(carsData, "selectedCarsMake______1");
+
   const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
   // const [searchQuery, setSearchQuery] = useState("");
   const [SortBy, setSortBy] = useState(""); // Search query for title and city

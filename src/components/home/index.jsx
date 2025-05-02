@@ -635,7 +635,7 @@ const Home = () => {
                       height: isMobile ? "180px" : isTablet ? "300px" : "auto",
                       objectFit: "contain",
                       borderRadius: "8px",
-                      marginTop: isMobile ? "100px" : "170px",
+                      marginTop: isMobile ? "120px" : "200px",
                       marginLeft: "auto",
                       marginRight: "auto",
                       maxWidth: "100%",

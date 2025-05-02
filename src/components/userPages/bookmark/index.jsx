@@ -33,7 +33,7 @@ const Bookmarks = () => {
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(9);
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
@@ -435,7 +435,7 @@ const Bookmarks = () => {
                       <div className="blog-widget">
                         <div className="blog-img">
                           <Link
-                            to={`/service-details?id=${car.id}&category=${encodeURIComponent(car.category)}`}
+                            to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
                           >
                             <img
                               style={{ height: "322px" }}
@@ -468,28 +468,41 @@ const Bookmarks = () => {
                           <div className="card-body">
                             <div className="blogfeaturelink">
                               <div className="grid-author">
-                                <img src={ProfileAvatar02} alt="author" />
+                                <img src={car.photoURL} alt="author" />
                               </div>
                               <div className="blog-features">
                                 {/* <Link to="#"> */}
-                                  <span>
+                                  <span style={{fontSize:"20px",fontWeight:"bold"}}>
                                     <i className="fa-regular fa-circle-stop" />{" "}
-                                    {car.SubjectCategories}
+                                    {car.displayName}
                                   </span>
                                 {/* </Link> */}
                               </div>
                               <div className="blog-author text-end">
                                 <span>
+                                <Link
+                            to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
+                          >
                                   <img src={eye} alt="views" />
+</Link>
                                   4000
                                 </span>
                               </div>
                             </div>
                             <h6>
+                              
                               <Link
-                                to={`/service-details?id=${car.id}&category=${encodeURIComponent(car.category)}`}
+                                to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
                               >
                                 {car.title}
+                              </Link>
+                            </h6>
+                            <h6>
+                              
+                              <Link
+                                to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
+                              >
+                               Product Id : {car.id}
                               </Link>
                             </h6>
                             <div className="blog-location-details">
@@ -505,12 +518,11 @@ const Bookmarks = () => {
                             </div>
                             <div className="amount-details">
                               <div className="amount">
-                                <span className="validrate">${car.priceFrom}</span>
-                                <span>${car.priceTo}</span>
+                                <span className="validrate">${car.Price || "N/A"}</span>
                               </div>
-                              <div className="ratings">
-                                <span>4.7</span> (50)
-                              </div>
+                              {/* <div className="ratings">
+                                <span>4.7</span> (5)
+                              </div> */}
                             </div>
                           </div>
                         </div>
