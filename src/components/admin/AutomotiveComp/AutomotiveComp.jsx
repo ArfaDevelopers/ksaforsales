@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
@@ -139,6 +139,9 @@ const AutomotiveComp = () => {
   const [selectedOptionTransmission, setSelectedOptionTransmission] =
     useState("");
   const [logSelectedColor, setlogSelectedColor] = useState([]);
+  const [RegionalSpec, setRegionalSpec] = useState([]);
+  const [Insurance, setInsurance] = useState([]);
+
   const [selectedEngines, setSelectedEngines] = useState([]);
   const [fromCC, setFromCC] = useState("");
   const [toCC, setToCC] = useState("");
@@ -154,11 +157,13 @@ const AutomotiveComp = () => {
   const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
     useState("");
   const [pictureAvailability, setPictureAvailability] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+
   const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
     useState("");
   const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
   const [activePage, setActivePage] = useState(1);
-  console.log(activePage,"activePage____________")
+  console.log(logSelectedPurpose, "activePage____________");
   const [ads, setCarsData] = useState([]);
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
@@ -170,9 +175,26 @@ const AutomotiveComp = () => {
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
-
- 
-    const user = auth.currentUser;
+  const categories = [
+    "Cars For Sale",
+    "Car Rental",
+    "Plates Number",
+    "Spare Parts",
+    "Accessories",
+    "Wheels & Rims",
+    "Trucks & Heavy Machinery",
+    "Tshaleeh",
+    "Boats & Jet Ski",
+    "Classic Cars",
+    "Salvage Cars",
+    "Mortgaged Cars",
+    "Recovery",
+    "Food Truck",
+    "Caravans",
+    "Reports",
+    "Car Cleaning",
+  ];
+  const user = auth.currentUser;
   const currentUserId = user?.uid;
 
   // Format country data for React Select
@@ -181,7 +203,13 @@ const AutomotiveComp = () => {
     label: country.name,
   }));
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  const [mileage, setMileage] = useState("");
 
+  console.log(selectedSubCategory, "selectedSubCategory________");
+  const handleCategorySelect = (e) => {
+    setselectedSubCategory(e.target.value);
+  };
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -286,7 +314,7 @@ const AutomotiveComp = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activePage]);
-  
+
   const carsPerPage = 6;
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
 
@@ -487,6 +515,39 @@ const AutomotiveComp = () => {
       }
     });
   };
+  const handleCheckboxChangeRegionalSpec = (label) => {
+    setRegionalSpec((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeInsurance = (label) => {
+    setInsurance((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxPurpose = (label) => {
+    setlogSelectedPurpose((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
 
   console.log("Selected Items:", logSelectedColor);
   const handleCheckboxChangeTransmission = (label) => {
@@ -617,9 +678,7 @@ const AutomotiveComp = () => {
     fetchCars();
   }, [bookmarkedCar]);
 
-
   const handleShowModal = (userId) => {
-
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
@@ -712,7 +771,12 @@ const AutomotiveComp = () => {
       selectedOptionisFeatured,
       SortBy,
       subCatgory,
-      nestedSubCategory
+      nestedSubCategory,
+      selectedSubCategory,
+      mileage,
+      logSelectedPurpose,
+      RegionalSpec,
+      Insurance
     );
   }, [
     selectedCities,
@@ -742,6 +806,11 @@ const AutomotiveComp = () => {
     SortBy,
     subCatgory,
     nestedSubCategory,
+    selectedSubCategory,
+    mileage,
+    logSelectedPurpose,
+    RegionalSpec,
+    Insurance,
   ]);
 
   // Handle search input change
@@ -777,7 +846,12 @@ const AutomotiveComp = () => {
       selectedOptionisFeatured,
       SortBy,
       subCatgory,
-      nestedSubCategory
+      nestedSubCategory,
+      selectedSubCategory,
+      mileage,
+      logSelectedPurpose,
+      RegionalSpec,
+      Insurance
     );
   };
   const filterCars = (
@@ -807,7 +881,12 @@ const AutomotiveComp = () => {
     selectedOptionisFeatured,
     SortBy,
     subCatgory,
-    nestedSubCategory
+    nestedSubCategory,
+    selectedSubCategory,
+    mileage,
+    logSelectedPurpose,
+    RegionalSpec,
+    Insurance
   ) => {
     let filtered = carsData;
 
@@ -835,6 +914,10 @@ const AutomotiveComp = () => {
           car.AdType?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.mileage?.toLowerCase().includes(lowercasedQuery) ||
+          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
+          car.RegionalSpec?.toLowerCase().includes(lowercasedQuery) ||
+          car.Insurance?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -848,11 +931,28 @@ const AutomotiveComp = () => {
         nestedSubCategory.includes(car.NestedSubCategory)
       );
     }
-
-    if (subCatgory?.length > 0) {
-      filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
+    if (RegionalSpec?.length > 0) {
+      filtered = filtered.filter((car) =>
+        RegionalSpec.includes(car.RegionalSpec)
+      );
+    }
+    if (Insurance?.length > 0) {
+      filtered = filtered.filter((car) => Insurance.includes(car.Insurance));
+    }
+    if (selectedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedSubCategory.includes(car.SubCategory)
+      );
     }
 
+    if (logSelectedPurpose?.length > 0) {
+      filtered = filtered.filter((car) =>
+        logSelectedPurpose.includes(car.Purpose)
+      );
+    }
+    if (mileage?.length > 0) {
+      filtered = filtered.filter((car) => mileage.includes(car.mileage));
+    }
     // Filter by selected cities
     else if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -1109,15 +1209,12 @@ const AutomotiveComp = () => {
             }}
           >
             <button
-            onClick={() => {
-              navigate("/");
-            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 // background: "#E9EEFF",
                 fontWeight: "500",
-                // pointerEvents: "none",
+                pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1128,20 +1225,61 @@ const AutomotiveComp = () => {
             </span>
 
             <button
-            onClick={() => {
-              navigate("/AutomotiveComp");
-            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                // pointerEvents: "none",
+                pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Automotive
             </button>
-      
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+
+            <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              All Cities
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+
+            <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              Used Car for Sale
+            </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+
+            <button
+              className="btn"
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                pointerEvents: "none",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              Mercedez Benz
+            </button>
           </div>
 
           <div>
@@ -1213,9 +1351,6 @@ const AutomotiveComp = () => {
               Real Estate for Rent
             </button>
             <button
-onClick={() => {
-  navigate("/HealthCareComp");
-}}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1225,7 +1360,7 @@ onClick={() => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Furniture
+              Home & Garden
             </button>
             <button
               onClick={() => {
@@ -1735,7 +1870,139 @@ onClick={() => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                {/*   ------------------------------------------                            */}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Sub Categories</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <Form.Label>Select a Category</Form.Label>
+                          <Form.Select
+                            value={selectedSubCategory}
+                            onChange={handleCategorySelect}
+                          >
+                            <option value="">-- Select --</option>
+                            {categories.map((category, index) => (
+                              <option key={index} value={category}>
+                                {category}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Mileage</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <Form.Label>Mileage (in km)</Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter mileage"
+                            value={mileage}
+                            onChange={(e) => setMileage(e.target.value)}
+                            min="0"
+                          />
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 {/*-------------------------------------*/}
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Ad Type</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["Rent", "Sell", "Wanted"].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() => handleCheckboxPurpose(color)}
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Trusted Car</Accordion.Header>
@@ -1959,6 +2226,141 @@ onClick={() => {
                                 </div>
                               )
                             )}
+                          </Form.Group>
+                          <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Regional Spec</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {[
+                              "Canadian",
+                              "European",
+                              "Japanese",
+                              "American",
+                            ].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxChangeRegionalSpec(color)
+                                  }
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Insurance </Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {[
+                              "No Insurance",
+                              "ThirdParty",
+                              "Comprehensive",
+                            ].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxChangeInsurance(color)
+                                  }
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
                           </Form.Group>
                           <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
@@ -2866,7 +3268,7 @@ onClick={() => {
 
               <Accordion className="mt-3">
                 <Accordion.Item eventKey="0">
-                  <Accordion.Header>Ad Type</Accordion.Header>
+                  <Accordion.Header>Featued Ads </Accordion.Header>
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
@@ -2931,7 +3333,7 @@ onClick={() => {
               </Row>
               <div>
                 {loading ? (
-                    <div
+                  <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
@@ -3050,9 +3452,9 @@ onClick={() => {
                                 }
                                 alt={car.title || "Car"}
                                 style={{
-                                  width: "100%", 
+                                  width: "100%",
                                   height: "250px",
-                                  objectFit:"cover",
+                                  objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -3069,10 +3471,12 @@ onClick={() => {
                                     window.innerWidth <= 576 ? "-2px" : "0px",
                                 }}
                               >
-                                 <Link
-                            //  to={`/car-details/${ad.id}`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
-                          >{car.title || "Car"}</Link>
+                                <Link
+                                  //  to={`/car-details/${ad.id}`}
+                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
+                                >
+                                  {car.title || "Car"}
+                                </Link>
                               </Card.Title>
                               <Card.Text style={{ color: "black" }}>
                                 <small className="text-muted">
@@ -3099,7 +3503,6 @@ onClick={() => {
                                 <br />
                                 {car.description ||
                                   "Description not available."}
-                                  
                               </Card.Text>
 
                               <Col
@@ -3131,7 +3534,7 @@ onClick={() => {
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
-                                      <div
+                                    <div
                                       style={{
                                         display: "flex",
                                         justifyContent: "center",
@@ -3184,7 +3587,8 @@ onClick={() => {
                                               objectFit: "cover",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "block",
                                             }}
                                           />
@@ -3195,7 +3599,8 @@ onClick={() => {
                                               height: "110px",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "flex",
                                               alignItems: "center",
                                               justifyContent: "center",
@@ -3209,7 +3614,6 @@ onClick={() => {
                                         )}
                                       </div>
                                     ))
-                                    
                                   )}
                                 </div>
 
@@ -3439,60 +3843,61 @@ onClick={() => {
                                 `}</style>
                               </div>
                               <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {currentUserId && receiverId ? (
-                                    <Chat
-                                      userId={currentUserId}
-                                      recieverId={receiverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
+                                <div
+                                  className={`modal fade ${
+                                    showModal ? "show d-block" : "d-none"
+                                  }`}
+                                  tabIndex="-1"
+                                  role="dialog"
+                                  style={{
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    marginTop: 100,
+                                  }} // Backdrop effect
+                                >
+                                  <div
+                                    className="modal-dialog modal-dialog-centered"
+                                    role="document"
+                                  >
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">
+                                          Send Message
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowModal(false)}
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body">
+                                        <div className="p-4 w-full max-w-lg mx-auto">
+                                          {currentUserId && receiverId ? (
+                                            <Chat
+                                              userId={currentUserId}
+                                              recieverId={receiverId}
+                                            />
+                                          ) : (
+                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                              <p className="text-lg font-semibold text-gray-600">
+                                                Please log in to start
+                                                messaging.
+                                              </p>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
+
+                                {showModal && (
+                                  <div
+                                    className="modal-backdrop fade show"
+                                    onClick={() => setShowModal(false)}
+                                  ></div>
+                                )}
                               </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>
@@ -3503,7 +3908,7 @@ onClick={() => {
                   "No Record Found"
                 )}
               </div>
-              <div  className="d-flex align-items-center justify-content-center my-4">
+              <div className="d-flex align-items-center justify-content-center my-4">
                 <Button
                   variant="#2d4495"
                   className="d-flex align-items-center mx-2"
