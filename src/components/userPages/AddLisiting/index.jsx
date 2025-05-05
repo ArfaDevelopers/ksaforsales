@@ -9,7 +9,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
 import {  useParams } from "react-router-dom";
-
+import locationData from "../../../Location.json"
+import cityData from "../../../City.json"
 
 import {
   gallerymedia_1,
@@ -244,39 +245,46 @@ const AddLisiting = () => {
   const [Make, setSelectedCityMake] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
   console.log(subcategories,'subcategories____')
-  const districtOptions = [
-    {
-      value: "Al Safa, Jeddah, Saudi Arabia",
-      label: "Al Safa, Jeddah, Saudi Arabia",
-    },
-    {
-      value: "Al Faisaliyah, Dammam, Saudi Arabia",
-      label: "Al Faisaliyah, Dammam, Saudi Arabia",
-    },
-    {
-      value: "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia",
-      label: "North Ghurāb Lighthouse, Umarah Ibn Ghurab, Jeddah, Saudi Arabia",
-    },
-    {
-      value: "Al Faisaliyah, Al Qurayyat, Saudi Arabia",
-      label: "Al Faisaliyah, Al Qurayyat, Saudi Arabia",
-    },
-    {
-      value: "Industrial Area No 1, Dammam, Saudi Arabia",
-      label: "Industrial Area No 1, Dammam, Saudi Arabia",
-    },
-    {
-      value: "Anak, Saudi Arabia",
-      label: "Anak, Saudi Arabia",
-    },
-    {
-      value: "Awwad, Ar Rayyan, Riyadh, Saudi Arabia",
-      label: "Awwad, Ar Rayyan, Riyadh, Saudi Arabia",
-    },
-  ];
+  
+  const [locationList, setLocationList] = useState([]);
 
+  useEffect(() => {
+    // Assuming Location.json is like { "location": [ ... ] } or is an array itself
+    if (locationData.location && Array.isArray(locationData.location)) {
+      setLocationList(locationData.location);
+    } else if (Array.isArray(locationData)) {
+      setLocationList(locationData);
+    } else {
+      // fallback empty or log error
+      setLocationList([]);
+      console.error('Location JSON data is not in expected format');
+    }
+  }, []);
 
+  const districtOptions = locationList.map((loc) => ({
+    value: loc,
+    label: loc,
+  }));
+  const [CityList, setCityList] = useState([]);
 
+  useEffect(() => {
+    // Assuming Location.json is like { "location": [ ... ] } or is an array itself
+    if (cityData.location && Array.isArray(cityData.location)) {
+      setCityList(cityData.location);
+    } else if (Array.isArray(cityData)) {
+      setCityList(cityData);
+    } else {
+      // fallback empty or log error
+      setLocationList([]);
+      console.error('Location JSON data is not in expected format');
+    }
+  }, []);
+
+  const CityOptions = CityList.map((city) => ({
+    value: city,
+    label: city,
+  }));
+  cityData
   console.log(subcategories, "subcategories___________");
   useEffect(() => {
     // Fetch cities of Saudi Arabia
@@ -3251,11 +3259,23 @@ setDataCatorgySHow(data.SubCategory)
                               <h4>Select City</h4>
                             </div>
                             <div className="card-body">
-                              <Select
-                                options={citiesMake}
-                                value={Make}
-                                onChange={setSelectedCityMake}
-                                placeholder="Select a city"
+                                 <Select
+                                options={CityOptions}
+                                value={
+                                  CityOptions.find(
+                                    (option) =>
+                                      option.value === formData.City
+                                  ) || null
+                                }
+                                onChange={(selectedOption) =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    City: selectedOption
+                                      ? selectedOption.value
+                                      : "",
+                                  }))
+                                }
+                                placeholder="Select a City"
                                 isClearable
                                 className="w-100"
                               />
