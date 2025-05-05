@@ -1400,11 +1400,14 @@ const currentUserId = user?.uid;
             }}
           >
             <button
+            onClick={() => {
+              navigate("/");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1422,13 +1425,13 @@ const currentUserId = user?.uid;
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Electronics
             </button>
-            <span>
+            {/* <span>
               <MdKeyboardArrowRight />
             </span>
 
@@ -1472,7 +1475,7 @@ const currentUserId = user?.uid;
               }}
             >
               Apple Macbook Air M3
-            </button>
+            </button> */}
           </div>
 
           <div>
@@ -1544,6 +1547,9 @@ const currentUserId = user?.uid;
               Real Estate for Rent
             </button>
             <button
+            onClick={() => {
+              navigate("/HealthCareComp");
+            }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1553,7 +1559,7 @@ const currentUserId = user?.uid;
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Garden
+              Home & Furniture
             </button>
             <button
               onClick={() => {

@@ -592,9 +592,7 @@ const copyToClipboard = () => {
                     <Roomspics filteredData={itemData} />
                   </div>
                 </div>
-              </div>
-          
-              
+              </div>       
               <div
     style={{
       marginTop: "20px",
@@ -602,13 +600,10 @@ const copyToClipboard = () => {
       flexWrap: "wrap",
       alignItems: "center",
     }}
-  >
-  
+  >  
       <RatingAndReviews currentAdId={_Id} listingUserId={itemData?.userId} />
-
   </div>
             </div>
-
             <div className="col-lg-3 theiaStickySidebar">
               <StickyBox>
                 <div className="rightsidebar">
@@ -671,7 +666,6 @@ const copyToClipboard = () => {
                         ))}
                     </ul>
                   </div>
-
                   <div className="card">
                     <h4>
                       <img
@@ -735,7 +729,6 @@ const copyToClipboard = () => {
                       </li>
                     </ul>
                   </div>
-
                   <div className="card">
                     <h4>
                       <i className="feather-user" style={{ color: "#2d4495" }} />{" "}

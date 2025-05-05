@@ -1665,11 +1665,14 @@ const FashionStyle = () => {
             }}
           >
             <button
+            onClick={() => {
+              navigate("/");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1680,17 +1683,20 @@ const FashionStyle = () => {
             </span>
 
             <button
+            onClick={() => {
+              navigate("/FashionStyle");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Fashion Style
             </button>
-            <span>
+            {/* <span>
               <MdKeyboardArrowRight />
             </span>
 
@@ -1734,7 +1740,7 @@ const FashionStyle = () => {
               }}
             >
               REI Stormhenge Down Hybrid Parka
-            </button>
+            </button> */}
           </div>
 
           <div>
@@ -1807,6 +1813,9 @@ const FashionStyle = () => {
               Real Estate for Rent
             </button>
             <button
+            onClick={() => {
+              navigate("/HealthCareComp");
+            }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1816,7 +1825,7 @@ const FashionStyle = () => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Garden
+              Home & Furniture
             </button>
             <button
               onClick={() => {

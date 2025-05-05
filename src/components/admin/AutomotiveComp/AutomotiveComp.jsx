@@ -1109,12 +1109,15 @@ const AutomotiveComp = () => {
             }}
           >
             <button
+            onClick={() => {
+              navigate("/");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 // background: "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1125,61 +1128,20 @@ const AutomotiveComp = () => {
             </span>
 
             <button
+            onClick={() => {
+              navigate("/AutomotiveComp");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Automotive
             </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              All Cities
-            </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Used Car for Sale
-            </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Mercedez Benz
-            </button>
+      
           </div>
 
           <div>
@@ -1251,6 +1213,9 @@ const AutomotiveComp = () => {
               Real Estate for Rent
             </button>
             <button
+onClick={() => {
+  navigate("/HealthCareComp");
+}}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1260,7 +1225,7 @@ const AutomotiveComp = () => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Garden
+              Home & Furniture
             </button>
             <button
               onClick={() => {

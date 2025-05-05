@@ -2039,11 +2039,14 @@ const currentUserId = user?.uid;
             }}
           >
             <button
+            onClick={() => {
+              navigate("/");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -2054,17 +2057,20 @@ const currentUserId = user?.uid;
             </span>
 
             <button
+            onClick={() => {
+              navigate("/JobBoard");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Jobboards
             </button>
-            <span>
+            {/* <span>
               <MdKeyboardArrowRight />
             </span>
 
@@ -2093,7 +2099,7 @@ const currentUserId = user?.uid;
               }}
             >
               Software Engineer Jobs
-            </button>
+            </button> */}
           </div>
 
           <div>
@@ -2120,6 +2126,9 @@ const currentUserId = user?.uid;
             }}
           >
             <button
+              onClick={() => {
+                navigate("/AutomotiveComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2132,6 +2141,9 @@ const currentUserId = user?.uid;
               Cars
             </button>
             <button
+              onClick={() => {
+                navigate("/JobBoard");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2144,6 +2156,9 @@ const currentUserId = user?.uid;
               Jobs
             </button>
             <button
+              onClick={() => {
+                navigate("/RealEstateComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2156,6 +2171,9 @@ const currentUserId = user?.uid;
               Real Estate for Rent
             </button>
             <button
+            onClick={() => {
+              navigate("/HealthCareComp");
+            }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2165,57 +2183,12 @@ const currentUserId = user?.uid;
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Garden
+              Home & Furniture
             </button>
             <button
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
+              onClick={() => {
+                navigate("/ElectronicComp");
               }}
-            >
-              Electronics
-            </button>
-            <button
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
-            <button
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
-            <button
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
-            <button
               className="head2btn"
               style={{
                 backgroundColor: "white",
