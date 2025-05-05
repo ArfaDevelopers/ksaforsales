@@ -357,7 +357,17 @@ const CategoryDetail = () => {
             <div style={{ wordBreak: "break-all", overflowWrap: "break-word" }}>
               {categories.image}
             </div>
-            <Button variant="primary" onClick={handleCopyLink} className="mt-3">
+            <Button style={{
+        backgroundColor: "#2d4495",
+        color: "#fff",
+        border: "none",
+        fontWeight: "bold",
+        borderRadius: 10,
+        transition: "none", // Disable transitions
+        outline: "none", // Remove focus outline
+        boxShadow: "none", // Remove any shadow changes
+        cursor: "pointer" // Maintain clickable appearance
+        }} onClick={handleCopyLink} className="mt-3">
               <FaCopy /> Copy Link
             </Button>
           </Modal.Body>

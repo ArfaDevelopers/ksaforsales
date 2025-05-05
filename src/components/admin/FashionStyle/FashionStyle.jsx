@@ -576,6 +576,9 @@ const FashionStyle = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activePage]);
   const carsPerPage = 6;
 
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);

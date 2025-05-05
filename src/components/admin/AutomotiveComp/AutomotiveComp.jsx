@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
+
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
 import fashion from "../../home/fashion.png";
@@ -84,7 +85,7 @@ const AutomotiveComp = () => {
   const [nestedSubCategory, setNestedSubCategory] = useState("");
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111");
-
+  // const scrollRef = useRef();
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -174,12 +175,6 @@ const AutomotiveComp = () => {
     const user = auth.currentUser;
   const currentUserId = user?.uid;
 
-
-
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
     value: country.isoCode,
@@ -288,6 +283,10 @@ const AutomotiveComp = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activePage]);
+  
   const carsPerPage = 6;
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);
 
@@ -3539,7 +3538,7 @@ const AutomotiveComp = () => {
                   "No Record Found"
                 )}
               </div>
-              <div className="d-flex align-items-center justify-content-center my-4">
+              <div  className="d-flex align-items-center justify-content-center my-4">
                 <Button
                   variant="#2d4495"
                   className="d-flex align-items-center mx-2"

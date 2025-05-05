@@ -145,6 +145,9 @@ const Bikes = () => {
   const handlePageClick = (page) => {
     setActivePage(page);
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activePage]);
   const carsPerPage = 3;
 
   const totalPages = Math.ceil(filteredCars.length / carsPerPage);

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc,updateDoc } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
@@ -628,57 +628,44 @@ setDataCatorgySHow(data.SubCategory)
 
   
 
-  const saveToFirestore = async () => {
+  const saveToFirestore = async (db, auth, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate) => {
     try {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
       if (user) {
-        if (!Category) {
-          setError("Category is required!"); // ✅ Set error message if no category is selected
+        if (!Category1) {
+          setError("Category is required!"); // Set error message if no category is selected
           return;
         }
         setError("");
         const Collection =
-          Category1 === "Automotive"
-            ? "Cars"
-            : Category1 === "Electronics"
-            ? "ELECTRONICS"
-            : Category1 === "Fashion Style"
-            ? "FASHION"
-            : Category1 === "Home & Furnituer"
-            ? "HEALTHCARE"
-            : Category1 === "Job Board"
-            ? "JOBBOARD"
-            : Category1 === "Other"
-            ? "Education"
-            : Category1 === "Real Estate"
-            ? "REALESTATECOMP"
-            : Category1 === "Services"
-            ? "TRAVEL"
-            : Category1 === "Sports & Game"
-            ? "SPORTSGAMESComp"
-            : Category1 === "Pet & Animals"
-            ? "PETANIMALCOMP"
-            : Category1 === "Magazines"
-            ? "Magazines"
-            : Category1 === "Household"
-            ? "Household"
-            : "books";
+          Category1 === "Automotive" ? "Cars" :
+          Category1 === "Electronics" ? "ELECTRONICS" :
+          Category1 === "Fashion Style" ? "FASHION" :
+          Category1 === "Home & Furniture" ? "HEALTHCARE" :
+          Category1 === "Job Board" ? "JOBBOARD" :
+          Category1 === "Other" ? "Education" :
+          Category1 === "Real Estate" ? "REALESTATECOMP" :
+          Category1 === "Services" ? "TRAVEL" :
+          Category1 === "Sports & Game" ? "SPORTSGAMESComp" :
+          Category1 === "Pet & Animals" ? "PETANIMALCOMP" :
+          Category1 === "Magazines" ? "Magazines" :
+          Category1 === "Household" ? "Household" : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
-          // Save form data to Firestore under the 'adsListing' collection
+          // Save form data to Firestore under the specified collection
           await addDoc(collection(db, Collection), {
             ...formData,
-            mediaImgLogo: mediaImgLogo,
+            mediaImgLogo,
             category: Category1,
-            photoURL: photoURL,
-            creationTime: creationTime,
-            displayName: displayName,
-            galleryImages: galleryImages,
-            imageUrl: imageUrl,
+            photoURL,
+            creationTime,
+            displayName,
+            galleryImages,
+            imageUrl,
             Make: Make?.value,
-            userId: user.uid, // Optional: save the user's UID for reference
-            createdAt: new Date(), // Store the timestamp
+            userId: user.uid,
+            createdAt: new Date(),
           });
           console.log("Data added successfully to Firestore!");
           MySwal.fire({
@@ -687,7 +674,6 @@ setDataCatorgySHow(data.SubCategory)
             icon: "success",
             timer: 1000,
           }).then(() => {
-            // Navigate to the dashboard after the alert closes
             navigate('/dashboard');
           });
         } else {
@@ -703,6 +689,77 @@ setDataCatorgySHow(data.SubCategory)
       }
     } catch (error) {
       console.error("Error adding document: ", error);
+    }
+  };
+  const updateToFirestore = async (db, auth, _Id, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate) => {
+    try {
+      // Get the current user from Firebase Auth
+      const user = auth.currentUser;
+      if (user) {
+        if (!Category1) {
+          setError("Category is required!"); // Set error message if no category is selected
+          return;
+        }
+        setError("");
+        const Collection =
+          Category1 === "Automotive" ? "Cars" :
+          Category1 === "Electronics" ? "ELECTRONICS" :
+          Category1 === "Fashion Style" ? "FASHION" :
+          Category1 === "Home & Furniture" ? "HEALTHCARE" :
+          Category1 === "Job Board" ? "JOBBOARD" :
+          Category1 === "Other" ? "Education" :
+          Category1 === "Real Estate" ? "REALESTATECOMP" :
+          Category1 === "Services" ? "TRAVEL" :
+          Category1 === "Sports & Game" ? "SPORTSGAMESComp" :
+          Category1 === "Pet & Animals" ? "PETANIMALCOMP" :
+          Category1 === "Magazines" ? "Magazines" :
+          Category1 === "Household" ? "Household" : "books";
+        // Check if more than half of the form fields are filled
+        if (isFormValid()) {
+          // Update the existing document in Firestore
+          const docRef = doc(db, Collection, _Id);
+          await updateDoc(docRef, {
+            ...formData,
+            mediaImgLogo,
+            category: Category1,
+            photoURL,
+            creationTime,
+            displayName,
+            galleryImages,
+            imageUrl,
+            Make: Make?.value,
+            userId: user.uid,
+            updatedAt: new Date(), // Store the update timestamp
+          });
+          console.log("Document updated successfully in Firestore!");
+          MySwal.fire({
+            title: "Updated!",
+            text: "Your listing has been updated.",
+            icon: "success",
+            timer: 1000,
+          }).then(() => {
+            navigate('/dashboard');
+          });
+        } else {
+          MySwal.fire({
+            title: "Error!",
+            text: "Please fill in at least half of the required fields.",
+            icon: "error",
+            timer: 2000,
+          });
+        }
+      } else {
+        console.log("User is not authenticated.");
+      }
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
+  const handleSubmit = () => {
+    if (_Id) {
+      updateToFirestore(db, auth, _Id, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate);
+    } else {
+      saveToFirestore(db, auth, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate);
     }
   };
   const handleImageUpload = async (file) => {
@@ -9698,15 +9755,15 @@ setDataCatorgySHow(data.SubCategory)
     </Link>
   </label>
 </div>
-               <button
-  onClick={saveToFirestore}
-  disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
-  className="btn"
-  style={{ backgroundColor: "#2d4495", color: "white" }}
-  type="button"
->
-  Submit
-</button>
+<button
+      onClick={handleSubmit}
+      disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
+      className="btn"
+      style={{ backgroundColor: "#2d4495", color: "white" }}
+      type="button"
+    >
+      {_Id ? "Update" : "Submit"}
+    </button>
 {/* {error && (
   <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
 )} */}
