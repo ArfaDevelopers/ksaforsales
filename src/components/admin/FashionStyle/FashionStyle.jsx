@@ -3316,23 +3316,51 @@ const FashionStyle = () => {
                                    </style>
                                  </div>
                                   ) : (
-                                    ads.map((car) => (
+                                    ads.map((cars) => (
                                       <div
                                         style={{
                                           position: "absolute",
-                                          top: "-70px", // Adjust the top margin to place the price higher
-                                          left: "500px",
+                                          top: "-70px",
+                                          left: "470px",
                                           fontWeight: "bold",
                                           fontSize: "20px",
-                                          zIndex: 2, // Ensure the price text stays above the image
+                                          zIndex: 2,
                                           color: "#2D4495",
                                         }}
                                       >
-                                        <img
-                                          src={profile}
-                                          alt="Profile"
-                                          className="img-fluid rounded-circle"
-                                        />
+                                        {car.photoURL ? (
+                                          <img
+                                            src={car.photoURL}
+                                            // alt={car.title || "No Image"}
+                                            style={{
+                                              width: "100px",
+                                              height: "100px",
+                                              objectFit: "cover",
+                                              borderRadius: "50%",
+                                              border: "2px solid white",
+                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              display: "block",
+                                            }}
+                                          />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              width: "110px",
+                                              height: "110px",
+                                              borderRadius: "50%",
+                                              border: "2px solid white",
+                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "center",
+                                              backgroundColor: "#f0f0f0", // optional background color
+                                              textAlign: "center",
+                                              padding: "10px", // optional padding
+                                            }}
+                                          >
+                                            {car.title || "No Image"}
+                                          </div>
+                                        )}
                                       </div>
                                     ))
                                   )}
