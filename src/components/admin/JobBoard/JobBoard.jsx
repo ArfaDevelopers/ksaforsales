@@ -289,15 +289,17 @@ const currentUserId = user?.uid;
   );
 
   const categories1 = [
-    "Other Services",
-    "Contracting Services",
-    "Government Paperwork Services",
-    "Delivery Services",
-    "Furniture Moving Services",
-    "Cleaning Services",
-    "International Shopping Services",
-    "Legal Services",
-    "Accounting & Financial Services",
+    "Administrative Jobs",
+    "Fashion & Beauty Jobs",
+    "Security & Safety Jobs",
+    "Teaching Jobs",
+    "IT & Design Jobs",
+    "Agriculture & Farming Jobs",
+    "Industrial Jobs",
+    "Medical & Nursing Jobs",
+    "Architecture & Construction Jobs",
+    "Housekeeping Jobs",
+    "Restaurant Jobs",
   ];
   const handleFromChange = (e) => {
     setFromValue(e.target.value);
