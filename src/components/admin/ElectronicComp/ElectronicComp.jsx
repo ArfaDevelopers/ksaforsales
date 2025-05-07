@@ -104,11 +104,21 @@ const ElectronicComp = () => {
 
   const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
   const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
-  const [Brand, setBrand] = useState([]);
+  // const [Brand, setBrand] = useState([]);
   const [selectedSubCategory, setselectedSubCategory] = useState("");
   const handleCategorySelect = (e) => {
     setselectedSubCategory(e.target.value);
   };
+  const [brands, setBrands] = useState([]);
+  const handleCheckboxBrand = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setBrands((prev) => [...prev, value]);
+    } else {
+      setBrands((prev) => prev.filter((brand) => brand !== value));
+    }
+  };
+
   const [selectedCarsMake, setSelectedCarsMake] = useState([]);
 
   console.log(selectedCarsMake, "selectedCarsMake______");
@@ -215,6 +225,37 @@ const ElectronicComp = () => {
     value: country.isoCode,
     label: country.name,
   }));
+  const brandOptions = {
+    "Mobile Phones": [
+      "Apple",
+      "iPhone",
+      "iPod",
+      "Apple Watch",
+      "Samsung",
+      "Galaxy S",
+      "Galaxy Note",
+      "Huawei",
+      "Sony",
+      "Xperia",
+      "BlackBerry",
+      "Nokia",
+      "HTC",
+      "Microsoft",
+      "LG",
+      "Hitachi",
+      "Panasonic",
+    ],
+    "Computers & Laptops": [
+      "MacBook",
+      "Surface",
+      "Sony Laptop",
+      "Toshiba",
+      "Dell",
+      "Asus",
+      "Acer",
+    ],
+    Cameras: ["Canon", "Fujifilm", "Olympus", "Samsung", "Nikon", "Sony"],
+  };
 
   // Handle country selection
   const handleCountryChange = (selected) => {
@@ -747,16 +788,16 @@ const ElectronicComp = () => {
     setToValue(e.target.value);
   };
 
-  const handleCheckboxChangeBrand = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setBrand((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setBrand((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
+  // const handleCheckboxChangeBrand = (event) => {
+  //   const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+  //   if (event.target.checked) {
+  //     // Add the label to the state if checked
+  //     setBrand((prev) => [...prev, carLabel]);
+  //   } else {
+  //     // Remove the label from the state if unchecked
+  //     setBrand((prev) => prev.filter((car) => car !== carLabel));
+  //   }
+  // };
   const handleCheckboxChange = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
@@ -909,7 +950,6 @@ const ElectronicComp = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
-      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -925,7 +965,8 @@ const ElectronicComp = () => {
       subCatgory,
       selectedSubCategory,
       logSelectedPurpose,
-      Condition
+      Condition,
+      brands
     );
   }, [
     searchQuery,
@@ -957,7 +998,6 @@ const ElectronicComp = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
-    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -974,6 +1014,7 @@ const ElectronicComp = () => {
     selectedSubCategory,
     logSelectedPurpose,
     Condition,
+    brands,
   ]);
 
   // Handle search input change
@@ -1011,7 +1052,6 @@ const ElectronicComp = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
-      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -1027,7 +1067,8 @@ const ElectronicComp = () => {
       subCatgory,
       selectedSubCategory,
       logSelectedPurpose,
-      Condition
+      Condition,
+      brands
     );
   };
   const filterCars = (
@@ -1059,7 +1100,6 @@ const ElectronicComp = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
-    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -1075,7 +1115,8 @@ const ElectronicComp = () => {
     subCatgory,
     selectedSubCategory,
     logSelectedPurpose,
-    Condition
+    Condition,
+    brands
   ) => {
     let filtered = carsData;
 
@@ -1102,7 +1143,7 @@ const ElectronicComp = () => {
           car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
           car.AdType?.toLowerCase().includes(lowercasedQuery) ||
           car.States?.toLowerCase().includes(lowercasedQuery) ||
-          car.Brand?.toLowerCase().includes(lowercasedQuery) ||
+          // car.brands?.toLowerCase().includes(lowercasedQuery) ||
           car.OperatingSystem?.toLowerCase().includes(lowercasedQuery) ||
           car.ScreenSize?.toLowerCase().includes(lowercasedQuery) ||
           car.Processor?.toLowerCase().includes(lowercasedQuery) ||
@@ -1119,6 +1160,7 @@ const ElectronicComp = () => {
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
+          car.brands?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1133,6 +1175,9 @@ const ElectronicComp = () => {
       filtered = filtered.filter((car) =>
         selectedSubCategory.includes(car.SubCategory)
       );
+    }
+    if (brands?.length > 0) {
+      filtered = filtered.filter((car) => brands.includes(car.brands));
     }
     if (Condition?.length > 0) {
       filtered = filtered.filter((car) => Condition.includes(car.Condition));
@@ -1200,9 +1245,9 @@ const ElectronicComp = () => {
       );
     }
     // Filter by selected cities
-    if (Brand?.length > 0) {
-      filtered = filtered.filter((car) => Brand.includes(car.Brand));
-    }
+    // if (Brand?.length > 0) {
+    //   filtered = filtered.filter((car) => Brand.includes(car.Brand));
+    // }
     if (selectedStates1?.length > 0) {
       filtered = filtered.filter((car) => selectedStates1.includes(car.States));
     }
@@ -1744,6 +1789,66 @@ const ElectronicComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
+                {brandOptions[selectedSubCategory] && (
+                  <>
+                    <hr
+                      style={{
+                        width: "100%",
+                        height: "0px",
+                        top: "1310.01px",
+                        left: "239.88px",
+                        gap: "0px",
+                        borderTop: "1px solid #000000",
+                        opacity: "0.5", // Adjust opacity for visibility
+                        transform: "rotate(0deg)",
+                        margin: "20px 0",
+                        borderColor: "#000000", // Set border color to black
+                      }}
+                    />
+                    <Accordion className="mt-3">
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Brands</Accordion.Header>
+                        <Accordion.Body>
+                          <div style={{ maxWidth: "300px", margin: "20px" }}>
+                            <Form.Group>
+                              {brandOptions[selectedSubCategory].map(
+                                (brand) => (
+                                  <div
+                                    key={brand}
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      padding: "8px 0",
+                                    }}
+                                  >
+                                    <Form.Check
+                                      type="checkbox"
+                                      label={brand}
+                                      value={brand}
+                                      checked={brands.includes(brand)}
+                                      onChange={handleCheckboxBrand}
+                                    />
+                                    <span
+                                      style={{
+                                        fontWeight: "bold",
+                                        color: "#333",
+                                      }}
+                                    >
+                                      12345
+                                    </span>
+                                  </div>
+                                )
+                              )}
+                            </Form.Group>
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </>
+                )}
+
                 <hr
                   style={{
                     width: "100%",
@@ -1882,6 +1987,7 @@ const ElectronicComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
