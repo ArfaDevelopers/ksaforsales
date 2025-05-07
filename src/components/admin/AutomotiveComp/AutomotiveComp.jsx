@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
@@ -23,7 +23,9 @@ import profile from "../dyanmic_route/profileimage.png";
 import { MdMessage } from "react-icons/md";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
-
+import WindowedSelect from 'react-windowed-select';
+import cityData from "../../../City.json"
+import locationData from "../../../Location.json"
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import { FaRegHeart } from "react-icons/fa";
@@ -112,6 +114,84 @@ const AutomotiveComp = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location]);
+
+
+  const [CityList, setCityList] = useState([]);
+
+  useEffect(() => {
+    // Assuming Location.json is like { "location": [ ... ] } or is an array itself
+    if (cityData.City && Array.isArray(cityData.City)) {
+      setCityList(cityData.City);
+    } else if (Array.isArray(cityData)) {
+      setCityList(cityData);
+    } else {
+      // fallback empty or log error
+      setCityList([]);
+      console.error('City JSON data is not in expected format');
+    }
+  }, []);
+
+  const CityOptions = useMemo(
+    () =>
+      CityList.map((city) => ({
+        value: city, // Adjust based on your cityData structure
+        label: city,
+      })),
+    [CityList]
+  );
+
+
+  const [DistrictList, setDistrictList] = useState([]);
+  console.log('_________________',DistrictList);
+
+  useEffect(() => {
+    if (locationData.Dis && Array.isArray(locationData.Dis)) {
+      setDistrictList(locationData.Dis);
+    } else if (Array.isArray(locationData)) {
+      setDistrictList(locationData);
+    } else {
+      setDistrictList([]);
+      console.error('Dis JSON data is not in expected format');
+    }
+  }, []);
+
+
+  const DistrictOptions = useMemo(
+    () =>
+    DistrictList.map((Dis) => ({
+        value: Dis, 
+        label: Dis,
+      })),
+    [DistrictList]
+  );
+  const [selectedCity, setselectedCity] = useState(null);
+  const [selectedDistrict, setselectedDistrict] = useState(null);
+
+  console.log(selectedCity, "selectedSubCategory________");
+
+  const [formData, setFormData] = useState({
+    City: "",District:""
+  });
+  const handleCitySelect = (selectedOption) => {
+    console.log('Selected Option:', selectedOption); // Debug
+    setselectedCity(selectedOption); // Update selectedCity state
+    setFormData((prev) => ({
+      ...prev,
+      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+    }));
+  };
+  console.log('Selected City:', selectedCity)
+
+  const handleDistrictSelect = (selectedOption1) => {
+    console.log('Selected Option:', selectedOption1); // Debug
+    setselectedDistrict(selectedOption1); // Update selectedCity state
+    setFormData((prev) => ({
+      ...prev,
+      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+    }));
+  };
+  console.log('Selected district:', selectedDistrict)
+
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
   console.log(carsData, "selectedCarsMake______1");
@@ -1723,7 +1803,9 @@ const AutomotiveComp = () => {
       Model,
       Fueltype,
       Condition,
-      AdditionalFeatures
+      AdditionalFeatures,
+      selectedCity,
+      selectedDistrict
     );
   }, [
     selectedCities,
@@ -1764,6 +1846,8 @@ const AutomotiveComp = () => {
     Fueltype,
     Condition,
     AdditionalFeatures,
+    selectedCity,
+      selectedDistrict
   ]);
 
   // Handle search input change
@@ -1810,7 +1894,9 @@ const AutomotiveComp = () => {
       Model,
       Fueltype,
       Condition,
-      AdditionalFeatures
+      AdditionalFeatures,
+      selectedCity,
+      selectedDistrict
     );
   };
   const filterCars = (
@@ -1851,7 +1937,9 @@ const AutomotiveComp = () => {
     Model,
     Fueltype,
     Condition,
-    AdditionalFeatures
+    AdditionalFeatures,
+    selectedCity,
+      selectedDistrict
   ) => {
     let filtered = carsData;
 
@@ -1902,6 +1990,12 @@ const AutomotiveComp = () => {
       filtered = filtered.filter((car) =>
         nestedSubCategory.includes(car.NestedSubCategory)
       );
+    }
+    if (selectedCity) {
+      filtered = filtered.filter((car) => car.City === selectedCity.value);
+    }
+    if (selectedDistrict) {
+      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
     }
     if (AdditionalFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -2030,11 +2124,23 @@ const AutomotiveComp = () => {
     // Filter by price range
     if (fromValue || toValue) {
       filtered = filtered.filter((car) => {
-        const carPrice = parseFloat(car.price); // Assuming price is a number or string
-        const minPrice = fromValue ? parseFloat(fromValue) : 0; // Default to 0 if no fromValue
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
+        // Use car.Price instead of car.price
+        const carPrice = parseFloat(car?.Price);
+        if (isNaN(carPrice)) {
+          console.warn('Invalid car Price:', car);
+          return false; // Skip cars with invalid Price
+        }
+    
+        // Convert fromValue and toValue to numbers, use appropriate defaults
+        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
+        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
+    
+        // Ensure minPrice and maxPrice are valid
+        if (isNaN(minPrice) || isNaN(maxPrice)) {
+          console.warn('Invalid price range:', { fromValue, toValue });
+          return true; // Skip price filtering if inputs are invalid
+        }
+    
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -2069,16 +2175,7 @@ const AutomotiveComp = () => {
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
-    if (fromValue || toValue) {
-      filtered = filtered.filter((car) => {
-        const carPrice = parseFloat(car.price); // Assuming price is a number or string
-        const minPrice = fromValue ? parseFloat(fromValue) : 0; // Default to 0 if no fromValue
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
-        return carPrice >= minPrice && carPrice <= maxPrice;
-      });
-    }
+ 
 
     // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
@@ -2490,84 +2587,25 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                {/*--------------------------------------*/}
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <div className="p-4">
-                          <h2 className="text-lg font-bold mb-2">
-                            Select a Country
-                          </h2>
-
-                          <Select
-                            options={countryOptions}
-                            value={selectedCountry}
-                            onChange={handleCountryChange}
-                            placeholder="Select a country..."
-                            isClearable
-                            className="w-full mb-4"
-                          />
-
-                          {selectedCountry && cities.length > 0 && (
-                            <div className="mt-4">
-                              <h3 className="text-md font-semibold mb-2">
-                                Cities in {selectedCountry.label}
-                              </h3>
-                              <Select
-                                options={cities.map((city) => ({
-                                  value: city.name,
-                                  label: city.name,
-                                }))}
-                                isMulti
-                                onChange={handleCityChange}
-                                value={cities
-                                  .filter((city) =>
-                                    selectedCities.includes(city.name)
-                                  )
-                                  .map((city) => ({
-                                    value: city.name,
-                                    label: city.name,
-                                  }))}
-                                placeholder="Select cities..."
-                                className="w-full"
-                              />
-                            </div>
-                          )}
-                        </div>
-
-                        {/* <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "New York",
-                            "Bogotá",
-                            "Dubai",
-                            "Tokyo",
-                            "Paris",
-                            "al-satwa",
-                          ].map((city) => (
-                            <div
-                              key={city}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={city}
-                                checked={selectedCities.includes(city)}
-                                onChange={(e) => handleCityChange(e, city)}
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div> */}
+ <Form.Label>Select a City</Form.Label>
+                        
+                          <WindowedSelect
+                          
+          options={CityOptions}
+          value={selectedCity}
+          onChange={handleCitySelect}
+          placeholder="Select a City"
+          isClearable
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
+                          
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2586,46 +2624,28 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*      ----------               */}
-                <Accordion>
+                   <Accordion>
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>States </Accordion.Header>
+                    <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {selectedCountry && states.length > 0 ? (
-                          <div className="mt-4">
-                            <h3 className="text-md font-semibold mb-2">
-                              States in {selectedCountry.label}
-                            </h3>
-                            <Select
-                              options={states.map((state) => ({
-                                value: state.isoCode,
-                                label: state.name,
-                              }))}
-                              isMulti
-                              onChange={handleStateChange1}
-                              value={states
-                                .filter((state) =>
-                                  selectedStates1.includes(state.name)
-                                )
-                                .map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))}
-                              placeholder="Select states..."
-                              className="w-full"
-                            />
-                          </div>
-                        ) : (
-                          <spna style={{ color: "red" }}>
-                            Please select country
-                          </spna>
-                        )}
+ <Form.Label>Select a District</Form.Label>
+                        
+                          <WindowedSelect
+                          
+          options={DistrictOptions}
+          value={selectedDistrict}
+          onChange={handleDistrictSelect}
+          placeholder="Select a City"
+          isClearable
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
+                          
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-
                 <hr
                   style={{
                     width: "100%",
@@ -2640,6 +2660,8 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                {/*--------------------------------------*/}
+              
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Make</Accordion.Header>
@@ -4467,33 +4489,35 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Row>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="From"
-                              value={fromValue}
-                              onChange={handleFromChange}
-                            />
-                          </Col>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="To"
-                              value={toValue}
-                              onChange={handleToChange}
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+               <Accordion className="mt-3">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Price Range</Accordion.Header>
+          <Accordion.Body>
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    placeholder="From"
+                    value={fromValue}
+                    onChange={handleFromChange}
+                    min="0" // Prevent negative prices
+                  />
+                </Col>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    placeholder="To"
+                    value={toValue}
+                    onChange={handleToChange}
+                    min="0" // Prevent negative prices
+                  />
+                </Col>
+              </Row>
+            </Form.Group>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
                 {/* <hr
                   style={{
                     width: "100%",
