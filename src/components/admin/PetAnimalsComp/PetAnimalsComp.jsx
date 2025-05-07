@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
@@ -28,7 +28,9 @@ import fb from "../../home/fb.png";
 import tiktok from "../../home/tiktoc.png";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
-
+import WindowedSelect from 'react-windowed-select';
+import cityData from "../../../City.json"
+import locationData from "../../../Location.json"
 import whatapp from "../../home/whatapp (3).png";
 import Carousel from "../../home/slider/Carousel";
 import AutomativeCarosuel from "../..//home/slider/AutomativeCarousel.jsx";
@@ -167,7 +169,6 @@ const PetAnimalsComp = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
   const [cities, setCities] = useState([]);
-  // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
   const [states, setStates] = useState([]);
   const [receiverId, setReceiverId] = useState(null);
 
@@ -206,9 +207,80 @@ const currentUserId = user?.uid;
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location, getQueryParam]);
+
+  const [selectedCity, setselectedCity] = useState(null);
+  const [selectedDistrict, setselectedDistrict] = useState(null);
+
+  const [formData, setFormData] = useState({
+    City: "",District:""
+  });
+  const handleCitySelect = (selectedOption) => {
+    console.log('Selected Option:', selectedOption); // Debug
+    setselectedCity(selectedOption); // Update selectedCity state
+    setFormData((prev) => ({
+      ...prev,
+      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+    }));
+  };
+  console.log('Selected City:', selectedCity)
+
+  const handleDistrictSelect = (selectedOption1) => {
+    console.log('Selected Option:', selectedOption1); // Debug
+    setselectedDistrict(selectedOption1); // Update selectedCity state
+    setFormData((prev) => ({
+      ...prev,
+      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+    }));
+  };
+  console.log('Selected district:', selectedDistrict)
+  const [CityList, setCityList] = useState([]);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+    // Assuming Location.json is like { "location": [ ... ] } or is an array itself
+    if (cityData.City && Array.isArray(cityData.City)) {
+      setCityList(cityData.City);
+    } else if (Array.isArray(cityData)) {
+      setCityList(cityData);
+    } else {
+      // fallback empty or log error
+      setCityList([]);
+      console.error('City JSON data is not in expected format');
+    }
+  }, []);
+
+  const CityOptions = useMemo(
+    () =>
+      CityList.map((city) => ({
+        value: city, // Adjust based on your cityData structure
+        label: city,
+      })),
+    [CityList]
+  );
+
+
+  const [DistrictList, setDistrictList] = useState([]);
+  console.log('_________________',DistrictList);
+
+  useEffect(() => {
+    if (locationData.Dis && Array.isArray(locationData.Dis)) {
+      setDistrictList(locationData.Dis);
+    } else if (Array.isArray(locationData)) {
+      setDistrictList(locationData);
+    } else {
+      setDistrictList([]);
+      console.error('Dis JSON data is not in expected format');
+    }
+  }, []);
+
+
+  const DistrictOptions = useMemo(
+    () =>
+    DistrictList.map((Dis) => ({
+        value: Dis, 
+        label: Dis,
+      })),
+    [DistrictList]
+  );
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
     value: country.isoCode,
@@ -655,6 +727,34 @@ const currentUserId = user?.uid;
     fetchCars();
   }, []);
   console.log(activePage, "activePage_________");
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  const handleCategorySelect = (e) => {
+    setselectedSubCategory(e.target.value);
+  };
+
+
+
+  const categories1 = [
+    "Sheep",
+    "Goats",
+    "Parrot",
+    "Dove/Pigeon",
+    "Cats",
+    "Chickens",
+    "Camels",
+    "Horses",
+    "Dogs",
+    "Cows",
+    "Fish & Turtles",
+    "Rabbits",
+    "Ducks",
+    "Squirrels",
+    "Hamsters",
+    "Fur",
+  ];
+
+
+
   const handlePageClick = (page) => {
     setActivePage(page);
   };
@@ -742,9 +842,9 @@ const currentUserId = user?.uid;
 
   const handleCheckboxChangeisFeatured = (event) => {
     const isChecked = event.target.checked;
-    const value = isChecked ? "Featured Ad" : "Not Featured Ad";
+    const value = isChecked ? 'Featured Ads' : ''; // Clear filter when unchecked
     setSelectedOptionisFeatured(value);
-    console.log(`Selected Option:____ ${value}`);
+    console.log(`Selected Ad Type: ${value}`);
   };
 
   const handleCheckboxChangeVideoAvailability = (event) => {
@@ -1121,7 +1221,10 @@ const currentUserId = user?.uid;
       HealthStatus,
       TrainingLevel,
       DietaryPreferences,
-      subCatgory
+      subCatgory,
+      selectedSubCategory,
+      selectedCity,
+      selectedDistrict
     );
   }, [
     selectedCities,
@@ -1185,6 +1288,9 @@ const currentUserId = user?.uid;
     TrainingLevel,
     DietaryPreferences,
     subCatgory,
+    selectedSubCategory,
+    selectedCity,
+    selectedDistrict
   ]);
 
   // Handle search input change
@@ -1254,7 +1360,10 @@ const currentUserId = user?.uid;
       HealthStatus,
       TrainingLevel,
       DietaryPreferences,
-      subCatgory
+      subCatgory,
+      selectedSubCategory,
+      selectedCity,
+      selectedDistrict
     );
   };
   const filterCars = (
@@ -1318,7 +1427,10 @@ const currentUserId = user?.uid;
     HealthStatus,
     TrainingLevel,
     DietaryPreferences,
-    subCatgory
+    subCatgory,
+    selectedSubCategory,
+    selectedCity,
+    selectedDistrict
   ) => {
     let filtered = carsData;
 
@@ -1377,12 +1489,18 @@ const currentUserId = user?.uid;
           car.TrainingLevel?.toLowerCase().includes(lowercasedQuery) ||
           car.DietaryPreferences?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.FeaturedAds?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
     setLoading(false);
     if (Duration?.length > 0) {
       filtered = filtered.filter((car) => Duration.includes(car.Duration));
+    }
+    if (selectedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedSubCategory.includes(car.SubCategory)
+      );
     }
     if (subCatgory?.length > 0) {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
@@ -1391,6 +1509,12 @@ const currentUserId = user?.uid;
       filtered = filtered.filter((car) =>
         DietaryPreferences.includes(car.DietaryPreferences)
       );
+    }
+    if (selectedCity) {
+      filtered = filtered.filter((car) => car.City === selectedCity.value);
+    }
+    if (selectedDistrict) {
+      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
     }
     if (TrainingLevel?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -1523,10 +1647,14 @@ const currentUserId = user?.uid;
       filtered = filtered.filter((car) => selectedStates1.includes(car.States));
     }
     // Filter by selected cities
-    if (selectedOptionisFeatured?.length > 0) {
-      filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
-      );
+    if (selectedOptionisFeatured) {
+      filtered = filtered.filter((car) => {
+        if (!car?.FeaturedAds || typeof car.FeaturedAds !== 'string') {
+          console.warn('Invalid car FeaturedAds:', car);
+          return false; // Skip cars with invalid FeaturedAds
+        }
+        return car.FeaturedAds === selectedOptionisFeatured;
+      });
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
@@ -1597,15 +1725,37 @@ const currentUserId = user?.uid;
     if (selectedCarsMake?.length > 0) {
       filtered = filtered.filter((car) => selectedCarsMake.includes(car.make));
     }
-
+    if (searchQuery?.length > 0) {
+      filtered = filtered.filter((car) => {
+        // Ensure car.title exists and is a string
+        if (!car?.title || typeof car.title !== 'string') {
+          console.warn('Invalid car title:', car);
+          return false;
+        }
+        // Case-insensitive search
+        return car.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
     // Filter by price range
     if (fromValue || toValue) {
       filtered = filtered.filter((car) => {
-        const carPrice = parseFloat(car.price); // Assuming price is a number or string
-        const minPrice = fromValue ? parseFloat(fromValue) : 0; // Default to 0 if no fromValue
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
+        // Use car.Price instead of car.price
+        const carPrice = parseFloat(car?.Price);
+        if (isNaN(carPrice)) {
+          console.warn('Invalid car Price:', car);
+          return false; // Skip cars with invalid Price
+        }
+    
+        // Convert fromValue and toValue to numbers, use appropriate defaults
+        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
+        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
+    
+        // Ensure minPrice and maxPrice are valid
+        if (isNaN(minPrice) || isNaN(maxPrice)) {
+          console.warn('Invalid price range:', { fromValue, toValue });
+          return true; // Skip price filtering if inputs are invalid
+        }
+    
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -1648,16 +1798,6 @@ const currentUserId = user?.uid;
 
         // Ensure that car's price is between minPrice and maxPrice
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
-      });
-    }
-    if (fromValue || toValue) {
-      filtered = filtered.filter((car) => {
-        const carPrice = parseFloat(car.price); // Assuming price is a number or string
-        const minPrice = fromValue ? parseFloat(fromValue) : 0; // Default to 0 if no fromValue
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
-        return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
 
@@ -1979,7 +2119,7 @@ const currentUserId = user?.uid;
               </h5>
 
               <Form>
-                <Row className="my-3">
+              <Row className="my-3">
                   <Col>
                     <Form.Label
                       style={{
@@ -1993,7 +2133,7 @@ const currentUserId = user?.uid;
                     <div className="position-relative">
                       <input
                         type="search"
-                        placeholder="E.g Dogs in America"
+                        placeholder="Search Here"
                         className="form-control rounded-pill pe-5"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
@@ -2013,84 +2153,77 @@ const currentUserId = user?.uid;
       border-color: black !important; 
     }
   `}</style>
-                <Accordion>
+     <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                {/*  -------------                          */}
+      <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Sub Categories</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <Form.Label>Select a Category</Form.Label>
+                          <Form.Select
+                            value={selectedSubCategory}
+                            onChange={handleCategorySelect}
+                          >
+                            <option value="">-- Select --</option>
+                            {categories1.map((category, index) => (
+                              <option key={index} value={category}>
+                                {category}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>             
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                  {/*      ----------               */}
+                  <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <div className="p-4">
-                          <h2 className="text-lg font-bold mb-2">
-                            Select a Country
-                          </h2>
-
-                          <Select
-                            options={countryOptions}
-                            value={selectedCountry}
-                            onChange={handleCountryChange}
-                            placeholder="Select a country..."
-                            isClearable
-                            className="w-full mb-4"
-                          />
-
-                          {selectedCountry && cities.length > 0 && (
-                            <div className="mt-4">
-                              <h3 className="text-md font-semibold mb-2">
-                                Cities in {selectedCountry.label}
-                              </h3>
-                              <Select
-                                options={cities.map((city) => ({
-                                  value: city.name,
-                                  label: city.name,
-                                }))}
-                                isMulti
-                                onChange={handleCityChange}
-                                value={cities
-                                  .filter((city) =>
-                                    selectedCities.includes(city.name)
-                                  )
-                                  .map((city) => ({
-                                    value: city.name,
-                                    label: city.name,
-                                  }))}
-                                placeholder="Select cities..."
-                                className="w-full"
-                              />
-                            </div>
-                          )}
-                        </div>
-
-                        {/* <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "New York",
-                            "Bogotá",
-                            "Dubai",
-                            "Tokyo",
-                            "Paris",
-                            "al-satwa",
-                          ].map((city) => (
-                            <div
-                              key={city}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={city}
-                                checked={selectedCities.includes(city)}
-                                onChange={(e) => handleCityChange(e, city)}
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div> */}
+ <Form.Label>Select a City</Form.Label>
+                        
+                          <WindowedSelect
+                          
+          options={CityOptions}
+          value={selectedCity}
+          onChange={handleCitySelect}
+          placeholder="Select a City"
+          isClearable
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
+                          
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2112,38 +2245,22 @@ const currentUserId = user?.uid;
                 {/*      ----------               */}
                 <Accordion>
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>States </Accordion.Header>
+                    <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {selectedCountry && states.length > 0 ? (
-                          <div className="mt-4">
-                            <h3 className="text-md font-semibold mb-2">
-                              States in {selectedCountry.label}
-                            </h3>
-                            <Select
-                              options={states.map((state) => ({
-                                value: state.isoCode,
-                                label: state.name,
-                              }))}
-                              isMulti
-                              onChange={handleStateChange1}
-                              value={states
-                                .filter((state) =>
-                                  selectedStates1.includes(state.name)
-                                )
-                                .map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))}
-                              placeholder="Select states..."
-                              className="w-full"
-                            />
-                          </div>
-                        ) : (
-                          <spna style={{ color: "red" }}>
-                            Please select country
-                          </spna>
-                        )}
+ <Form.Label>Select a District</Form.Label>
+                        
+                          <WindowedSelect
+                          
+          options={DistrictOptions}
+          value={selectedDistrict}
+          onChange={handleDistrictSelect}
+          placeholder="Select a City"
+          isClearable
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
+                          
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2162,92 +2279,36 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*--------------------------------------*/}
-
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Breed</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "German Shepherd",
-                            "Labrador Retriever",
-                            "Golden Retriever",
-                            "Beagle",
-                          ].map((car, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={car}
-                                name={car} // Use the name attribute for identification
-                                onChange={handleCheckboxChangeBreed}
-                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
+                {/*      ----------               */}
                 <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Row>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="From"
-                              value={fromValue}
-                              onChange={handleFromChange}
-                            />
-                          </Col>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="To"
-                              value={toValue}
-                              onChange={handleToChange}
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Price Range</Accordion.Header>
+          <Accordion.Body>
+            <Form.Group className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    placeholder="From"
+                    value={fromValue}
+                    onChange={handleFromChange}
+                    min="0" // Prevent negative prices
+                  />
+                </Col>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    placeholder="To"
+                    value={toValue}
+                    onChange={handleToChange}
+                    min="0" // Prevent negative prices
+                  />
+                </Col>
+              </Row>
+            </Form.Group>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
 
                 <hr
                   style={{
@@ -2263,7 +2324,7 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
+                {/*      ----------               */}
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Age</Accordion.Header>
@@ -2318,12 +2379,151 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                <Accordion>
+                {/*      ----------               */}
+                <Accordion className="mt-3">
+  <Accordion.Item eventKey="0">
+    <Accordion.Header>Ad Type</Accordion.Header>
+    <Accordion.Body>
+      <div style={{ maxWidth: '300px', margin: '20px' }}>
+        <Form.Group>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '8px 0',
+            }}
+          >
+            <Form.Check
+              type="checkbox"
+              label="Featured Ad"
+              onChange={handleCheckboxChangeisFeatured}
+              checked={selectedOptionisFeatured === 'Featured Ads'}
+            />
+          </div>
+        </Form.Group>
+      </div>
+    </Accordion.Body>
+  </Accordion.Item>
+</Accordion>
+
+              <hr
+                style={{
+                  width: "100%",
+                  height: "1px",
+                  borderTop: "1px solid #000000",
+                  opacity: "0.5", // Adjust opacity for visibility
+                  margin: "20px 0",
+                  borderColor: "#000000", // Set border color to black
+                }}
+              />
+                {/*      ----------               */}
+              
+                {/* <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Breed</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
+                          {[
+                            "German Shepherd",
+                            "Labrador Retriever",
+                            "Golden Retriever",
+                            "Beagle",
+                          ].map((car, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={car}
+                                name={car} // Use the name attribute for identification
+                                onChange={handleCheckboxChangeBreed}
+                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                /> */}
+
+                {/* <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Row>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="From"
+                              value={fromValue}
+                              onChange={handleFromChange}
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="To"
+                              value={toValue}
+                              onChange={handleToChange}
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                /> */}
+
+              
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Gender</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Male", "Female"].map((car, index) => (
                             <div
@@ -2367,13 +2567,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Color</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Yellow", "Black", "Chocolate"].map(
                             (car, index) => (
@@ -2419,13 +2618,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Size</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Men: 6–15 (US)", "Women: 5–12 (US)"].map(
                             (car, index) => (
@@ -2472,14 +2670,13 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
+                /> */}
 
-                <Accordion>
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Temperament</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Friendly", "Protective", "Playful"].map(
                             (car, index) => (
@@ -2525,13 +2722,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Health Status</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Spayed/Neutered", "Vaccinated", "Dewormed"].map(
                             (car, index) => (
@@ -2577,13 +2773,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Training Level</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {["Untrained", "Basic Commands", "Fully Trained"].map(
                             (car, index) => (
@@ -2629,13 +2824,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Dietary Preferences</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {[
                             "Grain-Free Diet",
@@ -2683,13 +2877,12 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion>
+                /> */}
+                {/* <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Seller Type</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                           {[
                             "Brand Seller",
@@ -2738,14 +2931,13 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-                <Accordion className="mt-3">
+                /> */}
+                {/* <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Picture Availability</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Local Checkbox */}
                           <div
                             style={{
                               display: "flex",
@@ -2779,15 +2971,14 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
-
+                /> */}
+{/* 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Video Availability</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Local Checkbox */}
                           <div
                             style={{
                               display: "flex",
@@ -2823,54 +3014,14 @@ const currentUserId = user?.uid;
                     margin: "20px 0",
                     borderColor: "#000000", // Set border color to black
                   }}
-                />
+                /> */}
 
                 {/*                  */}
 
                 {/*-------------------------------------*/}
               </Form>
 
-              <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Ad Type</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Featured Ad"
-                            onChange={handleCheckboxChangeisFeatured}
-                            checked={selectedOptionisFeatured === "Featured Ad"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
+           
             </Col>
 
             <Col md={9} className="p-3">

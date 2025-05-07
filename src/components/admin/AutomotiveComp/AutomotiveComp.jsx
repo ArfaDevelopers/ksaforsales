@@ -115,6 +115,39 @@ const AutomotiveComp = () => {
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
   console.log(carsData, "selectedCarsMake______1");
+  const featuresList = [
+    { name: "fullOption", label: "Full option" },
+    { name: "insured", label: "Insured" },
+    { name: "selfParking", label: "Self Parking" },
+    { name: "alarmSystem", label: "Alarm System" },
+    { name: "dealership", label: "Dealership" },
+    { name: "quickSelling", label: "Quick Selling" },
+    { name: "navigation", label: "Navigation" },
+    { name: "temperatureSeats", label: "Temperature Controlled Seats" },
+    { name: "inspected", label: "Inspected" },
+    { name: "parkingSensors", label: "Parking Sensors" },
+    { name: "bluetooth", label: "Bluetooth" },
+    { name: "sunroof", label: "Sunroof/Moonroof" },
+    { name: "leatherSeats", label: "Leather Seats" },
+    { name: "backupCamera", label: "Backup Camera" },
+    { name: "heatedSeats", label: "Heated Seats" },
+    { name: "keylessEntry", label: "Keyless Entry" },
+    { name: "remoteStart", label: "Remote Start" },
+    { name: "adaptiveCruise", label: "Adaptive Cruise Control" },
+    { name: "laneDeparture", label: "Lane Departure Warning" },
+    { name: "blindSpot", label: "Blind Spot Monitoring" },
+    { name: "premiumSound", label: "Premium Sound System" },
+    { name: "awd", label: "All-Wheel Drive" },
+    { name: "touchscreen", label: "Touchscreen Display" },
+    { name: "carPlay", label: "Apple CarPlay/Android Auto" },
+    { name: "ledHeadlights", label: "LED Headlights" },
+    { name: "towPackage", label: "Tow Package" },
+    { name: "powerLiftgate", label: "Power Liftgate" },
+    { name: "headUpDisplay", label: "Head-Up Display" },
+    { name: "rainWipers", label: "Rain-Sensing Wipers" },
+    { name: "emergencyBraking", label: "Automatic Emergency Braking" },
+    { name: "ambientLighting", label: "Ambient Lighting" },
+  ];
 
   const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
   // const [searchQuery, setSearchQuery] = useState("");
@@ -139,7 +172,15 @@ const AutomotiveComp = () => {
   const [selectedOptionTransmission, setSelectedOptionTransmission] =
     useState("");
   const [logSelectedColor, setlogSelectedColor] = useState([]);
+  const [AdditionalFeatures, setAdditionalFeatures] = useState([]);
+  console.log(AdditionalFeatures, "AdditionalFeatures_______");
+  const [Condition, setCondition] = useState([]);
+
+  const [InteriorColor, setInteriorColor] = useState([]);
+
   const [RegionalSpec, setRegionalSpec] = useState([]);
+  const [Fueltype, setFueltype] = useState([]);
+
   const [Insurance, setInsurance] = useState([]);
 
   const [selectedEngines, setSelectedEngines] = useState([]);
@@ -205,6 +246,864 @@ const AutomotiveComp = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [mileage, setMileage] = useState("");
+  const carBrands = [
+    "Toyota",
+    "Ford",
+    "Chevrolet",
+    "Nissan",
+    "Hyundai",
+    "Genesis",
+    "Lexus",
+    "GMC",
+    "Mercedes",
+    "Honda",
+    "BMW",
+    "Motorcycles",
+    "Kia",
+    "Dodge",
+    "Chrysler",
+    "Jeep",
+    "Mitsubishi",
+    "Mazda",
+    "Porsche",
+    "Audi",
+    "Suzuki",
+    "Infinity",
+    "Hummer",
+    "Lincoln",
+    "Volkswagen",
+    "Daihatsu",
+    "Geely",
+    "Mercury",
+    "Volvo",
+    "Peugeot",
+    "Bentley",
+    "Jaguar",
+    "Subaru",
+    "MG",
+    "ZXAUTO",
+    "Changan",
+    "Renault",
+    "Buick",
+    "Rolls-Royce",
+    "Lamborghini",
+    "Opel",
+    "Skoda",
+    "Ferrari",
+    "Citroen",
+    "Chery",
+    "Seat",
+    "Daewoo",
+    "SABB",
+    "SsangYong",
+    "Aston Martin",
+    "Proton",
+    "Haval",
+    "GAC",
+    "Great Wall",
+    "FAW",
+    "BYD",
+    "Alfa Romeo",
+    "TATA",
+    "JMC",
+    "JETOUR",
+    "CMC",
+    "VICTORY AUTO",
+    "MAXUS",
+    "McLaren",
+    "JAC",
+    "Baic",
+    "Dongfeng",
+    "EXEED",
+    "Tesla",
+    "Soueaste",
+    "Mahindra",
+    "Zotye",
+    "Hongqi",
+    "SMART",
+    "Tank",
+    "Lynk & Co",
+    "Lucid",
+    "INEOS",
+  ];
+  const toyotaModels = [
+    "Land Cruiser",
+    "Camry",
+    "Avalon",
+    "Hilux",
+    "Corolla",
+    "FJ Cruiser",
+    "Land Cruiser 70 Series",
+    "Land Cruiser 70 Series Pick up",
+    "Yaris",
+    "Land Cruiser Prado",
+    "Fortuner",
+    "Aurion",
+    "Cressida",
+    "Sequoia",
+    "Bus",
+    "Innova",
+    "RAV4",
+    "XA",
+    "Eco",
+    "Tundra",
+    "Previa",
+    "Supra",
+    "Toyota 86",
+    "Avanza",
+    "Highlander",
+    "Prius",
+    "Rush",
+    "Granvia",
+    "C-HR",
+    "Corolla Cross",
+    "Raize",
+    "Crown",
+    "Urban Cruiser",
+  ];
+  const fordModels = [
+    "Crown Victoria",
+    "Grand Marquis",
+    "Explorer",
+    "Taurus",
+    "Expedition",
+    "Mustang",
+    "Edge",
+    "f150",
+    "Fusion",
+    "Windstar",
+    "Flex",
+    "Fox",
+    "Mondeo",
+    "f250",
+    "f350",
+    "Ranger",
+    "X Corgan",
+    "Pick up",
+    "Escape",
+    "Splash",
+    "Panther",
+    "Thunderbird",
+    "F450",
+    "F550",
+    "Escort",
+    "Ecosport",
+    "vans ford",
+    "Figo",
+    "Bronco",
+    "Territory",
+    "Everest",
+  ];
+  const chevroletModels = [
+    "Caprice",
+    "Tahoe",
+    "Suburban",
+    "Lumina",
+    "Salvador",
+    "Camaro",
+    "Blazer",
+    "Epica",
+    "Malibu",
+    "Aveo",
+    "Cruze",
+    "Optra",
+    "Trail Blazer",
+    "Avalanche",
+    "Corvette",
+    "فان",
+    "Impala",
+    "Traverse",
+    "Uplander",
+    "Express Van",
+    "فنشر",
+    "Captiva",
+    "Astro Van",
+    "Sonic",
+    "Spark",
+    "Caravan",
+    "Cavalier",
+    "Colorado",
+    "جي فان",
+    "Equinox",
+    "Bolt",
+    "Groove",
+    "Trax",
+  ];
+  const nissanModels = [
+    "Patrol",
+    "DDSEN",
+    "Tama",
+    "Maxima",
+    "Pathfinder",
+    "Sunny",
+    "Armada",
+    "Xterra",
+    "Class Z",
+    "Nissan Shass",
+    "Navara",
+    "Murano",
+    "Tiida",
+    "Orphan",
+    "Skyline",
+    "Sentra",
+    "X Trail",
+    "Gloria",
+    "Primera",
+    "Terrano",
+    "Qashqai",
+    "Juke",
+    "Kicks",
+    "370Z",
+    "GTR",
+    "Civilian",
+    "Patrol Safari",
+    "Cedric",
+    "Patrol NISMO",
+  ];
+  const hyundaiModels = [
+    "Sonata",
+    "Elantra",
+    "Accent",
+    "Azera",
+    "Hyundai H1",
+    "Sentavi",
+    "Tucson",
+    "Veloster",
+    "Trajet",
+    "i40",
+    "Centennial",
+    "Coupe",
+    "i10",
+    "Veracruz",
+    "Terracan",
+    "Matrix",
+    "Galloper",
+    "Kona",
+    "Creta",
+    "Palisade",
+    "Grand Santa Fe",
+    "i30",
+    "Venue",
+    "Staria",
+    "Stargazer",
+  ];
+  const genesisModels = ["G70", "G80", "G90", "GV80", "GV70"];
+  const lexusModels = [
+    "LS",
+    "LX",
+    "ES",
+    "GS",
+    "IS",
+    "RX",
+    "GX",
+    "SC",
+    "NX",
+    "LC",
+    "RC",
+    "RCF",
+    "UX",
+    "GSF",
+  ];
+  const gmcModels = [
+    "Yukon",
+    "Superban",
+    "Sierra",
+    "Pick up",
+    "Envoy",
+    "Acadia",
+    "Van",
+    "Savana",
+    "Safari",
+    "Terrain",
+    "Jimmy",
+  ];
+  const mercedesModels = [
+    "S",
+    "E",
+    "SE",
+    "SEL",
+    "AMG",
+    "Mercedes-Benz G",
+    "C",
+    "SL",
+    "CLS",
+    "ML",
+    "CL",
+    "CLK",
+    "SEC",
+    "SLK",
+    "A-Class",
+    "GLS",
+    "GLE",
+    "GLC",
+    "GLA",
+    "CLA",
+    "V-Class",
+    "B",
+    "GL",
+    "GLK",
+    "GT",
+    "GTS",
+    "R",
+    "SLC",
+    "Van Sprinter",
+    "Maybach",
+    "GLB",
+    "EQA",
+    "EQB",
+    "EQE",
+    "EQS",
+  ];
+  const hondaModels = [
+    "Accord",
+    "Civic",
+    "Odyssey",
+    "CRV",
+    "Baylott",
+    "City",
+    "Legends",
+    "Brielle",
+    "Integra",
+    "HRV",
+    "ZRV",
+  ];
+  const bmwModels = [
+    "Series VII",
+    "Fifth Series",
+    "Series X",
+    "Series III",
+    "Series VI",
+    "Series 1st",
+    "Series M",
+    "Mini Cooper",
+    "Series Z",
+    "Series i",
+    "Series 8",
+    "Series 2",
+    "Series 4",
+  ];
+  const motorcycleBrands = [
+    "Suzuki",
+    "Yamaha Motorcycles",
+    "Chinese Motorcycle",
+    "Honda Motorcycles",
+    "Harley Motorcycles",
+    "Ram's Motorcycles",
+    "Kuzaki Motorcycles",
+    "Jet Ski",
+    "BMW Motorcycle",
+    "KTM Motorcycles",
+    "indian Motorcycle",
+    "Buggy Car",
+    "Polaris Bike",
+    "can am",
+    "Karting",
+    "Haojue Motorcycle",
+  ];
+  const kiaModels = [
+    "Optima",
+    "Cerato",
+    "Rio",
+    "Carnival",
+    "Sportage",
+    "Cadenza",
+    "Opirus",
+    "Sorento",
+    "Cairns",
+    "Picanto",
+    "Mohave",
+    "Corres",
+    "Soul",
+    "Sephia",
+    "K900",
+    "Pegas",
+    "Telluride",
+    "Stinger",
+    "Seltos",
+    "Niro",
+    "K5",
+    "Sonet",
+    "NS",
+  ];
+  const dodgeModels = [
+    "Charger",
+    "Gallinger",
+    "Durango",
+    "Caravan",
+    "Archer",
+    "Nitro",
+    "Caliber",
+    "Fiber",
+    "Dodge Pickup",
+    "Voyager",
+    "Interpid",
+    "Neon",
+  ];
+  const chryslerModels = [
+    "M300",
+    "C300",
+    "Grand Voyager",
+    "Concorde",
+    "Crossfire",
+    "C200",
+    "PT Cruiser",
+    "Imperial",
+    "Plymouth",
+    "Pacifica",
+  ];
+  const jeepModels = [
+    "Cherokee",
+    "Grand Cherokee",
+    "Wrangler",
+    "Liberty",
+    "Renegade",
+    "Compass",
+    "Geladiator",
+  ];
+  const mitsubishiModels = [
+    "Pajero",
+    "Lancer",
+    "L200",
+    "Nativa",
+    "Galant",
+    "Colt",
+    "Magna",
+    "Sigma",
+    "ASX",
+    "Attrage",
+    "Eclipse Cross",
+    "Outlander",
+    "Space Star",
+    "Montero",
+    "Xpander",
+    "Grandis",
+  ];
+  const mazdaModels = [
+    "Mazda 6",
+    "CX9",
+    "Mazda 3",
+    "323",
+    "626",
+    "CX7",
+    "BT50",
+    "MPV",
+    "CX5",
+    "CX2",
+    "RX8",
+    "MX-5",
+    "CX3",
+    "Mazda 2",
+    "Mazda 5",
+    "CX30",
+    "CX60",
+    "CX90",
+  ];
+  const porscheModels = [
+    "Cayenne",
+    "Panamera",
+    "911",
+    "Carrera",
+    "Cayman",
+    "Boxster",
+    "Turbo",
+    "GT",
+    "Macan",
+    "718",
+  ];
+  const audiModels = [
+    "A8",
+    "A6",
+    "Q7",
+    "Q5",
+    "A4",
+    "A5",
+    "A7",
+    "S8",
+    "TT",
+    "A3",
+    "Q3",
+    "Q8",
+    "R8",
+    "RS",
+    "S3",
+  ];
+  const suzukiModels = [
+    "Vitara",
+    "Samurai",
+    "Swift",
+    "Jimny",
+    "Liana",
+    "SX4",
+    "Ertiga",
+    "Baleno",
+    "Grand Vitara",
+    "Ciaz",
+    "Celerio",
+    "APV Pickup",
+    "APV van",
+    "Dzire",
+    "Kizashi",
+    "Fronx",
+  ];
+  const infinitiModels = [
+    "FX",
+    "QX",
+    "G",
+    "Q",
+    "M",
+    "Q30",
+    "Q50",
+    "Q60",
+    "Q70",
+    "QX50",
+    "QX60",
+    "QX70",
+    "QX80",
+    "QX56",
+  ];
+  const hummerModels = ["H3", "H2", "H1"];
+  const lincolnModels = [
+    "Town Car",
+    "Navigator",
+    "MKS",
+    "S",
+    "Continental",
+    "Nautilus",
+    "Aviator",
+    "Corsair",
+  ];
+  const volkswagenModels = [
+    "Passat",
+    "Touareg",
+    "Golf",
+    "Beetle",
+    "Polo",
+    "Jetta",
+    "Scirocco",
+    "Tiguan",
+    "Teramont",
+    "T-roc",
+    "Arteon",
+  ];
+  const daihatsuModels = ["Sirion", "Taurus", "Materia"];
+  const geelyModels = [
+    "EC7",
+    "EC8",
+    "LC Panda",
+    "Emgrand 7",
+    "Emgrand GS",
+    "Emgrand X7",
+    "Binray",
+    "Coolray",
+    "Azkarra",
+    "Tugella",
+    "Okavango",
+    "Monjaro",
+    "Preface",
+    "Geometry c",
+    "Starray",
+  ];
+  const mercuryModels = ["Mountaineer", "Marauder"];
+  const volvoModels = [
+    "S 80",
+    "850",
+    "XC90",
+    "S 60R",
+    "S 40",
+    "960",
+    "S 70",
+    "V 70XC",
+    "C 70",
+    "S60",
+    "S90",
+    "XC40",
+    "XC60",
+  ];
+  const peugeotModels = [
+    "307",
+    "407",
+    "206",
+    "508",
+    "406",
+    "Partner",
+    "607",
+    "404",
+    "3008",
+    "301",
+    "5008",
+    "Boxer",
+    "Expert",
+    "2008",
+    "208",
+    "408",
+    "504",
+    "Traveller",
+    "Rifter",
+    "Landtrek",
+  ];
+  const bentleyModels = [
+    "Continental Flying Spur",
+    "Continental GT",
+    "Arnage",
+    "Azure",
+    "Continental GTC",
+    "Brooklands Coupe",
+    "Bentayga",
+    "Mulsanne",
+  ];
+  const jaguarModels = [
+    "XJ",
+    "X type",
+    "S type",
+    "Suv Virgen",
+    "Daimler",
+    "E pace",
+    "F pace",
+    "F type",
+    "I pace",
+    "XE",
+    "XF",
+  ];
+  const subaruModels = [
+    "Legacy",
+    "Impreza",
+    "Forrester",
+    "Outback",
+    "WRX",
+    "WRX STI",
+    "XV",
+  ];
+  const mgModels = [
+    "5",
+    "6",
+    "HS",
+    "MG RX8",
+    "RX5",
+    "ZS",
+    "T60",
+    "MG GT",
+    "HS PHEV",
+    "MG 1",
+    "MG 3",
+    "WHALE",
+  ];
+  const changanModels = [
+    "Eado",
+    "CS35",
+    "CS75",
+    "CS95",
+    "Changan V7",
+    "CS85",
+    "Alsvin",
+    "Hunter",
+    "CS35 Plus",
+    "CS75 Plus",
+    "UNI-T",
+    "UNI-K",
+    "UNI-V",
+  ];
+  const renaultModels = [
+    "Megane",
+    "Fluence",
+    "Safrane",
+    "Laguna",
+    "Clio",
+    "Talisman",
+    "Duster",
+    "Dokker Van",
+    "Symbol",
+    "Capture",
+    "Koleos",
+    "Master",
+    "Megane GT",
+    "Megane RS",
+  ];
+  const buickModels = [
+    "Encore",
+    "Encore GX",
+    "Enclave",
+    "Envision",
+    "LaCrosse",
+    "Regal",
+    "Verano",
+    "Lucerne",
+    "Cascada",
+    "Century",
+    "Rainier",
+    "Park Avenue",
+    "Rendezvous",
+  ];
+  const rollsRoyceModels = ["Phantom", "Quest", "Dawn", "Wraith", "Cullinan"];
+  const lamborghiniModels = ["Aventador", "Urus", "Huracan", "Gallardo"];
+  const opelModels = ["Astra", "Rekord"];
+  const skodaModels = [
+    "Octavia",
+    "Rapid",
+    "Superb",
+    "Fabia",
+    "Karoq",
+    "Kodiaq",
+  ];
+  const ferrariModels = [
+    "488 PISTA",
+    "812",
+    "Break up",
+    "GTC4",
+    "MONZA",
+    "Roma",
+    "SF90",
+  ];
+  const citroenModels = [
+    "C3",
+    "C4",
+    "C6",
+    "Xara",
+    "C2",
+    "C1",
+    "Regency",
+    "Berlingo",
+  ];
+  const cheryModels = [
+    "QQ",
+    "Chery A5",
+    "EASTAR",
+    "Quinn",
+    "Chery A3",
+    "Chery A1",
+    "Arezzo 3",
+    "Arezzo 6",
+    "Tiggo 2",
+    "Tiggo 7",
+    "Tiggo 8",
+    "Tiggo 4",
+    "Arrizo 5",
+    "Arrizo 8",
+  ];
+  const daewooModels = ["Leganza", "Lanos", "Mats", "Nubira"];
+  const sabbModels = [
+    "Fiat",
+    "Dolce Vita",
+    "Fiat 500",
+    "Fiat 500X",
+    "Fiorino",
+    "Linea",
+  ];
+  const ssangYongModels = [
+    "Actyon",
+    "Musso",
+    "Korando",
+    "XLV",
+    "Tivoli",
+    "Rexton",
+  ];
+  const astonMartinModels = ["DB11", "DBS", "Rapide S", "Vantage"];
+  const protonModels = ["GEN•2", "Persona", "Waja"];
+  const havalModels = [
+    "Haval H2",
+    "Haval H6",
+    "Haval H9",
+    "Jolion",
+    "Dargo",
+    "H6 GT",
+  ];
+  const gacModels = [
+    "GA3",
+    "GA4",
+    "GA8",
+    "GS3",
+    "GS4",
+    "GS8",
+    "GN6",
+    "GN8",
+    "GS5",
+    "GA6",
+    "EMPOW",
+    "EMZOOM",
+    "EMKOO",
+  ];
+  const greatWallModels = ["Wingle 5", "Wingle 6", "Wingle 7", "POER"];
+  const fawModels = [
+    "T80",
+    "V80",
+    "Oley",
+    "Besturn B50",
+    "Besturn B70",
+    "Besturn X80",
+    "T77",
+    "X40",
+    "T33",
+    "T99",
+  ];
+  const bydModels = ["F3", "F5", "F7", "S6", "S7"];
+  const alfaRomeoModels = ["GIULIA", "GIULIETTA", "STELVIO"];
+  const tataModels = ["XENON"];
+  const jetourModels = ["X70", "X70S", "X90", "Dashing"];
+  const victoryAutoModels = ["Lifan"];
+  const cmcModels = ["Foton", "Tunland"];
+  const maxusModels = [
+    "D90",
+    "Maxus V80",
+    "Maxus T60",
+    "V90",
+    "T70",
+    "G50",
+    "G10",
+    "D90 Pro",
+    "D60",
+    "60 Tornado",
+    "Maxus G90",
+    "Maxus T90",
+  ];
+  const baicModels = [
+    "D50",
+    "X35",
+    "X7",
+    "BJ80",
+    "BJ40SE",
+    "BJ40S",
+    "BJ40 Plus",
+    "BJ40F",
+    "BJ40 C",
+  ];
+  const dongfengModels = [
+    "A30",
+    "A60 MAX",
+    "AX7",
+    "AX7 MACH",
+    "C31",
+    "C32",
+    "C35",
+    "E32",
+    "T5 Evo",
+  ];
+  const exeedModels = ["txl", "VX", "Exeed LX"];
+  const tankModels = ["Tank 300", "Tank 500"];
+  const lynkCoModels = ["1", "3", "03 plus", "5", "9"];
+  const lucidModels = ["Air", "Gravity"];
+  const ineosModels = ["Grenadier"];
+
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState("");
+  const [Model, setModel] = useState("");
+
+  const [showList, setShowList] = useState(false);
+
+  const filteredBrands =
+    query === ""
+      ? carBrands
+      : carBrands.filter((brand) =>
+          brand.toLowerCase().includes(query.toLowerCase())
+        );
+  console.log("Selected:______", filteredBrands);
+  console.log("Selected:______1", selected);
+  console.log("Selected:______2", query);
+
+  const handleSelect = (brand) => {
+    setQuery(brand);
+    setSelected(brand);
+    setShowList(false);
+    console.log("Selected:", brand);
+  };
 
   console.log(selectedSubCategory, "selectedSubCategory________");
   const handleCategorySelect = (e) => {
@@ -515,8 +1414,50 @@ const AutomotiveComp = () => {
       }
     });
   };
+
+  const handleCheckboxAdditionalFeatures = (name) => {
+    setAdditionalFeatures((prevSelected) =>
+      prevSelected.includes(name)
+        ? prevSelected.filter((item) => item !== name)
+        : [...prevSelected, name]
+    );
+  };
+  const handleCheckboxCondition = (label) => {
+    setCondition((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+
+  const handleCheckboxInteriorColor = (label) => {
+    setInteriorColor((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
   const handleCheckboxChangeRegionalSpec = (label) => {
     setRegionalSpec((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeFueltype = (label) => {
+    setFueltype((prevSelected) => {
       if (prevSelected.includes(label)) {
         // Remove the label if already selected
         return prevSelected.filter((item) => item !== label);
@@ -776,7 +1717,13 @@ const AutomotiveComp = () => {
       mileage,
       logSelectedPurpose,
       RegionalSpec,
-      Insurance
+      Insurance,
+      InteriorColor,
+      selected,
+      Model,
+      Fueltype,
+      Condition,
+      AdditionalFeatures
     );
   }, [
     selectedCities,
@@ -811,6 +1758,12 @@ const AutomotiveComp = () => {
     logSelectedPurpose,
     RegionalSpec,
     Insurance,
+    InteriorColor,
+    selected,
+    Model,
+    Fueltype,
+    Condition,
+    AdditionalFeatures,
   ]);
 
   // Handle search input change
@@ -851,7 +1804,13 @@ const AutomotiveComp = () => {
       mileage,
       logSelectedPurpose,
       RegionalSpec,
-      Insurance
+      Insurance,
+      InteriorColor,
+      selected,
+      Model,
+      Fueltype,
+      Condition,
+      AdditionalFeatures
     );
   };
   const filterCars = (
@@ -886,7 +1845,13 @@ const AutomotiveComp = () => {
     mileage,
     logSelectedPurpose,
     RegionalSpec,
-    Insurance
+    Insurance,
+    InteriorColor,
+    selected,
+    Model,
+    Fueltype,
+    Condition,
+    AdditionalFeatures
   ) => {
     let filtered = carsData;
 
@@ -918,6 +1883,12 @@ const AutomotiveComp = () => {
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.RegionalSpec?.toLowerCase().includes(lowercasedQuery) ||
           car.Insurance?.toLowerCase().includes(lowercasedQuery) ||
+          car.InteriorColor?.toLowerCase().includes(lowercasedQuery) ||
+          car.Make?.toLowerCase().includes(lowercasedQuery) ||
+          car.Model?.toLowerCase().includes(lowercasedQuery) ||
+          car.Fueltype?.toLowerCase().includes(lowercasedQuery) ||
+          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
+          car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -926,9 +1897,33 @@ const AutomotiveComp = () => {
     if (cities?.length > 0) {
       filtered = filtered.filter((car) => cities.includes(car.City));
     }
+
     if (nestedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
         nestedSubCategory.includes(car.NestedSubCategory)
+      );
+    }
+    if (AdditionalFeatures?.length > 0) {
+      filtered = filtered.filter((car) =>
+        AdditionalFeatures.includes(car.AdditionalFeatures)
+      );
+    }
+    if (Condition?.length > 0) {
+      filtered = filtered.filter((car) => Condition.includes(car.Condition));
+    }
+
+    if (Fueltype?.length > 0) {
+      filtered = filtered.filter((car) => Fueltype.includes(car.Fueltype));
+    }
+    if (Model?.length > 0) {
+      filtered = filtered.filter((car) => Model.includes(car.Model));
+    }
+    if (selected?.length > 0) {
+      filtered = filtered.filter((car) => selected.includes(car.Make));
+    }
+    if (InteriorColor?.length > 0) {
+      filtered = filtered.filter((car) =>
+        InteriorColor.includes(car.InteriorColor)
       );
     }
     if (RegionalSpec?.length > 0) {
@@ -1437,13 +2432,64 @@ const AutomotiveComp = () => {
                   </Col>
                 </Row>
                 {/*  -------------                          */}
-
                 <style>{`
     .form-check-input:checked {
       background-color: #2D4495 !important; 
       border-color: black !important; 
     }
   `}</style>
+      <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                {/*   ------------------------------------------                            */}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Sub Categories</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <Form.Label>Select a Category</Form.Label>
+                          <Form.Select
+                            value={selectedSubCategory}
+                            onChange={handleCategorySelect}
+                          >
+                            <option value="">-- Select --</option>
+                            {categories.map((category, index) => (
+                              <option key={index} value={category}>
+                                {category}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select City</Accordion.Header>
@@ -1594,60 +2640,1819 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*--------------------------------------*/}
-
-                <Accordion>
+                <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select Car Make</Accordion.Header>
+                    <Accordion.Header>Make</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "Toyota",
-                            "Mercedes-Benz",
-                            "Nissan",
-                            "BMW",
-                            "Lamborghini",
-                          ].map((car, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
+                        <Row>
+                          <div className="relative w-full max-w-md">
+                            <input
+                              type="text"
+                              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Select car brand"
+                              value={query}
+                              onChange={(e) => {
+                                setQuery(e.target.value);
+                                setSelected(null); // clear selected value on change
+                                setShowList(true);
                               }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={car}
-                                name={car} // Use the name attribute for identification
-                                onChange={handleCheckboxChange}
-                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
+                              onFocus={() => setShowList(true)}
+                              onBlur={() =>
+                                setTimeout(() => setShowList(false), 150)
+                              } // slight delay for selection
+                            />
+                            {showList && filteredBrands.length > 0 && (
+                              <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
+                                {filteredBrands.map((brand) => (
+                                  <li
+                                    key={brand}
+                                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                    onMouseDown={() => handleSelect(brand)} // use onMouseDown to avoid blur race condition
+                                  >
+                                    {brand}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                          {selected === "Toyota" && (
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
+                                Model
+                              </label>
+                              <select
+                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                onChange={(e) =>
+                                  setModel((prev) => ({
+                                    ...prev,
+                                    Model: e.target.value,
+                                  }))
+                                }
                               >
-                                12345
-                              </span>
+                                <option value="">Select Model</option>
+                                {toyotaModels.map((model) => (
+                                  <option key={model} value={model}>
+                                    {model}
+                                  </option>
+                                ))}
+                              </select>
                             </div>
-                          ))}
-                        </div>
-                      </Form.Group>
+                          )}
+                          {selected === "Ford" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {fordModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Chevrolet" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {chevroletModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Nissan" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {nissanModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Hyundai" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {hyundaiModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Genesis" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {genesisModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Lexus" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
 
-                      {/* Display Selected Cars */}
-                      {/* <div style={{ marginTop: "20px" }}>
-                        <h5>Selected Cars:</h5>
-                        <ul>
-                          {selectedCars.map((car, index) => (
-                            <li key={index}>{car}</li>
-                          ))}
-                        </ul>
-                      </div> */}
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {lexusModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "GMC" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {gmcModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Mercedes" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {mercedesModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Honda" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {hondaModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "BMW" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Model</option>
+                                  {bmwModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Motorcycles" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Motorcycle Brand
+                                  </option>
+                                  {motorcycleBrands.map((brand) => (
+                                    <option key={brand} value={brand}>
+                                      {brand}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Kia" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Kia Model</option>
+                                  {kiaModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Dodge" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Dodge Model</option>
+                                  {dodgeModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Chrysler" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Chrysler Model
+                                  </option>
+                                  {chryslerModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Jeep" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Jeep Model</option>
+                                  {jeepModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Mitsubishi" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Mitsubishi Model
+                                  </option>
+                                  {mitsubishiModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Mazda" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Mazda Model</option>
+                                  {mazdaModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+
+                          {selected === "Porsche" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Porsche Model</option>
+                                  {porscheModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Audi" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Audi Model</option>
+                                  {audiModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+
+                          {selected === "Suzuki" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Suzuki Model</option>
+                                  {suzukiModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Infiniti" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Infiniti Model
+                                  </option>
+                                  {infinitiModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                  {selected === "Hummer" && (
+                                    <>
+                                      <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                        Model
+                                      </label>
+
+                                      <div className="mt-0">
+                                        <select
+                                          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          onChange={(e) =>
+                                            setModel((prev) => ({
+                                              ...prev,
+                                              Model: e.target.value,
+                                            }))
+                                          }
+                                        >
+                                          <option value="">
+                                            Select Hummer Model
+                                          </option>
+                                          {hummerModels.map((model) => (
+                                            <option key={model} value={model}>
+                                              {model}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      </div>
+                                    </>
+                                  )}
+                                </select>
+                              </div>
+                            </>
+                          )}
+
+                          {selected === "Lincoln" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Lincoln Model</option>
+                                  {lincolnModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Volkswagen" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Volkswagen Model
+                                  </option>
+                                  {volkswagenModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Daihatsu" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Daihatsu Model
+                                  </option>
+                                  {daihatsuModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Geely" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Geely Model</option>
+                                  {geelyModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Mercury" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Mercury Model</option>
+                                  {mercuryModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Volvo" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Volvo Model</option>
+                                  {volvoModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Peugeot" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Peugeot Model</option>
+                                  {peugeotModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Bentley" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Bentley Model</option>
+                                  {bentleyModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Jaguar" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Jaguar Model</option>
+                                  {jaguarModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Subaru" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Subaru Model</option>
+                                  {subaruModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "MG" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select MG Model</option>
+                                  {mgModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Changan" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Changan Model</option>
+                                  {changanModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Renault" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Renault Model</option>
+                                  {renaultModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Buick" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Buick Model</option>
+                                  {buickModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Rolls-Royce" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Rolls-Royce Model
+                                  </option>
+                                  {rollsRoyceModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Lamborghini" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Lamborghini Model
+                                  </option>
+                                  {lamborghiniModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Opel" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Opel Model</option>
+                                  {opelModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Skoda" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Skoda Model</option>
+                                  {skodaModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Ferrari" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Ferrari Model</option>
+                                  {ferrariModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Citroen" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Citroen Model</option>
+                                  {citroenModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Chery" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Chery Model</option>
+                                  {cheryModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+
+                          {selected === "Daewoo" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Daewoo Model</option>
+                                  {daewooModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "SABB" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select SABB Model</option>
+                                  {sabbModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "SsangYong" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select SsangYong Model
+                                  </option>
+                                  {ssangYongModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Aston Martin" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Aston Martin Model
+                                  </option>
+                                  {astonMartinModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Proton" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Proton Model</option>
+                                  {protonModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Haval" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Haval Model</option>
+                                  {havalModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "GAC" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select GAC Model</option>
+                                  {gacModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Great Wall" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Great Wall Model
+                                  </option>
+                                  {greatWallModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "FAW" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select FAW Model</option>
+                                  {fawModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "BYD" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select BYD Model</option>
+                                  {bydModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Alfa Romeo" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Alfa Romeo Model
+                                  </option>
+                                  {alfaRomeoModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "TATA" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select TATA Model</option>
+                                  {tataModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "JETOUR" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select JETOUR Model</option>
+                                  {jetourModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "CMC" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select CMC Model</option>
+                                  {cmcModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "VICTORY AUTO" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Victory Auto Model
+                                  </option>
+                                  {victoryAutoModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "MAXUS" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Maxus Model</option>
+                                  {maxusModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "BAIC" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Baic Model</option>
+                                  {baicModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "DONGFENG" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Dongfeng Model
+                                  </option>
+                                  {dongfengModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "EXEED" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select EXEED Model</option>
+                                  {exeedModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Tank" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Tank Model</option>
+                                  {tankModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Lynk & Co" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">
+                                    Select Lynk & Co Model
+                                  </option>
+                                  {lynkCoModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "Lucid" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select Lucid Model</option>
+                                  {lucidModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                          {selected === "INEOS" && (
+                            <>
+                              {" "}
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
+                              <div className="mt-0">
+                                <select
+                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  onChange={(e) =>
+                                    setModel((prev) => ({
+                                      ...prev,
+                                      Model: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  <option value="">Select INEOS Model</option>
+                                  {ineosModels.map((model) => (
+                                    <option key={model} value={model}>
+                                      {model}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </>
+                          )}
+                        </Row>
+                      </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+                {/*--------------------------------------*/}
                 <hr
                   style={{
                     width: "100%",
@@ -1662,9 +4467,6 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
-                {/*                  */}
-
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Price Range</Accordion.Header>
@@ -1692,6 +4494,77 @@ const AutomotiveComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+                {/* <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header> Make</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
+                          {[
+                            "Toyota",
+                            "Mercedes-Benz",
+                            "Nissan",
+                            "BMW",
+                            "Lamborghini",
+                          ].map((car, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={car}
+                                name={car} // Use the name attribute for identification
+                                onChange={handleCheckboxChange}
+                               />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </Form.Group>
+
+                    
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion> */}
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                {/*                  */}
                 <div>
                   {/* Accordion for Year Range */}
                   <Accordion className="mt-3">
@@ -1722,7 +4595,7 @@ const AutomotiveComp = () => {
                     </Accordion.Item>
                   </Accordion>
                 </div>
-                <hr
+                {/* <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -1736,16 +4609,13 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*   ------------------------------------------                            */}
-                <Accordion className="mt-3">
+                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Registered in</Accordion.Header>
                     <Accordion.Body>
-                      {/* Show all locations for now */}
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Toyota Locations */}
-                          <div>
+                           <div>
                             <div
                               style={{
                                 display: "flex",
@@ -1855,45 +4725,7 @@ const AutomotiveComp = () => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                {/*   ------------------------------------------                            */}
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Sub Categories</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          <Form.Label>Select a Category</Form.Label>
-                          <Form.Select
-                            value={selectedSubCategory}
-                            onChange={handleCategorySelect}
-                          >
-                            <option value="">-- Select --</option>
-                            {categories.map((category, index) => (
-                              <option key={index} value={category}>
-                                {category}
-                              </option>
-                            ))}
-                          </Form.Select>
-                        </Form.Group>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                </Accordion> */}
                 <hr
                   style={{
                     width: "100%",
@@ -1927,20 +4759,7 @@ const AutomotiveComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
+
                 {/*-------------------------------------*/}
                 <hr
                   style={{
@@ -1956,7 +4775,6 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <div>
                   {/* Accordion with Checkbox Selection for Color */}
                   <Accordion className="mt-3">
@@ -1992,25 +4810,24 @@ const AutomotiveComp = () => {
                               </div>
                             ))}
                           </Form.Group>
-                          <p
+                          {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
                           >
                             More choices
-                          </p>
+                          </p> */}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </div>
-                <Accordion className="mt-3">
+                {/* <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Trusted Car</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Hardcoded Car Data */}
-                          <div
+                           <div
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
@@ -2057,8 +4874,7 @@ const AutomotiveComp = () => {
                             <Form.Check
                               type="checkbox"
                               label="Nissan"
-                              // defaultChecked
-                              onChange={(e) => handleCarChange(e, "Nissan")}
+                               onChange={(e) => handleCarChange(e, "Nissan")}
                             />
                             <span style={{ fontWeight: "bold", color: "#333" }}>
                               12345
@@ -2104,7 +4920,7 @@ const AutomotiveComp = () => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>
+                </Accordion> */}
                 <hr
                   style={{
                     width: "100%",
@@ -2119,7 +4935,6 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Transmission</Accordion.Header>
@@ -2187,12 +5002,11 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <div>
                   {/* Accordion with Checkbox Selection for Color */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Color</Accordion.Header>
+                      <Accordion.Header>Exterior Color</Accordion.Header>
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
@@ -2227,12 +5041,12 @@ const AutomotiveComp = () => {
                               )
                             )}
                           </Form.Group>
-                          <p
+                          {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
                           >
                             More choices
-                          </p>
+                          </p> */}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
@@ -2252,7 +5066,194 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
+                <div>
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Additional Features</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {featuresList.map((feature) => (
+                              <div
+                                key={feature.name}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={feature.label}
+                                  checked={AdditionalFeatures.includes(
+                                    feature.name
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxAdditionalFeatures(
+                                      feature.name
+                                    )
+                                  }
+                                />
+                                <span
+                                  style={{ fontWeight: "bold", color: "#333" }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Condition</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["New", "Used"].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxCondition(color)
+                                  }
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Interior Color </Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["White", "Black", "Grey", "Red", "Yellow"].map(
+                              (color) => (
+                                <div
+                                  key={color}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "8px 0",
+                                  }}
+                                >
+                                  <Form.Check
+                                    type="checkbox"
+                                    label={color}
+                                    // defaultChecked={color === "Grey"}
+                                    onChange={() =>
+                                      handleCheckboxInteriorColor(color)
+                                    }
+                                  />
+                                  <span
+                                    style={{
+                                      fontWeight: "bold",
+                                      color: "#333",
+                                    }}
+                                  >
+                                    12345
+                                  </span>
+                                </div>
+                              )
+                            )}
+                          </Form.Group>
+                          {/* <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 <div>
                   {/* Accordion with Checkbox Selection for Color */}
                   <Accordion className="mt-3">
@@ -2295,12 +5296,68 @@ const AutomotiveComp = () => {
                               </div>
                             ))}
                           </Form.Group>
-                          <p
+                          {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
                           >
                             More choices
-                          </p>
+                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
+
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Fuel type</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {[
+                              "petrol",
+                              "diesel",
+                              "electric",
+                              "hybrid",
+                              "lpg",
+                              "cng",
+                            ].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxChangeFueltype(color)
+                                  }
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                            style={{ color: "#2D4495", cursor: "pointer" }}
+                            onClick={() => handleMoreChoicesToggle()}
+                          >
+                            More choices
+                          </p> */}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
@@ -2320,7 +5377,6 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <div>
                   {/* Accordion with Checkbox Selection for Color */}
                   <Accordion className="mt-3">
@@ -2362,18 +5418,18 @@ const AutomotiveComp = () => {
                               </div>
                             ))}
                           </Form.Group>
-                          <p
+                          {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
                           >
                             More choices
-                          </p>
+                          </p> */}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </div>
-                <hr
+                {/* <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2387,7 +5443,6 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Engine Type</Accordion.Header>
@@ -2430,9 +5485,8 @@ const AutomotiveComp = () => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>
-
-                <hr
+                </Accordion> */}
+                {/* <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2447,8 +5501,7 @@ const AutomotiveComp = () => {
                   }}
                 />
                 <div>
-                  {/* Accordion for Year Range */}
-                  <Accordion className="mt-3">
+                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Engine Capacity</Accordion.Header>
                       <Accordion.Body>
@@ -2475,8 +5528,8 @@ const AutomotiveComp = () => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                </div>
-                <hr
+                </div> */}
+                {/* <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2490,15 +5543,13 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Assembly</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Local Checkbox */}
-                          <div
+                           <div
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
@@ -2518,8 +5569,7 @@ const AutomotiveComp = () => {
                             </span>
                           </div>
 
-                          {/* Imported Checkbox */}
-                          <div
+                           <div
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
@@ -2542,7 +5592,7 @@ const AutomotiveComp = () => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>
+                </Accordion> */}
               </Form>
               <hr
                 style={{
@@ -2669,7 +5719,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
                       </Form.Group>
-                      <p style={{ color: "#2D4495" }}>More choices</p>
+                      {/* <p style={{ color: "#2D4495" }}>More choices</p> */}
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -2806,7 +5856,7 @@ const AutomotiveComp = () => {
                 </Accordion.Item>
               </Accordion>
 
-              <hr
+              {/* <hr
                 style={{
                   width: "100%",
                   height: "0px",
@@ -2827,8 +5877,7 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* Checkbox for 4 */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2848,8 +5897,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* Checkbox for 5 */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2869,8 +5917,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* Checkbox for 2 (defaultChecked) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2890,8 +5937,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* Checkbox for 3 */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2911,8 +5957,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* Checkbox for 0 */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2935,8 +5980,8 @@ const AutomotiveComp = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-              </Accordion>
-              <hr
+              </Accordion> */}
+              {/* <hr
                 style={{
                   width: "100%",
                   height: "0px",
@@ -2957,8 +6002,7 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* A-Class (Compact) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -2980,8 +6024,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* C-Class (Compact Exe) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3003,8 +6046,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* E-Class (Executive) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3027,8 +6069,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* S-Class */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3048,8 +6089,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* CLA (Compact Coupe) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3070,8 +6110,7 @@ const AutomotiveComp = () => {
                             12345
                           </span>
                         </div>
-                        {/* CLA (Compact Coupe) */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3095,9 +6134,9 @@ const AutomotiveComp = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-              </Accordion>
+              </Accordion> */}
 
-              <hr
+              {/* <hr
                 style={{
                   width: "100%",
                   height: "0px",
@@ -3118,8 +6157,7 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3140,8 +6178,7 @@ const AutomotiveComp = () => {
                           </span>
                         </div>
 
-                        {/* Imported Checkbox */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3167,8 +6204,8 @@ const AutomotiveComp = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-              </Accordion>
-
+              </Accordion> */}
+              {/* 
               <hr
                 style={{
                   width: "100%",
@@ -3186,8 +6223,7 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3209,9 +6245,9 @@ const AutomotiveComp = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-              </Accordion>
+              </Accordion> */}
 
-              <hr
+              {/* <hr
                 style={{
                   width: "100%",
                   height: "1px",
@@ -3228,8 +6264,7 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
+                         <div
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -3253,7 +6288,7 @@ const AutomotiveComp = () => {
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
-              </Accordion>
+              </Accordion> */}
 
               <hr
                 style={{

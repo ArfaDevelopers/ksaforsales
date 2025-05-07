@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { addDoc, collection, doc, getDoc,updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import WindowedSelect from 'react-windowed-select';
 import locationData from "../../../Location.json"
 import cityData from "../../../City.json"
-
 import {
   gallerymedia_1,
   gallerymedia_2,
@@ -99,7 +99,16 @@ const AddLisiting = () => {
     category: "",
     kmDriven: "",
     Transmission: "",
+    mileage: "",
+    Insurance: "",
+    InteriorColor: "",
+    AdditionalFeatures: [],
+
     Emirates: "",
+    Fueltype: "",
+
+    Model: "",
+
     Registeredin: "",
     TrustedCars: "",
     EngineType: "",
@@ -202,13 +211,17 @@ const AddLisiting = () => {
     States: "",
     District: "",
     ScreenSize: "",
+    Condition: "",
     Color: "",
+    RegionalSpec: "",
+
     OperatingSystem: "",
     Processor: "",
     RAM: "",
     StorageType: "",
     Storagecapacity: "",
     GraphicsCard: "",
+    // Make: "", // ✅ make sure this exists
 
     // Make: "",
     tagline: "",
@@ -240,12 +253,872 @@ const AddLisiting = () => {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [citiesMake, setcitiesMake] = useState([]);
-  console.log(citiesMake,'subcategories____1')
+  const [mileage, setMileage] = useState("");
+  console.log(formData, "subcategories____1");
 
   const [Make, setSelectedCityMake] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
-  console.log(subcategories,'subcategories____')
-  
+  console.log(subcategories, "subcategories____");
+  const carBrands = [
+    "Toyota",
+    "Ford",
+    "Chevrolet",
+    "Nissan",
+    "Hyundai",
+    "Genesis",
+    "Lexus",
+    "GMC",
+    "Mercedes",
+    "Honda",
+    "BMW",
+    "Motorcycles",
+    "Kia",
+    "Dodge",
+    "Chrysler",
+    "Jeep",
+    "Mitsubishi",
+    "Mazda",
+    "Porsche",
+    "Audi",
+    "Suzuki",
+    "Infinity",
+    "Hummer",
+    "Lincoln",
+    "Volkswagen",
+    "Daihatsu",
+    "Geely",
+    "Mercury",
+    "Volvo",
+    "Peugeot",
+    "Bentley",
+    "Jaguar",
+    "Subaru",
+    "MG",
+    "ZXAUTO",
+    "Changan",
+    "Renault",
+    "Buick",
+    "Rolls-Royce",
+    "Lamborghini",
+    "Opel",
+    "Skoda",
+    "Ferrari",
+    "Citroen",
+    "Chery",
+    "Seat",
+    "Daewoo",
+    "SABB",
+    "SsangYong",
+    "Aston Martin",
+    "Proton",
+    "Haval",
+    "GAC",
+    "Great Wall",
+    "FAW",
+    "BYD",
+    "Alfa Romeo",
+    "TATA",
+    "JMC",
+    "JETOUR",
+    "CMC",
+    "VICTORY AUTO",
+    "MAXUS",
+    "McLaren",
+    "JAC",
+    "Baic",
+    "Dongfeng",
+    "EXEED",
+    "Tesla",
+    "Soueaste",
+    "Mahindra",
+    "Zotye",
+    "Hongqi",
+    "SMART",
+    "Tank",
+    "Lynk & Co",
+    "Lucid",
+    "INEOS",
+  ];
+  const toyotaModels = [
+    "Land Cruiser",
+    "Camry",
+    "Avalon",
+    "Hilux",
+    "Corolla",
+    "FJ Cruiser",
+    "Land Cruiser 70 Series",
+    "Land Cruiser 70 Series Pick up",
+    "Yaris",
+    "Land Cruiser Prado",
+    "Fortuner",
+    "Aurion",
+    "Cressida",
+    "Sequoia",
+    "Bus",
+    "Innova",
+    "RAV4",
+    "XA",
+    "Eco",
+    "Tundra",
+    "Previa",
+    "Supra",
+    "Toyota 86",
+    "Avanza",
+    "Highlander",
+    "Prius",
+    "Rush",
+    "Granvia",
+    "C-HR",
+    "Corolla Cross",
+    "Raize",
+    "Crown",
+    "Urban Cruiser",
+  ];
+  const fordModels = [
+    "Crown Victoria",
+    "Grand Marquis",
+    "Explorer",
+    "Taurus",
+    "Expedition",
+    "Mustang",
+    "Edge",
+    "f150",
+    "Fusion",
+    "Windstar",
+    "Flex",
+    "Fox",
+    "Mondeo",
+    "f250",
+    "f350",
+    "Ranger",
+    "X Corgan",
+    "Pick up",
+    "Escape",
+    "Splash",
+    "Panther",
+    "Thunderbird",
+    "F450",
+    "F550",
+    "Escort",
+    "Ecosport",
+    "vans ford",
+    "Figo",
+    "Bronco",
+    "Territory",
+    "Everest",
+  ];
+  const chevroletModels = [
+    "Caprice",
+    "Tahoe",
+    "Suburban",
+    "Lumina",
+    "Salvador",
+    "Camaro",
+    "Blazer",
+    "Epica",
+    "Malibu",
+    "Aveo",
+    "Cruze",
+    "Optra",
+    "Trail Blazer",
+    "Avalanche",
+    "Corvette",
+    "فان",
+    "Impala",
+    "Traverse",
+    "Uplander",
+    "Express Van",
+    "فنشر",
+    "Captiva",
+    "Astro Van",
+    "Sonic",
+    "Spark",
+    "Caravan",
+    "Cavalier",
+    "Colorado",
+    "جي فان",
+    "Equinox",
+    "Bolt",
+    "Groove",
+    "Trax",
+  ];
+  const nissanModels = [
+    "Patrol",
+    "DDSEN",
+    "Tama",
+    "Maxima",
+    "Pathfinder",
+    "Sunny",
+    "Armada",
+    "Xterra",
+    "Class Z",
+    "Nissan Shass",
+    "Navara",
+    "Murano",
+    "Tiida",
+    "Orphan",
+    "Skyline",
+    "Sentra",
+    "X Trail",
+    "Gloria",
+    "Primera",
+    "Terrano",
+    "Qashqai",
+    "Juke",
+    "Kicks",
+    "370Z",
+    "GTR",
+    "Civilian",
+    "Patrol Safari",
+    "Cedric",
+    "Patrol NISMO",
+  ];
+  const hyundaiModels = [
+    "Sonata",
+    "Elantra",
+    "Accent",
+    "Azera",
+    "Hyundai H1",
+    "Sentavi",
+    "Tucson",
+    "Veloster",
+    "Trajet",
+    "i40",
+    "Centennial",
+    "Coupe",
+    "i10",
+    "Veracruz",
+    "Terracan",
+    "Matrix",
+    "Galloper",
+    "Kona",
+    "Creta",
+    "Palisade",
+    "Grand Santa Fe",
+    "i30",
+    "Venue",
+    "Staria",
+    "Stargazer",
+  ];
+  const genesisModels = ["G70", "G80", "G90", "GV80", "GV70"];
+  const lexusModels = [
+    "LS",
+    "LX",
+    "ES",
+    "GS",
+    "IS",
+    "RX",
+    "GX",
+    "SC",
+    "NX",
+    "LC",
+    "RC",
+    "RCF",
+    "UX",
+    "GSF",
+  ];
+  const gmcModels = [
+    "Yukon",
+    "Superban",
+    "Sierra",
+    "Pick up",
+    "Envoy",
+    "Acadia",
+    "Van",
+    "Savana",
+    "Safari",
+    "Terrain",
+    "Jimmy",
+  ];
+  const mercedesModels = [
+    "S",
+    "E",
+    "SE",
+    "SEL",
+    "AMG",
+    "Mercedes-Benz G",
+    "C",
+    "SL",
+    "CLS",
+    "ML",
+    "CL",
+    "CLK",
+    "SEC",
+    "SLK",
+    "A-Class",
+    "GLS",
+    "GLE",
+    "GLC",
+    "GLA",
+    "CLA",
+    "V-Class",
+    "B",
+    "GL",
+    "GLK",
+    "GT",
+    "GTS",
+    "R",
+    "SLC",
+    "Van Sprinter",
+    "Maybach",
+    "GLB",
+    "EQA",
+    "EQB",
+    "EQE",
+    "EQS",
+  ];
+  const hondaModels = [
+    "Accord",
+    "Civic",
+    "Odyssey",
+    "CRV",
+    "Baylott",
+    "City",
+    "Legends",
+    "Brielle",
+    "Integra",
+    "HRV",
+    "ZRV",
+  ];
+  const bmwModels = [
+    "Series VII",
+    "Fifth Series",
+    "Series X",
+    "Series III",
+    "Series VI",
+    "Series 1st",
+    "Series M",
+    "Mini Cooper",
+    "Series Z",
+    "Series i",
+    "Series 8",
+    "Series 2",
+    "Series 4",
+  ];
+  const motorcycleBrands = [
+    "Suzuki",
+    "Yamaha Motorcycles",
+    "Chinese Motorcycle",
+    "Honda Motorcycles",
+    "Harley Motorcycles",
+    "Ram's Motorcycles",
+    "Kuzaki Motorcycles",
+    "Jet Ski",
+    "BMW Motorcycle",
+    "KTM Motorcycles",
+    "indian Motorcycle",
+    "Buggy Car",
+    "Polaris Bike",
+    "can am",
+    "Karting",
+    "Haojue Motorcycle",
+  ];
+  const kiaModels = [
+    "Optima",
+    "Cerato",
+    "Rio",
+    "Carnival",
+    "Sportage",
+    "Cadenza",
+    "Opirus",
+    "Sorento",
+    "Cairns",
+    "Picanto",
+    "Mohave",
+    "Corres",
+    "Soul",
+    "Sephia",
+    "K900",
+    "Pegas",
+    "Telluride",
+    "Stinger",
+    "Seltos",
+    "Niro",
+    "K5",
+    "Sonet",
+    "NS",
+  ];
+  const dodgeModels = [
+    "Charger",
+    "Gallinger",
+    "Durango",
+    "Caravan",
+    "Archer",
+    "Nitro",
+    "Caliber",
+    "Fiber",
+    "Dodge Pickup",
+    "Voyager",
+    "Interpid",
+    "Neon",
+  ];
+  const chryslerModels = [
+    "M300",
+    "C300",
+    "Grand Voyager",
+    "Concorde",
+    "Crossfire",
+    "C200",
+    "PT Cruiser",
+    "Imperial",
+    "Plymouth",
+    "Pacifica",
+  ];
+  const jeepModels = [
+    "Cherokee",
+    "Grand Cherokee",
+    "Wrangler",
+    "Liberty",
+    "Renegade",
+    "Compass",
+    "Geladiator",
+  ];
+  const mitsubishiModels = [
+    "Pajero",
+    "Lancer",
+    "L200",
+    "Nativa",
+    "Galant",
+    "Colt",
+    "Magna",
+    "Sigma",
+    "ASX",
+    "Attrage",
+    "Eclipse Cross",
+    "Outlander",
+    "Space Star",
+    "Montero",
+    "Xpander",
+    "Grandis",
+  ];
+  const mazdaModels = [
+    "Mazda 6",
+    "CX9",
+    "Mazda 3",
+    "323",
+    "626",
+    "CX7",
+    "BT50",
+    "MPV",
+    "CX5",
+    "CX2",
+    "RX8",
+    "MX-5",
+    "CX3",
+    "Mazda 2",
+    "Mazda 5",
+    "CX30",
+    "CX60",
+    "CX90",
+  ];
+  const porscheModels = [
+    "Cayenne",
+    "Panamera",
+    "911",
+    "Carrera",
+    "Cayman",
+    "Boxster",
+    "Turbo",
+    "GT",
+    "Macan",
+    "718",
+  ];
+  const audiModels = [
+    "A8",
+    "A6",
+    "Q7",
+    "Q5",
+    "A4",
+    "A5",
+    "A7",
+    "S8",
+    "TT",
+    "A3",
+    "Q3",
+    "Q8",
+    "R8",
+    "RS",
+    "S3",
+  ];
+  const suzukiModels = [
+    "Vitara",
+    "Samurai",
+    "Swift",
+    "Jimny",
+    "Liana",
+    "SX4",
+    "Ertiga",
+    "Baleno",
+    "Grand Vitara",
+    "Ciaz",
+    "Celerio",
+    "APV Pickup",
+    "APV van",
+    "Dzire",
+    "Kizashi",
+    "Fronx",
+  ];
+  const infinitiModels = [
+    "FX",
+    "QX",
+    "G",
+    "Q",
+    "M",
+    "Q30",
+    "Q50",
+    "Q60",
+    "Q70",
+    "QX50",
+    "QX60",
+    "QX70",
+    "QX80",
+    "QX56",
+  ];
+  const hummerModels = ["H3", "H2", "H1"];
+  const lincolnModels = [
+    "Town Car",
+    "Navigator",
+    "MKS",
+    "S",
+    "Continental",
+    "Nautilus",
+    "Aviator",
+    "Corsair",
+  ];
+  const volkswagenModels = [
+    "Passat",
+    "Touareg",
+    "Golf",
+    "Beetle",
+    "Polo",
+    "Jetta",
+    "Scirocco",
+    "Tiguan",
+    "Teramont",
+    "T-roc",
+    "Arteon",
+  ];
+  const daihatsuModels = ["Sirion", "Taurus", "Materia"];
+  const geelyModels = [
+    "EC7",
+    "EC8",
+    "LC Panda",
+    "Emgrand 7",
+    "Emgrand GS",
+    "Emgrand X7",
+    "Binray",
+    "Coolray",
+    "Azkarra",
+    "Tugella",
+    "Okavango",
+    "Monjaro",
+    "Preface",
+    "Geometry c",
+    "Starray",
+  ];
+  const mercuryModels = ["Mountaineer", "Marauder"];
+  const volvoModels = [
+    "S 80",
+    "850",
+    "XC90",
+    "S 60R",
+    "S 40",
+    "960",
+    "S 70",
+    "V 70XC",
+    "C 70",
+    "S60",
+    "S90",
+    "XC40",
+    "XC60",
+  ];
+  const peugeotModels = [
+    "307",
+    "407",
+    "206",
+    "508",
+    "406",
+    "Partner",
+    "607",
+    "404",
+    "3008",
+    "301",
+    "5008",
+    "Boxer",
+    "Expert",
+    "2008",
+    "208",
+    "408",
+    "504",
+    "Traveller",
+    "Rifter",
+    "Landtrek",
+  ];
+  const bentleyModels = [
+    "Continental Flying Spur",
+    "Continental GT",
+    "Arnage",
+    "Azure",
+    "Continental GTC",
+    "Brooklands Coupe",
+    "Bentayga",
+    "Mulsanne",
+  ];
+  const jaguarModels = [
+    "XJ",
+    "X type",
+    "S type",
+    "Suv Virgen",
+    "Daimler",
+    "E pace",
+    "F pace",
+    "F type",
+    "I pace",
+    "XE",
+    "XF",
+  ];
+  const subaruModels = [
+    "Legacy",
+    "Impreza",
+    "Forrester",
+    "Outback",
+    "WRX",
+    "WRX STI",
+    "XV",
+  ];
+  const mgModels = [
+    "5",
+    "6",
+    "HS",
+    "MG RX8",
+    "RX5",
+    "ZS",
+    "T60",
+    "MG GT",
+    "HS PHEV",
+    "MG 1",
+    "MG 3",
+    "WHALE",
+  ];
+  const changanModels = [
+    "Eado",
+    "CS35",
+    "CS75",
+    "CS95",
+    "Changan V7",
+    "CS85",
+    "Alsvin",
+    "Hunter",
+    "CS35 Plus",
+    "CS75 Plus",
+    "UNI-T",
+    "UNI-K",
+    "UNI-V",
+  ];
+  const renaultModels = [
+    "Megane",
+    "Fluence",
+    "Safrane",
+    "Laguna",
+    "Clio",
+    "Talisman",
+    "Duster",
+    "Dokker Van",
+    "Symbol",
+    "Capture",
+    "Koleos",
+    "Master",
+    "Megane GT",
+    "Megane RS",
+  ];
+  const buickModels = [
+    "Encore",
+    "Encore GX",
+    "Enclave",
+    "Envision",
+    "LaCrosse",
+    "Regal",
+    "Verano",
+    "Lucerne",
+    "Cascada",
+    "Century",
+    "Rainier",
+    "Park Avenue",
+    "Rendezvous",
+  ];
+  const rollsRoyceModels = ["Phantom", "Quest", "Dawn", "Wraith", "Cullinan"];
+  const lamborghiniModels = ["Aventador", "Urus", "Huracan", "Gallardo"];
+  const opelModels = ["Astra", "Rekord"];
+  const skodaModels = [
+    "Octavia",
+    "Rapid",
+    "Superb",
+    "Fabia",
+    "Karoq",
+    "Kodiaq",
+  ];
+  const ferrariModels = [
+    "488 PISTA",
+    "812",
+    "Break up",
+    "GTC4",
+    "MONZA",
+    "Roma",
+    "SF90",
+  ];
+  const citroenModels = [
+    "C3",
+    "C4",
+    "C6",
+    "Xara",
+    "C2",
+    "C1",
+    "Regency",
+    "Berlingo",
+  ];
+  const cheryModels = [
+    "QQ",
+    "Chery A5",
+    "EASTAR",
+    "Quinn",
+    "Chery A3",
+    "Chery A1",
+    "Arezzo 3",
+    "Arezzo 6",
+    "Tiggo 2",
+    "Tiggo 7",
+    "Tiggo 8",
+    "Tiggo 4",
+    "Arrizo 5",
+    "Arrizo 8",
+  ];
+  const daewooModels = ["Leganza", "Lanos", "Mats", "Nubira"];
+  const sabbModels = [
+    "Fiat",
+    "Dolce Vita",
+    "Fiat 500",
+    "Fiat 500X",
+    "Fiorino",
+    "Linea",
+  ];
+  const ssangYongModels = [
+    "Actyon",
+    "Musso",
+    "Korando",
+    "XLV",
+    "Tivoli",
+    "Rexton",
+  ];
+  const astonMartinModels = ["DB11", "DBS", "Rapide S", "Vantage"];
+  const protonModels = ["GEN•2", "Persona", "Waja"];
+  const havalModels = [
+    "Haval H2",
+    "Haval H6",
+    "Haval H9",
+    "Jolion",
+    "Dargo",
+    "H6 GT",
+  ];
+  const gacModels = [
+    "GA3",
+    "GA4",
+    "GA8",
+    "GS3",
+    "GS4",
+    "GS8",
+    "GN6",
+    "GN8",
+    "GS5",
+    "GA6",
+    "EMPOW",
+    "EMZOOM",
+    "EMKOO",
+  ];
+  const greatWallModels = ["Wingle 5", "Wingle 6", "Wingle 7", "POER"];
+  const fawModels = [
+    "T80",
+    "V80",
+    "Oley",
+    "Besturn B50",
+    "Besturn B70",
+    "Besturn X80",
+    "T77",
+    "X40",
+    "T33",
+    "T99",
+  ];
+  const maxusModels = [
+    "D90",
+    "Maxus V80",
+    "Maxus T60",
+    "V90",
+    "T70",
+    "G50",
+    "G10",
+    "D90 Pro",
+    "D60",
+    "60 Tornado",
+    "Maxus G90",
+    "Maxus T90",
+  ];
+  const baicModels = [
+    "D50",
+    "X35",
+    "X7",
+    "BJ80",
+    "BJ40SE",
+    "BJ40S",
+    "BJ40 Plus",
+    "BJ40F",
+    "BJ40 C",
+  ];
+  const dongfengModels = [
+    "A30",
+    "A60 MAX",
+    "AX7",
+    "AX7 MACH",
+    "C31",
+    "C32",
+    "C35",
+    "E32",
+    "T5 Evo",
+  ];
+  const exeedModels = ["txl", "VX", "Exeed LX"];
+  const tankModels = ["Tank 300", "Tank 500"];
+  const lynkCoModels = ["1", "3", "03 plus", "5", "9"];
+
+  const tataModels = ["XENON"];
+  const jetourModels = ["X70", "X70S", "X90", "Dashing"];
+  const cmcModels = ["Foton", "Tunland"];
+
+  const bydModels = ["F3", "F5", "F7", "S6", "S7"];
+  const alfaRomeoModels = ["GIULIA", "GIULIETTA", "STELVIO"];
+  const victoryAutoModels = ["Lifan"];
+  const lucidModels = ["Air", "Gravity"];
+  const ineosModels = ["Grenadier"];
+
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState("");
+  const [showList, setShowList] = useState(false);
+
+  const filteredBrands =
+    query === ""
+      ? carBrands
+      : carBrands.filter((brand) =>
+          brand.toLowerCase().includes(query.toLowerCase())
+        );
+
+  const handleSelect = (brand) => {
+    setQuery(brand);
+    setSelected(brand);
+    setShowList(false);
+
+    // ✅ Only update the "Make" field in the existing formData object
+    setFormData((prev) => ({
+      ...prev,
+      Make: brand,
+    }));
+  };
   const [locationList, setLocationList] = useState([]);
 
   useEffect(() => {
@@ -269,22 +1142,27 @@ const AddLisiting = () => {
 
   useEffect(() => {
     // Assuming Location.json is like { "location": [ ... ] } or is an array itself
-    if (cityData.location && Array.isArray(cityData.location)) {
-      setCityList(cityData.location);
+    if (cityData.City && Array.isArray(cityData.City)) {
+      setCityList(cityData.City);
     } else if (Array.isArray(cityData)) {
       setCityList(cityData);
     } else {
       // fallback empty or log error
-      setLocationList([]);
-      console.error('Location JSON data is not in expected format');
+      setCityList([]);
+      console.error('City JSON data is not in expected format');
     }
   }, []);
 
-  const CityOptions = CityList.map((city) => ({
-    value: city,
-    label: city,
-  }));
-  cityData
+  const CityOptions = useMemo(
+    () =>
+      CityList.map((city) => ({
+        value: city, // Adjust based on your cityData structure
+        label: city,
+      })),
+    [CityList]
+  );
+
+
   console.log(subcategories, "subcategories___________");
   useEffect(() => {
     // Fetch cities of Saudi Arabia
@@ -336,19 +1214,18 @@ const AddLisiting = () => {
 
   const location = useLocation();
 
-
   const { id } = useParams();
   const [itemData, setItemData] = useState(null);
-console.log(itemData,"itemData______________111")
+  console.log(itemData, "itemData______________111");
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
     return searchParams.get(param);
   };
   const [_Id, setId] = useState(null); // State to store ads data
-  console.log(_Id,"callingFrom____________")
+  console.log(_Id, "callingFrom____________");
 
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
-  console.log(callingFrom,"callingFrom____________")
+  console.log(callingFrom, "callingFrom____________");
   const link = getQueryParam("link") || window.location.href;
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
@@ -360,24 +1237,22 @@ console.log(itemData,"itemData______________111")
     setId(ids);
   }, [id, location]);
 
-
   const categoryMapping = {
     "Job board": "JOBBOARD",
     Education: "Education",
     Travel: "TRAVEL",
-    "Pet": "PETANIMALCOMP",
+    Pet: "PETANIMALCOMP",
 
-
-    "Automotive": "Cars",
-    "Sports": "SPORTSGAMESComp",
-    "Electronics": "ELECTRONICS",
+    Automotive: "Cars",
+    Sports: "SPORTSGAMESComp",
+    Electronics: "ELECTRONICS",
     "Fashion Style": "FASHION",
     "Job Board": "JOBBOARD",
     "Real Estate": "REALESTATECOMP",
-    "Other": "Education",
-    "Services": "TRAVEL",
+    Other: "Education",
+    Services: "TRAVEL",
     "Pet & Animal": "PETANIMALCOMP",
-    "Home": "HEALTHCARE",
+    Home: "HEALTHCARE",
   };
   const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
     (acc, key) => {
@@ -391,7 +1266,6 @@ console.log(itemData,"itemData______________111")
     {}
   );
 
-  
   // useEffect(() => {
   //   const fetchItem = async () => {
   //     setLoading(true);
@@ -443,9 +1317,6 @@ console.log(itemData,"itemData______________111")
   //   fetchItem();
   // }, [id, location.search]);
 
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -460,14 +1331,14 @@ console.log(itemData,"itemData______________111")
           setLoading(false);
           return;
         }
-        
+
         const docRef = doc(db, collectionName, itemId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
           console.log("Document data:", data);
-setDataCatorgySHow(data.SubCategory)
+          setDataCatorgySHow(data.SubCategory);
           setFormData({
             Accessibility: data.Accessibility || "",
             Accuracy: data.Accuracy || "",
@@ -520,7 +1391,7 @@ setDataCatorgySHow(data.SubCategory)
             JobType: data.JobType || "",
             Language: data.Language || "",
             MAGAZINESCategory: data.MAGAZINESCategory || "",
-            Make: data.Make || "",
+            // Make: data.Make || "",
             ManufactureYear: data.ManufactureYear || "",
             Material: data.Material || "",
             MeasurementRange: data.MeasurementRange || "",
@@ -621,22 +1492,28 @@ setDataCatorgySHow(data.SubCategory)
       }
     };
 
-    if ( _Id || callingFrom) {
+    if (_Id || callingFrom) {
       fetchData();
     }
   }, [_Id, callingFrom]);
 
-
-
-
-
-
-
-
-
-  
-
-  const saveToFirestore = async (db, auth, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate) => {
+  const saveToFirestore = async (
+    db,
+    auth,
+    formData,
+    mediaImgLogo,
+    Category1,
+    photoURL,
+    creationTime,
+    displayName,
+    galleryImages,
+    imageUrl,
+    // Make,
+    setError,
+    isFormValid,
+    MySwal,
+    navigate
+  ) => {
     try {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
@@ -647,18 +1524,31 @@ setDataCatorgySHow(data.SubCategory)
         }
         setError("");
         const Collection =
-          Category1 === "Automotive" ? "Cars" :
-          Category1 === "Electronics" ? "ELECTRONICS" :
-          Category1 === "Fashion Style" ? "FASHION" :
-          Category1 === "Home & Furniture" ? "HEALTHCARE" :
-          Category1 === "Job Board" ? "JOBBOARD" :
-          Category1 === "Other" ? "Education" :
-          Category1 === "Real Estate" ? "REALESTATECOMP" :
-          Category1 === "Services" ? "TRAVEL" :
-          Category1 === "Sports & Game" ? "SPORTSGAMESComp" :
-          Category1 === "Pet & Animals" ? "PETANIMALCOMP" :
-          Category1 === "Magazines" ? "Magazines" :
-          Category1 === "Household" ? "Household" : "books";
+          Category1 === "Automotive"
+            ? "Cars"
+            : Category1 === "Electronics"
+            ? "ELECTRONICS"
+            : Category1 === "Fashion Style"
+            ? "FASHION"
+            : Category1 === "Home & Furniture"
+            ? "HEALTHCARE"
+            : Category1 === "Job Board"
+            ? "JOBBOARD"
+            : Category1 === "Other"
+            ? "Education"
+            : Category1 === "Real Estate"
+            ? "REALESTATECOMP"
+            : Category1 === "Services"
+            ? "TRAVEL"
+            : Category1 === "Sports & Game"
+            ? "SPORTSGAMESComp"
+            : Category1 === "Pet & Animals"
+            ? "PETANIMALCOMP"
+            : Category1 === "Magazines"
+            ? "Magazines"
+            : Category1 === "Household"
+            ? "Household"
+            : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
           // Save form data to Firestore under the specified collection
@@ -671,7 +1561,7 @@ setDataCatorgySHow(data.SubCategory)
             displayName,
             galleryImages,
             imageUrl,
-            Make: Make?.value,
+            // Make: Make?.value,
             userId: user.uid,
             createdAt: new Date(),
           });
@@ -682,7 +1572,7 @@ setDataCatorgySHow(data.SubCategory)
             icon: "success",
             timer: 1000,
           }).then(() => {
-            navigate('/dashboard');
+            navigate("/dashboard");
           });
         } else {
           MySwal.fire({
@@ -699,7 +1589,24 @@ setDataCatorgySHow(data.SubCategory)
       console.error("Error adding document: ", error);
     }
   };
-  const updateToFirestore = async (db, auth, _Id, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate) => {
+  const updateToFirestore = async (
+    db,
+    auth,
+    _Id,
+    formData,
+    mediaImgLogo,
+    Category1,
+    photoURL,
+    creationTime,
+    displayName,
+    galleryImages,
+    imageUrl,
+    // Make,
+    setError,
+    isFormValid,
+    MySwal,
+    navigate
+  ) => {
     try {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
@@ -710,18 +1617,31 @@ setDataCatorgySHow(data.SubCategory)
         }
         setError("");
         const Collection =
-          Category1 === "Automotive" ? "Cars" :
-          Category1 === "Electronics" ? "ELECTRONICS" :
-          Category1 === "Fashion Style" ? "FASHION" :
-          Category1 === "Home & Furniture" ? "HEALTHCARE" :
-          Category1 === "Job Board" ? "JOBBOARD" :
-          Category1 === "Other" ? "Education" :
-          Category1 === "Real Estate" ? "REALESTATECOMP" :
-          Category1 === "Services" ? "TRAVEL" :
-          Category1 === "Sports & Game" ? "SPORTSGAMESComp" :
-          Category1 === "Pet & Animals" ? "PETANIMALCOMP" :
-          Category1 === "Magazines" ? "Magazines" :
-          Category1 === "Household" ? "Household" : "books";
+          Category1 === "Automotive"
+            ? "Cars"
+            : Category1 === "Electronics"
+            ? "ELECTRONICS"
+            : Category1 === "Fashion Style"
+            ? "FASHION"
+            : Category1 === "Home & Furniture"
+            ? "HEALTHCARE"
+            : Category1 === "Job Board"
+            ? "JOBBOARD"
+            : Category1 === "Other"
+            ? "Education"
+            : Category1 === "Real Estate"
+            ? "REALESTATECOMP"
+            : Category1 === "Services"
+            ? "TRAVEL"
+            : Category1 === "Sports & Game"
+            ? "SPORTSGAMESComp"
+            : Category1 === "Pet & Animals"
+            ? "PETANIMALCOMP"
+            : Category1 === "Magazines"
+            ? "Magazines"
+            : Category1 === "Household"
+            ? "Household"
+            : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
           // Update the existing document in Firestore
@@ -735,7 +1655,7 @@ setDataCatorgySHow(data.SubCategory)
             displayName,
             galleryImages,
             imageUrl,
-            Make: Make?.value,
+            // Make: Make?.value,
             userId: user.uid,
             updatedAt: new Date(), // Store the update timestamp
           });
@@ -746,7 +1666,7 @@ setDataCatorgySHow(data.SubCategory)
             icon: "success",
             timer: 1000,
           }).then(() => {
-            navigate('/dashboard');
+            navigate("/dashboard");
           });
         } else {
           MySwal.fire({
@@ -765,9 +1685,42 @@ setDataCatorgySHow(data.SubCategory)
   };
   const handleSubmit = () => {
     if (_Id) {
-      updateToFirestore(db, auth, _Id, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate);
+      updateToFirestore(
+        db,
+        auth,
+        _Id,
+        formData,
+        mediaImgLogo,
+        Category1,
+        photoURL,
+        creationTime,
+        displayName,
+        galleryImages,
+        imageUrl,
+        // Make,
+        setError,
+        isFormValid,
+        MySwal,
+        navigate
+      );
     } else {
-      saveToFirestore(db, auth, formData, mediaImgLogo, Category1, photoURL, creationTime, displayName, galleryImages, imageUrl, Make, setError, isFormValid, MySwal, navigate);
+      saveToFirestore(
+        db,
+        auth,
+        formData,
+        mediaImgLogo,
+        Category1,
+        photoURL,
+        creationTime,
+        displayName,
+        galleryImages,
+        imageUrl,
+        // Make,
+        setError,
+        isFormValid,
+        MySwal,
+        navigate
+      );
     }
   };
   const handleImageUpload = async (file) => {
@@ -828,22 +1781,45 @@ setDataCatorgySHow(data.SubCategory)
   //     setUploading(false); // Reset the uploading state
   //   }
   // };
+  const ALLOWED_IMAGE_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/bmp",
+  ];
+  const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
+
   const handleGalleryChange = async (e) => {
     const files = Array.from(e.target.files);
+
+    // Filter valid images only (exclude SVGs and other non-raster types)
+    const validImages = files.filter((file) => {
+      const isValidType = ALLOWED_IMAGE_TYPES.includes(file.type);
+      const isValidExt = ALLOWED_EXTENSIONS.some((ext) =>
+        file.name.toLowerCase().endsWith(ext)
+      );
+      return isValidType && isValidExt;
+    });
+
+    if (validImages.length !== files.length) {
+      alert("Only raster image files (JPG, PNG, GIF, WEBP, BMP) are allowed.");
+      return;
+    }
+
     if (uploading) return;
 
     let uploadedImages = [...galleryImages];
 
-    // Restrict total images to 20
-    if (uploadedImages.length + files.length > 20) {
+    if (uploadedImages.length + validImages.length > 20) {
       alert("You can only upload up to 20 images.");
       return;
     }
 
     setUploading(true);
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+    for (let i = 0; i < validImages.length; i++) {
+      const file = validImages[i];
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "ml_default");
@@ -859,7 +1835,6 @@ setDataCatorgySHow(data.SubCategory)
           uploadedImages.push(response.data.secure_url);
           setGalleryImages([...uploadedImages]);
 
-          // Stop uploading if limit is reached
           if (uploadedImages.length >= 20) {
             alert("Image limit reached (20 images).");
             break;
@@ -915,6 +1890,10 @@ setDataCatorgySHow(data.SubCategory)
   const handleTransmissionChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Transmission: name }));
+  };
+  const handleCondition = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Condition: name }));
   };
   const handleCityChange = (selected) => {
     setSelectedCity(selected);
@@ -1162,13 +2141,29 @@ setDataCatorgySHow(data.SubCategory)
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Color: name }));
   };
+  const handleInteriorColor = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, InteriorColor: name }));
+  };
+  const handleRegionalSpecChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, RegionalSpec: name }));
+  };
+  const handleFueltype = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Fueltype: name }));
+  };
+  const handleInsuranceChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Insurance: name }));
+  };
   const handlePurposeChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Purpose: name }));
   };
   const handleExteriorColorChange = (e) => {
     const { name } = e.target;
-    setFormData((prev) => ({ ...prev, ExteriorColor: name }));
+    setFormData((prev) => ({ ...prev, Color: name }));
   };
   const handleStyleDesignChange = (e) => {
     const { name } = e.target;
@@ -1238,6 +2233,26 @@ setDataCatorgySHow(data.SubCategory)
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, SellerType: name }));
   };
+  const handleAdditionalFeatures = (e) => {
+    const { name, checked } = e.target;
+    setFormData((prev) => {
+      const selected = prev.AdditionalFeatures || [];
+      if (checked) {
+        // Add feature if checked and not already present
+        return {
+          ...prev,
+          AdditionalFeatures: [...selected, name],
+        };
+      } else {
+        // Remove feature if unchecked
+        return {
+          ...prev,
+          AdditionalFeatures: selected.filter((item) => item !== name),
+        };
+      }
+    });
+  };
+
   const handleBrandChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Brand: name }));
@@ -1282,6 +2297,10 @@ setDataCatorgySHow(data.SubCategory)
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Assembly: name }));
   };
+  const handleChangemileage = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, mileage: name }));
+  };
   useEffect(() => {
     console.log("Updated Form Data:", formData);
   }, [formData]);
@@ -1290,6 +2309,7 @@ setDataCatorgySHow(data.SubCategory)
     setFormData((prev) => ({ ...prev, [name]: value }));
     console.log(name, value);
   };
+
   const [Saudinummsg, setSaudinummsg] = useState(null); // Store a single file
 
   const saudiNumberRegex = /^\+9665\d{8}$/; // Saudi mobile number pattern
@@ -1304,28 +2324,30 @@ setDataCatorgySHow(data.SubCategory)
   // };
   const handleChangePhone = (e) => {
     const { name, value } = e.target;
-  
+
     // Allow only numeric characters and limit to 12 digits
-    const numericValue = value.replace(/[^0-9+]/g, ''); // Remove non-numeric characters except +
+    const numericValue = value.replace(/[^0-9+]/g, ""); // Remove non-numeric characters except +
     if (numericValue.length <= 13) {
       setFormData((prev) => ({
         ...prev,
         [name]: numericValue,
       }));
       // Optionally reset error message
-      setSaudinummsg('');
+      setSaudinummsg("");
     } else {
-      setSaudinummsg('Phone number cannot exceed 13 digits');
+      setSaudinummsg("Phone number cannot exceed 13 digits");
     }
   };
   const validatePhone = () => {
     const phone = formData.Phone;
     if (phone.length > 13) {
-      setSaudinummsg('Phone number cannot exceed 13 digits');
-    } else if (!phone.startsWith('+966') || phone.length !== 13) {
-      setSaudinummsg('Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)');
+      setSaudinummsg("Phone number cannot exceed 13 digits");
+    } else if (!phone.startsWith("+966") || phone.length !== 13) {
+      setSaudinummsg(
+        "Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)"
+      );
     } else {
-      setSaudinummsg('');
+      setSaudinummsg("");
     }
   };
 
@@ -3069,10 +4091,11 @@ setDataCatorgySHow(data.SubCategory)
                   </Link>
                 </li>
                 <li>
-                <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
-                </Link>
-              </li>
+                  <Link to="/bookmarks">
+                    <i className="fas fa-solid fa-heart" />{" "}
+                    <span>Favourite</span>
+                  </Link>
+                </li>
                 <li>
                   <Link to="/messages">
                     <i className="fa-solid fa-comment-dots" />{" "}
@@ -3243,7 +4266,7 @@ setDataCatorgySHow(data.SubCategory)
                   </div>
                   <div className="  ">
                     <div className="mt-2 d-flex flex-column gap-2">
-                      <div
+                    <div
                         className="d-flex justify-content-between"
                         style={{
                           width: "100vw",
@@ -3259,26 +4282,22 @@ setDataCatorgySHow(data.SubCategory)
                               <h4>Select City</h4>
                             </div>
                             <div className="card-body">
-                                 <Select
-                                options={CityOptions}
-                                value={
-                                  CityOptions.find(
-                                    (option) =>
-                                      option.value === formData.City
-                                  ) || null
-                                }
-                                onChange={(selectedOption) =>
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    City: selectedOption
-                                      ? selectedOption.value
-                                      : "",
-                                  }))
-                                }
-                                placeholder="Select a City"
-                                isClearable
-                                className="w-100"
-                              />
+                            <WindowedSelect
+          options={CityOptions}
+          value={
+            CityOptions.find((option) => option.value === formData.City) || null
+          }
+          onChange={(selectedOption) =>
+            setFormData((prev) => ({
+              ...prev,
+              City: selectedOption ? selectedOption.value : '',
+            }))
+          }
+          placeholder="Select a City"
+          isClearable
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
                             </div>
                           </div>
 
@@ -4417,7 +5436,11 @@ setDataCatorgySHow(data.SubCategory)
                         "Screens & Projectors",
                         "Printer & Scanner",
                         "Computer Accessories",
-                      ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                      ].some(
+                        (item) =>
+                          item === Category.SubCategory ||
+                          item === DataCatorgySHow
+                      ) ? (
                         <>
                           <div className="card">
                             <div className="card-header">
@@ -4900,7 +5923,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Car Cleaning",
                           "Vehicle Services",
                           "Cars",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           <div className="card gap-2">
                             <div className="card-header">
@@ -4957,10 +5984,1709 @@ setDataCatorgySHow(data.SubCategory)
                                   </div>
                                 </div>
                               </div>
+                              <div className="card">
+                                <div className="card-header">
+                                  <h4>Transmission</h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul>
+                                      {[
+                                        {
+                                          name: "New",
+                                          label: "New",
+                                        },
+                                        {
+                                          name: "Used",
+                                          label: "Used",
+                                        },
+                                        { name: "Manual", label: "Manual" },
+                                      ].map((feature) => (
+                                        <li key={feature.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={feature.name}
+                                              checked={
+                                                formData.Condition ===
+                                                feature.name
+                                              }
+                                              onChange={handleCondition} // ✅ Fixed function name
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {feature.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group">
+                                {" "}
+                                <div className="card-header">
+                                  <h4>Make</h4>
+                                </div>
+                                <input
+                                  className="form-control pass-input"
+                                  type="text"
+                                  // className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  placeholder="Select car brand"
+                                  value={query}
+                                  onChange={(e) => {
+                                    setQuery(e.target.value);
+                                    setSelected(null); // clear selected value on change
+                                    setShowList(true);
+                                  }}
+                                  onFocus={() => setShowList(true)}
+                                  onBlur={() =>
+                                    setTimeout(() => setShowList(false), 150)
+                                  } // slight delay for selection
+                                />
+                                {showList && filteredBrands.length > 0 && (
+                                  <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
+                                    {filteredBrands.map((brand) => (
+                                      <li
+                                        key={brand}
+                                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                        onMouseDown={() => handleSelect(brand)} // use onMouseDown to avoid blur race condition
+                                      >
+                                        {brand}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
+                              {selected === "Toyota" && (
+                                <div className="mt-4">
+                                  <div className="card-header">
+                                    <h4>Model</h4>
+                                  </div>
+                                  {/* <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label> */}
+                                  <select
+                                    className="form-control pass-input"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {toyotaModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Ford" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="form-control pass-input"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {fordModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Chevrolet" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {chevroletModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Nissan" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {nissanModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Hyundai" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {hyundaiModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+
+                              {selected === "Genesis" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {genesisModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Lexus" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {lexusModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "GMC" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {gmcModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Mercedes" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {mercedesModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Honda" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {hondaModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "BMW" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Model</option>
+                                    {bmwModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Motorcycles" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Brand
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Motorcycle Brand
+                                    </option>
+                                    {motorcycleBrands.map((brand) => (
+                                      <option key={brand} value={brand}>
+                                        {brand}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Kia" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Kia Model</option>
+                                    {kiaModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Dodge" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Dodge Model</option>
+                                    {dodgeModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Chrysler" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Chrysler Model
+                                    </option>
+                                    {chryslerModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Jeep" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Jeep Model</option>
+                                    {jeepModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Mitsubishi" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Mitsubishi Model
+                                    </option>
+                                    {mitsubishiModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Mazda" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Mazda Model</option>
+                                    {mazdaModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Porsche" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Porsche Model
+                                    </option>
+                                    {porscheModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Audi" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Audi Model</option>
+                                    {audiModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Suzuki" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Suzuki Model
+                                    </option>
+                                    {suzukiModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Infiniti" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Infiniti Model
+                                    </option>
+                                    {infinitiModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Hummer" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Hummer Model
+                                    </option>
+                                    {hummerModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Lincoln" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Lincoln Model
+                                    </option>
+                                    {lincolnModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Volkswagen" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Volkswagen Model
+                                    </option>
+                                    {volkswagenModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Daihatsu" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Daihatsu Model
+                                    </option>
+                                    {daihatsuModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Geely" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Geely Model</option>
+                                    {geelyModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Mercury" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Mercury Model
+                                    </option>
+                                    {mercuryModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Volvo" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Volvo Model</option>
+                                    {volvoModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Peugeot" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Peugeot Model
+                                    </option>
+                                    {peugeotModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Bentley" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Bentley Model
+                                    </option>
+                                    {bentleyModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Jaguar" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Jaguar Model
+                                    </option>
+                                    {jaguarModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Subaru" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Subaru Model
+                                    </option>
+                                    {subaruModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "MG" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select MG Model</option>
+                                    {mgModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Changan" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Changan Model
+                                    </option>
+                                    {changanModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Renault" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Renault Model
+                                    </option>
+                                    {renaultModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Buick" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Buick Model</option>
+                                    {buickModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Rolls-Royce" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Rolls-Royce Model
+                                    </option>
+                                    {rollsRoyceModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Lamborghini" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Lamborghini Model
+                                    </option>
+                                    {lamborghiniModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Opel" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Opel Model</option>
+                                    {opelModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Skoda" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Skoda Model</option>
+                                    {skodaModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Ferrari" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Ferrari Model
+                                    </option>
+                                    {ferrariModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Citroen" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Citroen Model
+                                    </option>
+                                    {citroenModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Chery" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Chery Model</option>
+                                    {cheryModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+
+                              {selected === "Daewoo" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Daewoo Model
+                                    </option>
+                                    {daewooModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "SABB" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select SABB Model</option>
+                                    {sabbModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "SsangYong" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select SsangYong Model
+                                    </option>
+                                    {ssangYongModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Aston Martin" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Aston Martin Model
+                                    </option>
+                                    {astonMartinModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Proton" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Proton Model
+                                    </option>
+                                    {protonModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Haval" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Haval Model</option>
+                                    {havalModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "GAC" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select GAC Model</option>
+                                    {gacModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Great Wall" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Great Wall Model
+                                    </option>
+                                    {greatWallModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "FAW" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select FAW Model</option>
+                                    {fawModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "BYD" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select BYD Model</option>
+                                    {bydModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Alfa Romeo" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Alfa Romeo Model
+                                    </option>
+                                    {alfaRomeoModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "TATA" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select TATA Model</option>
+                                    {tataModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "JETOUR" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select JETOUR Model
+                                    </option>
+                                    {jetourModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "CMC" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select CMC Model</option>
+                                    {cmcModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "VICTORY AUTO" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Victory Auto Model
+                                    </option>
+                                    {victoryAutoModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "MAXUS" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Maxus Model</option>
+                                    {maxusModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "BAIC" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Baic Model</option>
+                                    {baicModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "DONGFENG" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Dongfeng Model
+                                    </option>
+                                    {dongfengModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "EXEED" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select EXEED Model</option>
+                                    {exeedModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Tank" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Tank Model</option>
+                                    {tankModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Lynk & Co" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">
+                                      Select Lynk & Co Model
+                                    </option>
+                                    {lynkCoModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "Lucid" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select Lucid Model</option>
+                                    {lucidModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                              {selected === "INEOS" && (
+                                <div className="mt-4">
+                                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label>
+                                  <select
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        Model: e.target.value,
+                                      }))
+                                    }
+                                  >
+                                    <option value="">Select INEOS Model</option>
+                                    {ineosModels.map((model) => (
+                                      <option key={model} value={model}>
+                                        {model}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              )}
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group">
+                                <label className="col-form-label">
+                                  Mileage
+                                </label>
+                                <input
+                                  type="text"
+                                  name="mileage"
+                                  className="form-control pass-input"
+                                  placeholder="Enter mileage"
+                                  value={formData.mileage}
+                                  onChange={handleChange}
+                                />
+                              </div>
                             </div>
                           </div>
 
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Emirates </h4>
                             </div>
@@ -5002,8 +7728,9 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Registered In </h4>
                             </div>
@@ -5045,8 +7772,8 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Trusted Cars </h4>
                             </div>
@@ -5085,8 +7812,133 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
+                          </div> */}
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Regional Specs</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "GCC", label: "GCC Specs" },
+                                    {
+                                      name: "American",
+                                      label: "American Specs",
+                                    },
+                                    {
+                                      name: "Japanese",
+                                      label: "Japanese Specs",
+                                    },
+                                    {
+                                      name: "European",
+                                      label: "European Specs",
+                                    },
+                                    {
+                                      name: "Canadian",
+                                      label: "Canadian Specs",
+                                    },
+                                  ].map((spec) => (
+                                    <li key={spec.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={spec.name}
+                                          checked={
+                                            formData.RegionalSpec === spec.name
+                                          }
+                                          onChange={handleRegionalSpecChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {spec.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
                           </div>
                           <div className="card">
+                            <div className="card-header">
+                              <h4>Fuel type</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    // Added fuel types below
+                                    { name: "petrol", label: "Petrol" },
+                                    { name: "diesel", label: "Diesel" },
+                                    { name: "electric", label: "Electric" },
+                                    { name: "hybrid", label: "Hybrid" },
+                                    { name: "lpg", label: "LPG" },
+                                    { name: "cng", label: "CNG" },
+                                  ].map((spec) => (
+                                    <li key={spec.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={spec.name}
+                                          checked={
+                                            formData.Fueltype === spec.name
+                                          }
+                                          onChange={handleFueltype}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {spec.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Insurance</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "Comprehensive",
+                                      label: "Comprehensive Insurance",
+                                    },
+                                    {
+                                      name: "ThirdParty",
+                                      label: "Third-Party Insurance",
+                                    },
+                                    {
+                                      name: "No Insurance",
+                                      label: "No Insurance",
+                                    },
+                                  ].map((insurance) => (
+                                    <li key={insurance.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={insurance.name}
+                                          checked={
+                                            formData.Insurance ===
+                                            insurance.name
+                                          }
+                                          onChange={handleInsuranceChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {insurance.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Color </h4>
                             </div>
@@ -5117,10 +7969,44 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
+                          </div> */}
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Interior Color </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "White", label: "White" },
+                                    { name: "Black", label: "Black" },
+                                    { name: "Grey", label: "Grey" },
+                                    { name: "Red", label: "Red" },
+                                    { name: "Yellow", label: "Yellow" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.InteriorColor === area.name
+                                          }
+                                          onChange={handleInteriorColor}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Purpose </h4>
+                              <h4>Add Tyoe </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
@@ -5128,6 +8014,7 @@ setDataCatorgySHow(data.SubCategory)
                                   {[
                                     { name: "Sell", label: "Sell" },
                                     { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
                                   ].map((area) => (
                                     <li key={area.name}>
                                       <label className="custom_check">
@@ -5168,9 +8055,7 @@ setDataCatorgySHow(data.SubCategory)
                                         <input
                                           type="checkbox"
                                           name={area.name}
-                                          checked={
-                                            formData.ExteriorColor === area.name
-                                          }
+                                          checked={formData.Color === area.name}
                                           onChange={handleExteriorColorChange}
                                         />
                                         <span className="checkmark" />{" "}
@@ -5183,6 +8068,142 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Additional Features </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "fullOption",
+                                      label: "Full option",
+                                    },
+                                    { name: "insured", label: "Insured" },
+                                    {
+                                      name: "selfParking",
+                                      label: "Self Parking",
+                                    },
+                                    {
+                                      name: "alarmSystem",
+                                      label: "Alarm System",
+                                    },
+                                    { name: "dealership", label: "Dealership" },
+                                    {
+                                      name: "quickSelling",
+                                      label: "Quick Selling",
+                                    },
+                                    { name: "navigation", label: "Navigation" },
+                                    {
+                                      name: "temperatureSeats",
+                                      label: "Temperature Controlled Seats",
+                                    },
+                                    { name: "inspected", label: "Inspected" },
+                                    {
+                                      name: "parkingSensors",
+                                      label: "Parking Sensors",
+                                    },
+                                    { name: "bluetooth", label: "Bluetooth" },
+                                    {
+                                      name: "sunroof",
+                                      label: "Sunroof/Moonroof",
+                                    },
+                                    {
+                                      name: "leatherSeats",
+                                      label: "Leather Seats",
+                                    },
+                                    {
+                                      name: "backupCamera",
+                                      label: "Backup Camera",
+                                    },
+                                    {
+                                      name: "heatedSeats",
+                                      label: "Heated Seats",
+                                    },
+                                    {
+                                      name: "keylessEntry",
+                                      label: "Keyless Entry",
+                                    },
+                                    {
+                                      name: "remoteStart",
+                                      label: "Remote Start",
+                                    },
+                                    {
+                                      name: "adaptiveCruise",
+                                      label: "Adaptive Cruise Control",
+                                    },
+                                    {
+                                      name: "laneDeparture",
+                                      label: "Lane Departure Warning",
+                                    },
+                                    {
+                                      name: "blindSpot",
+                                      label: "Blind Spot Monitoring",
+                                    },
+                                    {
+                                      name: "premiumSound",
+                                      label: "Premium Sound System",
+                                    },
+                                    { name: "awd", label: "All-Wheel Drive" },
+                                    {
+                                      name: "touchscreen",
+                                      label: "Touchscreen Display",
+                                    },
+                                    {
+                                      name: "carPlay",
+                                      label: "Apple CarPlay/Android Auto",
+                                    },
+                                    {
+                                      name: "ledHeadlights",
+                                      label: "LED Headlights",
+                                    },
+                                    {
+                                      name: "towPackage",
+                                      label: "Tow Package",
+                                    },
+                                    {
+                                      name: "powerLiftgate",
+                                      label: "Power Liftgate",
+                                    },
+                                    {
+                                      name: "headUpDisplay",
+                                      label: "Head-Up Display",
+                                    },
+                                    {
+                                      name: "rainWipers",
+                                      label: "Rain-Sensing Wipers",
+                                    },
+                                    {
+                                      name: "emergencyBraking",
+                                      label: "Automatic Emergency Braking",
+                                    },
+                                    {
+                                      name: "ambientLighting",
+                                      label: "Ambient Lighting",
+                                    },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={formData.AdditionalFeatures?.includes(
+                                            feature.name
+                                          )}
+                                          onChange={handleAdditionalFeatures}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+
                           <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
@@ -5218,7 +8239,7 @@ setDataCatorgySHow(data.SubCategory)
                             </div>
                           </div>
 
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Model Category </h4>
                             </div>
@@ -5263,7 +8284,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Number of Doors </h4>
@@ -5298,6 +8319,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
+
                           <div className="card">
                             <div className="card-header">
                               <h4>Seating Capacity </h4>
@@ -5333,7 +8355,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Engine Type </h4>
                             </div>
@@ -5381,38 +8403,8 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Assembly </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Imported", label: "Imported" },
-                                    { name: "Local", label: "Local" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Assembly === area.name
-                                          }
-                                          onChange={handleAssemblyChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
+                          </div> */}
+
                           <div className="card">
                             <div className="card-header">
                               <h4>Body Type </h4>
@@ -5456,7 +8448,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="form-group">
+                          {/* <div className="form-group">
                             <label className="col-form-label">
                               Engine Capacity
                             </label>
@@ -5467,7 +8459,7 @@ setDataCatorgySHow(data.SubCategory)
                               value={formData.EngineCapacity}
                               onChange={handleChange} // Ensures changes are handled
                             />
-                          </div>
+                          </div> */}
                           <div className="form-group">
                             <label className="col-form-label">
                               Manufacture Year{" "}
@@ -5493,7 +8485,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Gifts",
                           "Luggage",
                           "Health & Beauty",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -6022,7 +9018,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -6063,7 +9059,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Outdoor Furniture",
@@ -6082,7 +9078,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Office Furniture",
                           "Doors - Windows - Aluminium",
                           "Tiles & Flooring",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -6583,7 +9583,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -6624,7 +9624,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Administrative Jobs",
@@ -6638,7 +9638,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Architecture & Construction Jobs",
                           "Housekeeping Jobs",
                           "Restaurant Jobs",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7033,7 +10037,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Books & Arts",
                           "Programming & Design",
                           "Food & Beverages",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7297,7 +10305,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Hall for Rent",
                           "Houses for Rent",
                           "Houses for Sale",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7638,7 +10650,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -7678,7 +10690,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Other Services",
@@ -7690,7 +10702,11 @@ setDataCatorgySHow(data.SubCategory)
                           "International Shopping Services",
                           "Legal Services",
                           "Accounting & Financial Services",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -7886,7 +10902,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Gift Cards",
                           "Accounts",
                           "Toys",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -8231,7 +11251,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -8272,7 +11292,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Sheep",
@@ -8291,7 +11311,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Squirrels",
                           "Hamsters",
                           "Fur",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {" "}
                           {/* <div className="card">
@@ -8674,7 +11698,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -8715,7 +11739,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Watches",
@@ -8728,7 +11752,11 @@ setDataCatorgySHow(data.SubCategory)
                           "Gifts",
                           "Luggage",
                           "Health & Beauty",
-                        ].some(item => item === Category.SubCategory || item === DataCatorgySHow) ? (
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
                         <>
                           {/* <div className="card">
                     <div className="card-header">
@@ -8970,7 +11998,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -9011,7 +12039,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : Category.SubCategory === "Home Services" ||
                         Category.SubCategory === "Personal Services" ? (
@@ -9385,7 +12413,7 @@ setDataCatorgySHow(data.SubCategory)
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -9422,7 +12450,7 @@ setDataCatorgySHow(data.SubCategory)
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : (
                         ""
@@ -9511,161 +12539,171 @@ setDataCatorgySHow(data.SubCategory)
                           {Saudinummsg}
                         </p>
                       </> */}
-                      
+
                       <div className="card-body">
-  <div className="row">
-    {/* Phone Field - 6 columns on medium screens and above */}
-    <div className="col-md-6">
-      <div className="form-group">
-        <label
-          className="col-form-label"
-          style={{
-            padding: "10px 0 0 0",
-            fontWeight:"bold",
-            fontSize:"18px"
-          }}
-        >
-          Phone
-        </label>
-        <div style={{ position: "relative", width: "100%" }}>
-          <input
-            type={showPhone ? "text" : "password"} // Toggle type based on showPhone
-            name="Phone"
-            value={formData.Phone}
-            onChange={handleChangePhone}
-            onBlur={validatePhone} // Validate when user leaves input
-            className="form-control"
-            placeholder="+9665XXXXXXXX"
-            maxLength="13" // Restrict input to 13 characters
-            required
-            style={{
-              paddingRight: "30px", // Make space for the icon
-              paddingLeft: "10px", // Add left padding for better appearance
-              width: "100%", // Ensure input takes full width
-              boxSizing: "border-box", // Prevent padding from affecting width
-              height: "48px", // Default height (~24px) doubled to 48px
-              fontSize: "16px", // Ensure text remains readable
-              lineHeight: "48px", // Vertically center text in the taller input
-            }}
-          />
-          <span
-            onClick={() => setShowPhone(!showPhone)}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              cursor: "pointer",
-              fontSize: "16px",
-              color: "#666",
-            }}
-          >
-            {showPhone ? "👁️‍🗨️" : "👁️"} {/* Unicode eye icons */}
-          </span>
-        </div>
-        <p style={{ color: "red", fontSize: "12px" }}>
-          {Saudinummsg}
-        </p>
-      </div>
-    </div>
+                        <div className="row">
+                          {/* Phone Field - 6 columns on medium screens and above */}
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label
+                                className="col-form-label"
+                                style={{
+                                  padding: "10px 0 0 0",
+                                  fontWeight: "bold",
+                                  fontSize: "18px",
+                                }}
+                              >
+                                Phone
+                              </label>
+                              <div
+                                style={{ position: "relative", width: "100%" }}
+                              >
+                                <input
+                                  type={showPhone ? "text" : "password"} // Toggle type based on showPhone
+                                  name="Phone"
+                                  value={formData.Phone}
+                                  onChange={handleChangePhone}
+                                  onBlur={validatePhone} // Validate when user leaves input
+                                  className="form-control"
+                                  placeholder="+9665XXXXXXXX"
+                                  maxLength="13" // Restrict input to 13 characters
+                                  required
+                                  style={{
+                                    paddingRight: "30px", // Make space for the icon
+                                    paddingLeft: "10px", // Add left padding for better appearance
+                                    width: "100%", // Ensure input takes full width
+                                    boxSizing: "border-box", // Prevent padding from affecting width
+                                    height: "48px", // Default height (~24px) doubled to 48px
+                                    fontSize: "16px", // Ensure text remains readable
+                                    lineHeight: "48px", // Vertically center text in the taller input
+                                  }}
+                                />
+                                <span
+                                  onClick={() => setShowPhone(!showPhone)}
+                                  style={{
+                                    position: "absolute",
+                                    right: "10px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    color: "#666",
+                                  }}
+                                >
+                                  {showPhone ? "👁️‍🗨️" : "👁️"}{" "}
+                                  {/* Unicode eye icons */}
+                                </span>
+                              </div>
+                              <p style={{ color: "red", fontSize: "12px" }}>
+                                {Saudinummsg}
+                              </p>
+                            </div>
+                          </div>
 
-    {/* Price Range Field - 6 columns on medium screens and above */}
-    <div className="col-md-6">
-      <div className="form-group">
-        <label
-          className="col-form-label"
-          style={{
-            padding: "10px 0 0 0",
-            fontWeight:"bold",
-            fontSize:"18px"
-
-          }}
-        >
-          Price Range
-        </label>
-        <div style={{ position: "relative", width: "100%" }}>
-          <input
-            type={showPrice ? "text" : "password"} // Toggle type based on showPrice
-            name="Price"
-            value={formData.Price}
-            onChange={handleChange}
-            placeholder="Price"
-            maxLength="13" // Restrict input to 13 characters
-            required
-            style={{
-              paddingRight: "30px", // Make space for the icon
-              paddingLeft: "10px", // Optional: Add left padding for better appearance
-              width: "100%", // Full width as previously set
-              boxSizing: "border-box", // Prevent padding from affecting width
-              height: "48px", // Default height (~24px) doubled to 48px
-              fontSize: "16px", // Ensure text remains readable
-              lineHeight: "48px", // Vertically center text in the taller input
-            }}
-          />
-          <span
-            onClick={() => setShowPrice(!showPrice)}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              cursor: "pointer",
-              fontSize: "16px",
-              color: "#666",
-            }}
-          >
-            {showPrice ? "👁️‍🗨️" : "👁️"} {/* Unicode eye icons */}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-            
-
+                          {/* Price Range Field - 6 columns on medium screens and above */}
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label
+                                className="col-form-label"
+                                style={{
+                                  padding: "10px 0 0 0",
+                                  fontWeight: "bold",
+                                  fontSize: "18px",
+                                }}
+                              >
+                                Price Range
+                              </label>
+                              <div
+                                style={{ position: "relative", width: "100%" }}
+                              >
+                                <input
+                                  type={showPrice ? "text" : "password"} // Toggle type based on showPrice
+                                  name="Price"
+                                  value={formData.Price}
+                                  onChange={handleChange}
+                                  placeholder="Price"
+                                  maxLength="13" // Restrict input to 13 characters
+                                  required
+                                  style={{
+                                    paddingRight: "30px", // Make space for the icon
+                                    paddingLeft: "10px", // Optional: Add left padding for better appearance
+                                    width: "100%", // Full width as previously set
+                                    boxSizing: "border-box", // Prevent padding from affecting width
+                                    height: "48px", // Default height (~24px) doubled to 48px
+                                    fontSize: "16px", // Ensure text remains readable
+                                    lineHeight: "48px", // Vertically center text in the taller input
+                                  }}
+                                />
+                                <span
+                                  onClick={() => setShowPrice(!showPrice)}
+                                  style={{
+                                    position: "absolute",
+                                    right: "10px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    color: "#666",
+                                  }}
+                                >
+                                  {showPrice ? "👁️‍🗨️" : "👁️"}{" "}
+                                  {/* Unicode eye icons */}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   <div className="card-body">
-                  <div className="form-group">
-  <label
-    className="col-form-label"
-    style={{
-      padding: "10px 0 0 0",
-      fontWeight: "bold",
-      fontSize: "18px",
-    }}
-  >
-    Listing Description :
-  </label>
-  <textarea
-    rows={6}
-    name="description"
-    className="form-control listingdescription"
-    placeholder="Message"
-    value={formData.description}
-    onChange={(e) => {
-      const text = e.target.value;
-      // Count only alphabetic characters (a-z, A-Z)
-      const alphaCount = (text.match(/[a-zA-Z]/g) || []).length;
-      if (alphaCount <= 1000) {
-        handleChange(e); // Update state only if within limit
-      }
-    }}
-  />
-  {/* Display alphabetic character count and warning */}
-  <div style={{ marginTop: "5px", fontSize: "12px" }}>
-    <span>
-      Characters: {(formData.description.match(/[a-zA-Z]/g) || []).length}/1000
-    </span>
-    {(formData.description.match(/[a-zA-Z]/g) || []).length > 1000 && (
-      <span style={{ color: "red", marginLeft: "10px" }}>
-        Alphabetic character limit exceeded! Maximum 100 allowed.
-      </span>
-    )}
-  </div>
-</div>
+                    <div className="form-group">
+                      <label
+                        className="col-form-label"
+                        style={{
+                          padding: "10px 0 0 0",
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                        }}
+                      >
+                        Listing Description :
+                      </label>
+                      <textarea
+                        rows={6}
+                        name="description"
+                        className="form-control listingdescription"
+                        placeholder="Message"
+                        value={formData.description}
+                        onChange={(e) => {
+                          const text = e.target.value;
+                          // Count only alphabetic characters (a-z, A-Z)
+                          const alphaCount = (text.match(/[a-zA-Z]/g) || [])
+                            .length;
+                          if (alphaCount <= 1000) {
+                            handleChange(e); // Update state only if within limit
+                          }
+                        }}
+                      />
+                      {/* Display alphabetic character count and warning */}
+                      <div style={{ marginTop: "5px", fontSize: "12px" }}>
+                        <span>
+                          Characters:{" "}
+                          {
+                            (formData.description.match(/[a-zA-Z]/g) || [])
+                              .length
+                          }
+                          /1000
+                        </span>
+                        {(formData.description.match(/[a-zA-Z]/g) || [])
+                          .length > 1000 && (
+                          <span style={{ color: "red", marginLeft: "10px" }}>
+                            Alphabetic character limit exceeded! Maximum 100
+                            allowed.
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
                     {/* <div className="row">
                     <div className="p-4" style={{ marginTop: "-1rem" }}>
@@ -9734,57 +12772,65 @@ setDataCatorgySHow(data.SubCategory)
                     </div>
                   </div>
                 </div>
-             
 
-         
                 {showPayment && (
                   <Elements stripe={stripePromise}>
                     <PaymentForm />
                   </Elements>
                 )}
-                       <div
-  className="settings-upload-btn"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    marginTop: "10px",
-  }}
->
-<input
-  type="checkbox"
-  checked={isChecked}
-  onChange={() => setIsChecked((prev) => !prev)}
-  style={{
-    marginTop: "15px",
-    width: "20px", // Increase the width
-    height: "20px", // Increase the height
-  }}
-/>
-  <label style={{ fontSize: "24px", marginTop: "20px", fontWeight: "bold" }}>
-    <Link
-      to="/TermsAndConditions"
-      style={{
-        textDecoration: "underline",
-        color: "#2d4495", // Blue color to indicate a link
-      }}
-      onMouseEnter={(e) => (e.target.style.textDecoration = "none")} // Remove underline on hover
-      onMouseLeave={(e) => (e.target.style.textDecoration = "underline")} // Restore underline
-    >
-      Agree to terms and conditions
-    </Link>
-  </label>
-</div>
-<button
-      onClick={handleSubmit}
-      disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
-      className="btn"
-      style={{ backgroundColor: "#2d4495", color: "white" }}
-      type="button"
-    >
-      {_Id ? "Update" : "Submit"}
-    </button>
-{/* {error && (
+                <div
+                  className="settings-upload-btn"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => setIsChecked((prev) => !prev)}
+                    style={{
+                      marginTop: "15px",
+                      width: "20px", // Increase the width
+                      height: "20px", // Increase the height
+                    }}
+                  />
+                  <label
+                    style={{
+                      fontSize: "24px",
+                      marginTop: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <Link
+                      to="/TermsAndConditions"
+                      style={{
+                        textDecoration: "underline",
+                        color: "#2d4495", // Blue color to indicate a link
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.textDecoration = "none")
+                      } // Remove underline on hover
+                      onMouseLeave={(e) =>
+                        (e.target.style.textDecoration = "underline")
+                      } // Restore underline
+                    >
+                      Agree to terms and conditions
+                    </Link>
+                  </label>
+                </div>
+                <button
+                  onClick={handleSubmit}
+                  disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
+                  className="btn"
+                  style={{ backgroundColor: "#2d4495", color: "white" }}
+                  type="button"
+                >
+                  {_Id ? "Update" : "Submit"}
+                </button>
+                {/* {error && (
   <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
 )} */}
                 {/* ✅ Show error message */}
