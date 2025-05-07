@@ -255,9 +255,7 @@ const currentUserId = user?.uid;
   };
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
