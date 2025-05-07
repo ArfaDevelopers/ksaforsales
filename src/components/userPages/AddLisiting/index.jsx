@@ -9,9 +9,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
 import { useParams } from "react-router-dom";
-import WindowedSelect from 'react-windowed-select';
-import locationData from "../../../Location.json"
-import cityData from "../../../City.json"
+import WindowedSelect from "react-windowed-select";
+import locationData from "../../../Location.json";
+import cityData from "../../../City.json";
 import {
   gallerymedia_1,
   gallerymedia_2,
@@ -1130,7 +1130,7 @@ const AddLisiting = () => {
     } else {
       // fallback empty or log error
       setLocationList([]);
-      console.error('Location JSON data is not in expected format');
+      console.error("Location JSON data is not in expected format");
     }
   }, []);
 
@@ -1149,7 +1149,7 @@ const AddLisiting = () => {
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -1161,7 +1161,6 @@ const AddLisiting = () => {
       })),
     [CityList]
   );
-
 
   console.log(subcategories, "subcategories___________");
   useEffect(() => {
@@ -4266,7 +4265,7 @@ const AddLisiting = () => {
                   </div>
                   <div className="  ">
                     <div className="mt-2 d-flex flex-column gap-2">
-                    <div
+                      <div
                         className="d-flex justify-content-between"
                         style={{
                           width: "100vw",
@@ -4282,22 +4281,26 @@ const AddLisiting = () => {
                               <h4>Select City</h4>
                             </div>
                             <div className="card-body">
-                            <WindowedSelect
-          options={CityOptions}
-          value={
-            CityOptions.find((option) => option.value === formData.City) || null
-          }
-          onChange={(selectedOption) =>
-            setFormData((prev) => ({
-              ...prev,
-              City: selectedOption ? selectedOption.value : '',
-            }))
-          }
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
+                              <WindowedSelect
+                                options={CityOptions}
+                                value={
+                                  CityOptions.find(
+                                    (option) => option.value === formData.City
+                                  ) || null
+                                }
+                                onChange={(selectedOption) =>
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    City: selectedOption
+                                      ? selectedOption.value
+                                      : "",
+                                  }))
+                                }
+                                placeholder="Select a City"
+                                isClearable
+                                className="w-100"
+                                windowThreshold={100} // Render only 100 options at a time
+                              />
                             </div>
                           </div>
 
@@ -5444,6 +5447,76 @@ const AddLisiting = () => {
                         <>
                           <div className="card">
                             <div className="card-header">
+                              <h4>Add Tyoe </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Condition</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New",
+                                      label: "New",
+                                    },
+                                    {
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="card">
+                            <div className="card-header">
                               <h4>Brand </h4>
                             </div>
                             <div className="card-body">
@@ -5473,435 +5546,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Operating System </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Windows", label: "Windows" },
-                                    { name: "macOS", label: "macOS" },
-                                    { name: "Chrome", label: "Chrome" },
-                                    { name: "OS", label: "OS" },
-                                    { name: "Linus", label: "Linus" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.OperatingSystem ===
-                                            area.name
-                                          }
-                                          onChange={handleOperatingSystemChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>RAM </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "4GB", label: "4GB" },
-                                    { name: "8GB", label: "8GB" },
-                                    { name: "16GB", label: "16GB" },
-                                    { name: "32GB", label: "32GB" },
-                                    { name: "64GB", label: "64GB" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.RAM === area.name}
-                                          onChange={handleRAMChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Storage Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "SSD (Solid State Drive)",
-                                      label: "SSD (Solid State Drive)",
-                                    },
-                                    {
-                                      name: "HDD (Hard Disk Drive)",
-                                      label: "HDD (Hard Disk Drive)",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.StorageType === area.name
-                                          }
-                                          onChange={handleStorageTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Processor (CPU) </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Intel Core i3, i5, i7, i9",
-                                      label: "Intel Core i3, i5, i7, i9",
-                                    },
-                                    {
-                                      name: "AMD Ryzen 3, 5, 7, 9",
-                                      label: "AMD Ryzen 3, 5, 7, 9",
-                                    },
-                                    { name: "Apple M1", label: "Apple M1" },
-                                    { name: "Apple M2", label: "Apple M2" },
-                                    { name: "Apple M3", label: "Apple M3" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Processor === area.name
-                                          }
-                                          onChange={handleProcessorChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Screen Size </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "11-inch", label: "11-inch" },
-                                    { name: "13-inch", label: "13-inch" },
-                                    { name: "14-inch", label: "14-inch" },
-                                    { name: "15-inch", label: "15-inch" },
-                                    { name: "17-inch", label: "17-inch" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.ScreenSize === area.name
-                                          }
-                                          onChange={handleScreenSizeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Storage capacity </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "256GB", label: "256GB" },
-                                    { name: "512GB", label: "512GB" },
-                                    { name: "1TB", label: "1TB" },
-                                    { name: "2TB", label: "2TB" },
-                                    { name: "2TB", label: "2TB" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Storagecapacity ===
-                                            area.name
-                                          }
-                                          onChange={handleStoragecapacityChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Graphics Card </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Intel", label: "Intel" },
-                                    { name: "UHD", label: "UHD" },
-                                    {
-                                      name: "AMD Radeon",
-                                      label: "AMD Radeon",
-                                    },
-                                    {
-                                      name: "NVIDIA GeForce GTX",
-                                      label: "NVIDIA GeForce GTX",
-                                    },
-                                    { name: "RTX", label: "RTX" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.GraphicsCard === area.name
-                                          }
-                                          onChange={handleGraphicsCardChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Battery Life </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "5 hours", label: "5 hours" },
-                                    {
-                                      name: "5-8 hours",
-                                      label: "5-8 hours",
-                                    },
-                                    {
-                                      name: "8-12 hours",
-                                      label: "8-12 hours",
-                                    },
-                                    {
-                                      name: "12 hours",
-                                      label: "12 hours",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.BatteryLife === area.name
-                                          }
-                                          onChange={handleBatteryLifeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Display Quality </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Full HD", label: "Full HD" },
-                                    {
-                                      name: "Retina Display",
-                                      label: "Retina Display",
-                                    },
-                                    {
-                                      name: "Touchscreen",
-                                      label: "Touchscreen",
-                                    },
-                                    {
-                                      name: "OLED",
-                                      label: "OLED",
-                                    },
-                                    {
-                                      name: "IPS",
-                                      label: "IPS",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.DisplayQuality ===
-                                            area.name
-                                          }
-                                          onChange={handleDisplayQualityChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Connectivity </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Wi-Fi 5", label: "Wi-Fi 5" },
-                                    { name: "Wi-Fi 6", label: "Wi-Fi 6" },
-                                    {
-                                      name: "Bluetooth 4.0",
-                                      label: "Bluetooth 4.0",
-                                    },
-                                    {
-                                      name: "Bluetooth 5.0",
-                                      label: "Bluetooth 5.0",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Connectivity === area.name
-                                          }
-                                          onChange={handleConnectivityChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Special Features </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Convertible",
-                                      label: "Convertible",
-                                    },
-                                    {
-                                      name: "Backlit keyboard",
-                                      label: "Backlit keyboard",
-                                    },
-                                    {
-                                      name: "Fingerprint scanner",
-                                      label: "Fingerprint scanner",
-                                    },
-                                    {
-                                      name: "Face recognition",
-                                      label: "Face recognition",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.SpecialFeatures ===
-                                            area.name
-                                          }
-                                          onChange={handleSpecialFeaturesChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Cars For Sale",
@@ -5986,7 +5631,7 @@ const AddLisiting = () => {
                               </div>
                               <div className="card">
                                 <div className="card-header">
-                                  <h4>Transmission</h4>
+                                  <h4>Condition</h4>
                                 </div>
                                 <div className="card-body">
                                   <div className="form-group featuresform-list mb-0">

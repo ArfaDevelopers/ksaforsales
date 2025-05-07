@@ -77,6 +77,22 @@ const ElectronicComp = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+  const categories = [
+    "Mobile Phones",
+    "Tablet Devices",
+    "Computers & Laptops",
+    "Video Games",
+    "Television & Audio System",
+    "Accounts & Subscriptions",
+    "Special Number",
+    "Home & Kitchen Appliance",
+    "Motors & Generators",
+    "Cameras",
+    "Networking Devices",
+    "Screens & Projectors",
+    "Printer & Scanner",
+    "Computer Accessories",
+  ];
 
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
@@ -89,6 +105,10 @@ const ElectronicComp = () => {
   const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
   const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
   const [Brand, setBrand] = useState([]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  const handleCategorySelect = (e) => {
+    setselectedSubCategory(e.target.value);
+  };
   const [selectedCarsMake, setSelectedCarsMake] = useState([]);
 
   console.log(selectedCarsMake, "selectedCarsMake______");
@@ -128,6 +148,8 @@ const ElectronicComp = () => {
   const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
     useState("");
   const [pictureAvailability, setPictureAvailability] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+
   const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
     useState("");
   const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
@@ -152,6 +174,7 @@ const ElectronicComp = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
   const [cities, setCities] = useState([]);
+  const [Condition, setCondition] = useState([]);
 
   const [subCatgory, setsubCatgory] = useState("");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
@@ -168,9 +191,8 @@ const ElectronicComp = () => {
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   const [receiverId, setReceiverId] = useState(null);
 
- 
   const user = auth.currentUser;
-const currentUserId = user?.uid;
+  const currentUserId = user?.uid;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -271,7 +293,17 @@ const currentUserId = user?.uid;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
     return "Just now";
   }
-
+  const handleCheckboxCondition = (label) => {
+    setCondition((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
   // Search query for title and city
   // Search query for title and city
   const handleCheckboxChangeSpecialFeatures = (label) => {
@@ -522,6 +554,17 @@ const currentUserId = user?.uid;
     const value = checked ? "With Pictures" : "Without Pictures";
     setPictureAvailability(value);
     console.log(`PictureAvailability: ${value}`);
+  };
+  const handleCheckboxPurpose = (label) => {
+    setlogSelectedPurpose((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
   };
 
   const handleCheckboxChangeSellerType = (event, label) => {
@@ -810,7 +853,6 @@ const currentUserId = user?.uid;
     fetchCars();
   }, [bookmarkedCar]);
   const handleShowModal = (userId) => {
-
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
@@ -880,7 +922,10 @@ const currentUserId = user?.uid;
       Connectivity,
       SpecialFeatures,
       nestedSubCategory,
-      subCatgory
+      subCatgory,
+      selectedSubCategory,
+      logSelectedPurpose,
+      Condition
     );
   }, [
     searchQuery,
@@ -926,6 +971,9 @@ const currentUserId = user?.uid;
     SpecialFeatures,
     nestedSubCategory,
     subCatgory,
+    selectedSubCategory,
+    logSelectedPurpose,
+    Condition,
   ]);
 
   // Handle search input change
@@ -976,7 +1024,10 @@ const currentUserId = user?.uid;
       Connectivity,
       SpecialFeatures,
       nestedSubCategory,
-      subCatgory
+      subCatgory,
+      selectedSubCategory,
+      logSelectedPurpose,
+      Condition
     );
   };
   const filterCars = (
@@ -1021,7 +1072,10 @@ const currentUserId = user?.uid;
     Connectivity,
     SpecialFeatures,
     nestedSubCategory,
-    subCatgory
+    subCatgory,
+    selectedSubCategory,
+    logSelectedPurpose,
+    Condition
   ) => {
     let filtered = carsData;
 
@@ -1062,6 +1116,9 @@ const currentUserId = user?.uid;
           car.SpecialFeatures?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
+          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1071,6 +1128,19 @@ const currentUserId = user?.uid;
     }
     if (subCatgory?.length > 0) {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
+    }
+    if (selectedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedSubCategory.includes(car.SubCategory)
+      );
+    }
+    if (Condition?.length > 0) {
+      filtered = filtered.filter((car) => Condition.includes(car.Condition));
+    }
+    if (logSelectedPurpose?.length > 0) {
+      filtered = filtered.filter((car) =>
+        logSelectedPurpose.includes(car.Purpose)
+      );
     }
     if (nestedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -1400,14 +1470,11 @@ const currentUserId = user?.uid;
             }}
           >
             <button
-            onClick={() => {
-              navigate("/");
-            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                // pointerEvents: "none",
+                pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1425,13 +1492,13 @@ const currentUserId = user?.uid;
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                // pointerEvents: "none",
+                pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Electronics
             </button>
-            {/* <span>
+            <span>
               <MdKeyboardArrowRight />
             </span>
 
@@ -1475,7 +1542,7 @@ const currentUserId = user?.uid;
               }}
             >
               Apple Macbook Air M3
-            </button> */}
+            </button>
           </div>
 
           <div>
@@ -1547,9 +1614,6 @@ const currentUserId = user?.uid;
               Real Estate for Rent
             </button>
             <button
-            onClick={() => {
-              navigate("/HealthCareComp");
-            }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1559,7 +1623,7 @@ const currentUserId = user?.uid;
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Furniture
+              Home & Garden
             </button>
             <button
               onClick={() => {
@@ -1642,6 +1706,58 @@ const currentUserId = user?.uid;
       border-color: black !important; 
     }
   `}</style>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Sub Categories</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <Form.Label>Select a Category</Form.Label>
+                          <Form.Select
+                            value={selectedSubCategory}
+                            onChange={handleCategorySelect}
+                          >
+                            <option value="">-- Select --</option>
+                            {categories.map((category, index) => (
+                              <option key={index} value={category}>
+                                {category}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select City</Accordion.Header>
@@ -1724,59 +1840,6 @@ const currentUserId = user?.uid;
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                {/*      ----------               */}
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>States </Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        {selectedCountry && states.length > 0 ? (
-                          <div className="mt-4">
-                            <h3 className="text-md font-semibold mb-2">
-                              States in {selectedCountry.label}
-                            </h3>
-                            <Select
-                              options={states.map((state) => ({
-                                value: state.isoCode,
-                                label: state.name,
-                              }))}
-                              isMulti
-                              onChange={handleStateChange1}
-                              value={states
-                                .filter((state) =>
-                                  selectedStates1.includes(state.name)
-                                )
-                                .map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))}
-                              placeholder="Select states..."
-                              className="w-full"
-                            />
-                          </div>
-                        ) : (
-                          <spna style={{ color: "red" }}>
-                            Please select country
-                          </spna>
-                        )}
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
 
                 <hr
                   style={{
@@ -1792,63 +1855,6 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*--------------------------------------*/}
-
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Brand</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        {/* Checkbox Selection */}
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {["Dell", "HP", "Apple", "Lenovo", "ASUS"].map(
-                            (car, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={car}
-                                  name={car} // Use the name attribute for identification
-                                  onChange={handleCheckboxChangeBrand}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                {/*                  */}
-
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Price Range</Accordion.Header>
@@ -1876,7 +1882,6 @@ const currentUserId = user?.uid;
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-
                 <hr
                   style={{
                     width: "100%",
@@ -1891,17 +1896,17 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Operating System</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {["Windows", "macOS", "Chrome", "OS", "Linus"].map(
-                            (engine, index) => (
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Condition</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["New", "Used"].map((color) => (
                               <div
-                                key={engine}
+                                key={color}
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -1911,585 +1916,34 @@ const currentUserId = user?.uid;
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={engine}
-                                  // defaultChecked={engine === "V8 Engine"}
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
                                   onChange={() =>
-                                    handleCheckboxChangeOperatingSystem(engine)
+                                    handleCheckboxCondition(color)
                                   }
                                 />
                                 <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
                                 >
                                   12345
                                 </span>
                               </div>
-                            )
-                          )}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Screen Size</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "11-inch",
-                            "13-inch",
-                            "14-inch",
-                            "15-inch",
-                            "17-inch",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeScreenSize(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>RAM</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {["4GB", "8GB", "16GB", "32GB", "64GB"].map(
-                            (engine, index) => (
-                              <div
-                                key={engine}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={engine}
-                                  onChange={() =>
-                                    handleCheckboxChangeRAM(engine)
-                                  }
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Storage Type</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "SSD (Solid State Drive)",
-                            "HDD (Hard Disk Drive)",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeStorageType(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Storage capacity</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {["256GB", "512GB", "1TB", "2TB"].map(
-                            (engine, index) => (
-                              <div
-                                key={engine}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={engine}
-                                  onChange={() =>
-                                    handleCheckboxChangeStoragecapacity(engine)
-                                  }
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Graphics Card</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Intel",
-                            "UHD",
-                            "AMD Radeon",
-                            "NVIDIA GeForce GTX",
-                            "RTX",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeGraphicsCard(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Battery Life</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "5 hours",
-                            "5-8 hours",
-                            "8-12 hours",
-                            "12 hours",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeBatteryLife(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Display Quality</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Full HD",
-                            "Retina Display",
-                            "Touchscreen",
-                            "OLED",
-                            "IPS",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeDisplayQuality(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Connectivity</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Wi-Fi 5",
-                            "Wi-Fi 6",
-                            "Bluetooth 4.0",
-                            "Bluetooth 5.0",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeConnectivity(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Special Features</Accordion.Header>
-
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Convertible",
-                            "Backlit keyboard",
-                            "Fingerprint scanner",
-                            "Face recognition",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeSpecialFeatures(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                {/*                    */}
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Processor (CPU)</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Intel Core i3, i5, i7, i9",
-                            "AMD Ryzen 3, 5, 7, 9",
-                            "Apple M1",
-                            "Apple M2",
-                            "Apple M3",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                onChange={() =>
-                                  handleCheckboxChangeProcessor(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                                            style={{ color: "#2D4495", cursor: "pointer" }}
+                                            onClick={() => handleMoreChoicesToggle()}
+                                          >
+                                            More choices
+                                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
 
                 <hr
                   style={{
@@ -2509,190 +1963,66 @@ const currentUserId = user?.uid;
                 {/*-------------------------------------*/}
               </Form>
 
-              <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Seller Type</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Dealers"
-                            onChange={(e) =>
-                              handleCheckboxChangeSellerType(e, "Dealers")
-                            }
-                            checked={selectedCheckboxSellerType === "Dealers"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-
-                        {/* Imported Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Individuals"
-                            onChange={(e) =>
-                              handleCheckboxChangeSellerType(e, "Individuals")
-                            }
-                            checked={
-                              selectedCheckboxSellerType === "Individuals"
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-
               <hr
                 style={{
                   width: "100%",
-                  height: "1px",
+                  height: "0px",
+                  top: "1310.01px",
+                  left: "239.88px",
+                  gap: "0px",
                   borderTop: "1px solid #000000",
                   opacity: "0.5", // Adjust opacity for visibility
+                  transform: "rotate(0deg)",
                   margin: "20px 0",
                   borderColor: "#000000", // Set border color to black
                 }}
               />
-
-              <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Picture Availability</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="With Pictures"
-                            onChange={handleCheckboxChangePictureAvailability}
-                            checked={pictureAvailability === "With Pictures"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
-
-              <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Video Availability</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="With Video"
-                            onChange={handleCheckboxChangeVideoAvailability}
-                            checked={
-                              selectedOptionVideoAvailability === "With Video"
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
-
-              <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Ad Type</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        {/* Local Checkbox */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Featured Ad"
-                            onChange={handleCheckboxChangeisFeatured}
-                            checked={selectedOptionisFeatured === "Featured Ad"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
+              <div>
+                {/* Accordion with Checkbox Selection for Color */}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Ad Type</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          {["Rent", "Sell", "Wanted"].map((color) => (
+                            <div
+                              key={color}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={color}
+                                // defaultChecked={color === "Grey"}
+                                onChange={() => handleCheckboxPurpose(color)}
+                              />
+                              <span
+                                style={{
+                                  fontWeight: "bold",
+                                  color: "#333",
+                                }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </Form.Group>
+                        {/* <p
+                                       style={{ color: "#2D4495", cursor: "pointer" }}
+                                       onClick={() => handleMoreChoicesToggle()}
+                                     >
+                                       More choices
+                                     </p> */}
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
 
               <hr
                 style={{
@@ -2730,25 +2060,25 @@ const currentUserId = user?.uid;
               </Row>
               <div>
                 {loading ? (
-                   <div
-                   style={{
-                     display: "flex",
-                     justifyContent: "center",
-                     alignItems: "center",
-                     height: "100vh",
-                   }}
-                 >
-                   <img
-                     src={Loading1}
-                     alt="Loading..."
-                     style={{
-                       width: "200px",
-                       height: "200px",
-                       animation: "spin 1s linear infinite", // Apply the spin animation
-                     }}
-                   />
-                   <style>
-                     {`
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                        @keyframes spin {
                          from {
                            transform: rotate(0deg);
@@ -2758,8 +2088,8 @@ const currentUserId = user?.uid;
                          }
                        }
                      `}
-                   </style>
-                 </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -2851,7 +2181,7 @@ const currentUserId = user?.uid;
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
-                                  objectFit:"cover",
+                                  objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -2869,11 +2199,11 @@ const currentUserId = user?.uid;
                                 }}
                               >
                                 <Link
-                            //  to={`/car-details/${ad.id}`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=ElectronicComp`}
-                          >
-                              {car.title || "Car"}
-                            </Link>
+                                  //  to={`/car-details/${ad.id}`}
+                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=ElectronicComp`}
+                                >
+                                  {car.title || "Car"}
+                                </Link>
                               </Card.Title>
                               <Card.Text style={{ color: "black" }}>
                                 <small className="text-muted">
@@ -2929,25 +2259,25 @@ const currentUserId = user?.uid;
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
-                                     <div
-                                     style={{
-                                       display: "flex",
-                                       justifyContent: "center",
-                                       alignItems: "center",
-                                       height: "100vh",
-                                     }}
-                                   >
-                                     <img
-                                       src={Loading1}
-                                       alt="Loading..."
-                                       style={{
-                                         width: "200px",
-                                         height: "200px",
-                                         animation: "spin 1s linear infinite", // Apply the spin animation
-                                       }}
-                                     />
-                                     <style>
-                                       {`
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100vh",
+                                      }}
+                                    >
+                                      <img
+                                        src={Loading1}
+                                        alt="Loading..."
+                                        style={{
+                                          width: "200px",
+                                          height: "200px",
+                                          animation: "spin 1s linear infinite", // Apply the spin animation
+                                        }}
+                                      />
+                                      <style>
+                                        {`
                                          @keyframes spin {
                                            from {
                                              transform: rotate(0deg);
@@ -2957,8 +2287,8 @@ const currentUserId = user?.uid;
                                            }
                                          }
                                        `}
-                                     </style>
-                                   </div>
+                                      </style>
+                                    </div>
                                   ) : (
                                     ads.map((cars) => (
                                       <div
@@ -2982,7 +2312,8 @@ const currentUserId = user?.uid;
                                               objectFit: "cover",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "block",
                                             }}
                                           />
@@ -2993,7 +2324,8 @@ const currentUserId = user?.uid;
                                               height: "110px",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "flex",
                                               alignItems: "center",
                                               justifyContent: "center",
@@ -3240,60 +2572,61 @@ const currentUserId = user?.uid;
                                 `}</style>
                               </div>
                               <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {currentUserId && receiverId ? (
-                                    <Chat
-                                      userId={currentUserId}
-                                      recieverId={receiverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
+                                <div
+                                  className={`modal fade ${
+                                    showModal ? "show d-block" : "d-none"
+                                  }`}
+                                  tabIndex="-1"
+                                  role="dialog"
+                                  style={{
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    marginTop: 100,
+                                  }} // Backdrop effect
+                                >
+                                  <div
+                                    className="modal-dialog modal-dialog-centered"
+                                    role="document"
+                                  >
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">
+                                          Send Message
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowModal(false)}
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body">
+                                        <div className="p-4 w-full max-w-lg mx-auto">
+                                          {currentUserId && receiverId ? (
+                                            <Chat
+                                              userId={currentUserId}
+                                              recieverId={receiverId}
+                                            />
+                                          ) : (
+                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                              <p className="text-lg font-semibold text-gray-600">
+                                                Please log in to start
+                                                messaging.
+                                              </p>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
+
+                                {showModal && (
+                                  <div
+                                    className="modal-backdrop fade show"
+                                    onClick={() => setShowModal(false)}
+                                  ></div>
+                                )}
                               </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>
