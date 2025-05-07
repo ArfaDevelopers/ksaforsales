@@ -1993,7 +1993,7 @@ const currentUserId = user?.uid;
           options={DistrictOptions}
           value={selectedDistrict}
           onChange={handleDistrictSelect}
-          placeholder="Select a City"
+          placeholder="Select a District"
           isClearable
           className="w-100"
           windowThreshold={100} // Render only 100 options at a time

@@ -1580,6 +1580,17 @@ const currentUserId = user?.uid;
       );
     }
     setLoading(false);
+    if (searchQuery?.length > 0) {
+      filtered = filtered.filter((car) => {
+        // Ensure car.title exists and is a string
+        if (!car?.title || typeof car.title !== 'string') {
+          console.warn('Invalid car title:', car);
+          return false;
+        }
+        // Case-insensitive search
+        return car.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
     if (ScreenSize?.length > 0) {
       filtered = filtered.filter((car) => ScreenSize.includes(car.ScreenSize));
     }
