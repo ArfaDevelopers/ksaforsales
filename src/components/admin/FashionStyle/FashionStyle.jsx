@@ -232,7 +232,12 @@ const FashionStyle = () => {
     "Health & Beauty",
   ];
   const getQueryParam = (param) => {
-    const searchParams = new URLSearchParams(location.search);
+    const hash = location.hash;
+    const queryIndex = hash.indexOf('?');
+    if (queryIndex === -1) return null;
+  
+    const queryString = hash.substring(queryIndex + 1);
+    const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
   };
   const [_Id, setId] = useState(null); // State to store ads data
@@ -1871,6 +1876,42 @@ const FashionStyle = () => {
             >
               Fashion Style
             </button>
+            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
+  <>
+    <span>
+      <MdKeyboardArrowRight />
+    </span>
+    <button
+      className="btn"
+      style={{
+        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
+        fontWeight: '500',
+        pointerEvents: 'none',
+        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
+      }}
+    >
+      {subCatgory}
+    </button>
+  </>
+)}
+         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
+  <>
+    <span>
+      <MdKeyboardArrowRight />
+    </span>
+    <button
+      className="btn"
+      style={{
+        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
+        fontWeight: '500',
+        pointerEvents: 'none',
+        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
+      }}
+    >
+      {nestedSubCategory}
+    </button>
+  </>
+)}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>

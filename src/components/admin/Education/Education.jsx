@@ -249,8 +249,17 @@ const currentUserId = user?.uid;
     setIsMobile(window.innerWidth <= 767);
   };
   const { id } = useParams();
+  // const getQueryParam = (param) => {
+  //   const searchParams = new URLSearchParams(location.search);
+  //   return searchParams.get(param);
+  // };
   const getQueryParam = (param) => {
-    const searchParams = new URLSearchParams(location.search);
+    const hash = location.hash;
+    const queryIndex = hash.indexOf('?');
+    if (queryIndex === -1) return null;
+  
+    const queryString = hash.substring(queryIndex + 1);
+    const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
   };
   const [_Id, setId] = useState(null); // State to store ads data
@@ -258,7 +267,11 @@ const currentUserId = user?.uid;
 
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
+    const subCatgory1 = getQueryParam("subCatgory");
+
     const subCatgory = getQueryParam("subCatgory");
+    console.log(subCatgory1, "subCatgory___________444");
+    console.log(callingFrom, "subCatgory___________3333");
     const NestedSubCategory = getQueryParam("NestedSubCategory");
     if (subCatgory?.trim() === "Gardening") {
       setsubCatgory("Gardening & Agriculture");
@@ -296,6 +309,7 @@ const currentUserId = user?.uid;
 
     setCallingFrom(callingFrom);
     setId(ids);
+    
   }, [id, location, getQueryParam]);
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
@@ -1694,6 +1708,42 @@ const currentUserId = user?.uid;
             >
               Education
             </button>
+            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
+  <>
+    <span>
+      <MdKeyboardArrowRight />
+    </span>
+    <button
+      className="btn"
+      style={{
+        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
+        fontWeight: '500',
+        pointerEvents: 'none',
+        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
+      }}
+    >
+      {subCatgory}
+    </button>
+  </>
+)}
+         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
+  <>
+    <span>
+      <MdKeyboardArrowRight />
+    </span>
+    <button
+      className="btn"
+      style={{
+        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
+        fontWeight: '500',
+        pointerEvents: 'none',
+        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
+      }}
+    >
+      {nestedSubCategory}
+    </button>
+  </>
+)}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>

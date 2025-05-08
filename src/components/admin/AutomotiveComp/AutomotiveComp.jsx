@@ -85,7 +85,7 @@ const AutomotiveComp = () => {
   const location = useLocation();
   const [subCatgory, setsubCatgory] = useState("");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(nestedSubCategory, "subCatgory___________2222");
+  console.log(nestedSubCategory, "subCatgory___________nestedSubCategory");
   console.log(subCatgory, "subCatgory___________1111");
   // const scrollRef = useRef();
   const updateIsMobile = () => {
@@ -96,6 +96,7 @@ const AutomotiveComp = () => {
     const searchParams = new URLSearchParams(location.search);
     return searchParams.get(param);
   };
+  
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   useEffect(() => {
@@ -103,17 +104,44 @@ const AutomotiveComp = () => {
   }, [location]);
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
-    const subCatgory = getQueryParam("subCatgory");
-    const NestedSubCategory = getQueryParam("NestedSubCategory");
-    setsubCatgory(subCatgory);
-    setNestedSubCategory(NestedSubCategory);
+    const subCatgoryParam = getQueryParam("subCatgory");
+    const nestedSubCategoryParam = getQueryParam("NestedSubCategory");
     const ids = getQueryParam("id");
-    console.log("callingFrom______ID:ids11", ids);
-    console.log("callingFrom______Calling From:11", callingFrom);
-
+  
+    if (subCatgoryParam === null || subCatgoryParam === "") {
+      setsubCatgory(null);
+    } else {
+      setsubCatgory(subCatgoryParam);
+    }
+  
+    if (nestedSubCategoryParam === null || nestedSubCategoryParam === "") {
+      setNestedSubCategory(null);
+    } else {
+      setNestedSubCategory(nestedSubCategoryParam);
+    }
+  
+    console.log("callingFrom_____ID:ids11", ids);
+    console.log("callingFrom_____Calling From:11", callingFrom);
+  
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location]);
+  
+  
+  
+  // useEffect(() => {
+  //   const callingFrom = getQueryParam("callingFrom");
+  //   const subCatgory = getQueryParam("subCatgory");
+  //   const NestedSubCategory = getQueryParam("NestedSubCategory");
+  //   setsubCatgory(subCatgory);
+  //   setNestedSubCategory(NestedSubCategory);
+  //   const ids = getQueryParam("id");
+  //   console.log("callingFrom______ID:ids11", ids);
+  //   console.log("callingFrom______Calling From:11", callingFrom);
+
+  //   setCallingFrom(callingFrom);
+  //   setId(ids);
+  // }, [id, location]);
 
 
   const [CityList, setCityList] = useState([]);
