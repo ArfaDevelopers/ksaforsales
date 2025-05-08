@@ -2132,6 +2132,14 @@ const AddLisiting = () => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, PropertyType: name }));
   };
+  const handleFrequency = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Frequency: name }));
+  };
+  const handleResidenceType = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, ResidenceType: name }));
+  };
   const handleBedroomChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Bedroom: name }));
@@ -10030,7 +10038,80 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Bedroom </h4>
+                              <h4>Frequency </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Dailly", label: "Dailly" },
+                                    {
+                                      name: "Weekly",
+                                      label: "Weekly",
+                                    },
+                                    {
+                                      name: "Montly",
+                                      label: "Montly",
+                                    },
+                                    { name: "Yearly", label: "Yearly" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Frequency === area.name
+                                          }
+                                          onChange={handleFrequency}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Residence Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Single", label: "Single" },
+                                    {
+                                      name: "Families",
+                                      label: "Families",
+                                    },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.ResidenceType === area.name
+                                          }
+                                          onChange={handleResidenceType}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Number of rooms </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
