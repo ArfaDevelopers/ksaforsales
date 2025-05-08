@@ -2688,7 +2688,7 @@ const handleConditionChange = (condition) => (event) => {
                                               padding: "10px", // optional padding
                                             }}
                                           >
-                                            {car.title || "No Image"}
+                                            {"No Image"}
                                           </div>
                                         )}
                                       </div>
