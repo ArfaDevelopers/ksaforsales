@@ -6662,7 +6662,7 @@ text-decoration: none;
        <h4 className="mt-4 mb-4">Location </h4>
 
 <button className="location_btn ">
-{itemData.location}{" "}
+{itemData.City}{" "}
 </button>
          
 </Card.Body>

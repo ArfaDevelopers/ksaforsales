@@ -7086,7 +7086,7 @@ const AutomotiveComp = () => {
 
             height: "auto",
             paddingLeft: "16%",
-            paddingRight: "5%",
+            paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",
           }}

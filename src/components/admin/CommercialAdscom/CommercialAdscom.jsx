@@ -479,7 +479,7 @@ console.log('itemData_____________111',itemData)
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <h6 style={{ wordBreak: "break-all" }}>{link}</h6>
+                            <div style={{ wordBreak: "break-all" }}>{link}</div>
                           </div>
                           <div className="modal-footer">
                             <button
