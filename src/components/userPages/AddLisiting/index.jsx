@@ -8101,7 +8101,7 @@ const AddLisiting = () => {
 
                           <div className="card">
                             <div className="card-header">
-                              <h4>Body Type </h4>
+                              <h4>Body Type</h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
@@ -8113,14 +8113,29 @@ const AddLisiting = () => {
                                       label: "Sedan (Saloon)",
                                     },
                                     { name: "SUV", label: "SUV" },
-                                    {
-                                      name: "Hatchback",
-                                      label: "Hatchback",
-                                    },
+                                    { name: "Hatchback", label: "Hatchback" },
                                     {
                                       name: "Convertible",
                                       label: "Convertible",
                                     },
+                                    {
+                                      name: "Wagon (Estate)",
+                                      label: "Wagon (Estate)",
+                                    },
+                                    {
+                                      name: "Pickup Truck",
+                                      label: "Pickup Truck",
+                                    },
+                                    { name: "Crossover", label: "Crossover" },
+                                    {
+                                      name: "Minivan (MPV)",
+                                      label: "Minivan (MPV)",
+                                    },
+                                    { name: "Roadster", label: "Roadster" },
+                                    { name: "Fastback", label: "Fastback" },
+                                    { name: "Liftback", label: "Liftback" },
+                                    { name: "Van", label: "Van" },
+                                    { name: "Microcar", label: "Microcar" },
                                   ].map((area) => (
                                     <li key={area.name}>
                                       <label className="custom_check">
@@ -8142,6 +8157,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
+
                           {/* <div className="form-group">
                             <label className="col-form-label">
                               Engine Capacity
@@ -8281,6 +8297,76 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
+                              <h4>Add Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Condition</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New",
+                                      label: "New",
+                                    },
+                                    {
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="card">
+                            <div className="card-header">
                               <h4>Gender </h4>
                             </div>
                             <div className="card-body">
@@ -8311,7 +8397,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Size </h4>
@@ -8841,6 +8927,76 @@ const AddLisiting = () => {
                   </div> */}
                           <div className="card">
                             <div className="card-header">
+                              <h4>Add Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Condition</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New",
+                                      label: "New",
+                                    },
+                                    {
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="card">
+                            <div className="card-header">
                               <h4>Brand </h4>
                             </div>
                             <div className="card-body">
@@ -9306,7 +9462,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
@@ -9400,7 +9556,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card ">
+                          {/* <div className="card ">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -9741,7 +9897,7 @@ const AddLisiting = () => {
                               value={formData.JobDescription}
                               onChange={handleChange} // Ensures changes are handled
                             />
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Hunting & Trips",
@@ -9799,7 +9955,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Subject Categories </h4>
                             </div>
@@ -10010,7 +10166,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Apartments for Rent",
@@ -10146,6 +10302,76 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Add Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="card">
+                            <div className="card-header">
+                              <h4>Condition</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New",
+                                      label: "New",
+                                    },
+                                    {
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Residence Type </h4>
@@ -10858,7 +11084,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Check-in/Check-out Dates </h4>
                             </div>
@@ -10977,7 +11203,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Type </h4>
@@ -11057,7 +11283,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -11368,6 +11594,76 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
+                          </div> */}
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Add Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Rent", label: "Rent" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Condition</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New",
+                                      label: "New",
+                                    },
+                                    {
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
                           </div>
                           {/* <div className="card">
                             <div className="card-header">
@@ -11467,7 +11763,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Breed </h4>
                             </div>
@@ -11506,7 +11802,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Age </h4>
@@ -11578,7 +11874,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Gender </h4>
                             </div>
@@ -11608,8 +11904,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Color </h4>
                             </div>
@@ -11847,7 +12143,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>

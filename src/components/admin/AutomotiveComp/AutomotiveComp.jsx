@@ -5710,110 +5710,44 @@ const AutomotiveComp = () => {
                   <Accordion.Body>
                     <div style={{ maxWidth: "300px", margin: "20px" }}>
                       <Form.Group>
-                        {/* Coupe */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Coupe"
-                            onChange={() =>
-                              handleCheckboxChangeBodyType("Coupe")
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-
-                        {/* Sedan (Saloon) */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Sedan (Saloon)"
-                            onChange={() =>
-                              handleCheckboxChangeBodyType("Sedan (Saloon)")
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-
-                        {/* SUV */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="SUV"
-                            onChange={() => handleCheckboxChangeBodyType("SUV")}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-
-                        {/* Hatchback */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Hatchback"
-                            onChange={() =>
-                              handleCheckboxChangeBodyType("Hatchback")
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-
-                        {/* Convertible */}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Convertible"
-                            onChange={() =>
-                              handleCheckboxChangeBodyType("Convertible")
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
+                        {[
+                          "Coupe",
+                          "Sedan (Saloon)",
+                          "SUV",
+                          "Hatchback",
+                          "Convertible",
+                          "Wagon (Estate)",
+                          "Pickup Truck",
+                          "Crossover",
+                          "Minivan (MPV)",
+                          "Roadster",
+                          "Fastback",
+                          "Liftback",
+                          "Van",
+                          "Microcar",
+                        ].map((type) => (
+                          <div
+                            key={type}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              padding: "8px 0",
+                            }}
+                          >
+                            <Form.Check
+                              type="checkbox"
+                              label={type}
+                              onChange={() =>
+                                handleCheckboxChangeBodyType(type)
+                              }
+                            />
+                            <span style={{ fontWeight: "bold", color: "#333" }}>
+                              12345
+                            </span>
+                          </div>
+                        ))}
                       </Form.Group>
-                      {/* <p style={{ color: "#2D4495" }}>More choices</p> */}
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>
