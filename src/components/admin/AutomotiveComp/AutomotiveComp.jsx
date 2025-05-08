@@ -23,9 +23,9 @@ import profile from "../dyanmic_route/profileimage.png";
 import { MdMessage } from "react-icons/md";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
-import WindowedSelect from 'react-windowed-select';
-import cityData from "../../../City.json"
-import locationData from "../../../Location.json"
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import { FaRegHeart } from "react-icons/fa";
@@ -85,18 +85,23 @@ const AutomotiveComp = () => {
   const location = useLocation();
   const [subCatgory, setsubCatgory] = useState("");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(nestedSubCategory, "subCatgory___________nestedSubCategory");
-  console.log(subCatgory, "subCatgory___________1111");
+  console.log(nestedSubCategory, "subCatgory___________1");
+  console.log(subCatgory, "subCatgory___________2");
   // const scrollRef = useRef();
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
   const { id } = useParams();
   const getQueryParam = (param) => {
-    const searchParams = new URLSearchParams(location.search);
+    const hash = window.location.hash;
+    const queryIndex = hash.indexOf("?");
+    if (queryIndex === -1) return null;
+
+    const queryString = hash.substring(queryIndex + 1); // Extract query part after ?
+    const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
   };
-  
+
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   useEffect(() => {
@@ -107,28 +112,29 @@ const AutomotiveComp = () => {
     const subCatgoryParam = getQueryParam("subCatgory");
     const nestedSubCategoryParam = getQueryParam("NestedSubCategory");
     const ids = getQueryParam("id");
-  
-    if (subCatgoryParam === null || subCatgoryParam === "") {
-      setsubCatgory(null);
-    } else {
-      setsubCatgory(subCatgoryParam);
-    }
-  
-    if (nestedSubCategoryParam === null || nestedSubCategoryParam === "") {
-      setNestedSubCategory(null);
-    } else {
-      setNestedSubCategory(nestedSubCategoryParam);
-    }
-  
+
+    // if (subCatgoryParam === null || subCatgoryParam === "") {
+    //   setsubCatgory(null);
+    // } else {
+    setsubCatgory(subCatgoryParam);
+    // }
+
+    // if (nestedSubCategoryParam === null || nestedSubCategoryParam === "") {
+    //   setNestedSubCategory(null);
+    // } else {
+    setNestedSubCategory(nestedSubCategoryParam);
+    // }
+    console.log(nestedSubCategoryParam, "subCatgory___________4");
+    console.log(subCatgoryParam, "subCatgory___________5");
+    console.log(callingFrom, "subCatgory___________6");
+
     console.log("callingFrom_____ID:ids11", ids);
-    console.log("callingFrom_____Calling From:11", callingFrom);
-  
+    console.log("callingFrom From:11", callingFrom);
+
     setCallingFrom(callingFrom);
     setId(ids);
-  }, [id, location]);
-  
-  
-  
+  }, [id, location, getQueryParam]);
+
   // useEffect(() => {
   //   const callingFrom = getQueryParam("callingFrom");
   //   const subCatgory = getQueryParam("subCatgory");
@@ -143,7 +149,6 @@ const AutomotiveComp = () => {
   //   setId(ids);
   // }, [id, location]);
 
-
   const [CityList, setCityList] = useState([]);
 
   useEffect(() => {
@@ -155,7 +160,7 @@ const AutomotiveComp = () => {
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -168,9 +173,8 @@ const AutomotiveComp = () => {
     [CityList]
   );
 
-
   const [DistrictList, setDistrictList] = useState([]);
-  console.log('_________________',DistrictList);
+  console.log("_________________", DistrictList);
 
   useEffect(() => {
     if (locationData.Dis && Array.isArray(locationData.Dis)) {
@@ -179,15 +183,14 @@ const AutomotiveComp = () => {
       setDistrictList(locationData);
     } else {
       setDistrictList([]);
-      console.error('Dis JSON data is not in expected format');
+      console.error("Dis JSON data is not in expected format");
     }
   }, []);
 
-
   const DistrictOptions = useMemo(
     () =>
-    DistrictList.map((Dis) => ({
-        value: Dis, 
+      DistrictList.map((Dis) => ({
+        value: Dis,
         label: Dis,
       })),
     [DistrictList]
@@ -198,27 +201,28 @@ const AutomotiveComp = () => {
   console.log(selectedCity, "selectedSubCategory________");
 
   const [formData, setFormData] = useState({
-    City: "",District:""
+    City: "",
+    District: "",
   });
   const handleCitySelect = (selectedOption) => {
-    console.log('Selected Option:', selectedOption); // Debug
+    console.log("Selected Option:", selectedOption); // Debug
     setselectedCity(selectedOption); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected City:', selectedCity)
+  console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
-    console.log('Selected Option:', selectedOption1); // Debug
+    console.log("Selected Option:", selectedOption1); // Debug
     setselectedDistrict(selectedOption1); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected district:', selectedDistrict)
+  console.log("Selected district:", selectedDistrict);
 
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
@@ -1796,6 +1800,8 @@ const AutomotiveComp = () => {
     filterCars(
       searchQuery,
       selectedCities,
+      subCatgory,
+
       selectedEmirates,
       selectedCarsMake,
       fromValue,
@@ -1819,7 +1825,7 @@ const AutomotiveComp = () => {
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
       SortBy,
-      subCatgory,
+      // subCatgory,
       nestedSubCategory,
       selectedSubCategory,
       mileage,
@@ -1838,6 +1844,8 @@ const AutomotiveComp = () => {
   }, [
     selectedCities,
     searchQuery,
+    subCatgory,
+
     selectedEmirates,
     selectedCarsMake,
     fromValue,
@@ -1861,7 +1869,7 @@ const AutomotiveComp = () => {
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
     SortBy,
-    subCatgory,
+    // subCatgory,
     nestedSubCategory,
     selectedSubCategory,
     mileage,
@@ -1875,7 +1883,7 @@ const AutomotiveComp = () => {
     Condition,
     AdditionalFeatures,
     selectedCity,
-      selectedDistrict
+    selectedDistrict,
   ]);
 
   // Handle search input change
@@ -1887,6 +1895,8 @@ const AutomotiveComp = () => {
     filterCars(
       query,
       selectedCities,
+      subCatgory,
+
       selectedEmirates,
       selectedCarsMake,
       fromValue,
@@ -1910,7 +1920,7 @@ const AutomotiveComp = () => {
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
       SortBy,
-      subCatgory,
+      // subCatgory,
       nestedSubCategory,
       selectedSubCategory,
       mileage,
@@ -1930,6 +1940,8 @@ const AutomotiveComp = () => {
   const filterCars = (
     query,
     cities,
+    subCatgory,
+
     emirates,
     selectedCarsMake,
     fromValue,
@@ -1953,7 +1965,6 @@ const AutomotiveComp = () => {
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
     SortBy,
-    subCatgory,
     nestedSubCategory,
     selectedSubCategory,
     mileage,
@@ -1967,7 +1978,7 @@ const AutomotiveComp = () => {
     Condition,
     AdditionalFeatures,
     selectedCity,
-      selectedDistrict
+    selectedDistrict
   ) => {
     let filtered = carsData;
 
@@ -2023,7 +2034,9 @@ const AutomotiveComp = () => {
       filtered = filtered.filter((car) => car.City === selectedCity.value);
     }
     if (selectedDistrict) {
-      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
+      filtered = filtered.filter(
+        (car) => car.District === selectedDistrict.value
+      );
     }
     if (AdditionalFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -2055,6 +2068,9 @@ const AutomotiveComp = () => {
     }
     if (Insurance?.length > 0) {
       filtered = filtered.filter((car) => Insurance.includes(car.Insurance));
+    }
+    if (subCatgory?.length > 0) {
+      filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -2155,20 +2171,20 @@ const AutomotiveComp = () => {
         // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
-          console.warn('Invalid car Price:', car);
+          console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
-    
+
         // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
-    
+
         // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
-          console.warn('Invalid price range:', { fromValue, toValue });
+          console.warn("Invalid price range:", { fromValue, toValue });
           return true; // Skip price filtering if inputs are invalid
         }
-    
+
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -2203,7 +2219,6 @@ const AutomotiveComp = () => {
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
- 
 
     // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
@@ -2329,9 +2344,9 @@ const AutomotiveComp = () => {
             }}
           >
             <button
-             onClick={() => {
-              navigate("/");
-            }}
+              onClick={() => {
+                navigate("/");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -2358,42 +2373,46 @@ const AutomotiveComp = () => {
             >
               Automotive
             </button>
-            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {subCatgory}
-    </button>
-  </>
-)}
-         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {nestedSubCategory}
-    </button>
-  </>
-)}
+            {subCatgory &&
+              typeof subCatgory === "string" &&
+              subCatgory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {subCatgory}
+                  </button>
+                </>
+              )}
+            {nestedSubCategory &&
+              typeof nestedSubCategory === "string" &&
+              nestedSubCategory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {nestedSubCategory}
+                  </button>
+                </>
+              )}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>
@@ -2495,9 +2514,9 @@ const AutomotiveComp = () => {
               Real Estate for Rent
             </button>
             <button
-             onClick={() => {
-              navigate("/ElectronicComp");
-            }}
+              onClick={() => {
+                navigate("/ElectronicComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2590,7 +2609,7 @@ const AutomotiveComp = () => {
       border-color: black !important; 
     }
   `}</style>
-      <hr
+                <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2648,19 +2667,17 @@ const AutomotiveComp = () => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a City</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a City</Form.Label>
+
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2679,24 +2696,22 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                   <Accordion>
+                <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a District</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={DistrictOptions}
-          value={selectedDistrict}
-          onChange={handleDistrictSelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a District</Form.Label>
+
+                        <WindowedSelect
+                          options={DistrictOptions}
+                          value={selectedDistrict}
+                          onChange={handleDistrictSelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2716,7 +2731,7 @@ const AutomotiveComp = () => {
                   }}
                 />
                 {/*--------------------------------------*/}
-              
+
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Make</Accordion.Header>
@@ -4544,35 +4559,35 @@ const AutomotiveComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-               <Accordion className="mt-3">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Price Range</Accordion.Header>
-          <Accordion.Body>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="From"
-                    value={fromValue}
-                    onChange={handleFromChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="To"
-                    value={toValue}
-                    onChange={handleToChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Row>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="From"
+                              value={fromValue}
+                              onChange={handleFromChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="To"
+                              value={toValue}
+                              onChange={handleToChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 {/* <hr
                   style={{
                     width: "100%",
