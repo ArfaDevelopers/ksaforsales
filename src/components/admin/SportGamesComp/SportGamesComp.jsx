@@ -1395,7 +1395,7 @@ const handleConditionChange = (condition) => (event) => {
           car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
-
+          car.District?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
