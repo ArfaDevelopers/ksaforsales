@@ -163,6 +163,12 @@ const RealEstateComp = () => {
   const [Features, setFeatures] = useState("");
   const [Season, setSeason] = useState("");
   const [Type, setType] = useState("");
+  const [Furnished, setFurnished] = useState("");
+  const [Facade, setFacade] = useState("");
+  const [licenseNumber, setLicenseNumber] = useState("");
+  const [streetWidth, setstreetWidth] = useState("");
+  console.log(streetWidth, "subCatgory___________2222streetWidth");
+
   const [MeasurementRange, setMeasurementRange] = useState("");
   const [Accuracy, setAccuracy] = useState("");
   const [CuffSize, setCuffSize] = useState("");
@@ -175,6 +181,11 @@ const RealEstateComp = () => {
   const [SellerType, setSellerType] = useState("");
   const [PropertyType, setPropertyType] = useState("");
   const [Amenities, setAmenities] = useState([]);
+  const [Floor, setFloor] = useState([]);
+  const [PropertyAge, setPropertyAge] = useState([]);
+
+  const [Condition, setCondition] = useState([]);
+
   const [PropertyFeatures, setPropertyFeatures] = useState([]);
   const [BuildingType, setBuildingType] = useState([]);
   const [Accessibility, setAccessibility] = useState([]);
@@ -189,6 +200,8 @@ const RealEstateComp = () => {
   const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
   const [ResidenceType, setResidenceType] = useState("");
   const [Bedroom, setBedroom] = useState("");
+  const [bathrooms, setbathrooms] = useState("");
+  const [Area, setArea] = useState("");
 
   const [Frequency, setFrequency] = useState("");
 
@@ -476,17 +489,38 @@ const RealEstateComp = () => {
     }
   };
 
-  const handleCheckboxChangeSize = (event) => {
+  const handleCheckboxChangeFloor = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
       // Only allow one checkbox to be checked
-      setSize([carLabel]);
+      setFloor([carLabel]);
     } else {
       // If unchecked, clear the state
-      setSize([]);
+      setFloor([]);
     }
   };
-
+  const handleCheckboxCondition = (label) => {
+    setCondition((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangePropertyAge = (label) => {
+    setPropertyAge((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
   const handleCheckboxChangePropertyType = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
@@ -629,6 +663,28 @@ const RealEstateComp = () => {
   };
   const handleCheckboxChangeType = (label) => {
     setType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeFurnished = (label) => {
+    setFurnished((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeFacade = (label) => {
+    setFacade((prevSelected) => {
       if (prevSelected.includes(label)) {
         // Remove the label if already selected
         return prevSelected.filter((item) => item !== label);
@@ -1196,6 +1252,28 @@ const RealEstateComp = () => {
       }
     });
   };
+  const handleCheckboxChangebathrooms = (label) => {
+    setbathrooms((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeArea = (label) => {
+    setArea((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
   const handleCheckboxFrequency = (label) => {
     setFrequency((prevSelected) => {
       if (prevSelected.includes(label)) {
@@ -1428,7 +1506,16 @@ const RealEstateComp = () => {
       logSelectedPurpose,
       Frequency,
       ResidenceType,
-      Bedroom
+      Bedroom,
+      bathrooms,
+      Area,
+      Furnished,
+      Facade,
+      licenseNumber,
+      streetWidth,
+      Floor,
+      Condition,
+      PropertyAge
     );
   }, [
     selectedCities,
@@ -1508,6 +1595,15 @@ const RealEstateComp = () => {
     Frequency,
     ResidenceType,
     Bedroom,
+    bathrooms,
+    Area,
+    Furnished,
+    Facade,
+    licenseNumber,
+    streetWidth,
+    Floor,
+    Condition,
+    PropertyAge,
   ]);
 
   // Handle search input change
@@ -1593,7 +1689,16 @@ const RealEstateComp = () => {
       logSelectedPurpose,
       Frequency,
       ResidenceType,
-      Bedroom
+      Bedroom,
+      bathrooms,
+      Area,
+      Furnished,
+      Facade,
+      licenseNumber,
+      streetWidth,
+      Floor,
+      Condition,
+      PropertyAge
     );
   };
   const filterCars = (
@@ -1673,7 +1778,16 @@ const RealEstateComp = () => {
     logSelectedPurpose,
     Frequency,
     ResidenceType,
-    Bedroom
+    Bedroom,
+    bathrooms,
+    Area,
+    Furnished,
+    Facade,
+    licenseNumber,
+    streetWidth,
+    Floor,
+    Condition,
+    PropertyAge
   ) => {
     let filtered = carsData;
 
@@ -1745,6 +1859,15 @@ const RealEstateComp = () => {
           car.Frequency?.toLowerCase().includes(lowercasedQuery) ||
           car.ResidenceType?.toLowerCase().includes(lowercasedQuery) ||
           car.Bedroom?.toLowerCase().includes(lowercasedQuery) ||
+          car.bathrooms?.toLowerCase().includes(lowercasedQuery) ||
+          car.Area?.toLowerCase().includes(lowercasedQuery) ||
+          car.Furnished?.toLowerCase().includes(lowercasedQuery) ||
+          car.Facade?.toLowerCase().includes(lowercasedQuery) ||
+          car.licenseNumber?.toLowerCase().includes(lowercasedQuery) ||
+          car.streetWidth?.toLowerCase().includes(lowercasedQuery) ||
+          car.Floor?.toLowerCase().includes(lowercasedQuery) ||
+          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
+          car.PropertyAge?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1765,6 +1888,34 @@ const RealEstateComp = () => {
         logSelectedPurpose.includes(car.Purpose)
       );
     }
+    if (PropertyAge?.length > 0) {
+      filtered = filtered.filter((car) =>
+        PropertyAge.includes(car.PropertyAge)
+      );
+    }
+    if (Condition?.length > 0) {
+      filtered = filtered.filter((car) => Condition.includes(car.Condition));
+    }
+    if (Floor?.length > 0) {
+      filtered = filtered.filter((car) => Floor.includes(car.Floor));
+    }
+    if (licenseNumber?.length > 0) {
+      filtered = filtered.filter((car) =>
+        licenseNumber.includes(car.licenseNumber)
+      );
+    }
+    if (Facade?.length > 0) {
+      filtered = filtered.filter((car) => Facade.includes(car.Facade));
+    }
+    if (Furnished?.length > 0) {
+      filtered = filtered.filter((car) => Furnished.includes(car.Furnished));
+    }
+    if (Area?.length > 0) {
+      filtered = filtered.filter((car) => Area.includes(car.Area));
+    }
+    if (bathrooms?.length > 0) {
+      filtered = filtered.filter((car) => bathrooms.includes(car.bathrooms));
+    }
     if (Bedroom?.length > 0) {
       filtered = filtered.filter((car) => Bedroom.includes(car.Bedroom));
     }
@@ -1779,6 +1930,11 @@ const RealEstateComp = () => {
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedSubCategory.includes(car.SubCategory)
+      );
+    }
+    if (streetWidth) {
+      filtered = filtered.filter(
+        (car) => car.streetWidth === streetWidth.streetWidth
       );
     }
     if (selectedCity) {
@@ -2863,6 +3019,175 @@ const RealEstateComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Number of bathrooms</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        {/* Checkbox Selection */}
+                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
+                          {[
+                            "1 bathrooms",
+                            "2 bathrooms",
+                            "3 bathrooms",
+                            "4 bathrooms",
+                            "5 bathrooms",
+                            "5+ bathroomss",
+                          ].map((car, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={car}
+                                name={car} // Use the name attribute for identification
+                                onChange={handleCheckboxChangebathrooms}
+                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Area</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        {/* Checkbox Selection */}
+                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
+                          {[
+                            "Under 50 sq.m",
+                            "50 - 100 sq.m",
+                            "100 - 150 sq.m",
+                            "150 - 200 sq.m",
+                            "200+ sq.m",
+                          ].map((car, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={car}
+                                name={car} // Use the name attribute for identification
+                                onChange={handleCheckboxChangeArea}
+                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Furnished</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          {[
+                            "Furnished",
+                            "Unfurnished",
+                            "Partially Furnished",
+                          ].map((engine, index) => (
+                            <div
+                              key={engine}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={engine}
+                                // defaultChecked={engine === "V8 Engine"}
+                                onChange={() =>
+                                  handleCheckboxChangeFurnished(engine)
+                                }
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </Form.Group>
+                        <p style={{ color: "#2D4495" }}>More choices</p>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
 
                 <hr
                   style={{
@@ -2881,14 +3206,19 @@ const RealEstateComp = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Type</Accordion.Header>
+                    <Accordion.Header>Facade</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           {[
-                            "Upper arm monitor",
-                            "Wrist monitor",
-                            "Finger monitor",
+                            "East Facing",
+                            "West Facing",
+                            "North Facing",
+                            "South Facing",
+                            "North-East Facing",
+                            "North-West Facing",
+                            "South-East Facing",
+                            "South-West Facing",
                           ].map((engine, index) => (
                             <div
                               key={engine}
@@ -2904,7 +3234,7 @@ const RealEstateComp = () => {
                                 label={engine}
                                 // defaultChecked={engine === "V8 Engine"}
                                 onChange={() =>
-                                  handleCheckboxChangeType(engine)
+                                  handleCheckboxChangeFacade(engine)
                                 }
                               />
                               <span
@@ -2934,17 +3264,145 @@ const RealEstateComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>License Number</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group controlId="formLicenseNumber">
+                          <Form.Label>Enter License Number</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="License Number"
+                            value={licenseNumber}
+                            onChange={(e) => setLicenseNumber(e.target.value)}
+                          />
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Street Width</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group
+                        controlId="formStreetWidth"
+                        style={{ maxWidth: "300px", marginTop: "20px" }}
+                      >
+                        <Form.Label>Street Width</Form.Label>
+                        <Form.Select
+                          value={formData.streetWidth}
+                          onChange={(e) =>
+                            setstreetWidth((prev) => ({
+                              ...prev,
+                              streetWidth: e.target.value,
+                            }))
+                          }
+                        >
+                          <option value="">Select Width</option>
+                          <option value="Less than 5m">Less than 5m</option>
+                          <option value="5-10m">5–10m</option>
+                          <option value="10-15m">10–15m</option>
+                          <option value="15-20m">15–20m</option>
+                          <option value="20m+">20m+</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header> Size</Accordion.Header>
+                    <Accordion.Header> Floor</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {["500–1,500 sq. ft.", "1,500–3,000 sq. ft."].map(
-                            (engine) => (
+                          {[
+                            "Basement",
+                            "Ground Floor",
+                            "1st Floor",
+                            "2nd Floor",
+                            "3rd Floor",
+                            "4th Floor",
+                            "5th Floor",
+                            "6th Floor",
+                            "7th Floor",
+                            "8th Floor",
+                            "9th Floor",
+                            "10th Floor",
+                            "10+ Floors",
+                          ].map((engine) => (
+                            <div
+                              key={engine}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={engine}
+                                name={engine} // Set the name attribute
+                                checked={Floor.includes(engine)} // Control the checked state
+                                onChange={handleCheckboxChangeFloor} // Pass the event object
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                12345
+                              </span>
+                            </div>
+                          ))}
+                        </Form.Group>
+                        <p style={{ color: "#2D4495" }}>More choices</p>
+                      </div>
+                      ;
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Condition</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["New", "Used"].map((color) => (
                               <div
-                                key={engine}
+                                key={color}
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -2954,26 +3412,34 @@ const RealEstateComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={engine}
-                                  name={engine} // Set the name attribute
-                                  checked={Size.includes(engine)} // Control the checked state
-                                  onChange={handleCheckboxChangeSize} // Pass the event object
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxCondition(color)
+                                  }
                                 />
                                 <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
                                 >
                                   12345
                                 </span>
                               </div>
-                            )
-                          )}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                      </div>
-                      ;
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                                            style={{ color: "#2D4495", cursor: "pointer" }}
+                                            onClick={() => handleMoreChoicesToggle()}
+                                          >
+                                            More choices
+                                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
                 <hr
                   style={{
                     width: "100%",
@@ -3053,15 +3519,19 @@ const RealEstateComp = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header> Property Features</Accordion.Header>
+                    <Accordion.Header> Property Age</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           {[
-                            "Year built",
-                            "Unfurnished",
-                            "Furnished",
-                            "Smart home",
+                            "New (0-1 year)",
+                            "1-5 years",
+                            "6-10 years",
+                            "11-15 years",
+                            "16-20 years",
+                            "21-30 years",
+                            "31+ years",
+                            "Under Construction",
                           ].map((engine) => (
                             <div
                               key={engine}
@@ -3076,8 +3546,8 @@ const RealEstateComp = () => {
                                 type="checkbox"
                                 label={engine}
                                 name={engine} // Set the name attribute
-                                checked={PropertyFeatures.includes(engine)} // Control the checked state
-                                onChange={handleCheckboxChangePropertyFeatures} // Pass the event object
+                                checked={PropertyAge.includes(engine)} // Control the checked state
+                                onChange={handleCheckboxChangePropertyAge} // Pass the event object
                               />
                               <span
                                 style={{ fontWeight: "bold", color: "#333" }}
@@ -3092,182 +3562,6 @@ const RealEstateComp = () => {
                           <strong>Selected Amenities:</strong>{" "}
                           {Amenities.join(", ")}
                         </div>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header> Building Type</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Single-family",
-                            "Multi-family",
-                            "High-rise",
-                            "Low Rise",
-                          ].map((engine) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                name={engine} // Set the name attribute
-                                checked={BuildingType.includes(engine)} // Control the checked state
-                                onChange={handleCheckboxChangeBuildingType} // Pass the event object
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                        <div>
-                          <strong>Selected Amenities:</strong>{" "}
-                          {Amenities.join(", ")}
-                        </div>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header> Accessibility</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {["Elevator availability", "Wheelchair access"].map(
-                            (engine) => (
-                              <div
-                                key={engine}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={engine}
-                                  name={engine} // Set the name attribute
-                                  checked={Accessibility.includes(engine)} // Control the checked state
-                                  onChange={handleCheckboxChangeAccessibility} // Pass the event object
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                        <div>
-                          <strong>Selected Amenities:</strong>{" "}
-                          {Amenities.join(", ")}
-                        </div>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header> Seller Type</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {[
-                            "Direct owner",
-                            "Real estate agent",
-                            "Developer",
-
-                            "Marketplace",
-                          ].map((engine, index) => (
-                            <div
-                              key={engine}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={engine}
-                                // defaultChecked={engine === "V8 Engine"}
-                                onChange={() =>
-                                  handleCheckboxChangeSellerType(engine)
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </Form.Group>
-                        {/* <p style={{ color: "#2D4495" }}>More choices</p> */}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>

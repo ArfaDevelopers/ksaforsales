@@ -97,14 +97,27 @@ const AddLisiting = () => {
     title: "",
     description: "",
     category: "",
+    streetWidth: "",
+    Floor: "",
+    PropertyAge: "",
+    Featuers: "",
+
     kmDriven: "",
     Transmission: "",
     mileage: "",
     Insurance: "",
     InteriorColor: "",
     AdditionalFeatures: [],
+    licenseNumber: "",
 
     Emirates: "",
+    Furnished: "",
+    Facade: "",
+
+    Area: "",
+
+    bathrooms: "",
+
     Fueltype: "",
 
     Model: "",
@@ -2020,6 +2033,10 @@ const AddLisiting = () => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Size: name }));
   };
+  const handleAreaChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Area: name }));
+  };
   const handleTemperamentChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Temperament: name }));
@@ -2040,6 +2057,14 @@ const AddLisiting = () => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Amenities: name }));
   };
+  const handleFurnishedChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Furnished: name }));
+  };
+  const handleFacadeChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Facade: name }));
+  };
   const handlePropertyFeaturesChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, PropertyFeatures: name }));
@@ -2048,9 +2073,21 @@ const AddLisiting = () => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, BuildingType: name }));
   };
+  const handleFloorChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Floor: name }));
+  };
   const handleAccessibilityChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Accessibility: name }));
+  };
+  const handlePropertyAgeChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, PropertyAge: name }));
+  };
+  const handleFeatuersChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, Featuers: name }));
   };
   const handleOperatingSystemChange = (e) => {
     const { name } = e.target;
@@ -2143,6 +2180,10 @@ const AddLisiting = () => {
   const handleBedroomChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Bedroom: name }));
+  };
+  const handlebathroomsChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, bathrooms: name }));
   };
   const handleColorChange = (e) => {
     const { name } = e.target;
@@ -9996,7 +10037,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Type </h4>
                             </div>
@@ -10035,7 +10076,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Frequency </h4>
@@ -10164,19 +10205,35 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Size </h4>
+                              <h4>Number of bathrooms </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
                                 <ul>
                                   {[
                                     {
-                                      name: "500–1,500 sq. ft.",
-                                      label: "500–1,500 sq. ft.",
+                                      name: "1 bathrooms",
+                                      label: "1 bathrooms",
                                     },
                                     {
-                                      name: "500–1,500 sq. ft.",
-                                      label: "500–1,500 sq. ft.",
+                                      name: "2 bathrooms",
+                                      label: "2 bathrooms",
+                                    },
+                                    {
+                                      name: "3 bathrooms",
+                                      label: "3 bathrooms",
+                                    },
+                                    {
+                                      name: "4 bathrooms",
+                                      label: "4 bathrooms",
+                                    },
+                                    {
+                                      name: "5 bathrooms",
+                                      label: "5 bathrooms",
+                                    },
+                                    {
+                                      name: "5+ bathroomss",
+                                      label: "5+ bathroomss",
                                     },
                                   ].map((area) => (
                                     <li key={area.name}>
@@ -10184,8 +10241,10 @@ const AddLisiting = () => {
                                         <input
                                           type="checkbox"
                                           name={area.name}
-                                          checked={formData.Size === area.name}
-                                          onChange={handleSizeChange}
+                                          checked={
+                                            formData.bathrooms === area.name
+                                          }
+                                          onChange={handlebathroomsChange}
                                         />
                                         <span className="checkmark" />{" "}
                                         {area.label}
@@ -10199,31 +10258,32 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Amenities </h4>
+                              <h4>Area </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
                                 <ul>
                                   {[
                                     {
-                                      name: "Parking space",
-                                      label: "Parking space",
+                                      name: "Under 50 sq.m",
+                                      label: "Under 50 sq.m",
                                     },
                                     {
-                                      name: "Gym",
-                                      label: "Gym",
+                                      name: "50 - 100 sq.m",
+                                      label: "50 - 100 sq.m",
+                                    },
+
+                                    {
+                                      name: "100 - 150 sq.m",
+                                      label: "100 - 150 sq.m",
                                     },
                                     {
-                                      name: "Swimming pool",
-                                      label: "Swimming pool",
+                                      name: "150 - 200 sq.m",
+                                      label: "150 - 200 sq.m",
                                     },
                                     {
-                                      name: "Pet-friendly",
-                                      label: "Pet-friendly",
-                                    },
-                                    {
-                                      name: "Balcony or terrace",
-                                      label: "Balcony or terrace",
+                                      name: "200+ sq.m",
+                                      label: "200+ sq.m",
                                     },
                                   ].map((area) => (
                                     <li key={area.name}>
@@ -10231,10 +10291,8 @@ const AddLisiting = () => {
                                         <input
                                           type="checkbox"
                                           name={area.name}
-                                          checked={
-                                            formData.Amenities === area.name
-                                          }
-                                          onChange={handleAmenitiesChange}
+                                          checked={formData.Area === area.name}
+                                          onChange={handleAreaChange}
                                         />
                                         <span className="checkmark" />{" "}
                                         {area.label}
@@ -10247,6 +10305,112 @@ const AddLisiting = () => {
                             </div>
                           </div>
                           <div className="card">
+                            <div className="card-header">
+                              <h4>Furnished </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "Furnished",
+                                      label: "Furnished",
+                                    },
+                                    {
+                                      name: "Unfurnished",
+                                      label: "Unfurnished",
+                                    },
+                                    {
+                                      name: "Partially Furnished",
+                                      label: "Partially Furnished",
+                                    },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Furnished === area.name
+                                          }
+                                          onChange={handleFurnishedChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Facade </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "East Facing",
+                                      label: "East Facing",
+                                    },
+                                    {
+                                      name: "West Facing",
+                                      label: "West Facing",
+                                    },
+                                    {
+                                      name: "North Facing",
+                                      label: "North Facing",
+                                    },
+                                    {
+                                      name: "South Facing",
+                                      label: "South Facing",
+                                    },
+                                    {
+                                      name: "North-East Facing",
+                                      label: "North-East Facing",
+                                    },
+                                    {
+                                      name: "North-West Facing",
+                                      label: "North-West Facing",
+                                    },
+                                    {
+                                      name: "South-East Facing",
+                                      label: "South-East Facing",
+                                    },
+                                    {
+                                      name: "South-West Facing",
+                                      label: "South-West Facing",
+                                    },
+                                    {
+                                      name: "Partially Furnished",
+                                      label: "Partially Furnished",
+                                    },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Facade === area.name
+                                          }
+                                          onChange={handleFacadeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Features </h4>
                             </div>
@@ -10293,30 +10457,115 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
-                              <h4>Building Type </h4>
+                              <h4>License Number</h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group">
+                                <label htmlFor="licenseNumberInput">
+                                  Enter License Number
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="licenseNumberInput"
+                                  placeholder="License Number"
+                                  value={formData.licenseNumber}
+                                  onChange={(e) =>
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      licenseNumber: e.target.value,
+                                    }))
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <label>Property Age</label>
+                          <select
+                            value={formData.propertyAge}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                propertyAge: e.target.value,
+                              }))
+                            }
+                          >
+                            <option value="">Select Age</option>
+                            <option value="New (0-1 year)">
+                              New (0–1 year)
+                            </option>
+                            <option value="1-5 years">1–5 years</option>
+                            <option value="6-10 years">6–10 years</option>
+                            <option value="11-15 years">11–15 years</option>
+                            <option value="16-20 years">16–20 years</option>
+                            <option value="21-30 years">21–30 years</option>
+                            <option value="31+ years">31+ years</option>
+                            <option value="Under Construction">
+                              Under Construction
+                            </option>
+                          </select> */}
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Floor </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
                                 <ul>
                                   {[
                                     {
-                                      name: "Single-family",
-                                      label: "Single-family",
+                                      name: "Basement",
+                                      label: "Basement",
                                     },
                                     {
-                                      name: "Multi-family",
-                                      label: "Multi-family",
+                                      name: "Ground Floor",
+                                      label: "Ground Floor",
                                     },
                                     {
-                                      name: "High-rise",
-                                      label: "High-rise",
+                                      name: "1st Floor",
+                                      label: "1st Floor",
                                     },
                                     {
-                                      name: "Low Rise",
-                                      label: "Low Rise",
+                                      name: "2nd Floor",
+                                      label: "2nd Floor",
+                                    },
+                                    {
+                                      name: "3rd Floor",
+                                      label: "3rd Floor",
+                                    },
+                                    {
+                                      name: "4th Floor",
+                                      label: "4th Floor",
+                                    },
+                                    {
+                                      name: "5th Floor",
+                                      label: "5th Floor",
+                                    },
+                                    {
+                                      name: "6th Floor",
+                                      label: "6th Floor",
+                                    },
+                                    {
+                                      name: "7th Floor",
+                                      label: "7th Floor",
+                                    },
+                                    {
+                                      name: "8th Floor",
+                                      label: "8th Floor",
+                                    },
+                                    {
+                                      name: "9th Floor",
+                                      label: "9th Floor",
+                                    },
+                                    {
+                                      name: "10th Floor",
+                                      label: "10th Floor",
+                                    },
+                                    {
+                                      name: "10+ Floors",
+                                      label: "10+ Floors",
                                     },
                                   ].map((area) => (
                                     <li key={area.name}>
@@ -10324,10 +10573,8 @@ const AddLisiting = () => {
                                         <input
                                           type="checkbox"
                                           name={area.name}
-                                          checked={
-                                            formData.BuildingType === area.name
-                                          }
-                                          onChange={handleBuildingTypeChange}
+                                          checked={formData.Floor === area.name}
+                                          onChange={handleFloorChange}
                                         />
                                         <span className="checkmark" />{" "}
                                         {area.label}
@@ -10341,19 +10588,81 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Accessibility </h4>
+                              <h4>Condition</h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
                                 <ul>
                                   {[
                                     {
-                                      name: "Elevator availability",
-                                      label: "Elevator availability",
+                                      name: "New",
+                                      label: "New",
                                     },
                                     {
-                                      name: "Wheelchair access",
-                                      label: "Wheelchair access",
+                                      name: "Used",
+                                      label: "Used",
+                                    },
+                                    { name: "Manual", label: "Manual" },
+                                  ].map((feature) => (
+                                    <li key={feature.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={feature.name}
+                                          checked={
+                                            formData.Condition === feature.name
+                                          }
+                                          onChange={handleCondition} // ✅ Fixed function name
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {feature.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Property Age </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "New (0-1 year)",
+                                      label: "New (0-1 year)",
+                                    },
+                                    {
+                                      name: "1-5 years",
+                                      label: "1-5 years",
+                                    },
+                                    {
+                                      name: "6-10 years",
+                                      label: "6-10 years",
+                                    },
+                                    {
+                                      name: "11-15 years",
+                                      label: "11-15 years",
+                                    },
+                                    {
+                                      name: "16-20 years",
+                                      label: "16-20 years",
+                                    },
+                                    {
+                                      name: "21-30 years",
+                                      label: "21-30 years",
+                                    },
+                                    {
+                                      name: "31+ years",
+                                      label: "31+ years",
+                                    },
+                                    {
+                                      name: "Under Construction",
+                                      label: "Under Construction",
                                     },
                                   ].map((area) => (
                                     <li key={area.name}>
@@ -10362,9 +10671,62 @@ const AddLisiting = () => {
                                           type="checkbox"
                                           name={area.name}
                                           checked={
-                                            formData.Accessibility === area.name
+                                            formData.PropertyAge === area.name
                                           }
-                                          onChange={handleAccessibilityChange}
+                                          onChange={handlePropertyAgeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
+                              <h4>Featuers </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    {
+                                      name: "Seprate  Entrances",
+                                      label: "Seprate  Entrances",
+                                    },
+                                    {
+                                      name: "Private Entrance",
+                                      label: "Private Entrance",
+                                    },
+                                    {
+                                      name: "In a Villa",
+                                      label: "In a Villa",
+                                    },
+                                    {
+                                      name: "With roof",
+                                      label: "With roof",
+                                    },
+                                    {
+                                      name: "AC",
+                                      label: "AC",
+                                    },
+                                    {
+                                      name: "Car Parking",
+                                      label: "Car Parking",
+                                    },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Featuers === area.name
+                                          }
+                                          onChange={handleFeatuersChange}
                                         />
                                         <span className="checkmark" />{" "}
                                         {area.label}
@@ -10586,7 +10948,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Type </h4>
                             </div>
@@ -10618,7 +10980,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : [
                           "Gaming Consoles",
