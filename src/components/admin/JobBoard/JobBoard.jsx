@@ -1271,7 +1271,7 @@ const currentUserId = user?.uid;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
     return "Just now";
   }
-  const [selectedDistrict, setselectedDistrict] = useState("");
+  const [selectedDistrict, setselectedDistrict] = useState(null);
 
   console.log(selectedDistrict, "selectedSubCategory________1");
   const handleDistrictSelect = (selectedOption1) => {
