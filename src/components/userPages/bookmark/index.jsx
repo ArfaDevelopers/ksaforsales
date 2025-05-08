@@ -20,6 +20,8 @@ import { FaHeart } from "react-icons/fa";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import UserHeader from "../Userheader";
+import Header from "../../home/header";
+
 import Footer from "../../home/footer/Footer";
 import {
   ProfileAvatar02,
@@ -335,10 +337,10 @@ const Bookmarks = () => {
 
   return (
     <>
-      <UserHeader parms={parms} />
+      <Header />
       <div
         className="dashboard-content"
-        style={{ marginTop: "5rem" }}
+        style={{ marginTop: "8rem" }}
       >
         <div className="container">
           <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
