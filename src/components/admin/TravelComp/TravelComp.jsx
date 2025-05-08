@@ -974,11 +974,18 @@ const currentUserId = user?.uid;
     return filteredCars.slice(startIndex, endIndex);
   };
 
-  const handleCheckboxChangeisFeatured = (event) => {
-    const isChecked = event.target.checked;
-    const value = isChecked ? 'Featured Ads' : ''; // Clear filter when unchecked
-    setSelectedOptionisFeatured(value);
-    console.log(`Selected Ad Type: ${value}`);
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+
+  const handleCheckboxPurpose = (label) => {
+    setlogSelectedPurpose((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
   };
 
   const handleCheckboxChangeVideoAvailability = (event) => {
@@ -1384,7 +1391,8 @@ const currentUserId = user?.uid;
       subCatgory,
       selectedSubCategory,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
+      logSelectedPurpose
     );
   }, [
     selectedCities,
@@ -1461,7 +1469,8 @@ const currentUserId = user?.uid;
     subCatgory,
     selectedSubCategory,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
+    logSelectedPurpose
   ]);
 
   // Handle search input change
@@ -1545,7 +1554,8 @@ const currentUserId = user?.uid;
       subCatgory,
       selectedSubCategory,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
+      logSelectedPurpose
     );
   };
   const filterCars = (
@@ -1623,7 +1633,8 @@ const currentUserId = user?.uid;
     subCatgory,
     selectedSubCategory,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
+    logSelectedPurpose
   ) => {
     let filtered = carsData;
 
@@ -1692,6 +1703,7 @@ const currentUserId = user?.uid;
           car.Checkin?.toLowerCase().includes(lowercasedQuery) ||
           car.RoomType?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1705,6 +1717,11 @@ const currentUserId = user?.uid;
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedSubCategory.includes(car.SubCategory)
+      );
+    }
+    if (logSelectedPurpose?.length > 0) {
+      filtered = filtered.filter((car) =>
+        logSelectedPurpose.includes(car.Purpose)
       );
     }
     if (BuildingType?.length > 0) {
@@ -2581,31 +2598,37 @@ onClick={() => {
                 />
     
 
-                <Accordion className="mt-3">
+    <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Ad Type</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {/* Local Checkbox */}
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "8px 0",
-                            }}
-                          >
-                            <Form.Check
-                              type="checkbox"
-                              label="Featured Ad"
-                              onChange={handleCheckboxChangeisFeatured}
-                              checked={
-                                selectedOptionisFeatured === "Featured Ads"
-                              }
-                            />
-                          </div>
+                          {["Sell", "Wanted"].map((color) => (
+                            <div
+                              key={color}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={color}
+                                // defaultChecked={color === "Grey"}
+                                onChange={() => handleCheckboxPurpose(color)}
+                              />
+                            </div>
+                          ))}
                         </Form.Group>
+                        {/* <p
+                                       style={{ color: "#2D4495", cursor: "pointer" }}
+                                       onClick={() => handleMoreChoicesToggle()}
+                                     >
+                                       More choices
+                                     </p> */}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
