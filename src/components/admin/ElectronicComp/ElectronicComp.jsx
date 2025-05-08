@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; //
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
-import WindowedSelect from 'react-windowed-select';
-import cityData from "../../../City.json"
-import locationData from "../../../Location.json"
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import profile from "../dyanmic_route/profileimage.png";
@@ -122,7 +122,7 @@ const ElectronicComp = () => {
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -135,9 +135,8 @@ const ElectronicComp = () => {
     [CityList]
   );
 
-
   const [DistrictList, setDistrictList] = useState([]);
-  console.log('_________________',DistrictList);
+  console.log("_________________", DistrictList);
 
   useEffect(() => {
     if (locationData.Dis && Array.isArray(locationData.Dis)) {
@@ -146,15 +145,14 @@ const ElectronicComp = () => {
       setDistrictList(locationData);
     } else {
       setDistrictList([]);
-      console.error('Dis JSON data is not in expected format');
+      console.error("Dis JSON data is not in expected format");
     }
   }, []);
 
-
   const DistrictOptions = useMemo(
     () =>
-    DistrictList.map((Dis) => ({
-        value: Dis, 
+      DistrictList.map((Dis) => ({
+        value: Dis,
         label: Dis,
       })),
     [DistrictList]
@@ -165,27 +163,28 @@ const ElectronicComp = () => {
   console.log(selectedCity, "selectedSubCategory________");
 
   const [formData, setFormData] = useState({
-    City: "",District:""
+    City: "",
+    District: "",
   });
   const handleCitySelect = (selectedOption) => {
-    console.log('Selected Option:', selectedOption); // Debug
+    console.log("Selected Option:", selectedOption); // Debug
     setselectedCity(selectedOption); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected City:', selectedCity)
+  console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
-    console.log('Selected Option:', selectedOption1); // Debug
+    console.log("Selected Option:", selectedOption1); // Debug
     setselectedDistrict(selectedOption1); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected district:', selectedDistrict)
+  console.log("Selected district:", selectedDistrict);
   const [selectedConditions, setSelectedConditions] = useState([]);
   const [brands, setBrands] = useState([]);
   const handleCheckboxBrand = (e) => {
@@ -273,9 +272,9 @@ const ElectronicComp = () => {
   const { id } = useParams();
   const getQueryParam = (param) => {
     const hash = location.hash;
-    const queryIndex = hash.indexOf('?');
+    const queryIndex = hash.indexOf("?");
     if (queryIndex === -1) return null;
-  
+
     const queryString = hash.substring(queryIndex + 1);
     const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
@@ -957,20 +956,43 @@ const ElectronicComp = () => {
       console.error("Error updating bookmark:", error);
     }
   };
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       const carsCollectionRef = collection(db, "ELECTRONICS");
+  //       const querySnapshot = await getDocs(carsCollectionRef);
+  //       const carsData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       console.log(carsData, "carsData_________-");
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
+
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "ELECTRONICS");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(carsData, "carsData_________-");
+        setLoading(true); // Show spinner
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/ELECTRONICS"
+        );
+        const carsData = await response.json();
+
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
+        setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 
@@ -1051,7 +1073,7 @@ const ElectronicComp = () => {
       Condition,
       brands,
       selectedCity,
-      selectedDistrict,
+      selectedDistrict
     );
   }, [
     searchQuery,
@@ -1157,7 +1179,7 @@ const ElectronicComp = () => {
       Condition,
       brands,
       selectedCity,
-      selectedDistrict,
+      selectedDistrict
     );
   };
   const filterCars = (
@@ -1207,7 +1229,7 @@ const ElectronicComp = () => {
     Condition,
     brands,
     selectedCity,
-    selectedDistrict,
+    selectedDistrict
   ) => {
     let filtered = carsData;
 
@@ -1252,17 +1274,16 @@ const ElectronicComp = () => {
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.brands?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubCategory?.toLowerCase().includes(lowercasedQuery)||
+          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.District?.toLowerCase().includes(lowercasedQuery)
-
       );
     }
     setLoading(false);
     if (searchQuery?.length > 0) {
       filtered = filtered.filter((car) => {
         // Ensure car.title exists and is a string
-        if (!car?.title || typeof car.title !== 'string') {
-          console.warn('Invalid car title:', car);
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
           return false;
         }
         // Case-insensitive search
@@ -1273,7 +1294,9 @@ const ElectronicComp = () => {
       filtered = filtered.filter((car) => car.City === selectedCity.value);
     }
     if (selectedDistrict) {
-      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
+      filtered = filtered.filter(
+        (car) => car.District === selectedDistrict.value
+      );
     }
     if (ScreenSize?.length > 0) {
       filtered = filtered.filter((car) => ScreenSize.includes(car.ScreenSize));
@@ -1443,20 +1466,20 @@ const ElectronicComp = () => {
         // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
-          console.warn('Invalid car Price:', car);
+          console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
-    
+
         // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
-    
+
         // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
-          console.warn('Invalid price range:', { fromValue, toValue });
+          console.warn("Invalid price range:", { fromValue, toValue });
           return true; // Skip price filtering if inputs are invalid
         }
-    
+
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -1501,7 +1524,6 @@ const ElectronicComp = () => {
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
-
 
     // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
@@ -1628,9 +1650,9 @@ const ElectronicComp = () => {
             }}
           >
             <button
-             onClick={() => {
-              navigate("/");
-            }}
+              onClick={() => {
+                navigate("/");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -1659,42 +1681,46 @@ const ElectronicComp = () => {
             >
               Electronics
             </button>
-            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {subCatgory}
-    </button>
-  </>
-)}
-         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {nestedSubCategory}
-    </button>
-  </>
-)}
+            {subCatgory &&
+              typeof subCatgory === "string" &&
+              subCatgory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {subCatgory}
+                  </button>
+                </>
+              )}
+            {nestedSubCategory &&
+              typeof nestedSubCategory === "string" &&
+              nestedSubCategory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {nestedSubCategory}
+                  </button>
+                </>
+              )}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>
@@ -2024,19 +2050,17 @@ const ElectronicComp = () => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a City</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a City</Form.Label>
+
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2055,26 +2079,24 @@ const ElectronicComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                   {/*      ----------               */}
+                {/*      ----------               */}
 
-                   <Accordion>
+                <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a District</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={DistrictOptions}
-          value={selectedDistrict}
-          onChange={handleDistrictSelect}
-          placeholder="Select a District"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a District</Form.Label>
+
+                        <WindowedSelect
+                          options={DistrictOptions}
+                          value={selectedDistrict}
+                          onChange={handleDistrictSelect}
+                          placeholder="Select a District"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>

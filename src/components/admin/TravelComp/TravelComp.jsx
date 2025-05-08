@@ -69,9 +69,9 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-import WindowedSelect from 'react-windowed-select';
-import cityData from "../../../City.json"
-import locationData from "../../../Location.json"
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 const TravelComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
@@ -134,9 +134,8 @@ const TravelComp = () => {
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
 
- 
   const user = auth.currentUser;
-const currentUserId = user?.uid;
+  const currentUserId = user?.uid;
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [fromValueMileage, setFromCCMileage] = useState("");
   const [toValueMileage, setToCCMileage] = useState("");
@@ -198,9 +197,9 @@ const currentUserId = user?.uid;
   const { id } = useParams();
   const getQueryParam = (param) => {
     const hash = location.hash;
-    const queryIndex = hash.indexOf('?');
+    const queryIndex = hash.indexOf("?");
     if (queryIndex === -1) return null;
-  
+
     const queryString = hash.substring(queryIndex + 1);
     const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
@@ -220,28 +219,28 @@ const currentUserId = user?.uid;
     setselectedSubCategory(e.target.value);
   };
   const [formData, setFormData] = useState({
-    City: "",District:""
+    City: "",
+    District: "",
   });
   const handleCitySelect = (selectedOption) => {
-    console.log('Selected Option:', selectedOption); // Debug
+    console.log("Selected Option:", selectedOption); // Debug
     setselectedCity(selectedOption); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected City:', selectedCity)
+  console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
-    console.log('Selected Option:', selectedOption1); // Debug
+    console.log("Selected Option:", selectedOption1); // Debug
     setselectedDistrict(selectedOption1); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected district:', selectedDistrict)
-
+  console.log("Selected district:", selectedDistrict);
 
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
@@ -273,7 +272,7 @@ const currentUserId = user?.uid;
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -286,9 +285,8 @@ const currentUserId = user?.uid;
     [CityList]
   );
 
-
   const [DistrictList, setDistrictList] = useState([]);
-  console.log('_________________',DistrictList);
+  console.log("_________________", DistrictList);
 
   useEffect(() => {
     if (locationData.Dis && Array.isArray(locationData.Dis)) {
@@ -297,20 +295,19 @@ const currentUserId = user?.uid;
       setDistrictList(locationData);
     } else {
       setDistrictList([]);
-      console.error('Dis JSON data is not in expected format');
+      console.error("Dis JSON data is not in expected format");
     }
   }, []);
 
-
   const DistrictOptions = useMemo(
     () =>
-    DistrictList.map((Dis) => ({
-        value: Dis, 
+      DistrictList.map((Dis) => ({
+        value: Dis,
         label: Dis,
       })),
     [DistrictList]
   );
-  
+
   const categories1 = [
     "Other Services",
     "Contracting Services",
@@ -322,10 +319,6 @@ const currentUserId = user?.uid;
     "Legal Services",
     "Accounting & Financial Services",
   ];
-
-
-
-
 
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
@@ -352,7 +345,6 @@ const currentUserId = user?.uid;
     value: country.isoCode,
     label: country.name,
   }));
-
 
   const handleCityChange = (selectedOptions) => {
     const cityNames = selectedOptions
@@ -1266,26 +1258,47 @@ const currentUserId = user?.uid;
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
   // Fetch cars data
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       const carsCollectionRef = collection(db, "TRAVEL");
+  //       const querySnapshot = await getDocs(carsCollectionRef);
+  //       const carsData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "TRAVEL");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        setLoading(true); // Show spinner
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/TRAVEL"
+        );
+        const carsData = await response.json();
+
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
+        setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 
     fetchCars();
   }, [bookmarkedCar]);
   const handleShowModal = (userId) => {
-
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
@@ -1475,7 +1488,7 @@ const currentUserId = user?.uid;
     selectedSubCategory,
     selectedCity,
     selectedDistrict,
-    logSelectedPurpose
+    logSelectedPurpose,
   ]);
 
   // Handle search input change
@@ -1717,7 +1730,9 @@ const currentUserId = user?.uid;
       filtered = filtered.filter((car) => car.City === selectedCity.value);
     }
     if (selectedDistrict) {
-      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
+      filtered = filtered.filter(
+        (car) => car.District === selectedDistrict.value
+      );
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -1743,8 +1758,8 @@ const currentUserId = user?.uid;
     if (searchQuery?.length > 0) {
       filtered = filtered.filter((car) => {
         // Ensure car.title exists and is a string
-        if (!car?.title || typeof car.title !== 'string') {
-          console.warn('Invalid car title:', car);
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
           return false;
         }
         // Case-insensitive search
@@ -1926,8 +1941,8 @@ const currentUserId = user?.uid;
     // Filter by selected cities
     if (selectedOptionisFeatured) {
       filtered = filtered.filter((car) => {
-        if (!car?.FeaturedAds || typeof car.FeaturedAds !== 'string') {
-          console.warn('Invalid car FeaturedAds:', car);
+        if (!car?.FeaturedAds || typeof car.FeaturedAds !== "string") {
+          console.warn("Invalid car FeaturedAds:", car);
           return false; // Skip cars with invalid FeaturedAds
         }
         return car.FeaturedAds === selectedOptionisFeatured;
@@ -2009,20 +2024,20 @@ const currentUserId = user?.uid;
         // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
-          console.warn('Invalid car Price:', car);
+          console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
-    
+
         // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
-    
+
         // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
-          console.warn('Invalid price range:', { fromValue, toValue });
+          console.warn("Invalid price range:", { fromValue, toValue });
           return true; // Skip price filtering if inputs are invalid
         }
-    
+
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -2067,7 +2082,6 @@ const currentUserId = user?.uid;
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
-
 
     // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
@@ -2205,9 +2219,9 @@ const currentUserId = user?.uid;
             }}
           >
             <button
-            onClick={() => {
-              navigate("/");
-            }}
+              onClick={() => {
+                navigate("/");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -2223,10 +2237,9 @@ const currentUserId = user?.uid;
             </span>
 
             <button
-onClick={() => {
-  navigate("/TravelComp");
-}}
-
+              onClick={() => {
+                navigate("/TravelComp");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -2237,42 +2250,46 @@ onClick={() => {
             >
               Travel
             </button>
-            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {subCatgory}
-    </button>
-  </>
-)}
-         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {nestedSubCategory}
-    </button>
-  </>
-)}
+            {subCatgory &&
+              typeof subCatgory === "string" &&
+              subCatgory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {subCatgory}
+                  </button>
+                </>
+              )}
+            {nestedSubCategory &&
+              typeof nestedSubCategory === "string" &&
+              nestedSubCategory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {nestedSubCategory}
+                  </button>
+                </>
+              )}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>
@@ -2374,9 +2391,9 @@ onClick={() => {
               Real Estate for Rent
             </button>
             <button
-            onClick={() => {
-              navigate("/HealthCareComp");
-            }}
+              onClick={() => {
+                navigate("/HealthCareComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2469,7 +2486,7 @@ onClick={() => {
       border-color: black !important; 
     }
   `}</style>
- <hr
+                <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2483,7 +2500,7 @@ onClick={() => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-             <Accordion className="mt-3">
+                <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Sub Categories</Accordion.Header>
                     <Accordion.Body>
@@ -2505,7 +2522,7 @@ onClick={() => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>             
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -2525,19 +2542,17 @@ onClick={() => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a City</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a City</Form.Label>
+
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2556,24 +2571,22 @@ onClick={() => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                   <Accordion>
+                <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a District</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={DistrictOptions}
-          value={selectedDistrict}
-          onChange={handleDistrictSelect}
-          placeholder="Select a District"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a District</Form.Label>
+
+                        <WindowedSelect
+                          options={DistrictOptions}
+                          value={selectedDistrict}
+                          onChange={handleDistrictSelect}
+                          placeholder="Select a District"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2593,37 +2606,37 @@ onClick={() => {
                   }}
                 />
 
-<Accordion className="mt-3">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Price Range</Accordion.Header>
-          <Accordion.Body>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="From"
-                    value={fromValue}
-                    onChange={handleFromChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="To"
-                    value={toValue}
-                    onChange={handleToChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Row>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="From"
+                              value={fromValue}
+                              onChange={handleFromChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="To"
+                              value={toValue}
+                              onChange={handleToChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
 
-      <hr
+                <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2637,9 +2650,8 @@ onClick={() => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-    
 
-    <Accordion className="mt-3">
+                <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Ad Type</Accordion.Header>
                     <Accordion.Body>
@@ -2719,24 +2731,24 @@ onClick={() => {
               <div>
                 {loading ? (
                   <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                  <img
-                    src={Loading1}
-                    alt="Loading..."
                     style={{
-                      width: "200px",
-                      height: "200px",
-                      animation: "spin 1s linear infinite", // Apply the spin animation
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
                     }}
-                  />
-                  <style>
-                    {`
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                       @keyframes spin {
                         from {
                           transform: rotate(0deg);
@@ -2746,8 +2758,8 @@ onClick={() => {
                         }
                       }
                     `}
-                  </style>
-                </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -2840,7 +2852,7 @@ onClick={() => {
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
-                                  objectFit:"cover",
+                                  objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -2857,12 +2869,12 @@ onClick={() => {
                                     window.innerWidth <= 576 ? "-2px" : "0px",
                                 }}
                               >
-                                     <Link
-                            //  to={`/car-details/${ad.id}`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=TravelComp`}
-                          >
-                              {car.title || "Car"}
-                              </Link>
+                                <Link
+                                  //  to={`/car-details/${ad.id}`}
+                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=TravelComp`}
+                                >
+                                  {car.title || "Car"}
+                                </Link>
                               </Card.Title>
                               <Card.Text>
                                 <small
@@ -2913,7 +2925,7 @@ onClick={() => {
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
-                                      <div
+                                    <div
                                       style={{
                                         display: "flex",
                                         justifyContent: "center",
@@ -2966,7 +2978,8 @@ onClick={() => {
                                               objectFit: "cover",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "block",
                                             }}
                                           />
@@ -2977,7 +2990,8 @@ onClick={() => {
                                               height: "110px",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "flex",
                                               alignItems: "center",
                                               justifyContent: "center",
@@ -3219,60 +3233,61 @@ onClick={() => {
                                 `}</style>
                               </div>
                               <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {currentUserId && receiverId ? (
-                                    <Chat
-                                      userId={currentUserId}
-                                      recieverId={receiverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
+                                <div
+                                  className={`modal fade ${
+                                    showModal ? "show d-block" : "d-none"
+                                  }`}
+                                  tabIndex="-1"
+                                  role="dialog"
+                                  style={{
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    marginTop: 100,
+                                  }} // Backdrop effect
+                                >
+                                  <div
+                                    className="modal-dialog modal-dialog-centered"
+                                    role="document"
+                                  >
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">
+                                          Send Message
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowModal(false)}
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body">
+                                        <div className="p-4 w-full max-w-lg mx-auto">
+                                          {currentUserId && receiverId ? (
+                                            <Chat
+                                              userId={currentUserId}
+                                              recieverId={receiverId}
+                                            />
+                                          ) : (
+                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                              <p className="text-lg font-semibold text-gray-600">
+                                                Please log in to start
+                                                messaging.
+                                              </p>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
+
+                                {showModal && (
+                                  <div
+                                    className="modal-backdrop fade show"
+                                    onClick={() => setShowModal(false)}
+                                  ></div>
+                                )}
                               </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>

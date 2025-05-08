@@ -291,9 +291,9 @@ const RealEstateComp = () => {
   const { id } = useParams();
   const getQueryParam = (param) => {
     const hash = location.hash;
-    const queryIndex = hash.indexOf('?');
+    const queryIndex = hash.indexOf("?");
     if (queryIndex === -1) return null;
-  
+
     const queryString = hash.substring(queryIndex + 1);
     const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
@@ -1376,23 +1376,45 @@ const RealEstateComp = () => {
       console.error("Error updating bookmark:", error);
     }
   };
-  useEffect(() => {
-    setLoading(true);
+  // useEffect(() => {
+  //   setLoading(true);
 
+  //   const fetchCars = async () => {
+  //     try {
+  //       const carsCollectionRef = collection(db, "REALESTATECOMP");
+  //       const querySnapshot = await getDocs(carsCollectionRef);
+  //       const carsData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       console.log(carsData, "carsData_____SPORTSGAMESComp11");
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
+  useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "REALESTATECOMP");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(carsData, "carsData_____SPORTSGAMESComp11");
+        setLoading(true); // Show spinner
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/REALESTATECOMP"
+        );
+        const carsData = await response.json();
+
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
         setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 
@@ -2406,42 +2428,46 @@ const RealEstateComp = () => {
             >
               Apartment
             </button>
-            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {subCatgory}
-    </button>
-  </>
-)}
-         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {nestedSubCategory}
-    </button>
-  </>
-)}
+            {subCatgory &&
+              typeof subCatgory === "string" &&
+              subCatgory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {subCatgory}
+                  </button>
+                </>
+              )}
+            {nestedSubCategory &&
+              typeof nestedSubCategory === "string" &&
+              nestedSubCategory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {nestedSubCategory}
+                  </button>
+                </>
+              )}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>

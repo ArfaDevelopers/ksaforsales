@@ -1712,19 +1712,19 @@ const AutomotiveComp = () => {
     const fetchCars = async () => {
       try {
         setLoading(true); // Show spinner
-        const carsCollectionRef = collection(db, "Cars");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setCars(carsData);
-        setLoading(false);
-        console.log(carsData, "carsData_________");
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/cars"
+        );
+        const carsData = await response.json();
 
+        setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
+        setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 

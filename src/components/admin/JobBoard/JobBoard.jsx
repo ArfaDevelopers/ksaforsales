@@ -1225,20 +1225,42 @@ const JobBoard = () => {
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
   // Fetch cars data
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       const carsCollectionRef = collection(db, "JOBBOARD");
+  //       const querySnapshot = await getDocs(carsCollectionRef);
+  //       const carsData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       console.log(carsData, "carsData_____JOBBOARD");
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "JOBBOARD");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(carsData, "carsData_____JOBBOARD");
+        setLoading(true); // Show spinner
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/JOBBOARD"
+        );
+        const carsData = await response.json();
+
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
+        setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 

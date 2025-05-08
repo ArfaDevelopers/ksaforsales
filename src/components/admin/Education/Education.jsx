@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo  } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
@@ -69,9 +69,9 @@ import { Country, State, City } from "country-state-city";
 import Spinner from "react-bootstrap/Spinner";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-import WindowedSelect from 'react-windowed-select';
-import cityData from "../../../City.json"
-import locationData from "../../../Location.json"
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 
 const Education = () => {
   const parms = useLocation().pathname;
@@ -104,9 +104,8 @@ const Education = () => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [receiverId, setReceiverId] = useState(null);
 
- 
   const user = auth.currentUser;
-const currentUserId = user?.uid;
+  const currentUserId = user?.uid;
 
   const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
     useState([]);
@@ -188,7 +187,7 @@ const currentUserId = user?.uid;
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -201,9 +200,8 @@ const currentUserId = user?.uid;
     [CityList]
   );
 
-
   const [DistrictList, setDistrictList] = useState([]);
-  console.log('_________________',DistrictList);
+  console.log("_________________", DistrictList);
 
   useEffect(() => {
     if (locationData.Dis && Array.isArray(locationData.Dis)) {
@@ -212,20 +210,19 @@ const currentUserId = user?.uid;
       setDistrictList(locationData);
     } else {
       setDistrictList([]);
-      console.error('Dis JSON data is not in expected format');
+      console.error("Dis JSON data is not in expected format");
     }
   }, []);
 
-
   const DistrictOptions = useMemo(
     () =>
-    DistrictList.map((Dis) => ({
-        value: Dis, 
+      DistrictList.map((Dis) => ({
+        value: Dis,
         label: Dis,
       })),
     [DistrictList]
   );
-  
+
   const categories1 = [
     "Hunting & Trips",
     "Gardening & Agriculture",
@@ -255,9 +252,9 @@ const currentUserId = user?.uid;
   // };
   const getQueryParam = (param) => {
     const hash = location.hash;
-    const queryIndex = hash.indexOf('?');
+    const queryIndex = hash.indexOf("?");
     if (queryIndex === -1) return null;
-  
+
     const queryString = hash.substring(queryIndex + 1);
     const searchParams = new URLSearchParams(queryString);
     return searchParams.get(param);
@@ -309,7 +306,6 @@ const currentUserId = user?.uid;
 
     setCallingFrom(callingFrom);
     setId(ids);
-    
   }, [id, location, getQueryParam]);
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
@@ -330,28 +326,28 @@ const currentUserId = user?.uid;
     setselectedSubCategory(e.target.value);
   };
   const [formData, setFormData] = useState({
-    City: "",District:""
+    City: "",
+    District: "",
   });
   const handleCitySelect = (selectedOption) => {
-    console.log('Selected Option:', selectedOption); // Debug
+    console.log("Selected Option:", selectedOption); // Debug
     setselectedCity(selectedOption); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected City:', selectedCity)
+  console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
-    console.log('Selected Option:', selectedOption1); // Debug
+    console.log("Selected Option:", selectedOption1); // Debug
     setselectedDistrict(selectedOption1); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected district:', selectedDistrict)
-
+  console.log("Selected district:", selectedDistrict);
 
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
@@ -986,27 +982,48 @@ const currentUserId = user?.uid;
       console.error("Error updating bookmark:", error);
     }
   };
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       const carsCollectionRef = collection(db, "Education");
+  //       const querySnapshot = await getDocs(carsCollectionRef);
+  //       const carsData = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       console.log(carsData, "carsData___________");
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "Education");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(carsData, "carsData___________");
+        setLoading(true); // Show spinner
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/route/Education"
+        );
+        const carsData = await response.json();
+
         setCars(carsData);
         setFilteredCars(carsData); // Initially, show all cars
+        setLoading(false);
+
+        console.log(carsData, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
+        setLoading(false);
       }
     };
 
     fetchCars();
   }, [bookmarkedCar]);
   const handleShowModal = (userId) => {
-
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
@@ -1083,7 +1100,7 @@ const currentUserId = user?.uid;
       SpecialFeatures,
       SubjectCategories,
       SkillLevel,
-     
+
       ContentType,
       Language,
       Duration,
@@ -1134,7 +1151,7 @@ const currentUserId = user?.uid;
     Connectivity,
     SpecialFeatures,
     SubjectCategories,
-    
+
     SkillLevel,
     ContentType,
     Language,
@@ -1142,7 +1159,7 @@ const currentUserId = user?.uid;
     subCatgory,
     selectedSubCategory,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
   ]);
 
   // Handle search input change
@@ -1298,8 +1315,6 @@ const currentUserId = user?.uid;
           car.Duration?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.District?.toLowerCase().includes(lowercasedQuery) ||
-
-
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1313,7 +1328,9 @@ const currentUserId = user?.uid;
       filtered = filtered.filter((car) => car.City === selectedCity.value);
     }
     if (selectedDistrict) {
-      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
+      filtered = filtered.filter(
+        (car) => car.District === selectedDistrict.value
+      );
     }
     if (ScreenSize?.length > 0) {
       filtered = filtered.filter((car) => ScreenSize.includes(car.ScreenSize));
@@ -1337,8 +1354,8 @@ const currentUserId = user?.uid;
     if (searchQuery?.length > 0) {
       filtered = filtered.filter((car) => {
         // Ensure car.title exists and is a string
-        if (!car?.title || typeof car.title !== 'string') {
-          console.warn('Invalid car title:', car);
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
           return false;
         }
         // Case-insensitive search
@@ -1491,20 +1508,20 @@ const currentUserId = user?.uid;
         // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
-          console.warn('Invalid car Price:', car);
+          console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
-    
+
         // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
-    
+
         // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
-          console.warn('Invalid price range:', { fromValue, toValue });
+          console.warn("Invalid price range:", { fromValue, toValue });
           return true; // Skip price filtering if inputs are invalid
         }
-    
+
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -1677,9 +1694,9 @@ const currentUserId = user?.uid;
             }}
           >
             <button
-            onClick={() => {
-              navigate("/");
-            }}
+              onClick={() => {
+                navigate("/");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -1695,9 +1712,9 @@ const currentUserId = user?.uid;
             </span>
 
             <button
-            onClick={() => {
-              navigate("/Education");
-            }}
+              onClick={() => {
+                navigate("/Education");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -1708,42 +1725,46 @@ const currentUserId = user?.uid;
             >
               Education
             </button>
-            {subCatgory && typeof subCatgory === 'string' && subCatgory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {subCatgory}
-    </button>
-  </>
-)}
-         {nestedSubCategory && typeof nestedSubCategory === 'string' && nestedSubCategory.trim() !== '' && (
-  <>
-    <span>
-      <MdKeyboardArrowRight />
-    </span>
-    <button
-      className="btn"
-      style={{
-        background: window.innerWidth <= 576 ? 'none' : '#E9EEFF',
-        fontWeight: '500',
-        pointerEvents: 'none',
-        padding: window.innerWidth <= 576 ? '0px' : '10px 15px',
-      }}
-    >
-      {nestedSubCategory}
-    </button>
-  </>
-)}
+            {subCatgory &&
+              typeof subCatgory === "string" &&
+              subCatgory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {subCatgory}
+                  </button>
+                </>
+              )}
+            {nestedSubCategory &&
+              typeof nestedSubCategory === "string" &&
+              nestedSubCategory.trim() !== "" && (
+                <>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      pointerEvents: "none",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {nestedSubCategory}
+                  </button>
+                </>
+              )}
             {/* <span>
               <MdKeyboardArrowRight />
             </span>
@@ -1784,7 +1805,7 @@ const currentUserId = user?.uid;
                 fontSize: "24px",
               }}
             >
-              Online Learning Platform
+              Learning Platform
             </h1>
           </div>
 
@@ -1845,9 +1866,9 @@ const currentUserId = user?.uid;
               Real Estate for Rent
             </button>
             <button
-            onClick={() => {
-              navigate("/HealthCareComp");
-            }}
+              onClick={() => {
+                navigate("/HealthCareComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1940,7 +1961,7 @@ const currentUserId = user?.uid;
       border-color: black !important; 
     }
   `}</style>
-     <hr
+                <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -1956,7 +1977,7 @@ const currentUserId = user?.uid;
                 />
                 {/*      ----------               */}
 
-    <Accordion className="mt-3">
+                <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Sub Categories</Accordion.Header>
                     <Accordion.Body>
@@ -1978,7 +1999,7 @@ const currentUserId = user?.uid;
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>             
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -1998,19 +2019,17 @@ const currentUserId = user?.uid;
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a City</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a City</Form.Label>
+
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2029,24 +2048,22 @@ const currentUserId = user?.uid;
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                   <Accordion>
+                <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a District</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={DistrictOptions}
-          value={selectedDistrict}
-          onChange={handleDistrictSelect}
-          placeholder="Select a District"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a District</Form.Label>
+
+                        <WindowedSelect
+                          options={DistrictOptions}
+                          value={selectedDistrict}
+                          onChange={handleDistrictSelect}
+                          placeholder="Select a District"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2161,37 +2178,36 @@ const currentUserId = user?.uid;
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion> */}
- 
 
- <Accordion className="mt-3">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Price Range</Accordion.Header>
-          <Accordion.Body>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="From"
-                    value={fromValue}
-                    onChange={handleFromChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="To"
-                    value={toValue}
-                    onChange={handleToChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Row>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="From"
+                              value={fromValue}
+                              onChange={handleFromChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="To"
+                              value={toValue}
+                              onChange={handleToChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
 
                 <hr
                   style={{
@@ -2562,25 +2578,25 @@ const currentUserId = user?.uid;
               </Row>
               <div>
                 {loading ? (
-                <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100vh",
-                }}
-              >
-                <img
-                  src={Loading1}
-                  alt="Loading..."
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    animation: "spin 1s linear infinite", // Apply the spin animation
-                  }}
-                />
-                <style>
-                  {`
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                     @keyframes spin {
                       from {
                         transform: rotate(0deg);
@@ -2590,8 +2606,8 @@ const currentUserId = user?.uid;
                       }
                     }
                   `}
-                </style>
-              </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -2691,7 +2707,7 @@ const currentUserId = user?.uid;
                                 style={{
                                   width: "100%", // Make the image responsive
                                   height: "250px",
-                                  objectFit:"cover",
+                                  objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -2708,13 +2724,15 @@ const currentUserId = user?.uid;
                                     window.innerWidth <= 576 ? "-2px" : "0px",
                                 }}
                               >
-                                 <Link
-                            //  to={`/car-details/${ad.id}`}
-                            // to={`/Dynamic_Route?id=${car.id}&callingFrom=EducationCmp`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=${'Education'}`}
-                          >
-                              {car.title || "Car"}
-                              </Link>
+                                <Link
+                                  //  to={`/car-details/${ad.id}`}
+                                  // to={`/Dynamic_Route?id=${car.id}&callingFrom=EducationCmp`}
+                                  to={`/Dynamic_Route?id=${
+                                    car.id
+                                  }&callingFrom=${"Education"}`}
+                                >
+                                  {car.title || "Car"}
+                                </Link>
                               </Card.Title>
                               <Card.Text>
                                 <small
@@ -2762,7 +2780,7 @@ const currentUserId = user?.uid;
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
-                                      <div
+                                    <div
                                       style={{
                                         display: "flex",
                                         justifyContent: "center",
@@ -2815,7 +2833,8 @@ const currentUserId = user?.uid;
                                               objectFit: "cover",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "block",
                                             }}
                                           />
@@ -2826,7 +2845,8 @@ const currentUserId = user?.uid;
                                               height: "110px",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "flex",
                                               alignItems: "center",
                                               justifyContent: "center",
@@ -3068,60 +3088,61 @@ const currentUserId = user?.uid;
                                 `}</style>
                               </div>
                               <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {currentUserId && receiverId ? (
-                                    <Chat
-                                      userId={currentUserId}
-                                      recieverId={receiverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
+                                <div
+                                  className={`modal fade ${
+                                    showModal ? "show d-block" : "d-none"
+                                  }`}
+                                  tabIndex="-1"
+                                  role="dialog"
+                                  style={{
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    marginTop: 100,
+                                  }} // Backdrop effect
+                                >
+                                  <div
+                                    className="modal-dialog modal-dialog-centered"
+                                    role="document"
+                                  >
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">
+                                          Send Message
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowModal(false)}
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body">
+                                        <div className="p-4 w-full max-w-lg mx-auto">
+                                          {currentUserId && receiverId ? (
+                                            <Chat
+                                              userId={currentUserId}
+                                              recieverId={receiverId}
+                                            />
+                                          ) : (
+                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                              <p className="text-lg font-semibold text-gray-600">
+                                                Please log in to start
+                                                messaging.
+                                              </p>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
+
+                                {showModal && (
+                                  <div
+                                    className="modal-backdrop fade show"
+                                    onClick={() => setShowModal(false)}
+                                  ></div>
+                                )}
                               </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>
