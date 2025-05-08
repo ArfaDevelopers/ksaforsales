@@ -1216,7 +1216,18 @@ const TravelComp = () => {
   });
   console.log(bookmarkedCar, "bookmarkedCars__________");
   const [popoverCarId, setPopoverCarId] = useState(null); // Store the specific car's ID
+  const handleView = (carId) => {
+    const viewedCars = JSON.parse(localStorage.getItem("viewedCars") || "[]");
 
+    if (!viewedCars.includes(carId)) {
+      fetch(`https://ksaforsaleapis.vercel.app/route/TRAVEL/${carId}/view`, {
+        method: "PATCH",
+      });
+
+      viewedCars.push(carId);
+      localStorage.setItem("viewedCars", JSON.stringify(viewedCars));
+    }
+  };
   const toggleBookmark = async (carId) => {
     try {
       // Find the selected car
@@ -2323,18 +2334,18 @@ const TravelComp = () => {
           </div>
 
           <div>
-  { (nestedSubCategory || subCatgory) && (
-    <h1
-      style={{
-        marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-        marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-        fontSize: "24px",
-      }}
-    >
-      {nestedSubCategory || subCatgory}
-    </h1>
-  )}
-</div>
+            {(nestedSubCategory || subCatgory) && (
+              <h1
+                style={{
+                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                  marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                  fontSize: "24px",
+                }}
+              >
+                {nestedSubCategory || subCatgory}
+              </h1>
+            )}
+          </div>
 
           <div
             className="CategoryInfodiv_btn2container"
@@ -2841,6 +2852,7 @@ const TravelComp = () => {
                               </div>
                             )}
                             <Link
+                              onClick={() => handleView(car.id)}
                               //  to={`/car-details/${ad.id}`}
                               to={`/Dynamic_Route?id=${car.id}&callingFrom=TravelComp`}
                             >
