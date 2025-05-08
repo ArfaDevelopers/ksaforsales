@@ -69,9 +69,9 @@ import {
   Badge,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import WindowedSelect from 'react-windowed-select';
-import cityData from "../../../City.json"
-import locationData from "../../../Location.json"
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 const FashionStyle = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
@@ -183,7 +183,7 @@ const FashionStyle = () => {
     } else {
       // fallback empty or log error
       setCityList([]);
-      console.error('City JSON data is not in expected format');
+      console.error("City JSON data is not in expected format");
     }
   }, []);
 
@@ -196,9 +196,8 @@ const FashionStyle = () => {
     [CityList]
   );
 
-
   const [DistrictList, setDistrictList] = useState([]);
-  console.log('_________________',DistrictList);
+  console.log("_________________", DistrictList);
 
   useEffect(() => {
     if (locationData.Dis && Array.isArray(locationData.Dis)) {
@@ -207,20 +206,19 @@ const FashionStyle = () => {
       setDistrictList(locationData);
     } else {
       setDistrictList([]);
-      console.error('Dis JSON data is not in expected format');
+      console.error("Dis JSON data is not in expected format");
     }
   }, []);
 
-
   const DistrictOptions = useMemo(
     () =>
-    DistrictList.map((Dis) => ({
-        value: Dis, 
+      DistrictList.map((Dis) => ({
+        value: Dis,
         label: Dis,
       })),
     [DistrictList]
   );
-  
+
   const categories1 = [
     "Watches",
     "Perfumes & Incense",
@@ -231,7 +229,7 @@ const FashionStyle = () => {
     "Sleepwear",
     "Gifts",
     "Luggage",
-    "Health & Beauty", 
+    "Health & Beauty",
   ];
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
@@ -242,8 +240,7 @@ const FashionStyle = () => {
   const { id } = useParams();
   const [receiverId, setReceiverId] = useState(null);
 
- 
-    const user = auth.currentUser;
+  const user = auth.currentUser;
   const currentUserId = user?.uid;
 
   useEffect(() => {
@@ -259,38 +256,41 @@ const FashionStyle = () => {
     setselectedSubCategory(e.target.value);
   };
   const [formData, setFormData] = useState({
-    City: "",District:""
+    City: "",
+    District: "",
   });
   const handleCitySelect = (selectedOption) => {
-    console.log('Selected Option:', selectedOption); // Debug
+    console.log("Selected Option:", selectedOption); // Debug
     setselectedCity(selectedOption); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : '', // Fallback to empty string
+      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected City:', selectedCity)
+  console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
-    console.log('Selected Option:', selectedOption1); // Debug
+    console.log("Selected Option:", selectedOption1); // Debug
     setselectedDistrict(selectedOption1); // Update selectedCity state
     setFormData((prev) => ({
       ...prev,
-      District: selectedOption1 ? selectedOption1.value : '', // Fallback to empty string
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
     }));
   };
-  console.log('Selected district:', selectedDistrict)
+  console.log("Selected district:", selectedDistrict);
   const [selectedConditions, setSelectedConditions] = useState([]);
 
-// Handler for Condition checkboxes
-const handleConditionChange = (condition) => (event) => {
-  const isChecked = event.target.checked;
-  setSelectedConditions((prev) => {
-    const newConditions = isChecked ? [...prev, condition] : prev.filter((c) => c !== condition);
-    console.log('Selected Conditions:', newConditions);
-    return newConditions;
-  });
-};
+  // Handler for Condition checkboxes
+  const handleConditionChange = (condition) => (event) => {
+    const isChecked = event.target.checked;
+    setSelectedConditions((prev) => {
+      const newConditions = isChecked
+        ? [...prev, condition]
+        : prev.filter((c) => c !== condition);
+      console.log("Selected Conditions:", newConditions);
+      return newConditions;
+    });
+  };
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
@@ -776,7 +776,6 @@ const handleConditionChange = (condition) => (event) => {
     });
   };
 
-
   const handleCheckboxChangeVideoAvailability = (event) => {
     const isChecked = event.target.checked;
     const value = isChecked ? "With Video" : "Without Video";
@@ -1075,7 +1074,6 @@ const handleConditionChange = (condition) => (event) => {
     fetchCars();
   }, [bookmarkedCar]);
   const handleShowModal = (userId) => {
-
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
@@ -1231,7 +1229,7 @@ const handleConditionChange = (condition) => (event) => {
     selectedCity,
     selectedDistrict,
     selectedConditions,
-    logSelectedPurpose
+    logSelectedPurpose,
   ]);
 
   // Handle search input change
@@ -1424,8 +1422,8 @@ const handleConditionChange = (condition) => (event) => {
     if (searchQuery?.length > 0) {
       filtered = filtered.filter((car) => {
         // Ensure car.title exists and is a string
-        if (!car?.title || typeof car.title !== 'string') {
-          console.warn('Invalid car title:', car);
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
           return false;
         }
         // Case-insensitive search
@@ -1441,12 +1439,14 @@ const handleConditionChange = (condition) => (event) => {
       filtered = filtered.filter((car) => car.City === selectedCity.value);
     }
     if (selectedDistrict) {
-      filtered = filtered.filter((car) => car.District === selectedDistrict.value);
+      filtered = filtered.filter(
+        (car) => car.District === selectedDistrict.value
+      );
     }
     if (Array.isArray(selectedConditions) && selectedConditions.length > 0) {
       filtered = filtered.filter((car) => {
-        if (!car?.Condition || typeof car.Condition !== 'string') {
-          console.warn('Invalid car Condition from database:', car);
+        if (!car?.Condition || typeof car.Condition !== "string") {
+          console.warn("Invalid car Condition from database:", car);
           return false;
         }
         return selectedConditions.includes(car.Condition);
@@ -1573,8 +1573,8 @@ const handleConditionChange = (condition) => (event) => {
     // Filter by selected cities
     if (selectedOptionisFeatured) {
       filtered = filtered.filter((car) => {
-        if (!car?.FeaturedAds || typeof car.FeaturedAds !== 'string') {
-          console.warn('Invalid car FeaturedAds:', car);
+        if (!car?.FeaturedAds || typeof car.FeaturedAds !== "string") {
+          console.warn("Invalid car FeaturedAds:", car);
           return false; // Skip cars with invalid FeaturedAds
         }
         return car.FeaturedAds === selectedOptionisFeatured;
@@ -1656,20 +1656,20 @@ const handleConditionChange = (condition) => (event) => {
         // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
-          console.warn('Invalid car Price:', car);
+          console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
-    
+
         // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
-    
+
         // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
-          console.warn('Invalid price range:', { fromValue, toValue });
+          console.warn("Invalid price range:", { fromValue, toValue });
           return true; // Skip price filtering if inputs are invalid
         }
-    
+
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
@@ -1714,7 +1714,6 @@ const handleConditionChange = (condition) => (event) => {
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
-
 
     // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
@@ -1841,9 +1840,9 @@ const handleConditionChange = (condition) => (event) => {
             }}
           >
             <button
-            onClick={() => {
-              navigate("/");
-            }}
+              onClick={() => {
+                navigate("/");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -1859,9 +1858,9 @@ const handleConditionChange = (condition) => (event) => {
             </span>
 
             <button
-            onClick={() => {
-              navigate("/FashionStyle");
-            }}
+              onClick={() => {
+                navigate("/FashionStyle");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -1989,9 +1988,9 @@ const handleConditionChange = (condition) => (event) => {
               Real Estate for Rent
             </button>
             <button
-            onClick={() => {
-              navigate("/HealthCareComp");
-            }}
+              onClick={() => {
+                navigate("/HealthCareComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -2085,7 +2084,7 @@ const handleConditionChange = (condition) => (event) => {
       border-color: black !important; 
     }
   `}</style>
-      <hr
+                <hr
                   style={{
                     width: "100%",
                     height: "0px",
@@ -2122,7 +2121,7 @@ const handleConditionChange = (condition) => (event) => {
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion>             
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -2143,19 +2142,17 @@ const handleConditionChange = (condition) => (event) => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a City</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a City</Form.Label>
+
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2180,19 +2177,17 @@ const handleConditionChange = (condition) => (event) => {
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
- <Form.Label>Select a District</Form.Label>
-                        
-                          <WindowedSelect
-                          
-          options={DistrictOptions}
-          value={selectedDistrict}
-          onChange={handleDistrictSelect}
-          placeholder="Select a District"
-          isClearable
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-                          
+                        <Form.Label>Select a District</Form.Label>
+
+                        <WindowedSelect
+                          options={DistrictOptions}
+                          value={selectedDistrict}
+                          onChange={handleDistrictSelect}
+                          placeholder="Select a District"
+                          isClearable
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2213,34 +2208,34 @@ const handleConditionChange = (condition) => (event) => {
                 />
                 {/*  -------------  */}
                 <Accordion className="mt-3">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Price Range</Accordion.Header>
-          <Accordion.Body>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="From"
-                    value={fromValue}
-                    onChange={handleFromChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="number"
-                    placeholder="To"
-                    value={toValue}
-                    onChange={handleToChange}
-                    min="0" // Prevent negative prices
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Row>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="From"
+                              value={fromValue}
+                              onChange={handleFromChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="number"
+                              placeholder="To"
+                              value={toValue}
+                              onChange={handleToChange}
+                              min="0" // Prevent negative prices
+                            />
+                          </Col>
+                        </Row>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
 
                 <hr
                   style={{
@@ -2293,70 +2288,70 @@ const handleConditionChange = (condition) => (event) => {
                   </Accordion.Item>
                 </Accordion>
 
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
-     
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "1px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
                 {/*  -------------  */}
                 <Accordion className="mt-3">
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Condition</Accordion.Header>
-    <Accordion.Body>
-      <div style={{ maxWidth: '300px', margin: '20px' }}>
-        <Form.Group>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '8px 0',
-            }}
-          >
-            <Form.Check
-              type="checkbox"
-              label="New"
-              onChange={handleConditionChange('New')}
-              checked={selectedConditions.includes('New')}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '8px 0',
-            }}
-          >
-            <Form.Check
-              type="checkbox"
-              label="Used"
-              onChange={handleConditionChange('Used')}
-              checked={selectedConditions.includes('Used')}
-            />
-          </div>
-        </Form.Group>
-      </div>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
-      <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
-           
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Condition</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              padding: "8px 0",
+                            }}
+                          >
+                            <Form.Check
+                              type="checkbox"
+                              label="New"
+                              onChange={handleConditionChange("New")}
+                              checked={selectedConditions.includes("New")}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              padding: "8px 0",
+                            }}
+                          >
+                            <Form.Check
+                              type="checkbox"
+                              label="Used"
+                              onChange={handleConditionChange("Used")}
+                              checked={selectedConditions.includes("Used")}
+                            />
+                          </div>
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "1px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+
                 {/*--------------------------------------*/}
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
@@ -2380,7 +2375,6 @@ const handleConditionChange = (condition) => (event) => {
                                 // defaultChecked={engine === "V8 Engine"}
                                 onChange={() => handleCheckboxChangSize(engine)}
                               />
-                           
                             </div>
                           ))}
                         </Form.Group>
@@ -2389,15 +2383,15 @@ const handleConditionChange = (condition) => (event) => {
                   </Accordion.Item>
                 </Accordion>
                 <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
+                  style={{
+                    width: "100%",
+                    height: "1px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 {/*--------------------------------------*/}
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
@@ -2424,7 +2418,6 @@ const handleConditionChange = (condition) => (event) => {
                                     handleCheckboxChangColor(engine)
                                   }
                                 />
-                             
                               </div>
                             )
                           )}
@@ -2434,15 +2427,15 @@ const handleConditionChange = (condition) => (event) => {
                   </Accordion.Item>
                 </Accordion>
                 <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
+                  style={{
+                    width: "100%",
+                    height: "1px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 {/*--------------------------------------*/}
                 <Accordion>
                   <Accordion.Item eventKey="0">
@@ -2451,32 +2444,51 @@ const handleConditionChange = (condition) => (event) => {
                       <Form.Group className="mb-3">
                         {/* Checkbox Selection */}
                         <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {["Dell", "HP", "Apple", "Lenovo", "ASUS"].map(
-                            (car, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
+                          {[
+                            "Nike",
+                            "Adidas",
+                            "Zara",
+                            "H&M",
+                            "Gucci",
+                            "Prada",
+                            "Levi's",
+                            "Uniqlo",
+                            "Louis Vuitton",
+                            "Balenciaga",
+                            "Under Armour",
+                            "Puma",
+                            "Versace",
+                            "Tommy Hilfiger",
+                            "Dolce & Gabbana",
+                            "Armani",
+                            "Calvin Klein",
+                            "Off-White",
+                            "Burberry",
+                            "Shein",
+                          ].map((car, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={car}
+                                name={car} // Use the name attribute for identification
+                                onChange={handleCheckboxChangeBrand}
+                                // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
                               >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={car}
-                                  name={car} // Use the name attribute for identification
-                                  onChange={handleCheckboxChangeBrand}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
+                                12345
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       </Form.Group>
                     </Accordion.Body>
@@ -2497,7 +2509,6 @@ const handleConditionChange = (condition) => (event) => {
                   }}
                 />
                 {/*--------------------------------------*/}
-
               </Form>
             </Col>
 
@@ -2526,24 +2537,24 @@ const handleConditionChange = (condition) => (event) => {
               <div>
                 {loading ? (
                   <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                  <img
-                    src={Loading1}
-                    alt="Loading..."
                     style={{
-                      width: "200px",
-                      height: "200px",
-                      animation: "spin 1s linear infinite", // Apply the spin animation
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
                     }}
-                  />
-                  <style>
-                    {`
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                       @keyframes spin {
                         from {
                           transform: rotate(0deg);
@@ -2553,8 +2564,8 @@ const handleConditionChange = (condition) => (event) => {
                         }
                       }
                     `}
-                  </style>
-                </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
@@ -2648,7 +2659,7 @@ const handleConditionChange = (condition) => (event) => {
                                 style={{
                                   width: "100%",
                                   height: "250px",
-                                  objectFit:"cover",
+                                  objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
                                 }}
@@ -2665,12 +2676,12 @@ const handleConditionChange = (condition) => (event) => {
                                     window.innerWidth <= 576 ? "-2px" : "0px",
                                 }}
                               >
-                                    <Link
-                            //  to={`/car-details/${ad.id}`}
-                            to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
-                          >
-                              {car.title || "Car"}
-                           </Link>
+                                <Link
+                                  //  to={`/car-details/${ad.id}`}
+                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
+                                >
+                                  {car.title || "Car"}
+                                </Link>
                               </Card.Title>
                               <Card.Text>
                                 <small
@@ -2720,25 +2731,25 @@ const handleConditionChange = (condition) => (event) => {
                                 </p>
                                 <div>
                                   {loading ? (
-                                   <div
-                                   style={{
-                                     display: "flex",
-                                     justifyContent: "center",
-                                     alignItems: "center",
-                                     height: "100vh",
-                                   }}
-                                 >
-                                   <img
-                                     src={Loading1}
-                                     alt="Loading..."
-                                     style={{
-                                       width: "200px",
-                                       height: "200px",
-                                       animation: "spin 1s linear infinite", // Apply the spin animation
-                                     }}
-                                   />
-                                   <style>
-                                     {`
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100vh",
+                                      }}
+                                    >
+                                      <img
+                                        src={Loading1}
+                                        alt="Loading..."
+                                        style={{
+                                          width: "200px",
+                                          height: "200px",
+                                          animation: "spin 1s linear infinite", // Apply the spin animation
+                                        }}
+                                      />
+                                      <style>
+                                        {`
                                        @keyframes spin {
                                          from {
                                            transform: rotate(0deg);
@@ -2748,8 +2759,8 @@ const handleConditionChange = (condition) => (event) => {
                                          }
                                        }
                                      `}
-                                   </style>
-                                 </div>
+                                      </style>
+                                    </div>
                                   ) : (
                                     ads.map((cars) => (
                                       <div
@@ -2773,7 +2784,8 @@ const handleConditionChange = (condition) => (event) => {
                                               objectFit: "cover",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "block",
                                             }}
                                           />
@@ -2784,7 +2796,8 @@ const handleConditionChange = (condition) => (event) => {
                                               height: "110px",
                                               borderRadius: "50%",
                                               border: "2px solid white",
-                                              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                              boxShadow:
+                                                "0 0 10px rgba(0,0,0,0.1)",
                                               display: "flex",
                                               alignItems: "center",
                                               justifyContent: "center",
@@ -3020,60 +3033,61 @@ const handleConditionChange = (condition) => (event) => {
                                 `}</style>
                               </div>
                               <div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                            
-                                                          <div className="modal-body">
-                                <div className="p-4 w-full max-w-lg mx-auto">
-                                  {currentUserId && receiverId ? (
-                                    <Chat
-                                      userId={currentUserId}
-                                      recieverId={receiverId}
-                                    />
-                                  ) : (
-                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                      <p className="text-lg font-semibold text-gray-600">
-                                        Please log in to start messaging.
-                                      </p>
+                                <div
+                                  className={`modal fade ${
+                                    showModal ? "show d-block" : "d-none"
+                                  }`}
+                                  tabIndex="-1"
+                                  role="dialog"
+                                  style={{
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                    marginTop: 100,
+                                  }} // Backdrop effect
+                                >
+                                  <div
+                                    className="modal-dialog modal-dialog-centered"
+                                    role="document"
+                                  >
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">
+                                          Send Message
+                                        </h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowModal(false)}
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body">
+                                        <div className="p-4 w-full max-w-lg mx-auto">
+                                          {currentUserId && receiverId ? (
+                                            <Chat
+                                              userId={currentUserId}
+                                              recieverId={receiverId}
+                                            />
+                                          ) : (
+                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                              <p className="text-lg font-semibold text-gray-600">
+                                                Please log in to start
+                                                messaging.
+                                              </p>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
+
+                                {showModal && (
+                                  <div
+                                    className="modal-backdrop fade show"
+                                    onClick={() => setShowModal(false)}
+                                  ></div>
+                                )}
                               </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
                             </Card.Body>
                           </Col>
                         </Row>

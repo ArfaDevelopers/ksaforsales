@@ -5496,7 +5496,7 @@ const AddLisiting = () => {
                         <>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Add Tyoe </h4>
+                              <h4>Add Type </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
@@ -7700,7 +7700,7 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
-                              <h4>Add Tyoe </h4>
+                              <h4>Add Type </h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
@@ -8225,11 +8225,41 @@ const AddLisiting = () => {
                               <div className="form-group featuresform-list mb-0">
                                 <ul>
                                   {[
-                                    { name: "Dell", label: "Dell" },
-                                    { name: "HP", label: "HP" },
-                                    { name: "Apple", label: "Apple" },
-                                    { name: "Lenovo", label: "Lenovo" },
-                                    { name: "ASUS", label: "ASUS" },
+                                    { name: "Nike", label: "Nike" },
+                                    { name: "Adidas", label: "Adidas" },
+                                    { name: "Zara", label: "Zara" },
+                                    { name: "H&M", label: "H&M" },
+                                    { name: "Gucci", label: "Gucci" },
+                                    { name: "Prada", label: "Prada" },
+                                    { name: "Levis", label: "Levi's" },
+                                    { name: "Uniqlo", label: "Uniqlo" },
+                                    {
+                                      name: "LouisVuitton",
+                                      label: "Louis Vuitton",
+                                    },
+                                    { name: "Balenciaga", label: "Balenciaga" },
+                                    {
+                                      name: "UnderArmour",
+                                      label: "Under Armour",
+                                    },
+                                    { name: "Puma", label: "Puma" },
+                                    { name: "Versace", label: "Versace" },
+                                    {
+                                      name: "TommyHilfiger",
+                                      label: "Tommy Hilfiger",
+                                    },
+                                    {
+                                      name: "DolceGabbana",
+                                      label: "Dolce & Gabbana",
+                                    },
+                                    { name: "Armani", label: "Armani" },
+                                    {
+                                      name: "CalvinKlein",
+                                      label: "Calvin Klein",
+                                    },
+                                    { name: "OffWhite", label: "Off-White" },
+                                    { name: "Burberry", label: "Burberry" },
+                                    { name: "Shein", label: "Shein" },
                                   ].map((area) => (
                                     <li key={area.name}>
                                       <label className="custom_check">
@@ -8313,7 +8343,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Fit </h4>
                             </div>
@@ -8352,8 +8382,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Material </h4>
                             </div>
@@ -8397,7 +8427,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Color </h4>
@@ -8429,7 +8459,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="card">
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Style/Design </h4>
                             </div>
@@ -8468,8 +8498,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Closure Type </h4>
                             </div>
@@ -8506,8 +8536,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Collar Type </h4>
                             </div>
@@ -8546,8 +8576,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Sleeve Length </h4>
                             </div>
@@ -8587,8 +8617,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Wash Type </h4>
                             </div>
@@ -8636,8 +8666,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Features </h4>
                             </div>
@@ -8675,8 +8705,8 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
+                          </div> */}
+                          {/* <div className="card">
                             <div className="card-header">
                               <h4>Season </h4>
                             </div>
@@ -8711,7 +8741,7 @@ const AddLisiting = () => {
                                 <div className="clearfix" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
@@ -11518,6 +11548,38 @@ const AddLisiting = () => {
                           </div>
                           <div className="card">
                             <div className="card-header">
+                              <h4>Add Type </h4>
+                            </div>
+                            <div className="card-body">
+                              <div className="form-group featuresform-list mb-0">
+                                <ul>
+                                  {[
+                                    { name: "Sell", label: "Sell" },
+                                    { name: "Exchange", label: "Exchange" },
+                                    { name: "Wanted", label: "Wanted" },
+                                  ].map((area) => (
+                                    <li key={area.name}>
+                                      <label className="custom_check">
+                                        <input
+                                          type="checkbox"
+                                          name={area.name}
+                                          checked={
+                                            formData.Purpose === area.name
+                                          }
+                                          onChange={handlePurposeChange}
+                                        />
+                                        <span className="checkmark" />{" "}
+                                        {area.label}
+                                      </label>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="clearfix" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card">
+                            <div className="card-header">
                               <h4>Gender </h4>
                             </div>
                             <div className="card-body">
@@ -12831,7 +12893,7 @@ const AddLisiting = () => {
                 </div>
                 <div className="card" style={{ marginTop: "5px" }}>
                   <div className="card-header">
-                    <h4>Ad Type </h4>
+                    <h4>Featured </h4>
                   </div>
                   <div className="card-body">
                     <div className="form-group featuresform-list mb-0">
