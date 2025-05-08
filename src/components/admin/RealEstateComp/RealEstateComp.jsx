@@ -2814,14 +2814,14 @@ const RealEstateComp = () => {
                                   // defaultChecked={color === "Grey"}
                                   onChange={() => handleCheckboxPurpose(color)}
                                 />
-                                <span
+                                {/* <span
                                   style={{
                                     fontWeight: "bold",
                                     color: "#333",
                                   }}
                                 >
                                   12345
-                                </span>
+                                </span> */}
                               </div>
                             ))}
                           </Form.Group>
@@ -2877,14 +2877,14 @@ const RealEstateComp = () => {
                                       handleCheckboxFrequency(color)
                                     }
                                   />
-                                  <span
+                                  {/* <span
                                     style={{
                                       fontWeight: "bold",
                                       color: "#333",
                                     }}
                                   >
                                     12345
-                                  </span>
+                                  </span> */}
                                 </div>
                               )
                             )}
@@ -2940,14 +2940,14 @@ const RealEstateComp = () => {
                                     handleCheckboxResidenceType(color)
                                   }
                                 />
-                                <span
+                                {/* <span
                                   style={{
                                     fontWeight: "bold",
                                     color: "#333",
                                   }}
                                 >
                                   12345
-                                </span>
+                                </span> */}
                               </div>
                             ))}
                           </Form.Group>
@@ -3007,11 +3007,11 @@ const RealEstateComp = () => {
                                 onChange={handleCheckboxChangeNumberofrooms}
                                 // defaultChecked={car === "Nissan"} // Pre-check Nissan
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </div>
@@ -3064,11 +3064,11 @@ const RealEstateComp = () => {
                                 onChange={handleCheckboxChangebathrooms}
                                 // defaultChecked={car === "Nissan"} // Pre-check Nissan
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </div>
@@ -3120,11 +3120,11 @@ const RealEstateComp = () => {
                                 onChange={handleCheckboxChangeArea}
                                 // defaultChecked={car === "Nissan"} // Pre-check Nissan
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </div>
@@ -3175,11 +3175,11 @@ const RealEstateComp = () => {
                                   handleCheckboxChangeFurnished(engine)
                                 }
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
@@ -3237,11 +3237,11 @@ const RealEstateComp = () => {
                                   handleCheckboxChangeFacade(engine)
                                 }
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
@@ -3364,11 +3364,11 @@ const RealEstateComp = () => {
                                 checked={Floor.includes(engine)} // Control the checked state
                                 onChange={handleCheckboxChangeFloor} // Pass the event object
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
@@ -3418,14 +3418,14 @@ const RealEstateComp = () => {
                                     handleCheckboxCondition(color)
                                   }
                                 />
-                                <span
+                                {/* <span
                                   style={{
                                     fontWeight: "bold",
                                     color: "#333",
                                   }}
                                 >
                                   12345
-                                </span>
+                                </span> */}
                               </div>
                             ))}
                           </Form.Group>
@@ -3484,11 +3484,11 @@ const RealEstateComp = () => {
                                 checked={Amenities.includes(engine)} // Control the checked state
                                 onChange={handleCheckboxChangeAmenities} // Pass the event object
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
@@ -3549,11 +3549,11 @@ const RealEstateComp = () => {
                                 checked={PropertyAge.includes(engine)} // Control the checked state
                                 onChange={handleCheckboxChangePropertyAge} // Pass the event object
                               />
-                              <span
+                              {/* <span
                                 style={{ fontWeight: "bold", color: "#333" }}
                               >
                                 12345
-                              </span>
+                              </span> */}
                             </div>
                           ))}
                         </Form.Group>

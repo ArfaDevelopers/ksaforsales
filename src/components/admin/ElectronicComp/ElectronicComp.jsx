@@ -1623,11 +1623,14 @@ const ElectronicComp = () => {
             }}
           >
             <button
+             onClick={() => {
+              navigate("/");
+            }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -1645,13 +1648,13 @@ const ElectronicComp = () => {
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
               Electronics
             </button>
-            <span>
+            {/* <span>
               <MdKeyboardArrowRight />
             </span>
 
@@ -1695,7 +1698,7 @@ const ElectronicComp = () => {
               }}
             >
               Apple Macbook Air M3
-            </button>
+            </button> */}
           </div>
 
           <div>
@@ -1767,6 +1770,9 @@ const ElectronicComp = () => {
               Real Estate for Rent
             </button>
             <button
+              onClick={() => {
+                navigate("/HealthCareComp");
+              }}
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1776,7 +1782,7 @@ const ElectronicComp = () => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              Home & Garden
+              Home & Furniture
             </button>
             <button
               onClick={() => {
