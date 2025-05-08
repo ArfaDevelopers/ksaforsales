@@ -2337,6 +2337,146 @@ const handleConditionChange = (condition) => (event) => {
               />
            
                 {/*--------------------------------------*/}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Size</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          {["XS", "M", "L", "XL"].map((engine, index) => (
+                            <div
+                              key={engine}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={engine}
+                                // defaultChecked={engine === "V8 Engine"}
+                                onChange={() => handleCheckboxChangSize(engine)}
+                              />
+                           
+                            </div>
+                          ))}
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                style={{
+                  width: "100%",
+                  height: "1px",
+                  borderTop: "1px solid #000000",
+                  opacity: "0.5", // Adjust opacity for visibility
+                  margin: "20px 0",
+                  borderColor: "#000000", // Set border color to black
+                }}
+              />
+                {/*--------------------------------------*/}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Color</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          {["Blue", "Black", "Grey", "White"].map(
+                            (engine, index) => (
+                              <div
+                                key={engine}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={engine}
+                                  // defaultChecked={engine === "V8 Engine"}
+                                  onChange={() =>
+                                    handleCheckboxChangColor(engine)
+                                  }
+                                />
+                             
+                              </div>
+                            )
+                          )}
+                        </Form.Group>
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                style={{
+                  width: "100%",
+                  height: "1px",
+                  borderTop: "1px solid #000000",
+                  opacity: "0.5", // Adjust opacity for visibility
+                  margin: "20px 0",
+                  borderColor: "#000000", // Set border color to black
+                }}
+              />
+                {/*--------------------------------------*/}
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Brand</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        {/* Checkbox Selection */}
+                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
+                          {["Dell", "HP", "Apple", "Lenovo", "ASUS"].map(
+                            (car, index) => (
+                              <div
+                                key={index}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={car}
+                                  name={car} // Use the name attribute for identification
+                                  onChange={handleCheckboxChangeBrand}
+                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                                />
+                                <span
+                                  style={{ fontWeight: "bold", color: "#333" }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
+                {/*--------------------------------------*/}
+
               </Form>
             </Col>
 
