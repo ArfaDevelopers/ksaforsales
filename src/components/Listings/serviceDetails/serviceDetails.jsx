@@ -732,7 +732,8 @@ const copyToClipboard = () => {
                   <div className="card">
                     <h4>
                       <i className="feather-user" style={{ color: "#2d4495" }} />{" "}
-                      {itemData.title || "N/A"}
+                      {/* {itemData.title || "N/A"} */}
+                      Profile
                     </h4>
                     <div className="sidebarauthor-details align-items-center">
                       <div className="sideauthor-img">

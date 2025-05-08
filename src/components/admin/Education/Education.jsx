@@ -1796,18 +1796,19 @@ const Education = () => {
               Online Learning Platform
             </button> */}
           </div>
-
           <div>
-            <h1
-              style={{
-                marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-                marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-                fontSize: "24px",
-              }}
-            >
-              Learning Platform
-            </h1>
-          </div>
+  { (nestedSubCategory || subCatgory) && (
+    <h1
+      style={{
+        marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+        marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+        fontSize: "24px",
+      }}
+    >
+      {nestedSubCategory || subCatgory}
+    </h1>
+  )}
+</div>
 
           <div
             className="CategoryInfodiv_btn2container"
