@@ -230,7 +230,7 @@ const MyListe = () => {
 
     fetchCars();
   }, []);
-
+  const isMobile = window.innerWidth <= 576;
   useEffect(() => {
     let result = [...cars];
 
@@ -828,105 +828,148 @@ const MyListe = () => {
 
           <div className="dash-listingcontent dashboard-info">
             <div className="dash-cards card">
-              <div className="card-header">
-                <h4>My Listings</h4>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div className="card-dropdown" style={{ position: "relative" }}>
-  <ul className="nav" style={{ listStyle: "none", padding: 0, margin: 0 }}>
-    <li className="nav-item dropdown has-arrow logged-item" style={{ position: "relative" }}>
-      <Link
-        to="#"
-        className="dropdown-toggle pageviews-link"
-        data-bs-toggle="dropdown"
-        aria-expanded={change}
-        onClick={() => { setChange(!change); console.log("Change:", change); }}
+            <div
+      style={{
+        display: 'flex',
+        justifyContent: isMobile ? 'flex-start' : 'space-between',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        padding: isMobile ? '10px' : '15px',
+        backgroundColor: '#fff',
+        borderBottom: '1px solid #e0e0e0',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? '10px' : '0',
+      }}
+    >
+      <h4
         style={{
-          textDecoration: "none",
-          color: "#000",
-          padding: "8px 12px",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          display: "inline-flex",
-          alignItems: "center",
+          margin: '0',
+          fontSize: isMobile ? '18px' : '20px',
+          fontWeight: '600',
         }}
       >
-        <span>{filter}</span>
-      </Link>
+        My Listings
+      </h4>
       <div
-        className={`dropdown-menu dropdown-menu-end ${change ? "show" : ""}`}
         style={{
-          position: "absolute",
-          top: "calc(100% + 5px)",
-          left: "0",
-          backgroundColor: "#fff",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          borderRadius: "4px",
-          display: change ? "block !important" : "none !important",
-          minWidth: "150px",
-          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          gap: isMobile ? '5px' : '10px',
+          flexDirection: isMobile ? 'row' : 'row', // Keep row for both mobile and desktop
+          width: isMobile ? '100%' : 'auto',
+          justifyContent: isMobile ? 'space-between' : 'flex-start',
         }}
       >
+        <div style={{ position: 'relative', width: isMobile ? '50%' : 'auto' }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <li style={{ position: 'relative' }}>
+              <Link
+                to="#"
+                className="dropdown-toggle pageviews-link"
+                data-bs-toggle="dropdown"
+                aria-expanded={change}
+                onClick={() => {
+                  setChange(!change);
+                  console.log('Change:', change);
+                }}
+                style={{
+                  textDecoration: 'none',
+                  color: '#000',
+                  padding: isMobile ? '6px 10px' : '8px 12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  fontSize: isMobile ? '12px' : '14px',
+                  width: isMobile ? '100%' : 'auto',
+                  justifyContent: isMobile ? 'center' : 'flex-start',
+                  textAlign: 'center',
+                }}
+              >
+                <span>{filter}</span>
+              </Link>
+              <div
+                className={`dropdown-menu dropdown-menu-end ${change ? 'show' : ''}`}
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 5px)',
+                  left: isMobile ? '0' : 'auto',
+                  right: isMobile ? '0' : '0',
+                  backgroundColor: '#fff',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  borderRadius: '4px',
+                  minWidth: isMobile ? '120px' : '150px',
+                  zIndex: 1000,
+                }}
+              >
+                <Link
+                  className="dropdown-item"
+                  to="#"
+                  onClick={() => handleFilterChange('All Listing')}
+                  style={{
+                    display: 'block',
+                    padding: isMobile ? '6px 12px' : '8px 16px',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: isMobile ? '12px' : '14px',
+                  }}
+                >
+                  All Listing
+                </Link>
+                <Link
+                  className="dropdown-item"
+                  to="#"
+                  onClick={() => handleFilterChange('Featured Ads')}
+                  style={{
+                    display: 'block',
+                    padding: isMobile ? '6px 12px' : '8px 16px',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: isMobile ? '12px' : '14px',
+                  }}
+                >
+                  Featured Ads
+                </Link>
+                <Link
+                  className="dropdown-item"
+                  to="#"
+                  onClick={() => handleFilterChange('Not Featured Ads')}
+                  style={{
+                    display: 'block',
+                    padding: isMobile ? '6px 12px' : '8px 16px',
+                    textDecoration: 'none',
+                    color: '#000',
+                    fontSize: isMobile ? '12px' : '14px',
+                  }}
+                >
+                  Not Featured Ads
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </div>
         <Link
-          className="dropdown-item"
-          to="#"
-          onClick={() => handleFilterChange("All Listing")}
+          className="nav-link header-login add-listing"
+          to="/add-listing"
           style={{
-            display: "block",
-            padding: "8px 16px",
-            textDecoration: "none",
-            color: "#000",
+            backgroundColor: '#2d4495',
+            color: '#fff',
+            padding: isMobile ? '6px 10px' : '8px 12px',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '5px',
+            fontSize: isMobile ? '12px' : '14px',
+            width: isMobile ? '50%' : 'auto',
+            justifyContent: isMobile ? 'center' : 'flex-start',
+            textAlign: 'center',
           }}
         >
-          All Listing
-        </Link>
-        <Link
-          className="dropdown-item"
-          to="#"
-          onClick={() => handleFilterChange("Featured Ads")}
-          style={{
-            display: "block",
-            padding: "8px 16px",
-            textDecoration: "none",
-            color: "#000",
-          }}
-        >
-          Featured Ads
-        </Link>
-        <Link
-          className="dropdown-item"
-          to="#"
-          onClick={() => handleFilterChange("Not Featured Ads")}
-          style={{
-            display: "block",
-            padding: "8px 16px",
-            textDecoration: "none",
-            color: "#000",
-          }}
-        >
-          Not Featured Ads
+          <i className="fa-solid fa-plus" style={{ fontSize: isMobile ? '12px' : '14px' }} />
+          Add Listing
         </Link>
       </div>
-    </li>
-  </ul>
-</div>
-                  <Link
-                    className="nav-link header-login add-listing"
-                    style={{
-                      backgroundColor: "#2d4495",
-                      color: "#fff",
-                      padding: "8px 12px",
-                      borderRadius: "4px",
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    to="/add-listing"
-                  >
-                    <i className="fa-solid fa-plus" /> Add Listing
-                  </Link>
-                </div>
-              </div>
+    </div>
               <div className="card-body">
                 <div className="listing-search">
                   <div className="filter-content form-group">

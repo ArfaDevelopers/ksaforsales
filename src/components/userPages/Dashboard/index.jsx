@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
 import {
@@ -35,10 +35,35 @@ console.log(userReviews1,"userReviews1___________")
     });
     return () => unsubscribe();
   }, []);
-
+  const isInitialLoad = useRef(true);
   // Scroll to top on location change
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+      console.log('Scroll restoration set to manual');
+    }
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      console.log('Scrolled to top for location:', location.pathname, 'scrollY:', window.scrollY);
+    };
+    scrollToTop();
+    const timeout = setTimeout(scrollToTop, 100);
+    if (isInitialLoad.current) {
+      const interval = setInterval(() => {
+        if (window.scrollY !== 0) {
+          scrollToTop();
+        }
+      }, 50);
+      setTimeout(() => clearInterval(interval), 1000);
+      isInitialLoad.current = false;
+    }
+    return () => {
+      clearTimeout(timeout);
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+        console.log('Scroll restoration reset to auto');
+      }
+    };
   }, [location]);
 
   // Handle window resize

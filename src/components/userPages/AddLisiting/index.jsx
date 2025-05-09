@@ -142,9 +142,18 @@ const AddLisiting = () => {
     BagType: "",
     SubCategory: "",
     NestedSubCategory: "",
-
+    Facade:"",
+    Featuers:"",
+    Area:"",
+    Furnished:"",
+    Frequency:"",
     Bedroom: "",
-
+    ResidenceType: "",
+    bathrooms: "",
+    licenseNumber: "",
+    Condition:"",
+    Floor:"",
+    PropertyAge:"",
     Age: "",
     Temperament: "",
     HealthStatus: "",
@@ -1363,6 +1372,18 @@ const AddLisiting = () => {
             BatteryLife: data.BatteryLife || "",
             BatteryType: data.BatteryType || "",
             Bedroom: data.Bedroom || "",
+            ResidenceType: data.ResidenceType || "",
+            bathrooms: data.bathrooms || "",
+            licenseNumber: data.licenseNumber || "",
+            Condition: data.Condition || "",
+            Floor: data.Floor || "",
+            PropertyAge: data.PropertyAge || "",
+
+            Facade: data.Facade || "",
+            Featuers: data.Featuers || "",
+            Frequency: data.Frequency || "",
+            Area: data.Area || "",
+            Furnished: data.Furnished || "",
             BodyType: data.BodyType || "",
             Breed: data.Breed || "",
             BuildingType: data.BuildingType || "",
@@ -1476,6 +1497,7 @@ const AddLisiting = () => {
             twitter: data.twitter || "",
             userId: data.userId || "",
             galleryImages: data.galleryImages || [],
+
           });
 
           setGalleryImages(data.galleryImages || []);
