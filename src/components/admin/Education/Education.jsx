@@ -944,19 +944,26 @@ const Education = () => {
   });
   console.log(bookmarkedCar, "bookmarkedCars__________");
   const [popoverCarId, setPopoverCarId] = useState(null); // Store the specific car's ID
-  const handleView = (carId) => {
-    const viewedCars = JSON.parse(localStorage.getItem("viewedCars") || "[]");
 
-    if (!viewedCars.includes(carId)) {
-      fetch(`https://ksaforsaleapis.vercel.app/route/cars/${carId}/view`, {
+  const handleView = (carId) => {
+    const now = Date.now();
+    const cooldownPeriod = 30 * 1000; // 30 seconds
+    const viewedCars = JSON.parse(localStorage.getItem("viewedCars") || "{}");
+
+    // Check if the car has been viewed recently
+    if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
+      // If it's not in the cooldown period, increment the view count on the server
+      fetch(`https://ksaforsaleapis.vercel.app/route/Education/${carId}/view`, {
         method: "PATCH",
       });
 
-      viewedCars.push(carId);
+      // Update the last viewed timestamp for that car in localStorage
+      viewedCars[carId] = now;
       localStorage.setItem("viewedCars", JSON.stringify(viewedCars));
+    } else {
+      console.log(`Please wait 30 seconds before viewing this car again.`);
     }
   };
-
   const toggleBookmark = async (carId) => {
     try {
       // Find the selected car

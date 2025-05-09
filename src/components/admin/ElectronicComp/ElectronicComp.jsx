@@ -919,6 +919,28 @@ const ElectronicComp = () => {
   console.log(bookmarkedCar, "bookmarkedCars__________");
   const [popoverCarId, setPopoverCarId] = useState(null); // Store the specific car's ID
 
+  const handleView = (carId) => {
+    const now = Date.now();
+    const cooldownPeriod = 30 * 1000; // 30 seconds
+    const viewedCars = JSON.parse(localStorage.getItem("viewedCars") || "{}");
+
+    // Check if the car has been viewed recently
+    if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
+      // If it's not in the cooldown period, increment the view count on the server
+      fetch(
+        `https://ksaforsaleapis.vercel.app/route/ELECTRONICS/${carId}/view`,
+        {
+          method: "PATCH",
+        }
+      );
+
+      // Update the last viewed timestamp for that car in localStorage
+      viewedCars[carId] = now;
+      localStorage.setItem("viewedCars", JSON.stringify(viewedCars));
+    } else {
+      console.log(`Please wait 30 seconds before viewing this car again.`);
+    }
+  };
   const toggleBookmark = async (carId) => {
     try {
       // Find the selected car
@@ -1769,18 +1791,18 @@ const ElectronicComp = () => {
           </div>
 
           <div>
-  { (nestedSubCategory || subCatgory) && (
-    <h1
-      style={{
-        marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-        marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-        fontSize: "24px",
-      }}
-    >
-      {nestedSubCategory || subCatgory}
-    </h1>
-  )}
-</div>
+            {(nestedSubCategory || subCatgory) && (
+              <h1
+                style={{
+                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                  marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                  fontSize: "24px",
+                }}
+              >
+                {nestedSubCategory || subCatgory}
+              </h1>
+            )}
+          </div>
 
           <div
             className="CategoryInfodiv_btn2container"
@@ -2410,6 +2432,7 @@ const ElectronicComp = () => {
                               </div>
                             )}
                             <Link
+                              onClick={() => handleView(car.id)}
                               //  to={`/car-details/${ad.id}`}
                               to={`/Dynamic_Route?id=${car.id}&callingFrom=ElectronicComp`}
                             >
