@@ -113,7 +113,7 @@ const Footer = () => {
 
         <div className="footermid-wrapper " style={{  marginTop: window.innerWidth <= 576 ? "-8rem" : "-4rem"}}>
           <div className="footermid-container container" style={{marginRight:"19rem" }}>
-            <h3 className="footermid-heading" style={{marginLeft: window.innerWidth <= 576 ? "-3rem" : "0rem"}}>We are always here to help</h3>
+            <h3 className="footermid-heading" style={{marginLeft: window.innerWidth <= 576 ? "-3rem" : "4rem"}}>We are always here to help</h3>
             <div className="footermidinfo-container">
               <div className="midfooterinfo">
                 <i className="midfooterinfo-icon" >
@@ -128,7 +128,7 @@ const Footer = () => {
               </div>
               <div className="midfooterinfo"style={{marginTop: window.innerWidth <= 576 ? "-3rem" : "0rem",marginBottom: window.innerWidth <= 576 ? "-4rem" : "0rem"}}>
                 <i className="midfooterinfo-icon">
-                  <img src={whatapp} alt="" style={{ marginRight: window.innerWidth <= 576 ? "2rem" : "0rem",marginLeft: window.innerWidth <= 576 ? "-3rem" : "0rem" , }} />
+                  <img src={whatapp} alt="" style={{ marginRight: window.innerWidth <= 576 ? "0rem" : "0rem",marginLeft: window.innerWidth <= 576 ? "-2rem" : "0rem" , }} />
                 </i>
                 <div className="footermidgmail">
                   <h4 className="footermidgmailheading">Phone Number</h4>
