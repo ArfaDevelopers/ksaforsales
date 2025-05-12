@@ -372,7 +372,99 @@ const MyListe = () => {
       }
     });
   };
+  const totalPages = Math.ceil(filteredCars.length / pageSize);
 
+  const renderPaginationItems = () => {
+    const items = [];
+
+    // Always show the first page
+    items.push(
+      <li
+        key={1}
+        className={`page-item ${currentPage === 1 ? 'active' : ''}`}
+      >
+        <Link
+          className="page-link"
+          to="#"
+          onClick={() => setCurrentPage(1)}
+        >
+          1
+        </Link>
+      </li>
+    );
+
+    // If there are more than 1 page, calculate the range of pages to display
+    if (totalPages > 1) {
+      // Add ellipsis after the first page if currentPage is greater than 3
+      if (currentPage > 3) {
+        items.push(
+          <li key="ellipsis-start" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+
+      // Determine the range of three pages to show around the current page
+      let startPage = Math.max(2, currentPage - 1); // Start at least at page 2
+      let endPage = Math.min(totalPages - 1, currentPage + 1); // End before the last page
+
+      // Adjust the range to always show 3 pages if possible
+      if (endPage - startPage < 2) {
+        if (startPage === 2) {
+          endPage = Math.min(startPage + 2, totalPages - 1);
+        } else if (endPage === totalPages - 1) {
+          startPage = Math.max(2, endPage - 2);
+        }
+      }
+
+      // Render the three pages in the range
+      for (let i = startPage; i <= endPage; i++) {
+        items.push(
+          <li
+            key={i}
+            className={`page-item ${currentPage === i ? 'active' : ''}`}
+          >
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(i)}
+            >
+              {i}
+            </Link>
+          </li>
+        );
+      }
+
+      // Add ellipsis before the last page if needed
+      if (endPage < totalPages - 1) {
+        items.push(
+          <li key="ellipsis-end" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+
+      // Always show the last page
+      if (totalPages > 1) {
+        items.push(
+          <li
+            key={totalPages}
+            className={`page-item ${currentPage === totalPages ? 'active' : ''}`}
+          >
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(totalPages)}
+            >
+              {totalPages}
+            </Link>
+          </li>
+        );
+      }
+    }
+
+    return items;
+  };
   const toggleDisable = async (id, category, isDisabled) => {
     try {
       const tableName = categoryMapping[category] || category;
@@ -1043,59 +1135,40 @@ const MyListe = () => {
                   )}
                 </div>
                 <div className="blog-pagination">
-                  <nav>
-                    <ul className="pagination">
-                      <li
-                        className={`page-item previtem ${currentPage === 1 ? "disabled" : ""}`}
-                      >
-                        <Link
-                          className="page-link"
-                          to="#"
-                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                        >
-                          <i className="fas fa-regular fa-arrow-left" /> Prev
-                        </Link>
-                      </li>
-                      <li className="justify-content-center pagination-center">
-                        <div className="pagelink">
-                          <ul>
-                            {[...Array(Math.ceil(filteredCars.length / pageSize))].map((_, index) => (
-                              <li
-                                key={index}
-                                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
-                              >
-                                <Link
-                                  className="page-link"
-                                  to="#"
-                                  onClick={() => setCurrentPage(index + 1)}
-                                >
-                                  {index + 1}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
-                      <li
-                        className={`page-item nextlink ${
-                          currentPage === Math.ceil(filteredCars.length / pageSize) ? "disabled" : ""
-                        }`}
-                      >
-                        <Link
-                          className="page-link"
-                          to="#"
-                          onClick={() =>
-                            setCurrentPage((prev) =>
-                              Math.min(prev + 1, Math.ceil(filteredCars.length / pageSize))
-                            )
-                          }
-                        >
-                          Next <i className="fas fa-regular fa-arrow-right" />
-                        </Link>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+      <nav>
+        <ul className="pagination">
+          <li
+            className={`page-item previtem ${currentPage === 1 ? 'disabled' : ''}`}
+          >
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            >
+              <i className="fas fa-regular fa-arrow-left" /> Prev
+            </Link>
+          </li>
+          <li className="justify-content-center pagination-center">
+            <div className="pagelink">
+              <ul>{renderPaginationItems()}</ul>
+            </div>
+          </li>
+          <li
+            className={`page-item nextlink ${currentPage === totalPages ? 'disabled' : ''}`}
+          >
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+            >
+              Next <i className="fas fa-regular fa-arrow-right" />
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
               </div>
             </div>
           </div>

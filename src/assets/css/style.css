@@ -22660,7 +22660,74 @@ section.advertisement {
   font-style: italic;
 }
 
+/* Default styles */
+.blog-pagination .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.blog-pagination .page-item {
+  margin: 0 5px;
+}
+
+.blog-pagination .page-link {
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.blog-pagination .page-item.active .page-link {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.blog-pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.blog-pagination .pagination-center .pagelink ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Mobile view */
+@media (max-width: 576px) {
+  .blog-pagination .pagination {
+    flex-wrap: nowrap;
+  }
+
+  .blog-pagination .page-item {
+    display: none; /* Hide all page items by default */
+  }
+
+  /* Show only Prev, Next, and specific page items */
+  .blog-pagination .page-item.previtem,
+  .blog-pagination .page-item.nextlink,
+  .blog-pagination .pagination-center .page-item {
+    display: block;
+  }
+
+  .blog-pagination .pagination-center .pagelink ul {
+    display: flex;
+    justify-content: center;
+  }
+
+  .blog-pagination .page-link {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
 
 
 
