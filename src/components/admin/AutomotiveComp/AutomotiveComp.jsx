@@ -84,9 +84,11 @@ const AutomotiveComp = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const location = useLocation();
   const [subCatgory, setsubCatgory] = useState("");
+  // console.log(nestedSubCategory, "subCatgory___________2");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(nestedSubCategory, "subCatgory___________1");
-  console.log(subCatgory, "subCatgory___________2");
+  console.log(subCatgory,"subCatgory___________1");
+  console.log( nestedSubCategory,"subCatgory___________2");
+
   // const scrollRef = useRef();
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -112,19 +114,9 @@ const AutomotiveComp = () => {
     const subCatgoryParam = getQueryParam("subCatgory");
     const nestedSubCategoryParam = getQueryParam("NestedSubCategory");
     const ids = getQueryParam("id");
-
-    // if (subCatgoryParam === null || subCatgoryParam === "") {
-    //   setsubCatgory(null);
-    // } else {
     setsubCatgory(subCatgoryParam);
-    // }
-
-    // if (nestedSubCategoryParam === null || nestedSubCategoryParam === "") {
-    //   setNestedSubCategory(null);
-    // } else {
     setNestedSubCategory(nestedSubCategoryParam);
-    // }
-    console.log(nestedSubCategoryParam, "subCatgory___________4");
+    console.log(nestedSubCategoryParam, "subCatgory___________5");
     console.log(subCatgoryParam, "subCatgory___________5");
     console.log(callingFrom, "subCatgory___________6");
 
@@ -134,21 +126,6 @@ const AutomotiveComp = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location, getQueryParam]);
-
-  // useEffect(() => {
-  //   const callingFrom = getQueryParam("callingFrom");
-  //   const subCatgory = getQueryParam("subCatgory");
-  //   const NestedSubCategory = getQueryParam("NestedSubCategory");
-  //   setsubCatgory(subCatgory);
-  //   setNestedSubCategory(NestedSubCategory);
-  //   const ids = getQueryParam("id");
-  //   console.log("callingFrom______ID:ids11", ids);
-  //   console.log("callingFrom______Calling From:11", callingFrom);
-
-  //   setCallingFrom(callingFrom);
-  //   setId(ids);
-  // }, [id, location]);
-
   const [CityList, setCityList] = useState([]);
 
   useEffect(() => {
@@ -1836,7 +1813,7 @@ const AutomotiveComp = () => {
       searchQuery,
       selectedCities,
       subCatgory,
-
+      nestedSubCategory,
       selectedEmirates,
       selectedCarsMake,
       fromValue,
@@ -1860,8 +1837,6 @@ const AutomotiveComp = () => {
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
       SortBy,
-      // subCatgory,
-      nestedSubCategory,
       selectedSubCategory,
       mileage,
       logSelectedPurpose,
@@ -1880,7 +1855,7 @@ const AutomotiveComp = () => {
     selectedCities,
     searchQuery,
     subCatgory,
-
+    nestedSubCategory,
     selectedEmirates,
     selectedCarsMake,
     fromValue,
@@ -1904,8 +1879,6 @@ const AutomotiveComp = () => {
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
     SortBy,
-    // subCatgory,
-    nestedSubCategory,
     selectedSubCategory,
     mileage,
     logSelectedPurpose,
@@ -1931,7 +1904,7 @@ const AutomotiveComp = () => {
       query,
       selectedCities,
       subCatgory,
-
+      nestedSubCategory,
       selectedEmirates,
       selectedCarsMake,
       fromValue,
@@ -1955,8 +1928,6 @@ const AutomotiveComp = () => {
       selectedOptionVideoAvailability,
       selectedOptionisFeatured,
       SortBy,
-      // subCatgory,
-      nestedSubCategory,
       selectedSubCategory,
       mileage,
       logSelectedPurpose,
@@ -1976,7 +1947,7 @@ const AutomotiveComp = () => {
     query,
     cities,
     subCatgory,
-
+    nestedSubCategory,
     emirates,
     selectedCarsMake,
     fromValue,
@@ -2000,7 +1971,6 @@ const AutomotiveComp = () => {
     selectedOptionVideoAvailability,
     selectedOptionisFeatured,
     SortBy,
-    nestedSubCategory,
     selectedSubCategory,
     mileage,
     logSelectedPurpose,
@@ -2060,9 +2030,9 @@ const AutomotiveComp = () => {
       filtered = filtered.filter((car) => cities.includes(car.City));
     }
 
-    if (nestedSubCategory?.length > 0) {
+    if (nestedSubCategory) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.includes(car.NestedSubCategory)
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
       );
     }
     if (selectedCity) {

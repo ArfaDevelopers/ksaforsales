@@ -1338,7 +1338,7 @@ const JobBoard = () => {
       selectedCity,
       selectedSubCategory,
       subCatgory,
-
+      nestedSubCategory,
       selectedCities,
       selectedEmirates,
       selectedCarsMake,
@@ -1418,7 +1418,7 @@ const JobBoard = () => {
     selectedCity,
     selectedSubCategory,
     subCatgory,
-
+    nestedSubCategory,
     searchQuery,
     selectedEmirates,
     selectedCarsMake,
@@ -1505,7 +1505,7 @@ const JobBoard = () => {
       selectedCity,
       selectedSubCategory,
       subCatgory,
-
+      nestedSubCategory,
       selectedCities,
       selectedEmirates,
       selectedCarsMake,
@@ -1586,6 +1586,7 @@ const JobBoard = () => {
     selectedCity,
     selectedSubCategory,
     subCatgory,
+    nestedSubCategory,
     cities,
     emirates,
     selectedCarsMake,
@@ -1726,6 +1727,8 @@ const JobBoard = () => {
           car.RequiredSkills?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
+          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
+
           car.District?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1756,7 +1759,11 @@ const JobBoard = () => {
         (car) => car.District === selectedDistrict?.value
       );
     }
-
+    if (nestedSubCategory) {
+      filtered = filtered.filter((car) =>
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
+      );
+    }
     // if (selectedDistrict?.value?.length > 0) {
     //   filtered = filtered.filter((car) => selectedDistrict?.value.includes(car.District));
     // }

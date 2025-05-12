@@ -292,7 +292,7 @@ const ElectronicComp = () => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
     const NestedSubCategory = getQueryParam("NestedSubCategory");
-
+    setNestedSubCategory(NestedSubCategory)
     const ids = getQueryParam("id");
     console.log("subCatgory___________9:ids", ids);
     console.log("subCatgory___________9 From:", callingFrom);

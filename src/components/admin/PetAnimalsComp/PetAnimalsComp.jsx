@@ -1210,6 +1210,7 @@ const PetAnimalsComp = () => {
 
     filterCars(
       searchQuery,
+      nestedSubCategory,
       selectedCities,
       selectedEmirates,
       selectedCarsMake,
@@ -1278,6 +1279,7 @@ const PetAnimalsComp = () => {
   }, [
     selectedCities,
     searchQuery,
+    nestedSubCategory,
     selectedEmirates,
     selectedCarsMake,
     fromValue,
@@ -1352,6 +1354,7 @@ const PetAnimalsComp = () => {
     filterCars(
       query,
       selectedCities,
+      nestedSubCategory,
       selectedEmirates,
       selectedCarsMake,
       fromValue,
@@ -1421,6 +1424,7 @@ const PetAnimalsComp = () => {
     query,
     cities,
     emirates,
+    nestedSubCategory,
     selectedCarsMake,
     fromValue,
     toValue,
@@ -1543,6 +1547,8 @@ const PetAnimalsComp = () => {
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.FeaturedAds?.toLowerCase().includes(lowercasedQuery) ||
+          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
+
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1558,6 +1564,7 @@ const PetAnimalsComp = () => {
     if (subCatgory?.length > 0) {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
+    
     if (DietaryPreferences?.length > 0) {
       filtered = filtered.filter((car) =>
         DietaryPreferences.includes(car.DietaryPreferences)
