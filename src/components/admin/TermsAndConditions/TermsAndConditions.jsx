@@ -1,222 +1,84 @@
-import React, { useEffect,useState } from "react";
-import {
-  FaGavel,
-  FaUserShield,
-  FaBan,
-  FaClipboardCheck,
-  FaShieldAlt,
-} from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../Firebase/FirebaseConfig";
+import DOMPurify from "dompurify";
 import Footer from "../../home/footer/Footer";
-import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Card,
-  Button,
-  ButtonGroup,
-  Badge,
-} from "react-bootstrap";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
+import Header from "../../home/header";
 
-const TermsAndConditions = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+const TermsConditions = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [termsConditionsContent, setTermsConditionsContent] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "TermsConditions"), // Fetch data from the "TermsConditions" table/collection
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("Fetched TermsConditions data:", data);
+        setTermsConditionsContent(data);
+      },
+      (error) => {
+        console.error("Error fetching TermsConditions data:", error);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <Header />
       <div
-      className="dashboard-content"
-      style={{
-        marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
-      }}
+        className="dashboard-content bg-gray-50 min-h-screen"
+        style={{
+          marginTop: windowWidth <= 576 ? "8rem" : "12rem",
+          marginBottom: windowWidth <= 576 ? "8rem" : "0rem",
+          padding: "2rem",
+        }}
       >
-  
-        <Container
-          className="parent-main"
-          style={{
-            paddingLeft: "2px", // Padding on the left side
-            paddingRight: "2px", // Padding on the right side
-            color: "black", // Text color
-            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "0rem" : "12.5%",
-          }}
-        >
-          <div
-            className="adsCategory_head"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.5rem" : "4%",
-              marginTop: "40px",
-              alignItems: "center",
-            }}
-          >
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Home
-            </button>
+        <div className="container mx-auto max-w-4xl">
+          <h1 className="text-4xl font-bold text-center text-gray-900 mb-15">
+            Terms & Conditions
+          </h1>
 
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Terms & Conditions{" "}
-            </button>
-          </div>
-
-          <div>
-            <h1
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%", marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize: "24px" }}
-            >
-              Terms & Conditions{" "}
-            </h1>
-          </div>
-
-          <div
-            className="CategoryInfodiv_btn2container"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "4%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-            }}
-          >
-            <button
-              onClick={() => {
-                navigate("/TermsAndConditions");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-                textAlign: "center",
-              }}
-            >
-              Terms & Conditions
-            </button>
-          </div>
-        </Container>
-        {/* Introduction Section */}
-        <section className="container " >
-          <h2 className="fw-bold">Welcome to KSA4Sale</h2>
-          <p>
-            By accessing or using KSA4Sale, you agree to abide by the following
-            terms and conditions. If you do not agree with any part of these
-            terms, please refrain from using our platform.
-          </p>
-        </section>
-        {/* Terms Sections */}
-        <section className="container" >
-          <div className="row" >
-            {/* User Responsibilities */}
-            <div className="col-md-6 my-3">
-              <h3 className="fw-bold">
-                <FaUserShield className="text-primary" /> User Responsibilities
-              </h3>
-              <p>
-                Users must ensure all provided information is accurate and not
-                misleading. Any fraudulent activity will result in account
-                suspension.
-              </p>
-            </div>
-
-            {/* Prohibited Activities */}
-            <div className="col-md-6 my-3">
-              <h3 className="fw-bold">
-                <FaBan className="text-danger" /> Prohibited Activities
-              </h3>
-              <p>
-                The following activities are strictly prohibited on KSA4Sale:
-              </p>
-              <ul>
-                <li>Posting illegal or counterfeit products</li>
-                <li>Spamming other users</li>
-                <li>Using automated bots for bulk posting</li>
-              </ul>
-            </div>
-
-            {/* Posting Guidelines */}
-            <div className="col-md-6 my-3">
-              <h3 className="fw-bold">
-                <FaClipboardCheck className="text-success" /> Posting Guidelines
-              </h3>
-              <p>
-                All listings must adhere to our community standards. Ensure that
-                images and descriptions are accurate.
-              </p>
-            </div>
-
-            {/* Security and Privacy */}
-            <div className="col-md-6 my-3">
-              <h3 className="fw-bold">
-                <FaShieldAlt className="text-warning" /> Security & Privacy
-              </h3>
-              <p>
-                KSA4Sale ensures data privacy and protection. However, users
-                must take personal security measures while dealing with other
-                buyers or sellers.
-              </p>
-            </div>
-
-            {/* Legal Action */}
-            <div className="col-md-6 my-3" >
-              <h3 className="fw-bold">
-                <FaGavel className="text-dark" /> Legal Action
-              </h3>
-              <p>
-                Violation of these terms may lead to legal action, including
-                permanent bans or reports to authorities.
-              </p>
-            </div>
-          </div>
-        </section>
-    
-        <Footer />
+          {termsConditionsContent.length > 0 ? (
+            termsConditionsContent.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white shadow-md rounded-xl p-6 mb-6"
+              >
+                <div
+                  className="prose max-w-none text-gray-800"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(item.content),
+                  }}
+                />
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">
+              No Terms & Conditions content available.
+            </p>
+          )}
+        </div>
       </div>
+      <Footer />
     </>
   );
 };
 
-export default TermsAndConditions;
+export default TermsConditions;
