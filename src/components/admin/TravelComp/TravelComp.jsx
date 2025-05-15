@@ -2221,7 +2221,7 @@ const TravelComp = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
           }}
@@ -2232,7 +2232,7 @@ const TravelComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -2309,43 +2309,14 @@ const TravelComp = () => {
                   </button>
                 </>
               )}
-            {/* <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              All Cities
-            </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Hotel Booking
-            </button> */}
+           
           </div>
 
           <div>
             {(nestedSubCategory || subCatgory) && (
               <h1
                 style={{
-                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
                   marginTop: window.innerWidth <= 576 ? "10px" : "20px",
                   fontSize: "24px",
                 }}
@@ -2361,7 +2332,7 @@ const TravelComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: window.innerWidth <= 576 ? "10px" : "20px",
             }}
@@ -2449,9 +2420,9 @@ const TravelComp = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1420px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
           <Row>
@@ -3366,7 +3337,7 @@ const TravelComp = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto", // Allow height to adjust dynamically
-            paddingLeft: "16%", // Adjusted padding for responsiveness
+            paddingLeft: "13%", // Adjusted padding for responsiveness
             paddingRight: window.innerWidth <= 576 ? "0%" : "14%",
             paddingTop: "20px",
             paddingBottom: "30px",
