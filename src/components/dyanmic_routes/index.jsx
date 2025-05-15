@@ -1600,7 +1600,7 @@ useEffect(() => {
     "State": itemData?.States,
     "Created At": itemData?.createdAt ? formatTimestamp(itemData.createdAt) : undefined,
   })
-    .filter(([_, value]) => value !== undefined && value !== null && value !== "") // Strict filter
+    .filter(([_, value]) => value !== undefined && value !== null && value !== "") // Strict filter 
     .map(([label, value], index) => (
       <tr
         key={index}
@@ -1619,6 +1619,16 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
+              <h1
+                                className="mb-3"
+                              >
+                                Features
+                              </h1>
+                              <div
+    className="descriptions_wrapper"
+    >
+   {itemData?.Features|| "N/A"}
+    </div>
               <div className="descriptions_wrapper" style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
                                 <h1
                                   className="fw-bold"

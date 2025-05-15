@@ -662,7 +662,7 @@ const Dynamic_Route = () => {
   }
 
   if (!itemData) {
-    return <p>No item found for the given ID.</p>; // Handle case where no item matches the `id`
+    return <p>No item found for the given ID.</p>; 
   }
 
   const postedTime = itemData.createdAt?.toDate
@@ -672,7 +672,7 @@ const Dynamic_Route = () => {
     ? formatDistanceToNow(postedTime, { addSuffix: true })
     : "Unknown time";
 
-  const images = itemData?.galleryImages || []; // Ensure images are taken from galleryImages
+  const images = itemData?.galleryImages || []; 
 
   const featuresData = [
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
@@ -690,11 +690,11 @@ const Dynamic_Route = () => {
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "2px", // Padding on the left side
-            paddingRight: "2px", // Padding on the right side
-            color: "black", // Text color
-            maxWidth: "1430", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
+            paddingLeft: "2px", 
+            paddingRight: "2px", 
+            color: "black", 
+            maxWidth: "1430", 
+            margin: "0 auto", 
             marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
 
           }}
@@ -1506,17 +1506,12 @@ const Dynamic_Route = () => {
                               className="mb-3"
                              
                             >
-                              More  Features
+                              More Features
                             </h1>
                             <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+  className="descriptions_para"
     >
-      {featuresData.map((column, columnIndex) => (
+      {/* {featuresData.map((column, columnIndex) => (
         <div
           key={columnIndex}
           style={{
@@ -1559,9 +1554,10 @@ const Dynamic_Route = () => {
             </p>
           ))}
         </div>
-      ))}
+      ))} */}
+      {itemData?.Features || "N/A"}
     </div>
-    <style>
+    {/* <style>
   {`
     @media (max-width: 767.98px) {
       div[style*="flex: 0 0 32%"] {
@@ -1573,7 +1569,7 @@ const Dynamic_Route = () => {
       }
     }
   `}
-</style>
+</style> */}
                             <div className="descriptions_wrapper" >
                               <h1
                                 className="fw-bold"
@@ -2046,62 +2042,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -2595,62 +2543,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -3142,62 +3042,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -3682,62 +3534,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -4221,11 +4025,11 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
-                              <div
+                              {/* <div
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -4277,6 +4081,11 @@ const Dynamic_Route = () => {
           ))}
         </div>
       ))}
+    </div> */}
+                <div
+    className="descriptions_wrapper"
+    >
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -4760,62 +4569,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -5279,62 +5040,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -5818,62 +5531,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
@@ -6362,62 +6027,14 @@ const Dynamic_Route = () => {
                             <div>
                               <h1
                                 className="mb-3"
-                                style={{ paddingLeft: "15px" }}
+                                style={{ paddingLeft: "5px" }}
                               >
                                 Features
                               </h1>
                               <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
+    className="descriptions_wrapper"
     >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
-        </div>
-      ))}
+   {itemData?.Features|| "N/A"}
     </div>
     <style>
   {`
