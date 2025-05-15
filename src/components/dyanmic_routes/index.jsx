@@ -1667,7 +1667,6 @@ useEffect(() => {
            
                 <Col xs={12}  >
                 <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
-  {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
     <div
       style={{
@@ -1699,8 +1698,8 @@ useEffect(() => {
                         </ul>
                         <hr
   style={{
-    border: "none", // Default border hatao
-    borderTop: "3px solid #000", // Dark aur bold line
+    border: "none", 
+    borderTop: "3px solid #000", 
   }}
 />
 
@@ -1819,7 +1818,7 @@ useEffect(() => {
                                                       style={{
                                                         backgroundColor: "rgba(0, 0, 0, 0.5)",
                                                         marginTop:100
-                                                      }} // Backdrop effect
+                                                      }} 
                                                     >
                                                       <div
                                                         className="modal-dialog modal-dialog-centered"
@@ -1914,7 +1913,6 @@ useEffect(() => {
           <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
         </Container>
     
-        {/* Footer */}
         <Footer />
       </div>
     </>

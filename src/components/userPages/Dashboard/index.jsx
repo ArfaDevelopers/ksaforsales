@@ -21,9 +21,152 @@ const Dashboard = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [userId, setUserId] = useState(null);
   const [userReviews1, setuserReviews1] = useState(null);
+  const [chartFilter, setChartFilter] = useState("This Week"); // New state for chart filter
+  const [chartData, setChartData] = useState([]);
 console.log(userReviews1,"userReviews1___________")
   const location = useLocation();
+  useEffect(() => {
+    if (!userId || !visitorReviews.length) {
+      setChartData([0, 0, 0, 0, 0, 0, 0]); // Default empty data
+      return;
+    }
 
+    // Filter reviews for the current user
+    const userReviews = visitorReviews.filter(
+      (review) => review.listingUserId === userId
+    );
+
+    // Initialize counts for each day (Sunday to Saturday)
+    const weekDays = [0, 0, 0, 0, 0, 0, 0]; // Index 0 = Sunday, 6 = Saturday
+
+    // Get current week's start and end (Sunday to Saturday)
+    const now = new Date();
+    const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - dayOfWeek); // Set to Sunday
+    startOfWeek.setHours(0, 0, 0, 0);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Saturday
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    // Process reviews based on chart filter
+    userReviews.forEach((review) => {
+      const reviewDate = review.createdAt ? review.createdAt.toDate() : null;
+      if (!reviewDate) return;
+
+      // Check if review falls within the selected time frame
+      let isWithinTimeFrame = false;
+      if (chartFilter === "This Week") {
+        isWithinTimeFrame =
+          reviewDate >= startOfWeek && reviewDate <= endOfWeek;
+      } else if (chartFilter === "Last Week") {
+        const lastWeekStart = new Date(startOfWeek);
+        lastWeekStart.setDate(startOfWeek.getDate() - 7);
+        const lastWeekEnd = new Date(endOfWeek);
+        lastWeekEnd.setDate(endOfWeek.getDate() - 7);
+        isWithinTimeFrame =
+          reviewDate >= lastWeekStart && reviewDate <= lastWeekEnd;
+      } else if (chartFilter === "Last Month") {
+        const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+        isWithinTimeFrame =
+          reviewDate >= lastMonthStart && reviewDate <= lastMonthEnd;
+      } else if (chartFilter === "Next Week") {
+        // Optional: Skip or handle future data (no reviews expected)
+        return;
+      }
+
+      if (isWithinTimeFrame) {
+        const dayIndex = reviewDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+        weekDays[dayIndex]++;
+      }
+    });
+
+    setChartData(weekDays);
+  }, [visitorReviews, userId, chartFilter]);
+
+  const handleChartFilterChange = (newFilter) => {
+    setChartFilter(newFilter);
+  };
+
+  // Chart options for weekly reviews
+  const chartOptions = {
+    series: [
+      {
+        name: "Reviews",
+        data: chartData, // Dynamic data from useEffect
+      },
+    ],
+    chart: {
+      height: 350,
+      type: "line", // Changed to line chart
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+      animations: {
+        enabled: true,
+        easing: "easeinout",
+        speed: 800,
+        animateGradually: {
+          enabled: true,
+          delay: 150,
+        },
+      },
+    },
+    colors: ["#C10037"], // Match dashboard theme
+    dataLabels: {
+      enabled: true,
+      formatter: (val) => val, // Show review count
+      style: {
+        fontSize: "12px",
+        colors: ["#304758"],
+      },
+    },
+    stroke: {
+      curve: "smooth",
+      width: 3,
+    },
+    grid: {
+      row: {
+        colors: ["#f3f3f3", "transparent"],
+        opacity: 0.5,
+      },
+    },
+    xaxis: {
+      categories: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      labels: {
+        style: {
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: "Number of Reviews",
+      },
+      min: 0,
+      forceNiceScale: true,
+      labels: {
+        formatter: (val) => Math.floor(val), // Whole numbers only
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: (val) => `${val} reviews`,
+      },
+    },
+  };
   // Fetch current user
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -359,7 +502,7 @@ console.log(userReviews1,"userReviews1___________")
               <div className="col-lg-6 d-flex">
                 <div className="card dash-cards w-100">
                   <div className="card-header">
-                    <h4>Page Views</h4>
+                    <h4>Weekly Reviews</h4>
                     <div className="card-dropdown">
                       <ul>
                         <li className="nav-item dropdown has-arrow logged-item">
@@ -370,17 +513,36 @@ console.log(userReviews1,"userReviews1___________")
                             aria-expanded="false"
                             style={{ textDecoration: "none" }}
                           >
-                            <span>This week</span>
+                            <span>{chartFilter}</span>
                           </Link>
                           <div className="dropdown-menu dropdown-menu-end">
-                            <Link className="dropdown-item" to="javascript:void();">
-                              Next Week
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleChartFilterChange("This Week")}
+                            >
+                              This Week
                             </Link>
-                            <Link className="dropdown-item" to="javascript:void();">
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleChartFilterChange("Last Week")}
+                            >
+                              Last Week
+                            </Link>
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleChartFilterChange("Last Month")}
+                            >
                               Last Month
                             </Link>
-                            <Link className="dropdown-item" to="javascript:void();">
-                              Next Month
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                              onClick={() => handleChartFilterChange("Next Week")}
+                            >
+                              Next Week
                             </Link>
                           </div>
                         </li>
@@ -390,9 +552,9 @@ console.log(userReviews1,"userReviews1___________")
                   <div className="card-body">
                     <div id="review-chart">
                       <ReactApexChart
-                        options={optionss}
-                        series={optionss.series}
-                        type="radar"
+                        options={chartOptions}
+                        series={chartOptions.series}
+                        type="line"
                         height={350}
                       />
                     </div>

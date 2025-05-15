@@ -332,7 +332,6 @@ const copyToClipboard = () => {
                   fontSize: "60px",
                   fontWeight: "bold",
                   marginLeft: window.innerWidth <= 576 ? 0 : 70,
-
                   color: "#2d4495",
                 }}
               >
@@ -342,17 +341,17 @@ const copyToClipboard = () => {
             </div>
           </div>
           <div className="descriptionlinks">
-            <div className="row">
+            <div className="row" style={{marginLeft: window.innerWidth <= 576 ? 0 : 270,}}>
               <div className="col-lg-8">
-                <ul>
+                {/* <ul>
                   <li onClick={() => setShowModal1(true)}>
                     <i className="feather-share-2" style={{ color: "#2d4495" }} />{" "}
                     Share
                   </li>
           
-                </ul>
+                </ul> */}
               </div>
-              <div className="col-lg-4">
+              <div className="col-lg-4" > 
                           <div className="d-flex align-items-center gap-2  innerContainer2 head2btflex">
  
   <a href={`tel:${itemData.Phone}`}>
@@ -619,7 +618,7 @@ const copyToClipboard = () => {
                       />{" "}
                       Details
                     </h4>
-                    <ul style={{marginLeft:-30}}>
+                    <ul >
                       {[
                         { label: "City", value: itemData.City },
                         { label: "Closure Type", value: itemData.ClosureType },
@@ -678,7 +677,7 @@ const copyToClipboard = () => {
                       />{" "}
                       Statistics
                     </h4>
-                    <ul className="statistics-list" style={{marginLeft:-35}}>
+                    <ul className="statistics-list" >
                       <li>
                         <div className="statistic-details">
                           <span className="icons">
