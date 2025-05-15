@@ -38,6 +38,7 @@ import {
   getDoc,
   doc,
   updateDoc,
+  onSnapshot
 } from "firebase/firestore";
 import { auth, db } from "../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
@@ -367,7 +368,24 @@ useEffect(() => {
      if (socket) socket.disconnect();
    };
  }, []);
-
+ const [adsDetailImagesContent, setAdsdetailImagesContent] = useState([]);
+ useEffect(() => {
+  const unsubscribe = onSnapshot(
+    collection(db, "AdsdetailImages"), // Fetch data from the "AdsdetailImages" table/collection
+    (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Fetched AdsdetailImages data:", data);
+      setAdsdetailImagesContent(data); // Assuming you have a state setter for AdsdetailImages
+    },
+    (error) => {
+      console.error("Error fetching AdsdetailImages data:", error);
+    }
+  );
+  return () => unsubscribe();
+}, []);
  const fetchChats = async (userId) => {
    try {
      const { data } = await axios.get(
@@ -1850,49 +1868,35 @@ useEffect(() => {
                         
   </Card.Body>
 </Card>
-<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
-  {/* Card body to hold the price and heart button */}
-  <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
-                     
-                      
-                    
-                            <div className="d-flex flex-column gap-3 mt-4 ms-0">
-                              <img
-                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-                                alt="Dummy 1"
-                                className="rounded shadow"
-                                style={{
-                                  width: window.innerWidth <= 576 ? "330px" : "375px",
-                                  height: "300px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                              <img
-                                src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"
-                                alt="Dummy 2"
-                                className="rounded shadow"
-                                style={{
-                                  width: window.innerWidth <= 576 ? "330px" : "375px",
-                                  height: "300px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                              <img
-                                src="https://images.unsplash.com/photo-1471357674240-e1a485acb3e1"
-                                alt="Dummy 3"
-                                className="rounded shadow"
-                                style={{
-                                  width: window.innerWidth <= 576 ? "330px" : "375px",
-                                  height: "300px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                             
-                           
-                            </div>
-                      
-                            </Card.Body>
-</Card>   
+<Card
+      style={{
+        position: "relative",
+        minHeight: "100px",
+        borderRadius: "12px",
+        width: window.innerWidth <= 576 ? "100%" : "105%",
+        marginTop: 18,
+        boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
+      }}
+    >
+      <Card.Body style={{ position: "relative", marginTop: -40, marginLeft: -20 }}>
+        <div className="d-flex flex-column gap-3 mt-4 ms-0">
+          {adsDetailImagesContent.length > 0 &&
+            adsDetailImagesContent[0].imageUrls.map((imageUrl, index) => (
+              <img
+                key={index}
+                src={imageUrl}
+                alt={`Image ${index + 1}`}
+                className="rounded shadow"
+                style={{
+                  width: window.innerWidth <= 576 ? "330px" : "422px",
+                  height: "300px",
+                  objectFit: "cover",
+                }}
+              />
+            ))}
+        </div>
+      </Card.Body>
+    </Card>  
                 </Col>       
 
             </Col>
