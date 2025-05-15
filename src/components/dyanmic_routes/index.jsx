@@ -201,7 +201,7 @@ const handleShowReport = () => {
    if (message.trim() && userId && itemData.userId) {
      try {
        const response = await fetch(
-         "https://ksaforsaleapis.vercel.app/api/messages",
+         "http://168.231.80.24:9002/api/messages",
          {
            method: "POST",
            headers: {
@@ -301,7 +301,7 @@ useEffect(() => {
 
  //     try {
  //       const { data } = await axios.get(
- //         `https://ksaforsaleapis.vercel.app/api/messages/${userId}`
+ //         `http://168.231.80.24:9002/api/messages/${userId}`
  //       );
  //       setReceivedMessages(data?.data || []);
  //       console.log("Fetched messages:", data?.data);
@@ -316,7 +316,7 @@ useEffect(() => {
    const fetchChatIdAndMessages = async () => {
      try {
        const { data: chatData } = await axios.get(
-         `https://ksaforsaleapis.vercel.app/api/chat-id/${userId}/${itemData.userId}`
+         `http://168.231.80.24:9002/api/chat-id/${userId}/${itemData.userId}`
        );
 
        if (!chatData.success) {
@@ -328,7 +328,7 @@ useEffect(() => {
 
        // Now fetch messages using chatId
        const { data: messagesData } = await axios.get(
-         `https://ksaforsaleapis.vercel.app/api/messages/${chatId}`
+         `http://168.231.80.24:9002/api/messages/${chatId}`
        );
 
        setReceivedMessages(messagesData?.data || []);
@@ -345,7 +345,7 @@ useEffect(() => {
    const fetchUsers = async () => {
      try {
        const { data } = await axios.get(
-         "https://ksaforsaleapis.vercel.app/route/api/users"
+         "http://168.231.80.24:9002/route/api/users"
        );
        setUsers(data);
      } catch (error) {
@@ -353,7 +353,7 @@ useEffect(() => {
      }
    };
 
-   socket = io("https://ksaforsaleapis.vercel.app/route");
+   socket = io("http://168.231.80.24:9002/route");
    socket.on("message", (msg) => {
      setReceivedMessages((prevMessages) => [
        ...prevMessages,
@@ -371,7 +371,7 @@ useEffect(() => {
  const fetchChats = async (userId) => {
    try {
      const { data } = await axios.get(
-       `https://ksaforsaleapis.vercel.app/route/api/chats/${userId}`
+       `http://168.231.80.24:9002/route/api/chats/${userId}`
      );
      setChats(data);
    } catch (error) {
@@ -382,7 +382,7 @@ useEffect(() => {
  const fetchMessages = async (chatId) => {
    try {
      const { data } = await axios.get(
-       `https://ksaforsaleapis.vercel.app/route/api/messages/${chatId}`
+       `http://168.231.80.24:9002/route/api/messages/${chatId}`
      );
      setMessages(data);
    } catch (error) {
@@ -710,7 +710,7 @@ useEffect(() => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1430", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
 
@@ -722,7 +722,7 @@ useEffect(() => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -759,14 +759,14 @@ useEffect(() => {
     color: "#000000",
     marginTop: "14.83px",
     marginBottom: "14.3px",
-    width: window.innerWidth <= 576 ? "95%" : "85%",
+    width: window.innerWidth <= 576 ? "95%" : "99%",
     marginLeft: "auto", 
     marginRight: "auto",
   }}
 />
           <div>
             <div
-              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize:"40px",fontWeight:"bold"}}
+              style={{ marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",marginTop: window.innerWidth <= 576 ? "10px" : "20px", fontSize:"40px",fontWeight:"bold"}}
             >
               {itemData?.title || "Default Title"}{" "}
             </div>
@@ -777,7 +777,7 @@ useEffect(() => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
               marginTop: window.innerWidth <= 576 ? "10px" : "0px"
             }}
@@ -1065,9 +1065,9 @@ useEffect(() => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1390px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
             marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
 
           }}
@@ -1623,7 +1623,8 @@ useEffect(() => {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              // marginLeft: window.innerWidth <= 576 ? "0px" : "-60px",
+              marginLeft: window.innerWidth <= 576 ? "0px" : "-5px",
+
               alignItems: "center",
             }}
           >
@@ -1637,7 +1638,7 @@ useEffect(() => {
  
            
                 <Col xs={12}  >
-                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
     <div
@@ -1655,7 +1656,7 @@ useEffect(() => {
                         <ul
                           style={{
                             listStyleImage: `url(${bullet})`,
-                            marginLeft: "-1.1rem",
+                            marginLeft: "1.1rem",
                           }}
                         >
                           <li className="safteytip_para">
@@ -1849,7 +1850,7 @@ useEffect(() => {
                         
   </Card.Body>
 </Card>
-<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width:"105%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
+<Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginTop:18,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",marginBottom: window.innerWidth <= 576 ? 50 : 0 }}>
   {/* Card body to hold the price and heart button */}
   <Card.Body style={{  position: "relative",marginTop:-40 ,marginLeft:-20}}>
                      

@@ -1192,7 +1192,7 @@ const JobBoard = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`https://ksaforsaleapis.vercel.app/route/JOBBOARD/${carId}/view`, {
+      fetch(`http://168.231.80.24:9002/route/JOBBOARD/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1268,7 +1268,7 @@ const JobBoard = () => {
       try {
         setLoading(true); // Show spinner
         const response = await fetch(
-          "https://ksaforsaleapis.vercel.app/route/JOBBOARD"
+          "http://168.231.80.24:9002/route/JOBBOARD"
         );
         const carsData = await response.json();
 

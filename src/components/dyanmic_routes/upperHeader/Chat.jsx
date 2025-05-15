@@ -20,7 +20,7 @@ const Chat = ({ recieverId, userId }) => {
   const fetchMessages = async () => {
     try {
       const response = await fetch(
-        `https://ksaforsaleapis.vercel.app/api/getmessages?userId=${userId}&receiverId=${recieverId}`,
+        `http://168.231.80.24:9002/api/getmessages?userId=${userId}&receiverId=${recieverId}`,
         { method: "GET" }
       );
       const data = await response.json();
@@ -79,7 +79,7 @@ const Chat = ({ recieverId, userId }) => {
     try {
       console.log("Sending message:", messagePayload);
       const response = await fetch(
-        "https://ksaforsaleapis.vercel.app/api/messages",
+        "http://168.231.80.24:9002/api/messages",
         {
           method: "POST",
           headers: {

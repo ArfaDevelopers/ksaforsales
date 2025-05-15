@@ -116,7 +116,7 @@ const PrivacyPolicy = () => {
           </div>
 
           {/* Footer Note */}
-          <div className="container mx-auto px-4 mt-12 text-center">
+          {/* <div className="container mx-auto px-4 mt-12 text-center">
             <p className="text-gray-500 text-sm">
               Last updated: May 12, 2025 |{" "}
               <a
@@ -126,7 +126,7 @@ const PrivacyPolicy = () => {
                 Contact Us
               </a>
             </p>
-          </div>
+          </div> */}
         </section>
         <Footer />
       </div>

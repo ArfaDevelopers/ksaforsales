@@ -1690,7 +1690,7 @@ const AutomotiveComp = () => {
       try {
         setLoading(true); // Show spinner
         const response = await fetch(
-          "https://ksaforsaleapis.vercel.app/route/cars"
+          "http://168.231.80.24:9002/route/cars"
         );
         const carsData = await response.json();
 
@@ -1726,7 +1726,7 @@ const AutomotiveComp = () => {
 
   //   // If never viewed OR 30 seconds (30000 ms) have passed
   //   if (!lastViewed || now - lastViewed > 30 * 1000) {
-  //     fetch(`https://ksaforsaleapis.vercel.app/route/cars/${carId}/view`, {
+  //     fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
   //       method: "PATCH",
   //     });
 
@@ -1742,7 +1742,7 @@ const AutomotiveComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`https://ksaforsaleapis.vercel.app/route/cars/${carId}/view`, {
+      fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -2332,7 +2332,7 @@ const AutomotiveComp = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1530px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
           }}
@@ -2343,7 +2343,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -2418,43 +2418,14 @@ const AutomotiveComp = () => {
                   </button>
                 </>
               )}
-            {/* <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Used Car for Sale
-            </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              Mercedez Benz
-            </button> */}
+        
           </div>
 
           <div>
             {(nestedSubCategory || subCatgory) && (
               <h1
                 style={{
-                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                  marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
                   marginTop: window.innerWidth <= 576 ? "10px" : "20px",
                   fontSize: "24px",
                 }}
@@ -2470,7 +2441,7 @@ const AutomotiveComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: window.innerWidth <= 576 ? "10px" : "20px",
             }}
@@ -2558,9 +2529,9 @@ const AutomotiveComp = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1420px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "16%",
+            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
           <Row>
@@ -7018,7 +6989,7 @@ const AutomotiveComp = () => {
           </Row>
         </Container>
         <div
-          className="container-parent"
+          className="container"
           style={{
             color: "black",
             maxWidth: "100%",
@@ -7027,7 +6998,7 @@ const AutomotiveComp = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto",
-            paddingLeft: "16%",
+            paddingLeft: "13%",
             paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",

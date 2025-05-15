@@ -26,6 +26,7 @@ import Header from "./header";
 import { Link, Navigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
 import AutomativeCarosuel from "..//home/slider/AutomativeCarousel.jsx";
 import RealEstateCarousel from "..//home/slider/RealEstateCarousel.jsx";
 import ElectronicCarousel from "..//home/slider/ElectronicCarousel.jsx";
@@ -609,6 +610,49 @@ const Home = () => {
       ride: "carousel",
     });
   }, []);
+  const [trendingProducts, setTrendingProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchTrendingProducts = async () => {
+      try {
+        const response = await fetch('http://168.231.80.24:9002/route/trendingProducts');
+        const data = await response.json();
+        setTrendingProducts(data);
+      } catch (error) {
+        console.error('Error fetching trending products:', error);
+      }
+    };
+
+    fetchTrendingProducts();
+  }, []);
+
+  // Map category to navigation route
+  const getCallingFrom = (category) => {
+    switch (category.toLowerCase()) {
+      case 'automotive':
+        return 'AutomotiveComp';
+      case 'electronics':
+        return 'ElectronicComp';
+      case 'fashion style':
+        return 'FashionStyle';
+      case 'home & furniture':
+        return 'HealthCareComp';
+      case 'job board':
+        return 'JobBoard';
+      case 'real estate':
+        return 'RealEstateComp';
+      case 'services':
+        return 'TravelComp';
+      case 'sports & game':
+        return 'SportGamesComp';
+      case 'pet & animals':
+        return 'PetAnimalsComp';
+      case 'other':
+        return 'Education';
+      default:
+        return '/'; // Fallback for unmapped categories
+    }
+  };
   return (
     <>
       <div className="main-wrapper">
@@ -696,85 +740,43 @@ const Home = () => {
         </div>
         {/* Trending Products */}
         <div
-  className="trendingprodct_wrapper container pt-0"
-  style={{
-    marginBottom: 0,
-    paddingBottom: 0,
-    marginTop:
-      imageUrls.length === 0
-        ? window.innerWidth <= 576
-          ? "9rem"
-          : "13rem"
-        : "1rem",
-  }}
-  
->
-          <h2 className="trendingproduct_heading">Our Trending Product</h2>
-          <div
-            className="trendingproducts_container"
-            style={{
-              marginTop: 0,
-              paddingTop: 0,
-              gap: window.innerWidth <= 576 ? "5px" : "10px",
-              fontSize: window.innerWidth <= 576 ? "12px" : "16px",
+      className="trendingprodct_wrapper container pt-0"
+      style={{
+        marginBottom: 0,
+        paddingBottom: 0,
+        marginTop:
+          imageUrls.length === 0
+            ? window.innerWidth <= 576
+              ? '9rem'
+              : '13rem'
+            : '1rem',
+      }}
+    >
+      <h2 className="trendingproduct_heading">Our Trending Product</h2>
+      <div
+        className="trendingproducts_container"
+        style={{
+          marginTop: 0,
+          paddingTop: 0,
+          gap: window.innerWidth <= 576 ? '5px' : '10px',
+          fontSize: window.innerWidth <= 576 ? '12px' : '16px',
+        }}
+      >
+        {trendingProducts.map((product) => (
+          <Link
+            key={product.id}
+            to={`/Dynamic_Route?id=${product.id}&callingFrom=${getCallingFrom(product.category)}`}
+            className="trendingProductsallname"
+            style={{ 
+              width: window.innerWidth <= 576 ? '32%' : 'auto',
+              textDecoration: 'none', // Ensure Link looks like a button
             }}
           >
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/SportGamesComp");
-              }}
-              className="trendingProductsallname"
-            >
-              Cricket Kit
-            </button>
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/SportGamesComp");
-              }}
-              className="trendingProductsallname"
-            >
-              Bags
-            </button>
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/HealthCareComp");
-              }}
-              className="trendingProductsallname"
-            >
-              Apparel
-            </button>
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/SportGamesComp");
-              }}
-              className="trendingProductsallname"
-            >
-              Mens Hoodies
-            </button>
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/MAGAZINESCOMP");
-              }}
-              className="trendingProductsallname"
-            >
-              Apparel
-            </button>
-            <button
-              style={{ width: window.innerWidth <= 576 ? "32%" : "auto" }}
-              onClick={() => {
-                navigate("/MAGAZINESCOMP");
-              }}
-              className="trendingProductsallname"
-            >
-              Magazines
-            </button>
-          </div>
-        </div>
+            {product.title}
+          </Link>
+        ))}
+      </div>
+    </div>
 
         {/* Category Section */}
         <section className="category-section">

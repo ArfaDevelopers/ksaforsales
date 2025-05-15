@@ -1077,7 +1077,7 @@ const PetAnimalsComp = () => {
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
       fetch(
-        `https://ksaforsaleapis.vercel.app/route/PETANIMALCOMP/${carId}/view`,
+        `http://168.231.80.24:9002/route/PETANIMALCOMP/${carId}/view`,
         {
           method: "PATCH",
         }
@@ -1136,7 +1136,7 @@ const PetAnimalsComp = () => {
       try {
         setLoading(true); // Show spinner
         const response = await fetch(
-          "https://ksaforsaleapis.vercel.app/route/PETANIMALCOMP"
+          "http://168.231.80.24:9002/route/PETANIMALCOMP"
         );
         const carsData = await response.json();
 
