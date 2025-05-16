@@ -1416,6 +1416,17 @@ const AddLisiting = () => {
             Fit: data.Fit || "",
             Gender: data.Gender || "",
             GraphicsCard: data.GraphicsCard || "",
+            Fueltype: data.Fueltype || "",
+            mileage: data.mileage || "",
+            Model: data.Model || "",
+
+            Insurance: data.Insurance || "",
+            InteriorColor: data.InteriorColor || "",
+            ManufactureYear: data.ManufactureYear || "",
+            ManufactureYear: data.ManufactureYear || "",
+            ManufactureYear: data.ManufactureYear || "",
+
+            RegionalSpec:data.RegionalSpec||"",
             HealthStatus: data.HealthStatus || "",
             Industry: data.Industry || "",
             IssueType: data.IssueType || "",
