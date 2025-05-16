@@ -22729,7 +22729,88 @@ section.advertisement {
   }
 }
 
+.dynamic-route-container {
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 5px;
+  margin-bottom: 15px;
+}
+
+.section-title-description {
+  padding: 20px 0;
+}
+
+.descriptions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 5px;
+}
+
+.feature-item {
+  font-size: 16px;
+  color: #333;
+  padding-left: 15px;
+  position: relative;
+}
+
+.feature-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #555;
+}
+
+.no-data {
+  font-size: 16px;
+  color: #666;
+}
+
+.descriptions-para {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* Media query for responsive design */
+@media (max-width: 767.98px) {
+  .dynamic-route-container {
+    padding: 10px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .descriptions-para {
+    font-size: 14px;
+  }
+
+  /* Replace inline style selectors with class-based selectors */
+  .feature-item,
+  .descriptions-para {
+    margin-bottom: 8px;
+  }
+
+  /* If flex: 0 0 32% is used in a parent component, target it with a class */
+  .flex-column {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
 
 
 

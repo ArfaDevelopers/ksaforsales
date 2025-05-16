@@ -308,7 +308,13 @@ console.log('itemData_____________111',itemData)
       color: "#0c9e6f",
     });
   };
-
+  const handleCheckboxChange = (type) => {
+    setSelectedReports((prev) =>
+      prev.includes(type)
+        ? prev.filter((item) => item !== type)
+        : [...prev, type]
+    );
+  };
   const handleWhatsappMouseLeave = () => {
     setWhatsappButtonStyles({
       backgroundColor: "#0c9e6f",
@@ -413,6 +419,7 @@ console.log('itemData_____________111',itemData)
               marginTop: window.innerWidth <= 576 ? "10px" : "20px"
             }}
           >
+            <Link to="/bookmarks">
             <button
             
               className="head2btn"
@@ -430,6 +437,7 @@ console.log('itemData_____________111',itemData)
                 </span>{" "}
               Favourite
             </button>
+            </Link>
             <>
                 {/* Button to open modal */}
                 <button

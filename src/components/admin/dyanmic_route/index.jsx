@@ -1500,91 +1500,31 @@ const Dynamic_Route = () => {
                                 </table>
                               </div>
                           
-
-                          <div>
-                            <h1
-                              className="mb-3"
-                             
-                            >
-                              More Features
-                            </h1>
-                            <div
-  className="descriptions_para"
-    >
-      {/* {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
+                              <div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
         </div>
-      ))} */}
-      {itemData?.Features || "N/A"}
+      </div>
+
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
     </div>
-    {/* <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style> */}
-                            <div className="descriptions_wrapper" >
-                              <h1
-                                className="fw-bold"
-                                style={{ padding: "20px",marginLeft:-12 }}
-                              >
-                                Description:
-                              </h1>
-                              <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                     
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </>
@@ -2039,48 +1979,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper">
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                               
-                       
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -2540,47 +2463,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                    
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -3039,47 +2946,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                    
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -3531,47 +3422,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                   
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -4022,100 +3897,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              {/* <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        padding: "0 15px",
-      }}
-    >
-      {featuresData.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          style={{
-            flex: "0 0 32%", // Approximately 1/3 width for 3 columns on md and up
-            maxWidth: "32%",
-            // marginBottom: "15px",
-            "@media (max-width: 767.98px)": {
-              flex: "0 0 100%", // Full width on mobile
-              maxWidth: "100%",
-            },
-          }}
-        >
-          {column.map((feature, index) => (
-            <p
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "15px",
-                "@media (max-width: 767.98px)": {
-                  marginBottom: "8px", // Reduced gap on mobile
-                },
-              }}
-            >
-              <span
-                style={{
-                  marginRight: "8px",
-                }}
-              >
-                <img
-                  src={tick}
-                  alt="tick"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-              </span>
-              {feature}
-            </p>
-          ))}
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
         </div>
-      ))}
-    </div> */}
-                <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                              
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -4566,47 +4372,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                            
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -5037,47 +4827,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                   
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -5528,47 +5302,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                              
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>
@@ -6024,47 +5782,31 @@ const Dynamic_Route = () => {
   </table>
 </div>
 
-                            <div>
-                              <h1
-                                className="mb-3"
-                                style={{ paddingLeft: "5px" }}
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
-    </div>
-    <style>
-  {`
-    @media (max-width: 767.98px) {
-      div[style*="flex: 0 0 32%"] {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-      p[style*="margin-bottom: 15px"] {
-        margin-bottom: 8px !important;
-      }
-    }
-  `}
-</style>
+<div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
 
-                              <div className="descriptions_wrapper" >
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px",marginLeft:-12 }}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                            
-                              </div>
-                            </div>
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p>
+      </div>
+    </div>
                           </div>
                         </div>
                       </div>

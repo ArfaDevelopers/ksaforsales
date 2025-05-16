@@ -1619,40 +1619,37 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <h1
-                                className="mb-3"
-                              >
-                                Features
-                              </h1>
-                              <div
-    className="descriptions_wrapper"
-    >
-   {itemData?.Features|| "N/A"}
+              <div className="dynamic-route-container">
+      {/* Features Section */}
+      <div className="section">
+        <h1 className="section-title">Features</h1>
+        <div className="descriptions-wrapper">
+          {itemData?.AdditionalFeatures?.length > 0 ? (
+            itemData.AdditionalFeatures.map((feature, index) => (
+              <div key={index} className="feature-item">
+                {feature}
+              </div>
+            ))
+          ) : (
+            <div className="no-data">N/A</div>
+          )}
+        </div>
+      </div>
+
+      {/* Description Section */}
+      <div className="section">
+        <h1 className="section-title section-title-description">Description</h1>
+        <p className="descriptions-para">
+          {itemData?.description?.trim() || "No description"}
+        </p> 
+      </div>
     </div>
-              <div className="descriptions_wrapper" style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "-0.7rem",}}>
-                                <h1
-                                  className="fw-bold"
-                                  style={{ padding: "20px" ,marginLeft:-14}}
-                                >
-                                  Description:
-                                </h1>
-                                <p className="descriptions_para">
-        {itemData?.description && itemData.description.trim() !== ""
-          ? itemData.description
-          : "No description"}
-      </p>
-                                <div className="col-md-1  border-none w-100 ads_features_wrapper ">
-                               
-                             
-                             </div>
-                              </div>
                               <div
             className="adsCategory_head"
             style={{
               display: "flex",
               flexWrap: "wrap",
               marginLeft: window.innerWidth <= 576 ? "0px" : "-5px",
-
               alignItems: "center",
             }}
           >

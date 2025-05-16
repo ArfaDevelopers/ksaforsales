@@ -1462,6 +1462,8 @@ const AddLisiting = () => {
             Storagecapacity: data.Storagecapacity || "",
             StyleDesign: data.StyleDesign || "",
             SubCategory: data.SubCategory || "",
+            AdditionalFeatures: data.AdditionalFeatures || "",
+
             SubjectCategories: data.SubjectCategories || "",
             SubscriptionType: data.SubscriptionType || "",
             Temperament: data.Temperament || "",
