@@ -19,7 +19,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { apple, facebook, google } from "../imagepath";
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import image from "../../../public/Banner1.png"
+import image from "../../../public/Banner1.png";
 import googlebutton from "../../components/home/footer/Google button.png";
 import mobileimage from "../../components/home/footer/mobileimg.png";
 import appstore from "../../components/home/footer/Appstore.png";
@@ -43,9 +43,9 @@ const SignUp = () => {
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber(e.target.value);
   };
-  
-  const fullPhoneNumber = `+965${phoneNumber}`;
-  
+
+  const fullPhoneNumber = `+92${phoneNumber}`;
+
   const handleMobileChange = (e) => {
     let input = e.target.value;
     if (/^[\d+]*$/.test(input)) {
@@ -59,15 +59,15 @@ const SignUp = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   const validateNumber = () => {
     const saudiNumberRegex = /^\+9665\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
@@ -75,7 +75,7 @@ const SignUp = () => {
       setPhoneNumber("");
     }
   };
-  
+
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -95,8 +95,6 @@ const SignUp = () => {
     }
   };
 
-
-  
   const fetchUserData = async () => {
     try {
       const user = auth.currentUser;
@@ -112,7 +110,7 @@ const SignUp = () => {
       console.error("Error fetching user data:", error.message);
     }
   };
-  
+
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -124,14 +122,11 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:9002/route/send-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone: fullPhoneNumber }),
-        }
-      );
+      const response = await fetch("http://localhost:9002/route/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: fullPhoneNumber }),
+      });
 
       const data = await response.json();
       if (data.success) {
@@ -157,7 +152,7 @@ const SignUp = () => {
       const response = await fetch("http://localhost:9002/route/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phoneNumber, code: otp }),
+        body: JSON.stringify({ phone: fullPhoneNumber, code: otp }),
       });
 
       const data = await response.json();
@@ -177,7 +172,7 @@ const SignUp = () => {
     try {
       const q = query(
         collection(db, "users"),
-        where("phoneNumber", "==", phoneNumber)
+        where("phoneNumber", "==", fullPhoneNumber)
       );
       const querySnapshot = await getDocs(q);
 
@@ -224,41 +219,65 @@ const SignUp = () => {
   return (
     <>
       <Header />
-      <div className="login-content" style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem",}}>
-       
-
+      <div
+        className="login-content"
+        style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem" }}
+      >
         <div className="container">
           <div className="row">
-
-       
             <div className="col-md-6 col-lg-6 ">
               <div className="login-wrap register-form">
                 <div className="login-header">
                   <h3>Sign Up</h3>
-                  <p style={{fontWeight:"bold"}}>
-                  Hurry up! By signing up you get full access to all of our features.
+                  <p style={{ fontWeight: "bold" }}>
+                    Hurry up! By signing up you get full access to all of our
+                    features.
                   </p>
                 </div>
 
                 <form onSubmit={handleSignup}>
                   <div className="form-group group-img">
-                    <div style={{ position: "relative", marginBottom: "15px", width: "100%" }}>
-                      <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "10px",
-                        padding: "5px 10px",
+                    <div
+                      style={{
+                        position: "relative",
+                        marginBottom: "15px",
                         width: "100%",
-                        boxSizing: "border-box",
-                      }}>
-                        <span style={{ display: "flex", alignItems: "center", marginRight: "10px" }}>
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          border: "1px solid #e0e0e0",
+                          borderRadius: "10px",
+                          padding: "5px 10px",
+                          width: "100%",
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "10px",
+                          }}
+                        >
                           <img
                             src="https://flagcdn.com/16x12/kw.png"
                             alt="Kuwait Flag"
-                            style={{ width: "20px", height: "15px", marginRight: "5px" }}
+                            style={{
+                              width: "20px",
+                              height: "15px",
+                              marginRight: "5px",
+                            }}
                           />
-                          <span style={{ color: "#2d4495", fontWeight: "500", fontSize: "14px" }}>
+                          <span
+                            style={{
+                              color: "#2d4495",
+                              fontWeight: "500",
+                              fontSize: "14px",
+                            }}
+                          >
                             +965
                           </span>
                         </span>
@@ -267,10 +286,12 @@ const SignUp = () => {
                           placeholder="xxxxxxxxx"
                           value={phoneNumber}
                           onChange={(e) => {
-                            const value = e.target.value.replace(/\D/g, "").slice(0, 9);
+                            const value = e.target.value
+                              .replace(/\D/g, "")
+                              .slice(0, 15);
                             handlePhoneNumberChange({ target: { value } });
                           }}
-                          maxLength={9}
+                          maxLength={15}
                           required
                           style={{
                             border: "none",
@@ -304,7 +325,10 @@ const SignUp = () => {
 
                   <div className="form-group group-img">
                     <div className="group-img">
-                      <i className="feather-user" style={{color:"#2d4495"}} />
+                      <i
+                        className="feather-user"
+                        style={{ color: "#2d4495" }}
+                      />
                       <input
                         type="text"
                         className="form-control"
@@ -318,7 +342,10 @@ const SignUp = () => {
 
                   <div className="form-group group-img">
                     <div className="group-img">
-                      <i className="feather-mail" style={{color:"#2d4495"}}/>
+                      <i
+                        className="feather-mail"
+                        style={{ color: "#2d4495" }}
+                      />
                       <input
                         type="email"
                         className="form-control"
@@ -332,7 +359,10 @@ const SignUp = () => {
 
                   <div className="form-group">
                     <div className="pass-group group-img">
-                      <i className="feather-lock" style={{color:"#2d4495"}}/>
+                      <i
+                        className="feather-lock"
+                        style={{ color: "#2d4495" }}
+                      />
                       <input
                         type={passwordType}
                         className="form-control pass-input"
@@ -343,7 +373,9 @@ const SignUp = () => {
                       />
                       <span
                         className={`toggle-password ${
-                          passwordType === "password" ? "feather-eye" : "feather-eye-off"
+                          passwordType === "password"
+                            ? "feather-eye"
+                            : "feather-eye-off"
                         }`}
                         onClick={togglePassword}
                       ></span>
@@ -354,7 +386,11 @@ const SignUp = () => {
                     <button
                       type="button"
                       className="btn w-100"
-                      style={{ backgroundColor: "#2d4495", color: "#fff", border: "none" }}
+                      style={{
+                        backgroundColor: "#2d4495",
+                        color: "#fff",
+                        border: "none",
+                      }}
                       onClick={sendOtp}
                     >
                       Send OTP
@@ -363,7 +399,10 @@ const SignUp = () => {
                     <>
                       <div className="form-group group-img">
                         <div className="group-img">
-                          <i className="feather-key" style={{color:"#2d4495"}}/>
+                          <i
+                            className="feather-key"
+                            style={{ color: "#2d4495" }}
+                          />
                           <input
                             type="text"
                             className="form-control"
@@ -386,18 +425,21 @@ const SignUp = () => {
                   )}
 
                   <div className="register-link text-center">
-                    <p style={{fontWeight:"bold",fontSize:16}}>
+                    <p style={{ fontWeight: "bold", fontSize: 16 }}>
                       Already have an account?{" "}
-                      <Link className="forgot-link" to="/login" style={{textDecoration:"none"}}>
+                      <Link
+                        className="forgot-link"
+                        to="/login"
+                        style={{ textDecoration: "none" }}
+                      >
                         Sign In
                       </Link>
                     </p>
                   </div>
                   <div className="register-link text-center">
-                    <p style={{fontWeight:"bold",fontSize:14}}>
-                      By using the ksa4sale app.you agree to our {" "}
-                      <br/>
-                      <Link className="forgot-link" to="/TermsAndConditions" >
+                    <p style={{ fontWeight: "bold", fontSize: 14 }}>
+                      By using the ksa4sale app.you agree to our <br />
+                      <Link className="forgot-link" to="/TermsAndConditions">
                         Terms&conditions
                       </Link>
                     </p>
@@ -406,51 +448,62 @@ const SignUp = () => {
               </div>
             </div>
             <div className="col-md-6">
-  <div className="qr-section" style={{ position: 'relative', marginTop: -20 }}>
-    {/* QR Code with Phone Border */}
-    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-      <img
-        src={image}
-        alt="QR Code"
-        style={{
-          width: '100%',
-          // maxWidth: '200px', // Adjust size as needed
-          height: '100%',
-          borderRadius: '10px',
-        }}
-      />
-    </div>
-    <div className="slogan-section" style={{ display: 'flex', alignItems: 'center',  borderRadius: '5px' }}>
-
-    <div className="topfooter_wrapper container d-flex justify-content-center align-items-center" >
-  <div className="d-flex flex-column" style={{ textAlign: "center" }}>
-    <div>
-      <h4 style={{ marginBottom: 20, marginTop: -30 }}>
-        Download the Ksa4sale App
-      </h4>
-    </div>
-    <div>
-      <i
-        className="topfooter-socialimg"
-        style={{
-          marginRight: "2rem",
-          width: "148px",
-          height: "50px",
-        }}
-      >
-        <img src={googlebutton} alt="Google Play Store" />
-      </i>
-      <i className="topfooter-socialimg">
-        <img src={appstore} alt="App Store" />
-      </i>
-    </div>
-  </div>
-</div>
-  {/* Double Arrow Icon (Flipped and Larger) */}
- 
-</div>
-  </div>
-</div>
+              <div
+                className="qr-section"
+                style={{ position: "relative", marginTop: -20 }}
+              >
+                {/* QR Code with Phone Border */}
+                <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                  <img
+                    src={image}
+                    alt="QR Code"
+                    style={{
+                      width: "100%",
+                      // maxWidth: '200px', // Adjust size as needed
+                      height: "100%",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </div>
+                <div
+                  className="slogan-section"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <div className="topfooter_wrapper container d-flex justify-content-center align-items-center">
+                    <div
+                      className="d-flex flex-column"
+                      style={{ textAlign: "center" }}
+                    >
+                      <div>
+                        <h4 style={{ marginBottom: 20, marginTop: -30 }}>
+                          Download the Ksa4sale App
+                        </h4>
+                      </div>
+                      <div>
+                        <i
+                          className="topfooter-socialimg"
+                          style={{
+                            marginRight: "2rem",
+                            width: "148px",
+                            height: "50px",
+                          }}
+                        >
+                          <img src={googlebutton} alt="Google Play Store" />
+                        </i>
+                        <i className="topfooter-socialimg">
+                          <img src={appstore} alt="App Store" />
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Double Arrow Icon (Flipped and Larger) */}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
