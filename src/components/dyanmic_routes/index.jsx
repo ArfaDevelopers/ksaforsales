@@ -1704,16 +1704,16 @@ useEffect(() => {
                         <h1 className="sallerinfo_para">Seller Information</h1>
                         <div className="row profileinner_container ">
                           
-                            <div className="col-5 profileimg">
-                                          <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
-                                          
-                            <img
-                              src={itemData.photoURL}
-                              alt="Profile"
-                              className="img-fluid rounded-circle"
-                            />
-                          </Link>
-                        </div>
+                        <div className="col-5 profileimg">
+  <Link to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}>
+    <img
+      src={itemData.photoURL}
+      alt="Profile"
+      className="img-fluid rounded-circle"
+      style={{ width: '100px', height: '100px', objectFit: 'cover' }} // Adjust size as needed
+    />
+  </Link>
+</div>
                           <div className="col-5 profile_rightbarTags">
                             <p className="sallerInfo_para">
                               {itemData.displayName}

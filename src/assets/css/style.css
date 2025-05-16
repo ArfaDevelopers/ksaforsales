@@ -22248,8 +22248,14 @@ section.advertisement {
 .profileimg {
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.img-fluid.rounded-circle {
+  border-radius: 50% !important;
+}
 .whatsapp-button {
   color: rgb(45, 68, 149);
   border: 2px solid rgb(45, 68, 149);
