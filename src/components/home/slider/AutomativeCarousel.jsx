@@ -45,7 +45,20 @@ export default function AutomativeCarousel() {
 
     fetchAds();
   }, []);
-
+  function timeAgo(timestamp) {
+    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+    const now = new Date();
+    const difference = Math.abs(now - date); // Difference in milliseconds
+    const seconds = Math.floor(difference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+  
+    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    return "Just now";
+  }
   // Update slidesToShow on screen resize
   useEffect(() => {
     const handleResize = () => {
@@ -216,7 +229,8 @@ export default function AutomativeCarousel() {
                                     className="ratings"
                                     style={{ fontFamily: "Inter" }}
                                   >
-                                    {formatPostedTime(ad.time_ago)}{" "}
+                                  {timeAgo(ad.createdAt)}
+
                                     {/* Format posted time */}
                                   </div>
                                 </div>
