@@ -1619,8 +1619,8 @@ const AddLisiting = () => {
             text: "Your listing has been added.",
             icon: "success",
             timer: 1000,
-          }).then(() => {''
-            // navigate("/dashboard");
+          }).then(() => {
+            navigate("/dashboard");
           });
         } else {
           MySwal.fire({
