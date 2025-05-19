@@ -1578,7 +1578,7 @@ const AddLisiting = () => {
             ? "ELECTRONICS"
             : Category1 === "Fashion Style"
             ? "FASHION"
-            : Category1 === "Home & Furniture"
+            : Category1 === "Home & Furnituer"
             ? "HEALTHCARE"
             : Category1 === "Job Board"
             ? "JOBBOARD"
@@ -1619,8 +1619,8 @@ const AddLisiting = () => {
             text: "Your listing has been added.",
             icon: "success",
             timer: 1000,
-          }).then(() => {
-            navigate("/dashboard");
+          }).then(() => {''
+            // navigate("/dashboard");
           });
         } else {
           MySwal.fire({
@@ -1663,6 +1663,8 @@ const AddLisiting = () => {
           setError("Category is required!"); // Set error message if no category is selected
           return;
         }
+        console.log("Category is required!_____",Category1); // Set error message if no category is selected
+
         setError("");
         const Collection =
           Category1 === "Automotive"
@@ -1671,7 +1673,7 @@ const AddLisiting = () => {
             ? "ELECTRONICS"
             : Category1 === "Fashion Style"
             ? "FASHION"
-            : Category1 === "Home & Furniture"
+            : Category1 === "Home & Furnituer"
             ? "HEALTHCARE"
             : Category1 === "Job Board"
             ? "JOBBOARD"
@@ -1690,6 +1692,8 @@ const AddLisiting = () => {
             : Category1 === "Household"
             ? "Household"
             : "books";
+            console.log("Category is required!_____11",Collection); // Set error message if no category is selected
+
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
           // Update the existing document in Firestore
