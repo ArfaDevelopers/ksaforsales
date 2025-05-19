@@ -1889,7 +1889,6 @@ const HealthCareComp = () => {
         selectedValuesSeatCapacity.includes(car.SeatingCapacity)
       );
     }
-    // Filter by selected cities
     if (cities?.length > 0) {
       filtered = filtered.filter((car) => cities.includes(car.City));
     }
@@ -1908,7 +1907,6 @@ const HealthCareComp = () => {
         selectedAssembly.includes(car.Assembly)
       );
     }
-    // Filter by selected cities
     if (logSelectedColor?.length > 0) {
       filtered = filtered.filter((car) => logSelectedColor.includes(car.Color));
     }
@@ -1917,7 +1915,6 @@ const HealthCareComp = () => {
         selectedOptionTransmission.includes(car.Transmission)
       );
     }
-    // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedCars1.includes(car.TrustedCars)
@@ -1928,27 +1925,22 @@ const HealthCareComp = () => {
         selectedMercedesBenzLocations.includes(car.Registeredin)
       );
     }
-    // Filter by selected Emirates
     if (emirates?.length > 0) {
       filtered = filtered.filter((car) => emirates.includes(car.Emirates));
     }
 
-    // Filter by selected car makes
     if (selectedCarsMake?.length > 0) {
       filtered = filtered.filter((car) => selectedCarsMake.includes(car.make));
     }
 
-    // Filter by price range
     if (fromValue || toValue) {
       filtered = filtered.filter((car) => {
-        // Use car.Price instead of car.price
         const carPrice = parseFloat(car?.Price);
         if (isNaN(carPrice)) {
           console.warn("Invalid car Price:", car);
           return false; // Skip cars with invalid Price
         }
 
-        // Convert fromValue and toValue to numbers, use appropriate defaults
         const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
         const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
 
