@@ -1564,6 +1564,7 @@ const AddLisiting = () => {
     try {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
+      console.log(Category1,'Category1__________')
       if (user) {
         if (!Category1) {
           setError("Category is required!"); // Set error message if no category is selected

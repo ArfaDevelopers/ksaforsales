@@ -37,6 +37,7 @@ const MyListe = () => {
   const [editData, setEditData] = useState(null);
   const [formData, setFormData] = useState({});
   const [itemCategory, setItemCategory] = useState("");
+  console.log("itemCategory______",itemCategory)
   const [itemId, setItemId] = useState(null);
   const [FormDataView, setFormDataView] = useState({});
   const [view, setView] = useState(false);
@@ -64,15 +65,15 @@ const MyListe = () => {
 
   const categoryMapping = {
     "Automotive": "Cars",
-    "Sports & Game": "SPORTSGAMESComp",
+    "Sports&Game": "SPORTSGAMESComp",
     "Electronics": "ELECTRONICS",
-    "Fashion Style": "FASHION",
-    "Job Board": "JOBBOARD",
-    "Real Estate": "REALESTATECOMP",
+    "FashionStyle": "FASHION",
+    "JobBoard": "JOBBOARD",
+    "RealEstate": "REALESTATECOMP",
     "Other": "Education",
     "Services": "TRAVEL",
-    "Pet & Animal": "PETANIMALCOMP",
-    "Home & Furnituer": "HEALTHCARE",
+    "Pet&Animal": "PETANIMALCOMP",
+    "Home&Furnituer": "HEALTHCARE",
   };
 
   const handleClose = () => setShow(false);
@@ -104,7 +105,7 @@ const MyListe = () => {
         const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const realEstateCollectionRef = collection(db, "REALESTATECOMP");
@@ -112,7 +113,7 @@ const MyListe = () => {
         const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const CarsCollectionRef = collection(db, "Cars");
@@ -120,7 +121,7 @@ const MyListe = () => {
         const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
@@ -128,7 +129,7 @@ const MyListe = () => {
         const ELECTRONICSData = ELECTRONICSQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const EducationCollectionRef = collection(db, "Education");
@@ -136,7 +137,7 @@ const MyListe = () => {
         const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const FASHIONCollectionRef = collection(db, "FASHION");
@@ -144,7 +145,7 @@ const MyListe = () => {
         const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
@@ -152,7 +153,7 @@ const MyListe = () => {
         const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
@@ -160,7 +161,7 @@ const MyListe = () => {
         const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
@@ -168,7 +169,7 @@ const MyListe = () => {
         const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
@@ -176,7 +177,7 @@ const MyListe = () => {
         const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const TRAVELCollectionRef = collection(db, "TRAVEL");
@@ -184,7 +185,7 @@ const MyListe = () => {
         const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          isDisabled: doc.data().isDisabled ?? false,
+          isActive: doc.data().isActive ?? false,
         }));
 
         const combinedData = [
@@ -465,30 +466,57 @@ const MyListe = () => {
 
     return items;
   };
-  const toggleDisable = async (id, category, isDisabled) => {
+  const toggleDisable = async (id, category, isActive) => {
     try {
+      // Validate inputs
+      if (!id || !category || typeof isActive !== "boolean") {
+        throw new Error("Invalid input parameters");
+      }
+  
+      console.log("toggleDisable called with:", { id, category, isActive });
+  
+      // Map category to collection name
       const tableName = categoryMapping[category] || category;
+      console.log(`Updating document: ${tableName}/${id}`);
+  
+      // Create document reference
       const docRef = doc(db, tableName, id);
-      await updateDoc(docRef, { isDisabled });
-
-      setFilteredCars((prevData) =>
-        prevData.map((item) =>
-          item.id === id ? { ...item, isDisabled } : item
-        )
-      );
-      setCars((prevData) =>
-        prevData.map((item) =>
-          item.id === id ? { ...item, isDisabled } : item
-        )
-      );
-      console.log(`Toggled ${id} in ${category} to ${isDisabled ? 'disabled' : 'enabled'}`);
+  
+      // Check if document exists
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        throw new Error(`Document ${id} does not exist in ${tableName}`);
+      }
+  
+      // Update Firestore document
+      await updateDoc(docRef, { isActive });
+      console.log(`Firestore updated: ${id} in ${tableName} to isActive=${isActive}`);
+  
+      // Update local state
+      setFilteredCars((prevData) => {
+        const updated = prevData.map((item) =>
+          item.id === id ? { ...item, isActive } : item
+        );
+        console.log("Updated filteredCars:", updated);
+        return updated;
+      });
+  
+      setCars((prevData) => {
+        const updated = prevData.map((item) =>
+          item.id === id ? { ...item, isActive } : item
+        );
+        console.log("Updated cars:", updated);
+        return updated;
+      });
+  
+      console.log(`Toggled ${id} in ${category} to ${isActive ? "disabled" : "enabled"}`);
     } catch (error) {
-      console.error("Error toggling disable status:", error);
+      console.error("Error toggling disable status:", error.message, error);
       MySwal.fire({
         title: "Error",
-        text: "Failed to toggle disable status.",
+        text: `Failed to toggle disable status: ${error.message}`,
         icon: "error",
-        timer: 1000,
+        timer: 2000,
       });
     }
   };
@@ -510,11 +538,11 @@ const MyListe = () => {
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
-            to={record.isDisabled ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
+            to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
             style={{
-              pointerEvents: record.isDisabled ? "none" : "auto",
-              opacity: record.isDisabled ? 0.5 : 1,
-              cursor: record.isDisabled ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <img
@@ -541,11 +569,11 @@ const MyListe = () => {
         <>
           <h6>
             <Link
-              to={record.isDisabled ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
+              to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
               style={{
-                pointerEvents: record.isDisabled ? "none" : "auto",
-                opacity: record.isDisabled ? 0.5 : 1,
-                cursor: record.isDisabled ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "none" : "auto",
+                opacity: record.isActive ? 0.5 : 1,
+                cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
               {text}
@@ -553,12 +581,12 @@ const MyListe = () => {
           </h6>
           <div className="listingtable-rate">
             <Link
-              to={record.isDisabled ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
+              to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
               className="cat-icon"
               style={{
-                pointerEvents: record.isDisabled ? "none" : "auto",
-                opacity: record.isDisabled ? 0.5 : 1,
-                cursor: record.isDisabled ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "none" : "auto",
+                opacity: record.isActive ? 0.5 : 1,
+                cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
               <i className="fa-regular fa-circle-stop" /> {formatCategory(record.category)}
@@ -585,14 +613,14 @@ const MyListe = () => {
         <div 
           className="invoice-cell"
           onClick={() => {
-            if (!record.isDisabled) {
+            if (!record.isActive) {
               setSelectedInvoice(record);
               setShowInvoiceModal(true);
             }
           }}
           style={{
-            cursor: record.isDisabled ? "not-allowed" : "pointer",
-            opacity: record.isDisabled ? 0.5 : 1,
+            cursor: record.isActive ? "not-allowed" : "pointer",
+            opacity: record.isActive ? 0.5 : 1,
           }}
         >
           <div>
@@ -623,52 +651,52 @@ const MyListe = () => {
           }}
         >
           <Link
-            to={record.isDisabled ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
+            to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
             className="action-btn btn-view"
             onClick={() => {
-              if (!record.isDisabled) {
+              if (!record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
               }
             }}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isDisabled ? "none" : "auto",
-              opacity: record.isDisabled ? 0.5 : 1,
-              cursor: record.isDisabled ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <i className="feather-eye" />
           </Link>
           <Link
-            to={record.isDisabled ? "#" : `/add-listing?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
+            to={record.isActive ? "#" : `/add-listing?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
             className="action-btn btn-edit"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isDisabled ? "none" : "auto",
-              opacity: record.isDisabled ? 0.5 : 1,
-              cursor: record.isDisabled ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <i className="feather-edit-3" />
           </Link>
           <button
-            className={`action-btn ${record.isDisabled ? 'btn-disabled' : 'btn-enabled'}`}
-            onClick={() => toggleDisable(record.id, formatCategory(record.category), !record.isDisabled)}
+            className={`action-btn ${record.isActive ? 'btn-disabled' : 'btn-enabled'}`}
+            onClick={() => toggleDisable(record.id, formatCategory(record.category), !record.isActive)}
             style={{ 
               display: "inline-flex", 
               alignItems: "center", 
-              backgroundColor: record.isDisabled ? "#cccccc" : "#2d4495",
+              backgroundColor: record.isActive ? "#cccccc" : "#2d4495",
               color: "#ffffff",
               cursor: "pointer",
               border: "none",
               padding: "5px 10px",
               borderRadius: "4px"
             }}
-            title={record.isDisabled ? "Enable" : "Disable"}
+            title={record.isActive ? "Enable" : "Disable"}
           >
-            <i className={record.isDisabled ? "feather-lock" : "feather-unlock"} />
+            <i className={record.isActive ? "feather-lock" : "feather-unlock"} />
           </button>
         </div>
       ),

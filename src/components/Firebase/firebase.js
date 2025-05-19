@@ -22,7 +22,7 @@ const firebaseConfig = {
   storageBucket: "ksa4sale-f0388.firebasestorage.app",
   messagingSenderId: "494758410258",
   appId: "1:494758410258:web:a1fdadfa4df6e0f87700cb",
-  measurementId: "G-5CDR4XPRYT",
+  measurementId: "G-5CDR4XPRYT"
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
