@@ -1941,13 +1941,12 @@ const HealthCareComp = () => {
           return false; // Skip cars with invalid Price
         }
 
-        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; // Allow all prices if no min
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; // Allow all prices if no max
+        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; 
+        const maxPrice = toValue ? parseFloat(toValue) : Infinity; 
 
-        // Ensure minPrice and maxPrice are valid
         if (isNaN(minPrice) || isNaN(maxPrice)) {
           console.warn("Invalid price range:", { fromValue, toValue });
-          return true; // Skip price filtering if inputs are invalid
+          return true; 
         }
 
         return carPrice >= minPrice && carPrice <= maxPrice;
@@ -1957,45 +1956,39 @@ const HealthCareComp = () => {
       filtered.sort((a, b) => {
         const priceA = parseFloat(a.price) || 0;
         const priceB = parseFloat(b.price) || 0;
-        return priceB - priceA; // Ascending order (low to high)
+        return priceB - priceA; 
       });
     }
     if (SortBy === "Price: High to Low") {
       filtered.sort((a, b) => {
         const priceA = parseFloat(a.price) || 0;
         const priceB = parseFloat(b.price) || 0;
-        return priceA - priceB; // Ascending order (low to high)
+        return priceA - priceB; 
       });
     }
     if (SortBy === "Sort by: Most Relevant") {
       filtered.sort((a, b) => {
         const dateA = new Date(a.timeAgo);
         const dateB = new Date(b.timeAgo);
-        return dateB.getTime() - dateA.getTime(); // Descending order (latest first)
+        return dateB.getTime() - dateA.getTime(); 
       });
     }
     if (fromCC || toCC) {
       filtered = filtered.filter((car) => {
-        const EngineCapacity = parseFloat(car.EngineCapacity); // Assuming price is a number or string
-        const minPrice = fromCC ? parseFloat(fromCC) : 0; // Default to 0 if no fromValue
-        const maxPrice = toCC ? parseFloat(toCC) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
+        const EngineCapacity = parseFloat(car.EngineCapacity); 
+        const minPrice = fromCC ? parseFloat(fromCC) : 0; 
+        const maxPrice = toCC ? parseFloat(toCC) : Infinity; 
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
     if (fromValueMileage || toValueMileage) {
       filtered = filtered.filter((car) => {
-        const EngineCapacity = parseFloat(car.mileage); // Assuming price is a number or string
-        const minPrice = fromValueMileage ? parseFloat(fromValueMileage) : 0; // Default to 0 if no fromValue
-        const maxPrice = toValueMileage ? parseFloat(toValueMileage) : Infinity; // Default to Infinity if no toValue
-
-        // Ensure that car's price is between minPrice and maxPrice
+        const EngineCapacity = parseFloat(car.mileage); 
+        const minPrice = fromValueMileage ? parseFloat(fromValueMileage) : 0; 
+        const maxPrice = toValueMileage ? parseFloat(toValueMileage) : Infinity; 
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
-
-    // Filter by ManufactureYear range (fromDate to toDate)
     if (fromDate || toDate) {
       filtered = filtered.filter((car) => {
         const manufactureYear = new Date(car.ManufactureYear); // Assuming ManufactureYear is in a valid date format (yyyy-mm-dd)
