@@ -81,12 +81,12 @@ const Login = () => {
         password
       );
       const user = userCredential.user;
-      localStorage.setItem(user);
+      localStorage.setItem(user,'user.uid1');
       // Successfully logged in
       console.log("User logged in:", user);
-      // navigate("/");
+      navigate("/");
 
-      alert("Login successful!");
+      // alert("Login successful!");
       // Redirect or handle post-login logic here
       // window.location.href = '/dashboard';
     } catch (err) {
