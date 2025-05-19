@@ -16,7 +16,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public/"),
     },
-    port: 3002,
+    port: 3003,
     historyApiFallback: true,
     onAfterSetupMiddleware: function () {
       // Open the browser after the dev server is up and running
