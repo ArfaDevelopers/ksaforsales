@@ -1476,17 +1476,20 @@ const Dynamic_Route = () => {
                                 <table className="table">
                                  <tbody className="info_body">
   {Object.entries({
-    "Seller Type": itemData?.SellerType || "N/A",
-    "Registered City": itemData?.Registeredin || "N/A",
-    Assembly: itemData?.Assembly || "N/A",
-    "Engine Capacity": itemData?.EngineCapacity || "N/A",
+    SellerType: itemData?.SellerType || "N/A",
+    Insurance: itemData?.Insurance || "N/A",
+    City: itemData?.City || "N/A",
+    SeatingCapacity: itemData?.SeatingCapacity || "N/A",
+    FeaturedAds: itemData?.FeaturedAds || "N/A",
     "Body Type": itemData?.BodyType || "N/A",
     "Last Updated": itemData?.timeAgo || "N/A",
     Condition: itemData?.Condition || "N/A",
-    "Exterior Color": itemData?.ExteriorColor || "N/A",
+    District: itemData?.District || "N/A",
     Purpose: itemData?.Purpose || "N/A",
     Model: itemData?.Model || "N/A",
     Color: itemData?.Color || "N/A",
+    RegionalSpec: itemData?.RegionalSpec || "N/A",
+    Transmission: itemData?.Transmission || "N/A",
   })
     .filter(([_, value]) => value)
     .map(([label, value], index) => (
@@ -1928,53 +1931,34 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.sellerType || "N/A"}</td>
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">RAM:</th>
-        <td className="table_text">{itemData?.RAM || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Assembly:</th>
-        <td className="table_text">{itemData?.Assembly || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Graphics Card:</th>
-        <td className="table_text">{itemData?.GraphicsCard || "N/A"}</td>
+        <th className="table_text">Purpose:</th>
+        <td className="table_text">{itemData?.Purpose || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Body Type:</th>
-        <td className="table_text">{itemData?.bodyType || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">SubCategory:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Brand:</th>
-        <td className="table_text">{itemData?.Brand || "N/A"}</td>
+        <th className="table_text">timeAgo:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Battery Life:</th>
-        <td className="table_text">{itemData?.BatteryLife || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Operating System:</th>
-        <td className="table_text">{itemData?.OperatingSystem || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Model:</th>
-        <td className="table_text">{itemData?.model || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Type:</th>
-        <td className="table_text">{itemData?.type || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Screen Size:</th>
-        <td className="table_text">{itemData?.ScreenSize || "N/A"}</td>
-      </tr>
+    
     </tbody>
   </table>
 </div>
@@ -2408,56 +2392,32 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.sellerType || "N/A"}</td>
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Gender:</th>
-        <td className="table_text">{itemData?.Gender || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Closure Type:</th>
-        <td className="table_text">{itemData?.ClosureType || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Material:</th>
-        <td className="table_text">{itemData?.Material || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Collar Type:</th>
-        <td className="table_text">{itemData?.CollarType || "N/A"}</td>
+        <th className="table_text">Sub Category:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">timeAgo:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Brand:</th>
-        <td className="table_text">{itemData?.Brand || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Season:</th>
-        <td className="table_text">{itemData?.Season || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Color:</th>
-        <td className="table_text">{itemData?.Color || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">WashType:</th>
-        <td className="table_text">{itemData?.WashType || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Type:</th>
-        <td className="table_text">{itemData?.type || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">StyleDesign:</th>
-        <td className="table_text">{itemData?.StyleDesign || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Fit:</th>
-        <td className="table_text">{itemData?.Fit || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
     </tbody>
   </table>
@@ -2891,56 +2851,40 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Accuracy:</th>
-        <td className="table_text">{itemData?.Accuracy || "N/A"}</td>
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Battery Type:</th>
-        <td className="table_text">{itemData?.BatteryType || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Compatibility:</th>
-        <td className="table_text">{itemData?.Compatibility || "N/A"}</td>
+        <th className="table_text">Condition:</th>
+        <td className="table_text">{itemData?.Condition || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">CuffSize:</th>
-        <td className="table_text">{itemData?.CuffSize || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Display Type:</th>
-        <td className="table_text">{itemData?.DisplayType || "N/A"}</td>
+        <th className="table_text">Purpose:</th>
+        <td className="table_text">{itemData?.Purpose || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Sub Category:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Features:</th>
-        <td className="table_text">{itemData?.Features || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Measurement Range:</th>
-        <td className="table_text">{itemData?.MeasurementRange || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Measurement Units:</th>
-        <td className="table_text">{itemData?.MeasurementUnits || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">WashType:</th>
-        <td className="table_text">{itemData?.WashType || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Type:</th>
-        <td className="table_text">{itemData?.Type || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Storage Capacity:</th>
-        <td className="table_text">{itemData?.StorageCapacity || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.SellerType || "N/A"}</td>
+        <th className="table_text">timeAgo:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
     </tbody>
   </table>
@@ -3379,45 +3323,30 @@ const Dynamic_Route = () => {
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Company:</th>
-        <td className="table_text">{itemData?.Company || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Employment Type:</th>
-        <td className="table_text">{itemData?.EmploymentType || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Experience Level:</th>
-        <td className="table_text">{itemData?.ExperienceLevel || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Industry:</th>
-        <td className="table_text">{itemData?.Industry || "N/A"}</td>
+        <th className="table_text">SubCategory:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Job Title:</th>
-        <td className="table_text">{itemData?.JobTitle || "N/A"}</td>
+        <th className="table_text">Time Ago:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Salary Range:</th>
-        <td className="table_text">{itemData?.SalaryRange || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Salary From:</th>
-        <td className="table_text">{itemData?.SallaryFromRange || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Salary To:</th>
-        <td className="table_text">{itemData?.SallaryToRange || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Location:</th>
-        <td className="table_text">{itemData?.location || "N/A"}</td>
-      </tr>
+     
     </tbody>
   </table>
 </div>
@@ -3854,44 +3783,28 @@ const Dynamic_Route = () => {
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Content Type:</th>
-        <td className="table_text">{itemData?.ContentType || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Duration:</th>
-        <td className="table_text">{itemData?.Duration || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Language:</th>
-        <td className="table_text">{itemData?.Language || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Skill Level:</th>
-        <td className="table_text">{itemData?.SkillLevel || "N/A"}</td>
+        <th className="table_text">SubCategory:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">States:</th>
-        <td className="table_text">{itemData?.States || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Subject Categories:</th>
-        <td className="table_text">{itemData?.SubjectCategories || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Assembly:</th>
-        <td className="table_text">{itemData?.assembly || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Condition:</th>
-        <td className="table_text">{itemData?.condition || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Purpose:</th>
-        <td className="table_text">{itemData?.purpose || "N/A"}</td>
+        <th className="table_text">Time Ago:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
     </tbody>
   </table>
@@ -4325,48 +4238,48 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Accessibility:</th>
-        <td className="table_text">{itemData?.Accessibility || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Amenities:</th>
-        <td className="table_text">{itemData?.Amenities || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Building Type:</th>
-        <td className="table_text">{itemData?.BuildingType || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
         <th className="table_text">City:</th>
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Property Features:</th>
-        <td className="table_text">{itemData?.PropertyFeatures || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Condition:</th>
+        <td className="table_text">{itemData?.Condition || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Property Type:</th>
-        <td className="table_text">{itemData?.PropertyType || "N/A"}</td>
+        <th className="table_text">Area:</th>
+        <td className="table_text">{itemData?.Area || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.SellerType || "N/A"}</td>
+        <th className="table_text">Bedroom:</th>
+        <td className="table_text">{itemData?.Bedroom || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Size:</th>
-        <td className="table_text">{itemData?.Size || "N/A"}</td>
+        <th className="table_text">Facade:</th>
+        <td className="table_text">{itemData?.Facade || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">States:</th>
-        <td className="table_text">{itemData?.States || "N/A"}</td>
+        <th className="table_text">Featuers:</th>
+        <td className="table_text">{itemData?.Featuers || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Location:</th>
-        <td className="table_text">{itemData?.location || "N/A"}</td>
+        <th className="table_text">ResidenceType:</th>
+        <td className="table_text">{itemData?.ResidenceType || "N/A"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Floor:</th>
+        <td className="table_text">{itemData?.Floor || "N/A"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">PropertyAge:</th>
+        <td className="table_text">{itemData?.PropertyAge || "N/A"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Furnished:</th>
+        <td className="table_text">{itemData?.Furnished || "N/A"}</td>
       </tr>
     </tbody>
   </table>
@@ -4800,28 +4713,36 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Amenities:</th>
-        <td className="table_text">{itemData?.Amenities || "N/A"}</td>
+        <th className="table_text">City:</th>
+        <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Checkin:</th>
-        <td className="table_text">{itemData?.Checkin || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
         <th className="table_text">City:</th>
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">PropertyType:</th>
-        <td className="table_text">{itemData?.PropertyType || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Room Type:</th>
-        <td className="table_text">{itemData?.RoomType || "N/A"}</td>
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Sub Category:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
+      </tr>
+      <tr className="border-bottom">
+        <th className="table_text">Time Ago:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
     </tbody>
   </table>
@@ -5255,49 +5176,39 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Availability:</th>
-        <td className="table_text">{itemData?.Availability || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Brand:</th>
-        <td className="table_text">{itemData?.Brand || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Category:</th>
-        <td className="table_text">{itemData?.Category || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
         <th className="table_text">City:</th>
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Color Options:</th>
-        <td className="table_text">{itemData?.ColorOptions || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">Condition:</th>
+        <td className="table_text">{itemData?.Condition || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Features:</th>
-        <td className="table_text">{itemData?.Features || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Gender:</th>
-        <td className="table_text">{itemData?.Gender || "N/A"}</td>
+        <th className="table_text">Purpose:</th>
+        <td className="table_text">{itemData?.Purpose || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Material:</th>
-        <td className="table_text">{itemData?.Material || "N/A"}</td>
+        <th className="table_text">SubCategory:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.SellerType || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Size:</th>
-        <td className="table_text">{itemData?.Size || "N/A"}</td>
+        <th className="table_text">Time Ago:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
+   
+     
     </tbody>
   </table>
 </div>
@@ -5731,52 +5642,40 @@ const Dynamic_Route = () => {
   <table className="table table-borderless">
     <tbody className="info_body">
       <tr className="border-bottom">
-        <th className="table_text">Age:</th>
-        <td className="table_text">{itemData?.Age || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Breed:</th>
-        <td className="table_text">{itemData?.Breed || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
         <th className="table_text">City:</th>
         <td className="table_text">{itemData?.City || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Color:</th>
-        <td className="table_text">{itemData?.Color || "N/A"}</td>
+        <th className="table_text">District:</th>
+        <td className="table_text">{itemData?.District || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Dietary Preferences:</th>
-        <td className="table_text">{itemData?.DietaryPreferences || "N/A"}</td>
+        <th className="table_text">Age:</th>
+        <td className="table_text">{itemData?.Age || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Last Updated:</th>
-        <td className="table_text">{itemData?.lastUpdated || "N/A"}</td>
+        <th className="table_text">FeaturedAds:</th>
+        <td className="table_text">{itemData?.FeaturedAds || "N/A"}</td>
+      </tr>  
+      <tr className="border-bottom">
+        <th className="table_text">Price:</th>
+        <td className="table_text">{itemData?.Price || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Gender:</th>
-        <td className="table_text">{itemData?.Gender || "N/A"}</td>
+        <th className="table_text">Purpose:</th>
+        <td className="table_text">{itemData?.Purpose || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Health Status:</th>
-        <td className="table_text">{itemData?.HealthStatus || "N/A"}</td>
+        <th className="table_text">SubCategory:</th>
+        <td className="table_text">{itemData?.SubCategory || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Seller Type:</th>
-        <td className="table_text">{itemData?.SellerType || "N/A"}</td>
+        <th className="table_text">Seller Name:</th>
+        <td className="table_text">{itemData?.displayName || "N/A"}</td>
       </tr>
       <tr className="border-bottom">
-        <th className="table_text">Size:</th>
-        <td className="table_text">{itemData?.Size || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Temperament:</th>
-        <td className="table_text">{itemData?.Temperament || "N/A"}</td>
-      </tr>
-      <tr className="border-bottom">
-        <th className="table_text">Training Level:</th>
-        <td className="table_text">{itemData?.TrainingLevel || "N/A"}</td>
+        <th className="table_text">Time Ago:</th>
+        <td className="table_text">{itemData?.timeAgo || "N/A"}</td>
       </tr>
     </tbody>
   </table>

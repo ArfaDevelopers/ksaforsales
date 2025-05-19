@@ -1844,7 +1844,6 @@ const HealthCareComp = () => {
     if (Processor?.length > 0) {
       filtered = filtered.filter((car) => Processor.includes(car.Processor));
     }
-    // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedOptionVideoAvailability.includes(car.VideoAvailability)
@@ -1855,24 +1854,21 @@ const HealthCareComp = () => {
         OperatingSystem.includes(car.OperatingSystem)
       );
     }
-    // Filter by selected cities
     if (Brand?.length > 0) {
       filtered = filtered.filter((car) => Brand.includes(car.Brand));
     }
     if (selectedStates1?.length > 0) {
       filtered = filtered.filter((car) => selectedStates1.includes(car.States));
     }
-    // Filter by selected cities
     if (selectedOptionisFeatured) {
       filtered = filtered.filter((car) => {
         if (!car?.FeaturedAds || typeof car.FeaturedAds !== "string") {
           console.warn("Invalid car FeaturedAds:", car);
-          return false; // Skip cars with invalid FeaturedAds
+          return false; 
         }
         return car.FeaturedAds === selectedOptionisFeatured;
       });
     }
-    // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
         pictureAvailability.includes(car.PictureAvailability)
