@@ -44,7 +44,7 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+92${phoneNumber}`;
+  const fullPhoneNumber = `+965${phoneNumber}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
@@ -122,11 +122,14 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:9002/route/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: fullPhoneNumber }),
-      });
+      const response = await fetch(
+        "https://ksaforsaleapis.vercel.app/route/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: fullPhoneNumber }),
+        }
+      );
 
       const data = await response.json();
       if (data.success) {
@@ -149,11 +152,14 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:9002/route/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: fullPhoneNumber, code: otp }),
-      });
+      const response = await fetch(
+        "https://ksaforsaleapis.vercel.app/route/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: fullPhoneNumber, code: otp }),
+        }
+      );
 
       const data = await response.json();
       if (data.success) {
