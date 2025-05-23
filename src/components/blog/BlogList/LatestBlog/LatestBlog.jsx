@@ -2,21 +2,17 @@ import React, { useEffect, useState } from "react";
 
 const LatestBlog = () => {
   const [blogs, setBlogs] = useState([]);
-
   useEffect(() => {
     const fetchBlogsWithImages = async () => {
       try {
-        const res = await fetch(
-          "https://wordpress-1429909-5338534.cloudwaysapps.com/wp-json/wp/v2/posts?per_page=5&_embed"
-        );
+        const res = await fetch("https://ksa4sale.net/wp-json/wp/v2/posts?_embed");
         const posts = await res.json();
-
+  
         console.log("Fetched Posts:", posts);
-
+  
         const blogsWithImages = posts.map((post) => {
           let imageUrl = "";
-
-          // Check if _embedded and featured media exist
+  
           if (
             post._embedded &&
             post._embedded["wp:featuredmedia"] &&
@@ -25,7 +21,7 @@ const LatestBlog = () => {
           ) {
             imageUrl = post._embedded["wp:featuredmedia"][0].source_url;
           }
-
+  
           return {
             id: post.id,
             title: post.title.rendered,
@@ -33,15 +29,55 @@ const LatestBlog = () => {
             link: post.link,
           };
         });
-
+  
         setBlogs(blogsWithImages);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
     };
-
+  
     fetchBlogsWithImages();
   }, []);
+  
+  // useEffect(() => {
+  //   const fetchBlogsWithImages = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         "https://ksa4sale.net/blogs/"
+  //       );
+  //       const posts = await res.json();
+
+  //       console.log("Fetched Posts:", posts);
+
+  //       const blogsWithImages = posts.map((post) => {
+  //         let imageUrl = "";
+
+  //         // Check if _embedded and featured media exist
+  //         if (
+  //           post._embedded &&
+  //           post._embedded["wp:featuredmedia"] &&
+  //           post._embedded["wp:featuredmedia"][0] &&
+  //           post._embedded["wp:featuredmedia"][0].source_url
+  //         ) {
+  //           imageUrl = post._embedded["wp:featuredmedia"][0].source_url;
+  //         }
+
+  //         return {
+  //           id: post.id,
+  //           title: post.title.rendered,
+  //           image: imageUrl,
+  //           link: post.link,
+  //         };
+  //       });
+
+  //       setBlogs(blogsWithImages);
+  //     } catch (error) {
+  //       console.error("Error fetching blogs:", error);
+  //     }
+  //   };
+
+  //   fetchBlogsWithImages();
+  // }, []);
 
   return (
     <div className="latestblog-wrapper latestBlog_Card ">
@@ -52,8 +88,8 @@ const LatestBlog = () => {
             className="featuresection_btn featuresection_btn1 mt-4"
             onClick={() =>
               window.open(
-                "https://wordpress-1429909-5338534.cloudwaysapps.com/",
-                "_blank"
+                "https://ksa4sale.net/blogs",
+                "_blank"  
               )
             }
           >
