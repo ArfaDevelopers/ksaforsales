@@ -26,7 +26,29 @@ const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [error1, setError1] = useState("");
+  
+  const handlePhoneNumberChange1 = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+  
+    // This regex only allows valid sequences starting with +9665 followed by up to 8 digits
+    const liveKsaPhoneRegex = /^\+9665\d{0,8}$/;
+  
+    // Show error if input is not empty and doesn't match the required live pattern
+    if (value === "") {
+      setError1("");
+    } else if (!liveKsaPhoneRegex.test(value)) {
+      setError1("Please enter a valid KSA phone number (+9665xxxxxxxx)");
+    } else {
+      setError1("");
+    }
+  };
+  
+  
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -157,28 +179,7 @@ const Login = () => {
                   </p>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
-
-                <form onSubmit={handleSubmit}>
-                  <div
-                    style={{
-                      position: "relative",
-                      marginBottom: "15px",
-                      width: "100%",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "10px",
-                        backgroundColor: "#f0f4ff",
-                        padding: "5px 10px",
-                        width: "100%",
-                        boxSizing: "border-box",
-                      }}
-                    >
-                      {/* <span
+     {/* <span
       style={{
         display: "flex",
         alignItems: "center",
@@ -225,15 +226,62 @@ const Login = () => {
         width: "100%",
       }}
     /> */}
-                      <input
+                <form onSubmit={handleSubmit}>
+                  <div
+                    style={{
+                      position: "relative",
+                      marginBottom: "15px",
+                      width: "100%",
+                    }}
+                  >
+            <div
+  style={{
+    position: "relative",
+    marginBottom: "15px",
+    width: "100%",
+  }}
+>
+
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      border: "1px solid #e0e0e0",
+      borderRadius: "10px",
+      backgroundColor: "#f0f4ff",
+      padding: "5px 10px",
+      boxSizing: "border-box",
+      width: "100%", // Ensure the container takes full width
+    }}
+  >
+    <input
+      type="tel"
+      id="phoneNumber"
+      value={phoneNumber}
+      onChange={handlePhoneNumberChange1}
+      placeholder="+9665xxxxxxxx"
+      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+      required
+      style={{
+        flex: 1, // Allow the input to grow and fill the space
+        border: "none", // Remove border to match the container
+        outline: "none", // Remove outline
+        backgroundColor: "transparent", // Match background with container
+      }}
+    />
+  </div>
+  {error1 && <p className="text-red-500 text-sm mt-1">{error1}</p>}
+ 
+
+                      {/* <input
                         type="tel"
                         id="phoneNumber"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+923446076953"
+                        placeholder="+965"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         required
-                      />
+                      /> */}
                     </div>
 
                     <style>
