@@ -22,7 +22,7 @@ const UserHeader = ({ parms }) => {
 
   const [drops, setDrops] = useState(false);
   const [divideName, setdivideName] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const handleLogout = async () => {
     try {
       await signOut(auth); // Logs out the user
@@ -34,7 +34,7 @@ const UserHeader = ({ parms }) => {
   };
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-useEffect(() => {
+  useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -56,7 +56,6 @@ useEffect(() => {
         console.log("User UID:divideName", user);
         // setdivideName(divideName[0]);
         setdivideName(user.displayName);
-
 
         console.log("User UID:", user.uid);
       } else {
@@ -165,91 +164,94 @@ useEffect(() => {
         </div>
         <div className="container">
           <nav className="navbar navbar-expand-lg header-nav">
-          <div
+            <div
               className="container-fluid d-flex align-items-center justify-content-between"
               style={{ flexWrap: "nowrap" }}
             >
-            <div className="navbar-header">
-              <Link id="mobile_btn" to="#">
-                <span className="bar-icon">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-              </Link>
-              <Link to="/" className="navbar-brand logo" style={{ marginLeft: "38px",width:"9rem" }}>
-                <img src={LogoSvg} className="img-fluid" alt="Logo" />
-              </Link>
-            </div>
-            <div className="main-menu-wrapper">
-              <div className="menu-header">
-                <Link to="/" className="menu-logo">
+              <div className="navbar-header">
+                <Link id="mobile_btn" to="#">
+                  <span className="bar-icon">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                </Link>
+                <Link
+                  to="/"
+                  className="navbar-brand logo"
+                  style={{ marginLeft: "38px", width: "9rem" }}
+                >
                   <img src={LogoSvg} className="img-fluid" alt="Logo" />
                 </Link>
-                <Link id="menu_close" className="menu-close" to="#">
-                  {" "}
-                  <i className="fas fa-times" />
-                </Link>
               </div>
-              <ul className="main-nav">
-                <HomeMenu activeMenu={"Classified"} />
-                <ListingMenu />
-                <PagesMenu />
-                <UserPagesMenu activesMenu={parms} />
-                <BlogMenu />
-                <li>
-                  <Link to="/contact">Contact</Link>
-                </li>
-                
-                <li className="login-link">
-                  <Link to="/signup">Sign Up</Link>
-                </li>
-                <li className="login-link">
-                  <Link to="login">Sign In</Link>
-                </li>
-              </ul>
-            </div>
-            {!isMobile && (
-            <form
-              className="d-flex search-container"
-              style={{
-                position: "relative",
-                flexGrow: 1, // Allows it to take available space
-                maxWidth: "500px", // Adjust max width as needed
-                margin: "0 20px", // Space around search bar
-                
-              }}
-            >
-              <input
-                className="form-control search-input"
-                type="search"
-                placeholder="What are you looking for?"
-                aria-label="Search"
-                style={{
-                  paddingRight: "40px",
-                  borderRadius: "20px",
-                  border: "1px solid #ccc",
-                  width: "100%",
-                }}
-              />
-              <button
-                className="btn search-btn"
-                type="submit"
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  right: "10px",
-                  transform: "translateY(-50%)",
-                  background: "transparent",
-                  border: "none",
-                  padding: 0,
-                }}
-              >
-                <FaSearch style={{ color: "#0056b3" }} />
-              </button>
-            </form>
-            )}
-            {/* <ul className="nav header-navbar-rht" >
+              <div className="main-menu-wrapper">
+                <div className="menu-header">
+                  <Link to="/" className="menu-logo">
+                    <img src={LogoSvg} className="img-fluid" alt="Logo" />
+                  </Link>
+                  <Link id="menu_close" className="menu-close" to="#">
+                    {" "}
+                    <i className="fas fa-times" />
+                  </Link>
+                </div>
+                <ul className="main-nav">
+                  <HomeMenu activeMenu={"Classified"} />
+                  <ListingMenu />
+                  <PagesMenu />
+                  <UserPagesMenu activesMenu={parms} />
+                  <BlogMenu />
+                  <li>
+                    <Link to="/contact">Contact</Link>
+                  </li>
+
+                  <li className="login-link">
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                  <li className="login-link">
+                    <Link to="login">Sign In</Link>
+                  </li>
+                </ul>
+              </div>
+              {!isMobile && (
+                <form
+                  className="d-flex search-container"
+                  style={{
+                    position: "relative",
+                    flexGrow: 1, // Allows it to take available space
+                    maxWidth: "500px", // Adjust max width as needed
+                    margin: "0 20px", // Space around search bar
+                  }}
+                >
+                  <input
+                    className="form-control search-input"
+                    type="search"
+                    placeholder="What are you looking for?"
+                    aria-label="Search"
+                    style={{
+                      paddingRight: "40px",
+                      borderRadius: "20px",
+                      border: "1px solid #ccc",
+                      width: "100%",
+                    }}
+                  />
+                  <button
+                    className="btn search-btn"
+                    type="submit"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "10px",
+                      transform: "translateY(-50%)",
+                      background: "transparent",
+                      border: "none",
+                      padding: 0,
+                    }}
+                  >
+                    <FaSearch style={{ color: "#0056b3" }} />
+                  </button>
+                </form>
+              )}
+              {/* <ul className="nav header-navbar-rht" >
               <li className="nav-item">
                 <Link
                   className="nav-link header-login add-listing"
@@ -287,39 +289,53 @@ useEffect(() => {
                 </div>
               </li>
             </ul> */}
-             <ul className="nav header-navbar-rht" style={{ display: "flex", gap: "15px" }}>
-                    <li className="nav-item">
-                      <Link className="nav-link header-login add-listing" to="/add-listing">
-                        <i className="fa-solid fa-plus" /> Add Listing
-                      </Link>
-                    </li>
-                    <li className="nav-item dropdown has-arrow logged-item">
-                      <Link
-                        to="#"
-                        className={`dropdown-toggle profile-userlink ${
-                          drops ? "show" : ""
-                        }`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded={drops}
-                        onClick={() => setDrops(!drops)}
-                      >
-                        <img src={profile_img} alt="" />
-                        <span>{divideName}</span>
-                      </Link>
-                      <div className={`dropdown-menu dropdown-menu-end ${drops ? "show" : ""}`}>
-                        <Link className="dropdown-item" to="/dashboard">
-                          Dashboard
-                        </Link>
-                        <Link className="dropdown-item" to="/profile">
-                          Profile Settings
-                        </Link>
-                        <Link className="dropdown-item" to="#" onClick={handleLogout}>
-                          Logout
-                        </Link>
-                      </div>
-                    </li>
-                  </ul>
+              <ul
+                className="nav header-navbar-rht"
+                style={{ display: "flex", gap: "15px" }}
+              >
+                <li className="nav-item">
+                  <Link
+                    className="nav-link header-login add-listing"
+                    to="/add-listing"
+                  >
+                    <i className="fa-solid fa-plus" /> Add Listing
+                  </Link>
+                </li>
+                <li className="nav-item dropdown has-arrow logged-item">
+                  <Link
+                    to="#"
+                    className={`dropdown-toggle profile-userlink ${
+                      drops ? "show" : ""
+                    }`}
+                    data-bs-toggle="dropdown"
+                    aria-expanded={drops}
+                    onClick={() => setDrops(!drops)}
+                  >
+                    <img src={profile_img} alt="" />
+                    <span>{divideName}</span>
+                  </Link>
+                  <div
+                    className={`dropdown-menu dropdown-menu-end ${
+                      drops ? "show" : ""
+                    }`}
+                  >
+                    <Link className="dropdown-item" to="/dashboard">
+                      Dashboard
+                    </Link>
+                    <Link className="dropdown-item" to="/profile">
+                      Profile Settings
+                    </Link>
+                    <Link
+                      className="dropdown-item"
+                      to="#"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Link>
                   </div>
+                </li>
+              </ul>
+            </div>
           </nav>
         </div>
       </header>

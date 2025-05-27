@@ -100,11 +100,7 @@ const UpperHeader = () => {
     }
   };
 
- 
-
- 
-
-   return (
+  return (
     <div style={{ backgroundColor: "white" }}>
       {" "}
       {/* Full width background */}
@@ -122,26 +118,23 @@ const UpperHeader = () => {
 
           {/* Contact Info Section with Phone Icon */}
           <div className="d-flex align-items-center" style={{ gap: "67.8px" }}>
-            <div className="phone-info text-muted" onClick={handleCall}
-
->
+            <div className="phone-info text-muted" onClick={handleCall}>
               <FontAwesomeIcon
                 icon={faPhone}
                 style={{ color: "#36A680" }}
                 className="me-2"
-              /><a
-              href="tel:+95605130771851"
-              onClick={handleCall}
-              style={{
-                textDecoration: "none",
-                color: "#353535",
-                fontFamily: "Inter",
-              }}
-            >
-              <span className="para-text">+966 530 77 1851</span>
-            </a>
-
-
+              />
+              <a
+                href="tel:+95605130771851"
+                onClick={handleCall}
+                style={{
+                  textDecoration: "none",
+                  color: "#353535",
+                  fontFamily: "Inter",
+                }}
+              >
+                <span className="para-text">+966 530 77 1851</span>
+              </a>
             </div>
 
             {/* Language Dropdown Section */}

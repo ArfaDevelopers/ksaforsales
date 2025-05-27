@@ -269,14 +269,15 @@ const SignUp = () => {
                           }}
                         >
                           <img
-                            src="https://flagcdn.com/16x12/kw.png"
-                            alt="Kuwait Flag"
+                            src="https://flagcdn.com/16x12/sa.png"
+                            alt="Saudi Arabia Flag"
                             style={{
                               width: "20px",
                               height: "15px",
                               marginRight: "5px",
                             }}
                           />
+
                           <span
                             style={{
                               color: "#2d4495",

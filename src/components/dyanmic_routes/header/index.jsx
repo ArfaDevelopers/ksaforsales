@@ -53,8 +53,8 @@ const Header = ({ parms }) => {
   }, [navigate]);
   const [drops, setDrops] = useState(false);
   const [divideName, setdivideName] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); 
- useEffect(() => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -281,60 +281,71 @@ const Header = ({ parms }) => {
           }
         `}
                 </style>
-                <Link to="/" className="navbar-brand logo" style={{ marginLeft: "33px",width:"9rem" }}>
+                <Link
+                  to="/"
+                  className="navbar-brand logo"
+                  style={{ marginLeft: "33px", width: "9rem" }}
+                >
                   <img src={LogoSvg} className="img-fluid" alt="Logo" />
                 </Link>
               </div>
 
               {/* Search Bar */}
               {!isMobile && (
-              <form
-                className="d-flex search-container"
-                style={{
-                  position: "relative",
-                  flexGrow: 1, // Allows it to take available space
-                  maxWidth: "500px", // Adjust max width as needed
-                  margin: "0 20px", // Space around search bar
-                }}
-              >
-                <input
-                  className="form-control search-input"
-                  type="search"
-                  placeholder="What are you looking for?"
-                  aria-label="Search"
+                <form
+                  className="d-flex search-container"
                   style={{
-                    paddingRight: "40px",
-                    borderRadius: "20px",
-                    border: "1px solid #ccc",
-                    width: "100%",
-                  }}
-                />
-                <button
-                  className="btn search-btn"
-                  type="submit"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "10px",
-                    transform: "translateY(-50%)",
-                    background: "transparent",
-                    border: "none",
-                    padding: 0,
+                    position: "relative",
+                    flexGrow: 1, // Allows it to take available space
+                    maxWidth: "500px", // Adjust max width as needed
+                    margin: "0 20px", // Space around search bar
                   }}
                 >
-                  <FaSearch style={{ color: "#0056b3" }} />
-                </button>
-              </form>
+                  <input
+                    className="form-control search-input"
+                    type="search"
+                    placeholder="What are you looking for?"
+                    aria-label="Search"
+                    style={{
+                      paddingRight: "40px",
+                      borderRadius: "20px",
+                      border: "1px solid #ccc",
+                      width: "100%",
+                    }}
+                  />
+                  <button
+                    className="btn search-btn"
+                    type="submit"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "10px",
+                      transform: "translateY(-50%)",
+                      background: "transparent",
+                      border: "none",
+                      padding: 0,
+                    }}
+                  >
+                    <FaSearch style={{ color: "#0056b3" }} />
+                  </button>
+                </form>
               )}
               {/* Navigation Links */}
 
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
-                style={{ gap: "15px", marginBottom: 0 , flexShrink: 0,
-                  "@media (max-width: 768px)": { gap: "10px" }}}
+                style={{
+                  gap: "15px",
+                  marginBottom: 0,
+                  flexShrink: 0,
+                  "@media (max-width: 768px)": { gap: "10px" },
+                }}
               >
                 {auth.currentUser ? (
-                  <ul className="nav header-navbar-rht" style={{ display: "flex", gap: "15px" }}>
+                  <ul
+                    className="nav header-navbar-rht"
+                    style={{ display: "flex", gap: "15px" }}
+                  >
                     <li className="nav-item">
                       <Link
                         className="nav-link header-login add-listing"
@@ -380,12 +391,20 @@ const Header = ({ parms }) => {
                   <>
                     {" "}
                     <li className="nav-item">
-                      <Link className="nav-link header-reg" to="/signup" style={{marginLeft:'-1rem' }}>
+                      <Link
+                        className="nav-link header-reg"
+                        to="/signup"
+                        style={{ marginLeft: "-1rem" }}
+                      >
                         Sign Up
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className="nav-link header-login" to="/login" style={{marginLeft:'-2.5rem' }}>
+                      <Link
+                        className="nav-link header-login"
+                        to="/login"
+                        style={{ marginLeft: "-2.5rem" }}
+                      >
                         Sign In
                       </Link>
                     </li>
