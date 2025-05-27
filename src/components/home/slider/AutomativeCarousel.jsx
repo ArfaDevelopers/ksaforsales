@@ -215,11 +215,10 @@ export default function AutomativeCarousel() {
                                     {ad.title}
                                   </Link>
                                 </h6>
-                                {/* <div className="location-info">
-                                  <p style={{ fontSize: "0.7rem" }}>
-                                    {ad.description}
-                                  </p>
-                                </div> */}
+
+                                <p style={{ fontSize: "0.7rem" }}>
+                                  {ad.District} , {ad.City}
+                                </p>
                                 <div className="blog-location-details">
                                   <div
                                     className="location-info"

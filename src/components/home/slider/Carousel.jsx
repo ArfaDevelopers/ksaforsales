@@ -212,10 +212,9 @@ export default function Carousel() {
                               <h6>
                                 <Link to="/index">{item.title}</Link>
                               </h6>
-                              {/* <p style={{ fontSize: "0.7rem" }}>
-                                {item.ContentType} | {item.SkillLevel} |{" "}
-                                {item.SubjectCategories}
-                              </p> */}
+                              <p style={{ fontSize: "0.7rem" }}>
+                                {item.District} , {item.City}
+                              </p>
                               <div className="blog-location-details">
                                 <div
                                   className="location-info mt-2"

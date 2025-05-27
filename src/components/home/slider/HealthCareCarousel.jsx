@@ -177,7 +177,9 @@ export default function AutomativeCarousel() {
                                 className="location-info"
                                 style={{ marginTop: "1rem" }}
                               >
-                                {ad.location}
+                                <p style={{ fontSize: "0.7rem" }}>
+                                  {ad.District} , {ad.City}
+                                </p>{" "}
                               </div>
                             </div>
                             <div className="amount-details">
