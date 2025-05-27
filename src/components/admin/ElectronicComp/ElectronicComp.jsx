@@ -1667,6 +1667,7 @@ const ElectronicComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -1681,6 +1682,7 @@ const ElectronicComp = () => {
                 fontWeight: "500",
                 // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                
               }}
             >
               Home
@@ -1760,7 +1762,7 @@ const ElectronicComp = () => {
             )}
           </div>
 
-          <div
+          {/* <div
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
@@ -1846,7 +1848,7 @@ const ElectronicComp = () => {
             >
               Electronics
             </button>
-          </div>
+          </div> */}
         </Container>
         <Container
           fluid

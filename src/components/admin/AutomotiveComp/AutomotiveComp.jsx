@@ -2020,11 +2020,22 @@ const AutomotiveComp = () => {
           car.Model?.toLowerCase().includes(lowercasedQuery) ||
           car.Fueltype?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
-          car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
+          // car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
       );
     }
     setLoading(false);
+    if (searchQuery?.length > 0) {
+      filtered = filtered.filter((car) => {
+        // Ensure car.title exists and is a string
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
+          return false;
+        }
+        // Case-insensitive search
+        return car.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
     // Filter by selected cities
     if (cities?.length > 0) {
       filtered = filtered.filter((car) => cities.includes(car.City));
@@ -2344,6 +2355,7 @@ const AutomotiveComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -2368,6 +2380,9 @@ const AutomotiveComp = () => {
             </span>
 
             <button
+              onClick={() => {
+                navigate("/AutomotiveComp");
+              }}
               className="btn"
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
@@ -2435,7 +2450,7 @@ const AutomotiveComp = () => {
             )}
           </div>
 
-          <div
+          {/* <div
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
@@ -2521,7 +2536,7 @@ const AutomotiveComp = () => {
             >
               Electronics
             </button>
-          </div>
+          </div> */}
         </Container>
         <Container
           fluid
@@ -2553,7 +2568,7 @@ const AutomotiveComp = () => {
               </h5>
 
               <Form>
-                <Row className="my-3">
+              <Row className="my-3">
                   <Col>
                     <Form.Label
                       style={{
@@ -2567,7 +2582,7 @@ const AutomotiveComp = () => {
                     <div className="position-relative">
                       <input
                         type="search"
-                        placeholder="E.g. Mercedez in Dubai"
+                        placeholder="Search here"
                         className="form-control rounded-pill pe-5"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state

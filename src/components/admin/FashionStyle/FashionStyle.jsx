@@ -1883,6 +1883,8 @@ const FashionStyle = () => {
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+
             }}
           >
             <button
@@ -2010,6 +2012,7 @@ const FashionStyle = () => {
                 style={{
                   marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
                   marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                  
                   fontSize: "24px",
                 }}
               >
@@ -2018,7 +2021,7 @@ const FashionStyle = () => {
             )}
           </div>
 
-          <div
+          {/* <div
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
@@ -2104,7 +2107,7 @@ const FashionStyle = () => {
             >
               Electronics
             </button>
-          </div>
+          </div> */}
         </Container>
         <Container
           fluid

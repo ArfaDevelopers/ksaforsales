@@ -2233,6 +2233,7 @@ const TravelComp = () => {
               flexWrap: "wrap",
               gap: "10px",
               marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
+              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -2245,7 +2246,6 @@ const TravelComp = () => {
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -2324,94 +2324,6 @@ const TravelComp = () => {
                 {nestedSubCategory || subCatgory}
               </h1>
             )}
-          </div>
-
-          <div
-            className="CategoryInfodiv_btn2container"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-            }}
-          >
-            <button
-              onClick={() => {
-                navigate("/AutomotiveComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Cars
-            </button>
-            <button
-              onClick={() => {
-                navigate("/JobBoard");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Jobs
-            </button>
-            <button
-              onClick={() => {
-                navigate("/RealEstateComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Real Estate for Rent
-            </button>
-            <button
-              onClick={() => {
-                navigate("/HealthCareComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Home & Furniture
-            </button>
-            <button
-              onClick={() => {
-                navigate("/ElectronicComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
           </div>
         </Container>
         <Container
