@@ -845,160 +845,22 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
+                  marginBottom: "-20px",
                 }}
               >
                 <Link
                   to="/AutomotiveComp"
-                  className="category-links"
+                  className="category-links flex flex-col items-center gap-2"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>{OurCategoryAutomativeTitle}</h5>
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryAutomativeTitle}
+                  </h5>
                   <img
                     src={OurCategoryAutomative}
                     alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
                   />
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/ElectronicComp"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{ElectronicsTitle}</h5>
-                  <img
-                    src={Electronics}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/FashionStyle"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{FashionStyleTitle}</h5>
-                  <img
-                    src={FashionStyle}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/HealthCareComp"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryHealthCareTitle}</h5>
-                  <img
-                    src={OurCategoryHealthCare}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/JobBoard"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryJobBoardTitle}</h5>
-                  <img
-                    src={OurCategoryJobBoard}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/RealEstateComp"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryRealEstateTitle}</h5>
-                  <img
-                    src={OurCategoryRealEstate}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/TravelComp"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategoryTravelTitle}</h5>
-                  <img
-                    src={OurCategoryTravel}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
-                </Link>
-              </div>
-              <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
-                style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
-                }}
-              >
-                <Link
-                  to="/SportGamesComp"
-                  className="category-links"
-                  style={{ textDecoration: "none" }}
-                >
-                  <h5>{OurCategorySportGamesTitle}</h5>
-                  <img
-                    src={OurCategorySportGames}
-                    alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
                 </Link>
               </div>
 
@@ -1006,40 +868,205 @@ const Home = () => {
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/ElectronicComp"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {ElectronicsTitle}
+                  </h5>
+                  <img
+                    src={Electronics}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/FashionStyle"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {FashionStyleTitle}
+                  </h5>
+                  <img
+                    src={FashionStyle}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/HealthCareComp"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryHealthCareTitle}
+                  </h5>
+                  <img
+                    src={OurCategoryHealthCare}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/JobBoard"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryJobBoardTitle}
+                  </h5>
+                  <img
+                    src={OurCategoryJobBoard}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/RealEstateComp"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryRealEstateTitle}
+                  </h5>
+                  <img
+                    src={OurCategoryRealEstate}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/TravelComp"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryTravelTitle}
+                  </h5>
+                  <img
+                    src={OurCategoryTravel}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
+                }}
+              >
+                <Link
+                  to="/SportGamesComp"
+                  className="category-links flex flex-col items-center gap-2"
+                  style={{ textDecoration: "none" }}
+                >
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategorySportGamesTitle}
+                  </h5>
+                  <img
+                    src={OurCategorySportGames}
+                    alt="icon"
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
+                </Link>
+              </div>
+
+              <div
+                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                style={{
+                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
+                  marginBottom: "-20px",
                 }}
               >
                 <Link
                   to="/PetAnimalsComp"
-                  className="category-links"
+                  className="category-links flex flex-col items-center gap-2"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>{OurCategoryPetAnimalsTitle}</h5>
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryPetAnimalsTitle}
+                  </h5>
                   <img
                     src={OurCategoryPetAnimals}
                     alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
                 </Link>
               </div>
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: window.innerWidth <= 576 ? "-20px" : "-20px",
+                  marginBottom: "-20px",
                 }}
               >
                 <Link
                   to="/Education"
-                  className="category-links"
+                  className="category-links flex flex-col items-center gap-2"
                   style={{ textDecoration: "none" }}
                 >
-                  <h5>{OurCategoryEducationTitle}</h5>
+                  <h5 className="text-lg sm:text-xl font-semibold text-black">
+                    {OurCategoryEducationTitle}
+                  </h5>
                   <img
                     src={OurCategoryEducation}
                     alt="icon"
-                    style={{ height: "48px", objectFit: "contain" }}
-                  />{" "}
+                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  />
                 </Link>
               </div>
             </div>
