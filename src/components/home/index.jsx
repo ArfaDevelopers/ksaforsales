@@ -842,232 +842,570 @@ const Home = () => {
             >
               {/* Row 1: 5 items */}
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: "-20px",
+                  width: "110px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
                 }}
               >
-                <Link
-                  to="/AutomotiveComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon inside gray rounded box */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryAutomativeTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryAutomative}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/AutomotiveComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryAutomative}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title below the icon box */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryAutomativeTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
                   marginBottom: "-20px",
+                  width: "110px",
+                  marginLeft: "auto",
+                  marginRight: "auto",
                 }}
               >
-                <Link
-                  to="/ElectronicComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon Box with background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {ElectronicsTitle}
-                  </h5>
-                  <img
-                    src={Electronics}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/ElectronicComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={Electronics}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the box, below the icon */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {ElectronicsTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/FashionStyle"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon Box with Light Gray Background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {FashionStyleTitle}
-                  </h5>
-                  <img
-                    src={FashionStyle}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/FashionStyle"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={FashionStyle}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title Below the Icon */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {FashionStyleTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/HealthCareComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon container with grey background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryHealthCareTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryHealthCare}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/HealthCareComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryHealthCare}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey box */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryHealthCareTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/JobBoard"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon inside grey background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryJobBoardTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryJobBoard}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/JobBoard"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryJobBoard}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside grey box */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryJobBoardTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/RealEstateComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon inside grey background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryRealEstateTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryRealEstate}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/RealEstateComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryRealEstate}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey background */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryRealEstateTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/TravelComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon inside grey background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryTravelTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryTravel}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/TravelComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryTravel}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey background */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryTravelTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/SportGamesComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Grey box for icon */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategorySportGamesTitle}
-                  </h5>
-                  <img
-                    src={OurCategorySportGames}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/SportGamesComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategorySportGames}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey background */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategorySportGamesTitle}
+                </h5>
               </div>
 
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px",
+                  margin: "0 auto",
                 }}
               >
-                <Link
-                  to="/PetAnimalsComp"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Icon inside grey background */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryPetAnimalsTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryPetAnimals}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/PetAnimalsComp"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryPetAnimals}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey background */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryPetAnimalsTitle}
+                </h5>
               </div>
+
               <div
-                className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
+                className="category_icons rounded flex flex-col items-center"
                 style={{
-                  maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  width: "110px", // total width
+                  margin: "0 auto", // center horizontally
                 }}
               >
-                <Link
-                  to="/Education"
-                  className="category-links flex flex-col items-center gap-2"
-                  style={{ textDecoration: "none" }}
+                {/* Grey background wrapping only the icon */}
+                <div
+                  style={{
+                    backgroundColor: "#f7f8fa",
+                    borderRadius: "8px",
+                    width: "100%",
+                    height: "150px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <h5 className="text-lg sm:text-xl font-semibold text-black">
-                    {OurCategoryEducationTitle}
-                  </h5>
-                  <img
-                    src={OurCategoryEducation}
-                    alt="icon"
-                    className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
-                  />
-                </Link>
+                  <Link
+                    to="/Education"
+                    style={{
+                      textDecoration: "none",
+                      border: "none",
+                      backgroundColor: "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onMouseEnter={(e) => e.preventDefault()}
+                    onMouseLeave={(e) => e.preventDefault()}
+                  >
+                    <img
+                      src={OurCategoryEducation}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    />
+                  </Link>
+                </div>
+
+                {/* Title outside the grey area */}
+                <h5
+                  className="font-semibold text-black text-center"
+                  style={{
+                    fontSize: "12px",
+                    lineHeight: "1.2",
+                    marginTop: "6px",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {OurCategoryPetAnimalsTitle}
+                </h5>
               </div>
             </div>
             {/* Add more rows as needed */}
