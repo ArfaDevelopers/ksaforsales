@@ -837,6 +837,7 @@ const Home = () => {
               className="row cat_icon_main"
               style={{
                 marginTop: "-1rem",
+                marginBottom: window.innerWidth <= 576 ? "0rem" : "-2rem",
                 gap: window.innerWidth <= 576 ? "5px" : "10px",
               }}
             >
