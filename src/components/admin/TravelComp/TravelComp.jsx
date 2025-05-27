@@ -2223,7 +2223,7 @@ const TravelComp = () => {
             color: "black", // Text color
             maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+            marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
         >
           <div
