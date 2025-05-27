@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Function to format the time ago in human-readable form
 function timeAgo(timestamp) {
@@ -68,16 +69,37 @@ export default function AutomativeCarousel() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const CustomPrevArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-prev" onClick={onClick}>
+      <FaChevronLeft />
+    </div>
+  );
 
+  const CustomNextArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-next" onClick={onClick}>
+      <FaChevronRight />
+    </div>
+  );
   const settings = {
     dots: false,
     arrows: true,
-    infinite: true,
-    lazyLoad: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
+
+  // const settings = {
+  //   dots: false,
+  //   arrows: true,
+  //   infinite: true,
+  //   lazyLoad: true,
+  //   speed: 1000,
+  //   slidesToShow: slidesToShow,
+  //   slidesToScroll: 1,
+  // };
 
   const slider = useRef();
 

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function timeAgo(timestamp) {
   const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
@@ -67,14 +68,26 @@ export default function Carousel() {
       window.removeEventListener("resize", handleResize);
     };
   }, [ads]);
+  const CustomPrevArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-prev" onClick={onClick}>
+      <FaChevronLeft />
+    </div>
+  );
 
+  const CustomNextArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-next" onClick={onClick}>
+      <FaChevronRight />
+    </div>
+  );
   const settings = {
     dots: false,
     arrows: true,
-    infinite: false, // Ensure no duplicate looping
+    infinite: false,
     speed: 1000,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
 
   return (
@@ -95,24 +108,24 @@ export default function Carousel() {
           <div className="col-md-12">
             {loading ? (
               <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}
-            >
-              <img
-                src={Loading1}
-                alt="Loading..."
                 style={{
-                  width: "200px",
-                  height: "200px",
-                  animation: "spin 1s linear infinite", // Apply the spin animation
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
                 }}
-              />
-              <style>
-                {`
+              >
+                <img
+                  src={Loading1}
+                  alt="Loading..."
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    animation: "spin 1s linear infinite", // Apply the spin animation
+                  }}
+                />
+                <style>
+                  {`
                   @keyframes spin {
                     from {
                       transform: rotate(0deg);
@@ -122,8 +135,8 @@ export default function Carousel() {
                     }
                   }
                 `}
-              </style>
-            </div>
+                </style>
+              </div>
             ) : (
               <Slider
                 ref={slider}
@@ -134,7 +147,9 @@ export default function Carousel() {
                   <div key={index}>
                     <Link
                       //  to={`/routes/${item.id}`}
-                      to={`/Dynamic_Route?id=${item.id}&callingFrom=${'Education'}`}
+                      to={`/Dynamic_Route?id=${
+                        item.id
+                      }&callingFrom=${"Education"}`}
                     >
                       <div
                         className="card aos"

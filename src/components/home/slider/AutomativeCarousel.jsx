@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -53,7 +54,7 @@ export default function AutomativeCarousel() {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-  
+
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -79,15 +80,26 @@ export default function AutomativeCarousel() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const CustomPrevArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-prev" onClick={onClick}>
+      <FaChevronLeft />
+    </div>
+  );
 
+  const CustomNextArrow = ({ onClick }) => (
+    <div className="custom-arrow custom-next" onClick={onClick}>
+      <FaChevronRight />
+    </div>
+  );
   const settings = {
     dots: false,
     arrows: true,
-    infinite: true,
-    lazyLoad: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
 
   const slider = useRef();
@@ -131,25 +143,25 @@ export default function AutomativeCarousel() {
           <div className="col-md-12">
             <div>
               {loading ? (
-              <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}
-            >
-              <img
-                src={Loading1}
-                alt="Loading..."
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  animation: "spin 1s linear infinite", // Apply the spin animation
-                }}
-              />
-              <style>
-                {`
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                  <img
+                    src={Loading1}
+                    alt="Loading..."
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      animation: "spin 1s linear infinite", // Apply the spin animation
+                    }}
+                  />
+                  <style>
+                    {`
                   @keyframes spin {
                     from {
                       transform: rotate(0deg);
@@ -159,8 +171,8 @@ export default function AutomativeCarousel() {
                     }
                   }
                 `}
-              </style>
-            </div>
+                  </style>
+                </div>
               ) : (
                 <Slider
                   ref={slider}
@@ -229,7 +241,7 @@ export default function AutomativeCarousel() {
                                     className="ratings"
                                     style={{ fontFamily: "Inter" }}
                                   >
-                                  {timeAgo(ad.createdAt)}
+                                    {timeAgo(ad.createdAt)}
 
                                     {/* Format posted time */}
                                   </div>
