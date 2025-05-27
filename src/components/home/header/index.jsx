@@ -2062,44 +2062,44 @@ const Header = ({ parms }) => {
                 </Link>
               </div>
               {!isMobile && (
-                <form
-                  className="d-flex search-container"
-                  style={{
-                    flexGrow: 1,
-                    maxWidth: "500px",
-                    margin: "0 20px",
-                    position: "relative",
-                    display: "flex",
-                  }}
-                >
-                  <input
-                    className="form-control search-input"
-                    type="search"
-                    placeholder="What are you looking for?"
-                    aria-label="Search"
-                    style={{
-                      paddingRight: "40px",
-                      borderRadius: "20px",
-                      border: "1px solid #ccc",
-                      width: "100%",
-                    }}
-                  />
-                  <button
-                    className="btn search-btn"
-                    type="submit"
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      right: "10px",
-                      transform: "translateY(-50%)",
-                      background: "transparent",
-                      border: "none",
-                      padding: 0,
-                    }}
-                  >
-                    <FaSearch style={{ color: "#0056b3" }} />
-                  </button>
-                </form>
+            <form
+            className="d-flex search-container"
+            style={{
+              flexGrow: 1,
+              maxWidth: "700px", // Increased width
+              margin: "0 20px",
+              position: "relative",
+              display: "flex",
+            }}
+          >
+            <input
+              className="form-control search-input"
+              type="search"
+              placeholder="What are you looking for?"
+              aria-label="Search"
+              style={{
+                paddingRight: "40px",
+                borderRadius: "20px",
+                border: "1px solid #ccc",
+                width: "100%",
+              }}
+            />
+            <button
+              className="btn search-btn"
+              type="submit"
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "10px",
+                transform: "translateY(-50%)",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+              }}
+            >
+              <FaSearch style={{ color: "#0056b3" }} />
+            </button>
+          </form>
               )}
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
