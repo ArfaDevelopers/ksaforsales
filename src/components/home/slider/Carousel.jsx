@@ -90,8 +90,18 @@ export default function Carousel() {
     prevArrow: <CustomPrevArrow />,
   };
 
+  // const settings = {
+  //   dots: false,
+  //   arrows: true,
+  //   infinite: false, // Ensure no duplicate looping
+  //   speed: 1000,
+  //   slidesToShow: slidesToShow,
+  //   slidesToScroll: 1,
+  // };
+
   return (
-    <section className="featured-section-color automotive_card_section">
+    <section className="featured-section-color automotive_card_section -mt-8 lg:-mt-16">
+      {" "}
       <div className="container">
         <div className="row align-items-center">
           <div

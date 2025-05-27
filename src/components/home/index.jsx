@@ -592,9 +592,7 @@ const Home = () => {
     if (imageUrls.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        (prevIndex + 1) % imageUrls.length
-      );
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
     }, 3000); // Change image every 3 seconds
 
     return () => clearInterval(interval); // Cleanup on unmount
@@ -615,11 +613,13 @@ const Home = () => {
   useEffect(() => {
     const fetchTrendingProducts = async () => {
       try {
-        const response = await fetch('http://168.231.80.24:9002/route/trendingProducts');
+        const response = await fetch(
+          "http://168.231.80.24:9002/route/trendingProducts"
+        );
         const data = await response.json();
         setTrendingProducts(data);
       } catch (error) {
-        console.error('Error fetching trending products:', error);
+        console.error("Error fetching trending products:", error);
       }
     };
 
@@ -629,28 +629,28 @@ const Home = () => {
   // Map category to navigation route
   const getCallingFrom = (category) => {
     switch (category.toLowerCase()) {
-      case 'automotive':
-        return 'AutomotiveComp';
-      case 'electronics':
-        return 'ElectronicComp';
-      case 'fashion style':
-        return 'FashionStyle';
-      case 'home & furniture':
-        return 'HealthCareComp';
-      case 'job board':
-        return 'JobBoard';
-      case 'real estate':
-        return 'RealEstateComp';
-      case 'services':
-        return 'TravelComp';
-      case 'sports & game':
-        return 'SportGamesComp';
-      case 'pet & animals':
-        return 'PetAnimalsComp';
-      case 'other':
-        return 'Education';
+      case "automotive":
+        return "AutomotiveComp";
+      case "electronics":
+        return "ElectronicComp";
+      case "fashion style":
+        return "FashionStyle";
+      case "home & furniture":
+        return "HealthCareComp";
+      case "job board":
+        return "JobBoard";
+      case "real estate":
+        return "RealEstateComp";
+      case "services":
+        return "TravelComp";
+      case "sports & game":
+        return "SportGamesComp";
+      case "pet & animals":
+        return "PetAnimalsComp";
+      case "other":
+        return "Education";
       default:
-        return '/'; // Fallback for unmapped categories
+        return "/"; // Fallback for unmapped categories
     }
   };
   return (
@@ -679,36 +679,42 @@ const Home = () => {
 
           {/* Carousel Items */}
           <div className="carousel-inner">
-      {imageUrls.map((img, index) => {
-        const isMobile = windowWidth <= 576;
-        const isTablet = windowWidth > 576 && windowWidth <= 768;
+            {imageUrls.map((img, index) => {
+              const isMobile = windowWidth <= 576;
+              const isTablet = windowWidth > 576 && windowWidth <= 768;
 
-        return (
-          <div
-            key={index}
-            className={`carousel-item ${index === currentImageIndex ? "active" : ""}`}
-          >
-            <Link to="/login">
-              <img
-                src={img}
-                className="d-block"
-                alt={`Slide ${index + 1}`}
-                style={{
-                  width: "100%",
-                  height: isMobile ? "180px" : isTablet ? "300px" : "auto",
-                  objectFit: "contain",
-                  borderRadius: "8px",
-                  marginTop: isMobile ? "120px" : "200px",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  maxWidth: "100%",
-                }}
-              />
-            </Link>
+              return (
+                <div
+                  key={index}
+                  className={`carousel-item ${
+                    index === currentImageIndex ? "active" : ""
+                  }`}
+                >
+                  <Link to="/login">
+                    <img
+                      src={img}
+                      className="d-block"
+                      alt={`Slide ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        height: isMobile
+                          ? "180px"
+                          : isTablet
+                          ? "300px"
+                          : "auto",
+                        objectFit: "contain",
+                        borderRadius: "8px",
+                        marginTop: isMobile ? "120px" : "200px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        maxWidth: "100%",
+                      }}
+                    />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-    </div>
 
           {/* Controls */}
           <button
@@ -740,43 +746,45 @@ const Home = () => {
         </div>
         {/* Trending Products */}
         <div
-      className="trendingprodct_wrapper container pt-0"
-      style={{
-        marginBottom: 0,
-        paddingBottom: 0,
-        marginTop:
-          imageUrls.length === 0
-            ? window.innerWidth <= 576
-              ? '9rem'
-              : '13rem'
-            : '1rem',
-      }}
-    >
-      <h2 className="trendingproduct_heading">Our Trending Product</h2>
-      <div
-        className="trendingproducts_container"
-        style={{
-          marginTop: 0,
-          paddingTop: 0,
-          gap: window.innerWidth <= 576 ? '5px' : '10px',
-          fontSize: window.innerWidth <= 576 ? '12px' : '16px',
-        }}
-      >
-        {trendingProducts.map((product) => (
-          <Link
-            key={product.id}
-            to={`/Dynamic_Route?id=${product.id}&callingFrom=${getCallingFrom(product.category)}`}
-            className="trendingProductsallname"
-            style={{ 
-              width: window.innerWidth <= 576 ? '32%' : 'auto',
-              textDecoration: 'none', // Ensure Link looks like a button
+          className="trendingprodct_wrapper container pt-0"
+          style={{
+            marginBottom: 0,
+            paddingBottom: 0,
+            marginTop:
+              imageUrls.length === 0
+                ? window.innerWidth <= 576
+                  ? "9rem"
+                  : "13rem"
+                : "1rem",
+          }}
+        >
+          <h2 className="trendingproduct_heading">Our Trending Product</h2>
+          <div
+            className="trendingproducts_container"
+            style={{
+              marginTop: 0,
+              paddingTop: 0,
+              gap: window.innerWidth <= 576 ? "5px" : "10px",
+              fontSize: window.innerWidth <= 576 ? "12px" : "16px",
             }}
           >
-            {product.title}
-          </Link>
-        ))}
-      </div>
-    </div>
+            {trendingProducts.map((product) => (
+              <Link
+                key={product.id}
+                to={`/Dynamic_Route?id=${
+                  product.id
+                }&callingFrom=${getCallingFrom(product.category)}`}
+                className="trendingProductsallname"
+                style={{
+                  width: window.innerWidth <= 576 ? "32%" : "auto",
+                  textDecoration: "none", // Ensure Link looks like a button
+                }}
+              >
+                {product.title}
+              </Link>
+            ))}
+          </div>
+        </div>
 
         {/* Category Section */}
         <section className="category-section">
@@ -993,7 +1001,7 @@ const Home = () => {
                   />{" "}
                 </Link>
               </div>
-           
+
               <div
                 className="col-lg-2 col-md-2 col-sm-2 p-0 category_icons"
                 style={{
@@ -1064,22 +1072,22 @@ const Home = () => {
         {/* Footer */}
 
         <div>
-  {isVisible && ads.length > 0 && (
-    <div
-      className="popup_cnt"
-      onClick={handleClose} // Close modal when clicking outside the image
-    >
-      <div className="img" onClick={(e) => e.stopPropagation()}>
-        <div className="close_btn" onClick={handleClose}>
-          X
+          {isVisible && ads.length > 0 && (
+            <div
+              className="popup_cnt"
+              onClick={handleClose} // Close modal when clicking outside the image
+            >
+              <div className="img" onClick={(e) => e.stopPropagation()}>
+                <div className="close_btn" onClick={handleClose}>
+                  X
+                </div>
+                <div>
+                  <img src={ads[0].imageUrl} alt="popup" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <div>
-          <img src={ads[0].imageUrl} alt="popup" />
-        </div>
-      </div>
-    </div>
-  )}
-</div>
       </div>
       {/* scrollToTop start */}
       <div className="progress-wrap active-progress">
