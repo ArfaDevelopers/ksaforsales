@@ -17,7 +17,7 @@ import categories from "../categoiresData/categoiresData";
 import { BsWhatsapp } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { Form } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useParams, useLocation } from "react-router";
 
 import {
@@ -53,10 +53,9 @@ const CommercialAdscom = () => {
   ]);
   const [selectedReports, setSelectedReports] = useState([]);
   const [itemData, setItemData] = useState(null); // State to store ads data
-console.log('itemData_____________111',itemData)
+  console.log("itemData_____________111", itemData);
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
-
 
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
@@ -66,7 +65,7 @@ console.log('itemData_____________111',itemData)
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
-     console.log("callingFrom______ID:ids", ids);
+    console.log("callingFrom______ID:ids", ids);
     console.log("callingFrom______Calling From:", callingFrom);
     setCallingFrom(callingFrom);
     setId(ids);
@@ -132,8 +131,7 @@ console.log('itemData_____________111',itemData)
     };
 
     fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db,location]); // Re-run if `id` changes
-
+  }, [id, callingFrom, db, location]); // Re-run if `id` changes
 
   const handleShowCall = (phone) => {
     setSelectedPhone(phone);
@@ -146,10 +144,10 @@ console.log('itemData_____________111',itemData)
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   const handleShowWhatsApp = (phone) => {
     setSelectedPhone(phone);
@@ -240,7 +238,6 @@ console.log('itemData_____________111',itemData)
 
       handleClose();
       setSuccessShow(true);
-
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -324,45 +321,52 @@ console.log('itemData_____________111',itemData)
   };
   return (
     <>
-    <section className="commercial_card_section">
-      <div className="container">
-        <Header />
-        <Container
-          className="parent-main"
-          style={{ maxWidth: "1530px", paddingTop: "230px",marginTop: window.innerWidth <= 576 ? "-7rem" : "-4rem", marginLeft:-10 }}
-        >
-          <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
-            <div className="d-flex align-items-center"  style={{marginTop:15}}>
-              <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-              onClick={() => navigate("/")}
-            >
-              Home
-            </button>
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-              <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-              onClick={() => navigate("/ElectronicComp")}
-            >
-              CommercialAds
-            </button>
-           
-            </div>
-            {/* <div className="d-flex align-items-center justify-content-end">
+      <section className="commercial_card_section">
+        <div className="container">
+          <Header />
+          <Container
+            className="parent-main"
+            style={{
+              maxWidth: "1530px",
+              paddingTop: "230px",
+              marginTop: window.innerWidth <= 576 ? "-7rem" : "-4rem",
+              marginLeft: -10,
+            }}
+          >
+            <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
+              <div
+                className="d-flex align-items-center"
+                style={{ marginTop: 15 }}
+              >
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    pointerEvents: "none",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                  onClick={() => navigate("/")}
+                >
+                  Home
+                </button>
+                <span>
+                  <MdKeyboardArrowRight />
+                </span>
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    pointerEvents: "none",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                  onClick={() => navigate("/ElectronicComp")}
+                >
+                  CommercialAds
+                </button>
+              </div>
+              {/* <div className="d-flex align-items-center justify-content-end">
               <div className="d-flex justify-content-center align-items-center mt-4">
                 <Button
                   variant="outline-primary"
@@ -398,47 +402,43 @@ console.log('itemData_____________111',itemData)
                 </Button>
               </div>
             </div> */}
-          </div>
-        </Container>
+            </div>
+          </Container>
 
-        <hr />
+          <hr />
 
-        <h1 className="m-lg-1">Commercial Ads</h1>
-        <Container
-          className="parent-main"
-          style={{ maxWidth: "1530px" }}
-        >
-           <div
-            className="CategoryInfodiv_btn2container"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              // marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px"
-            }}
-          >
-            <Link to="/bookmarks">
-            <button
-            
-              className="head2btn"
+          <h1 className="m-lg-1">Commercial Ads</h1>
+          <Container className="parent-main" style={{ maxWidth: "1530px" }}>
+            <div
+              className="CategoryInfodiv_btn2container"
               style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+                // marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
+                marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
+                marginTop: window.innerWidth <= 576 ? "10px" : "20px",
               }}
             >
-               <span>
-                  {/* <img src={left} alt="leftarrow" /> */}
-                  <FaRegHeart/>
-                </span>{" "}
-              Favourite
-            </button>
-            </Link>
-            <>
+              <Link to="/bookmarks">
+                <button
+                  className="head2btn"
+                  style={{
+                    backgroundColor: "white",
+                    border: "1px solid #2D4495",
+                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                    textAlign: "center",
+                    width: window.innerWidth <= 576 ? "47%" : "auto",
+                  }}
+                >
+                  <span>
+                    {/* <img src={left} alt="leftarrow" /> */}
+                    <FaRegHeart />
+                  </span>{" "}
+                  Favourite
+                </button>
+              </Link>
+              <>
                 {/* Button to open modal */}
                 <button
                   className="head2btn"
@@ -448,7 +448,7 @@ console.log('itemData_____________111',itemData)
                     border: "1px solid #2D4495",
                     padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                     textAlign: "center",
-                    width: window.innerWidth <= 576 ? "47%" : "auto"
+                    width: window.innerWidth <= 576 ? "47%" : "auto",
                   }}
                 >
                   <span>
@@ -493,7 +493,13 @@ console.log('itemData_____________111',itemData)
                             <button
                               type="button"
                               className="btn"
-                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              style={{
+                                backgroundColor: "#2d4495",
+                                color: "#fff",
+                                border: "none",
+                                fontWeight: "bold",
+                                borderRadius: 10,
+                              }}
                               onClick={copyToClipboard}
                             >
                               Copy
@@ -501,7 +507,13 @@ console.log('itemData_____________111',itemData)
                             <button
                               type="button"
                               className="btn "
-                              style={{ backgroundColor: "#2d4495", color: "#fff", border: "none",fontWeight:"bold",borderRadius:10 }}
+                              style={{
+                                backgroundColor: "#2d4495",
+                                color: "#fff",
+                                border: "none",
+                                fontWeight: "bold",
+                                borderRadius: 10,
+                              }}
                               onClick={() => setShowModal1(false)}
                             >
                               Close
@@ -581,80 +593,62 @@ console.log('itemData_____________111',itemData)
                     </div>
                   </div>
                 )} */}
-              <button className="head2btn"
+              <button
+                className="head2btn"
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #2D4495",
                   padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                   textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto"
+                  width: window.innerWidth <= 576 ? "47%" : "auto",
                 }}
-              onClick={handleShow}>
+                onClick={handleShow}
+              >
                 <span>
                   <img src={report} alt="report" />
                 </span>
                 Report
               </button>
 
-             <Modal 
-              style={{marginTop: window.innerWidth <= 576 ? 60 : 20}}
-              show={show} onHide={handleClose} centered>
-              <Modal.Header closeButton>
-                <Modal.Title>Submit a Report</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Form.Group controlId="reportText">
-                    <Form.Label>Report Details</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      placeholder="Describe the issue..."
-                      value={reportText}
-                      onChange={(e) => setReportText(e.target.value)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mt-3">
-                    <Form.Label>Report Type</Form.Label>
-                    {reportTypes.map((type, index) => (
-                      <Form.Check
-                        key={index}
-                        type="checkbox"
-                        label={type}
-                        checked={selectedReports.includes(type)}
-                        onChange={() => handleCheckboxChange(type)}
+              <Modal
+                style={{ marginTop: window.innerWidth <= 576 ? 60 : 20 }}
+                show={show}
+                onHide={handleClose}
+                centered
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Submit a Report</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="reportText">
+                      <Form.Label>Report Details</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Describe the issue..."
+                        value={reportText}
+                        onChange={(e) => setReportText(e.target.value)}
                       />
-                    ))}
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button    style={{
-        backgroundColor: "#2d4495",
-        color: "#fff",
-        border: "none",
-        fontWeight: "bold",
-        borderRadius: 10,
-        transition: "none", // Disable transitions
-        outline: "none", // Remove focus outline
-        boxShadow: "none", // Remove any shadow changes
-        cursor: "pointer" // Maintain clickable appearance
-      }}
-       onClick={handleClose}
-       onMouseOver={(e) => {
-        e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
-        e.currentTarget.style.color = "#fff"; // Force same text color
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
-        e.currentTarget.style.color = "#fff"; // Restore same text color
-      }}
-       >
-                  Close
-                </Button>
-                <Button
-                     style={{
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Report Type</Form.Label>
+                      {reportTypes.map((type, index) => (
+                        <Form.Check
+                          key={index}
+                          type="checkbox"
+                          label={type}
+                          checked={selectedReports.includes(type)}
+                          onChange={() => handleCheckboxChange(type)}
+                        />
+                      ))}
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    style={{
                       backgroundColor: "#2d4495",
                       color: "#fff",
                       border: "none",
@@ -663,166 +657,206 @@ console.log('itemData_____________111',itemData)
                       transition: "none", // Disable transitions
                       outline: "none", // Remove focus outline
                       boxShadow: "none", // Remove any shadow changes
-                      cursor: "pointer" // Maintain clickable appearance
+                      cursor: "pointer", // Maintain clickable appearance
                     }}
-                  onClick={handleSubmit}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
-                    e.currentTarget.style.color = "#fff"; // Force same text color
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
-                    e.currentTarget.style.color = "#fff"; // Restore same text color
-                  }}
-                  // disabled={!reportText || selectedReports.length === 0}
-                  // disabled={selectedReports.length === 0}
-                >
-                  Submit Report
-                </Button>
-              </Modal.Footer>
-            </Modal>
-
-
-          </div>
-        </Container>
-        <Container style={{marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem"}}>
-          <Row className="g-4">
-            {currentItems.map((item) => (
-              <Col key={item.id} md={3} sm={6}>
-
-                <Card
-                  className="shadow-sm"
-                  onClick={() => {
-                    navigate(`/CategoryDetail/${item.id}`);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  <Card.Img
-                    variant="top"
-                    src={item.image}
-                    alt={item.title}
-                    style={{ height: "461px", objectFit: "fill", width: "328" }}
-                  />
-                  <Card>
-      <Card.Body>
-        <div className="d-flex justify-content-center gap-3 mt-3">
-          <Button
-            variant="primary"
-            className="d-flex align-items-center gap-1"
+                    onClick={handleClose}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                      e.currentTarget.style.color = "#fff"; // Force same text color
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                      e.currentTarget.style.color = "#fff"; // Restore same text color
+                    }}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      border: "none",
+                      fontWeight: "bold",
+                      borderRadius: 10,
+                      transition: "none", // Disable transitions
+                      outline: "none", // Remove focus outline
+                      boxShadow: "none", // Remove any shadow changes
+                      cursor: "pointer", // Maintain clickable appearance
+                    }}
+                    onClick={handleSubmit}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                      e.currentTarget.style.color = "#fff"; // Force same text color
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                      e.currentTarget.style.color = "#fff"; // Restore same text color
+                    }}
+                    // disabled={!reportText || selectedReports.length === 0}
+                    // disabled={selectedReports.length === 0}
+                  >
+                    Submit Report
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+          </Container>
+          <Container
             style={{
-              ...callButtonStyles,
-              transition: "all 0.2s ease", // Smooth transition
-              padding: "0.375rem 0.75rem", // Match Bootstrap default
+              marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem",
             }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleShowWhatsApp(item.phone);
-              setSelectedPhone(item.phone);
-            }}
-            onMouseEnter={handleCallMouseEnter}
-            onMouseLeave={handleCallMouseLeave}
-            
           >
-            <IoCallOutline style={{ fontSize: "1.5rem", color: callButtonStyles.color }} />
-            <span style={{ color: callButtonStyles.color }}>Call</span>
-          </Button>
-          <Button
-            variant="primary"
-            className="d-flex align-items-center gap-1"
-            style={{
-              ...whatsappButtonStyles,
-              transition: "all 0.2s ease",
-              padding: "0.375rem 0.75rem",
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleShowWhatsApp(item.phone);
-              setSelectedPhone(item.phone);
-            }}
-            onMouseEnter={handleWhatsappMouseEnter}
-            onMouseLeave={handleWhatsappMouseLeave}
-          >
-            <FaWhatsapp style={{ fontSize: "1.5rem", color: whatsappButtonStyles.color }} />
-            <span style={{ color: whatsappButtonStyles.color }}>WhatsApp</span>
-          </Button>
-        </div>
-      </Card.Body>
-    </Card>
-               
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+            <Row className="g-4">
+              {currentItems.map((item) => (
+                <Col key={item.id} md={3} sm={6}>
+                  <Card
+                    className="shadow-sm"
+                    onClick={() => {
+                      navigate(`/CategoryDetail/${item.id}`);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <Card.Img
+                      variant="top"
+                      src={item.image}
+                      alt={item.title}
+                      style={{
+                        height: "461px",
+                        objectFit: "fill",
+                        width: "328",
+                      }}
+                    />
+                    <Card>
+                      <Card.Body>
+                        <div className="d-flex justify-content-center gap-3 mt-3">
+                          <Button
+                            variant="primary"
+                            className="d-flex align-items-center gap-1"
+                            style={{
+                              ...callButtonStyles,
+                              transition: "all 0.2s ease", // Smooth transition
+                              padding: "0.375rem 0.75rem", // Match Bootstrap default
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowWhatsApp(item.phone);
+                              setSelectedPhone(item.phone);
+                            }}
+                            onMouseEnter={handleCallMouseEnter}
+                            onMouseLeave={handleCallMouseLeave}
+                          >
+                            <IoCallOutline
+                              style={{
+                                fontSize: "1.5rem",
+                                color: callButtonStyles.color,
+                              }}
+                            />
+                            <span style={{ color: callButtonStyles.color }}>
+                              Call
+                            </span>
+                          </Button>
+                          <Button
+                            variant="primary"
+                            className="d-flex align-items-center gap-1"
+                            style={{
+                              ...whatsappButtonStyles,
+                              transition: "all 0.2s ease",
+                              padding: "0.375rem 0.75rem",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowWhatsApp(item.phone);
+                              setSelectedPhone(item.phone);
+                            }}
+                            onMouseEnter={handleWhatsappMouseEnter}
+                            onMouseLeave={handleWhatsappMouseLeave}
+                          >
+                            <FaWhatsapp
+                              style={{
+                                fontSize: "1.5rem",
+                                color: whatsappButtonStyles.color,
+                              }}
+                            />
+                            <span style={{ color: whatsappButtonStyles.color }}>
+                              WhatsApp
+                            </span>
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </Container>
 
-        {/* Call Modal */}
-        <Modal show={showCall} onHide={handleCloseCall} centered>
-          <div className="p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="fw-bold text-dark">Call</h6>
-              <button onClick={handleCloseCall} className="btn border-0">
-                ✕
-              </button>
-            </div>
-            <hr />
-            <div className="d-flex align-items-center gap-3">
-              <IoCallOutline
-                style={{
-                  width: "28px",
-                  height: "32px",
-                  color: "#2d4495",
-                  background: "#f0f5ff",
-                  padding: "8px",
-                  borderRadius: "50%",
-                }}
-              />
-              <a
-                href={`tel:${selectedPhone}`}
-                className="fw-bold text-dark text-decoration-none"
-              >
-                {selectedPhone}
-              </a>
-            </div>
-          </div>
-        </Modal>
-
-        {/* WhatsApp Modal */}
-        <Modal show={showWhatsApp} onHide={handleCloseWhatsApp} centered>
-          <div className="p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="fw-bold text-dark">Whatsapp</h6>
-              <button onClick={handleCloseWhatsApp} className="btn border-0">
-                ✕
-              </button>
-            </div>
-            <hr />
-            <a
-              href={`https://wa.me/${selectedPhone}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="fw-bold text-dark text-decoration-none"
-            >
+          {/* Call Modal */}
+          <Modal show={showCall} onHide={handleCloseCall} centered>
+            <div className="p-4">
+              <div className="d-flex justify-content-between align-items-center">
+                <h6 className="fw-bold text-dark">Call</h6>
+                <button onClick={handleCloseCall} className="btn border-0">
+                  ✕
+                </button>
+              </div>
+              <hr />
               <div className="d-flex align-items-center gap-3">
-                <BsWhatsapp
+                <IoCallOutline
                   style={{
-                    width: "29px",
+                    width: "28px",
                     height: "32px",
-                    color: "#25D366",
-                    background: "#E7F9ED",
+                    color: "#2d4495",
+                    background: "#f0f5ff",
                     padding: "8px",
                     borderRadius: "50%",
                   }}
                 />
-
-                {selectedPhone}
+                <a
+                  href={`tel:${selectedPhone}`}
+                  className="fw-bold text-dark text-decoration-none"
+                >
+                  {selectedPhone}
+                </a>
               </div>
-            </a>
-          </div>
-        </Modal>
-      </div>
-   
-    </section>
-    <Footer />
+            </div>
+          </Modal>
+
+          {/* WhatsApp Modal */}
+          <Modal show={showWhatsApp} onHide={handleCloseWhatsApp} centered>
+            <div className="p-4">
+              <div className="d-flex justify-content-between align-items-center">
+                <h6 className="fw-bold text-dark">Whatsapp</h6>
+                <button onClick={handleCloseWhatsApp} className="btn border-0">
+                  ✕
+                </button>
+              </div>
+              <hr />
+              <a
+                href={`https://wa.me/${selectedPhone}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fw-bold text-dark text-decoration-none"
+              >
+                <div className="d-flex align-items-center gap-3">
+                  <BsWhatsapp
+                    style={{
+                      width: "29px",
+                      height: "32px",
+                      color: "#25D366",
+                      background: "#E7F9ED",
+                      padding: "8px",
+                      borderRadius: "50%",
+                    }}
+                  />
+
+                  {selectedPhone}
+                </div>
+              </a>
+            </div>
+          </Modal>
+        </div>
+      </section>
+      <Footer />
     </>
   );
 };

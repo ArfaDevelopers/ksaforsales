@@ -156,16 +156,13 @@ export default function Carousel() {
                 {ads.map((item, index) => (
                   <div key={index}>
                     <Link
-                      //  to={`/routes/${item.id}`}
-                      to={`/Dynamic_Route?id=${
-                        item.id
-                      }&callingFrom=${"Education"}`}
+                      to={`/Dynamic_Route?id=${item.id}&callingFrom=Education`}
                     >
                       <div
                         className="card aos"
                         data-aos="fade-up"
                         style={{
-                          height: "400px",
+                          height: "330px", // Adjusted to remove bottom gap
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
@@ -174,7 +171,6 @@ export default function Carousel() {
                       >
                         <div className="blog-widget">
                           <div
-                            // className="blog-img"
                             style={{
                               height: "200px",
                               width: "100%",
@@ -199,6 +195,7 @@ export default function Carousel() {
                               </div>
                             )}
                           </div>
+
                           <div
                             className="bloglist-content"
                             style={{
@@ -208,31 +205,81 @@ export default function Carousel() {
                               justifyContent: "space-between",
                             }}
                           >
-                            <div className="card-body fw-bold">
-                              <h6>
-                                <Link to="/index">{item.title}</Link>
+                            <div
+                              className="card-body fw-bold"
+                              style={{ padding: "0.75rem" }} // Reduced padding
+                            >
+                              <h6
+                                style={{
+                                  marginBottom: "0.3rem",
+                                  fontSize: "1.05rem",
+                                }}
+                              >
+                                <Link
+                                  to="/index"
+                                  style={{
+                                    color: "#222",
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  {item.title}
+                                </Link>
                               </h6>
-                              <p style={{ fontSize: "0.7rem" }}>
-                                {item.District} , {item.City}
+                              <p
+                                style={{
+                                  fontSize: "0.68rem",
+                                  color: "#666",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
+                                {item.District}, {item.City}
                               </p>
-                              <div className="blog-location-details">
+                              <div
+                                className="blog-location-details"
+                                style={{
+                                  fontSize: "0.75rem",
+                                  color: "#444",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
                                 <div
-                                  className="location-info mt-2"
-                                  style={{ fontFamily: "Inter" }}
+                                  className="location-info"
+                                  style={{
+                                    fontFamily: "Inter",
+                                    marginTop: "0.2rem",
+                                  }}
                                 >
                                   {item.location}
                                 </div>
                               </div>
-                              <div className="amount-details">
+                              <div
+                                className="amount-details"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
                                 <div className="amount">
                                   <span
                                     className="validrate"
-                                    style={{ fontFamily: "Inter" }}
+                                    style={{
+                                      fontWeight: "bold",
+                                      // color: "#27ae60",
+                                      fontSize: "0.9rem",
+                                    }}
                                   >
                                     ${item.Price}
                                   </span>
                                 </div>
-                                <div className="ratings">
+                                <div
+                                  className="ratings"
+                                  style={{
+                                    color: "#999",
+                                    fontStyle: "italic",
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
                                   {timeAgo(item.createdAt)}
                                 </div>
                               </div>

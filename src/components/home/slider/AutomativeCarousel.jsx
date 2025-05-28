@@ -179,70 +179,136 @@ export default function AutomativeCarousel() {
                   {...settings}
                   className="featured-slider grid-view"
                 >
-                  {ads
-                    .filter((val) => val.FeaturedAds === "Featured Ads")
-                    .map((ad) => (
+                  {ads.map((item, index) => (
+                    <div key={index}>
                       <Link
-                        to={`/car-details?id=${ad.id}&callingFrom=automotive`}
+                        to={`/car-details?id=${item.id}&callingFrom=automotive`}
                       >
                         <div
-                          key={ad.id}
                           className="card aos"
                           data-aos="fade-up"
+                          style={{
+                            height: "330px", // Adjusted to remove bottom gap
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            overflow: "hidden",
+                          }}
                         >
                           <div className="blog-widget">
-                            <div className="blog-img">
+                            <div
+                              style={{
+                                height: "200px",
+                                width: "100%",
+                                overflow: "hidden",
+                              }}
+                            >
                               <img
-                                src={ad?.galleryImages[0]}
+                                src={
+                                  item.galleryImages?.[0] || "/placeholder.jpg"
+                                }
                                 className="img-fluid"
-                                alt={ad.name}
-                                style={{ height: "200px", objectFit: "cover" }} // Fixed height with aspect ratio preservation
+                                alt="blog-img"
+                                style={{
+                                  objectFit: "cover",
+                                  width: "100%",
+                                  height: "100%",
+                                }}
                               />
-                              {ad.FeaturedAds === "Featured Ads" ? (
+                              {item.FeaturedAds === "Featured Ads" && (
                                 <div className="fav-item">
                                   <span className="Featured-text">
                                     Featured
                                   </span>
                                 </div>
-                              ) : (
-                                ""
                               )}
                             </div>
-                            <div className="bloglist-content">
-                              <div className="card-body fw-bold">
-                                <h6>
-                                  <Link to={`/car-details/${ad.id}`}>
-                                    {ad.title}
+
+                            <div
+                              className="bloglist-content"
+                              style={{
+                                flexGrow: 1,
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <div
+                                className="card-body fw-bold"
+                                style={{ padding: "0.75rem" }} // Reduced padding
+                              >
+                                <h6
+                                  style={{
+                                    marginBottom: "0.3rem",
+                                    fontSize: "1.05rem",
+                                  }}
+                                >
+                                  <Link
+                                    to="/index"
+                                    style={{
+                                      color: "#222",
+                                      textDecoration: "none",
+                                    }}
+                                  >
+                                    {item.title}
                                   </Link>
                                 </h6>
-
-                                <p style={{ fontSize: "0.7rem" }}>
-                                  {ad.District} , {ad.City}
+                                <p
+                                  style={{
+                                    fontSize: "0.68rem",
+                                    color: "#666",
+                                    marginBottom: "0.3rem",
+                                  }}
+                                >
+                                  {item.District}, {item.City}
                                 </p>
-                                <div className="blog-location-details">
+                                <div
+                                  className="blog-location-details"
+                                  style={{
+                                    fontSize: "0.75rem",
+                                    color: "#444",
+                                    marginBottom: "0.3rem",
+                                  }}
+                                >
                                   <div
                                     className="location-info"
-                                    style={{ marginTop: "1rem" }}
+                                    style={{
+                                      fontFamily: "Inter",
+                                      marginTop: "0.2rem",
+                                    }}
                                   >
-                                    {ad.location}
+                                    {item.location}
                                   </div>
                                 </div>
-                                <div className="amount-details">
+                                <div
+                                  className="amount-details"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
                                   <div className="amount">
                                     <span
                                       className="validrate"
-                                      style={{ fontFamily: "Inter" }}
+                                      style={{
+                                        fontWeight: "bold",
+                                        // color: "#27ae60",
+                                        fontSize: "0.9rem",
+                                      }}
                                     >
-                                      ${ad.Price}
+                                      ${item.Price}
                                     </span>
                                   </div>
                                   <div
                                     className="ratings"
-                                    style={{ fontFamily: "Inter" }}
+                                    style={{
+                                      color: "#999",
+                                      fontStyle: "italic",
+                                      fontSize: "0.7rem",
+                                    }}
                                   >
-                                    {timeAgo(ad.createdAt)}
-
-                                    {/* Format posted time */}
+                                    {timeAgo(item.createdAt)}
                                   </div>
                                 </div>
                               </div>
@@ -250,7 +316,8 @@ export default function AutomativeCarousel() {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                    </div>
+                  ))}
                 </Slider>
               )}
             </div>

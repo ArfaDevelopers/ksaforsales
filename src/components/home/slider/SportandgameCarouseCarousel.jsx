@@ -141,78 +141,142 @@ export default function AutomativeCarousel() {
                 {...settings}
                 className="featured-slider grid-view"
               >
-                {ads.map((ad) => (
-                  <Link
-                    to={`/car-details?id=${ad.id}&callingFrom=GamesSport`}
-
-                    //  to={`/car-details/${ad.id}`}
-                  >
-                    <div key={ad.id} className="card aos" data-aos="fade-up">
-                      <div className="blog-widget">
-                        <div className="blog-img">
-                          {ad.galleryImages && ad.galleryImages.length > 0 ? (
+                {ads.map((item, index) => (
+                  <div key={index}>
+                    <Link
+                      to={`/car-details?id=${item.id}&callingFrom=GamesSport`}
+                    >
+                      <div
+                        className="card aos"
+                        data-aos="fade-up"
+                        style={{
+                          height: "330px", // Adjusted to remove bottom gap
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div className="blog-widget">
+                          <div
+                            style={{
+                              height: "200px",
+                              width: "100%",
+                              overflow: "hidden",
+                            }}
+                          >
                             <img
-                              src={ad?.galleryImages[0]}
+                              src={
+                                item.galleryImages?.[0] || "/placeholder.jpg"
+                              }
                               className="img-fluid"
-                              alt={ad.name || "Image"}
-                              style={{ height: "200px", objectFit: "cover" }}
+                              alt="blog-img"
+                              style={{
+                                objectFit: "cover",
+                                width: "100%",
+                                height: "100%",
+                              }}
                             />
-                          ) : (
-                            <img
-                              src="https://via.placeholder.com/200" // Placeholder image
-                              className="img-fluid"
-                              alt="Placeholder"
-                              style={{ height: "200px", objectFit: "cover" }}
-                            />
-                          )}
-                        </div>
-                        {ad.FeaturedAds === "Featured Ads" ? (
-                          <div className="fav-item">
-                            <span className="Featured-text">Featured</span>
+                            {item.FeaturedAds === "Featured Ads" && (
+                              <div className="fav-item">
+                                <span className="Featured-text">Featured</span>
+                              </div>
+                            )}
                           </div>
-                        ) : (
-                          ""
-                        )}
-                        <div className="bloglist-content">
-                          <div className="card-body">
-                            <h6>
-                              <Link to={`/car-details/${ad.id}`}>
-                                {ad.title}
-                              </Link>
-                            </h6>
-                            <p style={{ fontSize: "0.7rem" }}>
-                              {ad.District} , {ad.City}
-                            </p>
-                            <div className="blog-location-details">
-                              <div
-                                className="location-info"
-                                style={{ marginTop: "1rem" }}
+
+                          <div
+                            className="bloglist-content"
+                            style={{
+                              flexGrow: 1,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div
+                              className="card-body fw-bold"
+                              style={{ padding: "0.75rem" }} // Reduced padding
+                            >
+                              <h6
+                                style={{
+                                  marginBottom: "0.3rem",
+                                  fontSize: "1.05rem",
+                                }}
                               >
-                                {ad.location}
-                              </div>
-                            </div>
-                            <div className="amount-details">
-                              <div className="amount">
-                                <span
-                                  className="validrate"
-                                  style={{ fontFamily: "Inter" }}
+                                <Link
+                                  to="/index"
+                                  style={{
+                                    color: "#222",
+                                    textDecoration: "none",
+                                  }}
                                 >
-                                  ${ad.Price}
-                                </span>
+                                  {item.title}
+                                </Link>
+                              </h6>
+                              <p
+                                style={{
+                                  fontSize: "0.68rem",
+                                  color: "#666",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
+                                {item.District}, {item.City}
+                              </p>
+                              <div
+                                className="blog-location-details"
+                                style={{
+                                  fontSize: "0.75rem",
+                                  color: "#444",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
+                                <div
+                                  className="location-info"
+                                  style={{
+                                    fontFamily: "Inter",
+                                    marginTop: "0.2rem",
+                                  }}
+                                >
+                                  {item.location}
+                                </div>
                               </div>
                               <div
-                                className="ratings"
-                                style={{ fontFamily: "Inter" }}
+                                className="amount-details"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
                               >
-                                {timeAgo(ad.createdAt)}{" "}
-                                {/* Call timeAgo function here */}
+                                <div className="amount">
+                                  <span
+                                    className="validrate"
+                                    style={{
+                                      fontWeight: "bold",
+                                      // color: "#27ae60",
+                                      fontSize: "0.9rem",
+                                    }}
+                                  >
+                                    ${item.Price}
+                                  </span>
+                                </div>
+                                <div
+                                  className="ratings"
+                                  style={{
+                                    color: "#999",
+                                    fontStyle: "italic",
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  {timeAgo(item.createdAt)}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 ))}
               </Slider>
             </div>
