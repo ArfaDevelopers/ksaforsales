@@ -317,12 +317,12 @@ const HealthCareComp = () => {
     City: "",
     District: "",
   });
-  const handleCitySelect = (selectedOption) => {
-    console.log("Selected Option:", selectedOption); // Debug
-    setselectedCity(selectedOption); // Update selectedCity state
+  const handleCitySelect = (selectedOptions) => {
+    console.log("Selected Options:", selectedOptions); // Debug
+    setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOption ? selectedOption.value : "", // Fallback to empty string
+      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -1686,8 +1686,9 @@ const HealthCareComp = () => {
         selectedSubCategory.includes(car.SubCategory)
       );
     }
-    if (selectedCity) {
-      filtered = filtered.filter((car) => car.City === selectedCity.value);
+    if (selectedCity && selectedCity.length > 0) {
+      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -2318,26 +2319,26 @@ const HealthCareComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select City</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
-
-                        <WindowedSelect
-                          options={CityOptions}
-                          value={selectedCity}
-                          onChange={handleCitySelect}
-                          placeholder="Select a City"
-                          isClearable
-                          className="w-100"
-                          windowThreshold={100} // Render only 100 options at a time
-                        />
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                             <Accordion>
+  <Accordion.Item eventKey="0">
+    <Accordion.Header>Select City</Accordion.Header>
+    <Accordion.Body>
+      <Form.Group className="mb-3">
+        <Form.Label>Select a City</Form.Label>
+        <WindowedSelect
+          options={CityOptions}
+          value={selectedCity}
+          onChange={handleCitySelect}
+          placeholder="Select a City"
+          isClearable
+          isMulti // Enable multiple selections
+          className="w-100"
+          windowThreshold={100} // Render only 100 options at a time
+        />
+      </Form.Group>
+    </Accordion.Body>
+  </Accordion.Item>
+</Accordion>
                 <hr
                   style={{
                     width: "100%",
