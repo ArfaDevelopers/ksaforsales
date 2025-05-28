@@ -24,6 +24,12 @@ import arrowimage from "./arrow.png";
 import scanner from "./scanner.png";
 import KSA from "./Logo ksa.svg";
 import QRcode from "../../../../public/QR.jpg";
+import { FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
+import { FaInstagramSquare } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
   useEffect(() => {
@@ -290,13 +296,36 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="footer_end">
-          <div className="footerend_para">
-            All CopyRight Reserved &copy;{" "}
-            <span style={{ fontFamily: "'Inter', sans-serif" }}>2025</span>
-            -Ksa4sale
-          </div>
-        </div>
+        <div className="footer_end" style={{ backgroundColor: '#f0f4f8', padding: '1rem 0' }}>
+  <div className="container d-flex justify-content-between align-items-center flex-column flex-md-row">
+    {/* Copyright Text */}
+    <div className="footerend_para" style={{ fontFamily: "'Inter', sans-serif", color: '#333', textAlign: 'center' }}>
+      All CopyRight Reserved © <span>2025</span> - Ksa4sale
+    </div>
+
+    {/* Social Media Icons */}
+    <div className="social-icons d-flex gap-4 mt-3 mt-md-0">
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#3b5998' }}>
+        <FaFacebook size={24} />
+      </a>
+      <a href="https://x.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000' }}>
+        <FaXTwitter size={24} />
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: '#0077b5' }}>
+        <FaLinkedin size={24} />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#e1306c' }}>
+        <FaInstagramSquare size={24} />
+      </a>
+      <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" style={{ color: '#25d366' }}>
+        <IoLogoWhatsapp size={24} />
+      </a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000' }}>
+        <FaTiktok size={24} />
+      </a>
+    </div>
+  </div>
+</div>
       </div>
     </footer>
     </>
