@@ -23,6 +23,7 @@ import appstore from "./Appstore.png";
 import arrowimage from "./arrow.png";
 import scanner from "./scanner.png";
 import KSA from "./Logo ksa.svg";
+import QRcode from "../../../../public/QR.jpg";
 
 const Footer = () => {
   useEffect(() => {
@@ -58,7 +59,7 @@ const Footer = () => {
     <footer >
       <div className="footer">
         {/* footer_top */}
-
+{/* 
         <div className="topfooter_wrapper container">
           <div className="topfooter_container1">
             <h4 className="topfooter_heading1">GET KSA4SALES APP</h4>
@@ -68,24 +69,37 @@ const Footer = () => {
                   The best for is You just one click away
                 </h4>
               </div>
-              <div>
-                <i
-                  className="topfooter-socialimg"
-                  style={{
-                    marginRight: "2rem",
-                    width: "148px",
-                    height: "50px",
-                  }}
-                >
-                  {" "}
-                  <img src={googlebutton} alt="" />
-                </i>
-                <i className="topfooter-socialimg">
-                  <img src={appstore} alt="" />
-                </i>
-              </div>
-            </div>
-          </div>
+              <div class="d-flex align-items-center"style={{gap: "2rem"}}>
+    <img src={QRcode} alt="QR Code" class="topfooter-qr" style={{width: "100px", height: "100px", marginright: "2rem"}} />
+    <div class="d-flex flex-column">
+      <a href="https://play.google.com" target="_blank">
+        <img src={googlebutton} alt="Google Play" class="topfooter-socialimg mb-2" style={{width:" 148px", height: "50px"}} />
+      </a>
+      <a href="https://www.apple.com/app-store/" target="_blank">
+        <img src={appstore} alt="App Store" class="topfooter-socialimg" style={{width: "148px", height: "50px"}} />
+      </a>
+    </div>
+  </div>
+            </div> */}
+            {/* <div class="topfooter_soc d-flex flex-column align-items-center">
+  <div>
+    <h4 class="topfooter_heading2">
+      The best for You is just one click away
+    </h4>
+  </div>
+  <div class="d-flex align-items-center">
+    <img src={QRcode} alt="QR Code" class="topfooter-qr" style={{width: "100px", height: "100px", marginright: "2rem"}} />
+    <div class="d-flex flex-column">
+      <a href="https://play.google.com" target="_blank">
+        <img src={googlebutton} alt="Google Play" class="topfooter-socialimg mb-2" style={{width:" 148px", height: "50px"}} />
+      </a>
+      <a href="https://www.apple.com/app-store/" target="_blank">
+        <img src={appstore} alt="App Store" class="topfooter-socialimg" style={{width: "148px", height: "50px"}} />
+      </a>
+    </div>
+  </div>
+</div> */}
+          {/* </div>
           <div className="topfooter_qrcodescanner" style={{marginLeft: window.innerWidth <= 576 ? "-1.5rem" : "0rem",marginTop: window.innerWidth <= 576 ? "-2rem" : "0rem"}}>
             <div className="qrcodescanner_socs">
               <i className="topfooter_arrow">
@@ -107,11 +121,11 @@ const Footer = () => {
               <img src={mobileimage} alt="" />
             </i>
           </div>
-        </div>
+        </div> */}
 
         {/* footer mid */}
 
-        <div className="footermid-wrapper " style={{  marginTop: window.innerWidth <= 576 ? "-8rem" : "-4rem"}}>
+        <div className="footermid-wrapper " style={{  marginTop: window.innerWidth <= 576 ? "-2rem" : "-4rem"}}>
           <div className="footermid-container container" style={{marginRight:"19rem" }}>
             <h3 className="footermid-heading" style={{marginLeft: window.innerWidth <= 576 ? "-3rem" : "4rem"}}>We are always here to help</h3>
             <div className="footermidinfo-container">
@@ -148,35 +162,32 @@ const Footer = () => {
         >
           <div className="container  footerContact_Wrapper">
             <div className="row  footerEnd_container">
-              <div className="col-lg-3 col-md-6  logoInfo_wrapper">
+              <div className="col-lg-4 col-md-6  logoInfo_wrapper">
                 <div className="footer-widget containerParaInfo ">
                   <div className="footer-logo">
                     <Link to="#">
                       <img src={KSA} alt="logo" />
                     </Link>
-                    <p className="footerLogo_para">
-                      Lorem ipsum dolor sit amet, consectetur 
-                    </p>
+                    <h4 className="footerLogo_para">
+                    The best for is You just one click away
+                    </h4>
                   </div>
-                  <div
-                    className="footer-content"
-                    style={{ marginLeft: "-1.5rem" }}
-                  >
-                    <h3>Download Our App</h3>
-                    <div className="socialicons " style={{marginLeft: window.innerWidth <= 576 ? "0rem" : "3.5rem"}}>
-                      <i className="footer_socialsIcons">
-                        <img src={googlebutton} />
-                      </i>
-                      <i className="footer_socialsIcons">
-                        {" "}
-                        <img src={appstore} />
-                      </i>
-                    </div>
-                  </div>
+            
+              <div class="d-flex align-items-center"style={{gap: "2rem"}}>
+    <img src={QRcode} alt="QR Code" class="topfooter-qr" style={{width: "100px", height: "100px", marginright: "2rem"}} />
+    <div class="d-flex flex-column">
+      <a href="https://play.google.com" target="_blank">
+        <img src={googlebutton} alt="Google Play" class="topfooter-socialimg mb-2" style={{width:" 148px", height: "50px"}} />
+      </a>
+      <a href="https://www.apple.com/app-store/" target="_blank">
+        <img src={appstore} alt="App Store" class="topfooter-socialimg" style={{width: "148px", height: "50px"}} />
+      </a>
+    </div>
+  </div>
                 </div>
               </div>
 
-              <div className="col-lg-2 col-md-6">
+              <div className="col-lg-1 col-md-6">
                 <div className="footer-widget footer-menu">
                   <h2 className="footer-title">Categories</h2>
                   <ul>
@@ -198,7 +209,7 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-6">
+              <div className="col-lg-1 col-md-6">
                 <div className="footer-widget footer-menu">
                   {/* <h2 className="footer-title">Quick links</h2> */}
                   <ul className="col_2" style={{marginTop: window.innerWidth <= 576 ? "-1rem" : "30px"}}>
@@ -265,6 +276,17 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
+              <div className="col-lg-2 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <h2 className="footer-title">Useful Links</h2>
+                  <ul>
+                    <li>
+                      <Link to="">Directory</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>

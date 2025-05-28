@@ -846,7 +846,7 @@ const Home = () => {
                 className="category_icons flex flex-col items-center"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  // marginBottom: "-20px",
                   width: "110px",
                   marginLeft: "auto",
                   marginRight: "auto",
@@ -907,7 +907,7 @@ const Home = () => {
                 className="category_icons flex flex-col items-center"
                 style={{
                   maxWidth: window.innerWidth <= 576 ? "45%" : "auto",
-                  marginBottom: "-20px",
+                  // marginBottom: "-20px",
                   width: "110px",
                   marginLeft: "auto",
                   marginRight: "auto",
