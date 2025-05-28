@@ -160,8 +160,156 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <div
+          className="footer-top aos  footer_shadow "
+          data-aos="fade-up"
+          style={{ marginTop: "-2rem" }}
+        >
+          <div className="container  footerContact_Wrapper">
+            <div className="row  footerEnd_container">
+              <div className="col-lg-3 col-md-6  logoInfo_wrapper">
+                <div className="footer-widget containerParaInfo ">
+                  <div className="footer-logo">
+                    <Link to="#">
+                      <img src={KSA} alt="logo" />
+                    </Link>
+                    <h5 className="footerLogo_para">
+                    The best for is You just one click away
+                    </h5>
+                  </div>
+                
+                  <div className="d-flex align-items-center parent-container" style={{ gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' ,marginLeft: window.innerWidth <= 576 ? "0rem" : "-3rem" }}>
+  <img
+    src={QRcode}
+    alt="QR Code"
+    className="topfooter-qr"
+    style={{ width: 'min(100px, 25vw)', height: 'min(100px, 25vw)', maxWidth: '100px' }}
+  />
+  <div className="d-flex flex-column child-container" style={{ gap: '0.5rem', alignItems: 'center' }}>
+    <a href="https://play.google.com" target="_blank" rel="noopener noreferrer">
+      <img
+        src={googlebutton}
+        alt="Google Play"
+        className="topfooter-socialimg"
+        style={{ width: 'min(148px, 40vw)', height: 'auto', maxWidth: '148px' }}
+      />
+    </a>
+    <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={appstore}
+        alt="App Store"
+        className="topfooter-socialimg"
+        style={{ width: 'min(148px, 40vw)', height: 'auto', maxWidth: '148px' }}
+      />
+    </a>
+  </div>
+</div>
+                </div>
+              </div>
+              
+              <div className="col-lg-1 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <h2 className="footer-title">Categories</h2>
+                  <ul>
+                    <li>
+                      <Link to="/PetAnimalsComp">Our product</Link>
+                    </li>
+                    <li>
+                      <Link to="AutomotiveComp">Automative</Link>
+                    </li>
+                    <li>
+                      <Link to="/ElectronicComp">Electronic</Link>
+                    </li>
+                    <li>
+                      <Link to="/PetAnimalsComp">Animal</Link>
+                    </li>
+                    <li>
+                      <Link to="/FashionStyle">Gift</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="col-lg-1 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <ul className="col_2" style={{marginTop: window.innerWidth <= 576 ? "-1rem" : "30px"}}>
+                    <li>
+                      <Link to="/RealEstateComp">Property</Link>
+                    </li>
+                    <li>
+                      <Link to="/RealEstateComp">Contracting</Link>
+                    </li>
+                    <li>
+                      <Link to="/RealEstateComp">Camping</Link>
+                    </li>
+                    <li>
+                      <Link to="/Education">Family</Link>
+                    </li>
+                    <li>
+                      <Link to="/RealEstateComp">Furniture</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="col-lg-2 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <h2 className="footer-title">My Account</h2>
+                  <ul>
+                    <li>
+                      <Link to="/profile">Account Infromation</Link>
+                    </li>
+                    <li>
+                      <Link to="/my-listing">My Listing</Link>
+                    </li>
+                    <li>
+                      <Link to="/bookmarks">My Favourtite</Link>
+                    </li>
+                    <li>
+                      <Link to="#">My Payment</Link>
+                    </li>
+                    <li>
+                      <Link to="#">Followers</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="col-lg-2 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <h2 className="footer-title">My Information</h2>
+                  <ul>
+                    <li>
+                      <Link to="/AboutUs">About Us</Link>
+                    </li>
+                    <li>
+                      <Link to="/TermsAndConditions">Terms & Conditions</Link>
+                    </li>
+                    <li>
+                      <Link to="/PrivacyPolicy">Privacy & Policy</Link>
+                    </li>
+                    <li>
+                      <Link to="#">Blog</Link>
+                    </li>
+                    <li>
+                      <Link to="/Copyrights">CopyRights</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="col-lg-2 col-md-6">
+                <div className="footer-widget footer-menu">
+                  <h2 className="footer-title">Useful Links</h2>
+                  <ul>
+                    <li>
+                      <Link to="">Directory</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+        {/* <div
           className="footer-top aos  footer_shadow "
           data-aos="fade-up"
           style={{ marginTop: "-2rem" }}
@@ -217,7 +365,6 @@ const Footer = () => {
               </div>
               <div className="col-lg-1 col-md-6">
                 <div className="footer-widget footer-menu">
-                  {/* <h2 className="footer-title">Quick links</h2> */}
                   <ul className="col_2" style={{marginTop: window.innerWidth <= 576 ? "-1rem" : "30px"}}>
                     <li>
                       <Link to="/RealEstateComp">Property</Link>
@@ -295,7 +442,7 @@ const Footer = () => {
               
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="footer_end" style={{ backgroundColor: '#f0f4f8', padding: '1rem 0' }}>
   <div className="container d-flex justify-content-between align-items-center flex-column flex-md-row">
     {/* Copyright Text */}
