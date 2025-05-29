@@ -276,18 +276,8 @@ const DetailAds = () => {
                 flexWrap: "wrap",
               }}
             >
-              <div
-                style={{
-                  backgroundColor: "#fff",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                  width: "100%",
-                  maxWidth: "1420px",
-                  margin: "0 auto",
-                }}
-              >
-          <Container className="py-5">
+          
+          <Container >
   <Card className="mb-4 shadow">
     <Card.Header className="bg-primary text-white">
       <h4 className="mb-0 d-flex align-items-center">
@@ -409,7 +399,6 @@ const DetailAds = () => {
     Recommended image size: 1200 × 675 pixels (16:9 ratio)
   </div>
 </Container>
-              </div>
             </div>
           </div>
         </div>
