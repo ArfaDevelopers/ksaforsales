@@ -47,7 +47,7 @@ const Listing = () => {
     } else if (box === "box2") {
       navigate("/commercial-ads");
     } else if (box === "box3") {
-      navigate("/features-ads");
+      navigate("/add-listing");
     } else if (box === "box4") {
       navigate("/detail-ads");
     }

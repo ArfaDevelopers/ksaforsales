@@ -212,6 +212,8 @@ import Review from "./components/userPages/review";
 import AddLisiting from "./components/userPages/AddLisiting";
 import Listing from "./components/userPages/Listing";
 import CommercialAdsListing from "./components/userPages/CommercialAdsListing";
+import DetailAds from "./components/userPages/DetailAds";
+
 import BlogList from "./components/blog/BlogList";
 import BlogDetailsh from "./components/blog/BlogList/blogDatalish";
 import BlogGrid from "./components/blog/BlogList/BlogGrid";
@@ -327,6 +329,7 @@ export const App = () => {
   <Route path="/reviews" element={<ProtectedRoute><Review /></ProtectedRoute>} />
   <Route path="/add-listing" element={<ProtectedRoute><AddLisiting /></ProtectedRoute>} />
   <Route path="/commercial-ads" element={<ProtectedRoute><CommercialAdsListing /></ProtectedRoute>} />
+  <Route path="/detail-ads" element={<ProtectedRoute><DetailAds /></ProtectedRoute>} />
 
   <Route path="/listing" element={<ProtectedRoute><Listing /></ProtectedRoute>} />
 

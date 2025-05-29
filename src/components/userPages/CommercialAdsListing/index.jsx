@@ -505,7 +505,7 @@ const CommercialAdsListing = () => {
                     style={{
                       width: "150px",
                       padding: "10px",
-                      backgroundColor: "#007bff",
+                      backgroundColor: "#2d4495",
                       color: "#fff",
                       border: "none",
                       borderRadius: "5px",
