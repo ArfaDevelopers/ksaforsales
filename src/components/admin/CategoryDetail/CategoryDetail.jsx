@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Card, Button, Modal } from "react-bootstrap";
+import { Container, Card, Button, Modal, Row, Col } from "react-bootstrap";
 import {
   FaArrowLeft,
   FaPhone,
@@ -832,33 +832,59 @@ const CategoryDetail = () => {
           </div>
           {/* Share Modal */}
           <Modal show={showModal} onHide={handleCloseModal} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Share Image</Modal.Title>
+            <Modal.Header
+              closeButton
+              className="bg-dark text-white"
+              style={{
+                borderBottom: "2px solid #2d4495",
+              }}
+            >
+              <Modal.Title>
+                <FaShareAlt className="me-2" />
+                Share Image
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              {/* Wrapping URL in a div with word-break to prevent overflow */}
-              <div
-                style={{ wordBreak: "break-all", overflowWrap: "break-word" }}
-              >
-                {categories.image}
+            <Modal.Body className="p-4">
+              <div className="mb-3">
+                <label className="text-secondary mb-2 fw-bold">Image URL</label>
+                <div
+                  className="border rounded p-3"
+                  style={{
+                    background: "#f8f9fa",
+                    wordBreak: "break-all",
+                    overflowWrap: "break-word",
+                    maxHeight: "80px",
+                    overflowY: "auto",
+                    fontSize: "0.9rem",
+                    boxShadow: "inset 0 1px 3px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  {categories.image}
+                </div>
               </div>
-              <Button
-                style={{
-                  backgroundColor: "#2d4495",
-                  color: "#fff",
-                  border: "none",
-                  fontWeight: "bold",
-                  borderRadius: 10,
-                  transition: "none", // Disable transitions
-                  outline: "none", // Remove focus outline
-                  boxShadow: "none", // Remove any shadow changes
-                  cursor: "pointer", // Maintain clickable appearance
-                }}
-                onClick={handleCopyLink}
-                className="mt-3"
-              >
-                <FaCopy /> Copy Link
-              </Button>
+
+              <Row className="mt-4">
+                <Col>
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleCopyLink}
+                    className="w-100 d-flex align-items-center justify-content-center"
+                    style={{
+                      borderWidth: "2px",
+                      borderColor: "#2d4495",
+                      height: "50px",
+                      position: "relative",
+                      overflow: "hidden",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    <div className="d-flex align-items-center">
+                      <FaCopy size={18} className="me-2" />
+                      <span className="fw-bold">Copy to Clipboard</span>
+                    </div>
+                  </Button>
+                </Col>
+              </Row>
             </Modal.Body>
           </Modal>
           <Card.Img

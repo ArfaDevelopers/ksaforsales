@@ -23,6 +23,7 @@ import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams, useLocation } from "react-router";
 import { FaPhone, FaWhatsapp, FaShareAlt, FaCopy } from "react-icons/fa";
+import { FaLink } from "react-icons/fa";
 
 import {
   getDocs,
@@ -801,39 +802,93 @@ const CommercialAdscom = () => {
             </div>
           </Container>
           <Modal show={showModal} onHide={handleCloseModal} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Share Image</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {/* Wrapping URL in a div with word-break to prevent overflow */}
-              <div
+            <div className="position-relative">
+              <Modal.Header
+                closeButton
+                className="border-0"
                 style={{
-                  wordBreak: "break-all",
-                  overflowWrap: "break-word",
+                  background: "transparent",
+                  zIndex: 2,
                 }}
               >
-                {paramLink}
+                <span></span>
+              </Modal.Header>
+            </div>
+
+            <Modal.Body className="px-4 pt-0 pb-4">
+              <div className="text-center mb-4">
+                <div
+                  className="d-inline-flex align-items-center justify-content-center mb-3"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    borderRadius: "50%",
+                    background: "#2d4495",
+                    color: "white",
+                  }}
+                >
+                  <FaLink size={24} />
+                </div>
+                <h4 className="fw-bold">Share Image</h4>
+                <div className="text-muted small">
+                  Copy the link to share with others
+                </div>
               </div>
-              <Button
+
+              <div
+                className="d-flex align-items-center p-3 rounded mb-4"
                 style={{
-                  backgroundColor: "#2d4495",
-                  color: "#fff",
-                  border: "none",
-                  fontWeight: "bold",
-                  borderRadius: 10,
-                  transition: "none", // Disable transitions
-                  outline: "none", // Remove focus outline
-                  boxShadow: "none", // Remove any shadow changes
-                  cursor: "pointer", // Maintain clickable appearance
+                  background: "#f8f9fa",
+                  border: "1px solid #dee2e6",
                 }}
-                onClick={handleCopyLink}
-                className="mt-3"
               >
-                <FaCopy /> Copy Link
-              </Button>
+                <div
+                  className="flex-grow-1 me-2"
+                  style={{
+                    wordBreak: "break-all",
+                    overflowWrap: "break-word",
+                    fontSize: "0.85rem",
+                    maxHeight: "60px",
+                    overflowY: "auto",
+                  }}
+                >
+                  {paramLink}
+                </div>
+
+                <Button
+                  onClick={handleCopyLink}
+                  variant="light"
+                  className="flex-shrink-0"
+                  style={{
+                    borderRadius: "50%",
+                    width: "40px",
+                    height: "40px",
+                    padding: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FaCopy size={16} color="#2d4495" />
+                </Button>
+              </div>
+
+              <div className="d-grid">
+                <Button
+                  variant="primary"
+                  onClick={handleCloseModal}
+                  style={{
+                    backgroundColor: "#2d4495",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "10px 0",
+                  }}
+                >
+                  Done
+                </Button>
+              </div>
             </Modal.Body>
           </Modal>
-
           <Container
             style={{
               marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem",
