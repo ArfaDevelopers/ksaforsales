@@ -10,6 +10,26 @@ import Footer from "../../home/footer/Footer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import Header from "../../home/header";
+import axios from "axios";
+import {
+    Container,
+    Row,
+    Col,
+    Card,
+    Button,
+    ProgressBar,
+    Spinner,
+    Form,
+    Alert,
+  } from "react-bootstrap";
+  import {
+    FiUpload,
+    FiImage,
+    FiCheckCircle,
+    FiAlertCircle,
+    FiLoader,
+  } from "react-icons/fi";
+
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -21,8 +41,6 @@ const DetailAds = () => {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [userId, setUserId] = useState(null);
-  const [isUploading, setIsUploading] = useState(false); // Loading state for uploads
-  const [uploadProgress, setUploadProgress] = useState({ slot1: false, slot2: false, slot3: false }); // Track individual slot uploads
 
   // State for image previews and selected images for each slot
   const [imagePreviews, setImagePreviews] = useState({
@@ -70,177 +88,128 @@ const DetailAds = () => {
     window.scrollTo(0, 0);
   }, [parms]);
 
-  // Fetch ads from AdsdetailImages
+  const [selectedImages, setSelectedImages] = useState([null, null, null]);
+  const [previews, setPreviews] = useState(["", "", ""]);
+  const [uploading, setUploading] = useState(false);
+  const [existingImageId, setExistingImageId] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState([0, 0, 0]);
+
   useEffect(() => {
-    const fetchAds = async () => {
+    const fetchImages = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "AdsdetailImages"));
-        const adsList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log("Fetched Ads from AdsdetailImages:", adsList);
-        setAds(adsList);
+        if (!querySnapshot.empty) {
+          const docData = querySnapshot.docs[0];
+          setExistingImageId(docData.id);
+          const urls = docData.data().imageUrls;
+          if (Array.isArray(urls) && urls.length === 3) {
+            setPreviews(urls);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching ads:", error);
-        MySwal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Failed to fetch ads.",
-        });
+        console.error("Error fetching images:", error);
+        MySwal.fire("Error", "Failed to load existing images.", "error");
       }
     };
-
-    fetchAds();
+    fetchImages();
   }, []);
 
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleSingleImageChange = (index, file) => {
+    const updatedImages = [...selectedImages];
+    const updatedPreviews = [...previews];
+    updatedImages[index] = file;
+    updatedPreviews[index] = URL.createObjectURL(file);
+    setSelectedImages(updatedImages);
+    setPreviews(updatedPreviews);
   };
 
-  // Handle image upload
-  const handleImageUpload = async (e, slot) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const validTypes = ["image/png", "image/jpeg", "image/jpg"];
-    if (!validTypes.includes(file.type)) {
-      MySwal.fire({
-        icon: "error",
-        title: "Invalid file type",
-        text: "Please upload a PNG, JPG, or JPEG file.",
-      });
-      return;
-    }
-
-    if (file.size > 2 * 1024 * 1024) {
-      MySwal.fire({
-        icon: "error",
-        title: "File too large",
-        text: "File size must be less than 2MB.",
-      });
-      return;
-    }
-
-    if (!userId) {
-      MySwal.fire({
-        icon: "error",
-        title: "Authentication Error",
-        text: "User not authenticated. Please log in.",
-      });
-      return;
-    }
-
-    // Set image preview for the specific slot
-    setImagePreviews((prev) => ({
-      ...prev,
-      [slot]: URL.createObjectURL(file),
-    }));
-
-    // Start upload for this slot
-    setUploadProgress((prev) => ({ ...prev, [slot]: true }));
-    console.log(`Starting upload for ${slot}`);
-
-    // Upload to Firebase Storage
-    const storage = getStorage();
-    const storageRef = ref(storage, `ads/${userId}/${slot}/${file.name}`);
-
-    try {
-      const snapshot = await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(snapshot.ref);
-      console.log(`${slot} Image URL:`, downloadURL);
-
-      // Update formData with the URL for the specific slot
-      setFormData((prev) => {
-        const newFormData = {
-          ...prev,
-          [`${slot}Url`]: downloadURL,
-        };
-        console.log(`Updated formData after ${slot} upload:`, newFormData);
-        return newFormData;
-      });
-    } catch (error) {
-      console.error(`Firebase Storage Upload Error for ${slot}:`, error);
-      MySwal.fire({
-        icon: "error",
-        title: "Upload Failed",
-        text: `Image upload to Firebase failed for ${slot}. Error: ${error.message}`,
-      });
-    } finally {
-      // Mark this slot's upload as complete
-      setUploadProgress((prev) => {
-        const newProgress = { ...prev, [slot]: false };
-        console.log(`Upload completed for ${slot}, uploadProgress:`, newProgress);
-        // Check if all uploads are complete
-        const allUploadsComplete = !Object.values(newProgress).some((status) => status);
-        setIsUploading(!allUploadsComplete);
-        console.log(`All uploads complete: ${allUploadsComplete}, isUploading: ${!allUploadsComplete}`);
-        return newProgress;
-      });
-    }
-  };
-
-  // Handle form submission
-  const handleSubmit = async () => {
-    console.log("Form Data on Submit:", formData);
-    if (!formData.slot1Url || !formData.slot2Url || !formData.slot3Url) {
+  const handleUpload = async () => {
+    if (!previews.every((p) => p)) {
       MySwal.fire({
         icon: "error",
         title: "Missing Images",
-        text: `Please upload all three images. Missing: ${
-          !formData.slot1Url ? "Slot 1" : ""
-        } ${!formData.slot2Url ? "Slot 2" : ""} ${
-          !formData.slot3Url ? "Slot 3" : ""
-        }`,
+        text: "All 3 image slots must have a valid image.",
+        confirmButtonColor: "#0d6efd",
       });
       return;
     }
 
-    if (!userId) {
-      MySwal.fire({
-        icon: "error",
-        title: "Authentication Error",
-        text: "You must be logged in to submit ads.",
-      });
-      return;
-    }
-
+    setUploading(true);
     try {
-      const adData = {
-        userId,
-        slot1Url: formData.slot1Url,
-        slot2Url: formData.slot2Url,
-        slot3Url: formData.slot3Url,
-        createdAt: new Date().toISOString(),
-      };
+      const uploadedUrls = [];
 
-      await addDoc(collection(db, "AdsdetailImages"), adData);
+      for (let i = 0; i < 3; i++) {
+        const image = selectedImages[i];
+        setUploadProgress((prev) => {
+          const newProgress = [...prev];
+          newProgress[i] = 10;
+          return newProgress;
+        });
+
+        if (image instanceof File) {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("upload_preset", "ml_default");
+          formData.append("cloud_name", "dv26wjoay");
+
+          const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
+            formData,
+            {
+              onUploadProgress: (progressEvent) => {
+                if (progressEvent.total) {
+                  const percentCompleted = Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total
+                  );
+                  setUploadProgress((prev) => {
+                    const newProgress = [...prev];
+                    newProgress[i] = percentCompleted;
+                    return newProgress;
+                  });
+                }
+              },
+            }
+          );
+          uploadedUrls.push(response.data.secure_url);
+        } else {
+          uploadedUrls.push(previews[i]);
+          setUploadProgress((prev) => {
+            const newProgress = [...prev];
+            newProgress[i] = 100;
+            return newProgress;
+          });
+        }
+      }
+
+      const docRef = doc(
+        db,
+        "AdsdetailImages",
+        existingImageId || "defaultAdsdetailImages"
+      );
+
+      await setDoc(docRef, {
+        imageUrls: uploadedUrls,
+        createdAt: new Date(),
+      });
+
       MySwal.fire({
         icon: "success",
-        title: "Success",
-        text: "Advertisement submitted successfully!",
+        title: "Success!",
+        text: "Your ad images have been updated successfully!",
+        confirmButtonColor: "#0d6efd",
       });
 
-      // Reset form
-      setFormData({
-        slot1Url: "",
-        slot2Url: "",
-        slot3Url: "",
-      });
-      setImagePreviews({
-        slot1: "https://via.placeholder.com/200x100?text=Ad+Slot+1",
-        slot2: "https://via.placeholder.com/200x100?text=YOUR+AD+HERE",
-        slot3: "https://via.placeholder.com/200x100?text=WE+ARE+BACK!",
-      });
-    } catch (error) {
-      console.error("Error submitting ad:", error);
+      setUploadProgress([0, 0, 0]);
+    } catch (err) {
+      console.error("Upload error:", err);
       MySwal.fire({
         icon: "error",
-        title: "Submission Failed",
-        text: "Failed to submit advertisement.",
+        title: "Upload Failed",
+        text: "There was a problem uploading your images. Please try again.",
+        confirmButtonColor: "#0d6efd",
       });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -318,184 +287,128 @@ const DetailAds = () => {
                   margin: "0 auto",
                 }}
               >
-                <div
-                  style={{
-                    background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
-                    padding: "10px 20px",
-                    borderRadius: "10px 10px 0 0",
-                    color: "white",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                  }}
-                >
-                  Update Detail Page Advertisements
-                </div>
-                <div style={{ padding: "20px" }}>
-                  <p style={{ marginBottom: "20px" }}>
-                    Upload three high-quality images to display on your details page
-                  </p>
-                  <div
+          <Container className="py-5">
+  <Card className="mb-4 shadow">
+    <Card.Header className="bg-primary text-white">
+      <h4 className="mb-0 d-flex align-items-center">
+        <FiImage className="me-2" />
+        Update Detail Page Advertisements
+      </h4>
+      <small>Upload three high-quality images</small>
+    </Card.Header>
+    <Card.Body>
+      <Row className="g-4">
+        {previews.map((src, index) => (
+          <Col md={4} key={index}>
+            <Card className="h-100 border">
+              <div
+                className="position-relative"
+                style={{
+                  aspectRatio: "16/9",
+                  height: "200px", // Set a fixed height for consistency
+                  overflow: "hidden", // Ensure images don't overflow
+                }}
+              >
+                {src ? (
+                  <Card.Img
+                    src={src}
+                    alt={`Advertisement ${index + 1}`}
                     style={{
-                      display: "flex",
-                      gap: "20px",
-                      marginBottom: "20px",
-                      flexWrap: "wrap",
+                      objectFit: "cover",
+                      height: "100%", // Ensure image takes full container height
+                      width: "100%", // Ensure image takes full container width
                     }}
+                  />
+                ) : (
+                  <div
+                    className="d-flex align-items-center justify-content-center bg-light"
+                    style={{ height: "100%", width: "100%" }}
                   >
-                    {/* Ad Slot 1 */}
-                    <div
-                      style={{
-                        flex: "1",
-                        minWidth: "200px",
-                        border: "2px dashed #ccc",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        textAlign: "center",
-                        backgroundColor: "#f9f9f9",
-                      }}
-                    >
-                      <img
-                        src={imagePreviews.slot1}
-                        alt="Ad Slot 1"
-                        style={{ width: "100%", height: "100px", objectFit: "cover", borderRadius: "5px" }}
-                      />
-                      <button
-                        onClick={() => document.getElementById("slot1Input").click()}
-                        style={{
-                          backgroundColor: "#007bff",
-                          color: "white",
-                          padding: "5px 10px",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          marginTop: "10px",
-                        }}
-                      >
-                        Change Image
-                      </button>
-                      <input
-                        type="file"
-                        id="slot1Input"
-                        style={{ display: "none" }}
-                        onChange={(e) => handleImageUpload(e, "slot1")}
-                        accept="image/png, image/jpeg, image/jpg"
-                      />
-                      <p style={{ marginTop: "10px", fontWeight: "bold" }}>Ad Slot 1</p>
-                      <p style={{ color: "green", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px" }}>
-                        <span>✔</span> {formData.slot1Url ? "Image selected" : "No image selected"}
-                      </p>
-                    </div>
-                    {/* Ad Slot 2 */}
-                    <div
-                      style={{
-                        flex: "1",
-                        minWidth: "200px",
-                        border: "2px dashed #ccc",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        textAlign: "center",
-                        backgroundColor: "#f9f9f9",
-                      }}
-                    >
-                      <img
-                        src={imagePreviews.slot2}
-                        alt="Ad Slot 2"
-                        style={{ width: "100%", height: "100px", objectFit: "cover", borderRadius: "5px" }}
-                      />
-                      <button
-                        onClick={() => document.getElementById("slot2Input").click()}
-                        style={{
-                          backgroundColor: "#007bff",
-                          color: "white",
-                          padding: "5px 10px",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          marginTop: "10px",
-                        }}
-                      >
-                        Change Image
-                      </button>
-                      <input
-                        type="file"
-                        id="slot2Input"
-                        style={{ display: "none" }}
-                        onChange={(e) => handleImageUpload(e, "slot2")}
-                        accept="image/png, image/jpeg, image/jpg"
-                      />
-                      <p style={{ marginTop: "10px", fontWeight: "bold" }}>Ad Slot 2</p>
-                      <p style={{ color: "green", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px" }}>
-                        <span>✔</span> {formData.slot2Url ? "Image selected" : "No image selected"}
-                      </p>
-                    </div>
-                    {/* Ad Slot 3 */}
-                    <div
-                      style={{
-                        flex: "1",
-                        minWidth: "200px",
-                        border: "2px dashed #ccc",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        textAlign: "center",
-                        backgroundColor: "#f9f9f9",
-                      }}
-                    >
-                      <img
-                        src={imagePreviews.slot3}
-                        alt="Ad Slot 3"
-                        style={{ width: "100%", height: "100px", objectFit: "cover", borderRadius: "5px" }}
-                      />
-                      <button
-                        onClick={() => document.getElementById("slot3Input").click()}
-                        style={{
-                          backgroundColor: "#007bff",
-                          color: "white",
-                          padding: "5px 10px",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          marginTop: "10px",
-                        }}
-                      >
-                        Change Image
-                      </button>
-                      <input
-                        type="file"
-                        id="slot3Input"
-                        style={{ display: "none" }}
-                        onChange={(e) => handleImageUpload(e, "slot3")}
-                        accept="image/png, image/jpeg, image/jpg"
-                      />
-                      <p style={{ marginTop: "10px", fontWeight: "bold" }}>Ad Slot 3</p>
-                      <p style={{ color: "green", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px" }}>
-                        <span>✔</span> {formData.slot3Url ? "Image selected" : "No image selected"}
-                      </p>
+                    <FiImage size={48} className="text-muted" />
+                  </div>
+                )}
+
+                {uploading && uploadProgress[index] < 100 && (
+                  <div className="position-absolute top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
+                    <div className="text-white text-center">
+                      <Spinner animation="border" size="sm" />
+                      <div>{uploadProgress[index]}%</div>
                     </div>
                   </div>
-                  <p style={{ marginBottom: "10px", color: "#555" }}>
-                    ALL THREE IMAGES ARE REQUIRED FOR THE AD DISPLAY
-                  </p>
-                  <button
-                    onClick={handleSubmit}
-                    disabled={isUploading}
-                    style={{
-                      backgroundColor: isUploading ? "#ccc" : "#007bff",
-                      color: "white",
-                      padding: "10px 20px",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: isUploading ? "not-allowed" : "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    <span>↑</span> {isUploading ? "Uploading..." : "Submit Images"}
-                  </button>
-                  <p style={{ marginTop: "10px", color: "#777", fontSize: "14px" }}>
-                    Recommended image size: 1200 x 675 pixels (16:9 ratio)
-                  </p>
+                )}
+              </div>
+
+              <Card.Body className="text-center">
+                <Form.Group controlId={`imgInput-${index}`}>
+                  <Form.Label className="btn btn-outline-primary w-100">
+                    <FiUpload className="me-1" />
+                    {src ? "Change Image" : "Select Image"}
+                    <Form.Control
+                      type="file"
+                      accept="image/*"
+                      className="d-none"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleSingleImageChange(index, file);
+                        }
+                      }}
+                    />
+                  </Form.Label>
+                </Form.Group>
+                <div className="mt-2 text-muted">
+                  Ad Slot {index + 1}
+                  {src && (
+                    <div className="text-success mt-1 d-flex justify-content-center align-items-center">
+                      <FiCheckCircle className="me-1" /> Image selected
+                    </div>
+                  )}
                 </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <Alert variant="info" className="mt-4 d-flex align-items-center">
+        <FiAlertCircle className="me-2" />
+        All three images are required for the ad display.
+      </Alert>
+
+      <div className="text-center mt-4">
+        <Button
+          onClick={handleUpload}
+          variant="primary"
+          size="lg"
+          disabled={uploading}
+        >
+          {uploading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                className="me-2"
+              />
+              Uploading...
+            </>
+          ) : (
+            <>
+              <FiUpload className="me-2" />
+              Upload Images
+            </>
+          )}
+        </Button>
+      </div>
+    </Card.Body>
+  </Card>
+
+  <div className="text-center text-muted small">
+    Recommended image size: 1200 × 675 pixels (16:9 ratio)
+  </div>
+</Container>
               </div>
             </div>
           </div>
