@@ -4150,18 +4150,11 @@ const AddLisiting = () => {
         <div
           className="dashboard-content"
           style={{
-            marginTop: "8rem",
+            marginTop: "5rem",
           }}
         >
           <div className="container">
-            <div
-              class="col-12 text-start text-dark "
-              style={{ fontSize: 26, fontWeight: 500 }}
-            >
-              Home / Add Listing
-            </div>
-
-            <div className="mt-3">
+            <div className="mt-1">
               <ul className="dashborad-menus">
                 <li>
                   <Link to="/dashboard">

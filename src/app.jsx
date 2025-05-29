@@ -210,6 +210,8 @@ import MyListe from "./components/userPages/mylisting";
 import Message from "./components/userPages/mesage";
 import Review from "./components/userPages/review";
 import AddLisiting from "./components/userPages/AddLisiting";
+import Listing from "./components/userPages/Listing";
+import CommercialAdsListing from "./components/userPages/CommercialAdsListing";
 import BlogList from "./components/blog/BlogList";
 import BlogDetailsh from "./components/blog/BlogList/blogDatalish";
 import BlogGrid from "./components/blog/BlogList/BlogGrid";
@@ -324,6 +326,10 @@ export const App = () => {
   <Route path="/messages" element={<ProtectedRoute><Message /></ProtectedRoute>} />
   <Route path="/reviews" element={<ProtectedRoute><Review /></ProtectedRoute>} />
   <Route path="/add-listing" element={<ProtectedRoute><AddLisiting /></ProtectedRoute>} />
+  <Route path="/commercial-ads" element={<ProtectedRoute><CommercialAdsListing /></ProtectedRoute>} />
+
+  <Route path="/listing" element={<ProtectedRoute><Listing /></ProtectedRoute>} />
+
   <Route path="/blog-list" element={<ProtectedRoute><BlogList /></ProtectedRoute>} />
   <Route path="/blog-details" element={<ProtectedRoute><BlogDetailsh /></ProtectedRoute>} />
   <Route path="/blog-grid" element={<ProtectedRoute><BlogGrid /></ProtectedRoute>} />

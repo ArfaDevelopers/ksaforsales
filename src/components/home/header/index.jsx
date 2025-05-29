@@ -2117,7 +2117,7 @@ const Header = ({ parms }) => {
                     <li className="nav-item">
                       <Link
                         className="nav-link header-login add-listing"
-                        to="/add-listing"
+                        to="/listing"
                       >
                         <i className="fa-solid fa-plus" /> Add Listing
                       </Link>
