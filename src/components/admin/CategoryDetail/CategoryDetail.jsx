@@ -8,6 +8,15 @@ import {
   FaShareAlt,
   FaCopy,
 } from "react-icons/fa";
+import share from "../../dyanmic_routes/sahere.png";
+import { IoShare } from "react-icons/io5";
+import { VscReport } from "react-icons/vsc";
+import { Form } from "react-bootstrap";
+
+import { IoLogoWhatsapp } from "react-icons/io";
+import { FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 import { IoCallOutline } from "react-icons/io5";
 import { FaRegEye } from "react-icons/fa6";
 
@@ -18,6 +27,9 @@ import Footer from "../../home/footer/Footer.jsx";
 import Header from "../../home/header";
 import { v4 as uuidv4 } from "uuid"; // For unique visitor tracking
 import Loading1 from "../../../../public/Progress circle.png";
+import { FaHeart, FaPhoneAlt } from "react-icons/fa";
+import { MdIosShare } from "react-icons/md";
+
 import {
   getDocs,
   collection,
@@ -28,6 +40,7 @@ import {
   getDoc,
   arrayUnion,
   updateDoc,
+  arrayRemove,
 } from "firebase/firestore";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 
@@ -37,16 +50,22 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 const CategoryDetail = () => {
   const { id } = useParams(); // Get ID from URL
   const navigate = useNavigate();
+  const { page } = useParams(); // This will be "CommercialAdscom"
 
   // State to manage modals for call and WhatsApp
   const [showCall, setShowCall] = useState(false);
   const [showWhatsapp, setShowWhatsapp] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
 
   const [categories, setcategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(link);
+    alert("Link copied to clipboard!");
+  };
   const handleShareClick = () => {
     setShowModal(true);
   };
@@ -68,6 +87,11 @@ const CategoryDetail = () => {
     // Cleanup on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const link = getQueryParam("link") || window.location.href;
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
   //     if (user) {
@@ -85,10 +109,19 @@ const CategoryDetail = () => {
   //   return () => unsubscribe(); // Cleanup on unmount
   // }, []);
 
+  // const handleCopyLink = () => {
+  //   navigator.clipboard.writeText(categories.image);
+  //   alert("Link copied to clipboard!");
+  // };
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(categories.image);
-    alert("Link copied to clipboard!");
+    if (page) {
+      navigator.clipboard.writeText(page);
+      alert("Link copied to clipboard!");
+    } else {
+      alert("No link to copy!");
+    }
   };
+
   console.log(categories, "categories_");
   useEffect(() => {
     const fetchCarById = async () => {
@@ -114,7 +147,67 @@ const CategoryDetail = () => {
     };
 
     fetchCarById(); // Call the fetch function
-  }, [id]); // Run this effect every time the `id` changes
+  }, [id, refresh]); // Run this effect every time the `id` changes
+  const MILLISECONDS_IN_24_HOURS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  useEffect(() => {
+    const incrementAdVisit = async () => {
+      const userId = auth.currentUser?.uid;
+      if (!userId || !id) return; // 'id' should be the current ad's ID
+
+      const now = new Date();
+
+      const adDocRef = doc(db, "CommercialAdscom", id);
+      const userVisitRef = doc(
+        db,
+        "CommercialAdscom",
+        id,
+        "UserVisits",
+        userId
+      );
+
+      try {
+        // Check if this user already visited this ad
+        const userVisitSnap = await getDoc(userVisitRef);
+        const lastVisit = userVisitSnap.exists()
+          ? userVisitSnap.data().lastVisit.toDate()
+          : new Date(0); // Default to epoch (1970) if no record
+
+        if (now - lastVisit < MILLISECONDS_IN_24_HOURS) {
+          console.log("⏱️ Same user already visited in the last 24 hours.");
+          return;
+        }
+
+        // Fetch current visit count
+        const adSnap = await getDoc(adDocRef);
+        if (adSnap.exists()) {
+          const data = adSnap.data();
+          const currentVisitCount = data.visitCount || 0;
+
+          // Increment visit count
+          await updateDoc(adDocRef, {
+            visitCount: currentVisitCount + 1,
+          });
+
+          console.log(
+            "✅ visitCount incremented for this user after 24 hours:",
+            currentVisitCount + 1
+          );
+        } else {
+          console.log("📭 Ad not found.");
+        }
+
+        // Record/update lastVisit timestamp for this user
+        await setDoc(userVisitRef, {
+          lastVisit: now,
+        });
+      } catch (err) {
+        console.error("❌ Error in tracking ad visit:", err);
+      }
+    };
+
+    incrementAdVisit();
+  }, []);
 
   if (!categories) {
     return (
@@ -175,9 +268,92 @@ const CategoryDetail = () => {
   const handleCloseCall = () => setShowCall(false);
   const handleCloseWhatsapp = () => setShowWhatsapp(false);
   const [totalVisitors, setTotalVisitors] = useState(0);
-  const MILLISECONDS_IN_24_HOURS = 24 * 60 * 60 * 1000;
+  const userClickedId = auth.currentUser?.uid;
 
   const [visitCount, setVisitCount] = useState(0);
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const [reportText, setReportText] = useState("");
+
+  const [successShow, setSuccessShow] = useState(false);
+  const handleSuccessClose = () => setSuccessShow(false);
+  const [reportTypes, setReportTypes] = useState([
+    "Sexual",
+    "Illegal",
+    "Abusive",
+    "Harassment",
+    "Fraud",
+    "Spam",
+  ]);
+  const [selectedReports, setSelectedReports] = useState([]);
+  const handleSubmit = async () => {
+    console.log("Report Submitted:", { reportText, selectedReports });
+
+    try {
+      const adsCollection = collection(db, "CommercialAdscom");
+      const docRef = doc(adsCollection, id); // Target document ID
+
+      // Fetch existing document
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists()) {
+        // Get existing data
+        const existingData = docSnapshot.data();
+
+        // Merge new selectedReports with existing reportTypes (if present)
+        const updatedReportTypes = existingData.reportTypes
+          ? [...existingData.reportTypes, ...selectedReports]
+          : selectedReports; // If reportTypes is missing, initialize it
+
+        // Update only the reportTypes field
+        await updateDoc(docRef, {
+          reportTypes: updatedReportTypes,
+        });
+
+        console.log("Document updated successfully:", updatedReportTypes);
+      } else {
+        console.log("Document does not exist.");
+      }
+
+      handleClose();
+      setSuccessShow(true);
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
+  const favoritiesadded = async (itemId) => {
+    console.log("favoritiesadded called with itemId:", itemId);
+    const userClickedId = auth.currentUser?.uid;
+    if (!userClickedId) return;
+
+    try {
+      const docRef = doc(db, "CommercialAdscom", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const currentData = docSnap.data();
+        const currentHeartedBy = currentData.heartedby || [];
+
+        const isAlreadyHearted = currentHeartedBy.includes(userClickedId);
+
+        await updateDoc(docRef, {
+          heartedby: isAlreadyHearted
+            ? arrayRemove(userClickedId)
+            : arrayUnion(userClickedId),
+        });
+        setRefresh(!refresh); // force re-fetch if needed
+
+        console.log(
+          `User ${
+            isAlreadyHearted ? "removed from" : "added to"
+          } heartedby for item ${itemId}`
+        );
+      }
+    } catch (error) {
+      console.error("Error updating heartedby field:", error);
+    }
+  };
   useEffect(() => {
     const trackUserVisit = async () => {
       const user = auth.currentUser?.uid;
@@ -261,7 +437,7 @@ const CategoryDetail = () => {
 
   const handleWhatsappMouseLeave = () => {
     setWhatsappButtonStyles({
-      backgroundColor: "#0c9e6f",
+      backgroundColor: "white",
       borderColor: "#0c9e6f",
       color: "black",
     });
@@ -323,6 +499,254 @@ const CategoryDetail = () => {
             </div>
           </div>
         </Container>
+        <Link
+        // to="/bookmarks"
+        >
+          <button
+            className="head2btn"
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #2D4495",
+              padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+              textAlign: "center",
+              width: window.innerWidth <= 576 ? "47%" : "auto",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              favoritiesadded(categories.id); // Call your function with the clicked categories's ID
+            }}
+          >
+            <span>
+              {/* <img src={left} alt="leftarrow" /> */}
+              {categories.heartedby?.includes(userClickedId) ? (
+                <FaHeart
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "red",
+                    fill: "red",
+                  }}
+                />
+              ) : (
+                <FaRegHeart
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "#2d4495",
+                  }}
+                />
+              )}
+            </span>{" "}
+            Favourite
+          </button>
+          <>
+            {/* Button to open modal */}
+            <button
+              className="head2btn"
+              onClick={() => setShowModal1(true)}
+              style={{
+                marginLeft: "0.6rem",
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto",
+              }}
+            >
+              <span>
+                <IoShare
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                    color: "black",
+                  }}
+                />
+
+                {/* <img src={share} alt="share" /> */}
+              </span>
+              Share
+            </button>
+
+            {/* Modal */}
+            {showModal1 && (
+              <>
+                <div
+                  className="modal fade show d-block"
+                  tabIndex="-1"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
+                    zIndex: 1050,
+                  }}
+                >
+                  <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title">Share</h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          onClick={() => setShowModal1(false)}
+                        ></button>
+                      </div>
+                      <div className="modal-body">
+                        <div style={{ wordBreak: "break-all" }}>{link}</div>
+                      </div>
+                      <div className="modal-footer">
+                        <button
+                          type="button"
+                          className="btn"
+                          style={{
+                            backgroundColor: "#2d4495",
+                            color: "#fff",
+                            border: "none",
+                            fontWeight: "bold",
+                            borderRadius: 10,
+                          }}
+                          onClick={copyToClipboard}
+                        >
+                          Copy
+                        </button>
+                        <button
+                          type="button"
+                          className="btn "
+                          style={{
+                            backgroundColor: "#2d4495",
+                            color: "#fff",
+                            border: "none",
+                            fontWeight: "bold",
+                            borderRadius: 10,
+                          }}
+                          onClick={() => setShowModal1(false)}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </>
+          <button
+            className="head2btn"
+            style={{
+              marginLeft: "0.6rem",
+
+              backgroundColor: "white",
+              border: "1px solid #2D4495",
+              padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+              textAlign: "center",
+              width: window.innerWidth <= 576 ? "47%" : "auto",
+            }}
+            onClick={handleShow}
+          >
+            <span>
+              <VscReport
+                style={{
+                  fontSize: "1rem",
+                  color: "#2d4495",
+                  fontWeight: "bold",
+                }}
+              />
+            </span>
+            Report
+          </button>
+          <Modal
+            style={{ marginTop: window.innerWidth <= 576 ? 60 : 20 }}
+            show={show}
+            onHide={handleClose}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Submit a Report</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group controlId="reportText">
+                  <Form.Label>Report Details</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Describe the issue..."
+                    value={reportText}
+                    onChange={(e) => setReportText(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Report Type</Form.Label>
+                  {reportTypes.map((type, index) => (
+                    <Form.Check
+                      key={index}
+                      type="checkbox"
+                      label={type}
+                      checked={selectedReports.includes(type)}
+                      onChange={() => handleCheckboxChange(type)}
+                    />
+                  ))}
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                style={{
+                  backgroundColor: "#2d4495",
+                  color: "#fff",
+                  border: "none",
+                  fontWeight: "bold",
+                  borderRadius: 10,
+                  transition: "none", // Disable transitions
+                  outline: "none", // Remove focus outline
+                  boxShadow: "none", // Remove any shadow changes
+                  cursor: "pointer", // Maintain clickable appearance
+                }}
+                onClick={handleClose}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                  e.currentTarget.style.color = "#fff"; // Force same text color
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                  e.currentTarget.style.color = "#fff"; // Restore same text color
+                }}
+              >
+                Close
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: "#2d4495",
+                  color: "#fff",
+                  border: "none",
+                  fontWeight: "bold",
+                  borderRadius: 10,
+                  transition: "none", // Disable transitions
+                  outline: "none", // Remove focus outline
+                  boxShadow: "none", // Remove any shadow changes
+                  cursor: "pointer", // Maintain clickable appearance
+                }}
+                onClick={handleSubmit}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                  e.currentTarget.style.color = "#fff"; // Force same text color
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                  e.currentTarget.style.color = "#fff"; // Restore same text color
+                }}
+                // disabled={!reportText || selectedReports.length === 0}
+                // disabled={selectedReports.length === 0}
+              >
+                Submit Report
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Link>
         <Card
           className="text-center position-relative"
           style={{
@@ -353,7 +777,7 @@ const CategoryDetail = () => {
             >
               <FaRegEye />
               <span style={{ fontWeight: "bold" }} className="gap-2">
-                {totalVisitors}
+                {categories?.visitCount}
                 <span style={{ marginLeft: "3px" }}>Views</span>
               </span>
             </div>
@@ -384,8 +808,14 @@ const CategoryDetail = () => {
                   // marginTop: "-1.5rem",
                 }}
               >
-                <FaShareAlt
-                  width="24px"
+                <MdIosShare
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1.4rem",
+                    color: "black",
+                  }}
+                  // width="24px"
+
                   // style={{ marginTop: "-1.5rem" }}
                   //   height="24px"
                   //   viewBox="0 0 24 24"
@@ -451,21 +881,26 @@ const CategoryDetail = () => {
                   variant="primary"
                   className="d-flex align-items-center gap-1"
                   style={{
-                    ...callButtonStyles,
-                    transition: "all 0.2s ease", // Smooth transition
-                    padding: "0.375rem 0.75rem", // Match Bootstrap default
+                    backgroundColor: "#2d4495",
+                    borderColor: "#2d4495",
+                    color: "white",
+                    // transition: "all 0.2s ease",
+                    padding: "0.375rem 0.75rem",
                   }}
                   onClick={handleOpenCall}
                   onMouseEnter={handleCallMouseEnter}
                   onMouseLeave={handleCallMouseLeave}
                 >
-                  <IoCallOutline
+                  <FaPhoneAlt
                     style={{
-                      fontSize: "1.5rem",
-                      color: callButtonStyles.color,
+                      // fontSize: "1.5rem",
+                      // color: callButtonStyles.color,
+                      fontSize: "0.8rem",
+                      color: "white",
+                      fill: "white",
                     }}
                   />
-                  <span style={{ color: callButtonStyles.color }}>Call</span>
+                  <span style={{ color: "white" }}>Call</span>
                 </Button>
                 <Button
                   variant="primary"
@@ -474,20 +909,44 @@ const CategoryDetail = () => {
                     ...whatsappButtonStyles,
                     transition: "all 0.2s ease",
                     padding: "0.375rem 0.75rem",
+                    backgroundColor: "white",
                   }}
                   onClick={handleOpenWhatsapp}
-                  onMouseEnter={handleWhatsappMouseEnter}
-                  onMouseLeave={handleWhatsappMouseLeave}
+                  // onMouseEnter={handleWhatsappMouseEnter}
+                  // onMouseLeave={handleWhatsappMouseLeave}
                 >
-                  <FaWhatsapp
+                  <IoLogoWhatsapp
                     style={{
                       fontSize: "1.5rem",
-                      color: whatsappButtonStyles.color,
+                      color: "#2d4495",
                     }}
                   />
                   <span style={{ color: whatsappButtonStyles.color }}>
                     WhatsApp
                   </span>
+                </Button>
+                <Button
+                  variant="primary"
+                  className="d-flex align-items-center gap-1 bg-white"
+                  style={{
+                    transition: "all 0.2s ease",
+                    padding: "0.375rem 0.75rem",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    favoritiesadded(categories.id); // Call your function with the clicked categories's ID
+                    setRefresh((prev) => !prev); // force re-fetch if needed
+                  }}
+                >
+                  <FaHeart
+                    style={{
+                      fontSize: "1.5rem",
+                      // color: "#2d4495",
+                      color: categories.heartedby?.includes(userClickedId)
+                        ? "red"
+                        : "#2d4495",
+                    }}
+                  />
                 </Button>
               </div>
             </Card.Body>

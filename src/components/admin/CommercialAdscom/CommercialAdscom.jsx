@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import left from "../../dyanmic_routes/left.png";
 // import whatsapp from "../../dyanmic_routes/whatapp.png";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaHeart, FaPhoneAlt } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { FaRegEye } from "react-icons/fa6";
+import { MdIosShare } from "react-icons/md";
 
 import { IoCallOutline } from "react-icons/io5";
 import share from "../../dyanmic_routes/sahere.png";
@@ -19,6 +22,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams, useLocation } from "react-router";
+import { FaPhone, FaWhatsapp, FaShareAlt, FaCopy } from "react-icons/fa";
 
 import {
   getDocs,
@@ -26,8 +30,11 @@ import {
   doc,
   deleteDoc,
   getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
-import { db } from "./../../Firebase/FirebaseConfig.jsx";
+import { auth, db } from "./../../Firebase/FirebaseConfig.jsx";
 import Footer from "../../home/footer/Footer";
 const ITEMS_PER_PAGE = 4; // Set number of items per page
 
@@ -36,6 +43,8 @@ const CommercialAdscom = () => {
   const navigate = useNavigate();
   const [showCall, setShowCall] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
   const [selectedPhone, setSelectedPhone] = useState("");
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,7 +107,7 @@ const CommercialAdscom = () => {
             : "books";
         // Determine collection based on `callingFrom`
         // const collectionName = callingFrom === "automotive" ? "carData" : "books";
-        const adsCollection = collection(db, collectionName); // Reference to dynamic collection
+        const adsCollection = collection(db, "CommercialAdscom"); // Reference to dynamic collection
         const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
         const adsList = adsSnapshot.docs.map((doc) => ({
           id: doc.id, // Include document ID
@@ -139,6 +148,8 @@ const CommercialAdscom = () => {
   };
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  const [successShow, setSuccessShow] = useState(false);
+  const handleSuccessClose = () => setSuccessShow(false);
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -149,6 +160,63 @@ const CommercialAdscom = () => {
     // Cleanup on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  const userClickedId = auth.currentUser?.uid;
+  console.log(userClickedId, "userClickedId__________");
+  // const favoritiesadded = (id) => {
+  //   console.log("Added to favorites:", id);
+  //   // Add your actual logic here
+  // };
+  // const favoritiesadded = async (adId) => {
+  //   const userClickedId = auth.currentUser?.uid;
+
+  //   if (!userClickedId) {
+  //     console.error("User not authenticated");
+  //     return;
+  //   }
+
+  //   try {
+  //     const adRef = doc(db, "CommercialAdscom", adId);
+
+  //     await updateDoc(adRef, {
+  //       heartedby: arrayUnion(userClickedId), // Adds UID only if it's not already in the array
+  //     });
+  //     setRefresh(!refresh);
+  //     console.log(`User ${userClickedId} hearted ad ${adId}`);
+  //   } catch (error) {
+  //     console.error("Error updating heartedby field:", error);
+  //   }
+  // };
+  const favoritiesadded = async (itemId) => {
+    const userClickedId = auth.currentUser?.uid;
+    if (!userClickedId) return;
+
+    try {
+      const docRef = doc(db, "CommercialAdscom", itemId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const currentData = docSnap.data();
+        const currentHeartedBy = currentData.heartedby || [];
+
+        const isAlreadyHearted = currentHeartedBy.includes(userClickedId);
+
+        await updateDoc(docRef, {
+          heartedby: isAlreadyHearted
+            ? arrayRemove(userClickedId)
+            : arrayUnion(userClickedId),
+        });
+        setRefresh(!refresh); // force re-fetch if needed
+
+        console.log(
+          `User ${
+            isAlreadyHearted ? "removed from" : "added to"
+          } heartedby for item ${itemId}`
+        );
+      }
+    } catch (error) {
+      console.error("Error updating heartedby field:", error);
+    }
+  };
   const handleShowWhatsApp = (phone) => {
     setSelectedPhone(phone);
     setShowWhatsApp(true);
@@ -211,8 +279,8 @@ const CommercialAdscom = () => {
         : "books";
 
     try {
-      const adsCollection = collection(db, collectionName);
-      const docRef = doc(adsCollection, NewId); // Target document ID
+      const adsCollection = collection(db, "CommercialAdscom");
+      const docRef = doc(adsCollection, id); // Target document ID
 
       // Fetch existing document
       const docSnapshot = await getDoc(docRef);
@@ -252,13 +320,14 @@ const CommercialAdscom = () => {
           ...doc.data(),
         }));
         setCategories(carsData);
+        console.log(carsData, "userClickedId__________contentapi");
       } catch (error) {
         console.error("Error getting cars:", error);
       }
     };
 
     fetchCars();
-  }, []);
+  }, [refresh]);
 
   // Calculate total pages
   const totalPages = Math.ceil(categories.length / ITEMS_PER_PAGE);
@@ -272,7 +341,107 @@ const CommercialAdscom = () => {
     borderColor: "#2d4495",
     color: "black",
   });
+  const [showModal, setShowModal] = useState(false);
+  const [PramaId, setPramaId] = useState("");
+  const [paramLink, setparamLink] = useState("");
 
+  // const handleShareClick = (e, id) => {
+  //   e.stopPropagation();
+  //   setPramaId(id);
+  //   console.log("Shared item ID:", id);
+  //   setShowModal(true);
+  // };
+  const handleShareClick = (e, id) => {
+    e.stopPropagation();
+    setPramaId(id);
+
+    const fullUrl = window.location.href;
+    const hashIndex = fullUrl.indexOf("#");
+    const baseUrl =
+      hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl + "#";
+    const finalUrl = `${baseUrl}/CategoryDetail/${id}`;
+
+    setparamLink(finalUrl); // ⬅️ Save full link to state
+    console.log("Shared item ID:", id);
+    console.log("Generated link:", finalUrl);
+    setShowModal(true);
+  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  // const handleCopyLink = () => {
+  //   navigator.clipboard.writeText(categories.image);
+  //   alert("Link copied to clipboard!");
+  // };
+  // const handleCopyLink = () => {
+  //   const fullUrl = window.location.href;
+  //   const hashIndex = fullUrl.indexOf("#");
+  //   const urlWithHashOnly =
+  //     hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl;
+  //   navigator.clipboard.writeText(urlWithHashOnly);
+  //   alert("Link copied to clipboard!\n" + urlWithHashOnly);
+  // };
+  const handleCopyLink = () => {
+    const fullUrl = window.location.href;
+    const hashIndex = fullUrl.indexOf("#");
+    const baseUrl =
+      hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl + "#";
+
+    const finalUrl = `${baseUrl}/CategoryDetail/${PramaId}`;
+
+    navigator.clipboard.writeText(finalUrl);
+    alert("Link copied to clipboard!\n" + finalUrl);
+  };
+
+  const [totalVisitors, setTotalVisitors] = useState(0);
+  const MILLISECONDS_IN_24_HOURS = 24 * 60 * 60 * 1000;
+
+  const [visitCount, setVisitCount] = useState(0);
+  useEffect(() => {
+    const trackUserVisit = async () => {
+      const user = auth.currentUser?.uid;
+      if (!user) return;
+
+      const userDocRef = doc(db, "WebsiteStats", user);
+      const now = new Date();
+
+      try {
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          const lastVisit = userData?.lastVisit?.toDate();
+
+          if (!lastVisit || now - lastVisit > MILLISECONDS_IN_24_HOURS) {
+            // Update timestamp and count visit
+            await updateDoc(userDocRef, {
+              lastVisit: now,
+            });
+            setVisitCount((prev) => prev + 1);
+            console.log(
+              "✅ Visit counted (after 24h or first after missing timestamp)"
+            );
+          } else {
+            console.log("🕒 Already visited in the last 24 hours.");
+          }
+        } else {
+          // First-time visitor: set timestamp and count visit
+          await setDoc(userDocRef, {
+            lastVisit: now,
+          });
+          setVisitCount((prev) => prev + 1);
+          console.log("🌟 First visit counted.");
+        }
+      } catch (error) {
+        console.error("Error tracking visit:", error);
+      }
+    };
+
+    trackUserVisit();
+  }, []);
   // State to manage hover styles for WhatsApp button
   const [whatsappButtonStyles, setWhatsappButtonStyles] = useState({
     backgroundColor: "#0c9e6f",
@@ -420,7 +589,7 @@ const CommercialAdscom = () => {
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
               }}
             >
-              <Link to="/bookmarks">
+              {/* <Link to="/bookmarks">
                 <button
                   className="head2btn"
                   style={{
@@ -432,15 +601,13 @@ const CommercialAdscom = () => {
                   }}
                 >
                   <span>
-                    {/* <img src={left} alt="leftarrow" /> */}
                     <FaRegHeart />
                   </span>{" "}
                   Favourite
                 </button>
-              </Link>
-              <>
-                {/* Button to open modal */}
-                <button
+              </Link> */}
+              {/* <>
+                 <button
                   className="head2btn"
                   onClick={() => setShowModal1(true)}
                   style={{
@@ -457,8 +624,7 @@ const CommercialAdscom = () => {
                   Share
                 </button>
 
-                {/* Modal */}
-                {showModal1 && (
+                 {showModal1 && (
                   <>
                     <div
                       className="modal fade show d-block"
@@ -525,74 +691,7 @@ const CommercialAdscom = () => {
                   </>
                 )}
               </>
-              {/* {itemData.userId===userId?
 
-<button className="head2btn" onClick={handleShowReport}
-  style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto"
-              }}
->
-              <span>
-              
-                <FaBuysellads />
-              </span>
-              Promote
-            </button>:''     }    
-              
-                {showReport && (
-                  <div
-                    className="modal fade show d-block"
-                    tabIndex="-1"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      position: "fixed",
-                      top: 0,
-                      left: 0,
-                      width: "100vw",
-                      height: "100vh",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
-                      zIndex: 1050,
-                    }}
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title">Share</h5>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            onClick={() => setshowReport(false)}
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                        
-                          <Elements stripe={stripePromise}>
-                            <PaymentForm
-                              _Id={_Id}
-                              collectionName1={collectionName1}
-                              getpaymentSuccess={setFeaturedAds}
-                            />
-                          </Elements>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => setshowReport(false)}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )} */}
               <button
                 className="head2btn"
                 style={{
@@ -608,7 +707,7 @@ const CommercialAdscom = () => {
                   <img src={report} alt="report" />
                 </span>
                 Report
-              </button>
+              </button> */}
 
               <Modal
                 style={{ marginTop: window.innerWidth <= 576 ? 60 : 20 }}
@@ -701,6 +800,40 @@ const CommercialAdscom = () => {
               </Modal>
             </div>
           </Container>
+          <Modal show={showModal} onHide={handleCloseModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Share Image</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {/* Wrapping URL in a div with word-break to prevent overflow */}
+              <div
+                style={{
+                  wordBreak: "break-all",
+                  overflowWrap: "break-word",
+                }}
+              >
+                {paramLink}
+              </div>
+              <Button
+                style={{
+                  backgroundColor: "#2d4495",
+                  color: "#fff",
+                  border: "none",
+                  fontWeight: "bold",
+                  borderRadius: 10,
+                  transition: "none", // Disable transitions
+                  outline: "none", // Remove focus outline
+                  boxShadow: "none", // Remove any shadow changes
+                  cursor: "pointer", // Maintain clickable appearance
+                }}
+                onClick={handleCopyLink}
+                className="mt-3"
+              >
+                <FaCopy /> Copy Link
+              </Button>
+            </Modal.Body>
+          </Modal>
+
           <Container
             style={{
               marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem",
@@ -716,6 +849,57 @@ const CommercialAdscom = () => {
                     }}
                     style={{ cursor: "pointer" }}
                   >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%", // Use full width or adjust as needed
+                        padding: "0 1.6rem", // padding on left and right
+                        marginTop: "13px",
+                      }}
+                    >
+                      {/* Left Side - Views */}
+                      <div className="d-flex gap-2 align-items-center">
+                        <FaRegEye />
+                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                          {item?.visitCount}
+                          <span style={{ marginLeft: "3px" }}>Views</span>
+                        </span>
+                      </div>
+
+                      {/* Right Side - Share Icon */}
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => handleShareClick(e, item.id)}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#f7f8fa",
+                            color: "var(--shades_0)",
+                            border: "none",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <MdIosShare
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: "1.4rem",
+                              color: "black",
+                            }}
+                          />
+                        </div>
+                      </span>
+                    </div>
+
                     <Card.Img
                       variant="top"
                       src={item.image}
@@ -733,31 +917,32 @@ const CommercialAdscom = () => {
                             variant="primary"
                             className="d-flex align-items-center gap-1"
                             style={{
-                              ...callButtonStyles,
-                              transition: "all 0.2s ease", // Smooth transition
-                              padding: "0.375rem 0.75rem", // Match Bootstrap default
+                              backgroundColor: "#2d4495",
+                              borderColor: "#2d4495",
+                              color: "white",
+                              // transition: "all 0.2s ease",
+                              padding: "0.375rem 0.75rem",
                             }}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleShowWhatsApp(item.phone);
                               setSelectedPhone(item.phone);
                             }}
-                            onMouseEnter={handleCallMouseEnter}
-                            onMouseLeave={handleCallMouseLeave}
                           >
-                            <IoCallOutline
+                            <FaPhoneAlt
                               style={{
-                                fontSize: "1.5rem",
-                                color: callButtonStyles.color,
+                                fontSize: "0.8rem",
+                                color: "white",
+                                fill: "white",
                               }}
+                              className="fill-white text-white mt-1"
                             />
-                            <span style={{ color: callButtonStyles.color }}>
-                              Call
-                            </span>
+                            <span style={{ color: "white" }}>Call</span>
                           </Button>
+
                           <Button
                             variant="primary"
-                            className="d-flex align-items-center gap-1"
+                            className="d-flex align-items-center gap-1 bg-white"
                             style={{
                               ...whatsappButtonStyles,
                               transition: "all 0.2s ease",
@@ -768,18 +953,40 @@ const CommercialAdscom = () => {
                               handleShowWhatsApp(item.phone);
                               setSelectedPhone(item.phone);
                             }}
-                            onMouseEnter={handleWhatsappMouseEnter}
-                            onMouseLeave={handleWhatsappMouseLeave}
                           >
-                            <FaWhatsapp
+                            <IoLogoWhatsapp
                               style={{
                                 fontSize: "1.5rem",
-                                color: whatsappButtonStyles.color,
+                                color: "#2d4495",
+
+                                // color: whatsappButtonStyles.color,
                               }}
                             />
                             <span style={{ color: whatsappButtonStyles.color }}>
                               WhatsApp
                             </span>
+                          </Button>
+                          <Button
+                            variant="primary"
+                            className="d-flex align-items-center gap-1 bg-white"
+                            style={{
+                              transition: "all 0.2s ease",
+                              padding: "0.375rem 0.75rem",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              favoritiesadded(item.id); // Call your function with the clicked item's ID
+                            }}
+                          >
+                            <FaHeart
+                              style={{
+                                fontSize: "1.5rem",
+                                // color: "#2d4495",
+                                color: item.heartedby?.includes(userClickedId)
+                                  ? "red"
+                                  : "#2d4495",
+                              }}
+                            />
                           </Button>
                         </div>
                       </Card.Body>
