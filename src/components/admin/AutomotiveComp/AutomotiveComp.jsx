@@ -86,8 +86,8 @@ const AutomotiveComp = () => {
   const [subCatgory, setsubCatgory] = useState("");
   // console.log(nestedSubCategory, "subCatgory___________2");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(subCatgory,"subCatgory___________1");
-  console.log( nestedSubCategory,"subCatgory___________2");
+  console.log(subCatgory, "subCatgory___________1");
+  console.log(nestedSubCategory, "subCatgory___________2");
 
   // const scrollRef = useRef();
   const updateIsMobile = () => {
@@ -186,7 +186,9 @@ const AutomotiveComp = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -335,6 +337,29 @@ const AutomotiveComp = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [mileage, setMileage] = useState("");
+  const [adsDetailImages, setAdsDetailImages] = useState([]);
+  console.log(adsDetailImages, "adsDetailImages________");
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "BodyContent");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAdsDetailImages(adsList);
+        console.log("📸 AdsdetailImages fetched:", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, []);
+
   const carBrands = [
     "Toyota",
     "Ford",
@@ -1689,9 +1714,7 @@ const AutomotiveComp = () => {
     const fetchCars = async () => {
       try {
         setLoading(true); // Show spinner
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/cars"
-        );
+        const response = await fetch("http://168.231.80.24:9002/route/cars");
         const carsData = await response.json();
 
         setCars(carsData);
@@ -2047,8 +2070,10 @@ const AutomotiveComp = () => {
       );
     }
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -2434,7 +2459,6 @@ const AutomotiveComp = () => {
                   </button>
                 </>
               )}
-        
           </div>
 
           <div>
@@ -2569,7 +2593,7 @@ const AutomotiveComp = () => {
               </h5>
 
               <Form>
-              <Row className="my-3">
+                <Row className="my-3">
                   <Col>
                     <Form.Label
                       style={{
@@ -2657,25 +2681,25 @@ const AutomotiveComp = () => {
                 />
                 {/*--------------------------------------*/}
                 <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -7021,7 +7045,14 @@ const AutomotiveComp = () => {
           }}
         >
           <div className="cars data">
-            <h2>Cars for Sale in Dubai</h2>
+            {adsDetailImages.map((item) => (
+              <div
+                key={item.id}
+                dangerouslySetInnerHTML={{ __html: item.content }}
+              />
+            ))}
+
+            {/* <h2>Cars for Sale in Dubai</h2>
             <p>
               Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
               gravida quam urna arcu integer.
@@ -7072,7 +7103,7 @@ const AutomotiveComp = () => {
                 <div>Downtown Dubai (123456)</div>
                 <div>Downtown Dubai (123456)</div>
               </Col>
-            </Row>
+            </Row> */}
           </div>
         </div>
 
