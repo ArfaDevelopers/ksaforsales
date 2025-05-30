@@ -29,6 +29,8 @@ import {
   FaBook,
   FaBullhorn,
 } from "react-icons/fa";
+import Flag from "react-world-flags";
+
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
   const menuRef = useRef(null);
@@ -110,7 +112,16 @@ const Header = ({ parms }) => {
       [subcategory]: !prev[subcategory],
     }));
   };
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
+  const handleLanguageChange = (lang) => {
+    setSelectedLanguage(lang);
+    setIsDropdownVisible(false);
+  };
+  const toggleDropdown = () => {
+    setIsDropdownVisible((prev) => !prev);
+  };
   return (
     <header className="header">
       <UpperHeader />
@@ -2110,16 +2121,125 @@ const Header = ({ parms }) => {
                 }}
               >
                 {auth.currentUser ? (
+                  
                   <ul
                     className="nav header-navbar-rht"
                     style={{ display: "flex", gap: "15px" }}
                   >
+                <div
+  className="lang_dropdown"
+  style={{
+    position: "relative",
+    display: "flex",
+  }}
+>
+  <button
+    className="btn dropdown-toggle"
+    onClick={toggleDropdown}
+    aria-expanded={isDropdownVisible ? "true" : "false"}
+    style={{
+      display: "flex",
+      alignItems: "center",
+      padding: "5px 10px",
+      backgroundColor: "#fff",
+      // border: "1px solid #ddd",
+      cursor: "pointer",
+    }}
+  >
+    <Flag
+      code={selectedLanguage === "en" ? "GB" : "SA"}
+      className="flag-icon"
+      style={{
+        width: "27px",
+        marginRight: "5px",
+        fontFamily: "Inter",
+      }}
+    />
+    {selectedLanguage === "en" ? "EN" : "AR"}
+  </button>
+
+  {/* Dropdown Menu */}
+  {isDropdownVisible && (
+    <ul
+      className="dropdown-menu show"
+      style={{
+        position: "absolute",
+        top: "100%",
+        left: "0",
+        zIndex: 1000,
+        display: "block",
+        minWidth: "160px",
+        backgroundColor: "#fff",
+        border: "1px solid #ddd",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        listStyle: "none",
+        padding: "0",
+        margin: "0",
+      }}
+    >
+      <li>
+        <button
+          className="dropdown-item"
+          style={{
+            fontFamily: "Inter",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            padding: "8px 12px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+          }}
+          onClick={() => handleLanguageChange("en")}
+        >
+          <Flag
+            code="GB"
+            className="flag-icon"
+            style={{
+              width: "27px",
+              marginRight: "5px",
+            }}
+          />
+          English
+        </button>
+      </li>
+      <li>
+        <button
+          className="dropdown-item"
+          style={{
+            fontFamily: "VIP Rawy",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            padding: "8px 12px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+          }}
+          onClick={() => handleLanguageChange("ar")}
+        >
+          <Flag
+            code="SA"
+            className="flag-icon"
+            style={{
+              width: "27px",
+              marginRight: "5px",
+            }}
+          />
+          Arabic
+        </button>
+      </li>
+    </ul>
+  )}
+</div>
                     <li className="nav-item">
                       <Link
                         className="nav-link header-login add-listing"
                         to="/listing"
                       >
-                        <i className="fa-solid fa-plus" /> Add Listing
+                        <i className="fa-solid fa-plus" /> Post Ad
                       </Link>
                     </li>
                     <li className="nav-item dropdown logged-item">
@@ -2158,6 +2278,114 @@ const Header = ({ parms }) => {
                   </ul>
                 ) : (
                   <>
+                         <div
+  className="lang_dropdown"
+  style={{
+    position: "relative",
+    display: "flex",
+  }}
+>
+  <button
+    className="btn dropdown-toggle"
+    onClick={toggleDropdown}
+    aria-expanded={isDropdownVisible ? "true" : "false"}
+    style={{
+      display: "flex",
+      alignItems: "center",
+      padding: "5px 10px",
+      backgroundColor: "#fff",
+      // border: "1px solid #ddd",
+      cursor: "pointer",
+    }}
+  >
+    <Flag
+      code={selectedLanguage === "en" ? "GB" : "SA"}
+      className="flag-icon"
+      style={{
+        width: "27px",
+        marginRight: "5px",
+        fontFamily: "Inter",
+      }}
+    />
+    {selectedLanguage === "en" ? "EN" : "AR"}
+  </button>
+
+  {/* Dropdown Menu */}
+  {isDropdownVisible && (
+    <ul
+      className="dropdown-menu show"
+      style={{
+        position: "absolute",
+        top: "100%",
+        left: "0",
+        zIndex: 1000,
+        display: "block",
+        minWidth: "160px",
+        backgroundColor: "#fff",
+        border: "1px solid #ddd",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        listStyle: "none",
+        padding: "0",
+        margin: "0",
+      }}
+    >
+      <li>
+        <button
+          className="dropdown-item"
+          style={{
+            fontFamily: "Inter",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            padding: "8px 12px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+          }}
+          onClick={() => handleLanguageChange("en")}
+        >
+          <Flag
+            code="GB"
+            className="flag-icon"
+            style={{
+              width: "27px",
+              marginRight: "5px",
+            }}
+          />
+          English
+        </button>
+      </li>
+      <li>
+        <button
+          className="dropdown-item"
+          style={{
+            fontFamily: "VIP Rawy",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            padding: "8px 12px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+          }}
+          onClick={() => handleLanguageChange("ar")}
+        >
+          <Flag
+            code="SA"
+            className="flag-icon"
+            style={{
+              width: "27px",
+              marginRight: "5px",
+            }}
+          />
+          Arabic
+        </button>
+      </li>
+    </ul>
+  )}
+</div>
                     <li className="nav-item">
                       <Link
                         className="nav-link header-reg"
@@ -2181,7 +2409,7 @@ const Header = ({ parms }) => {
                         className="nav-link header-login add-listing"
                         to="/add-listing"
                       >
-                        <i className="fa-solid fa-plus"></i> Add Listing
+                        <i className="fa-solid fa-plus"></i> Post Ad
                       </Link>
                     </li>
                   </>

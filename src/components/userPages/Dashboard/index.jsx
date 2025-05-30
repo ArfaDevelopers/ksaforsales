@@ -20,6 +20,10 @@ const Dashboard = () => {
   const [visibleCount, setVisibleCount] = useState(2);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [userId, setUserId] = useState(null);
+  const [Activelisting, setActivelisting] = useState(null);
+  const [Message, setMessage] = useState(null);
+
+  
   const [userReviews1, setuserReviews1] = useState(null);
   const [chartFilter, setChartFilter] = useState("This Week"); // New state for chart filter
   const [chartData, setChartData] = useState([]);
@@ -379,7 +383,37 @@ console.log(userReviews1,"userReviews1___________")
       ],
     },
   };
+  useEffect(() => {
+    // Function to fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://ksaforsaleapis.vercel.app/api/total-data-count');
+        const data = await response.json();
+        setActivelisting(data.totalCount)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    // Call the fetch function
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch('https://ksaforsaleapis.vercel.app/api/total-messages');
+        const data = await response.json();
+        console.log('Total Messages:', data);
+        setMessage(data.totalMessages)
+
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
+
+    fetchMessages();
+  }, []);
   return (
     <div className="main-wrapper">
       <Header />
@@ -452,7 +486,7 @@ console.log(userReviews1,"userReviews1___________")
                     </div>
                     <div className="dash-widget-info">
                       <h6>Active Listing</h6>
-                      <div>500</div>
+                      <div>{Activelisting}</div>
                     </div>
                   </div>
                 </div>
@@ -492,7 +526,7 @@ console.log(userReviews1,"userReviews1___________")
                     </div>
                     <div className="dash-widget-info">
                       <h6>Messages</h6>
-                      <div>15</div>
+                      <div>{Message}</div>
                     </div>
                   </div>
                 </div>
