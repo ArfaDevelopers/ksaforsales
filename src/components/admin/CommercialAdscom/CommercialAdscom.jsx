@@ -578,236 +578,14 @@ const CommercialAdscom = () => {
           <hr />
 
           <h1 className="m-lg-1">Commercial Ads</h1>
-          <Container className="parent-main" style={{ maxWidth: "1530px" }}>
-            <div
-              className="CategoryInfodiv_btn2container"
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                // marginLeft: window.innerWidth <= 576 ? "0.7rem" : "7.7%",
-                marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-                marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-              }}
-            >
-              {/* <Link to="/bookmarks">
-                <button
-                  className="head2btn"
-                  style={{
-                    backgroundColor: "white",
-                    border: "1px solid #2D4495",
-                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                    textAlign: "center",
-                    width: window.innerWidth <= 576 ? "47%" : "auto",
-                  }}
-                >
-                  <span>
-                    <FaRegHeart />
-                  </span>{" "}
-                  Favourite
-                </button>
-              </Link> */}
-              {/* <>
-                 <button
-                  className="head2btn"
-                  onClick={() => setShowModal1(true)}
-                  style={{
-                    backgroundColor: "white",
-                    border: "1px solid #2D4495",
-                    padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                    textAlign: "center",
-                    width: window.innerWidth <= 576 ? "47%" : "auto",
-                  }}
-                >
-                  <span>
-                    <img src={share} alt="share" />
-                  </span>
-                  Share
-                </button>
-
-                 {showModal1 && (
-                  <>
-                    <div
-                      className="modal fade show d-block"
-                      tabIndex="-1"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        width: "100vw",
-                        height: "100vh",
-                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
-                        zIndex: 1050,
-                      }}
-                    >
-                      <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5 className="modal-title">Share</h5>
-                            <button
-                              type="button"
-                              className="btn-close"
-                              onClick={() => setShowModal1(false)}
-                            ></button>
-                          </div>
-                          <div className="modal-body">
-                            <div style={{ wordBreak: "break-all" }}>{link}</div>
-                          </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn"
-                              style={{
-                                backgroundColor: "#2d4495",
-                                color: "#fff",
-                                border: "none",
-                                fontWeight: "bold",
-                                borderRadius: 10,
-                              }}
-                              onClick={copyToClipboard}
-                            >
-                              Copy
-                            </button>
-                            <button
-                              type="button"
-                              className="btn "
-                              style={{
-                                backgroundColor: "#2d4495",
-                                color: "#fff",
-                                border: "none",
-                                fontWeight: "bold",
-                                borderRadius: 10,
-                              }}
-                              onClick={() => setShowModal1(false)}
-                            >
-                              Close
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </>
-
-              <button
-                className="head2btn"
-                style={{
-                  backgroundColor: "white",
-                  border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                  textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
-                }}
-                onClick={handleShow}
-              >
-                <span>
-                  <img src={report} alt="report" />
-                </span>
-                Report
-              </button> */}
-
-              <Modal
-                style={{ marginTop: window.innerWidth <= 576 ? 60 : 20 }}
-                show={show}
-                onHide={handleClose}
-                centered
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Submit a Report</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Form.Group controlId="reportText">
-                      <Form.Label>Report Details</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Describe the issue..."
-                        value={reportText}
-                        onChange={(e) => setReportText(e.target.value)}
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="mt-3">
-                      <Form.Label>Report Type</Form.Label>
-                      {reportTypes.map((type, index) => (
-                        <Form.Check
-                          key={index}
-                          type="checkbox"
-                          label={type}
-                          checked={selectedReports.includes(type)}
-                          onChange={() => handleCheckboxChange(type)}
-                        />
-                      ))}
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    style={{
-                      backgroundColor: "#2d4495",
-                      color: "#fff",
-                      border: "none",
-                      fontWeight: "bold",
-                      borderRadius: 10,
-                      transition: "none", // Disable transitions
-                      outline: "none", // Remove focus outline
-                      boxShadow: "none", // Remove any shadow changes
-                      cursor: "pointer", // Maintain clickable appearance
-                    }}
-                    onClick={handleClose}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
-                      e.currentTarget.style.color = "#fff"; // Force same text color
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
-                      e.currentTarget.style.color = "#fff"; // Restore same text color
-                    }}
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    style={{
-                      backgroundColor: "#2d4495",
-                      color: "#fff",
-                      border: "none",
-                      fontWeight: "bold",
-                      borderRadius: 10,
-                      transition: "none", // Disable transitions
-                      outline: "none", // Remove focus outline
-                      boxShadow: "none", // Remove any shadow changes
-                      cursor: "pointer", // Maintain clickable appearance
-                    }}
-                    onClick={handleSubmit}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
-                      e.currentTarget.style.color = "#fff"; // Force same text color
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
-                      e.currentTarget.style.color = "#fff"; // Restore same text color
-                    }}
-                    // disabled={!reportText || selectedReports.length === 0}
-                    // disabled={selectedReports.length === 0}
-                  >
-                    Submit Report
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </div>
-          </Container>
+       
           <Modal show={showModal} onHide={handleCloseModal} centered>
             <div className="position-relative">
               <Modal.Header
                 closeButton
                 className="border-0"
                 style={{
-                  background: "transparent",
+                   background: "transparent",
                   zIndex: 2,
                 }}
               >
@@ -910,7 +688,6 @@ const CommercialAdscom = () => {
                         justifyContent: "space-between",
                         alignItems: "center",
                         width: "100%", // Use full width or adjust as needed
-                        padding: "0 1.6rem", // padding on left and right
                         marginTop: "13px",
                       }}
                     >
@@ -965,7 +742,6 @@ const CommercialAdscom = () => {
                         width: "328",
                       }}
                     />
-                    <Card>
                       <Card.Body>
                         <div className="d-flex justify-content-center gap-3 mt-3">
                           <Button
@@ -1045,7 +821,6 @@ const CommercialAdscom = () => {
                           </Button>
                         </div>
                       </Card.Body>
-                    </Card>
                   </Card>
                 </Col>
               ))}
