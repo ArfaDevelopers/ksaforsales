@@ -891,10 +891,10 @@ const CategoryDetail = () => {
             variant="top"
             src={categories.image}
             style={{
-              maxHeight: "461px",
+              height: "300px",
               maxWidth: "328px",
               width: "100%", // Makes it responsive
-              objectFit: "cover",
+              objectFit: "fill",
               margin: "0 auto",
               display: "block",
             }}

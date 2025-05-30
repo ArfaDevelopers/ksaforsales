@@ -118,19 +118,19 @@ const CommercialAdscom = () => {
         console.log(adsList, "Fetched Ads");
 
         // Find the ad that matches the `id` from the URL
-        const selectedAd = adsList.find((ad) => ad.id === NewId);
-        if (selectedAd) {
-          setItemData({
-            ...selectedAd,
-            timeAgo: selectedAd.createdAt
-              ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
-                  addSuffix: true,
-                })
-              : "Unknown time",
-          });
-        } else {
-          setItemData(null);
-        }
+        // const selectedAd = adsList.find((ad) => ad.id === NewId);
+        // if (selectedAd) {
+        //   setItemData({
+        //     ...selectedAd,
+        //     timeAgo: selectedAd.createdAt
+        //       ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+        //           addSuffix: true,
+        //         })
+        //       : "Unknown time",
+        //   });
+        // } else {
+        //   setItemData(null);
+        // }
 
         setLoading(false); // Stop loading
       } catch (error) {
@@ -737,7 +737,7 @@ const CommercialAdscom = () => {
                       src={item.image}
                       alt={item.title}
                       style={{
-                        height: "461px",
+                        height: "300px",
                         objectFit: "fill",
                         width: "328",
                       }}

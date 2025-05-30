@@ -63,18 +63,18 @@ const MyListe = () => {
     return () => unsubscribe();
   }, []);
 
-  const categoryMapping = {
-    "Automotive": "Cars",
-    "Sports&Game": "SPORTSGAMESComp",
-    "Electronics": "ELECTRONICS",
-    "FashionStyle": "FASHION",
-    "JobBoard": "JOBBOARD",
-    "RealEstate": "REALESTATECOMP",
-    "Other": "Education",
-    "Services": "TRAVEL",
-    "Pet&Animal": "PETANIMALCOMP",
-    "Home&Furnituer": "HEALTHCARE",
-  };
+  // const categoryMapping = {
+  //   "Automotive": "AutomotiveComp",
+  //   "Sports&Game": "SPORTSGAMESComp",
+  //   "Electronics": "ELECTRONICS",
+  //   "FashionStyle": "FASHION",
+  //   "JobBoard": "JOBBOARD",
+  //   "RealEstate": "REALESTATECOMP",
+  //   "Other": "Education",
+  //   "Services": "TRAVEL",
+  //   "Pet&Animal": "PETANIMALCOMP",
+  //   "Home&Furnituer": "HEALTHCARE",
+  // };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -538,7 +538,36 @@ const MyListe = () => {
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
-            to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
+          onClick={()=>{
+            console.log(record.category,'record.category_______')
+          }}
+to={
+  record.isActive
+    ? "#"
+    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+        record.category.trim() === "Pet & Animals"
+          ? "PetAnimalsComp"
+          : record.category.trim() === "Automotive"
+          ? "AutomotiveComp"
+          : record.category.trim() === "Other"
+          ? "Education"
+          : record.category.trim() === "Services"
+          ? "TravelComp"
+          : record.category.trim() === "JobBoard"
+          ? "JobBoard"
+          : record.category.trim() === "FashionStyle"
+          ? "FashionStyle"
+          : record.category.trim() === "Electronics"
+          ? "ElectronicComp"
+          : record.category.trim() === "Home & Furnituer"
+          ? "HealthCareComp"
+          : record.category.trim() === "Sports & Game"
+          ? "SportGamesComp"
+          : record.category.trim() === "Real Estate"
+          ? "RealEstateComp"
+          : formatCategory(record.category.trim())
+      )}`
+}
             style={{
               pointerEvents: record.isActive ? "none" : "auto",
               opacity: record.isActive ? 0.5 : 1,
@@ -569,8 +598,33 @@ const MyListe = () => {
         <>
           <h6>
             <Link
-              to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
-              style={{
+to={
+  record.isActive
+    ? "#"
+    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+        record.category.trim() === "Pet & Animals"
+          ? "PetAnimalsComp"
+          : record.category.trim() === "Automotive"
+          ? "AutomotiveComp"
+          : record.category.trim() === "Other"
+          ? "Education"
+          : record.category.trim() === "Services"
+          ? "TravelComp"
+          : record.category.trim() === "JobBoard"
+          ? "JobBoard"
+          : record.category.trim() === "FashionStyle"
+          ? "FashionStyle"
+          : record.category.trim() === "Electronics"
+          ? "ElectronicComp"
+          : record.category.trim() === "Home & Furnituer"
+          ? "HealthCareComp"
+          : record.category.trim() === "Sports & Game"
+          ? "SportGamesComp"
+          : record.category.trim() === "Real Estate"
+          ? "RealEstateComp"
+          : formatCategory(record.category.trim())
+      )}`
+}              style={{
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
                 cursor: record.isActive ? "not-allowed" : "pointer",
@@ -581,8 +635,33 @@ const MyListe = () => {
           </h6>
           <div className="listingtable-rate">
             <Link
-              to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category.trim() === 'Pet & Animals' ? "Pet" : formatCategory(record.category))}`}
-              className="cat-icon"
+to={
+  record.isActive
+    ? "#"
+    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+        record.category.trim() === "Pet & Animals"
+          ? "PetAnimalsComp"
+          : record.category.trim() === "Automotive"
+          ? "AutomotiveComp"
+          : record.category.trim() === "Other"
+          ? "Education"
+          : record.category.trim() === "Services"
+          ? "TravelComp"
+          : record.category.trim() === "JobBoard"
+          ? "JobBoard"
+          : record.category.trim() === "FashionStyle"
+          ? "FashionStyle"
+          : record.category.trim() === "Electronics"
+          ? "ElectronicComp"
+          : record.category.trim() === "Home & Furnituer"
+          ? "HealthCareComp"
+          : record.category.trim() === "Sports & Game"
+          ? "SportGamesComp"
+          : record.category.trim() === "Real Estate"
+          ? "RealEstateComp"
+          : formatCategory(record.category.trim())
+      )}`
+}              className="cat-icon"
               style={{
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
@@ -651,8 +730,33 @@ const MyListe = () => {
           }}
         >
           <Link
-            to={record.isActive ? "#" : `/service-details?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
-            className="action-btn btn-view"
+to={
+  record.isActive
+    ? "#"
+    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+        record.category.trim() === "Pet & Animals"
+          ? "PetAnimalsComp"
+          : record.category.trim() === "Automotive"
+          ? "AutomotiveComp"
+          : record.category.trim() === "Other"
+          ? "Education"
+          : record.category.trim() === "Services"
+          ? "TravelComp"
+          : record.category.trim() === "JobBoard"
+          ? "JobBoard"
+          : record.category.trim() === "FashionStyle"
+          ? "FashionStyle"
+          : record.category.trim() === "Electronics"
+          ? "ElectronicComp"
+          : record.category.trim() === "Home & Furnituer"
+          ? "HealthCareComp"
+          : record.category.trim() === "Sports & Game"
+          ? "SportGamesComp"
+          : record.category.trim() === "Real Estate"
+          ? "RealEstateComp"
+          : formatCategory(record.category.trim())
+      )}`
+}            className="action-btn btn-view"
             onClick={() => {
               if (!record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
