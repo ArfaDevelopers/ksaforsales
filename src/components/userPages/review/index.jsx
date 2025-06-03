@@ -199,17 +199,10 @@ const Review = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "8rem",
+          marginTop: "6rem",
         }}
       >
         <div className="container">
-          <div
-            className="col-12 text-start text-dark"
-            style={{ fontSize: "26px", fontWeight: 500 }}
-          >
-            Home / Reviews
-          </div>
-
           <div className="">
             <ul className="dashborad-menus">
               <li>

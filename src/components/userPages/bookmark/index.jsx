@@ -340,12 +340,10 @@ const Bookmarks = () => {
       <Header />
       <div
         className="dashboard-content"
-        style={{ marginTop: "8rem" }}
+        style={{ marginTop: "6rem" }}
       >
         <div className="container">
-          <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
-            Home / Favourite
-          </div>
+       
 
           <div className="">
             <ul className="dashborad-menus">

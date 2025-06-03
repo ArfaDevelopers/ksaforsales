@@ -63,18 +63,18 @@ const MyListe = () => {
     return () => unsubscribe();
   }, []);
 
-  // const categoryMapping = {
-  //   "Automotive": "AutomotiveComp",
-  //   "Sports&Game": "SPORTSGAMESComp",
-  //   "Electronics": "ELECTRONICS",
-  //   "FashionStyle": "FASHION",
-  //   "JobBoard": "JOBBOARD",
-  //   "RealEstate": "REALESTATECOMP",
-  //   "Other": "Education",
-  //   "Services": "TRAVEL",
-  //   "Pet&Animal": "PETANIMALCOMP",
-  //   "Home&Furnituer": "HEALTHCARE",
-  // };
+  const categoryMapping = {
+    "Automotive": "AutomotiveComp",
+    "Sports&Game": "SPORTSGAMESComp",
+    "Electronics": "ELECTRONICS",
+    "FashionStyle": "FASHION",
+    "JobBoard": "JOBBOARD",
+    "RealEstate": "REALESTATECOMP",
+    "Other": "Education",
+    "Services": "TRAVEL",
+    "Pet & Animals": "PETANIMALCOMP",
+    "Home&Furnituer": "HEALTHCARE",
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -467,6 +467,19 @@ const MyListe = () => {
     return items;
   };
   const toggleDisable = async (id, category, isActive) => {
+    const categoryMapping1 = {
+      "Automotive": "Cars",
+ 
+      "Sports&Game": "SPORTSGAMESComp",
+      "Electronics": "ELECTRONICS",
+      "FashionStyle": "FASHION",
+      "JobBoard": "JOBBOARD",
+      "RealEstate": "REALESTATECOMP",
+      "Other": "Education",
+      "Services": "TRAVEL",
+      "Pet & Animals": "PETANIMALCOMP",
+      "Home&Furnituer": "HEALTHCARE",
+    };
     try {
       // Validate inputs
       if (!id || !category || typeof isActive !== "boolean") {
@@ -476,11 +489,11 @@ const MyListe = () => {
       console.log("toggleDisable called with:", { id, category, isActive });
   
       // Map category to collection name
-      const tableName = categoryMapping[category] || category;
+      const tableName = categoryMapping1[category] || category;
       console.log(`Updating document: ${tableName}/${id}`);
   
       // Create document reference
-      const docRef = doc(db, tableName, id);
+      const docRef = doc(db, tableName==="Pet&Animals"?"PETANIMALCOMP":tableName==="Automotive"?"Cars":tableName, id);
   
       // Check if document exists
       const docSnap = await getDoc(docRef);
@@ -760,7 +773,7 @@ to={
             onClick={() => {
               if (!record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
-              }
+               }
             }}
             style={{
               display: "inline-flex",
@@ -787,7 +800,9 @@ to={
           </Link>
           <button
             className={`action-btn ${record.isActive ? 'btn-disabled' : 'btn-enabled'}`}
-            onClick={() => toggleDisable(record.id, formatCategory(record.category), !record.isActive)}
+            onClick={() =>{ toggleDisable(record.id, formatCategory(record.category), !record.isActive)
+            console.log(record,'record______')
+            }}
             style={{ 
               display: "inline-flex", 
               alignItems: "center", 
@@ -1004,11 +1019,8 @@ to={
 
       <Header />
 
-      <div className="dashboard-content" style={{ marginTop: "8rem" }}>
+      <div className="dashboard-content" style={{ marginTop: "6rem" }}>
         <div className="container">
-          <div className="col-12 text-start text-dark" style={{ fontSize: 26, fontWeight: 500 }}>
-            Home / My Listing
-          </div>
 
           <div className="">
             <ul className="dashborad-menus">

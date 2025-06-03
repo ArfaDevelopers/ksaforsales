@@ -120,12 +120,10 @@ const Message = ({ recieverId }) => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "8rem",
+          marginTop: "6rem",
         }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / Messages</div>
-
           <div className="">
             <ul className="dashborad-menus">
               <li>

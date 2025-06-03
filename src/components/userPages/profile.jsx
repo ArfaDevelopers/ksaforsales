@@ -247,12 +247,10 @@ const Profile = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: window.innerWidth <= 576 ? "6rem" : "8rem"
+          marginTop: window.innerWidth <= 576 ? "4rem" : "6rem"
         }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / Profile</div>
-
           <div className="">
             <ul className="dashborad-menus">
               <li>

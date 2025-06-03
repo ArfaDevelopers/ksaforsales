@@ -46,9 +46,7 @@ const Listing = () => {
       navigate("/add-listing");
     } else if (box === "box2") {
       navigate("/commercial-ads");
-    } else if (box === "box3") {
-      navigate("/add-listing");
-    } else if (box === "box4") {
+    }  else if (box === "box4") {
       navigate("/detail-ads");
     }
   };
@@ -198,7 +196,7 @@ const Listing = () => {
                   Promote your business with targeted ads.
                 </p>
               </div>
-              <div
+              {/* <div
                 style={{
                   flex: 1,
                   minWidth: "250px",
@@ -259,7 +257,7 @@ const Listing = () => {
                 >
                   Highlight your ads with premium features.
                 </p>
-              </div>
+              </div> */}
               <div
                 style={{
                   flex: 1,

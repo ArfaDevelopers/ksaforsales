@@ -420,16 +420,11 @@ console.log(userReviews1,"userReviews1___________")
       <div
         className="dashboard-content"
         style={{
-          marginTop: windowWidth <= 576 ? "6rem" : "8rem",
+          marginTop: windowWidth <= 576 ? "4rem" : "6rem",
         }}
       >
         <div className="container">
-          <div
-            className="col-12 text-start text-dark"
-            style={{ fontSize: 26, fontWeight: 500 }}
-          >
-            Home / Dashboard
-          </div>
+        
 
           <div className="">
             <ul className="dashborad-menus">

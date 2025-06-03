@@ -2126,6 +2126,7 @@ const Header = ({ parms }) => {
                     className="nav header-navbar-rht"
                     style={{ display: "flex", gap: "15px" }}
                   >
+                    {!isMobile && (
                 <div
   className="lang_dropdown"
   style={{
@@ -2234,6 +2235,7 @@ const Header = ({ parms }) => {
     </ul>
   )}
 </div>
+                    )}
                     <li className="nav-item">
                       <Link
                         className="nav-link header-login add-listing"
