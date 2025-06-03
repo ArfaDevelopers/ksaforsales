@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Header from "../../home/header";
+import Footer from "../../home/footer/Footer";
 import { Link } from "react-router-dom";
+
 import {
   collection,
   addDoc,
@@ -9,7 +12,6 @@ import {
   orderBy,
   serverTimestamp,
   onSnapshot,
-  getDocs,
 } from "firebase/firestore";
 import { auth, db, GoogleAuthProvider } from "../../Firebase/FirebaseConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
@@ -21,23 +23,30 @@ import {
   Button,
   Form,
   InputGroup,
+  Navbar,
   Badge,
   Spinner,
   Alert,
 } from "react-bootstrap";
-import { FaPaperPlane, FaComments } from "react-icons/fa";
+import {
+  FaGoogle,
+  FaSignOutAlt,
+  FaPaperPlane,
+  FaComments,
+  FaUser,
+  FaRocket,
+} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function Message() {
+function Message(props) {
+  console.log(props, "props main kia h");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [formValue, setFormValue] = useState("");
   const [sending, setSending] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const dummy = useRef();
-  console.log(users, "uniqueUsers____________881");
+
   // Authentication state observer
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((u) => {
@@ -47,7 +56,7 @@ function Message() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch users who have chatted with the current user
+  // Messages observer
   useEffect(() => {
     if (user) {
       const messagesRef = collection(db, "messages");
@@ -58,44 +67,7 @@ function Message() {
           id: doc.id,
           ...doc.data(),
         }));
-
-        const uniqueUserIds = Array.from(
-          new Set(
-            loadedMessages
-              .filter(
-                (msg) => msg.recieverId === user.uid || msg.uid === user.uid
-              )
-              .map((msg) => (msg.uid === user.uid ? msg.recieverId : msg.uid))
-          )
-        );
-        console.log(loadedMessages, "uniqueUsers____________uniqueUserIds1");
-
-        // Fetch user names based on unique user IDs
-        const fetchUserNames = async () => {
-          try {
-            const usersCollection = collection(db, "users");
-            const usersSnapshot = await getDocs(usersCollection);
-            const usersData = {};
-
-            usersSnapshot.forEach((doc) => {
-              const data = doc.data();
-              if (data.uid) {
-                usersData[data.uid] = data.fullName || data.name || "Unnamed";
-              }
-            });
-
-            const usersWithNames = uniqueUserIds.map((id) => ({
-              id,
-              name: usersData[id] || "Unknown User",
-            }));
-
-            setUsers(usersWithNames);
-          } catch (error) {
-            console.error("Error fetching user names:", error);
-          }
-        };
-
-        fetchUserNames();
+        console.log(loadedMessages, "loadedMessages_______");
         setMessages(loadedMessages);
         setTimeout(() => {
           dummy.current?.scrollIntoView({ behavior: "smooth" });
@@ -129,7 +101,7 @@ function Message() {
   // Send message
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (!formValue.trim() || !selectedUser) return;
+    if (!formValue.trim()) return;
 
     setSending(true);
     const { uid, photoURL, displayName } = auth.currentUser;
@@ -138,8 +110,9 @@ function Message() {
       await addDoc(collection(db, "messages"), {
         text: formValue.trim(),
         createdAt: serverTimestamp(),
-        recieverId: selectedUser.id, // Chat with the selected user
+        recieverId: props.recieverId,
         uid,
+
         photoURL,
         name: displayName,
       });
@@ -181,7 +154,7 @@ function Message() {
             src={
               photoURL ||
               `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                name || "User  "
+                name || "User"
               )}&background=007bff&color=fff`
             }
             alt="avatar"
@@ -234,39 +207,96 @@ function Message() {
 
   return (
     <>
-      <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
-        <Container className="py-4" style={{ marginTop: "8rem" }}>
-          {/* User List */}
-          <Row className="mb-4">
-            <Col>
-              <h5>Users</h5>
-              {users.length === 0 ? (
-                <Alert variant="info">No users to chat with.</Alert>
-              ) : (
-                users.map((user) => (
-                  <Button
-                    key={user.id}
-                    variant="outline-primary"
-                    className="me-2"
-                    onClick={() => setSelectedUser(user)}
-                  >
-                    {user.name}
-                  </Button>
-                ))
-              )}
-            </Col>
-          </Row>
+      {props.userId > 0 ? "" : <Header />}
 
+      <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
+        {/* {props ? (
+          ""
+        ) : ( */}
+        <>
+          {" "}
+          {props.length > 0 ? (
+            <div
+              className="dashboard-content"
+              style={{
+                marginTop: "8rem",
+              }}
+            >
+              <div className="container">
+                <div
+                  className="col-12 text-start text-dark"
+                  style={{ fontSize: 26, fontWeight: 500 }}
+                >
+                  Home / Messages
+                </div>
+                <div className="">
+                  <ul className="dashborad-menus">
+                    <li>
+                      <Link to="/dashboard">
+                        <i className="feather-grid" /> <span>Dashboard</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/profile">
+                        <i className="fa-solid fa-user" /> <span>Profile</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/my-listing">
+                        <i className="feather-list" /> <span>My Listing</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/bookmarks">
+                        <i className="fas fa-solid fa-heart" />{" "}
+                        <span>Favourite</span>
+                      </Link>
+                    </li>
+                    <li className="active">
+                      <Link to="/messages">
+                        <i className="fa-solid fa-comment-dots" />{" "}
+                        <span>Messages</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/reviews">
+                        <i className="fas fa-solid fa-star" />{" "}
+                        <span>Reviews</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/login">
+                        <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                        <span>Logout</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </>
+        {/* )} */}
+        <Container
+          className="py-4"
+          style={{
+            marginTop: "8rem",
+          }}
+        >
           {/* Chat Room UI */}
           <Row className="justify-content-center">
-            <Col lg={8}>
+            <Col
+              lg={props.fullWidth ? 12 : 8}
+              xl={props.fullWidth ? 12 : 6}
+              style={props.fullWidth ? { width: "100%" } : {}}
+            >
               <Card className="shadow border-0" style={{ height: "70vh" }}>
                 <Card.Header className="bg-primary text-white">
                   <div className="d-flex align-items-center">
                     <FaComments className="me-2" />
-                    <h5 className="mb-0">
-                      Chat with {selectedUser?.name || "Select a User"}
-                    </h5>
+                    <h5 className="mb-0">Group Chat</h5>
                     <Badge bg="light" text="dark" className="ms-auto">
                       {messages.length} messages
                     </Badge>
@@ -287,13 +317,7 @@ function Message() {
                         No messages yet. Start the conversation!
                       </Alert>
                     ) : (
-                      messages
-                        .filter(
-                          (msg) =>
-                            msg.recieverId === selectedUser?.id ||
-                            msg.uid === selectedUser?.id
-                        )
-                        .map((msg) => renderChatMessage(msg))
+                      messages.map((msg) => renderChatMessage(msg))
                     )}
                     <div ref={dummy} />
                   </div>
@@ -307,14 +331,14 @@ function Message() {
                         placeholder="Type your message..."
                         value={formValue}
                         onChange={(e) => setFormValue(e.target.value)}
-                        disabled={sending || !selectedUser}
+                        disabled={sending}
                         className="border-0 shadow-none"
                         style={{ backgroundColor: "#f8f9fa" }}
                       />
                       <Button
                         type="submit"
                         variant="primary"
-                        disabled={!formValue.trim() || sending || !selectedUser}
+                        disabled={!formValue.trim() || sending}
                         className="px-4"
                       >
                         {sending ? (
@@ -331,6 +355,7 @@ function Message() {
           </Row>
         </Container>
       </div>
+      {props ? "" : <Footer />}
     </>
   );
 }

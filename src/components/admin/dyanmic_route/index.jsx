@@ -52,6 +52,11 @@ import PaymentForm from "../../../components/userPages/AddLisiting/PaymentForm";
 import { loadStripe } from "@stripe/stripe-js";
 import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
 import RatingAndReviews from "../../admin/RatingSection/RatingSection";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+
+
+
+
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -1426,10 +1431,11 @@ const Dynamic_Route = () => {
                                   <div className="modal-body">
                                     <div className="p-4 w-full max-w-lg mx-auto">
                                       {userId && recieverId ? (
-                                        <Chat
-                                          userId={userId}
-                                          recieverId={recieverId}
-                                        />
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={recieverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">
@@ -6499,10 +6505,11 @@ const Dynamic_Route = () => {
                                   <div className="modal-body">
                                     <div className="p-4 w-full max-w-lg mx-auto">
                                       {userId && recieverId ? (
-                                        <Chat
-                                          userId={userId}
-                                          recieverId={recieverId}
-                                        />
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={recieverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">
