@@ -72,6 +72,8 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
+
 const TravelComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
@@ -190,7 +192,10 @@ const TravelComp = () => {
   const [nestedSubCategory, setNestedSubCategory] = useState("");
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___");
-
+  const { searchText } = useSearchStore();
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -227,7 +232,9 @@ const TravelComp = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -1299,9 +1306,7 @@ const TravelComp = () => {
     const fetchCars = async () => {
       try {
         setLoading(true); // Show spinner
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/TRAVEL"
-        );
+        const response = await fetch("http://168.231.80.24:9002/route/TRAVEL");
         const carsData = await response.json();
 
         setCars(carsData);
@@ -1746,8 +1751,10 @@ const TravelComp = () => {
     }
     setLoading(false);
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -2310,7 +2317,6 @@ const TravelComp = () => {
                   </button>
                 </>
               )}
-           
           </div>
 
           <div>
@@ -2442,26 +2448,26 @@ const TravelComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                              <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -3166,11 +3172,11 @@ const TravelComp = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">

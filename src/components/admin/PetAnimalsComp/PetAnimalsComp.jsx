@@ -72,6 +72,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
+
 const PetAnimalsComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
@@ -179,7 +181,10 @@ const PetAnimalsComp = () => {
   const [nestedSubCategory, setNestedSubCategory] = useState("");
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___");
-
+  const { searchText } = useSearchStore();
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -224,7 +229,9 @@ const PetAnimalsComp = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -1076,12 +1083,9 @@ const PetAnimalsComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(
-        `http://168.231.80.24:9002/route/PETANIMALCOMP/${carId}/view`,
-        {
-          method: "PATCH",
-        }
-      );
+      fetch(`http://168.231.80.24:9002/route/PETANIMALCOMP/${carId}/view`, {
+        method: "PATCH",
+      });
 
       // Update the last viewed timestamp for that car in localStorage
       viewedCars[carId] = now;
@@ -1548,7 +1552,6 @@ const PetAnimalsComp = () => {
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.FeaturedAds?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
-
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
       );
     }
@@ -1564,15 +1567,17 @@ const PetAnimalsComp = () => {
     if (subCatgory?.length > 0) {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
-    
+
     if (DietaryPreferences?.length > 0) {
       filtered = filtered.filter((car) =>
         DietaryPreferences.includes(car.DietaryPreferences)
       );
     }
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -2066,7 +2071,6 @@ const PetAnimalsComp = () => {
                   </button>
                 </>
               )}
-         
           </div>
 
           <div>
@@ -2201,25 +2205,25 @@ const PetAnimalsComp = () => {
                 />
                 {/*      ----------               */}
                 <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -3574,11 +3578,11 @@ const PetAnimalsComp = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">

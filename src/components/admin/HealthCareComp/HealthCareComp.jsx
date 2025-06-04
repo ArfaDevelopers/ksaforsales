@@ -73,6 +73,8 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
+
 const HealthCareComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
@@ -86,6 +88,7 @@ const HealthCareComp = () => {
   const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
   console.log(filteredCars, "HealthCareComp---");
   const itemsPerPage = 3; // Number of items per page
+  const { searchText } = useSearchStore();
 
   const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
   const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
@@ -185,7 +188,9 @@ const HealthCareComp = () => {
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___");
   const [CityList, setCityList] = useState([]);
-
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   useEffect(() => {
     // Assuming Location.json is like { "location": [ ... ] } or is an array itself
     if (cityData.City && Array.isArray(cityData.City)) {

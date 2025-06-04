@@ -30,6 +30,7 @@ import {
   FaBullhorn,
 } from "react-icons/fa";
 import Flag from "react-world-flags";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
 
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
@@ -43,7 +44,11 @@ const Header = ({ parms }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [openCategories, setOpenCategories] = useState({});
   const [openSubcategories, setOpenSubcategories] = useState({});
+  // const { searchText, setSearchText, results } = useSearchStore();
+  const { searchText, setSearchText, results, setSelectedItem } =
+    useSearchStore();
 
+  console.log(setSelectedItem, "user1111____911");
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -2073,44 +2078,112 @@ const Header = ({ parms }) => {
                 </Link>
               </div>
               {!isMobile && (
-            <form
-            className="d-flex search-container"
-            style={{
-              flexGrow: 1,
-              maxWidth: "700px", // Increased width
-              margin: "0 20px",
-              position: "relative",
-              display: "flex",
-            }}
-          >
-            <input
-              className="form-control search-input"
-              type="search"
-              placeholder="What are you looking for?"
-              aria-label="Search"
-              style={{
-                paddingRight: "40px",
-                borderRadius: "20px",
-                border: "1px solid #ccc",
-                width: "100%",
-              }}
-            />
-            <button
-              className="btn search-btn"
-              type="submit"
-              style={{
-                position: "absolute",
-                top: "50%",
-                right: "10px",
-                transform: "translateY(-50%)",
-                background: "transparent",
-                border: "none",
-                padding: 0,
-              }}
-            >
-              <FaSearch style={{ color: "#0056b3" }} />
-            </button>
-          </form>
+                <form
+                  className="d-flex search-container"
+                  style={{
+                    flexGrow: 1,
+                    maxWidth: "700px", // Increased width
+                    margin: "0 20px",
+                    position: "relative",
+                    display: "flex",
+                  }}
+                >
+                  <input
+                    className="form-control search-input"
+                    type="search"
+                    placeholder="What are you looking for?"
+                    aria-label="Search"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    style={{
+                      paddingRight: "40px",
+                      borderRadius: "20px",
+                      border: "1px solid #ccc",
+                      width: "100%",
+                    }}
+                  />
+                  {results.length > 0 && (
+                    <ul
+                      className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
+                      style={{
+                        maxHeight: "240px",
+                        overflowY: "auto",
+                        zIndex: 1050,
+                        top: "100%",
+                        left: 0,
+                        right: 0,
+                        boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
+                        border: "1px solid #dee2e6",
+                      }}
+                    >
+                      {results.map((item) => (
+                        <li
+                          key={item.id}
+                          className="border-bottom"
+                          onClick={() => {
+                            setSearchText(item.title);
+                            setSelectedItem(item); // ✅ save selected item in global state
+                            useSearchStore.setState({ results: [] }); // clear results
+                            console.log("Selected:", item);
+                          }}
+                          style={{
+                            padding: "12px 16px",
+                            cursor: "pointer",
+                            transition: "background-color 0.2s ease",
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.target.style.backgroundColor = "#f8f9fa")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.target.style.backgroundColor = "transparent")
+                          }
+                        >
+                          <div className="d-flex align-items-center">
+                            {item.image && (
+                              <img
+                                src={item.image || "/placeholder.svg"}
+                                alt={item.title}
+                                className="me-3 rounded"
+                                style={{
+                                  width: "45px",
+                                  height: "45px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            )}
+                            <div>
+                              <div className="fw-bold text-dark mb-1">
+                                {item.title}
+                              </div>
+                              <small className="text-muted">
+                                in <em>{item.category}</em>
+                                {item.subCategory && (
+                                  <span> • {item.subCategory}</span>
+                                )}
+                              </small>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <button
+                    className="btn search-btn"
+                    type="submit"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "10px",
+                      transform: "translateY(-50%)",
+                      background: "transparent",
+                      border: "none",
+                      padding: 0,
+                    }}
+                  >
+                    <FaSearch style={{ color: "#0056b3" }} />
+                  </button>
+                </form>
               )}
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
@@ -2121,120 +2194,119 @@ const Header = ({ parms }) => {
                 }}
               >
                 {auth.currentUser ? (
-                  
                   <ul
                     className="nav header-navbar-rht"
                     style={{ display: "flex", gap: "15px" }}
                   >
                     {!isMobile && (
-                <div
-  className="lang_dropdown"
-  style={{
-    position: "relative",
-    display: "flex",
-  }}
->
-  <button
-    className="btn dropdown-toggle"
-    onClick={toggleDropdown}
-    aria-expanded={isDropdownVisible ? "true" : "false"}
-    style={{
-      display: "flex",
-      alignItems: "center",
-      padding: "5px 10px",
-      backgroundColor: "#fff",
-      // border: "1px solid #ddd",
-      cursor: "pointer",
-    }}
-  >
-    <Flag
-      code={selectedLanguage === "en" ? "GB" : "SA"}
-      className="flag-icon"
-      style={{
-        width: "27px",
-        marginRight: "5px",
-        fontFamily: "Inter",
-      }}
-    />
-    {selectedLanguage === "en" ? "EN" : "AR"}
-  </button>
+                      <div
+                        className="lang_dropdown"
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                        }}
+                      >
+                        <button
+                          className="btn dropdown-toggle"
+                          onClick={toggleDropdown}
+                          aria-expanded={isDropdownVisible ? "true" : "false"}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "5px 10px",
+                            backgroundColor: "#fff",
+                            // border: "1px solid #ddd",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Flag
+                            code={selectedLanguage === "en" ? "GB" : "SA"}
+                            className="flag-icon"
+                            style={{
+                              width: "27px",
+                              marginRight: "5px",
+                              fontFamily: "Inter",
+                            }}
+                          />
+                          {selectedLanguage === "en" ? "EN" : "AR"}
+                        </button>
 
-  {/* Dropdown Menu */}
-  {isDropdownVisible && (
-    <ul
-      className="dropdown-menu show"
-      style={{
-        position: "absolute",
-        top: "100%",
-        left: "0",
-        zIndex: 1000,
-        display: "block",
-        minWidth: "160px",
-        backgroundColor: "#fff",
-        border: "1px solid #ddd",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        listStyle: "none",
-        padding: "0",
-        margin: "0",
-      }}
-    >
-      <li>
-        <button
-          className="dropdown-item"
-          style={{
-            fontFamily: "Inter",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            padding: "8px 12px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
-          onClick={() => handleLanguageChange("en")}
-        >
-          <Flag
-            code="GB"
-            className="flag-icon"
-            style={{
-              width: "27px",
-              marginRight: "5px",
-            }}
-          />
-          English
-        </button>
-      </li>
-      <li>
-        <button
-          className="dropdown-item"
-          style={{
-            fontFamily: "VIP Rawy",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            padding: "8px 12px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
-          onClick={() => handleLanguageChange("ar")}
-        >
-          <Flag
-            code="SA"
-            className="flag-icon"
-            style={{
-              width: "27px",
-              marginRight: "5px",
-            }}
-          />
-          Arabic
-        </button>
-      </li>
-    </ul>
-  )}
-</div>
+                        {/* Dropdown Menu */}
+                        {isDropdownVisible && (
+                          <ul
+                            className="dropdown-menu show"
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              left: "0",
+                              zIndex: 1000,
+                              display: "block",
+                              minWidth: "160px",
+                              backgroundColor: "#fff",
+                              border: "1px solid #ddd",
+                              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                              listStyle: "none",
+                              padding: "0",
+                              margin: "0",
+                            }}
+                          >
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                style={{
+                                  fontFamily: "Inter",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  width: "100%",
+                                  padding: "8px 12px",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  textAlign: "left",
+                                }}
+                                onClick={() => handleLanguageChange("en")}
+                              >
+                                <Flag
+                                  code="GB"
+                                  className="flag-icon"
+                                  style={{
+                                    width: "27px",
+                                    marginRight: "5px",
+                                  }}
+                                />
+                                English
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="dropdown-item"
+                                style={{
+                                  fontFamily: "VIP Rawy",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  width: "100%",
+                                  padding: "8px 12px",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  textAlign: "left",
+                                }}
+                                onClick={() => handleLanguageChange("ar")}
+                              >
+                                <Flag
+                                  code="SA"
+                                  className="flag-icon"
+                                  style={{
+                                    width: "27px",
+                                    marginRight: "5px",
+                                  }}
+                                />
+                                Arabic
+                              </button>
+                            </li>
+                          </ul>
+                        )}
+                      </div>
                     )}
                     <li className="nav-item">
                       <Link
@@ -2280,114 +2352,114 @@ const Header = ({ parms }) => {
                   </ul>
                 ) : (
                   <>
-                         <div
-  className="lang_dropdown"
-  style={{
-    position: "relative",
-    display: "flex",
-  }}
->
-  <button
-    className="btn dropdown-toggle"
-    onClick={toggleDropdown}
-    aria-expanded={isDropdownVisible ? "true" : "false"}
-    style={{
-      display: "flex",
-      alignItems: "center",
-      padding: "5px 10px",
-      backgroundColor: "#fff",
-      // border: "1px solid #ddd",
-      cursor: "pointer",
-    }}
-  >
-    <Flag
-      code={selectedLanguage === "en" ? "GB" : "SA"}
-      className="flag-icon"
-      style={{
-        width: "27px",
-        marginRight: "5px",
-        fontFamily: "Inter",
-      }}
-    />
-    {selectedLanguage === "en" ? "EN" : "AR"}
-  </button>
+                    <div
+                      className="lang_dropdown"
+                      style={{
+                        position: "relative",
+                        display: "flex",
+                      }}
+                    >
+                      <button
+                        className="btn dropdown-toggle"
+                        onClick={toggleDropdown}
+                        aria-expanded={isDropdownVisible ? "true" : "false"}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "5px 10px",
+                          backgroundColor: "#fff",
+                          // border: "1px solid #ddd",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Flag
+                          code={selectedLanguage === "en" ? "GB" : "SA"}
+                          className="flag-icon"
+                          style={{
+                            width: "27px",
+                            marginRight: "5px",
+                            fontFamily: "Inter",
+                          }}
+                        />
+                        {selectedLanguage === "en" ? "EN" : "AR"}
+                      </button>
 
-  {/* Dropdown Menu */}
-  {isDropdownVisible && (
-    <ul
-      className="dropdown-menu show"
-      style={{
-        position: "absolute",
-        top: "100%",
-        left: "0",
-        zIndex: 1000,
-        display: "block",
-        minWidth: "160px",
-        backgroundColor: "#fff",
-        border: "1px solid #ddd",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        listStyle: "none",
-        padding: "0",
-        margin: "0",
-      }}
-    >
-      <li>
-        <button
-          className="dropdown-item"
-          style={{
-            fontFamily: "Inter",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            padding: "8px 12px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
-          onClick={() => handleLanguageChange("en")}
-        >
-          <Flag
-            code="GB"
-            className="flag-icon"
-            style={{
-              width: "27px",
-              marginRight: "5px",
-            }}
-          />
-          English
-        </button>
-      </li>
-      <li>
-        <button
-          className="dropdown-item"
-          style={{
-            fontFamily: "VIP Rawy",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            padding: "8px 12px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
-          onClick={() => handleLanguageChange("ar")}
-        >
-          <Flag
-            code="SA"
-            className="flag-icon"
-            style={{
-              width: "27px",
-              marginRight: "5px",
-            }}
-          />
-          Arabic
-        </button>
-      </li>
-    </ul>
-  )}
-</div>
+                      {/* Dropdown Menu */}
+                      {isDropdownVisible && (
+                        <ul
+                          className="dropdown-menu show"
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: "0",
+                            zIndex: 1000,
+                            display: "block",
+                            minWidth: "160px",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ddd",
+                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                            listStyle: "none",
+                            padding: "0",
+                            margin: "0",
+                          }}
+                        >
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              style={{
+                                fontFamily: "Inter",
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                padding: "8px 12px",
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                textAlign: "left",
+                              }}
+                              onClick={() => handleLanguageChange("en")}
+                            >
+                              <Flag
+                                code="GB"
+                                className="flag-icon"
+                                style={{
+                                  width: "27px",
+                                  marginRight: "5px",
+                                }}
+                              />
+                              English
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              style={{
+                                fontFamily: "VIP Rawy",
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                padding: "8px 12px",
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                textAlign: "left",
+                              }}
+                              onClick={() => handleLanguageChange("ar")}
+                            >
+                              <Flag
+                                code="SA"
+                                className="flag-icon"
+                                style={{
+                                  width: "27px",
+                                  marginRight: "5px",
+                                }}
+                              />
+                              Arabic
+                            </button>
+                          </li>
+                        </ul>
+                      )}
+                    </div>
                     <li className="nav-item">
                       <Link
                         className="nav-link header-reg"

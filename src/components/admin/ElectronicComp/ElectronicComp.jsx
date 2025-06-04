@@ -73,12 +73,15 @@ import {
   Badge,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
 
 const ElectronicComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+  const { searchText } = useSearchStore();
+
   const categories = [
     "Mobile Phones",
     "Tablet Devices",
@@ -112,7 +115,9 @@ const ElectronicComp = () => {
     setselectedSubCategory(e.target.value);
   };
   const [CityList, setCityList] = useState([]);
-
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   useEffect(() => {
     // Assuming Location.json is like { "location": [ ... ] } or is an array itself
     if (cityData.City && Array.isArray(cityData.City)) {
@@ -171,7 +176,9 @@ const ElectronicComp = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -292,7 +299,7 @@ const ElectronicComp = () => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
     const NestedSubCategory = getQueryParam("NestedSubCategory");
-    setNestedSubCategory(NestedSubCategory)
+    setNestedSubCategory(NestedSubCategory);
     const ids = getQueryParam("id");
     console.log("subCatgory___________9:ids", ids);
     console.log("subCatgory___________9 From:", callingFrom);
@@ -927,12 +934,9 @@ const ElectronicComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(
-        `http://168.231.80.24:9002/route/ELECTRONICS/${carId}/view`,
-        {
-          method: "PATCH",
-        }
-      );
+      fetch(`http://168.231.80.24:9002/route/ELECTRONICS/${carId}/view`, {
+        method: "PATCH",
+      });
 
       // Update the last viewed timestamp for that car in localStorage
       viewedCars[carId] = now;
@@ -1313,8 +1317,10 @@ const ElectronicComp = () => {
       });
     }
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -1683,7 +1689,6 @@ const ElectronicComp = () => {
                 fontWeight: "500",
                 // pointerEvents: "none",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-                
               }}
             >
               Home
@@ -1746,7 +1751,6 @@ const ElectronicComp = () => {
                   </button>
                 </>
               )}
-      
           </div>
 
           <div>
@@ -2029,25 +2033,25 @@ const ElectronicComp = () => {
                 />
                 {/*      ----------               */}
                 <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -2823,11 +2827,11 @@ const ElectronicComp = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">

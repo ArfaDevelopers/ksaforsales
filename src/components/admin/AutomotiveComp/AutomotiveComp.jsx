@@ -75,6 +75,7 @@ import {
   Badge,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
 
 const AutomotiveComp = () => {
   const parms = useLocation().pathname;
@@ -88,6 +89,7 @@ const AutomotiveComp = () => {
   const [nestedSubCategory, setNestedSubCategory] = useState("");
   console.log(subCatgory, "subCatgory___________1");
   console.log(nestedSubCategory, "subCatgory___________2");
+  const { searchText } = useSearchStore();
 
   // const scrollRef = useRef();
   const updateIsMobile = () => {
@@ -307,6 +309,9 @@ const AutomotiveComp = () => {
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   const categories = [
     "Cars For Sale",
     "Car Rental",
@@ -2474,8 +2479,6 @@ const AutomotiveComp = () => {
               </h1>
             )}
           </div>
-
-        
         </Container>
         <Container
           fluid
@@ -6866,11 +6869,11 @@ const AutomotiveComp = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">

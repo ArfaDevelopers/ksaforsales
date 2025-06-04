@@ -72,6 +72,7 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
+import useSearchStore from "../../../store/searchStore"; // adjust the path
 
 const Education = () => {
   const parms = useLocation().pathname;
@@ -177,7 +178,10 @@ const Education = () => {
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___");
   const [CityList, setCityList] = useState([]);
-
+  const { searchText } = useSearchStore();
+  useEffect(() => {
+    setSearchQuery(searchText); // Update searchQuery from searchText
+  }, [searchText]);
   useEffect(() => {
     // Assuming Location.json is like { "location": [ ... ] } or is an array itself
     if (cityData.City && Array.isArray(cityData.City)) {
@@ -334,7 +338,9 @@ const Education = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -1180,6 +1186,7 @@ const Education = () => {
     selectedSubCategory,
     selectedCity,
     selectedDistrict,
+    searchText,
   ]);
 
   // Handle search input change
@@ -1345,8 +1352,10 @@ const Education = () => {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -1787,7 +1796,6 @@ const Education = () => {
                   </button>
                 </>
               )}
-        
           </div>
           <div>
             {(nestedSubCategory || subCatgory) && (
@@ -2008,26 +2016,26 @@ const Education = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                               <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -2218,13 +2226,10 @@ const Education = () => {
                   }}
                 />
 
-              
                 {/*                  */}
 
                 {/*-------------------------------------*/}
               </Form>
-
-           
             </Col>
 
             <Col md={9} className="p-3">
@@ -2789,11 +2794,11 @@ const Education = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">
