@@ -730,7 +730,7 @@ useEffect(() => {
             color: "black", // Text color
             maxWidth: "1430", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginTop: window.innerWidth <= 576 ? "9rem" : "13rem",
+            marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
 
           }}
         >
@@ -1083,9 +1083,9 @@ useEffect(() => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1390px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1280px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
+            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
             marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
 
           }}
@@ -1103,7 +1103,7 @@ useEffect(() => {
             </div>
           <Row>
             {/* Sidebar */}
-            <Col md={8} className=" style={{ height: 'auto' }}">
+            <Col md={8} style={{ marginLeft: window.innerWidth <= 576 ? -5 : -10 }}>
             <div>
             <div
                   style={{
@@ -1411,7 +1411,20 @@ useEffect(() => {
                   onClick={() => setShowModal(false)}
                 ></button>
               </div>
-              <div className="modal-body">
+              {userId && recieverId ? (
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={recieverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
+              {/* <div className="modal-body">
                 <div className="p-4 w-full max-w-lg mx-auto">
                   {userId && recieverId ? (
                     <Chat userId={userId} recieverId={recieverId} />
@@ -1423,7 +1436,7 @@ useEffect(() => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -1663,7 +1676,7 @@ useEffect(() => {
  
            
                 <Col xs={12}  >
-                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
+                <Card  style={{ position: "relative", minHeight: "100px",borderRadius: "12px",width: window.innerWidth <= 576 ? "100%" : "105%",marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",marginTop: window.innerWidth <= 576 ? -10 : 10,boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", }}>
   <Card.Body style={{  position: "relative" ,marginLeft:-15,marginBottom:-30}}>
     <div
       style={{
@@ -1880,6 +1893,7 @@ useEffect(() => {
         minHeight: "100px",
         borderRadius: "12px",
         width: window.innerWidth <= 576 ? "100%" : "105%",
+        marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",
         marginTop: 18,
         boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
       }}
@@ -1894,7 +1908,7 @@ useEffect(() => {
                 alt={`Image ${index + 1}`}
                 className="rounded shadow"
                 style={{
-                  width: window.innerWidth <= 576 ? "330px" : "422px",
+                  width: window.innerWidth <= 576 ? "330px" : "385px",
                   height: "300px",
                   objectFit: "cover",
                 }}

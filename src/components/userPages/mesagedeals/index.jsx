@@ -201,13 +201,7 @@ function Mesagedeals(props) {
     <>
       {props.userId > 0 ? "" : <Header />}
 
-      <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
-        <Container
-          className="py-4"
-          style={{
-            marginTop: "8rem",
-          }}
-        >
+    
           {/* Chat Room UI */}
           <Row className="justify-content-center">
             <Col
@@ -215,7 +209,7 @@ function Mesagedeals(props) {
               xl={props.fullWidth ? 12 : 6}
               style={props.fullWidth ? { width: "100%" } : {}}
             >
-              <Card className="shadow border-0" style={{ height: "70vh" }}>
+              <Card className="shadow border-0" style={{ height: "60vh" }}>
                 <Card.Header className="bg-primary text-white">
                   <div className="d-flex align-items-center">
                     <FaComments className="me-2" />
@@ -223,7 +217,7 @@ function Mesagedeals(props) {
                       Chat with User ID: {props.recieverId}
                     </h5>
                     <Badge bg="light" text="dark" className="ms-auto">
-                      {messages.length} messages
+                      {messages.length} <br/>messages
                     </Badge>
                   </div>
                 </Card.Header>
@@ -278,8 +272,7 @@ function Mesagedeals(props) {
               </Card>
             </Col>
           </Row>
-        </Container>
-      </div>
+    
       {props ? "" : <Footer />}
     </>
   );

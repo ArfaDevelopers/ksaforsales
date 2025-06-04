@@ -1698,7 +1698,7 @@ const Education = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1320px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
@@ -1897,9 +1897,9 @@ const Education = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1420px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
+            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
           <Row>
@@ -2218,334 +2218,13 @@ const Education = () => {
                   }}
                 />
 
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Skill Level</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {["Beginner", "Intermediate", "Advanced"].map(
-                            (car, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={car}
-                                  name={car} 
-                                  onChange={handleCheckboxChangeSkillLevel}
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                /> */}
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Content Type</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "Courses",
-                            "Guided Projects",
-                            "Specializations",
-                            "Degrees",
-                          ].map((car, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={car}
-                                name={car} 
-                                onChange={handleCheckboxChangeContentType}
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                /> */}
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Language</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {["English", "Spanish", "French", "Other"].map(
-                            (car, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={car}
-                                  name={car} 
-                                  onChange={handleCheckboxChangeLanguage}
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                /> */}
-
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Duration</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {["Short-term", "Medium-term", "Long-term"].map(
-                            (car, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={car}
-                                  name={car} 
-                                  onChange={handleCheckboxChangeDuration}
-                                />
-                                <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
-                                >
-                                  12345
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                /> */}
+              
                 {/*                  */}
 
                 {/*-------------------------------------*/}
               </Form>
 
-              {/* <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Picture Availability</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="With Pictures"
-                            onChange={handleCheckboxChangePictureAvailability}
-                            checked={pictureAvailability === "With Pictures"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              /> */}
-              {/* <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Video Availability</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="With Video"
-                            onChange={handleCheckboxChangeVideoAvailability}
-                            checked={
-                              selectedOptionVideoAvailability === "With Video"
-                            }
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              /> */}
-              {/* <Accordion className="mt-3">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Ad Type</Accordion.Header>
-                  <Accordion.Body>
-                    <div style={{ maxWidth: "300px", margin: "20px" }}>
-                      <Form.Group>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "8px 0",
-                          }}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            label="Featured Ad"
-                            onChange={handleCheckboxChangeisFeatured}
-                            checked={selectedOptionisFeatured === "Featured Ad"}
-                          />
-                          <span style={{ fontWeight: "bold", color: "#333" }}>
-                            12345
-                          </span>
-                        </div>
-                      </Form.Group>
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              /> */}
+           
             </Col>
 
             <Col md={9} className="p-3">
@@ -3109,8 +2788,20 @@ const Education = () => {
                                           onClick={() => setShowModal(false)}
                                         ></button>
                                       </div>
-
-                                      <div className="modal-body">
+                                      {userId && receiverId ? (
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={receiverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
+                                      {/* <div className="modal-body">
                                         <div className="p-4 w-full max-w-lg mx-auto">
                                           {currentUserId && receiverId ? (
                                             <Chat
@@ -3126,7 +2817,7 @@ const Education = () => {
                                             </div>
                                           )}
                                         </div>
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -3194,7 +2885,7 @@ const Education = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto", // Allow height to adjust dynamically
-            paddingLeft: "13%", // Adjusted padding for responsiveness
+            paddingLeft: "16%", // Adjusted padding for responsiveness
             paddingRight: window.innerWidth <= 576 ? "0%" : "14%",
             paddingTop: "20px",
             paddingBottom: "30px",

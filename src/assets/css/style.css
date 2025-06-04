@@ -6919,7 +6919,7 @@ body table.listing-table.datatable {
 }
 .dashboard-info .modal-body .form-header {
   text-align: center;
-  margin: 0 0 15px;
+  /* margin: 0 0 15px; */
 }
 .dashboard-info .modal-body .form-header h3 {
   font-size: 25px;

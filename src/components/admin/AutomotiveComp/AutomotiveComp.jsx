@@ -2369,7 +2369,7 @@ const AutomotiveComp = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1320px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
@@ -2475,93 +2475,7 @@ const AutomotiveComp = () => {
             )}
           </div>
 
-          {/* <div
-            className="CategoryInfodiv_btn2container"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-            }}
-          >
-            <button
-              onClick={() => {
-                navigate("/AutomotiveComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Cars
-            </button>
-            <button
-              onClick={() => {
-                navigate("/JobBoard");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Jobs
-            </button>
-            <button
-              onClick={() => {
-                navigate("/RealEstateComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Real Estate for Rent
-            </button>
-            <button
-              onClick={() => {
-                navigate("/ElectronicComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Home & Furniture
-            </button>
-            <button
-              onClick={() => {
-                navigate("/ElectronicComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
-          </div> */}
+        
         </Container>
         <Container
           fluid
@@ -2569,9 +2483,9 @@ const AutomotiveComp = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1420px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
+            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "9%",
           }}
         >
           <Row>
@@ -6951,8 +6865,20 @@ const AutomotiveComp = () => {
                                           onClick={() => setShowModal(false)}
                                         ></button>
                                       </div>
-
-                                      <div className="modal-body">
+                                      {userId && receiverId ? (
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={receiverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
+                                      {/* <div className="modal-body">
                                         <div className="p-4 w-full max-w-lg mx-auto">
                                           {currentUserId && receiverId ? (
                                             <Chat
@@ -6968,7 +6894,7 @@ const AutomotiveComp = () => {
                                             </div>
                                           )}
                                         </div>
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -7038,7 +6964,7 @@ const AutomotiveComp = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto",
-            paddingLeft: "13%",
+            paddingLeft: "16%",
             paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",
@@ -7051,59 +6977,6 @@ const AutomotiveComp = () => {
                 dangerouslySetInnerHTML={{ __html: item.content }}
               />
             ))}
-
-            {/* <h2>Cars for Sale in Dubai</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer.
-            </p>
-
-            <h2>Used Cars for Sale in Dubai</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer.
-            </p>
-
-            <h2>Browse More Used Cars</h2>
-            <p style={{ color: "#2d4fad" }}>View Cars by Cities</p>
-
-            <Row
-              className="responsive-row"
-              style={{ color: "#2d4fad", margin: "0 auto" }}
-            >
-              <Col xs={12} sm={6} md={4} lg={3}>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-              </Col>
-              <Col xs={12} sm={6} md={4} lg={3}>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-              </Col>
-              <Col xs={12} sm={6} md={4} lg={3}>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-              </Col>
-              <Col xs={12} sm={6} md={4} lg={3}>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-                <div>Downtown Dubai (123456)</div>
-              </Col>
-            </Row> */}
           </div>
         </div>
 

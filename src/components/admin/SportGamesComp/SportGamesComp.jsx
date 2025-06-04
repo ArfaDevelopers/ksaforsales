@@ -1864,7 +1864,7 @@ const SPORTSGAMESComp = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1320px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
@@ -1975,9 +1975,9 @@ const SPORTSGAMESComp = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1420px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
-            marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
+            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
           <Row>
@@ -2862,8 +2862,20 @@ const SPORTSGAMESComp = () => {
                                           onClick={() => setShowModal(false)}
                                         ></button>
                                       </div>
-
-                                      <div className="modal-body">
+                                      {userId && receiverId ? (
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={receiverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
+                                      {/* <div className="modal-body">
                                         <div className="p-4 w-full max-w-lg mx-auto">
                                           {currentUserId && receiverId ? (
                                             <Chat
@@ -2879,7 +2891,7 @@ const SPORTSGAMESComp = () => {
                                             </div>
                                           )}
                                         </div>
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -2947,7 +2959,7 @@ const SPORTSGAMESComp = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto", // Allow height to adjust dynamically
-            paddingLeft: "13%", // Adjusted padding for responsiveness
+            paddingLeft: "16%", // Adjusted padding for responsiveness
             paddingRight: window.innerWidth <= 576 ? "0%" : "14%",
             paddingTop: "20px",
             paddingBottom: "30px",

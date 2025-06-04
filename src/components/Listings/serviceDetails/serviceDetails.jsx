@@ -455,8 +455,20 @@ const copyToClipboard = () => {
                                                               onClick={() => setShowModal(false)}
                                                             ></button>
                                                           </div>
-                            
-                                                          <div className="modal-body">
+                                                          {userId && recieverId ? (
+                                      <Mesagedeals
+                                      userId={userId}
+                                      recieverId={recieverId}
+                                      fullWidth={true} // :point_left: Add this prop
+                                    />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
+                                                          {/* <div className="modal-body">
                                 <div className="p-4 w-full max-w-lg mx-auto">
                                   {userId && recieverId ? (
                                     <Chat
@@ -471,7 +483,7 @@ const copyToClipboard = () => {
                                     </div>
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
                                                         </div>
                                                       </div>
                                                     </div>

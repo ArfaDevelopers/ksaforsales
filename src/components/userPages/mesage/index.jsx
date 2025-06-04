@@ -27,7 +27,8 @@ import {
 } from "react-bootstrap";
 import { FaPaperPlane, FaComments } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Header from "../../home/header";
+import Footer from "../../home/footer/Footer";
 function Message() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -234,103 +235,157 @@ function Message() {
 
   return (
     <>
-      <div className="min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
-        <Container className="py-4" style={{ marginTop: "8rem" }}>
-          {/* User List */}
-          <Row className="mb-4">
-            <Col>
-              <h5>Users</h5>
-              {users.length === 0 ? (
-                <Alert variant="info">No users to chat with.</Alert>
-              ) : (
-                users.map((user) => (
-                  <Button
-                    key={user.id}
-                    variant="outline-primary"
-                    className="me-2"
-                    onClick={() => setSelectedUser(user)}
-                  >
-                    {user.name}
-                  </Button>
-                ))
-              )}
-            </Col>
-          </Row>
+    <Header />
 
-          {/* Chat Room UI */}
-          <Row className="justify-content-center">
-            <Col lg={8}>
-              <Card className="shadow border-0" style={{ height: "70vh" }}>
-                <Card.Header className="bg-primary text-white">
-                  <div className="d-flex align-items-center">
-                    <FaComments className="me-2" />
-                    <h5 className="mb-0">
-                      Chat with {selectedUser?.name || "Select a User"}
-                    </h5>
-                    <Badge bg="light" text="dark" className="ms-auto">
-                      {messages.length} messages
-                    </Badge>
-                  </div>
-                </Card.Header>
+    <div
+      className="dashboard-content"
+      style={{
+        marginTop: "6rem",
+      }}
+    >
+      <div className="container">
+        <div className="">
+          <ul className="dashborad-menus">
+            <li>
+              <Link to="/dashboard">
+                <i className="feather-grid" /> <span>Dashboard</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/profile">
+                <i className="fa-solid fa-user" /> <span>Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/my-listing">
+                <i className="feather-list" /> <span>My Listing</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/bookmarks">
+                <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
+              </Link>
+            </li>
+            <li className="active">
+              <Link to="/messages">
+                <i className="fa-solid fa-comment-dots" />{" "}
+                <span>Messages</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/reviews">
+                <i className="fas fa-solid fa-star" /> <span>Reviews</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/login">
+                <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                <span>Logout</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="container-fluid">
+          <Row className="min-vh-100">
+         
 
-                <Card.Body
-                  className="p-0 overflow-auto"
-                  style={{
-                    height: "calc(70vh - 140px)",
-                    backgroundColor: "#f8f9fa",
-                  }}
-                >
-                  <div className="p-3">
-                    {messages.length === 0 ? (
-                      <Alert variant="info" className="text-center">
-                        <FaComments className="me-2" />
-                        No messages yet. Start the conversation!
-                      </Alert>
-                    ) : (
-                      messages
-                        .filter(
-                          (msg) =>
-                            msg.recieverId === selectedUser?.id ||
-                            msg.uid === selectedUser?.id
-                        )
-                        .map((msg) => renderChatMessage(msg))
-                    )}
-                    <div ref={dummy} />
-                  </div>
-                </Card.Body>
+          <Col md={12}>
+  <Row className="min-vh-100">
+    {/* Left Sidebar for Users */}
+    <Col
+      md={3}
+      className="bg-white p-3 border-end shadow-sm rounded-3"
+      style={{ height: "calc(100vh - 4rem)" }} // Adjusted for potential header/footer
+    >
+      <h5 className="text-primary mb-3 fw-bold">Users</h5>
+      {users.length === 0 ? (
+        <Alert variant="info" className="rounded-3">
+          No users to chat with.
+        </Alert>
+      ) : (
+        users.map((user) => (
+          <Button
+            key={user.id}
+            variant={selectedUser?.id === user.id ? "primary" : "outline-primary"}
+            className="w-100 mb-2 text-start rounded-4 shadow-sm transition-all duration-200 hover-shadow-lg"
+            onClick={() => setSelectedUser(user)}
+            style={{
+              background: selectedUser?.id === user.id ? "linear-gradient(to right, #3b82f6, #2563eb)" : "",
+              borderColor: "#3b82f6",
+            }}
+          >
+            {user.name}
+          </Button>
+        ))
+      )}
+    </Col>
 
-                <Card.Footer className="bg-white border-top">
-                  <Form onSubmit={sendMessage}>
-                    <InputGroup>
-                      <Form.Control
-                        type="text"
-                        placeholder="Type your message..."
-                        value={formValue}
-                        onChange={(e) => setFormValue(e.target.value)}
-                        disabled={sending || !selectedUser}
-                        className="border-0 shadow-none"
-                        style={{ backgroundColor: "#f8f9fa" }}
-                      />
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        disabled={!formValue.trim() || sending || !selectedUser}
-                        className="px-4"
-                      >
-                        {sending ? (
-                          <Spinner animation="border" size="sm" />
-                        ) : (
-                          <FaPaperPlane style={{ color: "red" }} />
-                        )}
-                      </Button>
-                    </InputGroup>
-                  </Form>
-                </Card.Footer>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+    {/* Right Chat Area */}
+    <Col md={9} className="p-0">
+      <div className="d-flex flex-column" style={{ height: "calc(100vh - 4rem)" }}>
+        {/* Top Bar */}
+        <div className="p-3 border-bottom bg-white shadow-sm">
+          <h5 className="mb-0 text-dark fw-bold">
+            Chat with {selectedUser?.name || "Select a User"}
+          </h5>
+        </div>
+
+        {/* Chat Window */}
+        <div
+          className="flex-grow-1 p-3 bg-gray-100 overflow-y-auto"
+          style={{ maxHeight: "calc(100vh - 12rem)" }} // Adjust maxHeight for top bar and input area
+        >
+          {messages.length === 0 || !selectedUser ? (
+            <Alert variant="info" className="text-center rounded-3">
+              <FaComments className="mb-2" style={{ fontSize: "2rem" }} />
+              <div>Select a user to start chatting!</div>
+            </Alert>
+          ) : (
+            messages
+              .filter(
+                (msg) =>
+                  msg.re_forestId === selectedUser.id || msg.uid === selectedUser.id
+              )
+              .map((msg) => renderChatMessage(msg))
+          )}
+          <div ref={dummy} />
+        </div>
+
+        {/* Input Area */}
+        <div className="p-3 border-top bg-white shadow-sm">
+          <InputGroup>
+            <Form.Control
+              type="text"
+              placeholder="Type something..."
+              value={formValue}
+              onChange={(e) => setFormValue(e.target.value)}
+              disabled={sending || !selectedUser}
+              className="rounded-3 border-gray-300"
+            />
+            <Button
+              variant="primary"
+              onClick={sendMessage}
+              disabled={!formValue.trim() || sending || !selectedUser}
+              className="rounded-3 shadow-sm"
+              style={{
+                background: "linear-gradient(to right, #3b82f6, #2563eb)",
+                border: "none",
+              }}
+            >
+              <FaPaperPlane />
+            </Button>
+          </InputGroup>
+        </div>
       </div>
+    </Col>
+  </Row>
+</Col>
+          </Row>
+        </div>
+      </div>
+      </div>
+      <Footer />
+
     </>
   );
 }
