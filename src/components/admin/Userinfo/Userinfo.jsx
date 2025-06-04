@@ -15,6 +15,7 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 // import Spinner from "react-bootstrap/Spinner";
 import Spinner from "react-bootstrap/Spinner";
 import Loading1 from "../../../../public/Progress circle.png";
+import Header from "../../home/header";
 
 import {
   collection,
@@ -740,7 +741,7 @@ const Userinfo = () => {
           )}
         </Modal.Footer>
       </Modal>
-      <UserHeader parms={parms} />
+      <Header />
       {/* Breadscrumb Section */}
       {/* <div className="breadcrumb-bar">
         <div className="container">
@@ -771,7 +772,7 @@ const Userinfo = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "5rem",
+          marginTop: "7rem",
         }}
       >
         <div className="container">

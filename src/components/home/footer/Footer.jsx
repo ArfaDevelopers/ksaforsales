@@ -300,7 +300,7 @@ const Footer = () => {
                   <h2 className="footer-title">Useful Links</h2>
                   <ul>
                     <li>
-                      <Link to="">Directory</Link>
+                      <Link to="https://ksa4sale.net/directory/">Directory</Link>
                     </li>
                   </ul>
                 </div>

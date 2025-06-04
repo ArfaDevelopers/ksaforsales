@@ -2072,7 +2072,7 @@ const Header = ({ parms }) => {
                 <Link
                   to="/"
                   className="navbar-brand logo"
-                  style={{ marginLeft: "33px", width: "9rem" }}
+                  style={{ marginLeft: "33px",marginLeft: window.innerWidth <= 576 ? "33px" : "-10px", width: "9rem" }}
                 >
                   <img src={LogoSvg} className="img-fluid" alt="Logo" />
                 </Link>
