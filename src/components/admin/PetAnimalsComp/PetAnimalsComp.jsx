@@ -1135,17 +1135,42 @@ const PetAnimalsComp = () => {
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
   // Fetch cars data
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true); // Show spinner
+  //       const response = await fetch(
+  //         "http://168.231.80.24:9002/route/PETANIMALCOMP"
+  //       );
+  //       const carsData = await response.json();
+
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        setLoading(true); // Show spinner
+        setLoading(true);
+        const query = searchText
+          ? `?searchText=${encodeURIComponent(searchText)}`
+          : "";
         const response = await fetch(
-          "http://168.231.80.24:9002/route/PETANIMALCOMP"
+          `http://168.231.80.24:9002/route/PETANIMALCOMP${query}`
         );
         const carsData = await response.json();
 
         setCars(carsData);
-        setFilteredCars(carsData); // Initially, show all cars
+        setFilteredCars(carsData);
         setLoading(false);
 
         console.log(carsData, "carsData_________");
@@ -1156,7 +1181,7 @@ const PetAnimalsComp = () => {
     };
 
     fetchCars();
-  }, [bookmarkedCar]);
+  }, [searchText, bookmarkedCar]);
   // useEffect(() => {
   //   const fetchCars = async () => {
   //     try {

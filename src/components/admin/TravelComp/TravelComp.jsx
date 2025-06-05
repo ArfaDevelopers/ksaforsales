@@ -1302,26 +1302,51 @@ const TravelComp = () => {
 
   //   fetchCars();
   // }, [bookmarkedCar]);
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        setLoading(true); // Show spinner
-        const response = await fetch("http://168.231.80.24:9002/route/TRAVEL");
-        const carsData = await response.json();
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true); // Show spinner
+  //       const response = await fetch("http://168.231.80.24:9002/route/TRAVEL");
+  //       const carsData = await response.json();
 
-        setCars(carsData);
-        setFilteredCars(carsData); // Initially, show all cars
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
+  useEffect(() => {
+    const fetchTravel = async () => {
+      try {
+        setLoading(true);
+        const query = searchText
+          ? `?searchText=${encodeURIComponent(searchText)}`
+          : "";
+        const response = await fetch(
+          `http://168.231.80.24:9002/route/TRAVEL${query}`
+        );
+        const data = await response.json();
+
+        setCars(data);
+        setFilteredCars(data);
         setLoading(false);
 
-        console.log(carsData, "carsData_________");
+        console.log(data, "carsData_________");
       } catch (error) {
         console.error("Error getting cars:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [bookmarkedCar]);
+    fetchTravel();
+  }, [searchText, bookmarkedCar]);
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug

@@ -327,7 +327,9 @@ const HealthCareComp = () => {
     setselectedCity(selectedOptions || []); // Update selectedCity state to an array
     setFormData((prev) => ({
       ...prev,
-      City: selectedOptions ? selectedOptions.map(option => option.value) : [], // Store array of city values
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
     }));
   };
   console.log("Selected City:", selectedCity);
@@ -1194,12 +1196,9 @@ const HealthCareComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(
-        `http://168.231.80.24:9002/route/HEALTHCARE/${carId}/view`,
-        {
-          method: "PATCH",
-        }
-      );
+      fetch(`http://168.231.80.24:9002/route/HEALTHCARE/${carId}/view`, {
+        method: "PATCH",
+      });
 
       // Update the last viewed timestamp for that car in localStorage
       viewedCars[carId] = now;
@@ -1265,28 +1264,54 @@ const HealthCareComp = () => {
 
   //   fetchCars();
   // }, [bookmarkedCar]);
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        setLoading(true); // Show spinner
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/HEALTHCARE"
-        );
-        const carsData = await response.json();
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true); // Show spinner
+  //       const response = await fetch(
+  //         "http://168.231.80.24:9002/route/HEALTHCARE"
+  //       );
+  //       const carsData = await response.json();
 
-        setCars(carsData);
-        setFilteredCars(carsData); // Initially, show all cars
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
+  useEffect(() => {
+    const fetchHealthcare = async () => {
+      try {
+        setLoading(true);
+        const query = searchText
+          ? `?searchText=${encodeURIComponent(searchText)}`
+          : "";
+        const response = await fetch(
+          `http://168.231.80.24:9002/route/HEALTHCARE${query}`
+        );
+        const data = await response.json();
+
+        setCars(data);
+        setFilteredCars(data);
         setLoading(false);
 
-        console.log(carsData, "carsData_________");
+        console.log(data, "healthcareData_________");
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error getting healthcare data:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [bookmarkedCar]);
+    fetchHealthcare();
+  }, [searchText, bookmarkedCar]);
+
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
@@ -1692,8 +1717,10 @@ const HealthCareComp = () => {
       );
     }
     if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map(city => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) => selectedCityValues.includes(car.City));
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
@@ -1870,7 +1897,7 @@ const HealthCareComp = () => {
       filtered = filtered.filter((car) => {
         if (!car?.FeaturedAds || typeof car.FeaturedAds !== "string") {
           console.warn("Invalid car FeaturedAds:", car);
-          return false; 
+          return false;
         }
         return car.FeaturedAds === selectedOptionisFeatured;
       });
@@ -1947,12 +1974,12 @@ const HealthCareComp = () => {
           return false; // Skip cars with invalid Price
         }
 
-        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity; 
-        const maxPrice = toValue ? parseFloat(toValue) : Infinity; 
+        const minPrice = fromValue ? parseFloat(fromValue) : -Infinity;
+        const maxPrice = toValue ? parseFloat(toValue) : Infinity;
 
         if (isNaN(minPrice) || isNaN(maxPrice)) {
           console.warn("Invalid price range:", { fromValue, toValue });
-          return true; 
+          return true;
         }
 
         return carPrice >= minPrice && carPrice <= maxPrice;
@@ -1962,36 +1989,36 @@ const HealthCareComp = () => {
       filtered.sort((a, b) => {
         const priceA = parseFloat(a.price) || 0;
         const priceB = parseFloat(b.price) || 0;
-        return priceB - priceA; 
+        return priceB - priceA;
       });
     }
     if (SortBy === "Price: High to Low") {
       filtered.sort((a, b) => {
         const priceA = parseFloat(a.price) || 0;
         const priceB = parseFloat(b.price) || 0;
-        return priceA - priceB; 
+        return priceA - priceB;
       });
     }
     if (SortBy === "Sort by: Most Relevant") {
       filtered.sort((a, b) => {
         const dateA = new Date(a.timeAgo);
         const dateB = new Date(b.timeAgo);
-        return dateB.getTime() - dateA.getTime(); 
+        return dateB.getTime() - dateA.getTime();
       });
     }
     if (fromCC || toCC) {
       filtered = filtered.filter((car) => {
-        const EngineCapacity = parseFloat(car.EngineCapacity); 
-        const minPrice = fromCC ? parseFloat(fromCC) : 0; 
-        const maxPrice = toCC ? parseFloat(toCC) : Infinity; 
+        const EngineCapacity = parseFloat(car.EngineCapacity);
+        const minPrice = fromCC ? parseFloat(fromCC) : 0;
+        const maxPrice = toCC ? parseFloat(toCC) : Infinity;
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
     if (fromValueMileage || toValueMileage) {
       filtered = filtered.filter((car) => {
-        const EngineCapacity = parseFloat(car.mileage); 
-        const minPrice = fromValueMileage ? parseFloat(fromValueMileage) : 0; 
-        const maxPrice = toValueMileage ? parseFloat(toValueMileage) : Infinity; 
+        const EngineCapacity = parseFloat(car.mileage);
+        const minPrice = fromValueMileage ? parseFloat(fromValueMileage) : 0;
+        const maxPrice = toValueMileage ? parseFloat(toValueMileage) : Infinity;
         return EngineCapacity >= minPrice && EngineCapacity <= maxPrice;
       });
     }
@@ -2206,8 +2233,6 @@ const HealthCareComp = () => {
               </h1>
             )}
           </div>
-
- 
         </Container>
         <Container
           fluid
@@ -2324,26 +2349,26 @@ const HealthCareComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                             <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>Select City</Accordion.Header>
-    <Accordion.Body>
-      <Form.Group className="mb-3">
-        <Form.Label>Select a City</Form.Label>
-        <WindowedSelect
-          options={CityOptions}
-          value={selectedCity}
-          onChange={handleCitySelect}
-          placeholder="Select a City"
-          isClearable
-          isMulti // Enable multiple selections
-          className="w-100"
-          windowThreshold={100} // Render only 100 options at a time
-        />
-      </Form.Group>
-    </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+                        <WindowedSelect
+                          options={CityOptions}
+                          value={selectedCity}
+                          onChange={handleCitySelect}
+                          placeholder="Select a City"
+                          isClearable
+                          isMulti // Enable multiple selections
+                          className="w-100"
+                          windowThreshold={100} // Render only 100 options at a time
+                        />
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <hr
                   style={{
                     width: "100%",
@@ -3090,11 +3115,11 @@ const HealthCareComp = () => {
                                         ></button>
                                       </div>
                                       {userId && receiverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={receiverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={receiverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">

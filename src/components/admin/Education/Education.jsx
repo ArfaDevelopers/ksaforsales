@@ -1027,17 +1027,42 @@ const Education = () => {
 
   //   fetchCars();
   // }, [bookmarkedCar]);
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true); // Show spinner
+  //       const response = await fetch(
+  //         "http://168.231.80.24:9002/route/Education"
+  //       );
+  //       const carsData = await response.json();
+
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially, show all cars
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [bookmarkedCar]);
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        setLoading(true); // Show spinner
+        setLoading(true);
+        const query = searchText
+          ? `?searchText=${encodeURIComponent(searchText)}`
+          : "";
         const response = await fetch(
-          "http://168.231.80.24:9002/route/Education"
+          `http://168.231.80.24:9002/route/Education${query}`
         );
         const carsData = await response.json();
 
         setCars(carsData);
-        setFilteredCars(carsData); // Initially, show all cars
+        setFilteredCars(carsData);
         setLoading(false);
 
         console.log(carsData, "carsData_________");
@@ -1048,7 +1073,7 @@ const Education = () => {
     };
 
     fetchCars();
-  }, [bookmarkedCar]);
+  }, [searchText, bookmarkedCar]);
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
