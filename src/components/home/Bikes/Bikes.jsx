@@ -1865,10 +1865,10 @@ const Bikes = () => {
             <Col md={9} className="p-3">
               <Row className="mb-3">
                 <Col>
-                  <Form.Check type="checkbox" label="With Photos" />
+                  {/* <Form.Check type="checkbox" label="With Photos" /> */}
                 </Col>
                 <Col>
-                  <Form.Check type="checkbox" label="With Price" />
+                  {/* <Form.Check type="checkbox" label="With Price" /> */}
                 </Col>
                 <Col xs={12} sm={6} md={4} className="text-end">
                   <Form.Select

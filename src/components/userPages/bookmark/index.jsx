@@ -435,8 +435,33 @@ const Bookmarks = () => {
                       <div className="blog-widget">
                         <div className="blog-img">
                           <Link
-                            to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
-                          >
+    to={
+      car.isActive
+        ? "#"
+        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+          car.category.trim() === "Pet & Animals"
+              ? "PetAnimalsComp"
+              : car.category.trim() === "Automotive"
+              ? "AutomotiveComp"
+              : car.category.trim() === "Other"
+              ? "Education"
+              : car.category.trim() === "Services"
+              ? "TravelComp"
+              : car.category.trim() === "JobBoard"
+              ? "JobBoard"
+              : car.category.trim() === "FashionStyle"
+              ? "FashionStyle"
+              : car.category.trim() === "Electronics"
+              ? "ElectronicComp"
+              : car.category.trim() === "Home & Furnituer"
+              ? "HealthCareComp"
+              : car.category.trim() === "Sports & Game"
+              ? "SportGamesComp"
+              : car.category.trim() === "Real Estate"
+              ? "RealEstateComp"
+              : formatCategory(car.category.trim())
+          )}`
+    }                           >
                             <img
                               style={{ height: "322px" }}
                               src={car.galleryImages?.[0] || "placeholder.jpg"}
@@ -481,7 +506,33 @@ const Bookmarks = () => {
                               <div className="blog-author text-end">
                                 <span>
                                 <Link
-                            to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
+                           to={
+                            car.isActive
+                              ? "#"
+                              : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+                                car.category.trim() === "Pet & Animals"
+                                    ? "PetAnimalsComp"
+                                    : car.category.trim() === "Automotive"
+                                    ? "AutomotiveComp"
+                                    : car.category.trim() === "Other"
+                                    ? "Education"
+                                    : car.category.trim() === "Services"
+                                    ? "TravelComp"
+                                    : car.category.trim() === "JobBoard"
+                                    ? "JobBoard"
+                                    : car.category.trim() === "FashionStyle"
+                                    ? "FashionStyle"
+                                    : car.category.trim() === "Electronics"
+                                    ? "ElectronicComp"
+                                    : car.category.trim() === "Home & Furnituer"
+                                    ? "HealthCareComp"
+                                    : car.category.trim() === "Sports & Game"
+                                    ? "SportGamesComp"
+                                    : car.category.trim() === "Real Estate"
+                                    ? "RealEstateComp"
+                                    : formatCategory(car.category.trim())
+                                )}`
+                          } 
                           >
                                   <img src={eye} alt="views" />
 </Link>
@@ -492,16 +543,66 @@ const Bookmarks = () => {
                             <h6>
                               
                               <Link
-                                to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
-                              >
+    to={
+      car.isActive
+        ? "#"
+        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+          car.category.trim() === "Pet & Animals"
+              ? "PetAnimalsComp"
+              : car.category.trim() === "Automotive"
+              ? "AutomotiveComp"
+              : car.category.trim() === "Other"
+              ? "Education"
+              : car.category.trim() === "Services"
+              ? "TravelComp"
+              : car.category.trim() === "JobBoard"
+              ? "JobBoard"
+              : car.category.trim() === "FashionStyle"
+              ? "FashionStyle"
+              : car.category.trim() === "Electronics"
+              ? "ElectronicComp"
+              : car.category.trim() === "Home & Furnituer"
+              ? "HealthCareComp"
+              : car.category.trim() === "Sports & Game"
+              ? "SportGamesComp"
+              : car.category.trim() === "Real Estate"
+              ? "RealEstateComp"
+              : formatCategory(car.category.trim())
+          )}`
+    }                               >
                                 {car.title}
                               </Link>
                             </h6>
                             <h6>
                               
                               <Link
-                                to={`/service-details?id=${car.id}&callingFrom=${formatCategory(car.category)}`}
-                              >
+    to={
+      car.isActive
+        ? "#"
+        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+          car.category.trim() === "Pet & Animals"
+              ? "PetAnimalsComp"
+              : car.category.trim() === "Automotive"
+              ? "AutomotiveComp"
+              : car.category.trim() === "Other"
+              ? "Education"
+              : car.category.trim() === "Services"
+              ? "TravelComp"
+              : car.category.trim() === "JobBoard"
+              ? "JobBoard"
+              : car.category.trim() === "FashionStyle"
+              ? "FashionStyle"
+              : car.category.trim() === "Electronics"
+              ? "ElectronicComp"
+              : car.category.trim() === "Home & Furnituer"
+              ? "HealthCareComp"
+              : car.category.trim() === "Sports & Game"
+              ? "SportGamesComp"
+              : car.category.trim() === "Real Estate"
+              ? "RealEstateComp"
+              : formatCategory(car.category.trim())
+          )}`
+    }                               >
                                Product Id : {car.id}
                               </Link>
                             </h6>
