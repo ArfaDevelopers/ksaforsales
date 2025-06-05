@@ -309,9 +309,9 @@ const AutomotiveComp = () => {
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
-  useEffect(() => {
-    setSearchQuery(searchText); // Update searchQuery from searchText
-  }, [searchText]);
+  // useEffect(() => {
+  //   setSearchQuery(searchText); // Update searchQuery from searchText
+  // }, [searchText]);
   const categories = [
     "Cars For Sale",
     "Car Rental",
@@ -1704,8 +1704,8 @@ const AutomotiveComp = () => {
     }
   };
   useEffect(() => {
-    filterCars(searchQuery, selectedEmirates);
-  }, [selectedEmirates, searchQuery]);
+    filterCars(searchQuery, selectedEmirates, searchText);
+  }, [selectedEmirates, searchQuery, searchText]);
   useEffect(() => {
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
@@ -1841,6 +1841,8 @@ const AutomotiveComp = () => {
       searchQuery,
       selectedCities,
       subCatgory,
+      searchText,
+
       nestedSubCategory,
       selectedEmirates,
       selectedCarsMake,
@@ -1883,6 +1885,8 @@ const AutomotiveComp = () => {
     selectedCities,
     searchQuery,
     subCatgory,
+    searchText,
+
     nestedSubCategory,
     selectedEmirates,
     selectedCarsMake,
@@ -1932,6 +1936,8 @@ const AutomotiveComp = () => {
       query,
       selectedCities,
       subCatgory,
+      searchText,
+
       nestedSubCategory,
       selectedEmirates,
       selectedCarsMake,
@@ -1975,6 +1981,8 @@ const AutomotiveComp = () => {
     query,
     cities,
     subCatgory,
+    searchText,
+
     nestedSubCategory,
     emirates,
     selectedCarsMake,
@@ -2062,6 +2070,17 @@ const AutomotiveComp = () => {
         }
         // Case-insensitive search
         return car.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
+    if (searchText?.length > 0) {
+      filtered = filtered.filter((car) => {
+        // Ensure car.title exists and is a string
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
+          return false;
+        }
+        // Case-insensitive search
+        return car.title.toLowerCase().includes(searchText.toLowerCase());
       });
     }
     // Filter by selected cities

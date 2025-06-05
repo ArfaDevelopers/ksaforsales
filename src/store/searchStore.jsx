@@ -12,7 +12,7 @@ const useSearchStore = create((set) => ({
     if (text.trim() !== "") {
       try {
         const response = await axios.get(
-          `http://localhost:9002/search?q=${text}`
+          `http://168.231.80.24:9002/search?q=${text}`
         );
         set({ results: response.data.results });
         console.log("user1111____94", response.data.results);
