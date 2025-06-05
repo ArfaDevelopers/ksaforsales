@@ -12,7 +12,14 @@ import {
   deleteUser,
   EmailAuthProvider,
 } from "firebase/auth";
-import { addDoc, collection, updateDoc, doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  updateDoc,
+  doc,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "./../Firebase/FirebaseConfig.jsx";
 import { auth } from "./../Firebase/FirebaseConfig";
 import withReactContent from "sweetalert2-react-content";
@@ -57,7 +64,7 @@ const Profile = () => {
       setConfirmNewPassword("");
     } catch (error) {
       console.error("Error changing password:", error.message);
-      alert(error.message);
+      alert("New password and Current password do not match!");
     }
   };
 
@@ -68,6 +75,22 @@ const Profile = () => {
   const [photoURL, setphotoURL] = useState("");
   const [creationTime, setcreationTime] = useState("");
   const [error, setError] = useState("");
+  useEffect(() => {
+    if (auth.currentUser) {
+      const uid = auth.currentUser.uid;
+      const fetchData = async () => {
+        const userDoc = await getDoc(doc(db, "users", uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setdisplayName(data.displayName || "");
+          setEmail(data.email || "");
+          setPhoneNumber(data.phoneNumber || "");
+          setphotoURL(data.photoURL || "");
+        }
+      };
+      fetchData();
+    }
+  }, []);
 
   const handleDeleteUser = async () => {
     const user = auth.currentUser;
@@ -144,7 +167,7 @@ const Profile = () => {
         setdisplayName(user.displayName || "");
         setEmail(user.email || "");
         setphotoURL(user.photoURL || "");
-        setPhoneNumber(user.phoneNumber || "")
+        setPhoneNumber(user.phoneNumber || "");
         setcreationTime(user.metadata.creationTime);
       } else {
         console.log("No user is logged in.");
@@ -202,8 +225,8 @@ const Profile = () => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleUpdate = async (e) => {
@@ -215,14 +238,25 @@ const Profile = () => {
     }
 
     try {
+      // Update only supported auth fields
       await updateProfile(auth.currentUser, {
         displayName,
         photoURL,
-        phoneNumber
       });
 
+      // Update Firestore fields (including custom fields like phoneNumber)
       const userRef = doc(db, "users", auth.currentUser.uid);
-      await setDoc(userRef, { email }, { merge: true });
+      await setDoc(
+        userRef,
+        {
+          email,
+          phoneNumber,
+          displayName,
+          photoURL,
+          updatedAt: new Date(),
+        },
+        { merge: true }
+      );
 
       console.log("Profile updated successfully!");
       Swal.fire({
@@ -247,7 +281,7 @@ const Profile = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: window.innerWidth <= 576 ? "4rem" : "6rem"
+          marginTop: window.innerWidth <= 576 ? "4rem" : "6rem",
         }}
       >
         <div className="container">
@@ -303,26 +337,31 @@ const Profile = () => {
                     <div
                       className="profile-photo"
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: isSmallScreen ? 'center' : 'space-between',
-                        flexDirection: isSmallScreen ? 'column' : 'row',
-                        textAlign: isSmallScreen ? 'center' : 'left'
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: isSmallScreen
+                          ? "center"
+                          : "space-between",
+                        flexDirection: isSmallScreen ? "column" : "row",
+                        textAlign: isSmallScreen ? "center" : "left",
                       }}
                     >
                       <div
                         className="profile-img"
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          margin: isSmallScreen ? '10px 0' : '0'
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          margin: isSmallScreen ? "10px 0" : "0",
                         }}
                       >
                         <div className="settings-upload-img">
                           <img src={photoURL} alt="profile" />
                         </div>
-                        <div className="settings-upload-btn" style={{ margin: 'px 0' }}>
+                        <div
+                          className="settings-upload-btn"
+                          style={{ margin: "px 0" }}
+                        >
                           <input
                             type="file"
                             accept="image/*"
@@ -341,7 +380,10 @@ const Profile = () => {
                         to="#"
                         className="profile-img-del"
                         onClick={handleDeleteUser}
-                        style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}
+                        style={{
+                          marginTop:
+                            window.innerWidth <= 576 ? "-1rem" : "0rem",
+                        }}
                       >
                         <i className="feather-trash-2" />
                       </Link>
@@ -350,10 +392,15 @@ const Profile = () => {
                       <form onSubmit={handleUpdate}>
                         {error && <p className="text-red-500">{error}</p>}
                         <div className="form-group">
-                          <label className="col-form-label">Your Full Name</label>
+                          <label className="col-form-label">
+                            Your Full Name
+                          </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-user" style={{color:"#2d4495"}} />
+                              <i
+                                className="feather-user"
+                                style={{ color: "#2d4495" }}
+                              />
                             </span>
                             <input
                               type="text"
@@ -366,9 +413,14 @@ const Profile = () => {
                         <div className="row">
                           <div className="col-lg-6 col-md-6">
                             <div className="form-group">
-                              <label className="col-form-label">Email Address</label>
+                              <label className="col-form-label">
+                                Email Address
+                              </label>
                               <div className="group-img">
-                                <i className="feather-mail" style={{color:"#2d4495"}}/>
+                                <i
+                                  className="feather-mail"
+                                  style={{ color: "#2d4495" }}
+                                />
                                 <input
                                   type="text"
                                   className="form-control"
@@ -380,21 +432,32 @@ const Profile = () => {
                           </div>
                           <div className="col-lg-6 col-md-6">
                             <div className="form-group">
-                              <label className="col-form-label">Phone Number</label>
+                              <label className="col-form-label">
+                                Phone Number
+                              </label>
                               <div className="group-img">
-                                <i className="feather-phone" style={{color:"#2d4495"}}/>
+                                <i
+                                  className="feather-phone"
+                                  style={{ color: "#2d4495" }}
+                                />
                                 <input
                                   type="tel"
                                   className="form-control"
                                   value={phoneNumber}
-                                  onChange={(e) => setPhoneNumber(e.target.value)}
+                                  onChange={(e) =>
+                                    setPhoneNumber(e.target.value)
+                                  }
                                   placeholder="Enter phone number"
                                 />
                               </div>
                             </div>
                           </div>
                         </div>
-                        <button type="submit" className="btn" style={{backgroundColor:"#2d4495",color:"white"}}>
+                        <button
+                          type="submit"
+                          className="btn"
+                          style={{ backgroundColor: "#2d4495", color: "white" }}
+                        >
                           Update Profile
                         </button>
                       </form>
@@ -411,17 +474,24 @@ const Profile = () => {
                     <div className="card-body">
                       <form onSubmit={handlePasswordChange}>
                         <div className="form-group">
-                          <label className="col-form-label">Current Password</label>
+                          <label className="col-form-label">
+                            Current Password
+                          </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" style={{color:"#2d4495"}}/>
+                              <i
+                                className="feather-lock"
+                                style={{ color: "#2d4495" }}
+                              />
                             </span>
                             <input
                               type="password"
                               className="form-control pass-input"
                               placeholder="Current Password"
                               value={currentPassword}
-                              onChange={(e) => setCurrentPassword(e.target.value)}
+                              onChange={(e) =>
+                                setCurrentPassword(e.target.value)
+                              }
                               required
                             />
                           </div>
@@ -430,7 +500,10 @@ const Profile = () => {
                           <label className="col-form-label">New Password</label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" style={{color:"#2d4495"}} />
+                              <i
+                                className="feather-lock"
+                                style={{ color: "#2d4495" }}
+                              />
                             </span>
                             <input
                               type={passwordType}
@@ -451,17 +524,24 @@ const Profile = () => {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label className="col-form-label">Confirm New Password</label>
+                          <label className="col-form-label">
+                            Confirm New Password
+                          </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
-                              <i className="feather-lock" style={{color:"#2d4495"}}/>
+                              <i
+                                className="feather-lock"
+                                style={{ color: "#2d4495" }}
+                              />
                             </span>
                             <input
                               type={passwordType}
                               className="form-control pass-input"
                               placeholder="Confirm New Password"
                               value={confirmNewPassword}
-                              onChange={(e) => setConfirmNewPassword(e.target.value)}
+                              onChange={(e) =>
+                                setConfirmNewPassword(e.target.value)
+                              }
                               required
                             />
                             <span
@@ -474,7 +554,11 @@ const Profile = () => {
                             />
                           </div>
                         </div>
-                        <button className="btn" type="submit" style={{backgroundColor:"#2d4495",color:"white"}}>
+                        <button
+                          className="btn"
+                          type="submit"
+                          style={{ backgroundColor: "#2d4495", color: "white" }}
+                        >
                           Change Password
                         </button>
                       </form>
