@@ -35,6 +35,8 @@ import useSearchStore from "../../../store/searchStore"; // adjust the path
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
   const menuRef = useRef(null);
+  const isSelecting = useRef(false);
+
   const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [drops, setDrops] = useState(false);
@@ -2072,7 +2074,11 @@ const Header = ({ parms }) => {
                 <Link
                   to="/"
                   className="navbar-brand logo"
-                  style={{ marginLeft: "33px",marginLeft: window.innerWidth <= 576 ? "33px" : "-10px", width: "9rem" }}
+                  style={{
+                    marginLeft: "33px",
+                    marginLeft: window.innerWidth <= 576 ? "33px" : "-10px",
+                    width: "9rem",
+                  }}
                 >
                   <img src={LogoSvg} className="img-fluid" alt="Logo" />
                 </Link>
@@ -2094,7 +2100,12 @@ const Header = ({ parms }) => {
                     placeholder="What are you looking for?"
                     aria-label="Search"
                     value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
+                    onChange={(e) => {
+                      const text = e.target.value;
+                      if (!isSelecting.current) {
+                        setSearchText(text);
+                      }
+                    }}
                     style={{
                       paddingRight: "40px",
                       borderRadius: "20px",
@@ -2102,6 +2113,7 @@ const Header = ({ parms }) => {
                       width: "100%",
                     }}
                   />
+
                   {results.length > 0 && (
                     <ul
                       className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
@@ -2121,10 +2133,16 @@ const Header = ({ parms }) => {
                           key={item.id}
                           className="border-bottom"
                           onClick={() => {
+                            isSelecting.current = true;
+                            useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
                             setSearchText(item.title);
-                            setSelectedItem(item); // ✅ save selected item in global state
-                            useSearchStore.setState({ results: [] }); // clear results
-                            console.log("Selected:", item);
+                            setSelectedItem(item);
+                            useSearchStore.setState({ results: [] });
+
+                            // Reset flag after short delay
+                            setTimeout(() => {
+                              isSelecting.current = false;
+                            }, 200);
                           }}
                           style={{
                             padding: "12px 16px",

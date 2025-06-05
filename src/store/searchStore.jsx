@@ -1,12 +1,26 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const useSearchStore = create((set) => ({
+const useSearchStore = create((set, get) => ({
   searchText: "",
   results: [],
   selectedItem: null,
+  skipNextSearch: false,
 
   setSearchText: async (text) => {
+    const { selectedItem, skipNextSearch } = get();
+
+    if (skipNextSearch) {
+      set({ searchText: text, results: [], skipNextSearch: false });
+      return;
+    }
+
+    // If text matches selected item title, don't trigger search
+    if (text === selectedItem?.title) {
+      set({ searchText: text, results: [] });
+      return;
+    }
+
     set({ searchText: text });
 
     if (text.trim() !== "") {
@@ -24,10 +38,8 @@ const useSearchStore = create((set) => ({
       set({ results: [] });
     }
   },
-  setSelectedItem: (item) => {
-    console.log("✅ Selected item set in store:", item);
 
-    // Map categories to route hash parameters
+  setSelectedItem: (item) => {
     const categoryRouteMap = {
       Automotive: "AutomotiveComp",
       Electronics: "ElectronicComp",
@@ -40,24 +52,17 @@ const useSearchStore = create((set) => ({
       Other: "Education",
     };
 
-    // Get route based on category
     const routeParam = categoryRouteMap[item.category];
-
     if (routeParam) {
-      // Update the hash in the URL
       window.location.hash = `#/${routeParam}`;
-    } else {
-      console.warn("⚠️ No route defined for category:", item.category);
     }
 
-    // Save item to store
-    set({ selectedItem: item });
+    // Prevent search on next text update
+    set({
+      selectedItem: item,
+      skipNextSearch: true,
+    });
   },
-
-  // setSelectedItem: (item) => {
-  //   console.log("✅ Selected item set in store:", item); // <-- log here
-  //   set({ selectedItem: item });
-  // },
 }));
 
 export default useSearchStore;
