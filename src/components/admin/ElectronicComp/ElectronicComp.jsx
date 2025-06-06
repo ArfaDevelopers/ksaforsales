@@ -74,6 +74,7 @@ import {
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import Mesagedeals from "../../../components/userPages/mesagedeals";
 
 const ElectronicComp = () => {
   const parms = useLocation().pathname;

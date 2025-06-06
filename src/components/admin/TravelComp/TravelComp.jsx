@@ -28,6 +28,8 @@ import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";

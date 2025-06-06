@@ -20,6 +20,8 @@ import iron from "../../home/iron.png";
 import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";

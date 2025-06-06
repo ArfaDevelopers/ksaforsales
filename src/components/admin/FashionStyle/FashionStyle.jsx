@@ -27,6 +27,8 @@ import profile from "../dyanmic_route/profileimage.png";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
 import insta from "../../home/insta.png";

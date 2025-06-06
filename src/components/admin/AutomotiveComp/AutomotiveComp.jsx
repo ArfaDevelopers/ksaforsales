@@ -5,6 +5,7 @@ import Footer from "../../../components/home/footer/Footer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
 
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
