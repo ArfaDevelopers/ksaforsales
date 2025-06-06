@@ -221,7 +221,28 @@ const TravelComp = () => {
   const [selectedDistrict, setselectedDistrict] = useState(null);
 
   console.log(selectedCity, "selectedSubCategory________");
+  const [adsDetailImages, setAdsDetailImages] = useState([]);
+  console.log(adsDetailImages, "adsDetailImages________");
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "ServicesContent");
+        const adsSnapshot = await getDocs(adsCollectionRef);
 
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAdsDetailImages(adsList);
+        console.log("📸 AdsdetailImages fetched:", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, []);
   const handleCategorySelect = (e) => {
     setselectedSubCategory(e.target.value);
   };
@@ -3286,88 +3307,54 @@ const TravelComp = () => {
           </Row>
         </Container>
         <div
-          className="container-parent"
+          className="container"
           style={{
             color: "black",
-            maxWidth: "100%", // Ensure content fits screen width
+            maxWidth: "100%",
             margin: "0 auto",
             marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
-            height: "auto", // Allow height to adjust dynamically
-            paddingLeft: "16%", // Adjusted padding for responsiveness
-            paddingRight: window.innerWidth <= 576 ? "0%" : "14%",
+            height: "auto",
+            paddingLeft: "16%",
+            paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",
           }}
         >
           <div className="cars data">
-            <h2>Hotel Booking in Newyork</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer. Semper vitae velit sed quisque
-              felis sed in. Quis vulputate euismod consequat feugiat vulputate
-              fames. Vitae arcu eu et non tristique diam viverra purus vel.
-              Tortor amet tristique proin turpis massa potenti. Quisque nullam
-              velit sem semper ultrices odio. Egestas feugiat nec id aenean.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer. Semper vitae velit sed quisque
-              felis sed in. Quis vulputate euismod consequat feugiat vulputate
-              fames. Vitae arcu eu et non tristique diam viverra purus vel.
-              Tortor amet tristique proin turpis massa potenti. Quisque nullam
-              velit sem semper ultrices odio. Egestas feugiat nec id aenean.
-            </p>
-            <h2>Hotel Bookings in Newyork</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer. Semper vitae velit sed quisque
-              felis sed in. Quis vulputate euismod consequat feugiat vulputate
-              fames. Vitae arcu eu et non tristique diam viverra purus vel.
-              Tortor amet tristique proin turpis massa potenti. Quisque nullam
-              velit sem semper ultrices odio. Egestas feugiat nec id aenean.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur. Lacus lacus est praesent
-              gravida quam urna arcu integer. Semper vitae velit sed quisque
-              felis sed in. Quis vulputate euismod consequat feugiat vulputate
-              fames. Vitae arcu eu et non tristique diam viverra purus vel.
-              Tortor amet tristique proin turpis massa potenti. Quisque nullam
-              velit sem semper ultrices odio. Egestas feugiat nec id aenean.
-            </p>
-            <h2>Browse More Hotel Booking in USA</h2>
-            <p style={{ color: "#2d4fad" }}>
-              View more Hotel Booking by Cities
-            </p>
-            <Row style={{ color: "#2d4fad" }}>
-              <Col sm={3}>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-              </Col>
-              <Col sm={3}>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-              </Col>
-              <Col sm={3}>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-              </Col>
-              <Col sm={3}>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-                <div>Newyork (123456)</div>
-              </Col>
-            </Row>
+            {adsDetailImages.map((item) => (
+              <div
+                key={item.id}
+                dangerouslySetInnerHTML={{ __html: item.content }}
+              />
+            ))}
           </div>
         </div>
+
+        <style jsx>{`
+          @media (max-width: 768px) {
+            .container-parent {
+              padding-left: 5%; // Reduce padding on smaller screens
+              padding-right: 5%;
+            }
+            .responsive-row {
+              margin: 0 10px;
+            }
+          }
+          @media (max-width: 480px) {
+            .container-parent {
+              padding-left: 0%; // No left padding on very small screens
+              padding-right: 0%; // No right padding on very small screens
+            }
+            .responsive-row {
+              margin: 0;
+            }
+            h2 {
+              font-size: 1.2rem; // Smaller font size for headings on mobile
+            }
+          }
+        `}</style>
         <ComercialsAds />
         <LatestBlog />
       </div>
