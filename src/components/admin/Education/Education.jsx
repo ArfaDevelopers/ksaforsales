@@ -185,7 +185,7 @@ const Education = () => {
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
       try {
-        const adsCollectionRef = collection(db, "BodyContent");
+        const adsCollectionRef = collection(db, "OtherContent");
         const adsSnapshot = await getDocs(adsCollectionRef);
 
         const adsList = adsSnapshot.docs.map((doc) => ({
