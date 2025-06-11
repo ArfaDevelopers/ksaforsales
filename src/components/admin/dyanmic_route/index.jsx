@@ -6297,7 +6297,7 @@ const Dynamic_Route = () => {
                 style={{
                   display: "flex",
                   flexWrap: "wrap",
-                  marginLeft: window.innerWidth <= 576 ? "10px" : "10px",
+                  marginLeft: window.innerWidth <= 576 ? "0px" : "10px",
                   alignItems: "center",
                 }}
               >

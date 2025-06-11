@@ -122,7 +122,7 @@ const DetailAds = () => {
     setSelectedImages(updatedImages);
     setPreviews(updatedPreviews);
   };
-
+  const [isHovered, setIsHovered] = useState(false);
   const handleUpload = async () => {
     if (!previews.every((p) => p)) {
       MySwal.fire({
@@ -279,7 +279,7 @@ const DetailAds = () => {
           
           <Container >
   <Card className="mb-4 shadow">
-    <Card.Header className="bg-primary text-white">
+    <Card.Header className="text-white" style={{backgroundColor: "#2d4495"}}>
       <h4 className="mb-0 d-flex align-items-center">
         <FiImage className="me-2" />
         Update Detail Page Advertisements
@@ -295,8 +295,8 @@ const DetailAds = () => {
                 className="position-relative"
                 style={{
                   aspectRatio: "16/9",
-                  height: "200px", // Set a fixed height for consistency
-                  overflow: "hidden", // Ensure images don't overflow
+                  height: "200px", 
+                  overflow: "hidden", 
                 }}
               >
                 {src ? (
@@ -305,8 +305,8 @@ const DetailAds = () => {
                     alt={`Advertisement ${index + 1}`}
                     style={{
                       objectFit: "cover",
-                      height: "100%", // Ensure image takes full container height
-                      width: "100%", // Ensure image takes full container width
+                      height: "100%", 
+                      width: "100%", 
                     }}
                   />
                 ) : (
@@ -330,7 +330,7 @@ const DetailAds = () => {
 
               <Card.Body className="text-center">
                 <Form.Group controlId={`imgInput-${index}`}>
-                  <Form.Label className="btn btn-outline-primary w-100">
+                  <Form.Label className="btn w-100 text-white" style={{backgroundColor: "#2d4495"}}>
                     <FiUpload className="me-1" />
                     {src ? "Change Image" : "Select Image"}
                     <Form.Control
@@ -349,7 +349,7 @@ const DetailAds = () => {
                 <div className="mt-2 text-muted">
                   Ad Slot {index + 1}
                   {src && (
-                    <div className="text-success mt-1 d-flex justify-content-center align-items-center">
+                    <div className=" mt-1 d-flex justify-content-center align-items-center" style={{color: "#2d4495"}}>
                       <FiCheckCircle className="me-1" /> Image selected
                     </div>
                   )}
@@ -364,34 +364,50 @@ const DetailAds = () => {
         <FiAlertCircle className="me-2" />
         All three images are required for the ad display.
       </Alert>
-
       <div className="text-center mt-4">
-        <Button
-          onClick={handleUpload}
-          variant="primary"
-          size="lg"
-          disabled={uploading}
-        >
-          {uploading ? (
-            <>
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-                className="me-2"
-              />
-              Uploading...
-            </>
-          ) : (
-            <>
-              <FiUpload className="me-2" />
-              Upload Images
-            </>
-          )}
-        </Button>
-      </div>
+      <Button
+        onClick={handleUpload}
+        style={{
+          backgroundColor: uploading
+            ? '#2d4495'
+            : isHovered
+            ? '#3b57c4'
+            : '#2d4495',
+          color: '#ffffff', // Explicitly set text color to white
+          transition: 'all 0.3s ease',
+          transform: isHovered && !uploading ? 'scale(1.05)' : 'none',
+          boxShadow:
+            isHovered && !uploading
+              ? '0 4px 8px rgba(0, 0, 0, 0.2)'
+              : 'none',
+        }}
+        size="lg"
+        disabled={uploading}
+        onMouseEnter={() => !uploading && setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {uploading ? (
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+              className="me-2"
+              style={{ color: '#ffffff' }} // Spinner white
+            />
+            Uploading...
+          </>
+        ) : (
+          <>
+            <FiUpload className="me-2" style={{ color: '#ffffff' }} />{' '}
+            {/* Icon white */}
+            Upload Images
+          </>
+        )}
+      </Button>
+    </div>
     </Card.Body>
   </Card>
 

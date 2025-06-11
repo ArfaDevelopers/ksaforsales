@@ -31,7 +31,7 @@ import {
 } from "react-icons/fa";
 import Flag from "react-world-flags";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
-
+import fallbackImage from '../../../../public/7309681.jpg';
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
   const menuRef = useRef(null);
@@ -2335,18 +2335,16 @@ const Header = ({ parms }) => {
                       </Link>
                     </li>
                     <li className="nav-item dropdown logged-item">
-                      <Link
-                        to="#"
-                        className={`dropdown-toggle profile-userlink ${
-                          drops ? "show" : ""
-                        }`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded={drops}
-                        onClick={() => setDrops(!drops)}
-                      >
-                        <img src={divideImage} alt="" />
-                        <span>{divideName}</span>
-                      </Link>
+                    <Link
+  to="#"
+  className={`dropdown-toggle profile-userlink ${drops ? "show" : ""}`}
+  data-bs-toggle="dropdown"
+  aria-expanded={drops}
+  onClick={() => setDrops(!drops)}
+>
+<img src={divideImage && divideImage !== "" ? divideImage : fallbackImage} alt="" />
+  <span>{divideName}</span>
+</Link>
                       <div
                         className={`dropdown-menu dropdown-menu-end ${
                           drops ? "show" : ""
