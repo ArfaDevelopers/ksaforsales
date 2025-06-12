@@ -1070,7 +1070,7 @@ const Dynamic_Route = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1300px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1410px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
             marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
