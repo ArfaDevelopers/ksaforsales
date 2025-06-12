@@ -2265,7 +2265,7 @@ const JobBoard = () => {
             paddingLeft: "2px", // Padding on the left side
             paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1320px", // Optional: Add max-width to ensure padding is visible
+            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
@@ -2376,7 +2376,7 @@ const JobBoard = () => {
             paddingLeft: "10px", // Padding on the left side
             paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1300px", // Opional: Add max-width to ensure padding is visible
+            maxWidth: "1410px", // Opional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
@@ -3189,7 +3189,7 @@ const JobBoard = () => {
             marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
 
             height: "auto",
-            paddingLeft: "16%",
+            paddingLeft: "13%",
             paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",
