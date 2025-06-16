@@ -162,13 +162,18 @@ const PaymentForm = (props) => {
         await setDoc(userDocRef, paymentData); // Use setDoc to write data to this specific document
 
         const paymentResponse = await fetch(
-          "http://localhost:9002/api/charge",
+          "http://168.231.80.24:9002/api/charge",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
+              name: formData.name || "Unknown",
+              userId: user.uid,
+              productId: props._Id,
+              amount: 10, // must be a number, in USD (your backend multiplies it by 100)
+              paymentStatus: "Processing",
               paymentMethodId: paymentMethod.id,
             }),
           }
