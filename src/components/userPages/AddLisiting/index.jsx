@@ -277,7 +277,7 @@ const AddLisiting = () => {
   const [citiesMake, setcitiesMake] = useState([]);
   const [mileage, setMileage] = useState("");
   console.log(formData, "subcategories____1");
-
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [Make, setSelectedCityMake] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
   console.log(subcategories, "subcategories____");
@@ -4142,6 +4142,28 @@ const AddLisiting = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  //   const collectionName1 =
+  // callingFrom === "AutomotiveComp"
+  //   ? "Cars"
+  //   : callingFrom === "ElectronicComp"
+  //   ? "ELECTRONICS"
+  //   : callingFrom === "FashionStyle"
+  //   ? "FASHION"
+  //   : callingFrom === "HealthCareComp"
+  //   ? "HEALTHCARE"
+  //   : callingFrom === "JobBoard"
+  //   ? "JOBBOARD"
+  //   : callingFrom === "Education"
+  //   ? "Education"
+  //   : callingFrom === "RealEstateComp"
+  //   ? "REALESTATECOMP"
+  //   : callingFrom === "TravelComp"
+  //   ? "TRAVEL"
+  //   : callingFrom === "SportGamesComp"
+  //   ? "SPORTSGAMESComp"
+  //   : callingFrom === "PetAnimalsComp"
+  //   ? "PETANIMALCOMP"
+  //   : "books";
   return (
     <>
       <div className="main-wrapper">
@@ -13254,7 +13276,9 @@ const AddLisiting = () => {
 
                 {showPayment && (
                   <Elements stripe={stripePromise}>
-                    <PaymentForm />
+                    <PaymentForm 
+                    getpaymentSuccess={setPaymentSuccess}
+            />
                   </Elements>
                 )}
                 <div
@@ -13302,7 +13326,7 @@ const AddLisiting = () => {
                 </div>
                 <button
                   onClick={handleSubmit}
-                  disabled={uploading || !isChecked} // Disable if uploading or checkbox is unchecked
+                  disabled={uploading || !isChecked || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked
                   className="btn"
                   style={{ backgroundColor: "#2d4495", color: "white" }}
                   type="button"

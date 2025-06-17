@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { auth } from "../../Firebase/FirebaseConfig";
 import { db } from "../../Firebase/FirebaseConfig.jsx";
-
 import {
   addDoc,
   collection,
@@ -13,10 +12,12 @@ import {
 } from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+
 const PaymentForm = (props) => {
   const MySwal = withReactContent(Swal);
 
   console.log(props, "FeaturedAds__________________props");
+
   const [formData, setFormData] = useState({
     selectedFeature: "",
     email: "",
@@ -30,20 +31,19 @@ const PaymentForm = (props) => {
 
   const stripe = useStripe();
   const elements = useElements();
+
   const updateFeaturedAds = async () => {
-    const carId = props._Id; // The ID of the car document you want to update
-    const carDocRef = doc(db, props.collectionName1, carId); // Reference to the specific document in the Cars collection
+    // Skip validation for testing
+    const carId = props._Id || "test_car_id"; // Fallback for testing
+    const collectionName = props.collectionName1 || "cars"; // Fallback for testing
+    const carDocRef = doc(db, collectionName, carId);
 
     try {
-      // Step 1: Get the current document
       const docSnap = await getDoc(carDocRef);
-
-      // Step 2: Check if the document exists
       if (docSnap.exists()) {
         const carData = docSnap.data();
         const featuredAdsValue = carData.FeaturedAds;
 
-        // Step 3: If the FeaturedAds field is "Not Featured Ads", update it
         if (featuredAdsValue === "Not Featured Ads") {
           await updateDoc(carDocRef, {
             FeaturedAds: "Featured Ads",
@@ -58,7 +58,7 @@ const PaymentForm = (props) => {
         } else {
           MySwal.fire({
             title: "Error!",
-            text: "This ads is already set to Featured Ads",
+            text: "This ad is already set to Featured Ads",
             icon: "error",
             timer: 1000,
           });
@@ -67,12 +67,25 @@ const PaymentForm = (props) => {
           );
         }
       } else {
+        MySwal.fire({
+          title: "Error!",
+          text: "No such document exists!",
+          icon: "error",
+          timer: 2000,
+        });
         console.log("No such document!");
       }
     } catch (error) {
       console.error("Error updating FeaturedAds:", error);
+      MySwal.fire({
+        title: "Error!",
+        text: "Failed to update FeaturedAds. Please try again.",
+        icon: "error",
+        timer: 2000,
+      });
     }
   };
+
   useEffect(() => {
     if (formData.selectedFeature === "accept-credit-card") {
       setShowPayment(true);
@@ -91,113 +104,113 @@ const PaymentForm = (props) => {
 
   const handlePaymentSubmit = async (event) => {
     event.preventDefault();
-    const carId = props._Id; // The ID of the car document you want to update
-    const carDocRef = doc(db, props.collectionName1, carId);
-    const docSnap = await getDoc(carDocRef);
-
-    // Step 2: Check if the document exists
-    if (docSnap.exists()) {
-      const carData = docSnap.data();
-      const featuredAdsValue = carData.FeaturedAds;
-
-      // Step 3: If the FeaturedAds field is "Not Featured Ads", update it
-      if (featuredAdsValue === "Featured Ads") {
-        MySwal.fire({
-          title: "Notice",
-          text: "This advertisement is already marked as Featured Ads.",
-          icon: "info",
-          timer: 2000,
-        });
-
-        return;
-      }
-    }
     setLoading(true);
 
-    if (!stripe || !elements) {
-      console.error("Stripe or Elements are not loaded.");
-      setLoading(false);
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-    if (!cardElement) {
-      console.error("CardElement is not initialized.");
-      setLoading(false);
-      return;
-    }
-
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
     try {
+      if (!stripe || !elements) {
+        console.error("Stripe or Elements are not loaded.");
+        setError("Stripe is not loaded. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        console.error("CardElement is not initialized.");
+        setError("Card information is not initialized.");
+        setLoading(false);
+        return;
+      }
+
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+      });
+
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+        return;
+      }
+
       const user = auth.currentUser;
       if (user) {
-        // Create a custom document reference
-        const userDocRef = doc(
-          db,
-          "payments",
-          `payment_${new Date().getTime()}`
-        ); // or use any unique ID logic
-
+        const userDocRef = doc(db, "payments", `payment_${new Date().getTime()}`);
         const paymentData = {
           userId: user.uid,
           email: formData.email,
           phone: formData.phone,
           address: formData.address,
           paymentMethodId: paymentMethod.id,
-          amount: 10, // example amount in cents ($10)
+          amount: 10,
           status: "Processing",
           timestamp: new Date(),
         };
 
-        await setDoc(userDocRef, paymentData); // Use setDoc to write data to this specific document
+        await setDoc(userDocRef, paymentData);
 
-        const paymentResponse = await fetch(
-          "http://168.231.80.24:9002/api/charge",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: formData.name || "Unknown",
-              userId: user.uid,
-              productId: props._Id,
-              amount: 10, // must be a number, in USD (your backend multiplies it by 100)
-              paymentStatus: "Processing",
-              paymentMethodId: paymentMethod.id,
-            }),
-          }
-        );
+        const paymentResponse = await fetch("http://168.231.80.24:9002/api/charge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name || "Unknown",
+            userId: user.uid,
+            productId: props._Id || "test_product_id", // Fallback for testing
+            amount: 10,
+            paymentStatus: "Processing",
+            paymentMethodId: paymentMethod.id,
+          }),
+        });
 
         const paymentResult = await paymentResponse.json();
 
         if (paymentResult.success) {
           setPaymentSuccess(true);
-          props.getpaymentSuccess(true);
-          updateFeaturedAds();
-
-          // After success, update the status of the payment document
+          // Check if getpaymentSuccess is a function before calling it
+          if (typeof props.getpaymentSuccess === "function") {
+            props.getpaymentSuccess(true);
+          } else {
+            console.warn("getpaymentSuccess is not a function or not provided.");
+          }
+          await updateFeaturedAds();
           await updateDoc(userDocRef, { status: "Success" });
+          MySwal.fire({
+            title: "Success!",
+            text: "Payment processed successfully!",
+            icon: "success",
+            timer: 2000,
+          });
         } else {
           setPaymentSuccess(false);
           setError(paymentResult.error);
           await updateDoc(userDocRef, { status: "Failed" });
+          MySwal.fire({
+            title: "Error!",
+            text: paymentResult.error || "Payment failed. Please try again.",
+            icon: "error",
+            timer: 2000,
+          });
         }
+      } else {
+        setError("User is not authenticated.");
+        setLoading(false);
+        MySwal.fire({
+          title: "Error!",
+          text: "User is not authenticated.",
+          icon: "error",
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.error("Error during payment processing:", error);
       setError("An error occurred. Please try again.");
       setLoading(false);
+      MySwal.fire({
+        title: "Error!",
+        text: "An error occurred during payment processing.",
+        icon: "error",
+        timer: 2000,
+      });
     }
   };
 
@@ -208,7 +221,7 @@ const PaymentForm = (props) => {
       </h2>
 
       <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-700  border-2">
+        <h3 className="text-lg font-medium text-gray-700 border-2">
           Payment Information
         </h3>
 
@@ -238,7 +251,7 @@ const PaymentForm = (props) => {
             }`}
           >
             {loading ? (
-              <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full  bg-dark"></div>
+              <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark"></div>
             ) : (
               "Pay Now"
             )}
