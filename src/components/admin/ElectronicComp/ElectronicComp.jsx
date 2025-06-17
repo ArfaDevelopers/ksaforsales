@@ -2396,7 +2396,9 @@ const ElectronicComp = () => {
                                 zIndex: 2, // Ensure it's above the image
                               }}
                             >
-                              Featured
+                               {
+                              car.FeaturedAds?"Featured":''
+                            } 
                             </div>
 
                             {/* Heart Icon */}
