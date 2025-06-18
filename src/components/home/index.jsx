@@ -789,31 +789,6 @@ const Home = () => {
         {/* Category Section */}
         <section className="category-section">
           <div className="container">
-            <div className="allMedia_Icons d-none d-md-flex">
-              <div>
-                <img src={xIcon} alt="Xicon" style={{ cursor: "pointer" }} />
-              </div>
-              <div>
-                <img
-                  src={insta}
-                  alt="instagram"
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-              <div>
-                <img src={fb} alt="facebook" style={{ cursor: "pointer" }} />
-              </div>
-              <div>
-                <img src={tiktok} alt="tiktok" style={{ cursor: "pointer" }} />
-              </div>
-              <div>
-                <img
-                  src={whatapp}
-                  alt="whatsapp"
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-            </div>
             <div className="section-heading">
               <div className="row align-items-center">
                 <div

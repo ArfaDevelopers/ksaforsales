@@ -776,11 +776,13 @@ const Dynamic_Route = () => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
+              <Link to="/bookmarks">
               <span>
                 {/* <img src={left} alt="leftarrow" /> */}
                 <FaRegHeart />
               </span>{" "}
               Favourite
+              </Link>
             </button>
             <>
               {/* Button to open modal */}
@@ -831,7 +833,7 @@ const Dynamic_Route = () => {
                           ></button>
                         </div>
                         <div className="modal-body">
-                          <h6 style={{ wordBreak: "break-all" }}>{link}</h6>
+                          <div style={{ wordBreak: "break-all" }}>{link}</div>
                         </div>
                         <div className="modal-footer">
                           <button
