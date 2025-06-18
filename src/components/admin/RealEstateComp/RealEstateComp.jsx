@@ -2428,28 +2428,6 @@ const RealEstateComp = () => {
       <div className="main-wrapper">
         <Header />
 
-        <section className="category-section" style={{ padding: "0px" }}>
-          <div className="container">
-            <div className="allMedia_Icons d-none d-md-flex">
-              <div>
-                <img src={xIcon} alt="Xicon" />
-              </div>
-              <div>
-                <img src={insta} alt="instagram" />
-              </div>
-              <div>
-                <img src={fb} alt="facebook" />
-              </div>
-              <div>
-                <img src={tiktok} alt="tiktok" />
-              </div>
-              <div>
-                <img src={whatapp} alt="whatsapp" />
-              </div>
-            </div>
-          </div>
-        </section>
-
         <Container
           className="parent-main"
           style={{
