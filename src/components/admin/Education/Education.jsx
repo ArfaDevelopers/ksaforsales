@@ -1606,15 +1606,15 @@ const Education = () => {
     }
     if (SortBy === "Price: Low to High") {
       filtered.sort((a, b) => {
-        const priceA = parseFloat(a.price) || 0;
-        const priceB = parseFloat(b.price) || 0;
+        const priceA = parseFloat(a.Price) || 0;
+        const priceB = parseFloat(b.Price) || 0;
         return priceB - priceA; // Ascending order (low to high)
       });
     }
     if (SortBy === "Price: High to Low") {
       filtered.sort((a, b) => {
-        const priceA = parseFloat(a.price) || 0;
-        const priceB = parseFloat(b.price) || 0;
+        const priceA = parseFloat(a.Price) || 0;
+        const priceB = parseFloat(b.Price) || 0;
         return priceA - priceB; // Ascending order (low to high)
       });
     }
