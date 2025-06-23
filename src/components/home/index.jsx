@@ -661,6 +661,7 @@ const Home = () => {
           id="carouselExampleIndicators"
           className="carousel slide container"
           data-bs-ride="carousel"
+          style={{marginTop: window.innerWidth <= 576 ? "33px" : "-30px"}}
         >
           {/* Indicators */}
           <div className="carousel-indicators">
@@ -717,32 +718,74 @@ const Home = () => {
           </div>
 
           {/* Controls */}
-          <button
-            style={{ marginTop: "12rem" }}
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            style={{ marginTop: "12rem" }}
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="visually-hidden">Next</span>
-          </button>
+    {/* Prev Button */}
+<button
+  className="carousel-control-prev"
+  type="button"
+  data-bs-target="#carouselExampleIndicators"
+  data-bs-slide="prev"
+  style={{
+    top: "60%",
+    transform: "translateY(-50%)",
+    left: "10px",
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    border: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 2,
+  }}
+>
+  <span
+    className="carousel-control-prev-icon"
+    aria-hidden="true"
+    style={{
+      backgroundSize: "100% 100%",
+      width: "24px",
+      height: "24px",
+      filter: "invert(1)", // Makes it white
+    }}
+  ></span>
+  <span className="visually-hidden">Previous</span>
+</button>
+
+{/* Next Button */}
+<button
+  className="carousel-control-next"
+  type="button"
+  data-bs-target="#carouselExampleIndicators"
+  data-bs-slide="next"
+  style={{
+    top: "60%",
+    transform: "translateY(-50%)",
+    right: "10px",
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    border: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 2,
+  }}
+>
+  <span
+    className="carousel-control-next-icon"
+    aria-hidden="true"
+    style={{
+      backgroundSize: "100% 100%",
+      width: "24px",
+      height: "24px",
+      filter: "invert(1)", // Makes it white
+    }}
+  ></span>
+  <span className="visually-hidden">Next</span>
+</button>
+
         </div>
         {/* Trending Products */}
         <div

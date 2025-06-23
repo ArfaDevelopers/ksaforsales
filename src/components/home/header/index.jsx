@@ -2092,6 +2092,7 @@ const Header = ({ parms }) => {
                     margin: "0 20px",
                     position: "relative",
                     display: "flex",
+                    
                   }}
                 >
                   <input
@@ -2111,6 +2112,7 @@ const Header = ({ parms }) => {
                       borderRadius: "20px",
                       border: "1px solid #ccc",
                       width: "100%",
+                      backgroundColor:"#f1f1f1"
                     }}
                   />
 
@@ -2326,14 +2328,36 @@ const Header = ({ parms }) => {
                         )}
                       </div>
                     )}
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link header-login add-listing"
-                        to="/listing"
-                      >
-                        <i className="fa-solid fa-plus" /> Post Ad
-                      </Link>
-                    </li>
+                     {!isMobile && (
+   <li>
+  <Link
+    to="/listing"
+    style={{
+      backgroundColor: "#2d4495",
+      color: "#fff",
+      border: "none",
+      fontWeight: "bold",
+      borderRadius: 10,
+      transition: "none",
+      outline: "none",
+      boxShadow: "none",
+      cursor: "pointer",
+      padding: "12px 24px", // Increased padding for larger size
+      fontSize: "16px", // Increased font size
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+  >
+    <i className="fa-solid fa-plus" /> Post Ad
+  </Link>
+</li>
+                     )}
                     <li className="nav-item dropdown logged-item">
                     <Link
   to="#"
@@ -2494,14 +2518,36 @@ const Header = ({ parms }) => {
                         Sign In
                       </Link>
                     </li>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link header-login add-listing"
-                        to="/add-listing"
-                      >
-                        <i className="fa-solid fa-plus"></i> Post Ad
-                      </Link>
-                    </li>
+                    {!isMobile && (
+                    <li>
+  <Link
+    to="/listing"
+    style={{
+      backgroundColor: "#2d4495",
+      color: "#fff",
+      border: "none",
+      fontWeight: "bold",
+      borderRadius: 10,
+      transition: "none",
+      outline: "none",
+      boxShadow: "none",
+      cursor: "pointer",
+      padding: "12px 24px", // Increased padding for larger size
+      fontSize: "16px", // Increased font size
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+  >
+    <i className="fa-solid fa-plus" /> Post Ad
+  </Link>
+</li>
+                    )}
                   </>
                 )}
               </ul>
@@ -2509,6 +2555,15 @@ const Header = ({ parms }) => {
           </nav>
         </div>
       </div>
+      <hr
+  style={{
+    backgroundColor: "#000",
+    width: window.innerWidth <= 576 ? "100%" : "74%",
+    margin: "0 auto", // Centers the line horizontally
+    border: "none",
+    height: "2px",
+  }}
+/>
       {userId ? <HeaderLower /> : ""}
     </header>
   );
