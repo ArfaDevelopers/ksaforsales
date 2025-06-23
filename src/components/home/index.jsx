@@ -1193,10 +1193,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryAutomative}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryAutomative}
+                      alt="Automative"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1252,10 +1261,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={Electronics}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={Electronics}
+                      alt="Electronics"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1310,9 +1328,11 @@ const Home = () => {
                   >
                     <img
                       src={FashionStyle}
-                      alt="icon"
-                      className="h-10 w-10 object-contain"
-                      style={{ border: "none" }}
+                      alt="FashionStyle"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-8 w-10 object-contain border-none block"
                     />
                   </Link>
                 </div>
@@ -1364,10 +1384,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryHealthCare}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryHealthCare}
+                      alt="HealthCare"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1420,10 +1449,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryJobBoard}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryJobBoard}
+                      alt="JobBoard"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1478,8 +1516,11 @@ const Home = () => {
                   >
                     <img
                       src={OurCategoryRealEstate}
-                      alt="icon"
-                      className="h-10 w-10 object-contain"
+                      alt="RealEstate"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1532,10 +1573,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryTravel}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryTravel}
+                      alt="Travel"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1588,10 +1638,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategorySportGames}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                    /> */}
+                    <img
+                      src={OurCategorySportGames}
+                      alt="SportGames"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
+                      style={{ border: "none" }}
                     />
                   </Link>
                 </div>
@@ -1643,10 +1702,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryPetAnimals}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryPetAnimals}
+                      alt="PetAnimals"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
@@ -1699,10 +1767,19 @@ const Home = () => {
                     onMouseEnter={(e) => e.preventDefault()}
                     onMouseLeave={(e) => e.preventDefault()}
                   >
-                    <img
+                    {/* <img
                       src={OurCategoryEducation}
                       alt="icon"
                       className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
+                    <img
+                      src={OurCategoryEducation}
+                      alt="OurCategoryEducation"
+                      loading="lazy"
+                      decoding="async"
+                      fetchpriority="low"
+                      className="h-10 w-10 object-contain border-none"
                       style={{ border: "none" }}
                     />
                   </Link>
