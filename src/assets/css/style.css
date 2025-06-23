@@ -12435,7 +12435,8 @@ section.home-six-trending-search {
   align-items: center;
   flex-wrap: wrap;
   padding-top: 60px;
-  padding-bottom: 60px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #a0a0a0;
 }
 
 .footermidinfo-container {
@@ -16597,7 +16598,7 @@ section.advertisement {
   line-height: 27px;
 }
 .footer .footer-top {
-  padding: 50px 0 0;
+  padding: 40px 0 0;
 }
 .footer-logo {
   margin-bottom: 20px;
@@ -19936,7 +19937,7 @@ section.advertisement {
     padding: 30px 15px;
   }
   .footer .footer-top {
-    padding: 40px 0 0;
+    padding: 10px 0 0;
   }
   .footer-widget {
     margin-bottom: 20px;
@@ -22592,7 +22593,6 @@ section.advertisement {
 
 .footerEnd_container {
   gap: 1.7rem;
-  margin-top: -1rem;
 }
 
 .socialicons {

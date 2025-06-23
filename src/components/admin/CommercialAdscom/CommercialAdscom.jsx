@@ -446,7 +446,7 @@ const CommercialAdscom = () => {
   // State to manage hover styles for WhatsApp button
   const [whatsappButtonStyles, setWhatsappButtonStyles] = useState({
     backgroundColor: "#0c9e6f",
-    borderColor: "#0c9e6f",
+    borderColor: "#2d4495",
     color: "black",
   });
 
@@ -491,14 +491,14 @@ const CommercialAdscom = () => {
   };
   return (
     <>
-      <section className="commercial_card_section">
+      <section className="commercial_card_section" style={{marginBottom:"6rem"}}>
         <div className="container">
           <Header />
           <Container
             className="parent-main"
             style={{
               maxWidth: "1530px",
-              paddingTop: "230px",
+              paddingTop: "200px",
               marginTop: window.innerWidth <= 576 ? "-7rem" : "-4rem",
               marginLeft: -10,
             }}
@@ -575,7 +575,7 @@ const CommercialAdscom = () => {
             </div>
           </Container>
 
-          <hr />
+          {/* <hr /> */}
 
           <h1 className="m-lg-1">Commercial Ads</h1>
        
@@ -746,12 +746,10 @@ const CommercialAdscom = () => {
                         <div className="d-flex justify-content-center gap-3 mt-3">
                           <Button
                             variant="primary"
-                            className="d-flex align-items-center gap-1"
+                            className="d-flex align-items-center gap-1 bg-white"
                             style={{
-                              backgroundColor: "#2d4495",
-                              borderColor: "#2d4495",
-                              color: "white",
-                              // transition: "all 0.2s ease",
+                              ...whatsappButtonStyles,
+                              transition: "all 0.2s ease",
                               padding: "0.375rem 0.75rem",
                             }}
                             onClick={(e) => {
@@ -763,12 +761,11 @@ const CommercialAdscom = () => {
                             <FaPhoneAlt
                               style={{
                                 fontSize: "0.8rem",
-                                color: "white",
-                                fill: "white",
+                                color: "#2d4495",
                               }}
-                              className="fill-white text-white mt-1"
+                              // className="fill-white text-white mt-1"
                             />
-                            <span style={{ color: "white" }}>Call</span>
+                            <span style={{ color: whatsappButtonStyles.color }}>Call</span>
                           </Button>
 
                           <Button

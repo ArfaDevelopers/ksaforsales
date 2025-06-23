@@ -491,11 +491,11 @@ const Dashboard = () => {
                   <span>Messages</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/reviews">
                   <i className="fas fa-solid fa-star" /> <span>Reviews</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/login">
                   <i className="fas fa-light fa-circle-arrow-left" />{" "}
