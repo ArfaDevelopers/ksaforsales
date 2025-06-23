@@ -2412,7 +2412,7 @@ const SPORTSGAMESComp = () => {
                         <Row className="g-0">
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
-                            {car.FeaturedAds && (
+                            {car.FeaturedAds === "Featured Ads" && (
   <div
     style={{
       position: "absolute",
@@ -2429,10 +2429,10 @@ const SPORTSGAMESComp = () => {
       zIndex: 2,
     }}
   >
-    {/* 🌟 */}
-     Featured
+    Featured
   </div>
 )}
+
 
                             {/* Heart Icon */}
                             <div

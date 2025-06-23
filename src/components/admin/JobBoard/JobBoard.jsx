@@ -2608,7 +2608,7 @@ const JobBoard = () => {
                         <Row className="g-0">
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
-                            {car.FeaturedAds && (
+                            {car.FeaturedAds === "Featured Ads" && (
   <div
     style={{
       position: "absolute",
@@ -2625,10 +2625,10 @@ const JobBoard = () => {
       zIndex: 2,
     }}
   >
-    {/* 🌟 */}
-     Featured
+    Featured
   </div>
 )}
+
 
                             {/* Heart Icon */}
                             <div

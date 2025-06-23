@@ -2500,24 +2500,62 @@ const Header = ({ parms }) => {
                         </ul>
                       )}
                     </div>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link header-reg"
-                        to="/signup"
-                        style={{ marginLeft: "-1rem" }}
-                      >
-                        Sign Up
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link header-login"
-                        to="/login"
-                        style={{ marginLeft: "-2.5rem" }}
-                      >
-                        Sign In
-                      </Link>
-                    </li>
+                    <li>
+  <Link
+    to="/signup"
+    style={{
+      backgroundColor: "#2d4495",
+      color: "#fff",
+      border: "none",
+      fontWeight: "bold",
+      borderRadius: 10,
+      transition: "none",
+      outline: "none",
+      boxShadow: "none",
+      cursor: "pointer",
+      padding: "12px 24px", // Increased padding for larger size
+      fontSize: "16px", // Increased font size
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+  >
+    <i className="fa-solid fa-plus" /> Sign Up
+  </Link>
+</li>
+                    <li>
+  <Link
+    to="/login"
+    style={{
+      backgroundColor: "#2d4495",
+      color: "#fff",
+      border: "none",
+      fontWeight: "bold",
+      borderRadius: 10,
+      transition: "none",
+      outline: "none",
+      boxShadow: "none",
+      cursor: "pointer",
+      padding: "12px 24px", // Increased padding for larger size
+      fontSize: "16px", // Increased font size
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "#2d4495";
+      e.currentTarget.style.color = "#fff";
+    }}
+  >
+    <i className="fa-solid fa-plus" /> Sign In
+  </Link>
+</li>
                     {!isMobile && (
                     <li>
   <Link

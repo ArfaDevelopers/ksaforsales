@@ -145,7 +145,7 @@ export default function AutomativeCarousel() {
                         ) : (
                           ""
                         )}
-                        <div className="bloglist-content">
+                        {/* <div className="bloglist-content">
                           <div className="card-body">
                             <h6>
                               <Link to={`/car-details/${ad.id}`}>
@@ -153,32 +153,8 @@ export default function AutomativeCarousel() {
                               </Link>
                             </h6>
 
-                            {/* <div className="blog-location-details">
-                              <div
-                                className="location-info"
-                                style={{ marginTop: "1rem" }}
-                              >
-                                {ad.location}
-                              </div>
-                            </div>
-                            <div className="amount-details">
-                              <div className="amount">
-                                <span
-                                  className="validrate"
-                                  style={{ fontFamily: "Inter" }}
-                                >
-                                  ${ad.Price}
-                                </span>
-                              </div>
-                              <div
-                                className="ratings"
-                                style={{ fontFamily: "Inter" }}
-                              >
-                             
-                              </div>
-                            </div> */}
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </Link>

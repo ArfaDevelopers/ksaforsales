@@ -284,9 +284,7 @@ const Footer = () => {
                     <li>
                       <Link to="/PrivacyPolicy">Privacy & Policy</Link>
                     </li>
-                    <li>
-                      <Link to="#">Blog</Link>
-                    </li>
+                   
                     <li>
                       <Link to="/Copyrights">CopyRights</Link>
                     </li>
@@ -299,6 +297,9 @@ const Footer = () => {
                   <ul>
                     <li>
                       <Link to="https://ksa4sale.net/directory/">Directory</Link>
+                    </li>
+                    <li>
+                      <Link to="#">Blog</Link>
                     </li>
                   </ul>
                 </div>
