@@ -2466,30 +2466,26 @@ const ElectronicComp = () => {
                                 </Link>
                               </Card.Title>
                               <Card.Text style={{ color: "black" }}>
-                                <small className="text-muted">
-                                  <i
-                                    className="fas fa-map-marker-alt"
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  ></i>
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
+  <small className="text-muted">
+    <i
+      className="fas fa-map-marker-alt"
+      style={{
+        marginRight: "5px",
+        color: "#6c757d",
+      }}
+    ></i>
+    <span style={{ color: "black" }}>
+      {car.City || "Location"}
+    </span>
+  </small>
 
-                                {/* <br /> */}
-                                {/* <small style={{ color: "black" }}>
-                                {car.ManufactureYear || "Year"} |{" "}
-                                {car.RAM || "0"} |{" "}
-                                {car.OperatingSystem || "OperatingSystem"}{" "}
-                              </small> */}
+  <br />
 
-                                <br />
-                                {car.description ||
-                                  "Description not available."}
-                              </Card.Text>
+  <div style={{ width: "70%" }}>
+    {car.description || "Description not available."}
+  </div>
+</Card.Text>
+
 
                               <Col
                                 className="align-items-center"

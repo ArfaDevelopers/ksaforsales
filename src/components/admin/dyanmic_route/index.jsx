@@ -6594,7 +6594,7 @@ const Dynamic_Route = () => {
             </Col>
           </Row>
 
-          <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
+          {/* <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} /> */}
         </Container>
 
         {/* Footer */}
