@@ -1185,7 +1185,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1244,7 +1244,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1300,7 +1300,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1356,7 +1356,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1412,7 +1412,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1468,7 +1468,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1524,7 +1524,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1579,7 +1579,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1635,7 +1635,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
@@ -1691,7 +1691,7 @@ const Home = () => {
                 <h5
                   className="font-semibold text-black text-center"
                   style={{
-                    fontSize: "12px",
+                    fontSize: "18px",
                     lineHeight: "1.2",
                     marginTop: "6px",
                     wordBreak: "break-word",
