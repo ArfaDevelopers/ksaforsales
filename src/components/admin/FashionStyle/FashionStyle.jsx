@@ -2707,23 +2707,27 @@ const FashionStyle = () => {
                         <Row className="g-0">
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "10px",
-                                left: "10px",
-                                backgroundColor: "#36A680",
-                                color: "white",
-                                // padding: "5px 10px",
-                                fontWeight: "bold",
-                                borderRadius: "5px",
-                                zIndex: 2, // Ensure it's above the image
-                              }}
-                            >
-                               {
-                              car.FeaturedAds?"Featured":''
-                            } 
-                            </div>
+                            {car.FeaturedAds && (
+  <div
+    style={{
+      position: "absolute",
+      top: "10px",
+      left: "10px",
+      backgroundColor: "#36A680",
+      color: "white",
+      padding: "6px 12px",
+      fontWeight: "bold",
+      borderRadius: "8px",
+      border: "2px solid #2c8e6f",
+      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+      fontSize: "14px",
+      zIndex: 2,
+    }}
+  >
+    {/* 🌟 */}
+     Featured
+  </div>
+)}
                             {/* Heart Icon */}
                             <div
                               style={{
