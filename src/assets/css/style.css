@@ -22818,6 +22818,34 @@ section.advertisement {
   }
 }
 
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent dark background */
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-prev {
+  left: 10px;
+}
+
+.custom-next {
+  right: 10px;
+}
+
+.custom-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker on hover */
+}
 
 
 
