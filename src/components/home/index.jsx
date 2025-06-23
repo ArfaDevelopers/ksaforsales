@@ -661,7 +661,7 @@ const Home = () => {
           id="carouselExampleIndicators"
           className="carousel slide container"
           data-bs-ride="carousel"
-          style={{marginTop: window.innerWidth <= 576 ? "-40px" : "-30px"}}
+          style={{marginTop: window.innerWidth <= 576 ? "-20px" : "-30px"}}
         >
           {/* Indicators */}
           <div className="carousel-indicators">
@@ -699,7 +699,7 @@ const Home = () => {
                       style={{
                         width: "100%",
                         height: isMobile
-                          ? "180px"
+                          ? "auto"
                           : isTablet
                           ? "300px"
                           : "auto",
@@ -761,7 +761,7 @@ const Home = () => {
     height="20"
     fill="white"
     viewBox="0 0 16 16"
-    style={{ padding: "2px" }}
+    style={{ marginRight: "3px" }}
   >
     <path
       fillRule="evenodd"
@@ -814,7 +814,7 @@ const Home = () => {
     height="20"
     fill="white"
     viewBox="0 0 16 16"
-    style={{ padding: "2px" }}
+    style={{ marginLeft: "3px" }}
   >
     <path
       fillRule="evenodd"
@@ -837,7 +837,7 @@ const Home = () => {
               imageUrls.length === 0
                 ? window.innerWidth <= 576
                   ? "9rem"
-                  : "13rem"
+                  : "10rem"
                 : "1rem",
           }}
         >
@@ -880,7 +880,7 @@ const Home = () => {
                 >
                   <h2
                     className="our_categoryPara"
-                    style={{ marginTop: "-2rem" }}
+                    style={{ marginTop: "-2.5rem" }}
                   >
                     Our Category
                   </h2>
