@@ -661,7 +661,7 @@ const Home = () => {
           id="carouselExampleIndicators"
           className="carousel slide container"
           data-bs-ride="carousel"
-          style={{marginTop: window.innerWidth <= 576 ? "33px" : "-30px"}}
+          style={{marginTop: window.innerWidth <= 576 ? "-40px" : "-30px"}}
         >
           {/* Indicators */}
           <div className="carousel-indicators">
@@ -718,37 +718,56 @@ const Home = () => {
           </div>
 
           {/* Controls */}
-    {/* Prev Button */}
+{/* Prev Button */}
 <button
   className="carousel-control-prev"
   type="button"
   data-bs-target="#carouselExampleIndicators"
   data-bs-slide="prev"
   style={{
+    position: "absolute",
     top: "60%",
+    marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+    left: "20px",
     transform: "translateY(-50%)",
-    left: "10px",
-    width: "45px",
-    height: "45px",
+    width: "48px",
+    height: "48px",
     borderRadius: "50%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    border: "none",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    backdropFilter: "blur(5px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 2,
+    opacity: 1,
+    cursor: "pointer",
+    transition: "all 0.3s ease-in-out",
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+    e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+    e.currentTarget.style.transform = "translateY(-50%) scale(1)";
   }}
 >
-  <span
-    className="carousel-control-prev-icon"
-    aria-hidden="true"
-    style={{
-      backgroundSize: "100% 100%",
-      width: "24px",
-      height: "24px",
-      filter: "invert(1)", // Makes it white
-    }}
-  ></span>
+  {/* Custom white arrow icon using inline SVG */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="white"
+    viewBox="0 0 16 16"
+    style={{ padding: "2px" }}
+  >
+    <path
+      fillRule="evenodd"
+      d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"
+    />
+  </svg>
   <span className="visually-hidden">Previous</span>
 </button>
 
@@ -759,32 +778,53 @@ const Home = () => {
   data-bs-target="#carouselExampleIndicators"
   data-bs-slide="next"
   style={{
+    position: "absolute",
     top: "60%",
+    marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+    right: "20px",
     transform: "translateY(-50%)",
-    right: "10px",
-    width: "45px",
-    height: "45px",
+    width: "48px",
+    height: "48px",
     borderRadius: "50%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    border: "none",
+    backgroundColor: "rgba(0, 0, 0, 1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    backdropFilter: "blur(5px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 2,
+    opacity: 1,
+    cursor: "pointer",
+    transition: "all 0.3s ease-in-out",
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+    e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+    e.currentTarget.style.transform = "translateY(-50%) scale(1)";
   }}
 >
-  <span
-    className="carousel-control-next-icon"
-    aria-hidden="true"
-    style={{
-      backgroundSize: "100% 100%",
-      width: "24px",
-      height: "24px",
-      filter: "invert(1)", // Makes it white
-    }}
-  ></span>
+  {/* Custom white arrow icon using inline SVG */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="white"
+    viewBox="0 0 16 16"
+    style={{ padding: "2px" }}
+  >
+    <path
+      fillRule="evenodd"
+      d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"
+    />
+  </svg>
   <span className="visually-hidden">Next</span>
 </button>
+
+
 
         </div>
         {/* Trending Products */}
