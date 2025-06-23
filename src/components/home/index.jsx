@@ -813,21 +813,42 @@ const Home = () => {
     };
     fetchExistingImage();
   }, []);
+  // useEffect(() => {
+  //   const fetchSliderImages = async () => {
+  //     const querySnapshot = await getDocs(collection(db, "SliderImage"));
+  //     if (!querySnapshot.empty) {
+  //       querySnapshot.forEach((doc) => {
+  //         const data = doc.data();
+  //         if (data.imageUrls && Array.isArray(data.imageUrls)) {
+  //           setImageUrls(data.imageUrls);
+  //           console.log("Fetched image URLs:", data.imageUrls);
+  //         }
+  //       });
+  //     } else {
+  //       console.log("No documents found in SliderImage table");
+  //     }
+  //   };
+  //   fetchSliderImages();
+  // }, []);
   useEffect(() => {
     const fetchSliderImages = async () => {
-      const querySnapshot = await getDocs(collection(db, "SliderImage"));
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.imageUrls && Array.isArray(data.imageUrls)) {
-            setImageUrls(data.imageUrls);
-            console.log("Fetched image URLs:", data.imageUrls);
-          }
-        });
-      } else {
-        console.log("No documents found in SliderImage table");
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/slider-images"
+        );
+        const data = await response.json();
+
+        if (data.images && Array.isArray(data.images)) {
+          setImageUrls(data.images);
+          console.log("Fetched image URLs:", data.images);
+        } else {
+          console.log("No images found in API response");
+        }
+      } catch (error) {
+        console.error("Error fetching slider images:", error);
       }
     };
+
     fetchSliderImages();
   }, []);
   useEffect(() => {
