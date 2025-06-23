@@ -18,8 +18,11 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 const Login = () => {
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
 
   // State for email & password
   const [email, setEmail] = useState("");
@@ -27,17 +30,17 @@ const Login = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // const [phoneNumber, setPhoneNumber] = useState("");
-  
+
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error1, setError1] = useState("");
-  
+
   const handlePhoneNumberChange1 = (e) => {
     const value = e.target.value;
     setPhoneNumber(value);
-  
+
     // This regex only allows valid sequences starting with +9665 followed by up to 8 digits
     const liveKsaPhoneRegex = /^\+9665\d{0,8}$/;
-  
+
     // Show error if input is not empty and doesn't match the required live pattern
     if (value === "") {
       setError1("");
@@ -47,8 +50,7 @@ const Login = () => {
       setError1("");
     }
   };
-  
-  
+
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,7 +80,6 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Query Firestore for user with matching phone number
       const usersRef = collection(db, "users");
       const q = query(usersRef, where("phoneNumber", "==", phoneNumber));
       const querySnapshot = await getDocs(q);
@@ -87,7 +88,6 @@ const Login = () => {
         throw new Error("No user found with this phone number.");
       }
 
-      // Assuming one user per phone number
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
       const email = userData.email;
@@ -96,24 +96,33 @@ const Login = () => {
         throw new Error("User email not found in database.");
       }
 
-      // Sign in with email and password
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = userCredential.user;
-      localStorage.setItem(user,'user.uid1');
-      // Successfully logged in
-      console.log("User logged in:", user);
-      navigate("/");
 
-      // alert("Login successful!");
-      // Redirect or handle post-login logic here
-      // window.location.href = '/dashboard';
+      localStorage.setItem("user", user.uid); // fixed this line
+
+      console.log("User logged in:", user);
+      await MySwal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: `Welcome back!`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      navigate("/");
     } catch (err) {
       console.error("Login error:", err.message);
       setError(err.message);
+
+      await MySwal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err.message || "An error occurred during login.",
+      });
     } finally {
       setLoading(false);
     }
@@ -179,7 +188,7 @@ const Login = () => {
                   </p>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
-     {/* <span
+                {/* <span
       style={{
         display: "flex",
         alignItems: "center",
@@ -205,7 +214,7 @@ const Login = () => {
         +966
       </span>
     </span> */}
-                      {/* <input
+                {/* <input
       type="number"
       placeholder="xxxxxxxxx"
       value={phoneNumber}
@@ -234,44 +243,44 @@ const Login = () => {
                       width: "100%",
                     }}
                   >
-            <div
-  style={{
-    position: "relative",
-    marginBottom: "15px",
-    width: "100%",
-  }}
->
-
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      border: "1px solid #e0e0e0",
-      borderRadius: "10px",
-      backgroundColor: "#f0f4ff",
-      padding: "5px 10px",
-      boxSizing: "border-box",
-      width: "100%", // Ensure the container takes full width
-    }}
-  >
-    <input
-      type="tel"
-      id="phoneNumber"
-      value={phoneNumber}
-      onChange={handlePhoneNumberChange1}
-      placeholder="+9665xxxxxxxx"
-      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-      required
-      style={{
-        flex: 1, // Allow the input to grow and fill the space
-        border: "none", // Remove border to match the container
-        outline: "none", // Remove outline
-        backgroundColor: "transparent", // Match background with container
-      }}
-    />
-  </div>
-  {error1 && <p className="text-red-500 text-sm mt-1">{error1}</p>}
- 
+                    <div
+                      style={{
+                        position: "relative",
+                        marginBottom: "15px",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          border: "1px solid #e0e0e0",
+                          borderRadius: "10px",
+                          backgroundColor: "#f0f4ff",
+                          padding: "5px 10px",
+                          boxSizing: "border-box",
+                          width: "100%", // Ensure the container takes full width
+                        }}
+                      >
+                        <input
+                          type="tel"
+                          id="phoneNumber"
+                          value={phoneNumber}
+                          onChange={handlePhoneNumberChange1}
+                          placeholder="+9665xxxxxxxx"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          required
+                          style={{
+                            flex: 1, // Allow the input to grow and fill the space
+                            border: "none", // Remove border to match the container
+                            outline: "none", // Remove outline
+                            backgroundColor: "transparent", // Match background with container
+                          }}
+                        />
+                      </div>
+                      {error1 && (
+                        <p className="text-red-500 text-sm mt-1">{error1}</p>
+                      )}
 
                       {/* <input
                         type="tel"
