@@ -26,8 +26,11 @@ import appstore from "../../components/home/footer/Appstore.png";
 import arrowimage from "../../components/home/footer/arrow.png";
 import scanner from "../../components/home/footer/scanner.png";
 import KSA from "../../components/home/footer/Logo ksa.svg";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const SignUp = () => {
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
 
   const [passwordType, setPasswordType] = useState("password");
   const [fullName, setFullName] = useState("");
@@ -117,7 +120,11 @@ const SignUp = () => {
 
   const sendOtp = async () => {
     if (!phoneNumber) {
-      alert("Please enter your mobile number");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Missing Number",
+        text: "Please enter your mobile number.",
+      });
       return;
     }
 
@@ -134,20 +141,40 @@ const SignUp = () => {
       const data = await response.json();
       if (data.success) {
         setOtpSent(true);
-        alert("OTP sent successfully!");
+        await MySwal.fire({
+          icon: "success",
+          title: "OTP Sent",
+          text: "OTP sent successfully!",
+          timer: 2000,
+          showConfirmButton: false,
+        });
       } else {
-        alert("Error sending OTP");
+        await MySwal.fire({
+          icon: "error",
+          title: "Sending Failed",
+          text: "Error sending OTP.",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to send OTP");
+      await MySwal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "Failed to send OTP. Please try again.",
+      });
     }
   };
 
+  // ✅ Updated verifyOtp
   const verifyOtp = async (event) => {
     event.preventDefault();
+
     if (!otp) {
-      alert("Please enter OTP");
+      await MySwal.fire({
+        icon: "warning",
+        title: "Missing OTP",
+        text: "Please enter the OTP.",
+      });
       return;
     }
 
@@ -163,18 +190,33 @@ const SignUp = () => {
 
       const data = await response.json();
       if (data.success) {
+        await MySwal.fire({
+          icon: "success",
+          title: "OTP Verified",
+          text: "Your OTP has been verified.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
         handleSignup(event);
       } else {
-        alert("Invalid OTP");
+        await MySwal.fire({
+          icon: "error",
+          title: "Invalid OTP",
+          text: "The OTP you entered is incorrect.",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to verify OTP");
+      await MySwal.fire({
+        icon: "error",
+        title: "Verification Failed",
+        text: "Failed to verify OTP. Please try again.",
+      });
     }
   };
-
   const handleSignup = async (e) => {
     e.preventDefault();
+
     try {
       const q = query(
         collection(db, "users"),
@@ -183,7 +225,11 @@ const SignUp = () => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        alert("This mobile number is already associated with an account.");
+        await MySwal.fire({
+          icon: "warning",
+          title: "Phone Number Exists",
+          text: "This mobile number is already associated with an account.",
+        });
         return;
       }
 
@@ -197,7 +243,6 @@ const SignUp = () => {
       await updateProfile(user, {
         displayName: fullName,
         photoURL: imgUrl,
-        phoneNumber: fullPhoneNumber,
       });
 
       await addDoc(collection(db, "users"), {
@@ -205,16 +250,27 @@ const SignUp = () => {
         fullName: fullName,
         email,
         phoneNumber: fullPhoneNumber,
-        password: password, // Added password to payload
+        password: password,
         photoURL: imgUrl || null,
         createdAt: new Date(),
       });
 
-      alert("Account created successfully!");
+      await MySwal.fire({
+        icon: "success",
+        title: "Account Created",
+        text: "Your account has been created successfully!",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate("/login");
     } catch (error) {
       console.error("Error signing up:", error.message);
-      alert(error.message);
+      await MySwal.fire({
+        icon: "error",
+        title: "Signup Failed",
+        text: error.message || "An unexpected error occurred.",
+      });
     }
   };
 
@@ -347,23 +403,6 @@ const SignUp = () => {
                     </div>
                   </div>
 
-                  <div className="form-group group-img">
-                    <div className="group-img">
-                      <i
-                        className="feather-mail"
-                        style={{ color: "#2d4495" }}
-                      />
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Email Address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
                   <div className="form-group">
                     <div className="pass-group group-img">
                       <i
@@ -423,7 +462,8 @@ const SignUp = () => {
 
                       <button
                         type="submit"
-                        className="btn btn-secondary w-100"
+                        // className="btn btn-secondary w-100"
+                        className="w-full bg-gray-600 text-black py-2 px-4 rounded-md border-none hover:bg-gray-600 focus:outline-none focus:ring-0 focus:border-none active:bg-gray-600 transition-none"
                         onClick={verifyOtp}
                       >
                         Verify OTP and Create Account
