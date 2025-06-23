@@ -162,7 +162,7 @@ export default function Carousel() {
                         className="card aos"
                         data-aos="fade-up"
                         style={{
-                          height: "330px", // Adjusted to remove bottom gap
+                          height: "310px", // Adjusted to remove bottom gap
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",

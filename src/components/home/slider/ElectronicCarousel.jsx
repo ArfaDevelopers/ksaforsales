@@ -106,7 +106,7 @@ export default function AutomativeCarousel() {
   return (
     <section
       className="featured-section-color electronic_card_section"
-      style={{ marginTop: "-2rem" }}
+      style={{ marginTop: "-1.5rem" }}
     >
       <div className="container">
         <div className="row align-items-center">
@@ -152,11 +152,13 @@ export default function AutomativeCarousel() {
                         className="card aos"
                         data-aos="fade-up"
                         style={{
-                          height: "330px", // Adjusted to remove bottom gap
+                          height: "310px", // Adjusted to remove bottom gap
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
                           overflow: "hidden",
+                          backgroundColor:"#f0f0f0"
+
                         }}
                       >
                         <div className="blog-widget">
