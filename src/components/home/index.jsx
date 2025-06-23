@@ -1698,7 +1698,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryPetAnimalsTitle}
+                  {OurCategoryEducationTitle}
                 </h5>
               </div>
             </div>
