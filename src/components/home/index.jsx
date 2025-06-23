@@ -156,56 +156,509 @@ const Home = () => {
     return "170px";
   };
   console.log(OurCategoryHouseHold, "adsList___________OurCategoryAutomative1");
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryMAGAZINES(imageOnly[0].image);
-        setOurCategoryMAGAZINESTitle(imageOnly[0].Title);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryMAGAZINES(imageOnly[0].image);
+  //       setOurCategoryMAGAZINESTitle(imageOnly[0].Title);
 
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchAds();
-  }, []);
+  //   fetchAds();
+  // }, []);
   console.log(OurCategoryHouseHold, "adsList___________OurCategoryAutomative1");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryEducation(imageOnly[0].image);
+  //       setOurCategoryEducationTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "OurCategoryEducation"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryEducation(imageOnly[0].image);
-        setOurCategoryEducationTitle(imageOnly[0].Title);
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryEducation"
+        );
+        const data = await response.json();
 
-        setLoading(false); // Stop loading when data is fetched
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryEducation(firstItem.image);
+          setOurCategoryEducationTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryHouseHoldAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       console.log(imageOnly, "adsList___________OurCategoryAutomative2");
+
+  //       setOurCategoryHouseHold(imageOnly[0].image);
+  //       setOurCategoryHouseHoldTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryHouseHoldAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryHouseHold(firstItem.image);
+          setOurCategoryHouseHoldTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategorySportGamesAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategorySportGames(imageOnly[0].image);
+  //       setOurCategorySportGamesTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategorySportGamesAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategorySportGames(firstItem.image);
+          setOurCategorySportGamesTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryPetAnimalsAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryPetAnimals(imageOnly[0].image);
+  //       setOurCategoryPetAnimalsTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryPetAnimalsAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryPetAnimals(firstItem.image);
+          setOurCategoryPetAnimalsTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryTravelAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryTravel(imageOnly[0].image);
+  //       setOurCategoryTravelTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryTravelAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryTravel(firstItem.image);
+          setOurCategoryTravelTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryRealEstateAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryRealEstate(imageOnly[0].image);
+  //       setOurCategoryRealEstateTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryRealEstateAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryRealEstate(firstItem.image);
+          setOurCategoryRealEstateTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryJobBoardAutomative"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryJobBoard(imageOnly[0].image);
+  //       setOurCategoryJobBoardTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryJobBoardAutomative"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryJobBoard(firstItem.image);
+          setOurCategoryJobBoardTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryHealthCare"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setOurCategoryHealthCare(imageOnly[0].image);
+  //       setOurCategoryHealthCareTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryHealthCare"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryHealthCare(firstItem.image);
+          setOurCategoryHealthCareTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAds();
+  }, []);
+  // useEffect(() => {
+  //   const fetchAds = async () => {
+  //     try {
+  //       const adsCollection = collection(db, "OurCategoryFashionStyle"); // Get reference to the 'ads' collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch the data
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(), // Spread the document data
+  //       }));
+  //       console.log(adsList, "adsList___________OurCategoryAutomative");
+  //       const imageOnly = adsList.map((item) => ({
+  //         image: item.image,
+  //         Title: item.Title,
+  //       }));
+  //       setFashionStyle(imageOnly[0].image);
+  //       setFashionStyleTitle(imageOnly[0].Title);
+
+  //       setLoading(false); // Stop loading when data is fetched
+  //     } catch (error) {
+  //       console.error("Error fetching ads:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchAds();
+  // }, []);
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryFashionStyle"
+        );
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setFashionStyle(firstItem.image);
+          setFashionStyleTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching OurCategoryAutomative:", error);
         setLoading(false);
       }
     };
@@ -215,25 +668,24 @@ const Home = () => {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "OurCategoryHouseHoldAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        console.log(imageOnly, "adsList___________OurCategoryAutomative2");
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-OurCategoryElectronics"
+        );
+        const data = await response.json();
 
-        setOurCategoryHouseHold(imageOnly[0].image);
-        setOurCategoryHouseHoldTitle(imageOnly[0].Title);
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setElectronics(firstItem.image);
+          setElectronicsTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
 
-        setLoading(false); // Stop loading when data is fetched
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching OurCategoryAutomative:", error);
         setLoading(false);
       }
     };
@@ -243,234 +695,24 @@ const Home = () => {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "OurCategorySportGamesAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategorySportGames(imageOnly[0].image);
-        setOurCategorySportGamesTitle(imageOnly[0].Title);
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/our-category-automative1"
+        );
+        const data = await response.json();
 
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
+        if (data.items && data.items.length > 0) {
+          const firstItem = data.items[0];
+          setOurCategoryAutomative(firstItem.image);
+          setOurCategoryAutomativeTitle(firstItem.title);
+          console.log("Image:", firstItem.image);
+          console.log("Title:", firstItem.title);
+        } else {
+          console.warn("No data returned in items array.");
+        }
+
         setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryPetAnimalsAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryPetAnimals(imageOnly[0].image);
-        setOurCategoryPetAnimalsTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryTravelAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryTravel(imageOnly[0].image);
-        setOurCategoryTravelTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryRealEstateAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryRealEstate(imageOnly[0].image);
-        setOurCategoryRealEstateTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryJobBoardAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryJobBoard(imageOnly[0].image);
-        setOurCategoryJobBoardTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryHealthCare"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setOurCategoryHealthCare(imageOnly[0].image);
-        setOurCategoryHealthCareTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryFashionStyle"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setFashionStyle(imageOnly[0].image);
-        setFashionStyleTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryElectronics"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-        setElectronics(imageOnly[0].image);
-        setElectronicsTitle(imageOnly[0].Title);
-
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const adsCollection = collection(db, "OurCategoryAutomative"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
-        const imageOnly = adsList.map((item) => ({
-          image: item.image,
-          Title: item.Title,
-        }));
-
-        setOurCategoryAutomative(imageOnly[0].image);
-        setOurCategoryAutomativeTitle(imageOnly[0].Title);
-
-        console.log(imageOnly, "imageOnly________________");
-        setLoading(false); // Stop loading when data is fetched
-      } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching OurCategoryAutomative:", error);
         setLoading(false);
       }
     };
@@ -661,7 +903,7 @@ const Home = () => {
           id="carouselExampleIndicators"
           className="carousel slide container"
           data-bs-ride="carousel"
-          style={{marginTop: window.innerWidth <= 576 ? "-20px" : "-30px"}}
+          style={{ marginTop: window.innerWidth <= 576 ? "-20px" : "-30px" }}
         >
           {/* Indicators */}
           <div className="carousel-indicators">
@@ -698,11 +940,7 @@ const Home = () => {
                       alt={`Slide ${index + 1}`}
                       style={{
                         width: "100%",
-                        height: isMobile
-                          ? "auto"
-                          : isTablet
-                          ? "300px"
-                          : "auto",
+                        height: isMobile ? "auto" : isTablet ? "300px" : "auto",
                         objectFit: "contain",
                         borderRadius: "8px",
                         marginTop: isMobile ? "120px" : "200px",
@@ -718,114 +956,111 @@ const Home = () => {
           </div>
 
           {/* Controls */}
-{/* Prev Button */}
-<button
-  className="carousel-control-prev"
-  type="button"
-  data-bs-target="#carouselExampleIndicators"
-  data-bs-slide="prev"
-  style={{
-    position: "absolute",
-    top: "60%",
-    marginTop: window.innerWidth <= 576 ? "30px" : "0px",
-    left: "20px",
-    transform: "translateY(-50%)",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    border: "1px solid rgba(255,255,255,0.2)",
-    backdropFilter: "blur(5px)",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 2,
-    opacity: 1,
-    cursor: "pointer",
-    transition: "all 0.3s ease-in-out",
-  }}
-  onMouseOver={(e) => {
-    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-    e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-  }}
-  onMouseOut={(e) => {
-    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
-    e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-  }}
->
-  {/* Custom white arrow icon using inline SVG */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    fill="white"
-    viewBox="0 0 16 16"
-    style={{ marginRight: "3px" }}
-  >
-    <path
-      fillRule="evenodd"
-      d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"
-    />
-  </svg>
-  <span className="visually-hidden">Previous</span>
-</button>
+          {/* Prev Button */}
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+            style={{
+              position: "absolute",
+              top: "60%",
+              marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+              left: "20px",
+              transform: "translateY(-50%)",
+              width: "48px",
+              height: "48px",
+              borderRadius: "50%",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              backdropFilter: "blur(5px)",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 2,
+              opacity: 1,
+              cursor: "pointer",
+              transition: "all 0.3s ease-in-out",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+              e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+              e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+            }}
+          >
+            {/* Custom white arrow icon using inline SVG */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="white"
+              viewBox="0 0 16 16"
+              style={{ marginRight: "3px" }}
+            >
+              <path
+                fillRule="evenodd"
+                d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"
+              />
+            </svg>
+            <span className="visually-hidden">Previous</span>
+          </button>
 
-{/* Next Button */}
-<button
-  className="carousel-control-next"
-  type="button"
-  data-bs-target="#carouselExampleIndicators"
-  data-bs-slide="next"
-  style={{
-    position: "absolute",
-    top: "60%",
-    marginTop: window.innerWidth <= 576 ? "30px" : "0px",
-    right: "20px",
-    transform: "translateY(-50%)",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    border: "1px solid rgba(255,255,255,0.2)",
-    backdropFilter: "blur(5px)",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 2,
-    opacity: 1,
-    cursor: "pointer",
-    transition: "all 0.3s ease-in-out",
-  }}
-  onMouseOver={(e) => {
-    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-    e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-  }}
-  onMouseOut={(e) => {
-    e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
-    e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-  }}
->
-  {/* Custom white arrow icon using inline SVG */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    fill="white"
-    viewBox="0 0 16 16"
-    style={{ marginLeft: "3px" }}
-  >
-    <path
-      fillRule="evenodd"
-      d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"
-    />
-  </svg>
-  <span className="visually-hidden">Next</span>
-</button>
-
-
-
+          {/* Next Button */}
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+            style={{
+              position: "absolute",
+              top: "60%",
+              marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+              right: "20px",
+              transform: "translateY(-50%)",
+              width: "48px",
+              height: "48px",
+              borderRadius: "50%",
+              backgroundColor: "rgba(0, 0, 0, 1)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              backdropFilter: "blur(5px)",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 2,
+              opacity: 1,
+              cursor: "pointer",
+              transition: "all 0.3s ease-in-out",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+              e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+              e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+            }}
+          >
+            {/* Custom white arrow icon using inline SVG */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="white"
+              viewBox="0 0 16 16"
+              style={{ marginLeft: "3px" }}
+            >
+              <path
+                fillRule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+            <span className="visually-hidden">Next</span>
+          </button>
         </div>
         {/* Trending Products */}
         <div

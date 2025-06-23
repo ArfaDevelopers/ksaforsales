@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
-import {
-  verified,
-  chat,
-  rating,
-} from "../../imagepath";
+import { verified, chat, rating } from "../../imagepath";
 import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
@@ -23,11 +19,10 @@ const Dashboard = () => {
   const [Activelisting, setActivelisting] = useState(null);
   const [Message, setMessage] = useState(null);
 
-  
   const [userReviews1, setuserReviews1] = useState(null);
   const [chartFilter, setChartFilter] = useState("This Week"); // New state for chart filter
   const [chartData, setChartData] = useState([]);
-console.log(userReviews1,"userReviews1___________")
+  console.log(userReviews1, "userReviews1___________");
   const location = useLocation();
   useEffect(() => {
     if (!userId || !visitorReviews.length) {
@@ -71,7 +66,11 @@ console.log(userReviews1,"userReviews1___________")
         isWithinTimeFrame =
           reviewDate >= lastWeekStart && reviewDate <= lastWeekEnd;
       } else if (chartFilter === "Last Month") {
-        const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const lastMonthStart = new Date(
+          now.getFullYear(),
+          now.getMonth() - 1,
+          1
+        );
         const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
         isWithinTimeFrame =
           reviewDate >= lastMonthStart && reviewDate <= lastMonthEnd;
@@ -185,13 +184,18 @@ console.log(userReviews1,"userReviews1___________")
   const isInitialLoad = useRef(true);
   // Scroll to top on location change
   useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-      console.log('Scroll restoration set to manual');
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+      console.log("Scroll restoration set to manual");
     }
     const scrollToTop = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      console.log('Scrolled to top for location:', location.pathname, 'scrollY:', window.scrollY);
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      console.log(
+        "Scrolled to top for location:",
+        location.pathname,
+        "scrollY:",
+        window.scrollY
+      );
     };
     scrollToTop();
     const timeout = setTimeout(scrollToTop, 100);
@@ -206,9 +210,9 @@ console.log(userReviews1,"userReviews1___________")
     }
     return () => {
       clearTimeout(timeout);
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'auto';
-        console.log('Scroll restoration reset to auto');
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "auto";
+        console.log("Scroll restoration reset to auto");
       }
     };
   }, [location]);
@@ -221,54 +225,80 @@ console.log(userReviews1,"userReviews1___________")
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+    const fetchTotalBookmarked = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/api/total-favourite?userId=xuo3iX8sQye2TT09WbW9OwnG0dB2"
+        );
+        const data = await response.json();
+        setuserReviews1(data.totalBookmarked);
+      } catch (error) {
+        console.error("Error fetching total bookmarked:", error);
+        setuserReviews1("Error");
+      }
+    };
+
+    fetchTotalBookmarked();
+  }, []);
 
   // Fetch reviews from Firebase in real-time
   useEffect(() => {
     const reviewsCollection = collection(db, "reviews");
-    const unsubscribe = onSnapshot(reviewsCollection, (snapshot) => {
-      const reviewsList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = onSnapshot(
+      reviewsCollection,
+      (snapshot) => {
+        const reviewsList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-      // Sort reviews by createdAt date (newest first)
-      reviewsList.sort((a, b) => {
-        const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
-        const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
-        return dateB - dateA;
-      });
-
-      setVisitorReviews(reviewsList);
-      setFilteredReviews(reviewsList);
-     
-      if (userId) {
-        const userReviews = reviewsList.filter((review) => review.listingUserId === userId);
-        console.log("Total Reviews for User ID", userId, ":", userReviews.length);
-        setuserReviews1(userReviews.length)
-      } else {
-        console.log("No user logged in, cannot filter reviews by user ID");
-      }
-
-
-      console.log("=== Dashboard Visitor Reviews ===");
-      console.log(`Total Reviews: ${reviewsList.length}`);
-      reviewsList.forEach((review, index) => {
-        console.log(`Review ${index + 1}:`, {
-          id: review.id,
-          adId: review.adId,
-          name: review.name,
-          review: review.review,
-          rating: review.rating,
-          date: review.date,
-          by: review.by,
-          listingUserId: review.listingUserId || "Not found",
-          createdAt: review.createdAt?.toDate().toLocaleString(),
+        // Sort reviews by createdAt date (newest first)
+        reviewsList.sort((a, b) => {
+          const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+          const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+          return dateB - dateA;
         });
-      });
-      console.log("========================");
-    }, (error) => {
-      console.error("Error listening to reviews:", error);
-    });
+
+        setVisitorReviews(reviewsList);
+        setFilteredReviews(reviewsList);
+
+        if (userId) {
+          const userReviews = reviewsList.filter(
+            (review) => review.listingUserId === userId
+          );
+          console.log(
+            "Total Reviews for User ID",
+            userId,
+            ":",
+            userReviews.length
+          );
+          // setuserReviews1(userReviews.length)
+        } else {
+          console.log("No user logged in, cannot filter reviews by user ID");
+        }
+
+        console.log("=== Dashboard Visitor Reviews ===");
+        console.log(`Total Reviews: ${reviewsList.length}`);
+        reviewsList.forEach((review, index) => {
+          console.log(`Review ${index + 1}:`, {
+            id: review.id,
+            adId: review.adId,
+            name: review.name,
+            review: review.review,
+            rating: review.rating,
+            date: review.date,
+            by: review.by,
+            listingUserId: review.listingUserId || "Not found",
+            createdAt: review.createdAt?.toDate().toLocaleString(),
+          });
+        });
+        console.log("========================");
+      },
+      (error) => {
+        console.error("Error listening to reviews:", error);
+      }
+    );
 
     return () => unsubscribe();
   }, [userId]);
@@ -281,21 +311,27 @@ console.log(userReviews1,"userReviews1___________")
     if (filter === "Last Week") {
       const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= oneWeekAgo && reviewDate <= now;
       });
     } else if (filter === "Last Month") {
       const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
       const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= lastMonthStart && reviewDate <= lastMonthEnd;
       });
     } else if (filter === "Last Year") {
       const lastYearStart = new Date(now.getFullYear() - 1, 0, 1);
       const lastYearEnd = new Date(now.getFullYear() - 1, 11, 31);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= lastYearStart && reviewDate <= lastYearEnd;
       });
     } else {
@@ -387,11 +423,13 @@ console.log(userReviews1,"userReviews1___________")
     // Function to fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('https://ksaforsaleapis.vercel.app/api/total-data-count');
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/api/total-data-count"
+        );
         const data = await response.json();
-        setActivelisting(data.totalCount)
+        setActivelisting(data.totalCount);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -402,13 +440,14 @@ console.log(userReviews1,"userReviews1___________")
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch('https://ksaforsaleapis.vercel.app/api/total-messages');
+        const response = await fetch(
+          "https://ksaforsaleapis.vercel.app/api/total-messages"
+        );
         const data = await response.json();
-        console.log('Total Messages:', data);
-        setMessage(data.totalMessages)
-
+        console.log("Total Messages:", data);
+        setMessage(data.totalMessages);
       } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.error("Error fetching messages:", error);
       }
     };
 
@@ -424,8 +463,6 @@ console.log(userReviews1,"userReviews1___________")
         }}
       >
         <div className="container">
-        
-
           <div className="">
             <ul className="dashborad-menus">
               <li className="active">
@@ -450,7 +487,8 @@ console.log(userReviews1,"userReviews1___________")
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" />{" "}
+                  <span>Messages</span>
                 </Link>
               </li>
               <li>
@@ -460,7 +498,8 @@ console.log(userReviews1,"userReviews1___________")
               </li>
               <li>
                 <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
+                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                  <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -548,28 +587,36 @@ console.log(userReviews1,"userReviews1___________")
                             <Link
                               className="dropdown-item"
                               to="#"
-                              onClick={() => handleChartFilterChange("This Week")}
+                              onClick={() =>
+                                handleChartFilterChange("This Week")
+                              }
                             >
                               This Week
                             </Link>
                             <Link
                               className="dropdown-item"
                               to="#"
-                              onClick={() => handleChartFilterChange("Last Week")}
+                              onClick={() =>
+                                handleChartFilterChange("Last Week")
+                              }
                             >
                               Last Week
                             </Link>
                             <Link
                               className="dropdown-item"
                               to="#"
-                              onClick={() => handleChartFilterChange("Last Month")}
+                              onClick={() =>
+                                handleChartFilterChange("Last Month")
+                              }
                             >
                               Last Month
                             </Link>
                             <Link
                               className="dropdown-item"
                               to="#"
-                              onClick={() => handleChartFilterChange("Next Week")}
+                              onClick={() =>
+                                handleChartFilterChange("Next Week")
+                              }
                             >
                               Next Week
                             </Link>
@@ -648,30 +695,32 @@ console.log(userReviews1,"userReviews1___________")
                             (review) => userId === review.listingUserId
                           );
                           return ownerReviews.length > 0 ? (
-                            ownerReviews.slice(0, visibleCount).map((review) => (
-                              <li className="review-box" key={review.id}>
-                                <div className="review-details">
-                                  <h6>{review.name}</h6>
-                                  <div className="rating">
-                                    <div className="rating-star">
-                                      {[...Array(5)].map((_, i) => (
-                                        <i
-                                          key={i}
-                                          className={`fas fa-star ${
-                                            i < review.rating ? "filled" : ""
-                                          }`}
-                                        />
-                                      ))}
+                            ownerReviews
+                              .slice(0, visibleCount)
+                              .map((review) => (
+                                <li className="review-box" key={review.id}>
+                                  <div className="review-details">
+                                    <h6>{review.name}</h6>
+                                    <div className="rating">
+                                      <div className="rating-star">
+                                        {[...Array(5)].map((_, i) => (
+                                          <i
+                                            key={i}
+                                            className={`fas fa-star ${
+                                              i < review.rating ? "filled" : ""
+                                            }`}
+                                          />
+                                        ))}
+                                      </div>
+                                      <div>
+                                        <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
+                                        {review.date}
+                                      </div>
                                     </div>
-                                    <div>
-                                      <i className="fa-sharp fa-solid fa-calendar-days" />{" "}
-                                      {review.date}
-                                    </div>
+                                    <p>{review.review}</p>
                                   </div>
-                                  <p>{review.review}</p>
-                                </div>
-                              </li>
-                            ))
+                                </li>
+                              ))
                           ) : (
                             <li className="review-box">
                               <p>No product found</p>
@@ -684,24 +733,27 @@ console.log(userReviews1,"userReviews1___________")
                         </li>
                       )}
                     </ul>
-                    {userId && filteredReviews.filter((review) => userId === review.listingUserId).length > visibleCount && (
-                      <div className="text-center mt-3">
-                        <button
-                          className="btn"
-                          onClick={loadMoreReviews}
-                          style={{
-                            padding: "10px 20px",
-                            backgroundColor: "#2d4495",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "4px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Load More
-                        </button>
-                      </div>
-                    )}
+                    {userId &&
+                      filteredReviews.filter(
+                        (review) => userId === review.listingUserId
+                      ).length > visibleCount && (
+                        <div className="text-center mt-3">
+                          <button
+                            className="btn"
+                            onClick={loadMoreReviews}
+                            style={{
+                              padding: "10px 20px",
+                              backgroundColor: "#2d4495",
+                              color: "white",
+                              border: "none",
+                              borderRadius: "4px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Load More
+                          </button>
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
