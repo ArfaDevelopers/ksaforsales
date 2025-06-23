@@ -167,6 +167,8 @@ export default function Carousel() {
                           flexDirection: "column",
                           justifyContent: "space-between",
                           overflow: "hidden",
+    backgroundColor:"#f0f0f0"
+
                         }}
                       >
                         <div className="blog-widget">
