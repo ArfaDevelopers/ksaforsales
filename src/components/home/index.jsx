@@ -1150,9 +1150,11 @@ const Home = () => {
             <div
               className="row cat_icon_main"
               style={{
-                marginTop: "-1rem",
+                marginTop: window.innerWidth <= 576 ? "-2rem" : "-1rem",
                 marginBottom: window.innerWidth <= 576 ? "0rem" : "-2rem",
-                gap: window.innerWidth <= 576 ? "5px" : "10px",
+                gap: window.innerWidth <= 576 ? "8px" : "10px",
+                padding: window.innerWidth <= 576 ? "12px 10px 10px 10px" : "0",
+
               }}
             >
               {/* Row 1: 5 items */}

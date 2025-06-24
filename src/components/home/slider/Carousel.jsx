@@ -109,12 +109,12 @@ export default function Carousel() {
             data-aos="fade-up"
           >
             <div className="section-heading">
-              <h2>Feature Ads</h2>
+              <h2 >Feature Ads</h2>
             </div>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row" style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}>
           <div className="col-md-12">
             {loading ? (
               <div

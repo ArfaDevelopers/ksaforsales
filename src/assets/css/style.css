@@ -1347,8 +1347,9 @@ table.dataTable thead .sorting_desc_disabled:after {
     flex-wrap: nowrap !important; /* Keep everything in one row */
   }
   .category_icons {
-    width: 45% !important;
-    max-width: 45% !important;
+    width: 100% !important;
+    max-width: 49% !important;
+    padding: 0;
 }
 }
 /*-----------------
