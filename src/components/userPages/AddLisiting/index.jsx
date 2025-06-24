@@ -1855,6 +1855,14 @@ const AddLisiting = () => {
             galleryImages,
             imageUrl,
             // Make: Make?.value,
+            RegionName: RegionName || "",
+
+            regionId: selectedRegionId || "",
+            CITY_ID: selectedCityData.cityId || "",
+            CityName: selectedCityData.label || "",
+
+            District_ID: selectedDistrict.districtId || "",
+            DistrictName: selectedDistrict.label || "",
             userId: user.uid,
             createdAt: new Date(),
           });
@@ -4609,42 +4617,34 @@ const AddLisiting = () => {
                       </label>
                     </div>
                   </div>
-
                   <div className="container mt-3">
-                    <h5 className="mb-2">Select a Region:</h5>
-                    <WindowedSelect
-                      options={regionOptions}
-                      onChange={handleChangeRegion}
-                      placeholder="-- Choose Region --"
-                      className="mb-3"
-                      classNamePrefix="select"
-                      isSearchable
-                    />
-                  </div>
-                  <div className="container mt-4">
-                    <h5 className="mb-2">Select a City:</h5>
-
-                    <WindowedSelect
-                      options={cityOptions}
-                      onChange={handleCityChangecities}
-                      placeholder="-- Choose City --"
-                      className="mb-3"
-                      classNamePrefix="select"
-                      isSearchable
-                    />
-                    {/* 
-                    {selectedCityData.cityId && selectedCityData.regionId && (
-                      <div className="alert alert-info">
-                        <div>
-                          <strong>CITY_ID:</strong> {selectedCityData.cityId}
-                        </div>
-                        <div>
-                          <strong>REGION_ID:</strong>{" "}
-                          {selectedCityData.regionId}
-                        </div>
+                    <div className="row">
+                      {/* Region Select */}
+                      <div className="col-12 col-md-6 mb-3">
+                        <h5 className="mb-2">Select a Region:</h5>
+                        <WindowedSelect
+                          options={regionOptions}
+                          onChange={handleChangeRegion}
+                          placeholder="-- Choose Region --"
+                          classNamePrefix="select"
+                          isSearchable
+                        />
                       </div>
-                    )} */}
+
+                      {/* City Select */}
+                      <div className="col-12 col-md-6 mb-3">
+                        <h5 className="mb-2">Select a City:</h5>
+                        <WindowedSelect
+                          options={cityOptions}
+                          onChange={handleCityChangecities}
+                          placeholder="-- Choose City --"
+                          classNamePrefix="select"
+                          isSearchable
+                        />
+                      </div>
+                    </div>
                   </div>
+
                   <div className="container mt-4">
                     <h5 className="mb-2">Select a District:</h5>
 

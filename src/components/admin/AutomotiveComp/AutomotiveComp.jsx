@@ -138,6 +138,7 @@ const AutomotiveComp = () => {
 
   const [districts, setDistricts] = useState([]);
   const [selectedDistricts, setSelectedDistricts] = useState([]);
+  console.log(selectedDistricts, "selectedDistricts___________");
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
   const cityModalRef = useRef(null);
   useEffect(() => {
@@ -1996,46 +1997,30 @@ const AutomotiveComp = () => {
     id: null,
   });
   console.log(bookmarkedCar, "bookmarkedCars__________");
-  // Fetch cars data
-  // useEffect(() => {
-  //   const fetchCars = async () => {
-  //     try {
-  //       setLoading(true); // Show spinner
-  //       const response = await fetch("http://168.231.80.24:9002/route/cars");
-  //       const carsData = await response.json();
-
-  //       setCars(carsData);
-  //       setFilteredCars(carsData); // Initially, show all cars
-  //       setLoading(false);
-
-  //       console.log(carsData, "carsData_________");
-  //     } catch (error) {
-  //       console.error("Error getting cars:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCars();
-  // }, [bookmarkedCar]);
   useEffect(() => {
+    const CITY_ID = selectedCities[0]?.CITY_ID;
+    const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID; // ✅ Get first DISTRICT_ID
+
     const fetchCars = async () => {
       try {
-        setLoading(true); // Show spinner
+        setLoading(true);
 
-        // Add searchText as query param if present
-        const query = searchText
-          ? `?searchText=${encodeURIComponent(searchText)}`
-          : "";
+        const params = new URLSearchParams();
+        if (searchText) params.append("searchText", searchText);
+        if (selectedRegion) params.append("regionId", selectedRegion);
+        if (CITY_ID) params.append("CITY_ID", CITY_ID);
+        if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID); // ✅ Add DISTRICT_ID
+
         const response = await fetch(
-          `http://168.231.80.24:9002/route/cars${query}`
+          `http://168.231.80.24:9002/route/cars?${params.toString()}`
         );
-        const carsData = await response.json();
 
+        const carsData = await response.json();
         setCars(carsData);
-        setFilteredCars(carsData); // Initially show all or filtered
+        setFilteredCars(carsData);
         setLoading(false);
 
-        console.log(carsData, "carsData_________");
+        console.log(carsData, "carsData_________cars");
       } catch (error) {
         console.error("Error getting cars:", error);
         setLoading(false);
@@ -2043,7 +2028,71 @@ const AutomotiveComp = () => {
     };
 
     fetchCars();
-  }, [searchText, bookmarkedCar]);
+  }, [
+    searchText,
+    bookmarkedCar,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+  ]); // ✅ Include selectedDistricts
+
+  // useEffect(() => {
+  //    const CITY_ID = selectedCities[0]?.CITY_ID;
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       // Build query params
+  //       const params = new URLSearchParams();
+  //       if (searchText) params.append("searchText", searchText);
+  //       if (selectedRegion) params.append("regionId", selectedRegion);
+
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/cars?${params.toString()}`
+  //       );
+
+  //       const carsData = await response.json();
+  //       setCars(carsData);
+  //       setFilteredCars(carsData);
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________cars");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [searchText, bookmarkedCar, selectedRegion, selectedCities]);
+
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true); // Show spinner
+
+  //       // Add searchText as query param if present
+  //       const query = searchText
+  //         ? `?searchText=${encodeURIComponent(searchText)}`
+  //         : "";
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/cars${query}&regionId=&{selectedRegion}`
+  //       );
+  //       const carsData = await response.json();
+
+  //       setCars(carsData);
+  //       setFilteredCars(carsData); // Initially show all or filtered
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________cars");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [searchText, bookmarkedCar,selectedRegion]);
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
@@ -7240,25 +7289,25 @@ const AutomotiveComp = () => {
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
                             {car.FeaturedAds === "Featured Ads" && (
-  <div
-    style={{
-      position: "absolute",
-      top: "10px",
-      left: "10px",
-      backgroundColor: "#36A680",
-      color: "white",
-      padding: "6px 12px",
-      fontWeight: "bold",
-      borderRadius: "8px",
-      border: "2px solid #2c8e6f",
-      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
-      fontSize: "14px",
-      zIndex: 2,
-    }}
-  >
-    Featured
-  </div>
-)}
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "10px",
+                                  left: "10px",
+                                  backgroundColor: "#36A680",
+                                  color: "white",
+                                  padding: "6px 12px",
+                                  fontWeight: "bold",
+                                  borderRadius: "8px",
+                                  border: "2px solid #2c8e6f",
+                                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+                                  fontSize: "14px",
+                                  zIndex: 2,
+                                }}
+                              >
+                                Featured
+                              </div>
+                            )}
                             {/* Heart Icon */}
                             <div
                               style={{
