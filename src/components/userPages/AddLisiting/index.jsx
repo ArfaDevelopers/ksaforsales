@@ -12,6 +12,8 @@ import { useParams } from "react-router-dom";
 import WindowedSelect from "react-windowed-select";
 import locationData from "../../../Location.json";
 import cityData from "../../../City.json";
+import ReactSelect from "react-select";
+
 import {
   gallerymedia_1,
   gallerymedia_2,
@@ -142,18 +144,18 @@ const AddLisiting = () => {
     BagType: "",
     SubCategory: "",
     NestedSubCategory: "",
-    Facade:"",
-    Featuers:"",
-    Area:"",
-    Furnished:"",
-    Frequency:"",
+    Facade: "",
+    Featuers: "",
+    Area: "",
+    Furnished: "",
+    Frequency: "",
     Bedroom: "",
     ResidenceType: "",
     bathrooms: "",
     licenseNumber: "",
-    Condition:"",
-    Floor:"",
-    PropertyAge:"",
+    Condition: "",
+    Floor: "",
+    PropertyAge: "",
     Age: "",
     Temperament: "",
     HealthStatus: "",
@@ -272,7 +274,6 @@ const AddLisiting = () => {
   const [imageUrl, setImageUrl] = useState(null); // Store a single URL, initially null
   const [showPayment, setshowPayment] = useState(null); // Store a single URL, initially null
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [citiesMake, setcitiesMake] = useState([]);
   const [mileage, setMileage] = useState("");
@@ -1156,10 +1157,6 @@ const AddLisiting = () => {
     }
   }, []);
 
-  const districtOptions = locationList.map((loc) => ({
-    value: loc,
-    label: loc,
-  }));
   const [CityList, setCityList] = useState([]);
 
   useEffect(() => {
@@ -1183,6 +1180,247 @@ const AddLisiting = () => {
       })),
     [CityList]
   );
+  const [selectedRegionId, setSelectedRegionId] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+
+  console.log(selectedRegionId, "selectedRegionId____1");
+  console.log(cities, "selectedRegionId____cities");
+  console.log(districts, "selectedRegionId____citiesdistricts");
+  const [selectedDistrict, setSelectedDistrict] = useState({
+    districtId: null,
+    cityId: null,
+    regionId: null,
+  });
+
+  const districtOptions = districts.map((district) => ({
+    value: district.District_ID,
+    label: `${district["District En Name"]} (${district["District Ar Name"]})`,
+    District_ID: district.District_ID,
+    CITY_ID: district.CITY_ID,
+    REGION_ID: district.REGION_ID,
+  }));
+
+  const handleDistrictChange = (selectedOption) => {
+    if (selectedOption) {
+      const { District_ID, CITY_ID, REGION_ID } = selectedOption;
+
+      setSelectedDistrict({
+        districtId: District_ID,
+        cityId: CITY_ID,
+        regionId: REGION_ID,
+      });
+
+      console.log("Selected District_ID:", District_ID);
+      console.log("Selected CITY_ID:", CITY_ID);
+      console.log("Selected REGION_ID:", REGION_ID);
+    } else {
+      setSelectedDistrict({
+        districtId: null,
+        cityId: null,
+        regionId: null,
+      });
+    }
+  };
+
+  const regionOptions = [
+    {
+      value: 1,
+      label: "Riyadh (الرياض)",
+      regionId: 1,
+      regionEn: "Riyadh",
+      // regionAr: "الرياض",
+      latitude: 24.63651,
+      longitude: 46.718845,
+    },
+    {
+      value: 2,
+      label: "Makkah (مكة المكرمة)",
+      regionId: 2,
+      regionEn: "Makkah",
+      // regionAr: "مكة المكرمة",
+      latitude: 21.406328,
+      longitude: 39.809088,
+    },
+    {
+      value: 3,
+      label: "Al Madinah (المدينة المنورة)",
+      regionId: 3,
+      regionEn: "Al Madinah",
+      // regionAr: "المدينة المنورة",
+      latitude: 24.427145,
+      longitude: 39.649658,
+    },
+    {
+      value: 4,
+      label: "Al Qassim (القصيم)",
+      regionId: 4,
+      regionEn: "Al Qassim",
+      // regionAr: "القصيم",
+      latitude: 26.338499,
+      longitude: 43.965396,
+    },
+    {
+      value: 5,
+      label: "Eastern (المنطقة الشرقية)",
+      regionId: 5,
+      regionEn: "Eastern",
+      // regionAr: "المنطقة الشرقية",
+      latitude: 26.372185,
+      longitude: 49.993286,
+    },
+    {
+      value: 6,
+      label: "Asir (عسير)",
+      regionId: 6,
+      regionEn: "Asir",
+      // regionAr: "عسير",
+      latitude: 18.20848,
+      longitude: 42.533569,
+    },
+    {
+      value: 7,
+      label: "Tabuk (تبوك)",
+      regionId: 7,
+      regionEn: "Tabuk",
+      // regionAr: "تبوك",
+      latitude: 28.401064,
+      longitude: 36.573486,
+    },
+    {
+      value: 8,
+      label: "Hail (حائل)",
+      regionId: 8,
+      regionEn: "Hail",
+      // regionAr: "حائل",
+      latitude: 27.527758,
+      longitude: 41.698608,
+    },
+    {
+      value: 9,
+      label: "Northern Borders (الحدود الشماليه)",
+      regionId: 9,
+      regionEn: "Northern Borders",
+      // regionAr: "الحدود الشماليه",
+      latitude: 30.977609,
+      longitude: 41.011962,
+    },
+    {
+      value: 10,
+      label: "Jazan (جازان)",
+      regionId: 10,
+      regionEn: "Jazan",
+      // regionAr: "جازان",
+      latitude: 16.890959,
+      longitude: 42.548375,
+    },
+    {
+      value: 11,
+      label: "Najran (نجران)",
+      regionId: 11,
+      regionEn: "Najran",
+      // regionAr: "نجران",
+      latitude: 17.489489,
+      longitude: 44.134333,
+    },
+    {
+      value: 12,
+      label: "Al Bahah (الباحة)",
+      regionId: 12,
+      regionEn: "Al Bahah",
+      // regionAr: "الباحة",
+      latitude: 20.014645,
+      longitude: 41.456909,
+    },
+    {
+      value: 13,
+      label: "Al Jawf (الجوف)",
+      regionId: 13,
+      regionEn: "Al Jawf",
+      // regionAr: "الجوف",
+      latitude: 29.971888,
+      longitude: 40.200476,
+    },
+  ];
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch(
+          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegionId}`
+        );
+        const data = await response.json();
+
+        if (data.cities) {
+          setCities(data.cities);
+          console.log("Fetched cities:", data.cities);
+        } else {
+          console.warn("No cities found");
+        }
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+
+    fetchCities();
+  }, [selectedRegionId]);
+  const [selectedCityData, setSelectedCityData] = useState({
+    cityId: null,
+    regionId: null,
+  });
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      // if (!selectedCities.length) return;
+
+      // const REGION_ID = selectedCities[0]?.REGION_ID;
+      // const CITY_ID = selectedCities[0]?.CITY_ID;
+
+      try {
+        const response = await fetch(
+          `http://168.231.80.24:9002/api/districts?REGION_ID=${selectedCityData.regionId}&CITY_ID=${selectedCityData.cityId}`
+        );
+        const data = await response.json();
+        if (data.districts) {
+          setDistricts(data.districts);
+          console.log("Districts fetched:", data.districts);
+        }
+      } catch (error) {
+        console.error("Error fetching districts:", error);
+      }
+    };
+
+    fetchDistricts();
+  }, [selectedCityData]);
+  // Prepare city options for react-select
+  const cityOptions = cities.map((city) => ({
+    value: city.CITY_ID,
+    label: `${city["City En Name"]} (${city["City Ar Name"]})`,
+    REGION_ID: city.REGION_ID,
+    CITY_ID: city.CITY_ID,
+  }));
+
+  // Handle selection
+  const handleCityChangecities = (selectedOption) => {
+    if (selectedOption) {
+      const { CITY_ID, REGION_ID } = selectedOption;
+      setSelectedCityData({
+        cityId: CITY_ID,
+        regionId: REGION_ID,
+      });
+      console.log("Selected CITY_ID:", CITY_ID);
+      console.log("Selected REGION_ID:", REGION_ID);
+    } else {
+      setSelectedCityData({ cityId: null, regionId: null });
+    }
+  };
+
+  const handleChangeRegion = (selectedOption) => {
+    if (selectedOption) {
+      console.log("React Select Option:", selectedOption);
+      setSelectedRegionId(selectedOption.regionId);
+    } else {
+      setSelectedRegionId(null);
+    }
+  };
 
   console.log(subcategories, "subcategories___________");
   useEffect(() => {
@@ -1203,19 +1441,6 @@ const AddLisiting = () => {
     label: country.name, // Country name
   }));
 
-  const handleCountryChange = (selected) => {
-    setSelectedCountry(selected);
-    setSelectedCity(null); // Reset selected city
-    setFormData((prev) => ({ ...prev, City: "" })); // Reset City in formData
-
-    // Fetch cities based on selected country
-    if (selected) {
-      const countryCities = City.getCitiesOfCountry(selected.value) || [];
-      setCities(countryCities);
-    } else {
-      setCities([]); // Clear cities if no country is selected
-    }
-  };
   const [Category, setCategory] = useState(""); // Store a single URL, initially null
   const [Category1, setCategory1] = useState(""); // Store a single URL, initially null
   const [NestedSubCategory, setNestedSubCategory] = useState(""); // Store a single URL, initially null
@@ -1426,7 +1651,7 @@ const AddLisiting = () => {
             ManufactureYear: data.ManufactureYear || "",
             ManufactureYear: data.ManufactureYear || "",
 
-            RegionalSpec:data.RegionalSpec||"",
+            RegionalSpec: data.RegionalSpec || "",
             HealthStatus: data.HealthStatus || "",
             Industry: data.Industry || "",
             IssueType: data.IssueType || "",
@@ -1510,7 +1735,9 @@ const AddLisiting = () => {
             twitter: data.twitter || "",
             userId: data.userId || "",
             galleryImages: data.galleryImages || [],
-
+            regionId: selectedRegionId || "",
+            CITY_ID: selectedCityData.cityId || "",
+            District_ID: selectedDistrict.districtId || "",
           });
 
           setGalleryImages(data.galleryImages || []);
@@ -1564,7 +1791,7 @@ const AddLisiting = () => {
     try {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
-      console.log(Category1,'Category1__________')
+      console.log(Category1, "Category1__________");
       if (user) {
         if (!Category1) {
           setError("Category is required!"); // Set error message if no category is selected
@@ -1663,7 +1890,7 @@ const AddLisiting = () => {
           setError("Category is required!"); // Set error message if no category is selected
           return;
         }
-        console.log("Category is required!_____",Category1); // Set error message if no category is selected
+        console.log("Category is required!_____", Category1); // Set error message if no category is selected
 
         setError("");
         const Collection =
@@ -1692,7 +1919,7 @@ const AddLisiting = () => {
             : Category1 === "Household"
             ? "Household"
             : "books";
-            console.log("Category is required!_____11",Collection); // Set error message if no category is selected
+        console.log("Category is required!_____11", Collection); // Set error message if no category is selected
 
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
@@ -1969,10 +2196,7 @@ const AddLisiting = () => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, TrustedCars: name }));
   };
-  const handleDistrictChange = (e) => {
-    const { name } = e.target;
-    setFormData((prev) => ({ ...prev, District: name }));
-  };
+
   const handleNoiseLevelChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, NoiseLevel: name }));
@@ -4367,77 +4591,72 @@ const AddLisiting = () => {
                       </label>
                     </div>
                   </div>
-                  <div className="  ">
-                    <div className="mt-2 d-flex flex-column gap-2">
-                      <div
-                        className="d-flex justify-content-between"
-                        style={{
-                          width: "100vw",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        <div
-                          className="d-flex flex-column flex-md-row justify-content-between gap-2"
-                          style={{ width: "100%" }}
-                        >
-                          <div className="card w-100 w-md-50">
-                            <div className="card-header">
-                              <h4>Select City</h4>
-                            </div>
-                            <div className="card-body">
-                              <WindowedSelect
-                                options={CityOptions}
-                                value={
-                                  CityOptions.find(
-                                    (option) => option.value === formData.City
-                                  ) || null
-                                }
-                                onChange={(selectedOption) =>
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    City: selectedOption
-                                      ? selectedOption.value
-                                      : "",
-                                  }))
-                                }
-                                placeholder="Select a City"
-                                isClearable
-                                className="w-100"
-                                windowThreshold={100} // Render only 100 options at a time
-                              />
-                            </div>
-                          </div>
 
-                          <div className="card w-100 w-md-50">
-                            <div className="card-header">
-                              <h4>Select District</h4>
-                            </div>
-                            <div className="card-body">
-                              <Select
-                                options={districtOptions}
-                                value={
-                                  districtOptions.find(
-                                    (option) =>
-                                      option.value === formData.District
-                                  ) || null
-                                }
-                                onChange={(selectedOption) =>
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    District: selectedOption
-                                      ? selectedOption.value
-                                      : "",
-                                  }))
-                                }
-                                placeholder="Select a district"
-                                isClearable
-                                className="w-100"
-                              />
-                            </div>
-                          </div>
+                  <div className="container mt-3">
+                    <h5 className="mb-2">Select a Region:</h5>
+                    <WindowedSelect
+                      options={regionOptions}
+                      onChange={handleChangeRegion}
+                      placeholder="-- Choose Region --"
+                      className="mb-3"
+                      classNamePrefix="select"
+                      isSearchable
+                    />
+                  </div>
+                  <div className="container mt-4">
+                    <h5 className="mb-2">Select a City:</h5>
+
+                    <WindowedSelect
+                      options={cityOptions}
+                      onChange={handleCityChangecities}
+                      placeholder="-- Choose City --"
+                      className="mb-3"
+                      classNamePrefix="select"
+                      isSearchable
+                    />
+                    {/* 
+                    {selectedCityData.cityId && selectedCityData.regionId && (
+                      <div className="alert alert-info">
+                        <div>
+                          <strong>CITY_ID:</strong> {selectedCityData.cityId}
+                        </div>
+                        <div>
+                          <strong>REGION_ID:</strong>{" "}
+                          {selectedCityData.regionId}
                         </div>
                       </div>
+                    )} */}
+                  </div>
+                  <div className="container mt-4">
+                    <h5 className="mb-2">Select a District:</h5>
 
+                    <WindowedSelect
+                      options={districtOptions}
+                      onChange={handleDistrictChange}
+                      placeholder="-- Choose District --"
+                      className="mb-3"
+                      classNamePrefix="select"
+                      isSearchable
+                    />
+
+                    {/* {selectedDistrict.districtId && (
+                      <div className="alert alert-info">
+                        <div>
+                          <strong>District_ID:</strong>{" "}
+                          {selectedDistrict.districtId}
+                        </div>
+                        <div>
+                          <strong>CITY_ID:</strong> {selectedDistrict.cityId}
+                        </div>
+                        <div>
+                          <strong>REGION_ID:</strong>{" "}
+                          {selectedDistrict.regionId}
+                        </div>
+                      </div>
+                    )} */}
+                  </div>
+                  <div className="  ">
+                    <div className="mt-2 d-flex flex-column gap-2">
                       {/* <div className="form-group mx-4"> */}
                       <div
                         className="form-group"
@@ -13276,9 +13495,7 @@ const AddLisiting = () => {
 
                 {showPayment && (
                   <Elements stripe={stripePromise}>
-                    <PaymentForm 
-                    getpaymentSuccess={setPaymentSuccess}
-            />
+                    <PaymentForm getpaymentSuccess={setPaymentSuccess} />
                   </Elements>
                 )}
                 <div
@@ -13326,7 +13543,9 @@ const AddLisiting = () => {
                 </div>
                 <button
                   onClick={handleSubmit}
-                  disabled={uploading || !isChecked || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked
+                  disabled={
+                    uploading || !isChecked || (showPayment && !paymentSuccess)
+                  } // Disable if uploading or checkbox is unchecked
                   className="btn"
                   style={{ backgroundColor: "#2d4495", color: "white" }}
                   type="button"
