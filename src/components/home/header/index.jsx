@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
-import { LogoSvg } from "../../imagepath";
+import { Image } from "../../../../public/ksa4sale4.png";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig";
@@ -2071,17 +2071,22 @@ const Header = ({ parms }) => {
                   }
                   `}
                 </style>
-                <Link
-                  to="/"
-                  className="navbar-brand logo"
-                  style={{
-                    marginLeft: "33px",
-                    marginLeft: window.innerWidth <= 576 ? "33px" : "-10px",
-                    width: "9rem",
-                  }}
-                >
-                  <img src={LogoSvg} className="img-fluid" alt="Logo" />
-                </Link>
+          <Link
+  to="/"
+  className="navbar-brand logo"
+  style={{
+    marginLeft: window.innerWidth <= 576 ? "33px" : "-10px",
+    width: "auto", // Let the image width be handled by the img itself
+  }}
+>
+  <img
+    src="/ksa4sale4.png"
+    alt="Logo"
+    className="img-fluid"
+    style={{ width: "80px", height: "auto" }} // 👈 adjust as needed
+  />
+</Link>
+
               </div>
               {!isMobile && (
                 <form
