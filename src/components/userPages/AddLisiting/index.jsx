@@ -1181,6 +1181,8 @@ const AddLisiting = () => {
     [CityList]
   );
   const [selectedRegionId, setSelectedRegionId] = useState(null);
+  const [RegionName, setSelectedRegionName] = useState(null);
+
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
 
@@ -1191,7 +1193,9 @@ const AddLisiting = () => {
     districtId: null,
     cityId: null,
     regionId: null,
+    label: null,
   });
+  console.log("Selected CITY_ID:selectedDistrict", selectedDistrict);
 
   const districtOptions = districts.map((district) => ({
     value: district.District_ID,
@@ -1203,15 +1207,16 @@ const AddLisiting = () => {
 
   const handleDistrictChange = (selectedOption) => {
     if (selectedOption) {
-      const { District_ID, CITY_ID, REGION_ID } = selectedOption;
+      const { District_ID, CITY_ID, REGION_ID, label } = selectedOption;
 
       setSelectedDistrict({
         districtId: District_ID,
         cityId: CITY_ID,
         regionId: REGION_ID,
+        label: label,
       });
 
-      console.log("Selected District_ID:", District_ID);
+      console.log("Selected District_ID:selectedOption", selectedOption);
       console.log("Selected CITY_ID:", CITY_ID);
       console.log("Selected REGION_ID:", REGION_ID);
     } else {
@@ -1219,6 +1224,7 @@ const AddLisiting = () => {
         districtId: null,
         cityId: null,
         regionId: null,
+        label: null,
       });
     }
   };
@@ -1366,7 +1372,10 @@ const AddLisiting = () => {
   const [selectedCityData, setSelectedCityData] = useState({
     cityId: null,
     regionId: null,
+    label: null,
   });
+  console.log("Selected CITY_ID:selectedCityData", selectedCityData);
+
   useEffect(() => {
     const fetchDistricts = async () => {
       // if (!selectedCities.length) return;
@@ -1400,11 +1409,14 @@ const AddLisiting = () => {
 
   // Handle selection
   const handleCityChangecities = (selectedOption) => {
+    console.log("Selected CITY_ID:selectedOption", selectedOption);
+
     if (selectedOption) {
-      const { CITY_ID, REGION_ID } = selectedOption;
+      const { CITY_ID, REGION_ID, label } = selectedOption;
       setSelectedCityData({
         cityId: CITY_ID,
         regionId: REGION_ID,
+        label: label,
       });
       console.log("Selected CITY_ID:", CITY_ID);
       console.log("Selected REGION_ID:", REGION_ID);
@@ -1417,6 +1429,7 @@ const AddLisiting = () => {
     if (selectedOption) {
       console.log("React Select Option:", selectedOption);
       setSelectedRegionId(selectedOption.regionId);
+      setSelectedRegionName(selectedOption.label);
     } else {
       setSelectedRegionId(null);
     }
@@ -1735,9 +1748,14 @@ const AddLisiting = () => {
             twitter: data.twitter || "",
             userId: data.userId || "",
             galleryImages: data.galleryImages || [],
+            RegionName: RegionName || "",
+
             regionId: selectedRegionId || "",
             CITY_ID: selectedCityData.cityId || "",
+            CityName: selectedCityData.label || "",
+
             District_ID: selectedDistrict.districtId || "",
+            DistrictName: selectedDistrict.label || "",
           });
 
           setGalleryImages(data.galleryImages || []);
