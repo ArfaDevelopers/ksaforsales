@@ -1126,24 +1126,31 @@ const Dynamic_Route = () => {
                           )
                         }
                       />
-                      <button
-                        onClick={handlePrevImage}
-                        style={{
-                          position: "absolute",
-                          left: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                          color: "white",
-                          border: "none",
-                          padding: "10px",
-                          cursor: "pointer",
-                          borderRadius: "50%",
-                          fontSize: "20px",
-                        }}
-                      >
-                        ◄
-                      </button>
+                   <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
                       <button
                         onClick={handleNextImage}
                         style={{
@@ -1154,10 +1161,13 @@ const Dynamic_Route = () => {
                           background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                           color: "white",
                           border: "none",
-                          padding: "10px",
+                          // padding: "10px",
                           cursor: "pointer",
                           borderRadius: "50%",
                           fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
                         }}
                       >
                         ►
@@ -1349,10 +1359,12 @@ const Dynamic_Route = () => {
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                             color: "white",
                             border: "none",
-                            padding: "10px",
+                            width: "40px",          // ✅ Set width
+                            height: "40px",
                             cursor: "pointer",
                             borderRadius: "50%",
                             fontSize: "20px",
+                            paddingRight:"9px"
                           }}
                         >
                           ◄
@@ -1369,10 +1381,13 @@ const Dynamic_Route = () => {
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                             color: "white",
                             border: "none",
-                            padding: "10px",
+                            width: "40px",          // ✅ Set width
+                            height: "40px",
                             cursor: "pointer",
                             borderRadius: "50%",
                             fontSize: "20px",
+                          paddingLeft:"9px"
+
                           }}
                         >
                           ►
@@ -1489,8 +1504,8 @@ const Dynamic_Route = () => {
                             alt={`Car ${index + 1}`}
                             className="images"
                             style={{
-                              width: "80px",
-                              height: "60px",
+                              width: "100%",
+                              height: "100%",
                               borderRadius: "5px",
                             }}
                           />
@@ -1617,42 +1632,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -1842,10 +1867,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -1863,10 +1890,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -1983,8 +2012,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -2133,42 +2162,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                             <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -2358,10 +2397,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -2379,10 +2420,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -2499,8 +2542,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -2648,42 +2691,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -2873,10 +2926,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -2894,10 +2949,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -3014,8 +3071,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -3177,42 +3234,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -3402,10 +3469,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -3423,10 +3492,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                              height: "40px",
+                              paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -3543,8 +3614,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -3692,42 +3763,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -3917,10 +3998,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -3938,10 +4021,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -4058,8 +4143,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -4207,42 +4292,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -4432,10 +4527,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -4453,10 +4550,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -4573,8 +4672,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -4746,42 +4845,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                             <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -4971,10 +5080,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -4992,10 +5103,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -5112,8 +5225,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -5267,42 +5380,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -5492,10 +5615,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -5513,10 +5638,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -5633,8 +5760,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -5789,42 +5916,52 @@ const Dynamic_Route = () => {
                             )
                           }
                         />
-                        <button
-                          onClick={handlePrevImage}
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ◄
-                        </button>
-                        <button
-                          onClick={handleNextImage}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                            color: "white",
-                            border: "none",
-                            padding: "10px",
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          ►
-                        </button>
+                            <button
+  onClick={handlePrevImage}
+  style={{
+    position: "absolute",
+    left: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    background: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    border: "none",
+    width: "40px",          // ✅ Set width
+    height: "40px",         // ✅ Set height equal
+    cursor: "pointer",
+    borderRadius: "50%",    // ✅ Circle achieved only if width == height
+    fontSize: "20px",
+    display: "flex",        // Optional for centering
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight:"9px"
+    
+  }}
+>
+  ◄
+</button>
+
+                      <button
+                        onClick={handleNextImage}
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
+                          color: "white",
+                          border: "none",
+                          // padding: "10px",
+                          cursor: "pointer",
+                          borderRadius: "50%",
+                          fontSize: "20px",
+                          width: "40px",          // ✅ Set width
+                          height: "40px",
+                          paddingLeft:"9px"
+                        }}
+                      >
+                        ►
+                      </button>
                         <div
                           style={{
                             position: "absolute",
@@ -6014,10 +6151,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingRight:"9px"
                             }}
                           >
                             ◄
@@ -6035,10 +6174,12 @@ const Dynamic_Route = () => {
                               background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
                               color: "white",
                               border: "none",
-                              padding: "10px",
                               cursor: "pointer",
                               borderRadius: "50%",
                               fontSize: "20px",
+                              width: "40px",         
+                          height: "40px",
+                          paddingLeft:"9px"
                             }}
                           >
                             ►
@@ -6155,8 +6296,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -6294,7 +6435,7 @@ const Dynamic_Route = () => {
                 ""
               )}
 
-              <div
+              {/* <div
                 className="adsCategory_head"
                 style={{
                   display: "flex",
@@ -6307,7 +6448,7 @@ const Dynamic_Route = () => {
                   currentAdId={_Id}
                   listingUserId={itemData?.userId}
                 />
-              </div>
+              </div> */}
             </Col>
             <Col md={4} className="p-3">
               <Col xs={12}>
@@ -6580,7 +6721,7 @@ const Dynamic_Route = () => {
                               className="rounded shadow"
                               style={{
                                 width:
-                                  window.innerWidth <= 576 ? "330px" : "385px",
+                                  window.innerWidth <= 576 ? "375px" : "420px",
                                 height: "300px",
                                 objectFit: "cover",
                               }}
@@ -6594,7 +6735,7 @@ const Dynamic_Route = () => {
             </Col>
           </Row>
 
-          {/* <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} /> */}
+          <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} />
         </Container>
 
         {/* Footer */}
