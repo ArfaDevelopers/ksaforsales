@@ -8369,6 +8369,7 @@ multicast-dns@^7.2.5:
     style-loader "^3.3.1"
     sweetalert2 "^11.15.10"
     sweetalert2-react-content "^5.1.0"
+    zustand "^5.0.5"
 
 mz@^2.7.0:
   version "2.7.0"

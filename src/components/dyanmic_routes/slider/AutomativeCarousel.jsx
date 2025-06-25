@@ -80,116 +80,105 @@ export default function AutomativeCarousel() {
   };
 
   return (
-    <section className="featured-section-color automotive_card_section">
-      <div className="container">
-        <div className="row align-items-center">
-          <div className="featuresection_infodev">
-            <h4 className="featuresection_header">Automative</h4>
-            <button className="featuresection_btn">View All</button>
-          </div>
+		<section className="featured-section-color automotive_card_section">
+			<div className="container">
+				<div className="row align-items-center">
+					<div className="featuresection_infodev">
+						<h4 className="featuresection_header">Automative</h4>
+						<button className="featuresection_btn">View All</button>
+					</div>
 
-          <div className="feature-section-info">
-            <ul className="info-list">
-              <li>Car For Sales</li>
-              <li>Car For Sales</li>
-              <li>Car For Sales</li>
-              <li>Car For Sales</li>
-              <li>Car For Sales</li>
-            </ul>
-          </div>
+					<div className="feature-section-info">
+						<ul className="info-list">
+							<li className="active">Car For Sales</li>
+							<li>Car For Sales</li>
+							<li>Car For Sales</li>
+							<li>Car For Sales</li>
+							<li>Car For Sales</li>
+						</ul>
+					</div>
 
-          <div className="featureline">
-            <div className="highlighter"></div>
-          </div>
+					<button
+						type="button"
+						role="presentation"
+						className="owl-prev owl-button"
+						onClick={() => slider?.current?.slickPrev()}>
+						<FontAwesomeIcon icon={faAngleLeft} />
+					</button>
 
-          <button
-            type="button"
-            role="presentation"
-            className="owl-prev owl-button"
-            onClick={() => slider?.current?.slickPrev()}
-          >
-            <FontAwesomeIcon icon={faAngleLeft} />
-          </button>
-
-          <button
-            type="button"
-            role="presentation"
-            className="owl-next owl-button"
-            onClick={() => slider?.current?.slickNext()}
-          >
-            <FontAwesomeIcon icon={faAngleRight} />
-          </button>
-        </div>
-        <div className="row">
-          <div className="col-md-12">
-            <div>
-              <Slider
-                ref={slider}
-                {...settings}
-                className="featured-slider grid-view"
-              >
-                {[...Array(6)].map((_, index) => (
-                  <div
-                    className="card aos"
-                    data-aos="fade-up"
-                    key={index}
-                    style={cardStyle}
-                  >
-                    <div className="blog-widget">
-                      <div className="blog-img">
-                        <Link to="/automative">
-                          <img
-                            src={img}
-                            className="img-fluid"
-                            alt="blog-img"
-                            style={imageStyle}
-                          />
-                        </Link>
-                      </div>
-                      <div className="bloglist-content" style={contentStyle}>
-                        <div className="card-body">
-                          <h6>
-                            <Link to="/automative">Mercedez Benz</Link>
-                          </h6>
-                          <div className="location-info">
-                            <p style={{ fontSize: "0.7rem" }}>
-                              Education | Education | Education
-                            </p>
-                          </div>
-                          <div className="blog-location-details">
-                            <div
-                              className="location-info"
-                              style={{ marginTop: "1rem" }}
-                            >
-                              Los Angeles
-                            </div>
-                          </div>
-                          <div className="amount-details">
-                            <div className="amount">
-                              <span
-                                className="validrate"
-                                style={{ fontFamily: "Inter" }}
-                              >
-                                $350
-                              </span>
-                            </div>
-                            <div
-                              className="ratings"
-                              style={{ fontFamily: "Inter" }}
-                            >
-                              1 DAY AGO
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Slider>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+					<button
+						type="button"
+						role="presentation"
+						className="owl-next owl-button"
+						onClick={() => slider?.current?.slickNext()}>
+						<FontAwesomeIcon icon={faAngleRight} />
+					</button>
+				</div>
+				<div className="row">
+					<div className="col-md-12">
+						<div>
+							<Slider
+								ref={slider}
+								{...settings}
+								className="featured-slider grid-view">
+								{[...Array(6)].map((_, index) => (
+									<div
+										className="card aos"
+										data-aos="fade-up"
+										key={index}
+										style={cardStyle}>
+										<div className="blog-widget">
+											<div className="blog-img">
+												<Link to="/automative">
+													<img
+														src={img}
+														className="img-fluid"
+														alt="blog-img"
+														style={imageStyle}
+													/>
+												</Link>
+											</div>
+											<div className="bloglist-content" style={contentStyle}>
+												<div className="card-body">
+													<h6>
+														<Link to="/automative">Mercedez Benz</Link>
+													</h6>
+													<div className="location-info">
+														<p style={{ fontSize: "0.7rem" }}>
+															Education | Education | Education
+														</p>
+													</div>
+													<div className="blog-location-details">
+														<div
+															className="location-info"
+															style={{ marginTop: "1rem" }}>
+															Los Angeles
+														</div>
+													</div>
+													<div className="amount-details">
+														<div className="amount">
+															<span
+																className="validrate"
+																style={{ fontFamily: "Inter" }}>
+																$350
+															</span>
+														</div>
+														<div
+															className="ratings"
+															style={{ fontFamily: "Inter" }}>
+															1 DAY AGO
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								))}
+							</Slider>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
 }
