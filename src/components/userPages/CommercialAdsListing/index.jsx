@@ -23,7 +23,7 @@ const CommercialAdsListing = () => {
   const [Url, setUrl] = useState("");
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
-  
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -31,7 +31,6 @@ const CommercialAdsListing = () => {
     whatsapp: "", // ➕ Add this line
     bannerImage: null,
   });
-  
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,9 +53,9 @@ const CommercialAdsListing = () => {
     const fetchAds = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "CommercialAdscom"));
-        const adsList = querySnapshot.docs.map(doc => ({
+        const adsList = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         console.log("Fetched Ads:____________", adsList);
         setAds(adsList);
@@ -77,7 +76,7 @@ const CommercialAdsListing = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     const validTypes = ["image/png", "image/jpeg", "image/jpg"];
     if (!validTypes.includes(file.type)) {
       MySwal.fire({
@@ -87,7 +86,7 @@ const CommercialAdsListing = () => {
       });
       return;
     }
-  
+
     if (file.size > 2 * 1024 * 1024) {
       MySwal.fire({
         icon: "error",
@@ -96,16 +95,16 @@ const CommercialAdsListing = () => {
       });
       return;
     }
-  
+
     // Set image preview
     setImagePreview(URL.createObjectURL(file));
-  
+
     // Upload to Cloudinary
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
     formDataUpload.append("upload_preset", "ml_default"); // Replace this
     formDataUpload.append("cloud_name", "dv26wjoay");
-  
+
     try {
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
@@ -114,9 +113,9 @@ const CommercialAdsListing = () => {
           body: formDataUpload,
         }
       );
-      
+
       const data = await response.json();
-  
+
       if (data.secure_url) {
         console.log("Cloudinary Image URL:", data.secure_url);
         setUrl(data.secure_url);
@@ -144,13 +143,12 @@ const CommercialAdsListing = () => {
     try {
       // Save the form data to the CommercialAdscom collection
       const listingData = {
-        name: formData.name,
+        Title: formData.name,
         phone: formData.phone,
         whatsapp: formData.whatsapp, // ➕ Add this line
-        bannerImageUrl: Url || null,
-        createdAt: new Date(),
+        image: Url || null,
+        timeAgo: new Date(),
       };
-      
 
       await addDoc(collection(db, "CommercialAdscom"), listingData);
 
@@ -186,7 +184,7 @@ const CommercialAdsListing = () => {
     "Games & Toys",
     "Pet",
     "Other",
-    "Commercial"
+    "Commercial",
   ];
 
   return (
@@ -200,7 +198,7 @@ const CommercialAdsListing = () => {
           }}
         >
           <div className="container">
-          <div className="mt-1">
+            <div className="mt-1">
               <ul className="dashborad-menus">
                 <li>
                   <Link to="/dashboard">
@@ -295,7 +293,7 @@ const CommercialAdsListing = () => {
                     >
                       <div style={{ flex: 1, minWidth: "200px" }}>
                         <label
-ഗ
+                          ഗ
                           htmlFor="name"
                           style={{
                             display: "flex",
@@ -305,7 +303,9 @@ const CommercialAdsListing = () => {
                             marginBottom: "5px",
                           }}
                         >
-                          <span style={{ marginRight: "5px", color: "#007bff" }}>
+                          <span
+                            style={{ marginRight: "5px", color: "#007bff" }}
+                          >
                             📋
                           </span>
                           Category
@@ -346,7 +346,9 @@ const CommercialAdsListing = () => {
                             marginBottom: "5px",
                           }}
                         >
-                          <span style={{ marginRight: "5px", color: "#007bff" }}>
+                          <span
+                            style={{ marginRight: "5px", color: "#007bff" }}
+                          >
                             📞
                           </span>
                           Phone
@@ -375,42 +377,45 @@ const CommercialAdsListing = () => {
                         display: "flex",
                         gap: "15px",
                         flexWrap: "wrap",
-                        marginTop:"1rem"
+                        marginTop: "1rem",
                       }}
                     >
-                    <div style={{ flex: 1, minWidth: "200px" }}>
-  <label
-    htmlFor="whatsapp"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      fontSize: "14px",
-      color: "#555",
-      marginBottom: "5px",
-    }}
-  >
-    <span style={{ marginRight: "5px", color: "#25D366" }}>💬</span>
-    WhatsApp
-  </label>
-  <input
-    type="number"
-    id="whatsapp"
-    name="whatsapp"
-    value={formData.whatsapp}
-    onChange={handleInputChange}
-    placeholder="Enter WhatsApp Number"
-    style={{
-      width: "100%",
-      padding: "10px",
-      border: "1px solid #ddd",
-      borderRadius: "5px",
-      fontSize: "14px",
-      color: "#333",
-    }}
-    required
-  />
-</div>
-
+                      <div style={{ flex: 1, minWidth: "200px" }}>
+                        <label
+                          htmlFor="whatsapp"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            fontSize: "14px",
+                            color: "#555",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          <span
+                            style={{ marginRight: "5px", color: "#25D366" }}
+                          >
+                            💬
+                          </span>
+                          WhatsApp
+                        </label>
+                        <input
+                          type="number"
+                          id="whatsapp"
+                          name="whatsapp"
+                          value={formData.whatsapp}
+                          onChange={handleInputChange}
+                          placeholder="Enter WhatsApp Number"
+                          style={{
+                            width: "100%",
+                            padding: "10px",
+                            border: "1px solid #ddd",
+                            borderRadius: "5px",
+                            fontSize: "14px",
+                            color: "#333",
+                          }}
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
 
