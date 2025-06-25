@@ -110,6 +110,8 @@ const AutomotiveComp = () => {
 
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  const [refresh, setRefresh] = useState(false); // Add loading state
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -2030,10 +2032,11 @@ const AutomotiveComp = () => {
     fetchCars();
   }, [
     searchText,
-    bookmarkedCar,
+    // bookmarkedCar,
     selectedRegion,
     selectedCities,
     selectedDistricts,
+    refresh,
   ]); // ✅ Include selectedDistricts
 
   // useEffect(() => {
@@ -2172,7 +2175,7 @@ const AutomotiveComp = () => {
           car.id === carId ? { ...car, bookmarked: newBookmarkedStatus } : car
         )
       );
-
+      setRefresh(!refresh);
       console.log(`Car ${carId} bookmarked: ${newBookmarkedStatus}`);
     } catch (error) {
       console.error("Error updating bookmark:", error);
@@ -2383,39 +2386,78 @@ const AutomotiveComp = () => {
     // Filter by search query
     if (query.trim() !== "") {
       const lowercasedQuery = query?.toLowerCase();
-      filtered = filtered.filter(
-        (car) =>
-          car.title?.toLowerCase().includes(lowercasedQuery) ||
-          car.City?.toLowerCase().includes(lowercasedQuery) ||
-          car.Emirates?.toLowerCase().includes(lowercasedQuery) ||
-          car.Make?.toLowerCase().includes(lowercasedQuery) ||
-          car.Registeredin?.toLowerCase().includes(lowercasedQuery) ||
-          car.Color?.toLowerCase().includes(lowercasedQuery) ||
-          car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
-          car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
-          car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
-          car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
-          car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
-          car.SeatingCapacity?.toLowerCase().includes(lowercasedQuery) ||
-          car.ModalCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
-          car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
-          car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
-          car.AdType?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.mileage?.toLowerCase().includes(lowercasedQuery) ||
-          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.RegionalSpec?.toLowerCase().includes(lowercasedQuery) ||
-          car.Insurance?.toLowerCase().includes(lowercasedQuery) ||
-          car.InteriorColor?.toLowerCase().includes(lowercasedQuery) ||
-          car.Make?.toLowerCase().includes(lowercasedQuery) ||
-          car.Model?.toLowerCase().includes(lowercasedQuery) ||
-          car.Fueltype?.toLowerCase().includes(lowercasedQuery) ||
-          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
-          // car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
-          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
-      );
+      filtered = filtered.filter((car) => {
+        const fieldsToSearch = [
+          car.title,
+          car.City,
+          car.Emirates,
+          car.Make,
+          car.Registeredin,
+          car.Color,
+          car.Transmission,
+          car.EngineType,
+          car.Assembly,
+          car.BodyType,
+          car.NumberOfDoors,
+          car.SeatingCapacity,
+          car.ModalCategory,
+          car.SellerType,
+          car.PictureAvailability,
+          car.VideoAvailability,
+          car.AdType,
+          car.TrustedCars,
+          car.SubCategory,
+          car.mileage,
+          car.Purpose,
+          car.RegionalSpec,
+          car.Insurance,
+          car.InteriorColor,
+          car.Model,
+          car.Fueltype,
+          car.Condition,
+          car.NestedSubCategory,
+        ];
+
+        return fieldsToSearch.some(
+          (field) =>
+            typeof field === "string" &&
+            field.toLowerCase().includes(lowercasedQuery)
+        );
+      });
+
+      // filtered = filtered.filter(
+      //   (car) =>
+      //     car.title?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.City?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Emirates?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Make?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Registeredin?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Color?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.SeatingCapacity?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.ModalCategory?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.AdType?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.mileage?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.RegionalSpec?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Insurance?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.InteriorColor?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Make?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Model?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Fueltype?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.Condition?.toLowerCase().includes(lowercasedQuery) ||
+      //     // car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
+      //     car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
+      // );
     }
     setLoading(false);
     if (searchQuery?.length > 0) {
