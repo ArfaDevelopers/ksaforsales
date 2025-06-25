@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
@@ -164,6 +164,131 @@ const FashionStyle = () => {
   // Search query for title and city
   // Search query for title and city
   // Search query for title and city
+  const regionOptions = [
+    {
+      value: 1,
+      label: "Riyadh (الرياض)",
+      regionId: 1,
+      regionEn: "Riyadh",
+      // regionAr: "الرياض",
+      latitude: 24.63651,
+      longitude: 46.718845,
+    },
+    {
+      value: 2,
+      label: "Makkah (مكة المكرمة)",
+      regionId: 2,
+      regionEn: "Makkah",
+      // regionAr: "مكة المكرمة",
+      latitude: 21.406328,
+      longitude: 39.809088,
+    },
+    {
+      value: 3,
+      label: "Al Madinah (المدينة المنورة)",
+      regionId: 3,
+      regionEn: "Al Madinah",
+      // regionAr: "المدينة المنورة",
+      latitude: 24.427145,
+      longitude: 39.649658,
+    },
+    {
+      value: 4,
+      label: "Al Qassim (القصيم)",
+      regionId: 4,
+      regionEn: "Al Qassim",
+      // regionAr: "القصيم",
+      latitude: 26.338499,
+      longitude: 43.965396,
+    },
+    {
+      value: 5,
+      label: "Eastern (المنطقة الشرقية)",
+      regionId: 5,
+      regionEn: "Eastern",
+      // regionAr: "المنطقة الشرقية",
+      latitude: 26.372185,
+      longitude: 49.993286,
+    },
+    {
+      value: 6,
+      label: "Asir (عسير)",
+      regionId: 6,
+      regionEn: "Asir",
+      // regionAr: "عسير",
+      latitude: 18.20848,
+      longitude: 42.533569,
+    },
+    {
+      value: 7,
+      label: "Tabuk (تبوك)",
+      regionId: 7,
+      regionEn: "Tabuk",
+      // regionAr: "تبوك",
+      latitude: 28.401064,
+      longitude: 36.573486,
+    },
+    {
+      value: 8,
+      label: "Hail (حائل)",
+      regionId: 8,
+      regionEn: "Hail",
+      // regionAr: "حائل",
+      latitude: 27.527758,
+      longitude: 41.698608,
+    },
+    {
+      value: 9,
+      label: "Northern Borders (الحدود الشماليه)",
+      regionId: 9,
+      regionEn: "Northern Borders",
+      // regionAr: "الحدود الشماليه",
+      latitude: 30.977609,
+      longitude: 41.011962,
+    },
+    {
+      value: 10,
+      label: "Jazan (جازان)",
+      regionId: 10,
+      regionEn: "Jazan",
+      // regionAr: "جازان",
+      latitude: 16.890959,
+      longitude: 42.548375,
+    },
+    {
+      value: 11,
+      label: "Najran (نجران)",
+      regionId: 11,
+      regionEn: "Najran",
+      // regionAr: "نجران",
+      latitude: 17.489489,
+      longitude: 44.134333,
+    },
+    {
+      value: 12,
+      label: "Al Bahah (الباحة)",
+      regionId: 12,
+      regionEn: "Al Bahah",
+      // regionAr: "الباحة",
+      latitude: 20.014645,
+      longitude: 41.456909,
+    },
+    {
+      value: 13,
+      label: "Al Jawf (الجوف)",
+      regionId: 13,
+      regionEn: "Al Jawf",
+      // regionAr: "الجوف",
+      latitude: 29.971888,
+      longitude: 40.200476,
+    },
+  ];
+  const [selectedRegion, setSelectedRegionId] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [refresh, setRefresh] = useState(false); // Add loading state
+
+  const modalRef = useRef(null);
+  const [isCityModalVisible, setIsCityModalVisible] = useState(false);
   const [ads, setCarsData] = useState([]);
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
@@ -178,6 +303,124 @@ const FashionStyle = () => {
   console.log(nestedSubCategory, "subCatgory___________2---");
   console.log(subCatgory, "subCatgory___________1---");
   const [CityList, setCityList] = useState([]);
+
+  console.log(selectedCities, "Fetched cities:1");
+  console.log(cities, "Fetched cities:1cities");
+
+  const [districts, setDistricts] = useState([]);
+  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  const cityModalRef = useRef(null);
+  const regionPairs = [];
+  const [showModalDistricts, setShowModalDistricts] = useState(false);
+
+  for (let i = 0; i < regionOptions.length; i += 2) {
+    regionPairs.push(regionOptions.slice(i, i + 2));
+  }
+  useEffect(() => {
+    if (modalVisible && modalRef.current) {
+      modalRef.current.style.display = "block";
+      modalRef.current.classList.add("show");
+      document.body.classList.add("modal-open");
+
+      // Add backdrop
+      const backdrop = document.createElement("div");
+      backdrop.className = "modal-backdrop fade show";
+      backdrop.id = "modal-backdrop";
+      document.body.appendChild(backdrop);
+    } else if (modalRef.current) {
+      modalRef.current.style.display = "none";
+      modalRef.current.classList.remove("show");
+      document.body.classList.remove("modal-open");
+
+      // Remove backdrop
+      const backdrop = document.getElementById("modal-backdrop");
+      if (backdrop) {
+        backdrop.remove();
+      }
+    }
+
+    return () => {
+      document.body.classList.remove("modal-open");
+      const backdrop = document.getElementById("modal-backdrop");
+      if (backdrop) {
+        backdrop.remove();
+      }
+    };
+  }, [modalVisible]);
+  const cityOptions = cities.map((city) => ({
+    value: city.CITY_ID,
+    label: city["City En Name"],
+    regionId: city.REGION_ID,
+    cityId: city.CITY_ID,
+  }));
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch(
+          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegion}`
+        );
+        const data = await response.json();
+
+        if (data.cities) {
+          setCities(data.cities);
+          console.log("Fetched cities:", data.cities);
+        } else {
+          console.warn("No cities found");
+        }
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+
+    fetchCities();
+  }, [selectedRegion]);
+  const handleCheckboxChange1 = (option) => {
+    const exists = selectedCities.some(
+      (city) => city.CITY_ID === option.cityId
+    );
+    let updatedCities;
+    if (exists) {
+      updatedCities = selectedCities.filter(
+        (city) => city.CITY_ID !== option.cityId
+      );
+    } else {
+      updatedCities = [
+        ...selectedCities,
+        { REGION_ID: option.regionId, CITY_ID: option.cityId },
+      ];
+    }
+    setSelectedCities(updatedCities);
+  };
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      if (!selectedCities.length) return;
+
+      const REGION_ID = selectedCities[0]?.REGION_ID;
+      const CITY_ID = selectedCities[0]?.CITY_ID;
+
+      try {
+        const response = await fetch(
+          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+        );
+        const data = await response.json();
+        if (data.districts) {
+          setDistricts(data.districts);
+          console.log("Districts fetched:", data.districts);
+        }
+      } catch (error) {
+        console.error("Error fetching districts:", error);
+      }
+    };
+
+    fetchDistricts();
+  }, [selectedCities]);
+
+  const districtOptions = districts.map((district) => ({
+    value: district.District_ID,
+    label: district["District En Name"],
+    regionId: district.REGION_ID,
+    cityId: district.CITY_ID,
+  }));
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
@@ -1102,6 +1345,7 @@ const FashionStyle = () => {
           car.id === carId ? { ...car, bookmarked: newBookmarkedStatus } : car
         )
       );
+      setRefresh(!refresh);
 
       console.log(`Car ${carId} bookmarked: ${newBookmarkedStatus}`);
     } catch (error) {
@@ -1148,15 +1392,24 @@ const FashionStyle = () => {
   //   fetchCars();
   // }, [bookmarkedCar]);
   useEffect(() => {
+    const CITY_ID = selectedCities[0]?.CITY_ID;
+    const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+    const REGION_ID = selectedRegion;
+
     const fetchFashion = async () => {
       try {
         setLoading(true);
-        const query = searchText
-          ? `?searchText=${encodeURIComponent(searchText)}`
-          : "";
+
+        const params = new URLSearchParams();
+        if (searchText) params.append("searchText", searchText);
+        if (REGION_ID) params.append("regionId", REGION_ID);
+        if (CITY_ID) params.append("CITY_ID", CITY_ID);
+        if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
         const response = await fetch(
-          `http://168.231.80.24:9002/route/FASHION${query}`
+          `http://168.231.80.24:9002/route/FASHION?${params.toString()}`
         );
+
         const data = await response.json();
 
         setCars(data);
@@ -1171,7 +1424,8 @@ const FashionStyle = () => {
     };
 
     fetchFashion();
-  }, [searchText, bookmarkedCar]);
+  }, [searchText, refresh, selectedCities, selectedDistricts, selectedRegion]);
+
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
@@ -2259,23 +2513,201 @@ const FashionStyle = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*  -------------  */}
                 <Accordion>
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Header>Select Region</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
-                        <WindowedSelect
-                          options={CityOptions}
-                          value={selectedCity}
-                          onChange={handleCitySelect}
-                          placeholder="Select a City"
-                          isClearable
-                          isMulti // Enable multiple selections
-                          className="w-100"
-                          windowThreshold={100} // Render only 100 options at a time
-                        />
+                        <Form.Label>Select a Region</Form.Label>
+                        <div className="mb-3">
+                          {regionOptions.slice(0, 4).map((region) => (
+                            <div className="form-check" key={region.regionId}>
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`region-${region.regionId}`}
+                                checked={selectedRegion === region.regionId}
+                                onChange={() =>
+                                  setSelectedRegionId(
+                                    selectedRegion === region.regionId
+                                      ? ""
+                                      : region.regionId
+                                  )
+                                }
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`region-${region.regionId}`}
+                              >
+                                {region.label}
+                              </label>
+                            </div>
+                          ))}
+
+                          <div className="container ">
+                            <div className="card shadow-sm">
+                              <div className="card-body">
+                                <button
+                                  type="button"
+                                  className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2"
+                                  onClick={() => setModalVisible(true)}
+                                >
+                                  <i className="bi bi-geo-alt"></i>
+                                  More choices...
+                                </button>
+
+                                {/* Professional Modal */}
+                                <div
+                                  className="modal fade"
+                                  id="regionModal11"
+                                  tabIndex="-1"
+                                  ref={modalRef}
+                                  aria-labelledby="regionModalLabel"
+                                  aria-hidden="true"
+                                >
+                                  {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
+                                  <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                                    <div className="modal-content border-0 shadow-lg">
+                                      <div className="modal-header bg-light border-bottom">
+                                        <div className="d-flex align-items-center">
+                                          <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                          <h5
+                                            className="modal-title fw-semibold mb-0"
+                                            id="regionModalLabel"
+                                          >
+                                            Select a Region
+                                          </h5>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setModalVisible(false)}
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+
+                                      <div className="modal-body p-3">
+                                        <div className="mb-2">
+                                          <small className="text-muted">
+                                            Choose your preferred region from
+                                            the options below
+                                          </small>
+                                        </div>
+                                        <div className="row g-2">
+                                          {regionPairs.map(
+                                            (pair, pairIndex) => (
+                                              <div
+                                                className="col-12"
+                                                key={pairIndex}
+                                              >
+                                                <div className="row g-2">
+                                                  {pair.map((region) => (
+                                                    <div
+                                                      className="col-md-6"
+                                                      key={region.regionId}
+                                                    >
+                                                      <div className="form-check d-flex align-items-start p-2 ps-3 border rounded-2 hover-shadow transition-all">
+                                                        <input
+                                                          className="form-check-input me-2 mt-1"
+                                                          type="checkbox"
+                                                          id={`modal-region-${region.regionId}`}
+                                                          checked={
+                                                            selectedRegion ===
+                                                            region.regionId
+                                                          }
+                                                          onChange={() =>
+                                                            setSelectedRegionId(
+                                                              selectedRegion ===
+                                                                region.regionId
+                                                                ? ""
+                                                                : region.regionId
+                                                            )
+                                                          }
+                                                        />
+                                                        <label
+                                                          className="form-check-label"
+                                                          htmlFor={`modal-region-${region.regionId}`}
+                                                        >
+                                                          <div className="fw-medium text-dark">
+                                                            {region.regionEn}
+                                                          </div>
+                                                          <div className="small text-muted">
+                                                            {region.label
+                                                              .split("(")[1]
+                                                              ?.replace(
+                                                                ")",
+                                                                ""
+                                                              ) || region.label}
+                                                          </div>
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              </div>
+                                            )
+                                          )}
+                                        </div>
+                                      </div>
+
+                                      <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                        <div className="text-muted small">
+                                          {selectedRegion
+                                            ? "1 region selected"
+                                            : "No region selected"}
+                                        </div>
+                                        <div className="d-flex gap-2">
+                                          <button
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            onClick={() => {
+                                              setSelectedRegionId("");
+                                            }}
+                                          >
+                                            Clear Selection
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary px-4"
+                                            onClick={() =>
+                                              setModalVisible(false)
+                                            }
+                                          >
+                                            Done
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <style jsx>{`
+                              .hover-shadow {
+                                transition: all 0.15s ease-in-out;
+                              }
+                              .hover-shadow:hover {
+                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+                                transform: translateY(-0.5px);
+                              }
+                              .cursor-pointer {
+                                cursor: pointer;
+                              }
+                              .transition-all {
+                                transition: all 0.15s ease-in-out;
+                              }
+                              .form-check:has(.form-check-input:checked) {
+                                background-color: #f8f9fa;
+                                border-color: #0d6efd !important;
+                              }
+                              .form-check:has(.form-check-input:checked)
+                                .form-check-label {
+                                color: #0d6efd;
+                              }
+                            `}</style>
+                          </div>
+                        </div>
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -2294,27 +2726,402 @@ const FashionStyle = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*  -------------  */}
+
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Select City</Accordion.Header>
+                    <Accordion.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Select a City</Form.Label>
+
+                        <>
+                          {/* First 4 Checkboxes */}
+                          <div className="grid grid-cols-1 gap-2">
+                            {cityOptions.slice(0, 4).map((option) => (
+                              <label
+                                key={option.value}
+                                className="d-flex align-items-center gap-2"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={selectedCities.some(
+                                    (city) => city.CITY_ID === option.cityId
+                                  )}
+                                  onChange={() => handleCheckboxChange1(option)}
+                                />
+                                <span>{option.label}</span>
+                              </label>
+                            ))}
+
+                            {/* Show More Link */}
+                            {/* {cityOptions.length > 4 && (
+                                                         <button
+                                                           type="button"
+                                                           className="btn btn-link p-0"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#moreCitiesModal1"
+                                                         >
+                                                           Show more choices...
+                                                         </button>
+                                                       )} */}
+                          </div>
+
+                          {/* {cityOptions.length > 4 && ( */}
+                          <button
+                            type="button"
+                            className="btn btn-link p-0"
+                            onClick={() => setIsCityModalVisible(true)}
+                          >
+                            Show more choices...
+                          </button>
+                          {/* )} */}
+                          {/* <div
+                                                       className="modal fade"
+                                                       id="moreCitiesModal1"
+                                                       tabIndex="-1"
+                                                       ref={cityModalRef}
+                                                       aria-labelledby="moreCitiesModalLabel1"
+                                                       aria-hidden="true"
+                                                     >
+                                                       <div className="modal-dialog modal-dialog-scrollable">
+                                                         <div className="modal-content">
+                                                           <div className="modal-header">
+                                                             <h5
+                                                               className="modal-title"
+                                                               id="moreCitiesModalLabel1"
+                                                             >
+                                                               Select More Cities
+                                                             </h5>
+                                                             <button
+                                                               type="button"
+                                                               className="btn-close"
+                                                               onClick={() => setIsCityModalVisible(false)}
+                                                             ></button>
+                                                           </div>
+                           
+                                                           <div className="modal-body">
+                                                             {cityOptions.slice(4).map((option) => (
+                                                               <label
+                                                                 key={option.value}
+                                                                 className="d-flex align-items-center gap-2 mb-2"
+                                                               >
+                                                                 <input
+                                                                   type="checkbox"
+                                                                   checked={selectedCities.some(
+                                                                     (city) =>
+                                                                       city.CITY_ID === option.cityId
+                                                                   )}
+                                                                   onChange={() =>
+                                                                     handleCheckboxChange1(option)
+                                                                   }
+                                                                 />
+                                                                 <span>{option.label}</span>
+                                                               </label>
+                                                             ))}
+                                                           </div>
+                           
+                                                           <div className="modal-footer">
+                                                             <button
+                                                               type="button"
+                                                               className="btn btn-secondary"
+                                                               onClick={() => setIsCityModalVisible(false)}
+                                                             >
+                                                               Close
+                                                             </button>
+                                                           </div>
+                                                         </div>
+                                                       </div>
+                                                     </div> */}
+
+                          <div
+                            className="modal fade"
+                            id="moreCitiesModal1"
+                            tabIndex="-1"
+                            ref={cityModalRef}
+                            aria-labelledby="moreCitiesModalLabel1"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="moreCitiesModalLabel1"
+                                  >
+                                    Select More Cities
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setIsCityModalVisible(false)}
+                                  ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                  <div className="row">
+                                    {cityOptions.slice(4).map((option) => (
+                                      <div
+                                        key={option.value}
+                                        className="col-6 mb-2"
+                                      >
+                                        <label className="d-flex align-items-center gap-2">
+                                          <input
+                                            type="checkbox"
+                                            checked={selectedCities.some(
+                                              (city) =>
+                                                city.CITY_ID === option.cityId
+                                            )}
+                                            onChange={() =>
+                                              handleCheckboxChange1(option)
+                                            }
+                                          />
+                                          <span>{option.label}</span>
+                                        </label>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setIsCityModalVisible(false)}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      </Form.Group>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Form.Label>Select a District</Form.Label>
+                        {/* <WindowedSelect
+                                                                     options={districtOptions}
+                                                                     isMulti
+                                                                     placeholder="Select Districts"
+                                                                     className="w-100"
+                                                                     onChange={(selected) => {
+                                                                       const selectedInfo = selected.map((item) => ({
+                                                                         REGION_ID: item.regionId,
+                                                                         CITY_ID: item.cityId,
+                                                                         DISTRICT_ID: item.value,
+                                                                       }));
+                                                                       setSelectedDistricts(selectedInfo);
+                                                                       console.log("Selected Districts:", selectedInfo);
+                                                                     }}
+                                                                   /> */}
+                        <div className="grid grid-cols-1 gap-2">
+                          {districtOptions.slice(0, 4).map((option) => {
+                            const isChecked = selectedDistricts.some(
+                              (district) =>
+                                district.DISTRICT_ID === option.value
+                            );
 
-                        <WindowedSelect
-                          options={DistrictOptions}
-                          value={selectedDistrict}
-                          onChange={handleDistrictSelect}
-                          placeholder="Select a District"
-                          isClearable
-                          className="w-100"
-                          windowThreshold={100} // Render only 100 options at a time
-                        />
+                            return (
+                              <label
+                                key={option.value}
+                                className="form-check d-flex align-items-center gap-2"
+                                style={{ display: "flex" }}
+                              >
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  checked={isChecked}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedDistricts((prev) => [
+                                        ...prev,
+                                        {
+                                          REGION_ID: option.regionId,
+                                          CITY_ID: option.cityId,
+                                          DISTRICT_ID: option.value,
+                                        },
+                                      ]);
+                                    } else {
+                                      setSelectedDistricts((prev) =>
+                                        prev.filter(
+                                          (district) =>
+                                            district.DISTRICT_ID !==
+                                            option.value
+                                        )
+                                      );
+                                    }
+                                  }}
+                                />
+                                <span className="form-check-label">
+                                  {option.label}
+                                </span>
+                              </label>
+                            );
+                          })}
+
+                          <button
+                            type="button"
+                            className="btn btn-link p-0 mt-2"
+                            onClick={() => setShowModalDistricts(true)}
+                          >
+                            More choices...
+                          </button>
+                        </div>
+
+                        <div className="container mt-5">
+                          <div
+                            className="modal fade show"
+                            tabIndex="-1"
+                            style={{
+                              display: showModalDistricts ? "block" : "none",
+                              backgroundColor: "rgba(0,0,0,0.5)",
+                            }}
+                            role="dialog"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                              <div className="modal-content">
+                                {/* Header */}
+                                <div className="modal-header">
+                                  <h5 className="modal-title">
+                                    Select More Districts
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setShowModalDistricts(false)}
+                                  ></button>
+                                </div>
+
+                                {/* Compact Body */}
+                                <div className="modal-body py-2">
+                                  <div className="row g-1 ml-4">
+                                    {districtOptions.slice(4).map((option) => {
+                                      const isChecked = selectedDistricts.some(
+                                        (district) =>
+                                          district.DISTRICT_ID === option.value
+                                      );
+
+                                      return (
+                                        <div
+                                          key={option.value}
+                                          className="col-6"
+                                        >
+                                          <label className="form-check d-flex align-items-center py-1 px-2 rounded hover-bg  ml-4">
+                                            <input
+                                              type="checkbox"
+                                              className="form-check-input me-2 flex-shrink-0  ml-4"
+                                              checked={isChecked}
+                                              onChange={(e) => {
+                                                if (e.target.checked) {
+                                                  setSelectedDistricts(
+                                                    (prev) => [
+                                                      ...prev,
+                                                      {
+                                                        REGION_ID:
+                                                          option.regionId,
+                                                        CITY_ID: option.cityId,
+                                                        DISTRICT_ID:
+                                                          option.value,
+                                                      },
+                                                    ]
+                                                  );
+                                                } else {
+                                                  setSelectedDistricts((prev) =>
+                                                    prev.filter(
+                                                      (district) =>
+                                                        district.DISTRICT_ID !==
+                                                        option.value
+                                                    )
+                                                  );
+                                                }
+                                              }}
+                                            />
+                                            <span
+                                              className="form-check-label text-truncate small ml-4"
+                                              style={{ cursor: "pointer" }}
+                                            >
+                                              {option.label}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+
+                                  {/* Selection Count */}
+                                  {selectedDistricts.length > 0 && (
+                                    <div className="mt-2 p-2 bg-light rounded">
+                                      <small className="text-muted">
+                                        {selectedDistricts.length} selected
+                                      </small>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Footer */}
+                                <div className="modal-footer py-2">
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-secondary"
+                                    onClick={() => setShowModalDistricts(false)}
+                                  >
+                                    Close
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => setShowModalDistricts(false)}
+                                  >
+                                    Apply
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Minimal Custom Styles */}
+                          <style jsx>{`
+                            .hover-bg:hover {
+                              background-color: #f8f9fa;
+                            }
+                            .form-check {
+                              margin-bottom: 0;
+                              min-height: auto;
+                            }
+                            .form-check-input {
+                              margin-top: 0;
+                            }
+                            .text-truncate {
+                              max-width: 100%;
+                            }
+                          `}</style>
+                        </div>
                       </Form.Group>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
@@ -2708,26 +3515,25 @@ const FashionStyle = () => {
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
                             {car.FeaturedAds === "Featured Ads" && (
-  <div
-    style={{
-      position: "absolute",
-      top: "10px",
-      left: "10px",
-      backgroundColor: "#36A680",
-      color: "white",
-      padding: "6px 12px",
-      fontWeight: "bold",
-      borderRadius: "8px",
-      border: "2px solid #2c8e6f",
-      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
-      fontSize: "14px",
-      zIndex: 2,
-    }}
-  >
-    Featured
-  </div>
-)}
-
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "10px",
+                                  left: "10px",
+                                  backgroundColor: "#36A680",
+                                  color: "white",
+                                  padding: "6px 12px",
+                                  fontWeight: "bold",
+                                  borderRadius: "8px",
+                                  border: "2px solid #2c8e6f",
+                                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+                                  fontSize: "14px",
+                                  zIndex: 2,
+                                }}
+                              >
+                                Featured
+                              </div>
+                            )}
                             {/* Heart Icon */}
                             <div
                               style={{
@@ -2892,58 +3698,104 @@ const FashionStyle = () => {
                                       </style>
                                     </div>
                                   ) : (
-                                    ads.map((cars) => (
-                                      <div
-                                        style={{
-                                          position: "absolute",
-                                          top: "-70px",
-                                          left: "470px",
-                                          fontWeight: "bold",
-                                          fontSize: "20px",
-                                          zIndex: 2,
-                                          color: "#2D4495",
-                                        }}
-                                      >
-                                        {car.photoURL ? (
-                                          <img
-                                            src={car.photoURL}
-                                            // alt={car.title || "No Image"}
-                                            style={{
-                                              width: "100px",
-                                              height: "100px",
-                                              objectFit: "cover",
-                                              borderRadius: "50%",
-                                              border: "2px solid white",
-                                              boxShadow:
-                                                "0 0 10px rgba(0,0,0,0.1)",
-                                              display: "block",
-                                            }}
-                                          />
-                                        ) : (
-                                          <div
-                                            style={{
-                                              width: "110px",
-                                              height: "110px",
-                                              borderRadius: "50%",
-                                              border: "2px solid white",
-                                              boxShadow:
-                                                "0 0 10px rgba(0,0,0,0.1)",
-                                              display: "flex",
-                                              alignItems: "center",
-                                              justifyContent: "center",
-                                              backgroundColor: "#f0f0f0", // optional background color
-                                              textAlign: "center",
-                                              padding: "10px", // optional padding
-                                            }}
-                                          >
-                                            {"No Image"}
-                                          </div>
-                                        )}
-                                      </div>
-                                    ))
+                                    ads.map(
+                                      (cars) =>
+                                        ""
+                                        // <div
+                                        //   style={{
+                                        //     position: "absolute",
+                                        //     top: "-70px",
+                                        //     left: "470px",
+                                        //     fontWeight: "bold",
+                                        //     fontSize: "20px",
+                                        //     zIndex: 2,
+                                        //     color: "#2D4495",
+                                        //   }}
+                                        // >
+                                        //   {car.photoURL ? (
+                                        //     <img
+                                        //       src={car.photoURL}
+                                        //       // alt={car.title || "No Image"}
+                                        //       style={{
+                                        //         width: "100px",
+                                        //         height: "100px",
+                                        //         objectFit: "cover",
+                                        //         borderRadius: "50%",
+                                        //         border: "2px solid white",
+                                        //         boxShadow:
+                                        //           "0 0 10px rgba(0,0,0,0.1)",
+                                        //         display: "block",
+                                        //       }}
+                                        //     />
+                                        //   ) : (
+                                        //     <div
+                                        //       style={{
+                                        //         width: "110px",
+                                        //         height: "110px",
+                                        //         borderRadius: "50%",
+                                        //         border: "2px solid white",
+                                        //         boxShadow:
+                                        //           "0 0 10px rgba(0,0,0,0.1)",
+                                        //         display: "flex",
+                                        //         alignItems: "center",
+                                        //         justifyContent: "center",
+                                        //         backgroundColor: "#f0f0f0", // optional background color
+                                        //         textAlign: "center",
+                                        //         padding: "10px", // optional padding
+                                        //       }}
+                                        //     >
+                                        //       {"No Image"}
+                                        //     </div>
+                                        //   )}
+                                        // </div>
+                                    )
                                   )}
                                 </div>
-
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "-70px",
+                                    left: "470px",
+                                    fontWeight: "bold",
+                                    fontSize: "20px",
+                                    zIndex: 2,
+                                    color: "#2D4495",
+                                  }}
+                                >
+                                  {car.photoURL ? (
+                                    <img
+                                      src={car.photoURL}
+                                      // alt={car.title || "No Image"}
+                                      style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        objectFit: "cover",
+                                        borderRadius: "50%",
+                                        border: "2px solid white",
+                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                        display: "block",
+                                      }}
+                                    />
+                                  ) : (
+                                    <div
+                                      style={{
+                                        width: "110px",
+                                        height: "110px",
+                                        borderRadius: "50%",
+                                        border: "2px solid white",
+                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        backgroundColor: "#f0f0f0", // optional background color
+                                        textAlign: "center",
+                                        padding: "10px", // optional padding
+                                      }}
+                                    >
+                                      {"No Image"}
+                                    </div>
+                                  )}
+                                </div>
                                 {/* Updated text at the bottom-right corner */}
                                 <p
                                   style={{
