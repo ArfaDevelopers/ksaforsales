@@ -1,4 +1,4 @@
-import React, { useEffect,useState  } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Amexpay,
@@ -42,14 +42,14 @@ const Footer = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <>
-    <style>
+      {/* <style>
         {`
           footer {
             margin-top: -3rem;
@@ -61,11 +61,11 @@ const Footer = () => {
             }
           }
         `}
-      </style>
-    <footer >
-      <div className="footer">
-        {/* footer_top */}
-{/* 
+      </style> */}
+      <footer>
+        <div className="footer">
+          {/* footer_top */}
+          {/* 
         <div className="topfooter_wrapper container">
           <div className="topfooter_container1">
             <h4 className="topfooter_heading1">GET KSA4SALES APP</h4>
@@ -87,7 +87,7 @@ const Footer = () => {
     </div>
   </div>
             </div> */}
-            {/* <div class="topfooter_soc d-flex flex-column align-items-center">
+          {/* <div class="topfooter_soc d-flex flex-column align-items-center">
   <div>
     <h4 class="topfooter_heading2">
       The best for You is just one click away
@@ -129,218 +129,312 @@ const Footer = () => {
           </div>
         </div> */}
 
-        {/* footer mid */}
+          {/* footer mid */}
 
-        <div className="footermid-wrapper " style={{  marginTop: window.innerWidth <= 576 ? "-2rem" : "-4rem"}}>
-          <div className="footermid-container container">
-            <h3 className="footermid-heading" style={{marginLeft: window.innerWidth <= 576 ? "-3rem" : "0rem"}}>We are always here to help</h3>
-            <div className="footermidinfo-container">
-              <div className="midfooterinfo">
-                <i className="midfooterinfo-icon" >
-                  <img src={gmail} alt="" style={{ width: "3.5rem" }} />
-                </i>
-                <div className="footermidgmail">
-                  <h4 className="footermidgmailheading">Email support</h4>
-                  <p className="footermid-para" style={{ fontFamily: "Inter" }}>
-                    emailsupport@Ksa4sale.com
-                  </p>
-                </div>
-              </div>
-              <div className="midfooterinfo"style={{marginTop: window.innerWidth <= 576 ? "-3rem" : "0rem",marginBottom: window.innerWidth <= 576 ? "-4rem" : "0rem"}}>
-                <i className="midfooterinfo-icon">
-                  <img src={whatapp} alt="" style={{ marginRight: window.innerWidth <= 576 ? "0rem" : "0rem",marginLeft: window.innerWidth <= 576 ? "-2rem" : "0rem" , }} />
-                </i>
-                <div className="footermidgmail">
-                  <h4 className="footermidgmailheading">Phone Number</h4>
-                  <p className="footermid-para" style={{ fontFamily: "Inter" }}>
-                    + 965 43215678
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="footer-top aos  footer_shadow "
-          data-aos="fade-up"
-        >
-          <div className="container  footerContact_Wrapper" style={{marginBottom:"1rem"}}>
-            <div className="row  footerEnd_container">
-              <div className="col-lg-3 col-md-6  logoInfo_wrapper">
-                <div className="footer-widget containerParaInfo ">
-                  <div className="footer-logo">
-                    <Link to="#">
-                      <img src={KSA} alt="logo" />
-                    </Link>
-                   
+          <div className="footermid-wrapper ">
+            <div className="footermid-container container">
+              <h3 className="footermid-heading">We are always here to help</h3>
+              <div className="footermidinfo-container">
+                <div className="midfooterinfo">
+                  <i className="midfooterinfo-icon">
+                    <img src={gmail} alt="" style={{ width: "3.5rem" }} />
+                  </i>
+                  <div className="footermidgmail">
+                    <h4 className="footermidgmailheading">Email support</h4>
+                    <p
+                      className="footermid-para"
+                      style={{ fontFamily: "Inter" }}
+                    >
+                      emailsupport@Ksa4sale.com
+                    </p>
                   </div>
-                
-                  <div className="d-flex align-items-center parent-container" style={{ gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' ,marginLeft: window.innerWidth <= 576 ? "0rem" : "-3rem" }}>
-  <img
-    src={QRcode}
-    alt="QR Code"
-    className="topfooter-qr"
-    style={{ width: 'min(100px, 25vw)', height: 'min(100px, 25vw)', maxWidth: '100px' }}
-  />
-  <div className="d-flex flex-column child-container" style={{ gap: '0.5rem', alignItems: 'center' }}>
-    <a href="https://play.google.com" target="_blank" rel="noopener noreferrer">
-      <img
-        src={googlebutton}
-        alt="Google Play"
-        className="topfooter-socialimg"
-        style={{ width: 'min(148px, 40vw)', height: 'auto', maxWidth: '148px' }}
-      />
-    </a>
-    <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
-      <img
-        src={appstore}
-        alt="App Store"
-        className="topfooter-socialimg"
-        style={{ width: 'min(148px, 40vw)', height: 'auto', maxWidth: '148px' }}
-      />
-    </a>
-  </div>
-</div>
+                </div>
+                <div
+                  className="midfooterinfo"
+                  // style={{
+                  // 	marginTop: window.innerWidth <= 576 ? "-3rem" : "0rem",
+                  // 	marginBottom: window.innerWidth <= 576 ? "-4rem" : "0rem",
+                  // }}
+                >
+                  <i className="midfooterinfo-icon">
+                    <img
+                      src={whatapp}
+                      alt=""
+                      // style={{
+                      // 	marginRight: window.innerWidth <= 576 ? "0rem" : "0rem",
+                      // 	marginLeft: window.innerWidth <= 576 ? "-2rem" : "0rem",
+                      // }}
+                    />
+                  </i>
+                  <div className="footermidgmail">
+                    <h4 className="footermidgmailheading">Phone Number</h4>
+                    <p
+                      className="footermid-para"
+                      style={{ fontFamily: "Inter" }}
+                    >
+                      + 965 43215678
+                    </p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="col-lg-1 col-md-6">
-                <div className="footer-widget footer-menu">
-                  <h2 className="footer-title">Categories</h2>
-                  <ul>
-                    <li>
-                      <Link to="/PetAnimalsComp">Our product</Link>
-                    </li>
-                    <li>
-                      <Link to="AutomotiveComp">Automative</Link>
-                    </li>
-                    <li>
-                      <Link to="/ElectronicComp">Electronic</Link>
-                    </li>
-                    <li>
-                      <Link to="/PetAnimalsComp">Animal</Link>
-                    </li>
-                    <li>
-                      <Link to="/FashionStyle">Gift</Link>
-                    </li>
-                  </ul>
+            </div>
+          </div>
+          <div className="footer-top aos  footer_shadow " data-aos="fade-up">
+            <div
+              className="container  footerContact_Wrapper"
+              style={{ marginBottom: "1rem" }}
+            >
+              <div className="row  footerEnd_container">
+                <div className="col-lg-3 col-md-6  logoInfo_wrapper">
+                  <div className="footer-widget containerParaInfo ">
+                    <div className="footer-logo">
+                      <Link to="#">
+                        <img src={KSA} alt="logo" />
+                      </Link>
+                    </div>
+
+                    <div
+                      className="d-flex align-items-center parent-container footer_qr"
+                      style={{
+                        gap: "1.5rem",
+                        flexWrap: "wrap",
+                        // justifyContent: "center",
+                        // marginLeft: window.innerWidth <= 576 ? "0rem" : "-3rem",
+                      }}
+                    >
+                      <img
+                        src={QRcode}
+                        alt="QR Code"
+                        className="topfooter-qr"
+                        style={{
+                          width: "min(100px, 25vw)",
+                          height: "min(100px, 25vw)",
+                          maxWidth: "100px",
+                        }}
+                      />
+                      <div
+                        className="d-flex flex-column child-container"
+                        style={{ gap: "0.5rem", alignItems: "center" }}
+                      >
+                        <a
+                          href="https://play.google.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={googlebutton}
+                            alt="Google Play"
+                            className="topfooter-socialimg"
+                            style={{
+                              width: "min(148px, 40vw)",
+                              height: "auto",
+                              maxWidth: "148px",
+                            }}
+                          />
+                        </a>
+                        <a
+                          href="https://www.apple.com/app-store/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={appstore}
+                            alt="App Store"
+                            className="topfooter-socialimg"
+                            style={{
+                              width: "min(148px, 40vw)",
+                              height: "auto",
+                              maxWidth: "148px",
+                            }}
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-1 col-md-6 footer_link_mbl">
+                  <div className="footer-widget footer-menu">
+                    <h2 className="footer-title">Categories</h2>
+                    <ul>
+                      <li>
+                        <Link to="/PetAnimalsComp">Our product</Link>
+                      </li>
+                      <li>
+                        <Link to="AutomotiveComp">Automative</Link>
+                      </li>
+                      <li>
+                        <Link to="/ElectronicComp">Electronic</Link>
+                      </li>
+                      <li>
+                        <Link to="/PetAnimalsComp">Animal</Link>
+                      </li>
+                      <li>
+                        <Link to="/FashionStyle">Gift</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-lg-1 col-md-6 footer_link_mbl">
+                  <div className="footer-widget footer-menu">
+                    <ul
+                      className="col_2"
+                      style={{
+                        marginTop: window.innerWidth <= 767 ? "50px" : "34px",
+                      }}
+                    >
+                      <li>
+                        <Link to="/RealEstateComp">Property</Link>
+                      </li>
+                      <li>
+                        <Link to="/RealEstateComp">Contracting</Link>
+                      </li>
+                      <li>
+                        <Link to="/RealEstateComp">Camping</Link>
+                      </li>
+                      <li>
+                        <Link to="/Education">Family</Link>
+                      </li>
+                      <li>
+                        <Link to="/RealEstateComp">Furniture</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-md-6 footer_link_mbl">
+                  <div className="footer-widget footer-menu">
+                    <h2 className="footer-title">My Account</h2>
+                    <ul>
+                      <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                      </li>
+                      <li>
+                        <Link to="/profile">Profile</Link>
+                      </li>
+                      <li>
+                        <Link to="/my-listing">My Listing</Link>
+                      </li>
+                      <li>
+                        <Link to="/bookmarks">My Favourtite</Link>
+                      </li>
+                      <li>
+                        <Link to="/messages">Messages</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="col-lg-2 col-md-6 footer_link_mbl">
+                  <div className="footer-widget footer-menu">
+                    <div className="footer-title">Ksa4sale</div>
+                    <ul>
+                      <li>
+                        <Link to="/AboutUs">About Us</Link>
+                      </li>
+                      <li>
+                        <Link to="/TermsAndConditions">Terms & Conditions</Link>
+                      </li>
+                      <li>
+                        <Link to="/PrivacyPolicy">Privacy & Policy</Link>
+                      </li>
+
+                      <li>
+                        <Link to="/Copyrights">CopyRights</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-md-6 footer_link_mbl">
+                  <div className="footer-widget footer-menu">
+                    <h2 className="footer-title">Useful Links</h2>
+                    <ul>
+                      <li>
+                        <Link to="https://ksa4sale.net/directory/">
+                          Directory
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="#">Blog</Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div className="col-lg-1 col-md-6">
-                <div className="footer-widget footer-menu">
-                  <ul className="col_2" style={{marginTop: window.innerWidth <= 576 ? "-1rem" : "30px"}}>
-                    <li>
-                      <Link to="/RealEstateComp">Property</Link>
-                    </li>
-                    <li>
-                      <Link to="/RealEstateComp">Contracting</Link>
-                    </li>
-                    <li>
-                      <Link to="/RealEstateComp">Camping</Link>
-                    </li>
-                    <li>
-                      <Link to="/Education">Family</Link>
-                    </li>
-                    <li>
-                      <Link to="/RealEstateComp">Furniture</Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="col-lg-2 col-md-6">
-                <div className="footer-widget footer-menu">
-                  <h2 className="footer-title">My Account</h2>
-                  <ul>
-                  <li>
-                      <Link to="/dashboard">Dashboard</Link>
-                    </li>
-                    <li>
-                      <Link to="/profile">Profile</Link>
-                    </li>
-                    <li>
-                      <Link to="/my-listing">My Listing</Link>
-                    </li>
-                    <li>
-                      <Link to="/bookmarks">My Favourtite</Link>
-                    </li>
-                    <li>
-                      <Link to="/messages">Messages</Link>
-                    </li>
-                  
-                  </ul>
-                </div>
+            </div>
+          </div>
+
+          <div
+            className="footer_end"
+            style={{ backgroundColor: "#f0f4f8", padding: "1rem 0" }}
+          >
+            <div className="container d-flex justify-content-between align-items-center flex-column flex-md-row">
+              {/* Copyright Text */}
+              <div
+                className="footerend_para"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  color: "#333",
+                  textAlign: "center",
+                }}
+              >
+                All CopyRight Reserved © <span>2025</span> - Ksa4sale
               </div>
 
-              <div className="col-lg-2 col-md-6">
-                <div className="footer-widget footer-menu">
-                  <div className="footer-title">Ksa4sale</div>
-                  <ul>
-                    <li>
-                      <Link to="/AboutUs">About Us</Link>
-                    </li>
-                    <li>
-                      <Link to="/TermsAndConditions">Terms & Conditions</Link>
-                    </li>
-                    <li>
-                      <Link to="/PrivacyPolicy">Privacy & Policy</Link>
-                    </li>
-                   
-                    <li>
-                      <Link to="/Copyrights">CopyRights</Link>
-                    </li>
-                  </ul>
-                </div>
+              {/* Social Media Icons */}
+              <div className="social-icons d-flex gap-4 mt-3 mt-md-0">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#3b5998" }}
+                >
+                  <FaFacebook size={24} />
+                </a>
+                <a
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#000" }}
+                >
+                  <FaXTwitter size={24} />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#0077b5" }}
+                >
+                  <FaLinkedin size={24} />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#e1306c" }}
+                >
+                  <FaInstagramSquare size={24} />
+                </a>
+                <a
+                  href="https://whatsapp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#25d366" }}
+                >
+                  <IoLogoWhatsapp size={24} />
+                </a>
+                <a
+                  href="https://tiktok.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#000" }}
+                >
+                  <FaTiktok size={24} />
+                </a>
               </div>
-              <div className="col-lg-2 col-md-6">
-                <div className="footer-widget footer-menu">
-                  <h2 className="footer-title">Useful Links</h2>
-                  <ul>
-                    <li>
-                      <Link to="https://ksa4sale.net/directory/">Directory</Link>
-                    </li>
-                    <li>
-                      <Link to="#">Blog</Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            
             </div>
           </div>
         </div>
-    
-        <div className="footer_end" style={{ backgroundColor: '#f0f4f8', padding: '1rem 0' }}>
-  <div className="container d-flex justify-content-between align-items-center flex-column flex-md-row">
-    {/* Copyright Text */}
-    <div className="footerend_para" style={{ fontFamily: "'Inter', sans-serif", color: '#333', textAlign: 'center' }}>
-      All CopyRight Reserved © <span>2025</span> - Ksa4sale
-    </div>
-
-    {/* Social Media Icons */}
-    <div className="social-icons d-flex gap-4 mt-3 mt-md-0">
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#3b5998' }}>
-        <FaFacebook size={24} />
-      </a>
-      <a href="https://x.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000' }}>
-        <FaXTwitter size={24} />
-      </a>
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: '#0077b5' }}>
-        <FaLinkedin size={24} />
-      </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#e1306c' }}>
-        <FaInstagramSquare size={24} />
-      </a>
-      <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" style={{ color: '#25d366' }}>
-        <IoLogoWhatsapp size={24} />
-      </a>
-      <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000' }}>
-        <FaTiktok size={24} />
-      </a>
-    </div>
-  </div>
-</div>
-      </div>
-    </footer>
+      </footer>
     </>
   );
 };
