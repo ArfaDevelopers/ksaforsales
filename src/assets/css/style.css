@@ -3609,7 +3609,7 @@ width: 100%;
   padding: 0;
 }
 form.filter_innerwrap {
-  padding: 0 14px;
+  padding: 0 14px 20px;
 }
 form.filter_innerwrap .input_feild,
 form.filter_innerwrap .accordion-header button {
@@ -3628,6 +3628,28 @@ form.filter_innerwrap .accordion-item {
   border: unset !important;
   outline: unset;
   background-color: transparent !important;
+}
+.filter_main_wrap .accordion-body {
+  padding: 0 !important;
+}
+.filter_main_wrap .accordion-body > div {
+  padding: 0 !important;
+  padding-left: 5px !important;
+  margin: 16px 0 0 0 !important;
+  width: 100% !important;
+}
+.filter_main_wrap .accordion-body > div > div > div {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+.filter_main_wrap .form-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 0px !important;
+}
+.filter_main_wrap label.form-check-label {
+  margin-bottom: 0;
 }
 /* Filter css ends */
 @media screen and (min-width: 370px) and (max-width: 600px) {
