@@ -81,7 +81,31 @@ const RealEstateComp = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
-
+  const floorList = [
+    "Basement",
+    "Ground Floor",
+    "1st Floor",
+    "2nd Floor",
+    "3rd Floor",
+    "4th Floor",
+    "5th Floor",
+    "6th Floor",
+    "7th Floor",
+    "8th Floor",
+    "9th Floor",
+    "10th Floor",
+    "10+ Floors",
+  ];
+  const propertyAgeList = [
+    "New (0-1 year)",
+    "1-5 years",
+    "6-10 years",
+    "11-15 years",
+    "16-20 years",
+    "21-30 years",
+    "31+ years",
+    "Under Construction",
+  ];
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
   const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
@@ -187,6 +211,8 @@ const RealEstateComp = () => {
   const [Amenities, setAmenities] = useState([]);
   const [Floor, setFloor] = useState([]);
   const [PropertyAge, setPropertyAge] = useState([]);
+  const [showAllFloors, setShowAllFloors] = useState(false);
+  const [showAllPropertyAge, setShowAllPropertyAge] = useState(false);
 
   const [Condition, setCondition] = useState([]);
 
@@ -770,13 +796,11 @@ const RealEstateComp = () => {
   };
 
   const handleCheckboxChangeFloor = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    const selected = event.target.name;
     if (event.target.checked) {
-      // Only allow one checkbox to be checked
-      setFloor([carLabel]);
+      setFloor([selected]); // Only allow one
     } else {
-      // If unchecked, clear the state
-      setFloor([]);
+      setFloor([]); // Uncheck all
     }
   };
   const handleCheckboxCondition = (label) => {
@@ -791,15 +815,11 @@ const RealEstateComp = () => {
     });
   };
   const handleCheckboxChangePropertyAge = (label) => {
-    setPropertyAge((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
-      } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
-      }
-    });
+    setPropertyAge((prevSelected) =>
+      prevSelected.includes(label)
+        ? prevSelected.filter((item) => item !== label)
+        : [...prevSelected, label]
+    );
   };
   const handleCheckboxChangePropertyType = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
@@ -4015,7 +4035,7 @@ const RealEstateComp = () => {
                             </div>
                           ))}
                         </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
+                        {/* <p style={{ color: "#2D4495" }}>More choices</p> */}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -4077,7 +4097,7 @@ const RealEstateComp = () => {
                             </div>
                           ))}
                         </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
+                        {/* <p style={{ color: "#2D4495" }}>More choices</p> */}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -4161,27 +4181,16 @@ const RealEstateComp = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header> Floor</Accordion.Header>
+                    <Accordion.Header>Floor</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {[
-                            "Basement",
-                            "Ground Floor",
-                            "1st Floor",
-                            "2nd Floor",
-                            "3rd Floor",
-                            "4th Floor",
-                            "5th Floor",
-                            "6th Floor",
-                            "7th Floor",
-                            "8th Floor",
-                            "9th Floor",
-                            "10th Floor",
-                            "10+ Floors",
-                          ].map((engine) => (
+                          {(showAllFloors
+                            ? floorList
+                            : floorList.slice(0, 4)
+                          ).map((floor) => (
                             <div
-                              key={engine}
+                              key={floor}
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -4191,25 +4200,33 @@ const RealEstateComp = () => {
                             >
                               <Form.Check
                                 type="checkbox"
-                                label={engine}
-                                name={engine} // Set the name attribute
-                                checked={Floor.includes(engine)} // Control the checked state
-                                onChange={handleCheckboxChangeFloor} // Pass the event object
+                                label={floor}
+                                name={floor}
+                                checked={Floor.includes(floor)}
+                                onChange={handleCheckboxChangeFloor}
                               />
-                              {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
+
+                        {floorList.length > 4 && (
+                          <p
+                            onClick={() => setShowAllFloors((prev) => !prev)}
+                            style={{
+                              color: "#2D4495",
+                              marginTop: "10px",
+                              cursor: "pointer",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {showAllFloors ? "Show less..." : "Show more..."}
+                          </p>
+                        )}
                       </div>
-                      ;
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
@@ -4324,11 +4341,6 @@ const RealEstateComp = () => {
                             </div>
                           ))}
                         </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                        <div>
-                          <strong>Selected Amenities:</strong>{" "}
-                          {Amenities.join(", ")}
-                        </div>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -4351,22 +4363,16 @@ const RealEstateComp = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header> Property Age</Accordion.Header>
+                    <Accordion.Header>Property Age</Accordion.Header>
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          {[
-                            "New (0-1 year)",
-                            "1-5 years",
-                            "6-10 years",
-                            "11-15 years",
-                            "16-20 years",
-                            "21-30 years",
-                            "31+ years",
-                            "Under Construction",
-                          ].map((engine) => (
+                          {(showAllPropertyAge
+                            ? propertyAgeList
+                            : propertyAgeList.slice(0, 4)
+                          ).map((label, index) => (
                             <div
-                              key={engine}
+                              key={label}
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -4376,24 +4382,34 @@ const RealEstateComp = () => {
                             >
                               <Form.Check
                                 type="checkbox"
-                                label={engine}
-                                name={engine} // Set the name attribute
-                                checked={PropertyAge.includes(engine)} // Control the checked state
-                                onChange={handleCheckboxChangePropertyAge} // Pass the event object
+                                label={label}
+                                name={label}
+                                checked={PropertyAge.includes(label)}
+                                onChange={() =>
+                                  handleCheckboxChangePropertyAge(label)
+                                }
                               />
-                              {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                             </div>
                           ))}
                         </Form.Group>
-                        <p style={{ color: "#2D4495" }}>More choices</p>
-                        <div>
-                          <strong>Selected Amenities:</strong>{" "}
-                          {Amenities.join(", ")}
-                        </div>
+
+                        {propertyAgeList.length > 4 && (
+                          <p
+                            onClick={() =>
+                              setShowAllPropertyAge((prev) => !prev)
+                            }
+                            style={{
+                              color: "#2D4495",
+                              marginTop: "10px",
+                              cursor: "pointer",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {showAllPropertyAge
+                              ? "Show less..."
+                              : "Show more..."}
+                          </p>
+                        )}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
