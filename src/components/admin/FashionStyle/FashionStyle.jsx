@@ -481,6 +481,8 @@ const FashionStyle = () => {
     "Luggage",
     "Health & Beauty",
   ];
+  const [showAll1, setShowAll1] = useState(false);
+
   const getQueryParam = (param) => {
     const hash = location.hash;
     const queryIndex = hash.indexOf("?");
@@ -2483,22 +2485,49 @@ const FashionStyle = () => {
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           <Form.Label>Select a Category</Form.Label>
-                          <Form.Select
-                            value={selectedSubCategory}
-                            onChange={handleCategorySelect}
-                          >
-                            <option value="">-- Select --</option>
-                            {categories1.map((category, index) => (
-                              <option key={index} value={category}>
+
+                          {/** Show 4 initially, all when showAll is true */}
+                          {(showAll1
+                            ? categories1
+                            : categories1.slice(0, 4)
+                          ).map((category, index) => (
+                            <div key={index} className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`cat1-${index}`}
+                                value={category}
+                                checked={selectedSubCategory === category}
+                                onChange={() =>
+                                  setselectedSubCategory((prev) =>
+                                    prev === category ? "" : category
+                                  )
+                                }
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`cat1-${index}`}
+                              >
                                 {category}
-                              </option>
-                            ))}
-                          </Form.Select>
+                              </label>
+                            </div>
+                          ))}
+
+                          {categories1.length > 4 && (
+                            <Button
+                              variant="link"
+                              onClick={() => setShowAll1((prev) => !prev)}
+                              className="p-0 mt-2"
+                            >
+                              {showAll1 ? "Show less..." : "Show more..."}
+                            </Button>
+                          )}
                         </Form.Group>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
@@ -3699,55 +3728,54 @@ const FashionStyle = () => {
                                     </div>
                                   ) : (
                                     ads.map(
-                                      (cars) =>
-                                        ""
-                                        // <div
-                                        //   style={{
-                                        //     position: "absolute",
-                                        //     top: "-70px",
-                                        //     left: "470px",
-                                        //     fontWeight: "bold",
-                                        //     fontSize: "20px",
-                                        //     zIndex: 2,
-                                        //     color: "#2D4495",
-                                        //   }}
-                                        // >
-                                        //   {car.photoURL ? (
-                                        //     <img
-                                        //       src={car.photoURL}
-                                        //       // alt={car.title || "No Image"}
-                                        //       style={{
-                                        //         width: "100px",
-                                        //         height: "100px",
-                                        //         objectFit: "cover",
-                                        //         borderRadius: "50%",
-                                        //         border: "2px solid white",
-                                        //         boxShadow:
-                                        //           "0 0 10px rgba(0,0,0,0.1)",
-                                        //         display: "block",
-                                        //       }}
-                                        //     />
-                                        //   ) : (
-                                        //     <div
-                                        //       style={{
-                                        //         width: "110px",
-                                        //         height: "110px",
-                                        //         borderRadius: "50%",
-                                        //         border: "2px solid white",
-                                        //         boxShadow:
-                                        //           "0 0 10px rgba(0,0,0,0.1)",
-                                        //         display: "flex",
-                                        //         alignItems: "center",
-                                        //         justifyContent: "center",
-                                        //         backgroundColor: "#f0f0f0", // optional background color
-                                        //         textAlign: "center",
-                                        //         padding: "10px", // optional padding
-                                        //       }}
-                                        //     >
-                                        //       {"No Image"}
-                                        //     </div>
-                                        //   )}
-                                        // </div>
+                                      (cars) => ""
+                                      // <div
+                                      //   style={{
+                                      //     position: "absolute",
+                                      //     top: "-70px",
+                                      //     left: "470px",
+                                      //     fontWeight: "bold",
+                                      //     fontSize: "20px",
+                                      //     zIndex: 2,
+                                      //     color: "#2D4495",
+                                      //   }}
+                                      // >
+                                      //   {car.photoURL ? (
+                                      //     <img
+                                      //       src={car.photoURL}
+                                      //       // alt={car.title || "No Image"}
+                                      //       style={{
+                                      //         width: "100px",
+                                      //         height: "100px",
+                                      //         objectFit: "cover",
+                                      //         borderRadius: "50%",
+                                      //         border: "2px solid white",
+                                      //         boxShadow:
+                                      //           "0 0 10px rgba(0,0,0,0.1)",
+                                      //         display: "block",
+                                      //       }}
+                                      //     />
+                                      //   ) : (
+                                      //     <div
+                                      //       style={{
+                                      //         width: "110px",
+                                      //         height: "110px",
+                                      //         borderRadius: "50%",
+                                      //         border: "2px solid white",
+                                      //         boxShadow:
+                                      //           "0 0 10px rgba(0,0,0,0.1)",
+                                      //         display: "flex",
+                                      //         alignItems: "center",
+                                      //         justifyContent: "center",
+                                      //         backgroundColor: "#f0f0f0", // optional background color
+                                      //         textAlign: "center",
+                                      //         padding: "10px", // optional padding
+                                      //       }}
+                                      //     >
+                                      //       {"No Image"}
+                                      //     </div>
+                                      //   )}
+                                      // </div>
                                     )
                                   )}
                                 </div>

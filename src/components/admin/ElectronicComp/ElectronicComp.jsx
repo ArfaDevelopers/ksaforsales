@@ -378,9 +378,14 @@ const ElectronicComp = () => {
     fetchAdsDetailImages();
   }, []);
 
-  const handleCategorySelect = (e) => {
-    setselectedSubCategory(e.target.value);
+  const [showAll, setShowAll] = useState(false);
+
+  const handleCategoryCheck = (category) => {
+    setselectedSubCategory((prev) => (prev === category ? "" : category));
   };
+
+  // Show first 4 or all based on showAll state
+  const visibleCategories = showAll ? categories : categories.slice(0, 4);
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
@@ -2205,23 +2210,39 @@ const ElectronicComp = () => {
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           <Form.Label>Select a Category</Form.Label>
-                          <Form.Select
-                            value={selectedSubCategory}
-                            onChange={handleCategorySelect}
-                          >
-                            <option value="">-- Select --</option>
-                            {categories.map((category, index) => (
-                              <option key={index} value={category}>
+                          {visibleCategories.map((category, index) => (
+                            <div key={index} className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`cat-${index}`}
+                                value={category}
+                                checked={selectedSubCategory === category}
+                                onChange={() => handleCategoryCheck(category)}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`cat-${index}`}
+                              >
                                 {category}
-                              </option>
-                            ))}
-                          </Form.Select>
+                              </label>
+                            </div>
+                          ))}
+
+                          {categories.length > 4 && (
+                            <Button
+                              variant="link"
+                              onClick={() => setShowAll((prev) => !prev)}
+                              className="p-0 mt-2"
+                            >
+                              {showAll ? "Show less..." : "Show more..."}
+                            </Button>
+                          )}
                         </Form.Group>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-
                 {brandOptions[selectedSubCategory] && (
                   <>
                     <hr

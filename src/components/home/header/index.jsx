@@ -2133,8 +2133,9 @@ const Header = ({ parms }) => {
                     value={searchText}
                     onChange={(e) => {
                       const text = e.target.value;
-                      if (!isSelecting.current) {
-                        setSearchText(text);
+                      const onlyAlphabets = text.replace(/[^a-zA-Z]/g, ""); // Remove non-alphabetic chars
+                      if (!isSelecting.current && onlyAlphabets.length <= 10) {
+                        setSearchText(onlyAlphabets);
                       }
                     }}
                     style={{

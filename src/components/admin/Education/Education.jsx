@@ -495,6 +495,7 @@ const Education = () => {
       })),
     [DistrictList]
   );
+  const [showAllGeneral, setShowAllGeneral] = useState(false);
 
   const categories1 = [
     "Hunting & Trips",
@@ -2267,22 +2268,48 @@ const Education = () => {
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           <Form.Label>Select a Category</Form.Label>
-                          <Form.Select
-                            value={selectedSubCategory}
-                            onChange={handleCategorySelect}
-                          >
-                            <option value="">-- Select --</option>
-                            {categories1.map((category, index) => (
-                              <option key={index} value={category}>
+
+                          {(showAllGeneral
+                            ? categories1
+                            : categories1.slice(0, 4)
+                          ).map((category, index) => (
+                            <div key={index} className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`gen-cat-${index}`}
+                                value={category}
+                                checked={selectedSubCategory === category}
+                                onChange={() =>
+                                  setselectedSubCategory((prev) =>
+                                    prev === category ? "" : category
+                                  )
+                                }
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`gen-cat-${index}`}
+                              >
                                 {category}
-                              </option>
-                            ))}
-                          </Form.Select>
+                              </label>
+                            </div>
+                          ))}
+
+                          {categories1.length > 4 && (
+                            <Button
+                              variant="link"
+                              onClick={() => setShowAllGeneral((prev) => !prev)}
+                              className="p-0 mt-2"
+                            >
+                              {showAllGeneral ? "Show less..." : "Show more..."}
+                            </Button>
+                          )}
                         </Form.Group>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
