@@ -7,6 +7,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import { Modal } from "bootstrap";
+import { IoLocationOutline } from "react-icons/io5";
 
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
@@ -50,6 +51,8 @@ import HealthCareCarousel from "../..//home/slider/HealthCareCarousel.jsx";
 import SportandgameCarouseCarousel from "../..//home/slider/SportandgameCarouseCarousel.jsx";
 import ComercialsAds from "../../home/ComercialsAds/ComercialsAds.jsx";
 import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
+import { ref, getDownloadURL } from "firebase/storage";
+
 import popup from "../../home/popup_image.png";
 import { Accordion } from "react-bootstrap";
 import { IoLocationSharp } from "react-icons/io5";
@@ -61,8 +64,10 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
+// import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
+import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
@@ -92,7 +97,30 @@ const AutomotiveComp = () => {
   console.log(subCatgory, "subCatgory___________1");
   console.log(nestedSubCategory, "subCatgory___________2");
   const { searchText } = useSearchStore();
+  const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
+  const getImageURL = async () => {
+    const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
+
+    try {
+      const url = await getDownloadURL(imageRef);
+      console.log("Image URL:", url);
+
+      return url;
+    } catch (error) {
+      console.error("Error fetching image URL:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    getImageURL().then((url) => {
+      if (url) {
+        setImageURL(url);
+        // Example usage
+        console.log("Direct public image link:", url);
+      }
+    });
+  }, []);
   // const scrollRef = useRef();
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -1622,14 +1650,22 @@ const AutomotiveComp = () => {
   }, []);
 
   function timeAgo(timestamp) {
-    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+    let date;
+    if (timestamp instanceof Date) {
+      date = timestamp;
+    } else if (timestamp?._seconds) {
+      date = new Date(timestamp._seconds * 1000);
+    } else if (typeof timestamp === "number") {
+      date = new Date(timestamp);
+    } else {
+      return "Invalid time";
+    }
     const now = new Date();
-    const difference = Math.abs(now - date); // Difference in milliseconds
-    const seconds = Math.floor(difference / 1000);
+    const diff = now - date;
+    const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -2905,15 +2941,13 @@ const AutomotiveComp = () => {
         <Container
           fluid
           style={{
-            paddingLeft: "10px", // Padding on the left side
-            paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
             maxWidth: "1410px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "9%",
           }}
         >
-          <Row>
+          <Row className="filter_outterwrap">
             {/* Sidebar */}
             <Col
               md={3}
@@ -2933,7 +2967,6 @@ const AutomotiveComp = () => {
               >
                 Show Results by:
               </h5>
-
               <Form className="filter_innerwrap">
                 <Row className="my-3">
                   <Col>
@@ -3568,7 +3601,9 @@ const AutomotiveComp = () => {
                                             />
                                             <span
                                               className="form-check-label text-truncate small ml-4"
-                                              style={{ cursor: "pointer" }}
+                                              style={{
+                                                cursor: "pointer",
+                                              }}
                                             >
                                               {option.label}
                                             </span>
@@ -6108,7 +6143,10 @@ const AutomotiveComp = () => {
                                   }
                                 />
                                 <span
-                                  style={{ fontWeight: "bold", color: "#333" }}
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
                                 >
                                   12345
                                 </span>
@@ -6495,7 +6533,10 @@ const AutomotiveComp = () => {
                                 }
                               />
                               <span
-                                style={{ fontWeight: "bold", color: "#333" }}
+                                style={{
+                                  fontWeight: "bold",
+                                  color: "#333",
+                                }}
                               >
                                 12345
                               </span>
@@ -6697,8 +6738,7 @@ const AutomotiveComp = () => {
                 </Accordion>
               </Form>
             </Col>
-
-            <Col md={9} className="p-3">
+            <Col md={9} className="p-3 filter_card_main_wrap">
               <Row className="mb-3">
                 <Col>
                   {/* <Form.Check type="checkbox" label="With Photos" /> */}
@@ -6857,9 +6897,10 @@ const AutomotiveComp = () => {
                             </Link>
                           </Col>
 
-                          <Col md={8}>
+                          <Col md={8} className="filter_card_main">
                             <Card.Body>
                               <Card.Title
+                                className="title_head"
                                 style={{
                                   color: "#2D4495",
                                   marginTop:
@@ -6872,16 +6913,26 @@ const AutomotiveComp = () => {
                                 >
                                   {car.title || "Car"}
                                 </Link>
+                                <p
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: "20px",
+                                    color: "#2D4495",
+                                  }}
+                                >
+                                  {car.Price
+                                    ? `$${car.Price}`
+                                    : "Price not available"}
+                                </p>
                               </Card.Title>
                               <Card.Text style={{ color: "black" }}>
                                 <small className="text-muted">
-                                  <i
-                                    className="fas fa-map-marker-alt"
+                                  <IoLocationOutline
                                     style={{
                                       marginRight: "5px",
                                       color: "#6c757d",
                                     }}
-                                  ></i>
+                                  />
                                   <span style={{ color: "black" }}>
                                     {car.City || "Location"}
                                   </span>
@@ -6896,36 +6947,19 @@ const AutomotiveComp = () => {
                               </small> */}
 
                                 <br />
-                                {car.description ||
-                                  "Description not available."}
+                                <p className="car_desc">
+                                  {car.description ||
+                                    "Description not available."}
+                                </p>
                               </Card.Text>
-
                               <Col
-                                className="align-items-center"
+                                className="align-items-center user_profile_block"
                                 style={{
-                                  position: "relative",
                                   marginTop:
                                     window.innerWidth <= 576 ? "-10px" : "30px",
                                 }}
                               >
                                 {/* Price displayed above the image */}
-                                <p
-                                  style={{
-                                    position: "absolute",
-                                    top: "-140px", // Adjust the top margin to place the price higher
-
-                                    left: "500px",
-                                    fontWeight: "bold",
-                                    fontSize: "20px",
-                                    zIndex: 2, // Ensure the price text stays above the image
-                                    color: "#2D4495",
-                                  }}
-                                >
-                                  {car.Price
-                                    ? `$${car.Price}`
-                                    : "Price not available"}
-                                </p>
-
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
@@ -6964,109 +6998,54 @@ const AutomotiveComp = () => {
                                   )}
                                 </div>
                                 <div
+                                  className="profile_image_block"
                                   style={{
-                                    position: "absolute",
-                                    top: "-70px",
-                                    left: "470px",
+                                    // position: "absolute",
+                                    // top: "-70px",
+                                    // left: "470px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
                                     zIndex: 2,
                                     color: "#2D4495",
                                   }}
                                 >
-                                  {car.photoURL ? (
-                                    <img
-                                      src={car.photoURL}
-                                      // alt={car.title || "No Image"}
-                                      style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        objectFit: "cover",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "block",
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "110px",
-                                        height: "110px",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        backgroundColor: "#f0f0f0", // optional background color
-                                        textAlign: "center",
-                                        padding: "10px", // optional padding
-                                      }}
-                                    >
-                                      {"No Image"}
-                                    </div>
-                                  )}
+                                  <img
+                                    src={car.photoURL || ImageURL}
+                                    alt="User profile"
+                                    onError={(e) => {
+                                      e.target.onerror = null; // prevent infinite loop
+                                      e.target.src = ImageURL;
+                                    }}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      objectFit: "cover",
+                                      borderRadius: "50%",
+                                      border: "2px solid white",
+                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                      display: "block",
+                                    }}
+                                  />
                                 </div>
                                 {/* Updated text at the bottom-right corner */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    // fontSize: '12px',
-                                    // color: "#6c757d",
                                     marginTop:
-                                      window.innerWidth <= 576
-                                        ? "35px"
+                                      window.innerWidth <= 1100
+                                        ? "5px"
                                         : "54px",
-                                    marginLeft:
-                                      window.innerWidth <= 576
-                                        ? "10rem"
-                                        : "0rem",
+                                    // marginLeft:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "10rem"
+                                    // 		: "0rem",
                                     color: "black",
                                   }}
                                 >
                                   Updated about {timeAgo(car.createdAt)}
                                 </p>
-
                                 {/* Responsive layout for small screens */}
-                                <div
-                                  className="d-block d-sm-none"
-                                  style={{
-                                    position: "relative",
-                                    marginTop: "10px",
-                                  }}
-                                >
-                                  {/* Price for small screens */}
-                                  <p
-                                    style={{
-                                      fontWeight: "bold",
-                                      fontSize: "16px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    {car.Price
-                                      ? `$${car.Price}`
-                                      : "Price not available"}
-                                  </p>
-
-                                  {/* Small Image for small screens */}
-                                  <Card.Img
-                                    src={
-                                      car?.galleryImages[0] ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={car.title || "Car"}
-                                    style={{
-                                      width: "120px", // Adjust size for small screens
-                                      height: "60px",
-                                      objectFit: "fill",
-                                      borderRadius: "6px",
-                                    }}
-                                  />
-                                </div>
                               </Col>
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
                                 <a href={`tel:${car.Phone}`}>
                                   <button
@@ -7159,10 +7138,10 @@ const AutomotiveComp = () => {
                                     justifyContent: "center",
                                     margin: "5px",
 
-                                    marginRight:
-                                      window.innerWidth <= 576
-                                        ? "20px"
-                                        : "60px",
+                                    // marginRight:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "20px"
+                                    // 		: "60px",
 
                                     marginTop:
                                       window.innerWidth <= 576 ? "5px" : "50px",

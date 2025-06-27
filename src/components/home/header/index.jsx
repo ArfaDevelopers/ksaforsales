@@ -74,6 +74,8 @@ const Header = ({ parms }) => {
   const [openCategories, setOpenCategories] = useState({});
   const [openSubcategories, setOpenSubcategories] = useState({});
   // const { searchText, setSearchText, results } = useSearchStore();
+  const dropdownRef = useRef(null);
+
   const { searchText, setSearchText, results, setSelectedItem } =
     useSearchStore();
 
@@ -118,7 +120,6 @@ const Header = ({ parms }) => {
     document.documentElement.classList.remove("menu-opened");
     setMenu(false);
   };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -128,6 +129,10 @@ const Header = ({ parms }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const toggleMenu = () => {
+    setMenu((prev) => !prev);
+  };
 
   const toggleMobileMenu = () => {
     setMenu(!menu);
@@ -2251,6 +2256,7 @@ const Header = ({ parms }) => {
                   >
                     {!isMobile && (
                       <div
+                        ref={menuRef}
                         className="lang_dropdown"
                         style={{
                           position: "relative",

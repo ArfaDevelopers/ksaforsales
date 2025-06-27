@@ -1232,7 +1232,9 @@ const AddLisiting = () => {
   const regionOptions = [
     {
       value: 1,
-      label: "Riyadh (الرياض)",
+      label: "Riyadh",
+      // label: "Riyadh (الرياض)",
+
       regionId: 1,
       regionEn: "Riyadh",
       // regionAr: "الرياض",
@@ -1241,7 +1243,7 @@ const AddLisiting = () => {
     },
     {
       value: 2,
-      label: "Makkah (مكة المكرمة)",
+      label: "Makkah",
       regionId: 2,
       regionEn: "Makkah",
       // regionAr: "مكة المكرمة",
@@ -1250,7 +1252,7 @@ const AddLisiting = () => {
     },
     {
       value: 3,
-      label: "Al Madinah (المدينة المنورة)",
+      label: "Al Madinah",
       regionId: 3,
       regionEn: "Al Madinah",
       // regionAr: "المدينة المنورة",
@@ -1259,7 +1261,7 @@ const AddLisiting = () => {
     },
     {
       value: 4,
-      label: "Al Qassim (القصيم)",
+      label: "Al Qassim",
       regionId: 4,
       regionEn: "Al Qassim",
       // regionAr: "القصيم",
@@ -1268,7 +1270,7 @@ const AddLisiting = () => {
     },
     {
       value: 5,
-      label: "Eastern (المنطقة الشرقية)",
+      label: "Eastern",
       regionId: 5,
       regionEn: "Eastern",
       // regionAr: "المنطقة الشرقية",
@@ -1277,7 +1279,7 @@ const AddLisiting = () => {
     },
     {
       value: 6,
-      label: "Asir (عسير)",
+      label: "Asir",
       regionId: 6,
       regionEn: "Asir",
       // regionAr: "عسير",
@@ -1286,7 +1288,7 @@ const AddLisiting = () => {
     },
     {
       value: 7,
-      label: "Tabuk (تبوك)",
+      label: "Tabuk",
       regionId: 7,
       regionEn: "Tabuk",
       // regionAr: "تبوك",
@@ -1295,7 +1297,7 @@ const AddLisiting = () => {
     },
     {
       value: 8,
-      label: "Hail (حائل)",
+      label: "Hail",
       regionId: 8,
       regionEn: "Hail",
       // regionAr: "حائل",
@@ -1304,7 +1306,7 @@ const AddLisiting = () => {
     },
     {
       value: 9,
-      label: "Northern Borders (الحدود الشماليه)",
+      label: "Northern Borders",
       regionId: 9,
       regionEn: "Northern Borders",
       // regionAr: "الحدود الشماليه",
@@ -1313,7 +1315,7 @@ const AddLisiting = () => {
     },
     {
       value: 10,
-      label: "Jazan (جازان)",
+      label: "Jazan",
       regionId: 10,
       regionEn: "Jazan",
       // regionAr: "جازان",
@@ -1322,7 +1324,7 @@ const AddLisiting = () => {
     },
     {
       value: 11,
-      label: "Najran (نجران)",
+      label: "Najran",
       regionId: 11,
       regionEn: "Najran",
       // regionAr: "نجران",
@@ -1331,7 +1333,7 @@ const AddLisiting = () => {
     },
     {
       value: 12,
-      label: "Al Bahah (الباحة)",
+      label: "Al Bahah",
       regionId: 12,
       regionEn: "Al Bahah",
       // regionAr: "الباحة",
@@ -1340,7 +1342,7 @@ const AddLisiting = () => {
     },
     {
       value: 13,
-      label: "Al Jawf (الجوف)",
+      label: "Al Jawf",
       regionId: 13,
       regionEn: "Al Jawf",
       // regionAr: "الجوف",
@@ -1627,7 +1629,7 @@ const AddLisiting = () => {
             BuildingType: data.BuildingType || "",
             Capacity: data.Capacity || "",
             Checkin: data.Checkin || "",
-            City: data.City || "",
+            // City: data.City || "",
             ClosureType: data.ClosureType || "",
             CollarType: data.CollarType || "",
             Color: data.Color || "",
@@ -1640,7 +1642,7 @@ const AddLisiting = () => {
             DietaryPreferences: data.DietaryPreferences || "",
             DisplayQuality: data.DisplayQuality || "",
             DisplayType: data.DisplayType || "",
-            District: data.District || "",
+            // District: data.District || "",
             Duration: data.Duration || "",
             Email: data.Email || "",
             Emirates: data.Emirates || "",
@@ -1753,6 +1755,8 @@ const AddLisiting = () => {
             regionId: selectedRegionId || "",
             CITY_ID: selectedCityData.cityId || "",
             CityName: selectedCityData.label || "",
+            City: selectedCityData.label || "",
+            District: selectedDistrict.label || "",
 
             District_ID: selectedDistrict.districtId || "",
             DistrictName: selectedDistrict.label || "",
@@ -1860,9 +1864,12 @@ const AddLisiting = () => {
             regionId: selectedRegionId || "",
             CITY_ID: selectedCityData.cityId || "",
             CityName: selectedCityData.label || "",
+            City: selectedCityData.label || "",
 
             District_ID: selectedDistrict.districtId || "",
             DistrictName: selectedDistrict.label || "",
+            District: selectedDistrict.label || "",
+
             userId: user.uid,
             createdAt: new Date(),
           });

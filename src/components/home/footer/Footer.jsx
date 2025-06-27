@@ -258,10 +258,10 @@ const Footer = () => {
                     <h2 className="footer-title">Categories</h2>
                     <ul>
                       <li>
-                        <Link to="/PetAnimalsComp">Our product</Link>
+                        <Link to="/my-listing">Our product</Link>
                       </li>
                       <li>
-                        <Link to="AutomotiveComp">Automative</Link>
+                        <Link to="/AutomotiveComp">Automative</Link>
                       </li>
                       <li>
                         <Link to="/ElectronicComp">Electronic</Link>
@@ -290,13 +290,13 @@ const Footer = () => {
                         <Link to="/RealEstateComp">Contracting</Link>
                       </li>
                       <li>
-                        <Link to="/RealEstateComp">Camping</Link>
+                        <Link to="/TravelComp">Camping</Link>
                       </li>
                       <li>
                         <Link to="/Education">Family</Link>
                       </li>
                       <li>
-                        <Link to="/RealEstateComp">Furniture</Link>
+                        <Link to="/HealthCareComp">Furniture</Link>
                       </li>
                     </ul>
                   </div>

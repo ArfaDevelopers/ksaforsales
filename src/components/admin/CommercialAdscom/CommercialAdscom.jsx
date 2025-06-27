@@ -337,6 +337,7 @@ const CommercialAdscom = () => {
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
+  console.log(currentItems, "currentItems__________");
   const [callButtonStyles, setCallButtonStyles] = useState({
     backgroundColor: "#2d4495",
     borderColor: "#2d4495",
@@ -491,7 +492,10 @@ const CommercialAdscom = () => {
   };
   return (
     <>
-      <section className="commercial_card_section" style={{marginBottom:"6rem"}}>
+      <section
+        className="commercial_card_section"
+        style={{ marginBottom: "6rem" }}
+      >
         <div className="container">
           <Header />
           <Container
@@ -536,56 +540,20 @@ const CommercialAdscom = () => {
                   CommercialAds
                 </button>
               </div>
-              {/* <div className="d-flex align-items-center justify-content-end">
-              <div className="d-flex justify-content-center align-items-center mt-4">
-                <Button
-                  variant="outline-primary"
-                  disabled={currentPage === 1}
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                >
-                  <FaArrowLeft /> Previous
-                </Button>
-
-                {[...Array(totalPages)].map((_, index) => (
-                  <Button
-                    key={index}
-                    variant={
-                      currentPage === index + 1 ? "primary" : "outline-primary"
-                    }
-                    onClick={() => setCurrentPage(index + 1)}
-                    className="mx-2"
-                  >
-                    {index + 1}
-                  </Button>
-                ))}
-
-                <Button
-                  variant="outline-primary"
-                  disabled={currentPage === totalPages}
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                >
-                  Next <FaArrowRight />
-                </Button>
-              </div>
-            </div> */}
             </div>
           </Container>
 
           {/* <hr /> */}
 
           <h1 className="m-lg-1">Commercial Ads</h1>
-       
+
           <Modal show={showModal} onHide={handleCloseModal} centered>
             <div className="position-relative">
               <Modal.Header
                 closeButton
                 className="border-0"
                 style={{
-                   background: "transparent",
+                  background: "transparent",
                   zIndex: 2,
                 }}
               >
@@ -742,82 +710,84 @@ const CommercialAdscom = () => {
                         width: "328",
                       }}
                     />
-                      <Card.Body>
-                        <div className="d-flex justify-content-center gap-3 mt-3">
-                          <Button
-                            variant="primary"
-                            className="d-flex align-items-center gap-1 bg-white"
+                    <Card.Body>
+                      <div className="d-flex justify-content-center gap-3 mt-3">
+                        <Button
+                          variant="primary"
+                          className="d-flex align-items-center gap-1 bg-white"
+                          style={{
+                            ...whatsappButtonStyles,
+                            transition: "all 0.2s ease",
+                            padding: "0.375rem 0.75rem",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShowWhatsApp(item.phone);
+                            setSelectedPhone(item.phone);
+                          }}
+                        >
+                          <FaPhoneAlt
                             style={{
-                              ...whatsappButtonStyles,
-                              transition: "all 0.2s ease",
-                              padding: "0.375rem 0.75rem",
+                              fontSize: "0.8rem",
+                              color: "#2d4495",
                             }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleShowWhatsApp(item.phone);
-                              setSelectedPhone(item.phone);
-                            }}
-                          >
-                            <FaPhoneAlt
-                              style={{
-                                fontSize: "0.8rem",
-                                color: "#2d4495",
-                              }}
-                              // className="fill-white text-white mt-1"
-                            />
-                            <span style={{ color: whatsappButtonStyles.color }}>Call</span>
-                          </Button>
+                            // className="fill-white text-white mt-1"
+                          />
+                          <span style={{ color: whatsappButtonStyles.color }}>
+                            Call
+                          </span>
+                        </Button>
 
-                          <Button
-                            variant="primary"
-                            className="d-flex align-items-center gap-1 bg-white"
+                        <Button
+                          variant="primary"
+                          className="d-flex align-items-center gap-1 bg-white"
+                          style={{
+                            ...whatsappButtonStyles,
+                            transition: "all 0.2s ease",
+                            padding: "0.375rem 0.75rem",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShowWhatsApp(item.phone);
+                            setSelectedPhone(item.phone);
+                          }}
+                        >
+                          <IoLogoWhatsapp
                             style={{
-                              ...whatsappButtonStyles,
-                              transition: "all 0.2s ease",
-                              padding: "0.375rem 0.75rem",
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleShowWhatsApp(item.phone);
-                              setSelectedPhone(item.phone);
-                            }}
-                          >
-                            <IoLogoWhatsapp
-                              style={{
-                                fontSize: "1.5rem",
-                                color: "#2d4495",
+                              fontSize: "1.5rem",
+                              color: "#2d4495",
 
-                                // color: whatsappButtonStyles.color,
-                              }}
-                            />
-                            <span style={{ color: whatsappButtonStyles.color }}>
-                              WhatsApp
-                            </span>
-                          </Button>
-                          <Button
-                            variant="primary"
-                            className="d-flex align-items-center gap-1 bg-white"
+                              // color: whatsappButtonStyles.color,
+                            }}
+                          />
+                          <span style={{ color: whatsappButtonStyles.color }}>
+                            WhatsApp
+                          </span>
+                        </Button>
+                        <Button
+                          variant="primary"
+                          className="d-flex align-items-center gap-1 bg-white"
+                          style={{
+                            transition: "all 0.2s ease",
+                            padding: "0.375rem 0.75rem",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            favoritiesadded(item.id); // Call your function with the clicked item's ID
+                          }}
+                        >
+                          <FaHeart
                             style={{
-                              transition: "all 0.2s ease",
-                              padding: "0.375rem 0.75rem",
+                              fontSize: "1.5rem",
+                              // color: "#2d4495",
+                              color: item.heartedby?.includes(userClickedId)
+                                ? "red"
+                                : "#2d4495",
                             }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              favoritiesadded(item.id); // Call your function with the clicked item's ID
-                            }}
-                          >
-                            <FaHeart
-                              style={{
-                                fontSize: "1.5rem",
-                                // color: "#2d4495",
-                                color: item.heartedby?.includes(userClickedId)
-                                  ? "red"
-                                  : "#2d4495",
-                              }}
-                            />
-                          </Button>
-                        </div>
-                      </Card.Body>
+                          />
+                        </Button>
+                      </div>
+                    </Card.Body>
                   </Card>
                 </Col>
               ))}
