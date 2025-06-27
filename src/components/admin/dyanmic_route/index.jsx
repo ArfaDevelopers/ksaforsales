@@ -9,6 +9,9 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { useParams, useLocation } from "react-router";
 import { useMyContext } from "../../store/Contexxt.store";
 import arrow from "./Vector.png";
@@ -170,6 +173,7 @@ const Dynamic_Route = () => {
   const [chatId, setChatId] = useState("");
   const [refresh, setRefresh] = useState(false);
   //  const [userId, setUserId] = useState(null);
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(link);
     alert("Link copied to clipboard!");
@@ -667,14 +671,51 @@ const Dynamic_Route = () => {
     : "Unknown time";
 
   const images = itemData?.galleryImages || [];
-
+  console.log(images, "images______________");
   const featuresData = [
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
   ];
-  const visibleImages = showAllThumbnails ? images : images.slice(0, 5); // Show 5 or all
+  const visibleImages = images;
+  // useEffect(() => {
+  //   if (images.length > 0) {
+  //     setSelectedImage(images[0]);
+  //   }
+  // }, [images]); // Re-run when images prop changes
 
+  // Settings for React Slick
+  const settings = {
+    dots: true, // Show dots for navigation
+    infinite: true, // Loop the slider
+    speed: 500, // Transition speed
+    slidesToShow: 5, // Number of slides to show at once
+    slidesToScroll: 1, // Number of slides to scroll at once
+    initialSlide: 0, // Starting slide index
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       <div className="main-wrapper ">
@@ -1302,17 +1343,29 @@ const Dynamic_Route = () => {
                         </div>
 
                         {/* Full-Screen Image */}
-                        <img
-                          src={selectedImage}
-                          alt="Full Screen"
-                          style={{
-                            width: "100vw",
-                            height: "80vh",
-                            objectFit: "contain",
-                            marginTop: "80px", // Space for the header section
-                            padding: 0,
-                          }}
-                        />
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
 
                         {/* Close Button */}
                         <button
@@ -1470,54 +1523,42 @@ const Dynamic_Route = () => {
                         overflow: "hidden",
                       }}
                     >
-                      {visibleImages.map((image, index) => (
-                        <div
-                          className="multiplesimage-wrapper-item"
-                          key={index}
-                          onClick={() => handleImageSelect(image)}
-                          style={{
-                            cursor: "pointer",
-                            border:
-                              selectedImage === image
-                                ? "2px solid blue"
-                                : "none",
-                            padding: "5px",
-                          }}
-                        >
-                          <img
-                            src={image}
-                            alt={`Car ${index + 1}`}
-                            className="images"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              borderRadius: "5px",
-                            }}
-                          />
+                      {images.length > 0 ? (
+                        <div style={{ maxWidth: "90%", margin: "0 auto" }}>
+                          {" "}
+                          {/* Center the slider */}
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width: "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
                         </div>
-                      ))}
-                      {images.length > 5 && (
-                        <button
-                          onClick={() =>
-                            setShowAllThumbnails(!showAllThumbnails)
-                          }
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            borderRadius: "50%",
-                            border: "none",
-                            backgroundColor: "#007BFF",
-                            color: "white",
-                            fontSize: "16px",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {showAllThumbnails ? "−" : "+"}
-                        </button>
+                      ) : (
+                        <p>No images to display.</p>
                       )}
                     </div>
                   </div>
