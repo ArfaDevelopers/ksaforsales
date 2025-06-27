@@ -689,21 +689,34 @@ const Dynamic_Route = () => {
     dots: true, // Show dots for navigation
     infinite: true, // Loop the slider
     speed: 500, // Transition speed
-    slidesToShow: 5, // Number of slides to show at once
+    slidesToShow:
+      images.length === 1
+        ? 1
+        : images.length === 2
+        ? 2
+        : images.length === 3
+        ? 3
+        : images.length === 4
+        ? 4
+        : // : images.length >= 5
+          // ? 5
+          5, // Number of slides to show at once
     slidesToScroll: 1, // Number of slides to scroll at once
     initialSlide: 0, // Starting slide index
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 1,
+          infinite: false,
+          autoplay: false,
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -716,6 +729,7 @@ const Dynamic_Route = () => {
       },
     ],
   };
+
   return (
     <>
       <div className="main-wrapper ">
@@ -1516,10 +1530,9 @@ const Dynamic_Route = () => {
                     <div
                       className="multiplesimage-wrapper"
                       style={{
-                        display: "flex",
                         gap: "10px",
                         marginTop: "1rem",
-                        flexWrap: "nowrap",
+                        // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
                     >
