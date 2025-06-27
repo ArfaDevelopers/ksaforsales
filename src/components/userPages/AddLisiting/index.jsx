@@ -1411,8 +1411,6 @@ const AddLisiting = () => {
 
   // Handle selection
   const handleCityChangecities = (selectedOption) => {
-    console.log("Selected CITY_ID:selectedOption", selectedOption);
-
     if (selectedOption) {
       const { CITY_ID, REGION_ID, label } = selectedOption;
       setSelectedCityData({
@@ -1420,21 +1418,45 @@ const AddLisiting = () => {
         regionId: REGION_ID,
         label: label,
       });
-      console.log("Selected CITY_ID:", CITY_ID);
-      console.log("Selected REGION_ID:", REGION_ID);
     } else {
-      setSelectedCityData({ cityId: null, regionId: null });
+      setSelectedCityData({
+        cityId: null,
+        regionId: null,
+        label: null,
+      });
     }
+
+    // Always clear district on city change
+    setSelectedDistrict({
+      districtId: null,
+      cityId: null,
+      regionId: null,
+      label: null,
+    });
   };
 
   const handleChangeRegion = (selectedOption) => {
     if (selectedOption) {
-      console.log("React Select Option:", selectedOption);
       setSelectedRegionId(selectedOption.regionId);
       setSelectedRegionName(selectedOption.label);
     } else {
       setSelectedRegionId(null);
+      setSelectedRegionName(null);
     }
+
+    // Clear city and district
+    setSelectedCityData({
+      cityId: null,
+      regionId: null,
+      label: null,
+    });
+
+    setSelectedDistrict({
+      districtId: null,
+      cityId: null,
+      regionId: null,
+      label: null,
+    });
   };
 
   console.log(subcategories, "subcategories___________");
@@ -2096,42 +2118,61 @@ const AddLisiting = () => {
   const ALLOWED_IMAGE_TYPES = [
     "image/jpeg",
     "image/png",
-    "image/gif",
     "image/webp",
+    "image/gif",
     "image/bmp",
   ];
-  const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"];
+
+  const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp"];
 
   const handleGalleryChange = async (e) => {
     const files = Array.from(e.target.files);
 
-    // Filter valid images only (exclude SVGs and other non-raster types)
-    const validImages = files.filter((file) => {
-      const isValidType = ALLOWED_IMAGE_TYPES.includes(file.type);
-      const isValidExt = ALLOWED_EXTENSIONS.some((ext) =>
-        file.name.toLowerCase().endsWith(ext)
-      );
-      return isValidType && isValidExt;
-    });
-
-    if (validImages.length !== files.length) {
-      alert("Only raster image files (JPG, PNG, GIF, WEBP, BMP) are allowed.");
-      return;
-    }
+    const MAX_IMAGES = 10;
+    const MAX_SIZE_MB = 2;
 
     if (uploading) return;
 
     let uploadedImages = [...galleryImages];
 
-    if (uploadedImages.length + validImages.length > 20) {
-      alert("You can only upload up to 20 images.");
+    // Limit total image count
+    if (uploadedImages.length >= MAX_IMAGES) {
+      alert(`You can upload a maximum of ${MAX_IMAGES} images.`);
       return;
     }
 
+    // Filter valid and small images
+    const validImages = files.filter((file) => {
+      const isValidType = ALLOWED_IMAGE_TYPES.includes(file.type);
+      const isValidExt = ALLOWED_EXTENSIONS.some((ext) =>
+        file.name.toLowerCase().endsWith(ext)
+      );
+
+      const isUnder2MB = file.size <= MAX_SIZE_MB * 1024 * 1024;
+
+      if (!isValidType || !isValidExt) {
+        alert(`${file.name} is not a valid image type.`);
+        return false;
+      }
+
+      if (!isUnder2MB) {
+        alert(`${file.name} is larger than 2MB and was skipped.`);
+        return false;
+      }
+
+      return true;
+    });
+
+    // Prevent uploading more than allowed total images
+    const allowedCount = MAX_IMAGES - uploadedImages.length;
+    const finalImages = validImages.slice(0, allowedCount);
+
+    if (finalImages.length === 0) return;
+
     setUploading(true);
 
-    for (let i = 0; i < validImages.length; i++) {
-      const file = validImages[i];
+    for (let i = 0; i < finalImages.length; i++) {
+      const file = finalImages[i];
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "ml_default");
@@ -2147,8 +2188,8 @@ const AddLisiting = () => {
           uploadedImages.push(response.data.secure_url);
           setGalleryImages([...uploadedImages]);
 
-          if (uploadedImages.length >= 20) {
-            alert("Image limit reached (20 images).");
+          if (uploadedImages.length >= MAX_IMAGES) {
+            alert("Image limit reached (10 images).");
             break;
           }
         }
@@ -2158,6 +2199,7 @@ const AddLisiting = () => {
     }
 
     setUploading(false);
+    e.target.value = ""; // reset file input to allow re-selection of same files
   };
 
   // Handle file change and preview
@@ -2651,8 +2693,18 @@ const AddLisiting = () => {
   }, [formData]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log(name, value);
+
+    if (name === "title") {
+      // Only allow letters, limit to 25 characters
+      const cleanedValue = value.replace(/[^a-zA-Z]/g, "").slice(0, 25);
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    } else if (name === "kmDriven" || name === "mileage") {
+      // Only allow digits, limit to 10 characters
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const [Saudinummsg, setSaudinummsg] = useState(null); // Store a single file
@@ -4515,13 +4567,6 @@ const AddLisiting = () => {
                       className="gallery-media"
                       style={{ width: "100%", textAlign: "center" }}
                     >
-                      {/* <h6
-                      className="media-title"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      Gallery
-                    </h6> */}
-
                       <div
                         className="galleryimg-upload"
                         style={{
@@ -4547,11 +4592,14 @@ const AddLisiting = () => {
                                 className="img-fluid"
                                 alt={`Gallery image ${index + 1}`}
                                 style={{
+                                  width: "100%",
                                   maxWidth: "200px",
-                                  maxHeight: "200px",
+                                  aspectRatio: "2392 / 2500",
+                                  objectFit: "cover",
                                   borderRadius: "8px",
                                 }}
                               />
+
                               <Link
                                 to="#"
                                 onClick={(e) => {
@@ -4635,6 +4683,11 @@ const AddLisiting = () => {
                           placeholder="-- Choose Region --"
                           classNamePrefix="select"
                           isSearchable
+                          value={
+                            regionOptions.find(
+                              (r) => r.regionId === selectedRegionId
+                            ) || null
+                          }
                         />
                       </div>
 
@@ -4647,6 +4700,11 @@ const AddLisiting = () => {
                           placeholder="-- Choose City --"
                           classNamePrefix="select"
                           isSearchable
+                          value={
+                            cityOptions.find(
+                              (c) => c.CITY_ID === selectedCityData.cityId
+                            ) || null
+                          }
                         />
                       </div>
                     </div>
@@ -4662,6 +4720,11 @@ const AddLisiting = () => {
                       className="mb-3"
                       classNamePrefix="select"
                       isSearchable
+                      value={
+                        districtOptions.find(
+                          (d) => d.District_ID === selectedDistrict.districtId
+                        ) || null
+                      }
                     />
 
                     {/* {selectedDistrict.districtId && (

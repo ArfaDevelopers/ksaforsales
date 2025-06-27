@@ -3687,7 +3687,64 @@ form.filter_innerwrap .accordion-item {
     overflow: hidden;
     width: 400px;
 }
+.filter_outterwrap .more_optn_modal_main{
+  z-index: 99999;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.filter_outterwrap .more_optn_modal_main .modal-dialog{
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  align-items: flex-start !important;
+}
+.filter_outterwrap .more_optn_modal_main.show{
+  /* display: flex !important;
+  justify-content: center;
+  align-items: center; */
+}
+.filter_outterwrap .more_optn_modal_main .modal-content{
+ height: 50vh;
+}
+.filter_outterwrap .more_optn_modal_main .modal-content .modal-title{
+  font-size: 16px;
+}
+.more_optn_modal_main .more_choice_main_list .form-check:hover{
+  box-shadow: unset !important;
+  transform: unset !important;
+}
+.more_optn_modal_main .more_choice_main_list {
+  columns: 2;
+}
+.more_optn_modal_main .more_choice_main_list label{
+  font-size: 13px !important;
+}
+.more_optn_modal_main .modal-footer button:hover{
+  color: unset;
+  background-color: unset;
+  transform: translate(0);
+  box-shadow: unset;
+}
+.more_optn_modal_main .modal-footer button:last-child {
+    color: #fff;
+    background-color: #2d4495;
+    transform: translate(0);
+    box-shadow: unset;
+}
+.more_optn_modal_main .modal-footer button:last-child:hover{
+  color: #fff;
+  background-color: #2d4495;
+  transform: translate(0);
+  box-shadow: unset;
+}
 /* Filter css ends */
+/* Category Inner pages css starts */
+.CategoryInfodiv_btn2container button{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+/* Category Inner pages css ends */
 @media screen and (min-width: 370px) and (max-width: 600px) {
   .head2btflex {
     flex-direction: column !important;
@@ -22968,6 +23025,16 @@ height: 400px;
 .custom-arrow:hover {
   background-color: rgba(0, 0, 0, 0.7); /* Darker on hover */
 }
+@media screen and (max-width:640px){
+  .filter_outterwrap .more_optn_modal_main .modal-dialog {
+    width: 100%;
+    max-width: 90% !important;
+    height: auto;
+    min-height: auto;
+    align-items: flex-start !important;
+    margin: 30px auto;
+}
+}
 @media screen and (max-width: 480px) {
   .cat_icon_main {
     justify-content: flex-start;
@@ -23007,13 +23074,17 @@ height: 400px;
   .category-section {
     padding: 10px 0 0px;
   }
-  .featured-slider {
-    /* margin-bottom: 10px; */
-  }
   .latestblog-wrapper .h2 {
     margin: 0 !important;
   }
   .latestblog-wrapper .featuresection_btn {
     margin: 0 !important;
+  }
+  .filter_card_main .sign-in-button{
+    width: auto !important;
+    padding: 9px 15px !important;
+  }
+  .filter_card_main .sign-in-button span{
+    display: none;
   }
 }

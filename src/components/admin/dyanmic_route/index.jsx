@@ -54,10 +54,6 @@ import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
 import RatingAndReviews from "../../admin/RatingSection/RatingSection";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 
-
-
-
-
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
@@ -677,7 +673,6 @@ const Dynamic_Route = () => {
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
   ];
-  const visibleImages = showAllThumbnails ? images : images.slice(0, 5); // Show 5 or all
 
   return (
     <>
@@ -777,11 +772,11 @@ const Dynamic_Route = () => {
               }}
             >
               <Link to="/bookmarks">
-              <span>
-                {/* <img src={left} alt="leftarrow" /> */}
-                <FaRegHeart />
-              </span>{" "}
-              Favourite
+                <span>
+                  {/* <img src={left} alt="leftarrow" /> */}
+                  <FaRegHeart />
+                </span>{" "}
+                Favourite
               </Link>
             </button>
             <>
@@ -1433,11 +1428,11 @@ const Dynamic_Route = () => {
                                   <div className="modal-body">
                                     <div className="p-4 w-full max-w-lg mx-auto">
                                       {userId && recieverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={recieverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                           <p className="text-lg font-semibold text-gray-600">
@@ -1470,7 +1465,7 @@ const Dynamic_Route = () => {
                         overflow: "hidden",
                       }}
                     >
-                      {visibleImages.map((image, index) => (
+                      {images.map((image, index) => (
                         <div
                           className="multiplesimage-wrapper-item"
                           key={index}
@@ -1496,29 +1491,6 @@ const Dynamic_Route = () => {
                           />
                         </div>
                       ))}
-                      {images.length > 5 && (
-                        <button
-                          onClick={() =>
-                            setShowAllThumbnails(!showAllThumbnails)
-                          }
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            borderRadius: "50%",
-                            border: "none",
-                            backgroundColor: "#007BFF",
-                            color: "white",
-                            fontSize: "16px",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "10px",
-                          }}
-                        >
-                          {showAllThumbnails ? "−" : "+"}
-                        </button>
-                      )}
                     </div>
                   </div>
 
@@ -1928,10 +1900,10 @@ const Dynamic_Route = () => {
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
                                           <Mesagedeals
-                                          userId={userId}
-                                          recieverId={recieverId}
-                                          fullWidth={true} // :point_left: Add this prop
-                                        />
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -2443,11 +2415,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                        <Mesagedeals
-                                        userId={userId}
-                                        recieverId={recieverId}
-                                        fullWidth={true} // :point_left: Add this prop
-                                      />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -2958,11 +2930,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                         <Mesagedeals
-                                         userId={userId}
-                                         recieverId={recieverId}
-                                         fullWidth={true} // :point_left: Add this prop
-                                       />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -3487,11 +3459,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                         <Mesagedeals
-                                         userId={userId}
-                                         recieverId={recieverId}
-                                         fullWidth={true} // :point_left: Add this prop
-                                       />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -4002,11 +3974,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                         <Mesagedeals
-                                         userId={userId}
-                                         recieverId={recieverId}
-                                         fullWidth={true} // :point_left: Add this prop
-                                       />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -4517,11 +4489,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                         <Mesagedeals
-                                         userId={userId}
-                                         recieverId={recieverId}
-                                         fullWidth={true} // :point_left: Add this prop
-                                       />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -5056,11 +5028,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                        <Mesagedeals
-                                        userId={userId}
-                                        recieverId={recieverId}
-                                        fullWidth={true} // :point_left: Add this prop
-                                      />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -5577,11 +5549,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                         <Mesagedeals
-                                         userId={userId}
-                                         recieverId={recieverId}
-                                         fullWidth={true} // :point_left: Add this prop
-                                       />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -6099,11 +6071,11 @@ const Dynamic_Route = () => {
                                     <div className="modal-body">
                                       <div className="p-4 w-full max-w-lg mx-auto">
                                         {userId && recieverId ? (
-                                        <Mesagedeals
-                                        userId={userId}
-                                        recieverId={recieverId}
-                                        fullWidth={true} // :point_left: Add this prop
-                                      />
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={recieverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
                                             <p className="text-lg font-semibold text-gray-600">
@@ -6514,18 +6486,18 @@ const Dynamic_Route = () => {
                                     ></button>
                                   </div>
                                   {userId && recieverId ? (
-                                      <Mesagedeals
+                                    <Mesagedeals
                                       userId={userId}
                                       recieverId={recieverId}
                                       fullWidth={true} // :point_left: Add this prop
                                     />
-                                      ) : (
-                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                          <p className="text-lg font-semibold text-gray-600">
-                                            Please log in to start messaging.
-                                          </p>
-                                        </div>
-                                      )}
+                                  ) : (
+                                    <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                      <p className="text-lg font-semibold text-gray-600">
+                                        Please log in to start messaging.
+                                      </p>
+                                    </div>
+                                  )}
                                   {/* <div className="modal-body">
                                     <div className="p-4 w-full max-w-lg mx-auto">
                                  
