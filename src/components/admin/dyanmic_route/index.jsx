@@ -673,6 +673,7 @@ const Dynamic_Route = () => {
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
   ];
+  const visibleImages = showAllThumbnails ? images : images.slice(0, 5); // Show 5 or all
 
   return (
     <>
@@ -1135,6 +1136,8 @@ const Dynamic_Route = () => {
                           cursor: "pointer",
                           borderRadius: "50%",
                           fontSize: "20px",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         ◄
@@ -1153,6 +1156,8 @@ const Dynamic_Route = () => {
                           cursor: "pointer",
                           borderRadius: "50%",
                           fontSize: "20px",
+                          width: "50px",
+                          height: "50px",
                         }}
                       >
                         ►
@@ -1465,7 +1470,7 @@ const Dynamic_Route = () => {
                         overflow: "hidden",
                       }}
                     >
-                      {images.map((image, index) => (
+                      {visibleImages.map((image, index) => (
                         <div
                           className="multiplesimage-wrapper-item"
                           key={index}
@@ -1484,13 +1489,36 @@ const Dynamic_Route = () => {
                             alt={`Car ${index + 1}`}
                             className="images"
                             style={{
-                              width: "80px",
-                              height: "60px",
+                              width: "100%",
+                              height: "100%",
                               borderRadius: "5px",
                             }}
                           />
                         </div>
                       ))}
+                      {images.length > 5 && (
+                        <button
+                          onClick={() =>
+                            setShowAllThumbnails(!showAllThumbnails)
+                          }
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            border: "none",
+                            backgroundColor: "#007BFF",
+                            color: "white",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {showAllThumbnails ? "−" : "+"}
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -1955,8 +1983,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -2471,8 +2499,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -2986,8 +3014,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -3515,8 +3543,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -4030,8 +4058,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -4545,8 +4573,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -5084,8 +5112,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -5605,8 +5633,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -6127,8 +6155,8 @@ const Dynamic_Route = () => {
                               alt={`Car ${index + 1}`}
                               className="images"
                               style={{
-                                width: "80px",
-                                height: "60px",
+                                width: "100%",
+                                height: "100%",
                                 borderRadius: "5px",
                               }}
                             />
@@ -6272,6 +6300,7 @@ const Dynamic_Route = () => {
                   display: "flex",
                   flexWrap: "wrap",
                   marginLeft: window.innerWidth <= 576 ? "0px" : "10px",
+                  marginBottom: "30px",
                   alignItems: "center",
                 }}
               >
@@ -6535,13 +6564,14 @@ const Dynamic_Route = () => {
                   }}
                 >
                   <Card.Body
+                    className="p-0"
                     style={{
                       position: "relative",
-                      marginTop: -40,
-                      marginLeft: -20,
+                      // marginTop: -40,
+                      // marginLeft: -20,
                     }}
                   >
-                    <div className="d-flex flex-column gap-3 mt-4 ms-0">
+                    <div className="d-flex flex-column gap-3 ms-0">
                       {adsDetailImagesContent.length > 0 &&
                         adsDetailImagesContent[0].imageUrls.map(
                           (imageUrl, index) => (
@@ -6552,7 +6582,7 @@ const Dynamic_Route = () => {
                               className="rounded shadow"
                               style={{
                                 width:
-                                  window.innerWidth <= 576 ? "330px" : "385px",
+                                  window.innerWidth <= 576 ? "330px" : "100%",
                                 height: "300px",
                                 objectFit: "cover",
                               }}
