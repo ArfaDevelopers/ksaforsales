@@ -1762,7 +1762,7 @@ const AutomotiveComp = () => {
   };
   const handleCheckboxChangeisFeatured = (event) => {
     const isChecked = event.target.checked;
-    const value = isChecked ? "Featured Ad" : "Not Featured Ad" || "";
+    const value = isChecked ? "Featured Ad" : "Not Featured Ad";
     setSelectedOptionisFeatured(value);
     console.log(`Selected Option:____ ${value}`);
   };
@@ -2264,6 +2264,7 @@ const AutomotiveComp = () => {
       selectedCities,
       subCatgory,
       searchText,
+      AdditionalFeatures,
 
       nestedSubCategory,
       selectedEmirates,
@@ -2299,7 +2300,6 @@ const AutomotiveComp = () => {
       Model,
       Fueltype,
       Condition,
-      AdditionalFeatures,
       selectedCity,
       selectedDistrict
     );
@@ -2308,6 +2308,7 @@ const AutomotiveComp = () => {
     searchQuery,
     subCatgory,
     searchText,
+    AdditionalFeatures,
 
     nestedSubCategory,
     selectedEmirates,
@@ -2343,7 +2344,6 @@ const AutomotiveComp = () => {
     Model,
     Fueltype,
     Condition,
-    AdditionalFeatures,
     selectedCity,
     selectedDistrict,
   ]);
@@ -2359,6 +2359,7 @@ const AutomotiveComp = () => {
       selectedCities,
       subCatgory,
       searchText,
+      AdditionalFeatures,
 
       nestedSubCategory,
       selectedEmirates,
@@ -2394,7 +2395,6 @@ const AutomotiveComp = () => {
       Model,
       Fueltype,
       Condition,
-      AdditionalFeatures,
       selectedCity,
       selectedDistrict
     );
@@ -2404,6 +2404,7 @@ const AutomotiveComp = () => {
     cities,
     subCatgory,
     searchText,
+    AdditionalFeatures,
 
     nestedSubCategory,
     emirates,
@@ -2439,7 +2440,6 @@ const AutomotiveComp = () => {
     Model,
     Fueltype,
     Condition,
-    AdditionalFeatures,
     selectedCity,
     selectedDistrict
   ) => {
@@ -2455,6 +2455,8 @@ const AutomotiveComp = () => {
           car.Emirates,
           car.Make,
           car.Registeredin,
+          car.AdditionalFeatures,
+
           car.Color,
           car.Transmission,
           car.EngineType,
@@ -2478,6 +2480,7 @@ const AutomotiveComp = () => {
           car.Fueltype,
           car.Condition,
           car.NestedSubCategory,
+          car.NumberofDoors,
         ];
 
         return fieldsToSearch.some(
@@ -2547,6 +2550,12 @@ const AutomotiveComp = () => {
     // Filter by selected cities
     if (cities?.length > 0) {
       filtered = filtered.filter((car) => cities.includes(car.City));
+    }
+    // Filter by selected cities
+    if (selectedNumbersNumberofDoors?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedNumbersNumberofDoors.includes(car.NumberofDoors)
+      );
     }
 
     if (nestedSubCategory) {
