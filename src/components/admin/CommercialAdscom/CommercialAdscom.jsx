@@ -494,7 +494,7 @@ const CommercialAdscom = () => {
     <>
       <section
         className="commercial_card_section"
-        style={{ marginBottom: "6rem" }}
+        style={{ marginBottom: "3rem" }}
       >
         <div className="container">
           <Header />
@@ -545,7 +545,13 @@ const CommercialAdscom = () => {
 
           {/* <hr /> */}
 
-          <h1 className="m-lg-1">Commercial Ads</h1>
+          <h1
+            style={{
+              marginBottom: "20px",
+            }}
+          >
+            Commercial Ads
+          </h1>
 
           <Modal show={showModal} onHide={handleCloseModal} centered>
             <div className="position-relative">
@@ -644,11 +650,14 @@ const CommercialAdscom = () => {
               {currentItems.map((item) => (
                 <Col key={item.id} md={3} sm={6}>
                   <Card
-                    className="shadow-sm"
+                    className="shadow-lg"
                     onClick={() => {
                       navigate(`/CategoryDetail/${item.id}`);
                     }}
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      padding: "20px",
+                    }}
                   >
                     <div
                       style={{
@@ -656,13 +665,13 @@ const CommercialAdscom = () => {
                         justifyContent: "space-between",
                         alignItems: "center",
                         width: "100%", // Use full width or adjust as needed
-                        marginTop: "13px",
+                        marginBottom: "5px",
                       }}
                     >
                       {/* Left Side - Views */}
                       <div className="d-flex gap-2 align-items-center">
                         <FaRegEye />
-                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                        <span style={{ fontWeight: "bold", fontSize: "15px" }}>
                           {item?.visitCount}
                           <span style={{ marginLeft: "3px" }}>Views</span>
                         </span>
@@ -705,13 +714,19 @@ const CommercialAdscom = () => {
                       src={item.image}
                       alt={item.title}
                       style={{
-                        height: "300px",
-                        objectFit: "fill",
-                        width: "328",
+                        height: "250px",
+                        objectFit: "cover",
+                        width: "100%",
                       }}
                     />
-                    <Card.Body>
-                      <div className="d-flex justify-content-center gap-3 mt-3">
+                    <Card.Body
+                      style={{
+                        paddingBottom: "0",
+                        paddingLeft: "0",
+                        paddingRight: "0",
+                      }}
+                    >
+                      <div className="d-flex justify-content-between gap-2 mt-1">
                         <Button
                           variant="primary"
                           className="d-flex align-items-center gap-1 bg-white"
@@ -719,6 +734,7 @@ const CommercialAdscom = () => {
                             ...whatsappButtonStyles,
                             transition: "all 0.2s ease",
                             padding: "0.375rem 0.75rem",
+                            fontSize: "14px",
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -745,6 +761,7 @@ const CommercialAdscom = () => {
                             ...whatsappButtonStyles,
                             transition: "all 0.2s ease",
                             padding: "0.375rem 0.75rem",
+                            fontSize: "14px",
                           }}
                           onClick={(e) => {
                             e.stopPropagation();

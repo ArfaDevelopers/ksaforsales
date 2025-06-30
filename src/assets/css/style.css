@@ -17389,7 +17389,7 @@ section.advertisement {
 39. Responsive
 -----------------------*/
 .commercial_slider_wrap .blog-img {
-    border: 1px solid #2d4495;
+    /* border: 1px solid #2d4495; */
     border-radius: 10px !important;
 }
 .commercial_slider_wrap .card:hover{

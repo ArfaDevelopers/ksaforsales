@@ -283,7 +283,7 @@ const SignUp = () => {
       <Header />
       <div
         className="login-content"
-        style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem" }}
+        // style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem" }}
       >
         <div className="container">
           <div className="row">

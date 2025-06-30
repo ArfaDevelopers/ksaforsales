@@ -259,19 +259,22 @@ const Footer = () => {
                         <h2 className="footer-title">Categories</h2>
                         <ul>
                           <li>
-                            <Link to="/my-listing">Our product</Link>
+                            <Link to="/AutomotiveComp">Motors</Link>
                           </li>
                           <li>
-                            <Link to="/AutomotiveComp">Automative</Link>
+                            <Link to="/ElectronicComp">Electronics</Link>
                           </li>
                           <li>
-                            <Link to="/ElectronicComp">Electronic</Link>
+                            <Link to="/FashionStyle">Fashion</Link>
                           </li>
                           <li>
-                            <Link to="/PetAnimalsComp">Animal</Link>
+                            <Link to="/HealthCareComp">Home & Furniture</Link>
                           </li>
                           <li>
-                            <Link to="/FashionStyle">Gift</Link>
+                            <Link to="/JobBoard">Jobs</Link>
+                          </li>
+                          <li>
+                            <Link to="/RealEstateComp">Realestate</Link>
                           </li>
                         </ul>
                       </div>
@@ -286,19 +289,19 @@ const Footer = () => {
                           }}
                         >
                           <li>
-                            <Link to="/RealEstateComp">Property</Link>
+                            <Link to="/TravelComp">Services</Link>
                           </li>
                           <li>
-                            <Link to="/RealEstateComp">Contracting</Link>
+                            <Link to="/SportGamesComp">Games & Toys</Link>
                           </li>
                           <li>
-                            <Link to="/TravelComp">Camping</Link>
+                            <Link to="/PetAnimalsComp">Pet</Link>
                           </li>
                           <li>
-                            <Link to="/Education">Family</Link>
+                            <Link to="/Education">Other</Link>
                           </li>
                           <li>
-                            <Link to="/HealthCareComp">Furniture</Link>
+                            <Link to="/CommercialAdscom">Commercial</Link>
                           </li>
                         </ul>
                       </div>
