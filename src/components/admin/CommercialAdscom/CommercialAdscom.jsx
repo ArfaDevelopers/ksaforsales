@@ -714,7 +714,7 @@ const CommercialAdscom = () => {
                       src={item.image}
                       alt={item.title}
                       style={{
-                        height: "250px",
+                        height: "350px",
                         objectFit: "cover",
                         width: "100%",
                       }}

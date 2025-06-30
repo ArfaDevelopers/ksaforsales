@@ -499,8 +499,9 @@ const CategoryDetail = () => {
             </div>
           </div>
         </Container>
-        <Link
-        // to="/bookmarks"
+        <div
+          className="report_main_btn_wrap"
+          // to="/bookmarks"
         >
           <button
             className="head2btn"
@@ -521,7 +522,8 @@ const CategoryDetail = () => {
               {categories.heartedby?.includes(userClickedId) ? (
                 <FaHeart
                   style={{
-                    fontSize: "1.5rem",
+                    fontSize: "20px",
+                    marginRight: "5px",
                     color: "red",
                     fill: "red",
                   }}
@@ -529,7 +531,7 @@ const CategoryDetail = () => {
               ) : (
                 <FaRegHeart
                   style={{
-                    fontSize: "1.5rem",
+                    fontSize: "20px",
                     color: "#2d4495",
                   }}
                 />
@@ -555,7 +557,8 @@ const CategoryDetail = () => {
                 <IoShare
                   style={{
                     fontWeight: "bold",
-                    fontSize: "1.4rem",
+                    fontSize: "20px",
+                    marginRight: "5px",
                     color: "black",
                   }}
                 />
@@ -649,7 +652,8 @@ const CategoryDetail = () => {
             <span>
               <VscReport
                 style={{
-                  fontSize: "1rem",
+                  fontSize: "20px",
+                  marginRight: "5px",
                   color: "#2d4495",
                   fontWeight: "bold",
                 }}
@@ -746,12 +750,12 @@ const CategoryDetail = () => {
               </Button>
             </Modal.Footer>
           </Modal>
-        </Link>
+        </div>
         <Card
           className="text-center position-relative"
           style={{
-            marginBottom: window.innerWidth <= 576 ? "63rem" : "0rem",
-            marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem",
+            width: "350px",
+            margin: "20px auto",
           }}
         >
           {/* Wrapper for top-left and top-right text */}
@@ -759,20 +763,13 @@ const CategoryDetail = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              width: "30%",
-              margin: "13px auto",
-              padding: "0 11px",
+              marginBottom: "15px",
             }}
           >
-            {/* Top-left text */}
             <div
               className="d-flex gap-2 align-items-center mt-2"
               style={{
-                height: "0rem",
                 fontSize: "18px",
-                // marginLeft: "1.6rem",
-                marginLeft: window.innerWidth <= 576 ? "-7rem" : "1.6rem",
-                paddingTop: "1rem",
               }}
             >
               <FaRegEye />
@@ -788,8 +785,6 @@ const CategoryDetail = () => {
                 fontWeight: "bold",
                 cursor: "pointer",
                 fontSize: "18px",
-                marginRight: window.innerWidth <= 576 ? "-7rem" : "1.6rem",
-                // marginTop: "-5px", // Adjust this value as needed
               }}
               onClick={handleShareClick}
             >
@@ -892,16 +887,16 @@ const CategoryDetail = () => {
             src={categories.image}
             style={{
               height: "300px",
-              maxWidth: "328px",
               width: "100%", // Makes it responsive
-              objectFit: "fill",
+              maxWidth: "100%",
+              objectFit: "cover",
               margin: "0 auto",
               display: "block",
             }}
           />
 
-          <Card>
-            <Card.Body>
+          <div>
+            <div>
               <div className="d-flex justify-content-center gap-3 mt-3">
                 <Button
                   variant="primary"
@@ -975,8 +970,8 @@ const CategoryDetail = () => {
                   />
                 </Button>
               </div>
-            </Card.Body>
-          </Card>
+            </div>
+          </div>
         </Card>
 
         {/* Modal for Call */}

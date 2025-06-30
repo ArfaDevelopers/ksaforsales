@@ -3739,6 +3739,14 @@ form.filter_innerwrap .accordion-item {
 .card_btn_wrap .sign-in-button{
   font-size: 14px !important;
 }
+.report_main_btn_wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.report_main_btn_wrap button  {
+  width: auto !important;
+  padding: 8px 15px !important;
+}
 /* Filter css ends */
 /* Category Inner pages css starts */
 .CategoryInfodiv_btn2container button {
