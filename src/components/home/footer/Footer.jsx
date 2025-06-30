@@ -252,53 +252,57 @@ const Footer = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="col-lg-1 col-md-6 footer_link_mbl">
-                  <div className="footer-widget footer-menu">
-                    <h2 className="footer-title">Categories</h2>
-                    <ul>
-                      <li>
-                        <Link to="/my-listing">Our product</Link>
-                      </li>
-                      <li>
-                        <Link to="/AutomotiveComp">Automative</Link>
-                      </li>
-                      <li>
-                        <Link to="/ElectronicComp">Electronic</Link>
-                      </li>
-                      <li>
-                        <Link to="/PetAnimalsComp">Animal</Link>
-                      </li>
-                      <li>
-                        <Link to="/FashionStyle">Gift</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-lg-1 col-md-6 footer_link_mbl">
-                  <div className="footer-widget footer-menu">
-                    <ul
-                      className="col_2"
-                      style={{
-                        marginTop: window.innerWidth <= 767 ? "50px" : "34px",
-                      }}
-                    >
-                      <li>
-                        <Link to="/RealEstateComp">Property</Link>
-                      </li>
-                      <li>
-                        <Link to="/RealEstateComp">Contracting</Link>
-                      </li>
-                      <li>
-                        <Link to="/TravelComp">Camping</Link>
-                      </li>
-                      <li>
-                        <Link to="/Education">Family</Link>
-                      </li>
-                      <li>
-                        <Link to="/HealthCareComp">Furniture</Link>
-                      </li>
-                    </ul>
+                <div className="col-lg-3 col-md-6">
+                  <div className="row">
+                    <div className="col-lg-6 col-md-6 footer_link_mbl">
+                      <div className="footer-widget footer-menu">
+                        <h2 className="footer-title">Categories</h2>
+                        <ul>
+                          <li>
+                            <Link to="/my-listing">Our product</Link>
+                          </li>
+                          <li>
+                            <Link to="/AutomotiveComp">Automative</Link>
+                          </li>
+                          <li>
+                            <Link to="/ElectronicComp">Electronic</Link>
+                          </li>
+                          <li>
+                            <Link to="/PetAnimalsComp">Animal</Link>
+                          </li>
+                          <li>
+                            <Link to="/FashionStyle">Gift</Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6 footer_link_mbl">
+                      <div className="footer-widget footer-menu">
+                        <ul
+                          className="col_2"
+                          style={{
+                            marginTop:
+                              window.innerWidth <= 767 ? "50px" : "34px",
+                          }}
+                        >
+                          <li>
+                            <Link to="/RealEstateComp">Property</Link>
+                          </li>
+                          <li>
+                            <Link to="/RealEstateComp">Contracting</Link>
+                          </li>
+                          <li>
+                            <Link to="/TravelComp">Camping</Link>
+                          </li>
+                          <li>
+                            <Link to="/Education">Family</Link>
+                          </li>
+                          <li>
+                            <Link to="/HealthCareComp">Furniture</Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="col-lg-2 col-md-6 footer_link_mbl">
@@ -323,7 +327,6 @@ const Footer = () => {
                     </ul>
                   </div>
                 </div>
-
                 <div className="col-lg-2 col-md-6 footer_link_mbl">
                   <div className="footer-widget footer-menu">
                     <div className="footer-title">Ksa4sale</div>

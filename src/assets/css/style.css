@@ -56,7 +56,8 @@ Version      : 1.0
 /* trending_product */
 html,
 body {
-  font-family: "Cairo", sans-serif;
+  /* font-family: "Cairo", sans-serif; */
+  font-family: "ABeeZee";
 }
 .category_icons {
   width: 19% !important;
@@ -3162,14 +3163,14 @@ width: 100%;
 .blog-widget .img-blk:hover img,
 .venue-image:hover img,
 .recommended-widget .img-blk:hover img {
-  -webkit-transform: scale(1.35) rotate(15deg);
+  /* -webkit-transform: scale(1.35) rotate(15deg);
   -moz-transform: scale(1.35) rotate(15deg);
-  transform: scale(1.35) rotate(15deg);
+  transform: scale(1.35) rotate(15deg); */
 }
 .bloglist-widget .blog-image:hover img {
-  -webkit-transform: scale(1.35) rotate(7deg);
+  /* -webkit-transform: scale(1.35) rotate(7deg);
   -moz-transform: scale(1.35) rotate(7deg);
-  transform: scale(1.35) rotate(7deg);
+  transform: scale(1.35) rotate(7deg); */
 }
 .blog-section .grid-blog .entry-meta li {
   margin: 0;
@@ -3698,11 +3699,6 @@ form.filter_innerwrap .accordion-item {
   height: auto;
   align-items: flex-start !important;
 }
-.filter_outterwrap .more_optn_modal_main.show {
-  /* display: flex !important;
-  justify-content: center;
-  align-items: center; */
-}
 .filter_outterwrap .more_optn_modal_main .modal-content {
   height: 50vh;
 }
@@ -3737,6 +3733,9 @@ form.filter_innerwrap .accordion-item {
   transform: translate(0);
   box-shadow: unset;
 }
+.filter_card_main_wrap{
+  padding-right: 0 !important;
+}
 /* Filter css ends */
 /* Category Inner pages css starts */
 .CategoryInfodiv_btn2container button {
@@ -3745,6 +3744,30 @@ form.filter_innerwrap .accordion-item {
   gap: 5px;
 }
 /* Category Inner pages css ends */
+/* SWIPER CSS STARTS */
+.swiper_main_wrap .swiper-button-next:after,
+.swiper_main_wrap .swiper-button-prev:after {
+    font-size: 22px !important;
+}
+.swiper_main_wrap .swiper-button-next,
+.swiper_main_wrap .swiper-button-prev{
+  width: 50px;
+  height: 50px;
+  background-color: #2D4495;
+  border-radius: 50%;
+}
+.swiper_main_wrap .swiper_pagination {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+/* SWIPER CSS ENDS */
 @media screen and (min-width: 370px) and (max-width: 600px) {
   .head2btflex {
     flex-direction: column !important;
@@ -6379,7 +6402,7 @@ margin-bottom: 26px;
 -----------------------*/
 
 .login-content {
-  padding: 70px 0;
+  padding: 120px 0 30px;
 }
 .login-wrap {
   box-shadow: 0px 2px 8px -1px rgb(19 16 34 / 4%),
@@ -12545,14 +12568,16 @@ section.home-six-trending-search {
 }
 
 .footermid-container {
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  /* padding-top: 60px; */
-  padding-bottom: 30px;
-  border-bottom: 1px solid #a0a0a0;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* padding-top: 60px; */
+    padding-bottom: 30px;
+    padding-top: 30px;
+    border-bottom: 1px solid #a0a0a0;
+    border-top: 1px solid #a0a0a0;
 }
 
 .footermidinfo-container {
@@ -17360,7 +17385,13 @@ section.advertisement {
 /*-----------------
 39. Responsive
 -----------------------*/
-
+.commercial_slider_wrap .blog-img {
+    border: 1px solid #2d4495;
+    border-radius: 10px !important;
+}
+.commercial_slider_wrap .card:hover{
+    box-shadow: unset !important;
+}
 @media (min-width: 992.98px) {
   .pricing-eight .col-lg-2.d-flex.col-md-6 {
     width: 19.3%;
@@ -22781,7 +22812,8 @@ box-shadow: 0px 0px 4px #000000;
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap");
 
 * {
-  font-family: "Cairo", sans-serif;
+  /* font-family: "Cairo", sans-serif; */
+  font-family: "ABeeZee";
 }
 /* Latets blogs css */
 .latest-blog-img {
@@ -23040,6 +23072,9 @@ height: 400px;
 @media screen and (max-width: 480px) {
   .cat_icon_main {
     justify-content: flex-start;
+  }
+  .swiper_main_wrap .swiper-slide img{
+  height: 300px !important;
   }
   .category_icons {
     width: 100% !important;

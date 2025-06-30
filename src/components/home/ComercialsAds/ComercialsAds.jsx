@@ -82,65 +82,67 @@ export default function AutomativeCarousel() {
   const slider = useRef();
 
   return (
-		<section className="featured-section-color electronic_card_section">
-			<div className="container">
-				<div className="row align-items-center">
-					<div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
-						<h2 className="featuresection_header">Commercial Ads</h2>
-						<Link to="/CommercialAdscom">
-							<button className="featuresection_btn">View All</button>
-						</Link>
-					</div>
+    <section className="featured-section-color electronic_card_section">
+      <div className="container">
+        <div className="row align-items-center">
+          <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
+            <h2 className="featuresection_header">Commercial Ads</h2>
+            <Link to="/CommercialAdscom">
+              <button className="featuresection_btn">View All</button>
+            </Link>
+          </div>
 
-					<div
-						className="feature-section-info"
-						style={{ marginTop: "-0.5rem" }}></div>
+          <div
+            className="feature-section-info"
+            style={{ marginTop: "-0.5rem" }}
+          ></div>
 
-					<div className="featureline">
-						<div className="highlighter"></div>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<div>
-							<Slider
-								ref={slider}
-								{...settings}
-								className="featured-slider grid-view">
-								{ads.map((ad) => (
-									<Link to={`/CategoryDetail/${ad.id}`}>
-										<div key={ad.id} className="card aos" data-aos="fade-up">
-											<div className="blog-widget">
-												<div className="blog-img">
-													{ad.image && ad.image.length > 0 ? (
-														<img
-															src={ad?.image}
-															className="img-fluid"
-															alt={ad.name || "Image"}
-															// style={{ height: "200px", objectFit: "cover" }}
-															style={{
-																height: "461px",
-																objectFit: "cover",
-																width: "328",
-															}}
-														/>
-													) : (
-														<img
-															src="https://via.placeholder.com/200" // Placeholder image
-															className="img-fluid"
-															alt="Placeholder"
-															style={{ height: "200px", objectFit: "cover" }}
-														/>
-													)}
-												</div>
-												{ad.FeaturedAds === "Featured Ads" ? (
-													<div className="fav-item">
-														<span className="Featured-text">Featured</span>
-													</div>
-												) : (
-													""
-												)}
-												{/* <div className="bloglist-content">
+          <div className="featureline">
+            <div className="highlighter"></div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div>
+              <Slider
+                ref={slider}
+                {...settings}
+                className="featured-slider grid-view commercial_slider_wrap"
+              >
+                {ads.map((ad) => (
+                  <Link to={`/CategoryDetail/${ad.id}`}>
+                    <div key={ad.id} className="card aos" data-aos="fade-up">
+                      <div className="blog-widget">
+                        <div className="blog-img">
+                          {ad.image && ad.image.length > 0 ? (
+                            <img
+                              src={ad?.image}
+                              className="img-fluid"
+                              alt={ad.name || "Image"}
+                              // style={{ height: "200px", objectFit: "cover" }}
+                              style={{
+                                height: "461px",
+                                objectFit: "cover",
+                                width: "328",
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src="https://via.placeholder.com/200" // Placeholder image
+                              className="img-fluid"
+                              alt="Placeholder"
+                              style={{ height: "200px", objectFit: "cover" }}
+                            />
+                          )}
+                        </div>
+                        {ad.FeaturedAds === "Featured Ads" ? (
+                          <div className="fav-item">
+                            <span className="Featured-text">Featured</span>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        {/* <div className="bloglist-content">
                           <div className="card-body">
                             <h6>
                               <Link to={`/car-details/${ad.id}`}>
@@ -150,15 +152,15 @@ export default function AutomativeCarousel() {
 
                           </div>
                         </div> */}
-											</div>
-										</div>
-									</Link>
-								))}
-							</Slider>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </Slider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

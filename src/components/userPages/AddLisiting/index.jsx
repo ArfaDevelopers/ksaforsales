@@ -47,6 +47,21 @@ const AddLisiting = () => {
   const [displayName, setdisplayName] = useState(""); // State for image preview
   const [photoURL, setphotoURL] = useState(""); // State for image preview
   const [creationTime, setcreationTime] = useState(""); // State for image preview
+  const [galleryImagesErrMsg, setgalleryImagesErrMsg] = useState(""); // State for image preview
+  const [galleryPriceErrMsg, setgalleryPriceErrMsg] = useState(""); // State for image preview
+  const [gallerydescriptionErrMsg, setgallerydescriptionErrMsg] = useState(""); // State for image preview
+
+  const [galleryListingTitleErrMsg, setgalleryListingTitleErrMsg] =
+    useState(""); // State for image preview
+
+  const [galleryselectedCityDataErrMsg, setgalleryselectedCityDataErrMsg] =
+    useState(""); // State for image preview
+
+  const [galleryselectedRegionIdErrMsg, setgalleryselectedRegionIdErrMsg] =
+    useState(""); // State for image preview
+
+  const [SubCategoryErrMsg, setSubCategoryErrMsg] = useState(""); // State for image preview
+
   const [statesList, setStatesList] = useState([]);
   const [showPrice, setShowPrice] = useState(true);
   const [showPhone, setShowPhone] = useState(true);
@@ -1836,11 +1851,48 @@ const AddLisiting = () => {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
       console.log(Category1, "Category1__________");
+      // if (!galleryImages || galleryImages.length === 0) {
+      //   setgalleryImagesErrMsg("Images are required!"); // Set error message if no category is selected
+      //   return;
+      // }
+      setgalleryImagesErrMsg("");
+
+      // if (!selectedRegionId || selectedRegionId.length === 0) {
+      //   setgalleryselectedRegionIdErrMsg("Region is required!"); // Set error message if no category is selected
+      //   return;
+      // }
+      setgalleryselectedRegionIdErrMsg("");
+      // if (!selectedCityData.cityId || selectedCityData.cityId.length === 0) {
+      //   setgalleryselectedCityDataErrMsg("City is required!"); // Set error message if no category is selected
+      //   return;
+      // }
+      // setgalleryselectedCityDataErrMsg("");
+
+      // if (!formData.title || formData.title.length === 0) {
+      //   setgalleryListingTitleErrMsg("Listing Title is required!"); // Set error message if no category is selected
+      //   return;
+      // }
+      // setgalleryListingTitleErrMsg("");
+      // if (!formData.Price || formData.Price.length === 0) {
+      //   setgalleryPriceErrMsg("Price is required!"); // Set error message if no category is selected
+      //   return;
+      // }
+      setgalleryPriceErrMsg("");
+      if (!formData.description || formData.description.length === 0) {
+        setgallerydescriptionErrMsg("Description is required!"); // Set error message if no category is selected
+        return;
+      }
+      setgallerydescriptionErrMsg("");
       if (user) {
         if (!Category1) {
           setError("Category is required!"); // Set error message if no category is selected
           return;
         }
+        if (!formData.SubCategory) {
+          setSubCategoryErrMsg("SubCategory is required!"); // Set error message if no category is selected
+          return;
+        }
+        setSubCategoryErrMsg("");
         setError("");
         const Collection =
           Category1 === "Automotive"
@@ -2695,8 +2747,8 @@ const AddLisiting = () => {
     const { name, value } = e.target;
 
     if (name === "title") {
-      // Only allow letters, limit to 25 characters
-      const cleanedValue = value.replace(/[^a-zA-Z]/g, "").slice(0, 25);
+      // Allow letters and spaces, limit to 25 characters
+      const cleanedValue = value.replace(/[^a-zA-Z ]/g, "").slice(0, 25);
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "kmDriven" || name === "mileage") {
       // Only allow digits, limit to 10 characters
@@ -3992,14 +4044,13 @@ const AddLisiting = () => {
       ...prev,
       category: selectedValue,
       SubCategory: "",
+      NestedSubCategory: "", // ✅ Clear nested field
     }));
 
-    // Find the selected category and set its subcategories
     const selectedCategory = subcategoriesMapping.categories.find(
       (category) => category.name === selectedValue
     );
 
-    // If the selected category exists, set its subcategories
     if (selectedCategory) {
       setSubcategories(
         selectedCategory.subcategories.map((sub) => ({
@@ -4008,15 +4059,20 @@ const AddLisiting = () => {
         }))
       );
     } else {
-      setSubcategories([]); // Reset if no subcategories exist
+      setSubcategories([]);
     }
   };
 
   const handleSubcategoryChange = (selectedOption) => {
     const selectedValue = selectedOption ? selectedOption.value : "";
-    setFormData((prev) => ({ ...prev, SubCategory: selectedValue }));
+    setFormData((prev) => ({
+      ...prev,
+      SubCategory: selectedValue,
+      NestedSubCategory: "", // ✅ Clear nested field
+    }));
     setCategory((prev) => ({ ...prev, SubCategory: selectedValue }));
   };
+
   const SparePartsChange = (selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -4672,11 +4728,20 @@ const AddLisiting = () => {
                       </label>
                     </div>
                   </div>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
+                    {galleryImagesErrMsg}
+                  </span>
                   <div className="container mt-3">
                     <div className="row">
                       {/* Region Select */}
-                      <div className="col-12 col-md-6 mb-3">
-                        <h5 className="mb-2">Select a Region:</h5>
+                      <div className="col-12 col-md-4 mb-3">
+                        <h6 className="mb-2">Select a Region:</h6>
                         <WindowedSelect
                           options={regionOptions}
                           onChange={handleChangeRegion}
@@ -4689,11 +4754,19 @@ const AddLisiting = () => {
                             ) || null
                           }
                         />
+                        {galleryselectedRegionIdErrMsg && (
+                          <div
+                            className="text-danger mt-1"
+                            style={{ fontSize: "14px" }}
+                          >
+                            {galleryselectedRegionIdErrMsg}
+                          </div>
+                        )}
                       </div>
 
                       {/* City Select */}
-                      <div className="col-12 col-md-6 mb-3">
-                        <h5 className="mb-2">Select a City:</h5>
+                      <div className="col-12 col-md-4 mb-3">
+                        <h6 className="mb-2">Select a City:</h6>
                         <WindowedSelect
                           options={cityOptions}
                           onChange={handleCityChangecities}
@@ -4706,43 +4779,36 @@ const AddLisiting = () => {
                             ) || null
                           }
                         />
+                        {galleryselectedCityDataErrMsg && (
+                          <div
+                            className="text-danger mt-1"
+                            style={{ fontSize: "14px" }}
+                          >
+                            {galleryselectedCityDataErrMsg}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* District Select */}
+                      <div className="col-12 col-md-4 mb-3">
+                        <h6 className="mb-2">Select a District:</h6>
+                        <WindowedSelect
+                          options={districtOptions}
+                          onChange={handleDistrictChange}
+                          placeholder="-- Choose District --"
+                          classNamePrefix="select"
+                          isSearchable
+                          value={
+                            districtOptions.find(
+                              (d) =>
+                                d.District_ID === selectedDistrict.districtId
+                            ) || null
+                          }
+                        />
                       </div>
                     </div>
                   </div>
 
-                  <div className="container mt-4">
-                    <h5 className="mb-2">Select a District:</h5>
-
-                    <WindowedSelect
-                      options={districtOptions}
-                      onChange={handleDistrictChange}
-                      placeholder="-- Choose District --"
-                      className="mb-3"
-                      classNamePrefix="select"
-                      isSearchable
-                      value={
-                        districtOptions.find(
-                          (d) => d.District_ID === selectedDistrict.districtId
-                        ) || null
-                      }
-                    />
-
-                    {/* {selectedDistrict.districtId && (
-                      <div className="alert alert-info">
-                        <div>
-                          <strong>District_ID:</strong>{" "}
-                          {selectedDistrict.districtId}
-                        </div>
-                        <div>
-                          <strong>CITY_ID:</strong> {selectedDistrict.cityId}
-                        </div>
-                        <div>
-                          <strong>REGION_ID:</strong>{" "}
-                          {selectedDistrict.regionId}
-                        </div>
-                      </div>
-                    )} */}
-                  </div>
                   <div className="  ">
                     <div className="mt-2 d-flex flex-column gap-2">
                       {/* <div className="form-group mx-4"> */}
@@ -4764,7 +4830,16 @@ const AddLisiting = () => {
                           value={formData.title}
                           onChange={handleChange}
                         />
+                        {galleryListingTitleErrMsg && (
+                          <div
+                            className="text-danger ml-4 mt-1 "
+                            style={{ fontSize: "14px" }}
+                          >
+                            {galleryListingTitleErrMsg}
+                          </div>
+                        )}
                       </div>
+
                       <div
                         className="d-flex justify-content-between"
                         style={{
@@ -4807,6 +4882,19 @@ const AddLisiting = () => {
                               <div className="row category-listing">
                                 <Select
                                   options={subcategories}
+                                  value={
+                                    subcategories.find(
+                                      (option) =>
+                                        option.value === formData.SubCategory
+                                    ) || null
+                                  } // ✅ Set null when not found to clear it visually
+                                  onChange={handleSubcategoryChange}
+                                  className="basic-single"
+                                  classNamePrefix="select"
+                                  placeholder="Select Subcategory"
+                                />
+                                {/* <Select
+                                  options={subcategories}
                                   value={subcategories.find(
                                     (option) =>
                                       option.value === formData.SubCategory
@@ -4815,9 +4903,18 @@ const AddLisiting = () => {
                                   className="basic-single"
                                   classNamePrefix="select"
                                   placeholder="Select Subcategory"
-                                />
+                                /> */}
                               </div>
                             </div>
+                            <span
+                              style={{
+                                fontSize: "16px",
+                                color: "red",
+                                textAlign: "start",
+                              }}
+                            >
+                              {SubCategoryErrMsg}
+                            </span>
                           </div>
 
                           {Category.SubCategory === "Spare Parts" ? (
@@ -13458,6 +13555,14 @@ const AddLisiting = () => {
                                   {/* Unicode eye icons */}
                                 </span>
                               </div>
+                              {galleryPriceErrMsg && (
+                                <div
+                                  className="text-danger mt-1 "
+                                  style={{ fontSize: "14px" }}
+                                >
+                                  {galleryPriceErrMsg}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -13511,6 +13616,14 @@ const AddLisiting = () => {
                           </span>
                         )}
                       </div>
+                      {gallerydescriptionErrMsg && (
+                        <div
+                          className="text-danger mt-1 "
+                          style={{ fontSize: "14px" }}
+                        >
+                          {gallerydescriptionErrMsg}
+                        </div>
+                      )}
                     </div>
 
                     {/* <div className="row">

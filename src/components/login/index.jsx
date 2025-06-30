@@ -170,10 +170,7 @@ const Login = () => {
         </div>
       </div> */}
 
-      <div
-        className="login-content"
-        style={{ marginTop: window.innerWidth <= 576 ? "6rem" : "12rem" }}
-      >
+      <div className="login-content">
         <div className="container">
           <div className="row">
             {/* Left Column: QR Code Section */}
