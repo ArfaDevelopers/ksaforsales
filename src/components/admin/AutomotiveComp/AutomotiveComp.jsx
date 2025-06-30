@@ -1762,7 +1762,7 @@ const AutomotiveComp = () => {
   };
   const handleCheckboxChangeisFeatured = (event) => {
     const isChecked = event.target.checked;
-    const value = isChecked ? "Featured Ad" : "Not Featured Ad";
+    const value = isChecked ? "Featured Ad" : "Not Featured Ad" || "";
     setSelectedOptionisFeatured(value);
     console.log(`Selected Option:____ ${value}`);
   };

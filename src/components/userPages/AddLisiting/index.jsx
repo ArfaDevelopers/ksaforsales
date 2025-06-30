@@ -50,6 +50,7 @@ const AddLisiting = () => {
   const [galleryImagesErrMsg, setgalleryImagesErrMsg] = useState(""); // State for image preview
   const [galleryPriceErrMsg, setgalleryPriceErrMsg] = useState(""); // State for image preview
   const [gallerydescriptionErrMsg, setgallerydescriptionErrMsg] = useState(""); // State for image preview
+  const [FeaturedAdsErrMsg, setFeaturedAdsErrMsg] = useState(""); // State for image preview
 
   const [galleryListingTitleErrMsg, setgalleryListingTitleErrMsg] =
     useState(""); // State for image preview
@@ -1851,48 +1852,53 @@ const AddLisiting = () => {
       // Get the current user from Firebase Auth
       const user = auth.currentUser;
       console.log(Category1, "Category1__________");
-      // if (!galleryImages || galleryImages.length === 0) {
-      //   setgalleryImagesErrMsg("Images are required!"); // Set error message if no category is selected
-      //   return;
-      // }
+      if (!galleryImages || galleryImages.length === 0) {
+        setgalleryImagesErrMsg("Images are required!"); // Set error message if no category is selected
+        return;
+      }
       setgalleryImagesErrMsg("");
 
-      // if (!selectedRegionId || selectedRegionId.length === 0) {
-      //   setgalleryselectedRegionIdErrMsg("Region is required!"); // Set error message if no category is selected
-      //   return;
-      // }
+      if (!selectedRegionId || selectedRegionId.length === 0) {
+        setgalleryselectedRegionIdErrMsg("Region is required!"); // Set error message if no category is selected
+        return;
+      }
       setgalleryselectedRegionIdErrMsg("");
-      // if (!selectedCityData.cityId || selectedCityData.cityId.length === 0) {
-      //   setgalleryselectedCityDataErrMsg("City is required!"); // Set error message if no category is selected
-      //   return;
-      // }
-      // setgalleryselectedCityDataErrMsg("");
+      if (!selectedCityData.cityId || selectedCityData.cityId.length === 0) {
+        setgalleryselectedCityDataErrMsg("City is required!"); // Set error message if no category is selected
+        return;
+      }
+      setgalleryselectedCityDataErrMsg("");
 
-      // if (!formData.title || formData.title.length === 0) {
-      //   setgalleryListingTitleErrMsg("Listing Title is required!"); // Set error message if no category is selected
-      //   return;
-      // }
-      // setgalleryListingTitleErrMsg("");
-      // if (!formData.Price || formData.Price.length === 0) {
-      //   setgalleryPriceErrMsg("Price is required!"); // Set error message if no category is selected
-      //   return;
-      // }
+      if (!formData.title || formData.title.length === 0) {
+        setgalleryListingTitleErrMsg("Listing Title is required!"); // Set error message if no category is selected
+        return;
+      }
+      setgalleryListingTitleErrMsg("");
+      if (!Category1) {
+        setError("Category is required!"); // Set error message if no category is selected
+        return;
+      }
+      if (!formData.SubCategory) {
+        setSubCategoryErrMsg("SubCategory is required!"); // Set error message if no category is selected
+        return;
+      }
+      setSubCategoryErrMsg("");
+      if (!formData.Price || formData.Price.length === 0) {
+        setgalleryPriceErrMsg("Price is required!"); // Set error message if no category is selected
+        return;
+      }
       setgalleryPriceErrMsg("");
       if (!formData.description || formData.description.length === 0) {
         setgallerydescriptionErrMsg("Description is required!"); // Set error message if no category is selected
         return;
       }
       setgallerydescriptionErrMsg("");
+      if (!formData.FeaturedAds || formData.FeaturedAds.length === 0) {
+        setFeaturedAdsErrMsg("Featured Ads is required!"); // Set error message if no category is selected
+        return;
+      }
+      setFeaturedAdsErrMsg("");
       if (user) {
-        if (!Category1) {
-          setError("Category is required!"); // Set error message if no category is selected
-          return;
-        }
-        if (!formData.SubCategory) {
-          setSubCategoryErrMsg("SubCategory is required!"); // Set error message if no category is selected
-          return;
-        }
-        setSubCategoryErrMsg("");
         setError("");
         const Collection =
           Category1 === "Automotive"
@@ -13689,6 +13695,14 @@ const AddLisiting = () => {
                           </li>
                         ))}
                       </ul>
+                      {FeaturedAdsErrMsg && (
+                        <div
+                          className="text-danger mt-1 "
+                          style={{ fontSize: "14px" }}
+                        >
+                          {FeaturedAdsErrMsg}
+                        </div>
+                      )}
                       <div className="clearfix" />
                     </div>
                   </div>
