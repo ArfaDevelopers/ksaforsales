@@ -56,6 +56,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
 import RatingAndReviews from "../../admin/RatingSection/RatingSection";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
+import SwiperSlider from "../SwiperSlider/SwiperSlider";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -698,9 +699,7 @@ const Dynamic_Route = () => {
         ? 3
         : images.length === 4
         ? 4
-        : // : images.length >= 5
-          // ? 5
-          5, // Number of slides to show at once
+        : 5, // Number of slides to show at once
     slidesToScroll: 1, // Number of slides to scroll at once
     initialSlide: 0, // Starting slide index
     responsive: [
@@ -723,7 +722,7 @@ const Dynamic_Route = () => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -1161,62 +1160,6 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <img
-                        src={selectedImage || itemData?.galleryImages[0]}
-                        className="w-md-24 heightofDetailpageimage"
-                        alt={itemData?.title || "Default Item"}
-                        style={{
-                          width: "100%",
-                          marginTop: "1rem",
-                          borderRadius: "0.3rem",
-                          cursor: "pointer",
-                        }}
-                        onClick={() =>
-                          handleFullScreen(
-                            selectedImage || itemData?.galleryImages[0]
-                          )
-                        }
-                      />
-                      <button
-                        onClick={handlePrevImage}
-                        style={{
-                          position: "absolute",
-                          left: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                          color: "white",
-                          border: "none",
-                          padding: "10px",
-                          cursor: "pointer",
-                          borderRadius: "50%",
-                          fontSize: "20px",
-                          width: "50px",
-                          height: "50px",
-                        }}
-                      >
-                        ◄
-                      </button>
-                      <button
-                        onClick={handleNextImage}
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                          color: "white",
-                          border: "none",
-                          padding: "10px",
-                          cursor: "pointer",
-                          borderRadius: "50%",
-                          fontSize: "20px",
-                          width: "50px",
-                          height: "50px",
-                        }}
-                      >
-                        ►
-                      </button>
                       <div
                         style={{
                           position: "absolute",
@@ -1536,10 +1479,11 @@ const Dynamic_Route = () => {
                         overflow: "hidden",
                       }}
                     >
-                      {images.length > 0 ? (
-                        <div style={{ maxWidth: "90%", margin: "0 auto" }}>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
                           {" "}
-                          {/* Center the slider */}
+                      
                           <Slider {...settings}>
                             {images.map((image, index) => (
                               <div
@@ -1554,7 +1498,12 @@ const Dynamic_Route = () => {
                                   src={image}
                                   alt={`Car ${index + 1}`}
                                   style={{
-                                    width: "95%", // Occupy most of the slide width
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
                                     height: "100px", // Fixed height for thumbnails
                                     objectFit: "cover", // Crop to cover the area
                                     borderRadius: "5px",
@@ -1572,7 +1521,7 @@ const Dynamic_Route = () => {
                         </div>
                       ) : (
                         <p>No images to display.</p>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
@@ -1645,37 +1594,211 @@ const Dynamic_Route = () => {
                   </div>
                 </>
               ) : callingFrom === "ElectronicComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
-                      {/* Main Image with Previous & Next Buttons */}
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -1689,11 +1812,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -1707,491 +1832,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Purpose:</th>
-                                <td className="table_text">
-                                  {itemData?.Purpose || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">SubCategory:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">timeAgo:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "FashionStyle" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
-                      {/* Main Image with Previous & Next Buttons */}
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -2205,11 +2257,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -2223,490 +2277,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Sub Category:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">timeAgo:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "HealthCareComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -2720,11 +2702,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -2738,504 +2722,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Condition:</th>
-                                <td className="table_text">
-                                  {itemData?.Condition || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Purpose:</th>
-                                <td className="table_text">
-                                  {itemData?.Purpose || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Sub Category:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">timeAgo:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "JobBoard" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
-                      {/* Main Image with Previous & Next Buttons */}
-
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -3249,11 +3147,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -3267,490 +3167,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">SubCategory:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Time Ago:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "Education" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -3764,11 +3592,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -3782,490 +3612,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">SubCategory:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Time Ago:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "RealEstateComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -4279,11 +4037,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -4297,514 +4057,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Condition:</th>
-                                <td className="table_text">
-                                  {itemData?.Condition || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Area:</th>
-                                <td className="table_text">
-                                  {itemData?.Area || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Bedroom:</th>
-                                <td className="table_text">
-                                  {itemData?.Bedroom || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Facade:</th>
-                                <td className="table_text">
-                                  {itemData?.Facade || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Featuers:</th>
-                                <td className="table_text">
-                                  {itemData?.Featuers || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">ResidenceType:</th>
-                                <td className="table_text">
-                                  {itemData?.ResidenceType || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Floor:</th>
-                                <td className="table_text">
-                                  {itemData?.Floor || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">PropertyAge:</th>
-                                <td className="table_text">
-                                  {itemData?.PropertyAge || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Furnished:</th>
-                                <td className="table_text">
-                                  {itemData?.Furnished || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "TravelComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -4818,11 +4482,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -4836,496 +4502,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Sub Category:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Time Ago:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "SportGamesComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -5339,11 +4927,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -5357,497 +4947,418 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Condition:</th>
-                                <td className="table_text">
-                                  {itemData?.Condition || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Purpose:</th>
-                                <td className="table_text">
-                                  {itemData?.Purpose || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">SubCategory:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Time Ago:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : callingFrom === "PetAnimalsComp" ? (
-                <div className="col  border-none container ">
-                  <div className="col  border-none">
-                    <div>
-                      {/* Main Image with Previous & Next Buttons */}
+                <>
+                  <div
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    {/* Main Image with Previous & Next Buttons */}
+                    <div
+                      style={{
+                        position: "relative",
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
-                          position: "relative",
-                          textAlign: "center",
+                          position: "absolute",
+                          bottom: "10px",
+                          right: "10px",
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          padding: "5px 10px",
+                          borderRadius: "15px",
+                          fontSize: "14px",
                         }}
                       >
-                        <img
-                          src={selectedImage || itemData?.galleryImages[0]}
-                          className="w-md-24 heightofDetailpageimage"
-                          alt={itemData?.title || "Default Item"}
+                        {`${
+                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
+                          1
+                        } of ${itemData?.galleryImages.length} photos`}
+                      </div>
+                    </div>
+
+                    {isFullScreen && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0, 0, 0, 0.9)",
+                          zIndex: 9999,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          margin: 0,
+                          padding: 0,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Header Section with Title, Price, and Buttons */}
+                        <div
                           style={{
+                            position: "absolute",
+                            top: "20px",
                             width: "100%",
-                            marginTop: "1rem",
-                            borderRadius: "0.3rem",
-                            cursor: "pointer",
+                            padding: "0 20px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            zIndex: 10000,
                           }}
-                          onClick={() =>
-                            handleFullScreen(
-                              selectedImage || itemData?.galleryImages[0]
-                            )
-                          }
-                        />
+                        >
+                          {/* Left Side: Title, Price, and Images Link */}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              marginLeft:
+                                window.innerWidth <= 576 ? "0px" : "270px",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                fontSize: "24px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: 0,
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              {itemData?.title || "آلة غسيل أطباق"}
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                color: "white",
+                                margin: "5px 0",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                              }}
+                            >
+                              ${itemData?.Price || "N/A"}
+                            </p>
+                          </div>
+
+                          {/* Right Side: Call, WhatsApp, Message Buttons */}
+                          <div className="d-flex align-items-center gap-2">
+                            {/* Call, WhatsApp, Message Buttons */}
+                            <div
+                              className="d-flex align-items-center gap-2 head2btflex"
+                              style={{
+                                marginRight:
+                                  window.innerWidth <= 576 ? "0px" : "270px",
+                                marginTop:
+                                  window.innerWidth <= 576 ? "70px" : "0px",
+                              }}
+                            >
+                              <a href={`tel:${itemData.Phone}`}>
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span className="fw-semibold">
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <button
+                                  className={`sign-in-button ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+
+                              <button
+                                className={`sign-in-button ${
+                                  showPhone ? "icon-only" : ""
+                                }`}
+                                onClick={() => setShowModal(true)}
+                              >
+                                <MdMessage />
+                                <span className="button-text">Message</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Full-Screen Image */}
+                        {selectedImage && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            <img
+                              src={selectedImage}
+                              alt="Full Screen"
+                              style={{
+                                width: "100%", // Use 100% width of its container
+                                maxWidth: "800px", // Max width to control size on larger screens
+                                height: "auto", // Maintain aspect ratio
+                                maxHeight: "80vh", // Max height to ensure it fits the viewport
+                                objectFit: "contain",
+                                marginTop: "20px", // Adjust margin as needed
+                                borderRadius: "8px", // Slightly rounded corners
+                                boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Subtle shadow
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Close Button */}
+                        <button
+                          onClick={handleCloseFullScreen}
+                          aria-label="Close full-screen image"
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            right: "20px",
+                            background: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "50px",
+                            height: "50px",
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: 10001, // Above other elements
+                          }}
+                        >
+                          X
+                        </button>
+
+                        {/* Previous Button */}
                         <button
                           onClick={handlePrevImage}
                           style={{
                             position: "absolute",
-                            left: "10px",
+                            left: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -5861,11 +5372,13 @@ const Dynamic_Route = () => {
                         >
                           ◄
                         </button>
+
+                        {/* Next Button */}
                         <button
                           onClick={handleNextImage}
                           style={{
                             position: "absolute",
-                            right: "10px",
+                            right: window.innerWidth <= 576 ? "10px" : "200px",
                             top: "50%",
                             transform: "translateY(-50%)",
                             background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
@@ -5879,471 +5392,212 @@ const Dynamic_Route = () => {
                         >
                           ►
                         </button>
+
+                        {/* Image Counter */}
                         <div
                           style={{
                             position: "absolute",
-                            bottom: "10px",
-                            right: "10px",
+                            bottom: "20px",
                             background: "rgba(0, 0, 0, 0.5)",
                             color: "white",
                             padding: "5px 10px",
                             borderRadius: "15px",
-                            fontSize: "14px",
+                            fontSize: "16px",
+                            zIndex: 10000,
                           }}
                         >
                           {`${
-                            itemData?.galleryImages.indexOf(selectedImage) +
-                              1 || 1
+                            itemData?.galleryImages.indexOf(selectedImage) + 1
                           } of ${itemData?.galleryImages.length} photos`}
                         </div>
-                      </div>
 
-                      {isFullScreen && (
-                        <div
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100vw",
-                            height: "100vh",
-                            background: "rgba(0, 0, 0, 0.9)",
-                            zIndex: 9999,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            margin: 0,
-                            padding: 0,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {/* Header Section with Title, Price, and Buttons */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              width: "100%",
-                              padding: "0 20px",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {/* Left Side: Title, Price, and Images Link */}
+                        {/* Message Modal */}
+                        {showModal && (
+                          <>
                             <div
+                              className={`modal fade ${
+                                showModal ? "show d-block" : "d-none"
+                              }`}
+                              tabIndex="-1"
+                              role="dialog"
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                marginLeft:
-                                  window.innerWidth <= 576 ? "0px" : "270px",
-                                alignItems: "flex-start",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                zIndex: 10001,
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100vw",
+                                height: "100vh",
                               }}
                             >
-                              <h2
-                                style={{
-                                  fontSize: "24px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: 0,
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                {itemData?.title || "آلة غسيل أطباق"}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "20px",
-                                  fontWeight: "bold",
-                                  color: "white",
-                                  margin: "5px 0",
-                                  textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                                }}
-                              >
-                                ${itemData?.Price || "N/A"}
-                              </p>
-                            </div>
-
-                            {/* Right Side: Call, WhatsApp, Message Buttons */}
-                            <div className="d-flex align-items-center gap-2">
-                              {/* Call, WhatsApp, Message Buttons */}
                               <div
-                                className="d-flex align-items-center gap-2 head2btflex"
-                                style={{
-                                  marginRight:
-                                    window.innerWidth <= 576 ? "0px" : "270px",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "70px" : "0px",
-                                }}
+                                className="modal-dialog modal-dialog-centered"
+                                role="document"
                               >
-                                <a href={`tel:${itemData.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "expanded" : ""
-                                    }`}
-                                    onClick={() => setShowPhone(true)}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {showPhone ? itemData.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`sign-in-button ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
-
-                                <button
-                                  className={`sign-in-button ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                  onClick={() => setShowModal(true)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Full-Screen Image */}
-                          <img
-                            src={selectedImage}
-                            alt="Full Screen"
-                            style={{
-                              width: "100vw",
-                              height: "80vh",
-                              objectFit: "contain",
-                              marginTop: "80px", // Space for the header section
-                              padding: 0,
-                            }}
-                          />
-
-                          {/* Close Button */}
-                          <button
-                            onClick={handleCloseFullScreen}
-                            aria-label="Close full-screen image"
-                            style={{
-                              position: "absolute",
-                              top: "20px",
-                              right: "20px",
-                              background: "white",
-                              border: "none",
-                              borderRadius: "50%",
-                              width: "50px",
-                              height: "50px",
-                              cursor: "pointer",
-                              fontSize: "20px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              zIndex: 10001, // Above other elements
-                            }}
-                          >
-                            X
-                          </button>
-
-                          {/* Previous Button */}
-                          <button
-                            onClick={handlePrevImage}
-                            style={{
-                              position: "absolute",
-                              left: window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ◄
-                          </button>
-
-                          {/* Next Button */}
-                          <button
-                            onClick={handleNextImage}
-                            style={{
-                              position: "absolute",
-                              right:
-                                window.innerWidth <= 576 ? "10px" : "200px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              background: "rgba(0, 0, 0, 0.5)", // Match the image's button style
-                              color: "white",
-                              border: "none",
-                              padding: "10px",
-                              cursor: "pointer",
-                              borderRadius: "50%",
-                              fontSize: "20px",
-                            }}
-                          >
-                            ►
-                          </button>
-
-                          {/* Image Counter */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "20px",
-                              background: "rgba(0, 0, 0, 0.5)",
-                              color: "white",
-                              padding: "5px 10px",
-                              borderRadius: "15px",
-                              fontSize: "16px",
-                              zIndex: 10000,
-                            }}
-                          >
-                            {`${
-                              itemData?.galleryImages.indexOf(selectedImage) + 1
-                            } of ${itemData?.galleryImages.length} photos`}
-                          </div>
-
-                          {/* Message Modal */}
-                          {showModal && (
-                            <>
-                              <div
-                                className={`modal fade ${
-                                  showModal ? "show d-block" : "d-none"
-                                }`}
-                                tabIndex="-1"
-                                role="dialog"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                  zIndex: 10001,
-                                  position: "fixed",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100vw",
-                                  height: "100vh",
-                                }}
-                              >
-                                <div
-                                  className="modal-dialog modal-dialog-centered"
-                                  role="document"
-                                >
-                                  <div className="modal-content">
-                                    <div className="modal-header">
-                                      <h5 className="modal-title">
-                                        Send Message
-                                      </h5>
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        onClick={() => setShowModal(false)}
-                                      ></button>
-                                    </div>
-                                    <div className="modal-body">
-                                      <div className="p-4 w-full max-w-lg mx-auto">
-                                        {userId && recieverId ? (
-                                          <Mesagedeals
-                                            userId={userId}
-                                            recieverId={recieverId}
-                                            fullWidth={true} // :point_left: Add this prop
-                                          />
-                                        ) : (
-                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                            <p className="text-lg font-semibold text-gray-600">
-                                              Please log in to start messaging.
-                                            </p>
-                                          </div>
-                                        )}
-                                      </div>
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title">
+                                      Send Message
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setShowModal(false)}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <div className="p-4 w-full max-w-lg mx-auto">
+                                      {userId && recieverId ? (
+                                        <Mesagedeals
+                                          userId={userId}
+                                          recieverId={recieverId}
+                                          fullWidth={true} // :point_left: Add this prop
+                                        />
+                                      ) : (
+                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                          <p className="text-lg font-semibold text-gray-600">
+                                            Please log in to start messaging.
+                                          </p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="modal-backdrop fade show"
-                                onClick={() => setShowModal(false)}
-                                style={{ zIndex: 10000 }}
-                              ></div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      <div
-                        className="multiplesimage-wrapper"
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "1rem",
-                          flexWrap: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {visibleImages.map((image, index) => (
-                          <div
-                            className="multiplesimage-wrapper-item"
-                            key={index}
-                            onClick={() => handleImageSelect(image)}
-                            style={{
-                              cursor: "pointer",
-                              border:
-                                selectedImage === image
-                                  ? "2px solid blue"
-                                  : "none",
-                              padding: "5px",
-                            }}
-                          >
-                            <img
-                              src={image}
-                              alt={`Car ${index + 1}`}
-                              className="images"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: "5px",
-                              }}
-                            />
-                          </div>
-                        ))}
-                        {images.length > 5 && (
-                          <button
-                            onClick={() =>
-                              setShowAllThumbnails(!showAllThumbnails)
-                            }
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              borderRadius: "50%",
-                              border: "none",
-                              backgroundColor: "#007BFF",
-                              color: "white",
-                              fontSize: "16px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            {showAllThumbnails ? "−" : "+"}
-                          </button>
+                            </div>
+                            <div
+                              className="modal-backdrop fade show"
+                              onClick={() => setShowModal(false)}
+                              style={{ zIndex: 10000 }}
+                            ></div>
+                          </>
                         )}
                       </div>
-                    </div>
+                    )}
+
                     <div
-                      className="border-none info_wrapper "
+                      className="multiplesimage-wrapper"
                       style={{
-                        marginLeft:
-                          window.innerWidth <= 576 ? "0rem" : "-0.7rem",
+                        gap: "10px",
+                        marginTop: "1rem",
+                        // flexWrap: "nowrap",
+                        overflow: "hidden",
                       }}
                     >
-                      <div className="col">
-                        <div className="table-responsive info_table">
-                          <table className="table table-borderless">
-                            <tbody className="info_body">
-                              <tr className="border-bottom">
-                                <th className="table_text">City:</th>
-                                <td className="table_text">
-                                  {itemData?.City || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">District:</th>
-                                <td className="table_text">
-                                  {itemData?.District || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Age:</th>
-                                <td className="table_text">
-                                  {itemData?.Age || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">FeaturedAds:</th>
-                                <td className="table_text">
-                                  {itemData?.FeaturedAds || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Price:</th>
-                                <td className="table_text">
-                                  {itemData?.Price || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Purpose:</th>
-                                <td className="table_text">
-                                  {itemData?.Purpose || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">SubCategory:</th>
-                                <td className="table_text">
-                                  {itemData?.SubCategory || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Seller Name:</th>
-                                <td className="table_text">
-                                  {itemData?.displayName || "N/A"}
-                                </td>
-                              </tr>
-                              <tr className="border-bottom">
-                                <th className="table_text">Time Ago:</th>
-                                <td className="table_text">
-                                  {itemData?.timeAgo || "N/A"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                      <SwiperSlider images={images} />
+                      {/* {images.length > 0 ? (
+                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
+                          {" "}
+                      
+                          <Slider {...settings}>
+                            {images.map((image, index) => (
+                              <div
+                                key={index}
+                                onClick={() => handleImageSelect(image)}
+                                style={{
+                                  padding: "5px", // Add some padding around each slide item
+                                  outline: "none", // Remove focus outline
+                                }}
+                              >
+                                <img
+                                  src={image}
+                                  alt={`Car ${index + 1}`}
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 480
+                                        ? "110px"
+                                        : "110px%",
+
+                                    // "95%", // Occupy most of the slide width
+                                    height: "100px", // Fixed height for thumbnails
+                                    objectFit: "cover", // Crop to cover the area
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    border:
+                                      selectedImage === image
+                                        ? "2px solid blue"
+                                        : "2px solid transparent", // Use transparent border for consistency
+                                    transition: "border 0.2s ease-in-out", // Smooth border transition
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </Slider>
+                        </div>
+                      ) : (
+                        <p>No images to display.</p>
+                      )} */}
+                    </div>
+                  </div>
+
+                  <div
+                    className="border-none info_wrapper "
+                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  >
+                    <div className="col">
+                      <div className="table-responsive info_table">
+                        <table className="table">
+                          <tbody className="info_body">
+                            {Object.entries({
+                              SellerType: itemData?.SellerType || "N/A",
+                              Insurance: itemData?.Insurance || "N/A",
+                              City: itemData?.City || "N/A",
+                              SeatingCapacity:
+                                itemData?.SeatingCapacity || "N/A",
+                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              "Body Type": itemData?.BodyType || "N/A",
+                              "Last Updated": itemData?.timeAgo || "N/A",
+                              Condition: itemData?.Condition || "N/A",
+                              District: itemData?.District || "N/A",
+                              Purpose: itemData?.Purpose || "N/A",
+                              Model: itemData?.Model || "N/A",
+                              Color: itemData?.Color || "N/A",
+                              RegionalSpec: itemData?.RegionalSpec || "N/A",
+                              Transmission: itemData?.Transmission || "N/A",
+                            })
+                              .filter(([_, value]) => value)
+                              .map(([label, value], index) => (
+                                <tr key={index} className="border-bottom">
+                                  <th className="table_text">{label}:</th>
+                                  <td className="table_text">{value}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="dynamic-route-container">
+                        {/* Features Section */}
+                        <div className="section">
+                          <h1 className="section-title">Features</h1>
+                          <div className="descriptions-wrapper">
+                            {itemData?.AdditionalFeatures?.length > 0 ? (
+                              itemData.AdditionalFeatures.map(
+                                (feature, index) => (
+                                  <div key={index} className="feature-item">
+                                    {feature}
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div className="no-data">N/A</div>
+                            )}
+                          </div>
                         </div>
 
-                        <div className="dynamic-route-container">
-                          {/* Features Section */}
-                          <div className="section">
-                            <h1 className="section-title">Features</h1>
-                            <div className="descriptions-wrapper">
-                              {itemData?.AdditionalFeatures?.length > 0 ? (
-                                itemData.AdditionalFeatures.map(
-                                  (feature, index) => (
-                                    <div key={index} className="feature-item">
-                                      {feature}
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div className="no-data">N/A</div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Description Section */}
-                          <div className="section">
-                            <h1 className="section-title section-title-description">
-                              Description
-                            </h1>
-                            <p className="descriptions-para">
-                              {itemData?.description?.trim() ||
-                                "No description"}
-                            </p>
-                          </div>
+                        {/* Description Section */}
+                        <div className="section">
+                          <h1 className="section-title section-title-description">
+                            Description
+                          </h1>
+                          <p className="descriptions-para">
+                            {itemData?.description?.trim() || "No description"}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : (
                 ""
               )}
