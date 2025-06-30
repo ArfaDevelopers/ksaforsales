@@ -2419,7 +2419,7 @@ html.menu-opened body {
 }
 .section-heading h2 {
   font-weight: 700;
-  font-size: 36px;
+  font-size: 32px;
   color: #0d233e;
   margin: 0 0 15px;
   display: flex;
@@ -3678,7 +3678,7 @@ form.filter_innerwrap .accordion-item {
   justify-content: flex-end;
 }
 .filter_card_main .sign-in-button {
-  padding: 9px 23px;
+  padding: 9px 15px;
 }
 .filter_card_main p.car_desc {
   text-wrap: trim-end;
@@ -3735,6 +3735,9 @@ form.filter_innerwrap .accordion-item {
 }
 .filter_card_main_wrap{
   padding-right: 0 !important;
+}
+.card_btn_wrap .sign-in-button{
+  font-size: 14px !important;
 }
 /* Filter css ends */
 /* Category Inner pages css starts */
@@ -23073,6 +23076,13 @@ height: 400px;
   .cat_icon_main {
     justify-content: flex-start;
   }
+  .card_btn_wrap .sign-in-button span {
+          display: none;
+      }
+    .card_btn_wrap .sign-in-button {
+        width: auto !important;
+        padding: 9px 15px !important;
+    }
   .swiper_main_wrap .swiper-slide img{
   height: 300px !important;
   }

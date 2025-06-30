@@ -5709,8 +5709,8 @@ const Dynamic_Route = () => {
                           </p>
                         </div>
 
-                        <div className="col mt-3 innerContainer2">
-                          <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                        <div className="col-12 mt-3 innerContainer2">
+                          <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                             <a href={`tel:${itemData.Phone}`}>
                               <button
                                 className={`sign-in-button ${
