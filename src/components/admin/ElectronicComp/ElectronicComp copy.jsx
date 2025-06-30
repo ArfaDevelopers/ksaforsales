@@ -3,10 +3,18 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; //
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
+import { IoLocationOutline } from "react-icons/io5";
+
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import profile from "../dyanmic_route/profileimage.png";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdMessage } from "react-icons/md";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
 import fashion from "../../home/fashion.png";
@@ -18,19 +26,11 @@ import travel from "../../home/travel.png";
 import sport from "../../home/sportandgames.png";
 import magazine from "../../home/magazine.png";
 import pet from "../../home/pet .png";
-import { FaRegHeart } from "react-icons/fa";
-import profile from "../dyanmic_route/profileimage.png";
-import { FaPhoneAlt } from "react-icons/fa";
-import { MdMessage } from "react-icons/md";
 import iron from "../../home/iron.png";
 import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
-import Mesagedeals from "../../../components/userPages/mesagedeals";
-import { ref, getDownloadURL } from "firebase/storage";
-import { IoLocationOutline } from "react-icons/io5";
-
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
 import insta from "../../home/insta.png";
@@ -49,6 +49,8 @@ import popup from "../../home/popup_image.png";
 import { Accordion } from "react-bootstrap";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsChat } from "react-icons/bs";
+import Select from "react-select";
+import { Country, City, State } from "country-state-city";
 import {
   addDoc,
   collection,
@@ -56,8 +58,12 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import {
   Container,
   Row,
@@ -68,21 +74,17 @@ import {
   ButtonGroup,
   Badge,
 } from "react-bootstrap";
-import Select from "react-select";
-import { Country, State, City } from "country-state-city";
 import Spinner from "react-bootstrap/Spinner";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
-import WindowedSelect from "react-windowed-select";
-import cityData from "../../../City.json";
-import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+import { ref, getDownloadURL } from "firebase/storage";
 
-const Education = () => {
+const ElectronicComp = () => {
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+  const { searchText } = useSearchStore();
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
   const getImageURL = async () => {
@@ -107,107 +109,6 @@ const Education = () => {
       }
     });
   }, []);
-  // Handle city selection
-  const [carsData, setCars] = useState([]); // All cars data
-  const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
-  const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
-  const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
-  console.log(filteredCars, "filteredCars_________");
-  const itemsPerPage = 3; // Number of items per page
-
-  const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
-  const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
-  const [Brand, setBrand] = useState([]);
-  const [selectedCarsMake, setSelectedCarsMake] = useState([]);
-
-  console.log(selectedCarsMake, "selectedCarsMake______");
-  const [fromValue, setFromValue] = useState("");
-  const [toValue, setToValue] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [ScreenSize, setScreenSize] = useState("");
-  const [activePhoneIndex, setActivePhoneIndex] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedToyotaLocations, setSelectedToyotaLocations] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [receiverId, setReceiverId] = useState(null);
-
-  const user = auth.currentUser;
-  const currentUserId = user?.uid;
-
-  const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
-    useState([]);
-
-  // Handle checkbox change for Toyota locations
-  const [selectedCars1, setSelectedCars1] = useState([]);
-  const [selectedOptionTransmission, setSelectedOptionTransmission] =
-    useState("");
-  const [logSelectedColor, setlogSelectedColor] = useState([]);
-  const [selectedEngines, setSelectedEngines] = useState([]);
-  const [OperatingSystem, setOperatingSystem] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  const [fromCC, setFromCC] = useState("");
-  const [toCC, setToCC] = useState("");
-  const [selectedAssembly, setSelectedAssembly] = useState([]);
-  const [selectedCarsBodyType, setSelectedCarsBodyType] = useState([]);
-  const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
-    useState([]);
-  const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
-  );
-  const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
-    useState([]);
-  const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
-    useState("");
-  const [pictureAvailability, setPictureAvailability] = useState("");
-  const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
-    useState("");
-  const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
-  const [storageType, setStorageType] = useState("");
-
-  const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
-  const [fromValueMileage, setFromCCMileage] = useState("");
-  const [toValueMileage, setToCCMileage] = useState("");
-  const [SortBy, setSortBy] = useState(""); // Search query for title and city
-  const [Processor, setProcessor] = useState(""); // Search query for title and city
-  const [RAM, setRAM] = useState(""); // Search query for title and city
-  const [storagecapacity, setStoragecapacity] = useState(""); // Search query for title and city
-  const [GraphicsCard, setGraphicsCard] = useState("");
-  const [BatteryLife, setBatteryLife] = useState("");
-  const [DisplayQuality, setDisplayQuality] = useState("");
-  const [Connectivity, setConnectivity] = useState(""); // Search query for title and city
-  const [SpecialFeatures, setSpecialFeatures] = useState(""); // Search query for title and city
-  const [SubjectCategories, setSubjectCategories] = useState(""); // Search query for title and city
-  const [SkillLevel, setSkillLevel] = useState(""); // Search query for title and city
-  const [ContentType, setContentType] = useState(""); // Search query for title and city
-  const [Language, setLanguage] = useState(""); // Search query for title and city
-  const [Duration, setDuration] = useState(""); // Search query for title and city
-  const [ads, setCarsData] = useState([]);
-  const [userId, setUserId] = useState(""); // State for image preview
-  const [error, setError] = useState(""); // ✅ Error state
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
-  const [cities, setCities] = useState([]);
-  const [states, setStates] = useState([]);
-  const [subCatgory, setsubCatgory] = useState("");
-  const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(nestedSubCategory, "subCatgory___________2222");
-  console.log(subCatgory, "subCatgory___________1111___");
-  const [CityList, setCityList] = useState([]);
-  const [adsDetailImages, setAdsDetailImages] = useState([]);
-  console.log(adsDetailImages, "adsDetailImages________");
-
   const regionOptions = [
     {
       value: 1,
@@ -327,13 +228,17 @@ const Education = () => {
       longitude: 40.200476,
     },
   ];
-  const [refresh, setRefresh] = useState(false); // Add loading state
 
   const [selectedRegion, setSelectedRegionId] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const modalRef = useRef(null);
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
+  const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
+  const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
   // const [Brand, setBrand] = useState([]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  const [CityList, setCityList] = useState([]);
+  const [cities, setCities] = useState([]);
 
   console.log(selectedCities, "Fetched cities:1");
   console.log(cities, "Fetched cities:1cities");
@@ -452,10 +357,36 @@ const Education = () => {
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
   }));
+  const categories = [
+    "Mobile Phones",
+    "Tablet Devices",
+    "Computers & Laptops",
+    "Video Games",
+    "Television & Audio System",
+    "Accounts & Subscriptions",
+    "Special Number",
+    "Home & Kitchen Appliance",
+    "Motors & Generators",
+    "Cameras",
+    "Networking Devices",
+    "Screens & Projectors",
+    "Printer & Scanner",
+    "Computer Accessories",
+  ];
+
+  // Handle city selection
+  const [carsData, setCars] = useState([]); // All cars data
+  const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
+  const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
+  const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
+  console.log(filteredCars, "filteredCars_________");
+  const itemsPerPage = 3; // Number of items per page
+  const [adsDetailImages, setAdsDetailImages] = useState([]);
+  console.log(adsDetailImages, "adsDetailImages________");
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
       try {
-        const adsCollectionRef = collection(db, "OtherContent");
+        const adsCollectionRef = collection(db, "BodyContentElectronic");
         const adsSnapshot = await getDocs(adsCollectionRef);
 
         const adsList = adsSnapshot.docs.map((doc) => ({
@@ -472,7 +403,15 @@ const Education = () => {
 
     fetchAdsDetailImages();
   }, []);
-  const { searchText } = useSearchStore();
+
+  const [showAll, setShowAll] = useState(false);
+
+  const handleCategoryCheck = (category) => {
+    setselectedSubCategory((prev) => (prev === category ? "" : category));
+  };
+
+  // Show first 4 or all based on showAll state
+  const visibleCategories = showAll ? categories : categories.slice(0, 4);
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
@@ -520,110 +459,11 @@ const Education = () => {
       })),
     [DistrictList]
   );
-  const [showAllGeneral, setShowAllGeneral] = useState(false);
-
-  const categories1 = [
-    "Hunting & Trips",
-    "Gardening & Agriculture",
-    "Parties & Events",
-    "Travel & Tourism",
-    "Roommate",
-    "Lost & Found",
-    "Education & Training",
-    "Sports Training",
-    "Stock & Forex Education",
-    "Driving Lessons",
-    "Private Tutoring",
-    "Training Courses",
-    "Antiques & Collectibles",
-    "Projects & Investments",
-    "Books & Arts",
-    "Programming & Design",
-    "Food & Beverages",
-  ];
-  const updateIsMobile = () => {
-    setIsMobile(window.innerWidth <= 767);
-  };
-  const { id } = useParams();
-  // const getQueryParam = (param) => {
-  //   const searchParams = new URLSearchParams(location.search);
-  //   return searchParams.get(param);
-  // };
-  const getQueryParam = (param) => {
-    const hash = location.hash;
-    const queryIndex = hash.indexOf("?");
-    if (queryIndex === -1) return null;
-
-    const queryString = hash.substring(queryIndex + 1);
-    const searchParams = new URLSearchParams(queryString);
-    return searchParams.get(param);
-  };
-  const [_Id, setId] = useState(null); // State to store ads data
-  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
-
-  useEffect(() => {
-    const callingFrom = getQueryParam("callingFrom");
-    const subCatgory1 = getQueryParam("subCatgory");
-
-    const subCatgory = getQueryParam("subCatgory");
-    console.log(subCatgory1, "subCatgory___________444");
-    console.log(callingFrom, "subCatgory___________3333");
-    const NestedSubCategory = getQueryParam("NestedSubCategory");
-    if (subCatgory?.trim() === "Gardening") {
-      setsubCatgory("Gardening & Agriculture");
-    } else if (subCatgory?.trim() === "Hunting") {
-      setsubCatgory("Hunting & Trips");
-    } else if (subCatgory?.trim() === "Parties") {
-      setsubCatgory("Parties & Events");
-    } else if (subCatgory?.trim() === "Travel") {
-      setsubCatgory("Travel & Tourism");
-    } else if (subCatgory?.trim() === "Lost") {
-      setsubCatgory("Lost & Found");
-    } else if (subCatgory?.trim() === "Education") {
-      setsubCatgory("Education & Training");
-    } else if (subCatgory?.trim() === "Parties") {
-      setsubCatgory("Parties & Events");
-    } else if (subCatgory?.trim() === "Stock") {
-      setsubCatgory("Stock & Forex Education");
-    } else if (subCatgory?.trim() === "Antiques") {
-      setsubCatgory("Antiques & Collectibles");
-    } else if (subCatgory?.trim() === "Projects") {
-      setsubCatgory("Projects & Investments");
-    } else if (subCatgory?.trim() === "Books") {
-      setsubCatgory("Books & Arts");
-    } else if (subCatgory?.trim() === "Programming") {
-      setsubCatgory("Programming & Design");
-    } else if (subCatgory?.trim() === "Food") {
-      setsubCatgory("Food & Beverages");
-    } else {
-      setsubCatgory(subCatgory);
-    }
-    setNestedSubCategory(NestedSubCategory);
-    const ids = getQueryParam("id");
-    console.log("callingFrom______ID:ids11", ids);
-    console.log("callingFrom______Calling From:11", callingFrom);
-
-    setCallingFrom(callingFrom);
-    setId(ids);
-  }, [id, location, getQueryParam]);
-  // Format country data for React Select
-  const countryOptions = Country.getAllCountries().map((country) => ({
-    value: country.isoCode,
-    label: country.name,
-  }));
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-  // Handle country selection
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
 
   console.log(selectedCity, "selectedSubCategory________");
 
-  const handleCategorySelect = (e) => {
-    setselectedSubCategory(e.target.value);
-  };
   const [formData, setFormData] = useState({
     City: "",
     District: "",
@@ -649,7 +489,161 @@ const Education = () => {
     }));
   };
   console.log("Selected district:", selectedDistrict);
+  const [selectedConditions, setSelectedConditions] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const handleCheckboxBrand = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setBrands((prev) => [...prev, value]);
+    } else {
+      setBrands((prev) => prev.filter((brand) => brand !== value));
+    }
+  };
 
+  const [selectedCarsMake, setSelectedCarsMake] = useState([]);
+
+  console.log(selectedCarsMake, "selectedCarsMake______");
+  const [fromValue, setFromValue] = useState("");
+  const [toValue, setToValue] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [ScreenSize, setScreenSize] = useState("");
+
+  const [selectedToyotaLocations, setSelectedToyotaLocations] = useState([]);
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
+    useState([]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  // Handle checkbox change for Toyota locations
+  const [selectedCars1, setSelectedCars1] = useState([]);
+  const [selectedOptionTransmission, setSelectedOptionTransmission] =
+    useState("");
+  const [logSelectedColor, setlogSelectedColor] = useState([]);
+  const [selectedEngines, setSelectedEngines] = useState([]);
+  const [OperatingSystem, setOperatingSystem] = useState([]);
+
+  const [fromCC, setFromCC] = useState("");
+  const [toCC, setToCC] = useState("");
+  const [selectedAssembly, setSelectedAssembly] = useState([]);
+  const [selectedCarsBodyType, setSelectedCarsBodyType] = useState([]);
+  const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
+    useState([]);
+  const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
+    []
+  );
+  const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
+    useState([]);
+  const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
+    useState("");
+  const [pictureAvailability, setPictureAvailability] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+
+  const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
+    useState("");
+  const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
+  const [storageType, setStorageType] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
+  const [fromValueMileage, setFromCCMileage] = useState("");
+  const [toValueMileage, setToCCMileage] = useState("");
+  const [SortBy, setSortBy] = useState(""); // Search query for title and city
+  const [Processor, setProcessor] = useState(""); // Search query for title and city
+  const [RAM, setRAM] = useState(""); // Search query for title and city
+  const [storagecapacity, setStoragecapacity] = useState(""); // Search query for title and city
+  const [GraphicsCard, setGraphicsCard] = useState("");
+  const [BatteryLife, setBatteryLife] = useState("");
+  const [DisplayQuality, setDisplayQuality] = useState("");
+  const [Connectivity, setConnectivity] = useState(""); // Search query for title and city
+  const [SpecialFeatures, setSpecialFeatures] = useState(""); // Search query for title and city
+  const [ads, setCarsData] = useState([]);
+  const [userId, setUserId] = useState(""); // State for image preview
+  const [error, setError] = useState(""); // ✅ Error state
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
+  const [Condition, setCondition] = useState([]);
+
+  const [subCatgory, setsubCatgory] = useState("");
+  const [nestedSubCategory, setNestedSubCategory] = useState("");
+  console.log(nestedSubCategory, "subCatgory___________2233");
+  console.log(subCatgory, "subCatgory___________1133");
+  // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
+  const [states, setStates] = useState([]);
+  const { id } = useParams();
+  const getQueryParam = (param) => {
+    const hash = location.hash;
+    const queryIndex = hash.indexOf("?");
+    if (queryIndex === -1) return null;
+
+    const queryString = hash.substring(queryIndex + 1);
+    const searchParams = new URLSearchParams(queryString);
+    return searchParams.get(param);
+  };
+  const [_Id, setId] = useState(null); // State to store ads data
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  const [receiverId, setReceiverId] = useState(null);
+  const [refresh, setRefresh] = useState(false); // Add loading state
+
+  const user = auth.currentUser;
+  const currentUserId = user?.uid;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  useEffect(() => {
+    const callingFrom = getQueryParam("callingFrom");
+    const subCatgory = getQueryParam("subCatgory");
+    const NestedSubCategory = getQueryParam("NestedSubCategory");
+    setNestedSubCategory(NestedSubCategory);
+    const ids = getQueryParam("id");
+    console.log("subCatgory___________9:ids", ids);
+    console.log("subCatgory___________9 From:", callingFrom);
+    console.log(subCatgory, "subCatgory___________933");
+    console.log(NestedSubCategory, "subCatgory___________9122");
+    setsubCatgory(subCatgory);
+    setCallingFrom(callingFrom);
+    setId(ids);
+  }, [id, location, getQueryParam]);
+  // Format country data for React Select
+  const countryOptions = Country.getAllCountries().map((country) => ({
+    value: country.isoCode,
+    label: country.name,
+  }));
+  const brandOptions = {
+    "Mobile Phones": [
+      "Apple",
+      "iPhone",
+      "iPod",
+      "Apple Watch",
+      "Samsung",
+      "Galaxy S",
+      "Galaxy Note",
+      "Huawei",
+      "Sony",
+      "Xperia",
+      "BlackBerry",
+      "Nokia",
+      "HTC",
+      "Microsoft",
+      "LG",
+      "Hitachi",
+      "Panasonic",
+    ],
+    "Computers & Laptops": [
+      "MacBook",
+      "Surface",
+      "Sony Laptop",
+      "Toshiba",
+      "Dell",
+      "Asus",
+      "Acer",
+    ],
+    Cameras: ["Canon", "Fujifilm", "Olympus", "Samsung", "Nikon", "Sony"],
+  };
+
+  // Handle country selection
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
     setSelectedCities([]); // Reset cities when country changes
@@ -713,77 +707,29 @@ const Education = () => {
     fetchCars();
   }, []);
   function timeAgo(timestamp) {
-    let date;
-    if (timestamp instanceof Date) {
-      date = timestamp;
-    } else if (timestamp?._seconds) {
-      date = new Date(timestamp._seconds * 1000);
-    } else if (typeof timestamp === "number") {
-      date = new Date(timestamp);
-    } else {
-      return "Invalid time";
-    }
+    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
     const now = new Date();
-    const diff = now - date;
-    const seconds = Math.floor(diff / 1000);
+    const difference = Math.abs(now - date); // Difference in milliseconds
+    const seconds = Math.floor(difference / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
+
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
     return "Just now";
   }
-
-  const handleCheckboxChangeDuration = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setDuration((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setDuration((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
-  const handleCheckboxChangeLanguage = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setLanguage((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setLanguage((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
-  const handleCheckboxChangeContentType = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setContentType((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setContentType((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
-  const handleCheckboxChangeSkillLevel = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setSkillLevel((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setSkillLevel((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
-  const handleCheckboxChangeSubjectCategories = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setSubjectCategories((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setSubjectCategories((prev) => prev.filter((car) => car !== carLabel));
-    }
+  const handleCheckboxCondition = (label) => {
+    setCondition((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
   };
   // Search query for title and city
   // Search query for title and city
@@ -917,7 +863,18 @@ const Education = () => {
     setSelectedStates1(stateNames);
     filterCars(searchQuery, selectedCities, stateNames); // Apply the filter
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const [activePage, setActivePage] = useState(1);
   console.log(activePage, "activePage_________");
   const handlePageClick = (page) => {
@@ -998,6 +955,7 @@ const Education = () => {
     }
     return pages;
   };
+  const [activePhoneIndex, setActivePhoneIndex] = useState(null);
 
   const getPaginatedCars = () => {
     const startIndex = (activePage - 1) * carsPerPage;
@@ -1023,6 +981,17 @@ const Education = () => {
     const value = checked ? "With Pictures" : "Without Pictures";
     setPictureAvailability(value);
     console.log(`PictureAvailability: ${value}`);
+  };
+  const handleCheckboxPurpose = (label) => {
+    setlogSelectedPurpose((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
   };
 
   const handleCheckboxChangeSellerType = (event, label) => {
@@ -1205,16 +1174,16 @@ const Education = () => {
     setToValue(e.target.value);
   };
 
-  const handleCheckboxChangeBrand = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
-    if (event.target.checked) {
-      // Add the label to the state if checked
-      setBrand((prev) => [...prev, carLabel]);
-    } else {
-      // Remove the label from the state if unchecked
-      setBrand((prev) => prev.filter((car) => car !== carLabel));
-    }
-  };
+  // const handleCheckboxChangeBrand = (event) => {
+  //   const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+  //   if (event.target.checked) {
+  //     // Add the label to the state if checked
+  //     setBrand((prev) => [...prev, carLabel]);
+  //   } else {
+  //     // Remove the label from the state if unchecked
+  //     setBrand((prev) => prev.filter((car) => car !== carLabel));
+  //   }
+  // };
   const handleCheckboxChange = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
@@ -1262,7 +1231,7 @@ const Education = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/Education/${carId}/view`, {
+      fetch(`http://168.231.80.24:9002/route/ELECTRONICS/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1292,7 +1261,7 @@ const Education = () => {
       }
       const userId = user.uid;
       // Update Firestore
-      const carDocRef = doc(db, "Education", carId);
+      const carDocRef = doc(db, "ELECTRONICS", carId);
       await updateDoc(carDocRef, {
         bookmarked: newBookmarkedStatus,
         userId: userId,
@@ -1311,80 +1280,66 @@ const Education = () => {
       console.error("Error updating bookmark:", error);
     }
   };
-
-  // useEffect(() => {
-  //   const fetchCars = async () => {
-  //     try {
-  //       const carsCollectionRef = collection(db, "Education");
-  //       const querySnapshot = await getDocs(carsCollectionRef);
-  //       const carsData = querySnapshot.docs.map((doc) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-  //       console.log(carsData, "carsData___________");
-  //       setCars(carsData);
-  //       setFilteredCars(carsData); // Initially, show all cars
-  //     } catch (error) {
-  //       console.error("Error getting cars:", error);
-  //     }
-  //   };
-
-  //   fetchCars();
-  // }, [bookmarkedCar]);
-  // useEffect(() => {
-  //   const fetchCars = async () => {
-  //     try {
-  //       setLoading(true); // Show spinner
-  //       const response = await fetch(
-  //         "http://168.231.80.24:9002/route/Education"
-  //       );
-  //       const carsData = await response.json();
-
-  //       setCars(carsData);
-  //       setFilteredCars(carsData); // Initially, show all cars
-  //       setLoading(false);
-
-  //       console.log(carsData, "carsData_________");
-  //     } catch (error) {
-  //       console.error("Error getting cars:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCars();
-  // }, [bookmarkedCar]);
   useEffect(() => {
     const CITY_ID = selectedCities[0]?.CITY_ID;
     const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+    const REGION_ID = selectedRegion;
 
-    const fetchCars = async () => {
+    const fetchElectronics = async () => {
       try {
         setLoading(true);
 
         const params = new URLSearchParams();
         if (searchText) params.append("searchText", searchText);
-        if (selectedRegion) params.append("regionId", selectedRegion);
+        if (REGION_ID) params.append("regionId", REGION_ID);
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/Education?${params.toString()}`
+          `http://168.231.80.24:9002/route/ELECTRONICS?${params.toString()}`
         );
-        const carsData = await response.json();
 
-        setCars(carsData);
-        setFilteredCars(carsData);
+        const data = await response.json();
+
+        setCars(data);
+        setFilteredCars(data);
         setLoading(false);
 
-        console.log(carsData, "carsData_________");
+        console.log(data, "electronicsData_________");
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error getting electronics:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
+    fetchElectronics();
+  }, [searchText, refresh, selectedCities, selectedDistricts, selectedRegion]);
+
+  // useEffect(() => {
+  //   const fetchElectronics = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const query = searchText
+  //         ? `?searchText=${encodeURIComponent(searchText)}`
+  //         : "";
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/ELECTRONICS${query}`
+  //       );
+  //       const data = await response.json();
+
+  //       setCars(data);
+  //       setFilteredCars(data);
+  //       setLoading(false);
+
+  //       console.log(data, "electronicsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting electronics:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchElectronics();
+  // }, [searchText, refresh]);
 
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
@@ -1399,27 +1354,21 @@ const Education = () => {
     const endIndex = startIndex + carsPerPage;
     setCurrentPageCars(filteredCars.slice(startIndex, endIndex));
   }, [activePage, filteredCars]);
-
-  // const handleCityChange = (e, city) => {
-  //   if (e.target.checked) {
-  //     setSelectedCities((prevCities) => {
-  //       const updatedCities = [...prevCities, city];
-  //       filterCars(searchQuery, updatedCities); // Apply the filter
-  //       return updatedCities;
-  //     });
-  //   } else {
-  //     setSelectedCities((prevCities) => {
-  //       const updatedCities = prevCities.filter((item) => item !== city);
-  //       filterCars(searchQuery, updatedCities); // Apply the filter
-  //       return updatedCities;
-  //     });
-  //   }
+  // const handleCityChange = (selectedOptions) => {
+  //   // Extract city names from the selected options
+  //   const cityNames = selectedOptions
+  //     ? selectedOptions.map((option) => option.label)
+  //     : [];
+  //   setSelectedCities(cityNames);
+  //   filterCars(searchQuery, cityNames); // Apply the filter
   // };
   useEffect(() => {
     console.log("Selected Cities: ", selectedCities);
   }, [selectedCities]);
 
   useEffect(() => {
+    setLoading(true);
+
     filterCars(
       searchQuery,
       selectedCities,
@@ -1449,7 +1398,6 @@ const Education = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
-      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -1461,20 +1409,19 @@ const Education = () => {
       DisplayQuality,
       Connectivity,
       SpecialFeatures,
-      SubjectCategories,
-      SkillLevel,
-
-      ContentType,
-      Language,
-      Duration,
+      nestedSubCategory,
       subCatgory,
       selectedSubCategory,
+      logSelectedPurpose,
+      Condition,
+      brands,
       selectedCity,
       selectedDistrict
     );
   }, [
-    selectedCities,
     searchQuery,
+    selectedCities,
+
     selectedEmirates,
     selectedCarsMake,
     fromValue,
@@ -1501,7 +1448,6 @@ const Education = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
-    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -1513,17 +1459,14 @@ const Education = () => {
     DisplayQuality,
     Connectivity,
     SpecialFeatures,
-    SubjectCategories,
-
-    SkillLevel,
-    ContentType,
-    Language,
-    Duration,
+    nestedSubCategory,
     subCatgory,
     selectedSubCategory,
+    logSelectedPurpose,
+    Condition,
+    brands,
     selectedCity,
     selectedDistrict,
-    searchText,
   ]);
 
   // Handle search input change
@@ -1561,7 +1504,6 @@ const Education = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
-      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -1573,13 +1515,12 @@ const Education = () => {
       DisplayQuality,
       Connectivity,
       SpecialFeatures,
-      SubjectCategories,
-      SkillLevel,
-      ContentType,
-      Language,
-      Duration,
+      nestedSubCategory,
       subCatgory,
       selectedSubCategory,
+      logSelectedPurpose,
+      Condition,
+      brands,
       selectedCity,
       selectedDistrict
     );
@@ -1613,7 +1554,6 @@ const Education = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
-    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -1625,13 +1565,12 @@ const Education = () => {
     DisplayQuality,
     Connectivity,
     SpecialFeatures,
-    SubjectCategories,
-    SkillLevel,
-    ContentType,
-    Language,
-    Duration,
+    nestedSubCategory,
     subCatgory,
     selectedSubCategory,
+    logSelectedPurpose,
+    Condition,
+    brands,
     selectedCity,
     selectedDistrict
   ) => {
@@ -1660,7 +1599,7 @@ const Education = () => {
           car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
           car.AdType?.toLowerCase().includes(lowercasedQuery) ||
           car.States?.toLowerCase().includes(lowercasedQuery) ||
-          car.Brand?.toLowerCase().includes(lowercasedQuery) ||
+          // car.brands?.toLowerCase().includes(lowercasedQuery) ||
           car.OperatingSystem?.toLowerCase().includes(lowercasedQuery) ||
           car.ScreenSize?.toLowerCase().includes(lowercasedQuery) ||
           car.Processor?.toLowerCase().includes(lowercasedQuery) ||
@@ -1672,21 +1611,27 @@ const Education = () => {
           car.DisplayQuality?.toLowerCase().includes(lowercasedQuery) ||
           car.Connectivity?.toLowerCase().includes(lowercasedQuery) ||
           car.SpecialFeatures?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubjectCategories?.toLowerCase().includes(lowercasedQuery) ||
-          car.SkillLevel?.toLowerCase().includes(lowercasedQuery) ||
-          car.ContentType?.toLowerCase().includes(lowercasedQuery) ||
-          car.Language?.toLowerCase().includes(lowercasedQuery) ||
-          car.Duration?.toLowerCase().includes(lowercasedQuery) ||
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
+          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.District?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
+          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
+          car.brands?.toLowerCase().includes(lowercasedQuery) ||
+          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+          car.District?.toLowerCase().includes(lowercasedQuery)
       );
     }
-    if (Duration?.length > 0) {
-      filtered = filtered.filter((car) => Duration.includes(car.Duration));
-    }
-    if (subCatgory?.length > 0) {
-      filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
+    setLoading(false);
+    if (searchQuery?.length > 0) {
+      filtered = filtered.filter((car) => {
+        // Ensure car.title exists and is a string
+        if (!car?.title || typeof car.title !== "string") {
+          console.warn("Invalid car title:", car);
+          return false;
+        }
+        // Case-insensitive search
+        return car.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
@@ -1702,36 +1647,28 @@ const Education = () => {
     if (ScreenSize?.length > 0) {
       filtered = filtered.filter((car) => ScreenSize.includes(car.ScreenSize));
     }
-    if (Language?.length > 0) {
-      filtered = filtered.filter((car) => Language.includes(car.Language));
-    }
-    if (ContentType?.length > 0) {
-      filtered = filtered.filter((car) =>
-        ContentType.includes(car.ContentType)
-      );
-    }
-    if (SkillLevel?.length > 0) {
-      filtered = filtered.filter((car) => SkillLevel.includes(car.SkillLevel));
+    if (subCatgory?.length > 0) {
+      filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedSubCategory.includes(car.SubCategory)
       );
     }
-    if (searchQuery?.length > 0) {
-      filtered = filtered.filter((car) => {
-        // Ensure car.title exists and is a string
-        if (!car?.title || typeof car.title !== "string") {
-          console.warn("Invalid car title:", car);
-          return false;
-        }
-        // Case-insensitive search
-        return car.title.toLowerCase().includes(searchQuery.toLowerCase());
-      });
+    if (brands?.length > 0) {
+      filtered = filtered.filter((car) => brands.includes(car.brands));
     }
-    if (SubjectCategories?.length > 0) {
+    if (Condition?.length > 0) {
+      filtered = filtered.filter((car) => Condition.includes(car.Condition));
+    }
+    if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        SubjectCategories.includes(car.SubjectCategories)
+        logSelectedPurpose.includes(car.Purpose)
+      );
+    }
+    if (nestedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        nestedSubCategory.includes(car.NestedSubCategory)
       );
     }
     if (SpecialFeatures?.length > 0) {
@@ -1787,9 +1724,9 @@ const Education = () => {
       );
     }
     // Filter by selected cities
-    if (Brand?.length > 0) {
-      filtered = filtered.filter((car) => Brand.includes(car.Brand));
-    }
+    // if (Brand?.length > 0) {
+    //   filtered = filtered.filter((car) => Brand.includes(car.Brand));
+    // }
     if (selectedStates1?.length > 0) {
       filtered = filtered.filter((car) => selectedStates1.includes(car.States));
     }
@@ -1945,8 +1882,6 @@ const Education = () => {
         return manufactureYear >= minDate && manufactureYear <= maxDate;
       });
     }
-    setLoading(false);
-
     console.log(filtered, "filtered________");
     setFilteredCars(filtered);
     setActivePage(1);
@@ -2059,7 +1994,7 @@ const Education = () => {
 
             <button
               onClick={() => {
-                navigate("/Education");
+                navigate("/ElectronicComp");
               }}
               className="btn"
               style={{
@@ -2069,7 +2004,7 @@ const Education = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Education
+              Electronics
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2112,6 +2047,7 @@ const Education = () => {
                 </>
               )}
           </div>
+
           <div>
             {(nestedSubCategory || subCatgory) && (
               <h1
@@ -2258,7 +2194,7 @@ const Education = () => {
                     <div className="position-relative">
                       <input
                         type="search"
-                        placeholder="Search Here"
+                        placeholder="Search here"
                         className="form-control rounded-pill pe-5"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
@@ -2271,7 +2207,7 @@ const Education = () => {
                     </div>
                   </Col>
                 </Row>
-                {/*  -------------                          */}
+                {/*  -------------  */}
                 <style>{`
     .form-check-input:checked {
       background-color: #2D4495 !important; 
@@ -2292,7 +2228,6 @@ const Education = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*      ----------               */}
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
@@ -2301,40 +2236,32 @@ const Education = () => {
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
                           <Form.Label>Select a Category</Form.Label>
-
-                          {(showAllGeneral
-                            ? categories1
-                            : categories1.slice(0, 4)
-                          ).map((category, index) => (
+                          {visibleCategories.map((category, index) => (
                             <div key={index} className="form-check mb-2">
                               <input
                                 className="form-check-input"
                                 type="checkbox"
-                                id={`gen-cat-${index}`}
+                                id={`cat-${index}`}
                                 value={category}
                                 checked={selectedSubCategory === category}
-                                onChange={() =>
-                                  setselectedSubCategory((prev) =>
-                                    prev === category ? "" : category
-                                  )
-                                }
+                                onChange={() => handleCategoryCheck(category)}
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor={`gen-cat-${index}`}
+                                htmlFor={`cat-${index}`}
                               >
                                 {category}
                               </label>
                             </div>
                           ))}
 
-                          {categories1.length > 4 && (
+                          {categories.length > 4 && (
                             <Button
                               variant="link"
-                              onClick={() => setShowAllGeneral((prev) => !prev)}
+                              onClick={() => setShowAll((prev) => !prev)}
                               className="p-0 mt-2"
                             >
-                              {showAllGeneral ? "Show less..." : "Show more..."}
+                              {showAll ? "Show less..." : "Show more..."}
                             </Button>
                           )}
                         </Form.Group>
@@ -2342,6 +2269,64 @@ const Education = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+                {brandOptions[selectedSubCategory] && (
+                  <>
+                    <hr
+                      style={{
+                        width: "100%",
+                        height: "0px",
+                        top: "1310.01px",
+                        left: "239.88px",
+                        gap: "0px",
+                        borderTop: "1px solid #000000",
+                        opacity: "0.5", // Adjust opacity for visibility
+                        transform: "rotate(0deg)",
+                        margin: "20px 0",
+                        borderColor: "#000000", // Set border color to black
+                      }}
+                    />
+                    <Accordion className="mt-3">
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Brands</Accordion.Header>
+                        <Accordion.Body>
+                          <div style={{ maxWidth: "300px", margin: "20px" }}>
+                            <Form.Group>
+                              {brandOptions[selectedSubCategory].map(
+                                (brand) => (
+                                  <div
+                                    key={brand}
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      padding: "8px 0",
+                                    }}
+                                  >
+                                    <Form.Check
+                                      type="checkbox"
+                                      label={brand}
+                                      value={brand}
+                                      checked={brands.includes(brand)}
+                                      onChange={handleCheckboxBrand}
+                                    />
+                                    <span
+                                      style={{
+                                        fontWeight: "bold",
+                                        color: "#333",
+                                      }}
+                                    >
+                                      12345
+                                    </span>
+                                  </div>
+                                )
+                              )}
+                            </Form.Group>
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </>
+                )}
 
                 <hr
                   style={{
@@ -2357,6 +2342,7 @@ const Education = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                {/*      ----------               */}
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select Region</Accordion.Header>
@@ -2965,6 +2951,7 @@ const Education = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
+
                 <hr
                   style={{
                     width: "100%",
@@ -2980,101 +2967,6 @@ const Education = () => {
                   }}
                 />
                 {/*      ----------               */}
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>States </Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        {selectedCountry && states.length > 0 ? (
-                          <div className="mt-4">
-                            <h3 className="text-md font-semibold mb-2">
-                              States in {selectedCountry.label}
-                            </h3>
-                            <Select
-                              options={states.map((state) => ({
-                                value: state.isoCode,
-                                label: state.name,
-                              }))}
-                              isMulti
-                              onChange={handleStateChange1}
-                              value={states
-                                .filter((state) =>
-                                  selectedStates1.includes(state.name)
-                                )
-                                .map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))}
-                              placeholder="Select states..."
-                              className="w-full"
-                            />
-                          </div>
-                        ) : (
-                          <spna style={{ color: "red" }}>
-                            Please select country
-                          </spna>
-                        )}
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                /> */}
-                {/*--------------------------------------*/}
-
-                {/* <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Subject Categories</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <div style={{ maxWidth: "300px", marginTop: "20px" }}>
-                          {[
-                            "Business",
-                            "Computer Science",
-                            "Arts & Humanities",
-                            "Personal Development",
-                            "Health & Fitness",
-                          ].map((car, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={car}
-                                name={car} 
-                                onChange={handleCheckboxChangeSubjectCategories}
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion> */}
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
@@ -3088,7 +2980,6 @@ const Education = () => {
                               placeholder="From"
                               value={fromValue}
                               onChange={handleFromChange}
-                              min="0" // Prevent negative prices
                             />
                           </Col>
                           <Col>
@@ -3097,7 +2988,6 @@ const Education = () => {
                               placeholder="To"
                               value={toValue}
                               onChange={handleToChange}
-                              min="0" // Prevent negative prices
                             />
                           </Col>
                         </Row>
@@ -3120,11 +3010,121 @@ const Education = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
+                <div>
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Condition</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["New", "Used"].map((color) => (
+                              <div
+                                key={color}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={color}
+                                  // defaultChecked={color === "Grey"}
+                                  onChange={() =>
+                                    handleCheckboxCondition(color)
+                                  }
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                  }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                                            style={{ color: "#2D4495", cursor: "pointer" }}
+                                            onClick={() => handleMoreChoicesToggle()}
+                                          >
+                                            More choices
+                                          </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
 
-                {/*                  */}
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "0px",
+                    top: "1310.01px",
+                    left: "239.88px",
+                    gap: "0px",
+                    borderTop: "1px solid #000000",
+                    opacity: "0.5", // Adjust opacity for visibility
+                    transform: "rotate(0deg)",
+                    margin: "20px 0",
+                    borderColor: "#000000", // Set border color to black
+                  }}
+                />
 
                 {/*-------------------------------------*/}
               </Form>
+              <div>
+                {/* Accordion with Checkbox Selection for Color */}
+                <Accordion className="mt-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Ad Type</Accordion.Header>
+                    <Accordion.Body>
+                      <div style={{ maxWidth: "300px", margin: "20px" }}>
+                        <Form.Group>
+                          {["Rent", "Sell", "Wanted"].map((color) => (
+                            <div
+                              key={color}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label={color}
+                                // defaultChecked={color === "Grey"}
+                                onChange={() => handleCheckboxPurpose(color)}
+                              />
+                            </div>
+                          ))}
+                        </Form.Group>
+                        {/* <p
+                                       style={{ color: "#2D4495", cursor: "pointer" }}
+                                       onClick={() => handleMoreChoicesToggle()}
+                                     >
+                                       More choices
+                                     </p> */}
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
+
+              <hr
+                style={{
+                  width: "100%",
+                  height: "1px",
+                  borderTop: "1px solid #000000",
+                  opacity: "0.5", // Adjust opacity for visibility
+                  margin: "20px 0",
+                  borderColor: "#000000", // Set border color to black
+                }}
+              />
             </Col>
 
             <Col md={9} className="p-3">
@@ -3170,15 +3170,15 @@ const Education = () => {
                     />
                     <style>
                       {`
-                    @keyframes spin {
-                      from {
-                        transform: rotate(0deg);
-                      }
-                      to {
-                        transform: rotate(360deg);
-                      }
-                    }
-                  `}
+                       @keyframes spin {
+                         from {
+                           transform: rotate(0deg);
+                         }
+                         to {
+                           transform: rotate(360deg);
+                         }
+                       }
+                     `}
                     </style>
                   </div>
                 ) : filteredCars.length > 0 ? (
@@ -3219,7 +3219,6 @@ const Education = () => {
                                 Featured
                               </div>
                             )}
-
                             {/* Heart Icon */}
                             <div
                               style={{
@@ -3243,10 +3242,6 @@ const Education = () => {
                                       : "gray",
                                   fontSize: "30px",
                                 }}
-                                // style={{
-                                //   color: car.bookmarked ? "red" : "white",
-                                //   fontSize: "30px",
-                                // }}
                               />{" "}
                             </div>
                             {popoverCarId === car.id && (
@@ -3271,20 +3266,17 @@ const Education = () => {
                             <Link
                               onClick={() => handleView(car.id)}
                               //  to={`/car-details/${ad.id}`}
-                              // to={`/Dynamic_Route?id=${car.id}&callingFrom=EducationCmp`}
-                              to={`/Dynamic_Route?id=${
-                                car.id
-                              }&callingFrom=${"Education"}`}
+                              to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
                             >
                               {/* Image */}
                               <Card.Img
                                 src={
-                                  car.galleryImages[0] ||
+                                  car?.galleryImages[0] ||
                                   "https://via.placeholder.com/150"
                                 }
                                 alt={car.title || "Car"}
                                 style={{
-                                  width: "100%", // Make the image responsive
+                                  width: "100%",
                                   height: "250px",
                                   objectFit: "cover",
                                   borderTopLeftRadius: "20px",
@@ -3294,9 +3286,10 @@ const Education = () => {
                             </Link>
                           </Col>
 
-                          <Col md={8}>
+                          <Col md={8} className="filter_card_main">
                             <Card.Body>
                               <Card.Title
+                                className="title_head"
                                 style={{
                                   color: "#2D4495",
                                   marginTop:
@@ -3305,49 +3298,14 @@ const Education = () => {
                               >
                                 <Link
                                   //  to={`/car-details/${ad.id}`}
-                                  // to={`/Dynamic_Route?id=${car.id}&callingFrom=EducationCmp`}
-                                  to={`/Dynamic_Route?id=${
-                                    car.id
-                                  }&callingFrom=${"Education"}`}
+                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
                                 >
                                   {car.title || "Car"}
                                 </Link>
-                              </Card.Title>
-                              <Card.Text>
-                                <small
-                                  className="text-muted"
-                                  style={{ color: "black" }}
-                                >
-                                  <i
-                                    className="fas fa-map-marker-alt"
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  ></i>
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
-
-                                <br />
-                                {car.description ||
-                                  "Description not available."}
-                              </Card.Text>
-
-                              <Col
-                                className="align-items-center"
-                                style={{ position: "relative" }}
-                              >
-                                {/* Price displayed above the image */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    top: "-110px", // Adjust the top margin to place the price higher
-                                    left: "500px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
-                                    zIndex: 2, // Ensure the price text stays above the image
                                     color: "#2D4495",
                                   }}
                                 >
@@ -3355,7 +3313,42 @@ const Education = () => {
                                     ? `$${car.Price}`
                                     : "Price not available"}
                                 </p>
+                              </Card.Title>
+                              <Card.Text style={{ color: "black" }}>
+                                <small className="text-muted">
+                                  <IoLocationOutline
+                                    style={{
+                                      marginRight: "5px",
+                                      color: "#6c757d",
+                                    }}
+                                  />
+                                  <span style={{ color: "black" }}>
+                                    {car.City || "Location"}
+                                  </span>
+                                </small>
 
+                                {/* <br /> */}
+                                {/* <small style={{ color: "black" }}>
+                                          {car.ManufactureYear || "Year"} |{" "}
+                                          {car.DrivenKm || "0"} Km |{" "}
+                                          {car.EngineType || "Engine Type"} |{" "}
+                                          {car.Transmission || "Transmission"}
+                                        </small> */}
+
+                                <br />
+                                <p className="car_desc">
+                                  {car.description ||
+                                    "Description not available."}
+                                </p>
+                              </Card.Text>
+                              <Col
+                                className="align-items-center user_profile_block"
+                                style={{
+                                  marginTop:
+                                    window.innerWidth <= 576 ? "-10px" : "30px",
+                                }}
+                              >
+                                {/* Price displayed above the image */}
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
@@ -3378,15 +3371,15 @@ const Education = () => {
                                       />
                                       <style>
                                         {`
-                                          @keyframes spin {
-                                            from {
-                                              transform: rotate(0deg);
-                                            }
-                                            to {
-                                              transform: rotate(360deg);
-                                            }
-                                          }
-                                        `}
+                                                    @keyframes spin {
+                                                      from {
+                                                        transform: rotate(0deg);
+                                                      }
+                                                      to {
+                                                        transform: rotate(360deg);
+                                                      }
+                                                    }
+                                                  `}
                                       </style>
                                     </div>
                                   ) : (
@@ -3394,109 +3387,54 @@ const Education = () => {
                                   )}
                                 </div>
                                 <div
+                                  className="profile_image_block"
                                   style={{
-                                    position: "absolute",
-                                    top: "-70px",
-                                    left: "470px",
+                                    // position: "absolute",
+                                    // top: "-70px",
+                                    // left: "470px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
                                     zIndex: 2,
                                     color: "#2D4495",
                                   }}
                                 >
-                                  {car.photoURL ? (
-                                    <img
-                                      src={car.photoURL}
-                                      // alt={car.title || "No Image"}
-                                      style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        objectFit: "cover",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "block",
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "110px",
-                                        height: "110px",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        backgroundColor: "#f0f0f0", // optional background color
-                                        textAlign: "center",
-                                        padding: "10px", // optional padding
-                                      }}
-                                    >
-                                      {"No Image"}
-                                    </div>
-                                  )}
+                                  <img
+                                    src={car.photoURL || ImageURL}
+                                    alt="User profile"
+                                    onError={(e) => {
+                                      e.target.onerror = null; // prevent infinite loop
+                                      e.target.src = ImageURL;
+                                    }}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      objectFit: "cover",
+                                      borderRadius: "50%",
+                                      border: "2px solid white",
+                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                      display: "block",
+                                    }}
+                                  />
                                 </div>
                                 {/* Updated text at the bottom-right corner */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    right: "5px",
                                     marginTop:
-                                      window.innerWidth <= 576
-                                        ? "35px"
+                                      window.innerWidth <= 1100
+                                        ? "5px"
                                         : "54px",
-                                    marginLeft:
-                                      window.innerWidth <= 576
-                                        ? "10rem"
-                                        : "0rem",
+                                    // marginLeft:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "10rem"
+                                    // 		: "0rem",
                                     color: "black",
                                   }}
                                 >
                                   Updated about {timeAgo(car.createdAt)}
                                 </p>
-
                                 {/* Responsive layout for small screens */}
-                                <div
-                                  className="d-block d-sm-none"
-                                  style={{
-                                    position: "relative",
-                                    marginTop: "10px",
-                                  }}
-                                >
-                                  {/* Price for small screens */}
-                                  <p
-                                    style={{
-                                      fontWeight: "bold",
-                                      fontSize: "16px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    {car.price
-                                      ? `$${car.price}`
-                                      : "Price not available"}
-                                  </p>
-
-                                  {/* Small Image for small screens */}
-                                  <Card.Img
-                                    src={
-                                      car.img ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={car.title || "Car"}
-                                    style={{
-                                      width: "120px", // Adjust size for small screens
-                                      height: "60px",
-                                      objectFit: "cover",
-                                      borderRadius: "6px",
-                                    }}
-                                  />
-                                </div>
                               </Col>
-
-                              {/* Responsive Grid for Small Screens */}
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
                                 <a href={`tel:${car.Phone}`}>
                                   <button
@@ -3583,26 +3521,28 @@ const Education = () => {
                                     color: "#2D4495",
                                     width: "fit-content",
                                     height: "fit-content",
-                                    padding: "8px",
+                                    padding: "9px",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     margin: "5px",
-                                    marginRight:
-                                      window.innerWidth <= 576
-                                        ? "20px"
-                                        : "60px",
+                                    marginBottom: "0px",
+
+                                    // marginRight:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "20px"
+                                    // 		: "60px",
 
                                     marginTop:
                                       window.innerWidth <= 576 ? "5px" : "50px",
                                   }}
                                 >
                                   {/* <FaHeart
-                              style={{
-                                color:  "white",
-                                fontSize: "30px",
-                              }}
-                            />{" "} */}
+                                        style={{
+                                          color:  "white",
+                                          fontSize: "30px",
+                                        }}
+                                      />{" "} */}
                                   <FaRegHeart
                                     onClick={() => toggleBookmark(car.id)}
                                     style={{
@@ -3703,22 +3643,22 @@ const Education = () => {
                                         </div>
                                       )}
                                       {/* <div className="modal-body">
-                                        <div className="p-4 w-full max-w-lg mx-auto">
-                                          {currentUserId && receiverId ? (
-                                            <Chat
-                                              userId={currentUserId}
-                                              recieverId={receiverId}
-                                            />
-                                          ) : (
-                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                              <p className="text-lg font-semibold text-gray-600">
-                                                Please log in to start
-                                                messaging.
-                                              </p>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div> */}
+                                                  <div className="p-4 w-full max-w-lg mx-auto">
+                                                    {currentUserId && receiverId ? (
+                                                      <Chat
+                                                        userId={currentUserId}
+                                                        recieverId={receiverId}
+                                                      />
+                                                    ) : (
+                                                      <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                                        <p className="text-lg font-semibold text-gray-600">
+                                                          Please log in to start
+                                                          messaging.
+                                                        </p>
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div> */}
                                     </div>
                                   </div>
                                 </div>
@@ -3737,7 +3677,7 @@ const Education = () => {
                     );
                   })
                 ) : (
-                  "No record found"
+                  "No Record Found"
                 )}
               </div>
               <div className="d-flex align-items-center justify-content-center my-4">
@@ -3834,4 +3774,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default ElectronicComp;

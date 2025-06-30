@@ -29,6 +29,8 @@ import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
+import { ref, getDownloadURL } from "firebase/storage";
+import { IoLocationOutline } from "react-icons/io5";
 
 import { MdKeyboardArrowRight } from "react-icons/md";
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
@@ -73,7 +75,7 @@ import {
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
+import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 
 const RealEstateComp = () => {
@@ -114,7 +116,30 @@ const RealEstateComp = () => {
   console.log(filteredCars, "filteredCars_________");
   const itemsPerPage = 3; // Number of items per page
   const { searchText } = useSearchStore();
+  const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
+  const getImageURL = async () => {
+    const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
+
+    try {
+      const url = await getDownloadURL(imageRef);
+      console.log("Image URL:", url);
+
+      return url;
+    } catch (error) {
+      console.error("Error fetching image URL:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    getImageURL().then((url) => {
+      if (url) {
+        setImageURL(url);
+        // Example usage
+        console.log("Direct public image link:", url);
+      }
+    });
+  }, []);
   const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
   const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
   const [Brand, setBrand] = useState([]);
@@ -711,14 +736,22 @@ const RealEstateComp = () => {
     fetchCars();
   }, []);
   function timeAgo(timestamp) {
-    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+    let date;
+    if (timestamp instanceof Date) {
+      date = timestamp;
+    } else if (timestamp?._seconds) {
+      date = new Date(timestamp._seconds * 1000);
+    } else if (typeof timestamp === "number") {
+      date = new Date(timestamp);
+    } else {
+      return "Invalid time";
+    }
     const now = new Date();
-    const difference = Math.abs(now - date); // Difference in milliseconds
-    const seconds = Math.floor(difference / 1000);
+    const diff = now - date;
+    const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -4504,7 +4537,6 @@ const RealEstateComp = () => {
                                 Featured
                               </div>
                             )}
-
                             {/* Heart Icon */}
                             <div
                               style={{
@@ -4528,7 +4560,7 @@ const RealEstateComp = () => {
                                       : "gray",
                                   fontSize: "30px",
                                 }}
-                              />
+                              />{" "}
                             </div>
                             {popoverCarId === car.id && (
                               <div
@@ -4557,12 +4589,12 @@ const RealEstateComp = () => {
                               {/* Image */}
                               <Card.Img
                                 src={
-                                  car.galleryImages[0] ||
+                                  car?.galleryImages[0] ||
                                   "https://via.placeholder.com/150"
                                 }
                                 alt={car.title || "Car"}
                                 style={{
-                                  width: "100%", // Make the image responsive
+                                  width: "100%",
                                   height: "250px",
                                   objectFit: "cover",
                                   borderTopLeftRadius: "20px",
@@ -4572,9 +4604,10 @@ const RealEstateComp = () => {
                             </Link>
                           </Col>
 
-                          <Col md={8}>
+                          <Col md={8} className="filter_card_main">
                             <Card.Body>
                               <Card.Title
+                                className="title_head"
                                 style={{
                                   color: "#2D4495",
                                   marginTop:
@@ -4587,46 +4620,10 @@ const RealEstateComp = () => {
                                 >
                                   {car.title || "Car"}
                                 </Link>
-                              </Card.Title>
-                              <Card.Text>
-                                <small
-                                  className="text-muted"
-                                  style={{ color: "black" }}
-                                >
-                                  <i
-                                    className="fas fa-map-marker-alt"
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  ></i>
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
-
-                                <br />
-                                {car.description ||
-                                  "Description not available."}
-                              </Card.Text>
-
-                              <Col
-                                className="align-items-center"
-                                style={{
-                                  position: "relative",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-10px" : "30px",
-                                }}
-                              >
-                                {/* Price displayed above the image */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    top: "-110px", // Adjust the top margin to place the price higher
-                                    left: "500px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
-                                    zIndex: 2, // Ensure the price text stays above the image
                                     color: "#2D4495",
                                   }}
                                 >
@@ -4634,7 +4631,42 @@ const RealEstateComp = () => {
                                     ? `$${car.Price}`
                                     : "Price not available"}
                                 </p>
+                              </Card.Title>
+                              <Card.Text style={{ color: "black" }}>
+                                <small className="text-muted">
+                                  <IoLocationOutline
+                                    style={{
+                                      marginRight: "5px",
+                                      color: "#6c757d",
+                                    }}
+                                  />
+                                  <span style={{ color: "black" }}>
+                                    {car.City || "Location"}
+                                  </span>
+                                </small>
 
+                                {/* <br /> */}
+                                {/* <small style={{ color: "black" }}>
+                                {car.ManufactureYear || "Year"} |{" "}
+                                {car.DrivenKm || "0"} Km |{" "}
+                                {car.EngineType || "Engine Type"} |{" "}
+                                {car.Transmission || "Transmission"}
+                              </small> */}
+
+                                <br />
+                                <p className="car_desc">
+                                  {car.description ||
+                                    "Description not available."}
+                                </p>
+                              </Card.Text>
+                              <Col
+                                className="align-items-center user_profile_block"
+                                style={{
+                                  marginTop:
+                                    window.innerWidth <= 576 ? "-10px" : "30px",
+                                }}
+                              >
+                                {/* Price displayed above the image */}
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
@@ -4657,174 +4689,70 @@ const RealEstateComp = () => {
                                       />
                                       <style>
                                         {`
-                                         @keyframes spin {
-                                           from {
-                                             transform: rotate(0deg);
-                                           }
-                                           to {
-                                             transform: rotate(360deg);
-                                           }
-                                         }
-                                       `}
+                                          @keyframes spin {
+                                            from {
+                                              transform: rotate(0deg);
+                                            }
+                                            to {
+                                              transform: rotate(360deg);
+                                            }
+                                          }
+                                        `}
                                       </style>
                                     </div>
                                   ) : (
-                                    ads.map(
-                                      (cars) => ""
-                                      // <div
-                                      //   style={{
-                                      //     position: "absolute",
-                                      //     top: "-70px",
-                                      //     left: "470px",
-                                      //     fontWeight: "bold",
-                                      //     fontSize: "20px",
-                                      //     zIndex: 2,
-                                      //     color: "#2D4495",
-                                      //   }}
-                                      // >
-                                      //   {car.photoURL ? (
-                                      //     <img
-                                      //       src={car.photoURL}
-                                      //       // alt={car.title || "No Image"}
-                                      //       style={{
-                                      //         width: "100px",
-                                      //         height: "100px",
-                                      //         objectFit: "cover",
-                                      //         borderRadius: "50%",
-                                      //         border: "2px solid white",
-                                      //         boxShadow:
-                                      //           "0 0 10px rgba(0,0,0,0.1)",
-                                      //         display: "block",
-                                      //       }}
-                                      //     />
-                                      //   ) : (
-                                      //     <div
-                                      //       style={{
-                                      //         width: "110px",
-                                      //         height: "110px",
-                                      //         borderRadius: "50%",
-                                      //         border: "2px solid white",
-                                      //         boxShadow:
-                                      //           "0 0 10px rgba(0,0,0,0.1)",
-                                      //         display: "flex",
-                                      //         alignItems: "center",
-                                      //         justifyContent: "center",
-                                      //         backgroundColor: "#f0f0f0", // optional background color
-                                      //         textAlign: "center",
-                                      //         padding: "10px", // optional padding
-                                      //       }}
-                                      //     >
-                                      //       {"No Image"}
-                                      //     </div>
-                                      //   )}
-                                      // </div>
-                                    )
+                                    ads.map((cars) => "")
                                   )}
                                 </div>
                                 <div
+                                  className="profile_image_block"
                                   style={{
-                                    position: "absolute",
-                                    top: "-70px",
-                                    left: "470px",
+                                    // position: "absolute",
+                                    // top: "-70px",
+                                    // left: "470px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
                                     zIndex: 2,
                                     color: "#2D4495",
                                   }}
                                 >
-                                  {car.photoURL ? (
-                                    <img
-                                      src={car.photoURL}
-                                      // alt={car.title || "No Image"}
-                                      style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        objectFit: "cover",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "block",
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "110px",
-                                        height: "110px",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        backgroundColor: "#f0f0f0", // optional background color
-                                        textAlign: "center",
-                                        padding: "10px", // optional padding
-                                      }}
-                                    >
-                                      {"No Image"}
-                                    </div>
-                                  )}
+                                  <img
+                                    src={car.photoURL || ImageURL}
+                                    alt="User profile"
+                                    onError={(e) => {
+                                      e.target.onerror = null; // prevent infinite loop
+                                      e.target.src = ImageURL;
+                                    }}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      objectFit: "cover",
+                                      borderRadius: "50%",
+                                      border: "2px solid white",
+                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                      display: "block",
+                                    }}
+                                  />
                                 </div>
                                 {/* Updated text at the bottom-right corner */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    right: "5px",
                                     marginTop:
-                                      window.innerWidth <= 576
-                                        ? "35px"
+                                      window.innerWidth <= 1100
+                                        ? "5px"
                                         : "54px",
-                                    marginLeft:
-                                      window.innerWidth <= 576
-                                        ? "10rem"
-                                        : "0rem",
+                                    // marginLeft:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "10rem"
+                                    // 		: "0rem",
                                     color: "black",
                                   }}
                                 >
                                   Updated about {timeAgo(car.createdAt)}
                                 </p>
-
                                 {/* Responsive layout for small screens */}
-                                <div
-                                  className="d-block d-sm-none"
-                                  style={{
-                                    position: "relative",
-                                    marginTop: "10px",
-                                  }}
-                                >
-                                  {/* Price for small screens */}
-                                  <p
-                                    style={{
-                                      fontWeight: "bold",
-                                      fontSize: "16px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    {car.price
-                                      ? `$${car.price}`
-                                      : "Price not available"}
-                                  </p>
-
-                                  {/* Small Image for small screens */}
-                                  <Card.Img
-                                    src={
-                                      car.img ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={car.title || "Car"}
-                                    style={{
-                                      width: "120px", // Adjust size for small screens
-                                      height: "60px",
-                                      objectFit: "cover",
-                                      borderRadius: "6px",
-                                    }}
-                                  />
-                                </div>
                               </Col>
-
-                              {/* Responsive Grid for Small Screens */}
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
                                 <a href={`tel:${car.Phone}`}>
                                   <button
@@ -4911,15 +4839,17 @@ const RealEstateComp = () => {
                                     color: "#2D4495",
                                     width: "fit-content",
                                     height: "fit-content",
-                                    padding: "8px",
+                                    padding: "9px",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     margin: "5px",
-                                    marginRight:
-                                      window.innerWidth <= 576
-                                        ? "20px"
-                                        : "60px",
+                                    marginBottom: "0px",
+
+                                    // marginRight:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "20px"
+                                    // 		: "60px",
 
                                     marginTop:
                                       window.innerWidth <= 576 ? "5px" : "50px",

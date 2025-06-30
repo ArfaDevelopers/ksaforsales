@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; //
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
+import { IoLocationOutline } from "react-icons/io5";
+
 import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
@@ -58,7 +60,7 @@ import {
 } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/FirebaseConfig";
+import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -75,6 +77,7 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import Mesagedeals from "../../../components/userPages/mesagedeals";
+import { ref, getDownloadURL } from "firebase/storage";
 
 const ElectronicComp = () => {
   const parms = useLocation().pathname;
@@ -82,7 +85,30 @@ const ElectronicComp = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
   const { searchText } = useSearchStore();
+  const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
+  const getImageURL = async () => {
+    const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
+
+    try {
+      const url = await getDownloadURL(imageRef);
+      console.log("Image URL:", url);
+
+      return url;
+    } catch (error) {
+      console.error("Error fetching image URL:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    getImageURL().then((url) => {
+      if (url) {
+        setImageURL(url);
+        // Example usage
+        console.log("Direct public image link:", url);
+      }
+    });
+  }, []);
   const regionOptions = [
     {
       value: 1,
@@ -681,14 +707,22 @@ const ElectronicComp = () => {
     fetchCars();
   }, []);
   function timeAgo(timestamp) {
-    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+    let date;
+    if (timestamp instanceof Date) {
+      date = timestamp;
+    } else if (timestamp?._seconds) {
+      date = new Date(timestamp._seconds * 1000);
+    } else if (typeof timestamp === "number") {
+      date = new Date(timestamp);
+    } else {
+      return "Invalid time";
+    }
     const now = new Date();
-    const difference = Math.abs(now - date); // Difference in milliseconds
-    const seconds = Math.floor(difference / 1000);
+    const diff = now - date;
+    const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-
     if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -3193,19 +3227,19 @@ const ElectronicComp = () => {
                                 Featured
                               </div>
                             )}
-
                             {/* Heart Icon */}
                             <div
-                              onClick={() => toggleBookmark(car.id)}
                               style={{
                                 position: "absolute",
                                 top: "15%",
-                                left: "90%", // Centering horizontally
-                                transform: "translate(-50%, -50%)", // Adjust to keep it centered
+                                left: "90%",
+                                transform: "translate(-50%, -50%)",
                                 borderRadius: "50%",
                                 padding: "10px",
-                                zIndex: 3, // Higher z-index to stay above everything
+                                zIndex: 3,
+                                cursor: "pointer",
                               }}
+                              onClick={() => toggleBookmark(car.id)}
                             >
                               <FaHeart
                                 style={{
@@ -3245,12 +3279,12 @@ const ElectronicComp = () => {
                               {/* Image */}
                               <Card.Img
                                 src={
-                                  car.galleryImages[0] ||
+                                  car?.galleryImages[0] ||
                                   "https://via.placeholder.com/150"
                                 }
                                 alt={car.title || "Car"}
                                 style={{
-                                  width: "100%", // Make the image responsive
+                                  width: "100%",
                                   height: "250px",
                                   objectFit: "cover",
                                   borderTopLeftRadius: "20px",
@@ -3260,9 +3294,10 @@ const ElectronicComp = () => {
                             </Link>
                           </Col>
 
-                          <Col md={8}>
+                          <Col md={8} className="filter_card_main">
                             <Card.Body>
                               <Card.Title
+                                className="title_head"
                                 style={{
                                   color: "#2D4495",
                                   marginTop:
@@ -3275,46 +3310,10 @@ const ElectronicComp = () => {
                                 >
                                   {car.title || "Car"}
                                 </Link>
-                              </Card.Title>
-                              <Card.Text style={{ color: "black" }}>
-                                <small className="text-muted">
-                                  <i
-                                    className="fas fa-map-marker-alt"
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  ></i>
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
-
-                                <br />
-
-                                <div style={{ width: "70%" }}>
-                                  {car.description ||
-                                    "Description not available."}
-                                </div>
-                              </Card.Text>
-
-                              <Col
-                                className="align-items-center"
-                                style={{
-                                  position: "relative",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-10px" : "30px",
-                                }}
-                              >
-                                {/* Price displayed above the image */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    top: "-140px", // Adjust the top margin to place the price higher
-                                    left: "500px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
-                                    zIndex: 2, // Ensure the price text stays above the image
                                     color: "#2D4495",
                                   }}
                                 >
@@ -3322,7 +3321,42 @@ const ElectronicComp = () => {
                                     ? `$${car.Price}`
                                     : "Price not available"}
                                 </p>
+                              </Card.Title>
+                              <Card.Text style={{ color: "black" }}>
+                                <small className="text-muted">
+                                  <IoLocationOutline
+                                    style={{
+                                      marginRight: "5px",
+                                      color: "#6c757d",
+                                    }}
+                                  />
+                                  <span style={{ color: "black" }}>
+                                    {car.City || "Location"}
+                                  </span>
+                                </small>
 
+                                {/* <br /> */}
+                                {/* <small style={{ color: "black" }}>
+                                          {car.ManufactureYear || "Year"} |{" "}
+                                          {car.DrivenKm || "0"} Km |{" "}
+                                          {car.EngineType || "Engine Type"} |{" "}
+                                          {car.Transmission || "Transmission"}
+                                        </small> */}
+
+                                <br />
+                                <p className="car_desc">
+                                  {car.description ||
+                                    "Description not available."}
+                                </p>
+                              </Card.Text>
+                              <Col
+                                className="align-items-center user_profile_block"
+                                style={{
+                                  marginTop:
+                                    window.innerWidth <= 576 ? "-10px" : "30px",
+                                }}
+                              >
+                                {/* Price displayed above the image */}
                                 {/* Small Image on the Right with Top Margin */}
                                 <div>
                                   {loading ? (
@@ -3345,15 +3379,15 @@ const ElectronicComp = () => {
                                       />
                                       <style>
                                         {`
-                                         @keyframes spin {
-                                           from {
-                                             transform: rotate(0deg);
-                                           }
-                                           to {
-                                             transform: rotate(360deg);
-                                           }
-                                         }
-                                       `}
+                                                    @keyframes spin {
+                                                      from {
+                                                        transform: rotate(0deg);
+                                                      }
+                                                      to {
+                                                        transform: rotate(360deg);
+                                                      }
+                                                    }
+                                                  `}
                                       </style>
                                     </div>
                                   ) : (
@@ -3361,114 +3395,54 @@ const ElectronicComp = () => {
                                   )}
                                 </div>
                                 <div
+                                  className="profile_image_block"
                                   style={{
-                                    position: "absolute",
-                                    top: "-70px",
-                                    left: "470px",
+                                    // position: "absolute",
+                                    // top: "-70px",
+                                    // left: "470px",
                                     fontWeight: "bold",
                                     fontSize: "20px",
                                     zIndex: 2,
                                     color: "#2D4495",
                                   }}
                                 >
-                                  {car.photoURL ? (
-                                    <img
-                                      src={car.photoURL}
-                                      // alt={car.title || "No Image"}
-                                      style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        objectFit: "cover",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "block",
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      style={{
-                                        width: "110px",
-                                        height: "110px",
-                                        borderRadius: "50%",
-                                        border: "2px solid white",
-                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        backgroundColor: "#f0f0f0", // optional background color
-                                        textAlign: "center",
-                                        padding: "10px", // optional padding
-                                      }}
-                                    >
-                                      {"No Image"}
-                                    </div>
-                                  )}
+                                  <img
+                                    src={car.photoURL || ImageURL}
+                                    alt="User profile"
+                                    onError={(e) => {
+                                      e.target.onerror = null; // prevent infinite loop
+                                      e.target.src = ImageURL;
+                                    }}
+                                    style={{
+                                      width: "100px",
+                                      height: "100px",
+                                      objectFit: "cover",
+                                      borderRadius: "50%",
+                                      border: "2px solid white",
+                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                      display: "block",
+                                    }}
+                                  />
                                 </div>
                                 {/* Updated text at the bottom-right corner */}
                                 <p
                                   style={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    // fontSize: '12px',
                                     marginTop:
-                                      window.innerWidth <= 576
-                                        ? "35px"
+                                      window.innerWidth <= 1100
+                                        ? "5px"
                                         : "54px",
-                                    marginLeft:
-                                      window.innerWidth <= 576
-                                        ? "10rem"
-                                        : "0rem",
+                                    // marginLeft:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "10rem"
+                                    // 		: "0rem",
                                     color: "black",
                                   }}
                                 >
                                   Updated about {timeAgo(car.createdAt)}
                                 </p>
-
                                 {/* Responsive layout for small screens */}
-                                <div
-                                  className="d-block d-sm-none"
-                                  style={{
-                                    position: "relative",
-                                    marginTop: "10px",
-                                  }}
-                                >
-                                  {/* Price for small screens */}
-                                  <p
-                                    style={{
-                                      position: "absolute",
-                                      top: "-140px", // Adjust the top margin to place the price higher
-                                      left: "500px",
-                                      fontWeight: "bold",
-                                      fontSize: "20px",
-                                      zIndex: 2, // Ensure the price text stays above the image
-                                      color: "#2D4495",
-                                    }}
-                                  >
-                                    {car.Price
-                                      ? `$${car.Price}`
-                                      : "Price not available"}
-                                  </p>
-
-                                  {/* Small Image for small screens */}
-                                  <Card.Img
-                                    src={
-                                      car.img ||
-                                      "https://via.placeholder.com/150"
-                                    }
-                                    alt={car.title || "Car"}
-                                    style={{
-                                      width: "120px", // Adjust size for small screens
-                                      height: "60px",
-                                      objectFit: "fill",
-                                      borderRadius: "6px",
-                                    }}
-                                  />
-                                </div>
                               </Col>
-
-                              {/* Responsive Grid for Small Screens */}
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
+                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
                                 <a href={`tel:${car.Phone}`}>
                                   <button
@@ -3478,7 +3452,7 @@ const ElectronicComp = () => {
                                     style={{
                                       marginTop:
                                         window.innerWidth <= 576
-                                          ? "15px"
+                                          ? "10px"
                                           : "50px",
                                       width:
                                         window.innerWidth <= 576
@@ -3555,26 +3529,28 @@ const ElectronicComp = () => {
                                     color: "#2D4495",
                                     width: "fit-content",
                                     height: "fit-content",
-                                    padding: "8px",
+                                    padding: "9px",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                     margin: "5px",
-                                    marginRight:
-                                      window.innerWidth <= 576
-                                        ? "20px"
-                                        : "60px",
+                                    marginBottom: "0px",
+
+                                    // marginRight:
+                                    // 	window.innerWidth <= 576
+                                    // 		? "20px"
+                                    // 		: "60px",
 
                                     marginTop:
                                       window.innerWidth <= 576 ? "5px" : "50px",
                                   }}
                                 >
                                   {/* <FaHeart
-                              style={{
-                                color:  "white",
-                                fontSize: "30px",
-                              }}
-                            />{" "} */}
+                                        style={{
+                                          color:  "white",
+                                          fontSize: "30px",
+                                        }}
+                                      />{" "} */}
                                   <FaRegHeart
                                     onClick={() => toggleBookmark(car.id)}
                                     style={{
@@ -3675,22 +3651,22 @@ const ElectronicComp = () => {
                                         </div>
                                       )}
                                       {/* <div className="modal-body">
-                                        <div className="p-4 w-full max-w-lg mx-auto">
-                                          {currentUserId && receiverId ? (
-                                            <Chat
-                                              userId={currentUserId}
-                                              recieverId={receiverId}
-                                            />
-                                          ) : (
-                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                              <p className="text-lg font-semibold text-gray-600">
-                                                Please log in to start
-                                                messaging.
-                                              </p>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div> */}
+                                                  <div className="p-4 w-full max-w-lg mx-auto">
+                                                    {currentUserId && receiverId ? (
+                                                      <Chat
+                                                        userId={currentUserId}
+                                                        recieverId={receiverId}
+                                                      />
+                                                    ) : (
+                                                      <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                                        <p className="text-lg font-semibold text-gray-600">
+                                                          Please log in to start
+                                                          messaging.
+                                                        </p>
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div> */}
                                     </div>
                                   </div>
                                 </div>
