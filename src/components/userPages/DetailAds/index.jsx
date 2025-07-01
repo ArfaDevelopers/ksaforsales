@@ -12,24 +12,23 @@ import Swal from "sweetalert2";
 import Header from "../../home/header";
 import axios from "axios";
 import {
-    Container,
-    Row,
-    Col,
-    Card,
-    Button,
-    ProgressBar,
-    Spinner,
-    Form,
-    Alert,
-  } from "react-bootstrap";
-  import {
-    FiUpload,
-    FiImage,
-    FiCheckCircle,
-    FiAlertCircle,
-    FiLoader,
-  } from "react-icons/fi";
-
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  ProgressBar,
+  Spinner,
+  Form,
+  Alert,
+} from "react-bootstrap";
+import {
+  FiUpload,
+  FiImage,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiLoader,
+} from "react-icons/fi";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -276,145 +275,161 @@ const DetailAds = () => {
                 flexWrap: "wrap",
               }}
             >
-          
-          <Container >
-  <Card className="mb-4 shadow">
-    <Card.Header className="text-white" style={{backgroundColor: "#2d4495"}}>
-      <h4 className="mb-0 d-flex align-items-center">
-        <FiImage className="me-2" />
-        Update Detail Page Advertisements
-      </h4>
-      <small>Upload three high-quality images</small>
-    </Card.Header>
-    <Card.Body>
-      <Row className="g-4">
-        {previews.map((src, index) => (
-          <Col md={4} key={index}>
-            <Card className="h-100 border">
-              <div
-                className="position-relative"
-                style={{
-                  aspectRatio: "16/9",
-                  height: "200px", 
-                  overflow: "hidden", 
-                }}
-              >
-                {src ? (
-                  <Card.Img
-                    src={src}
-                    alt={`Advertisement ${index + 1}`}
-                    style={{
-                      objectFit: "cover",
-                      height: "100%", 
-                      width: "100%", 
-                    }}
-                  />
-                ) : (
-                  <div
-                    className="d-flex align-items-center justify-content-center bg-light"
-                    style={{ height: "100%", width: "100%" }}
+              <Container className="p-0">
+                <Card className="mb-4 shadow p-0">
+                  <Card.Header
+                    className="text-white"
+                    style={{ backgroundColor: "#2d4495" }}
                   >
-                    <FiImage size={48} className="text-muted" />
-                  </div>
-                )}
+                    <h4 className="m-0 mb-2 d-flex align-items-center text-white">
+                      <FiImage className="me-2" />
+                      Update Detail Page Advertisements
+                    </h4>
+                    <small>Upload three high-quality images</small>
+                  </Card.Header>
+                  <Card.Body>
+                    <Row className="g-4">
+                      {previews.map((src, index) => (
+                        <Col md={4} key={index}>
+                          <Card className="h-100 border">
+                            <div
+                              className="position-relative"
+                              style={{
+                                aspectRatio: "16/9",
+                                height: "200px",
+                                overflow: "hidden",
+                              }}
+                            >
+                              {src ? (
+                                <Card.Img
+                                  src={src}
+                                  alt={`Advertisement ${index + 1}`}
+                                  style={{
+                                    objectFit: "cover",
+                                    height: "100%",
+                                    width: "100%",
+                                  }}
+                                />
+                              ) : (
+                                <div
+                                  className="d-flex align-items-center justify-content-center bg-light"
+                                  style={{ height: "100%", width: "100%" }}
+                                >
+                                  <FiImage size={48} className="text-muted" />
+                                </div>
+                              )}
 
-                {uploading && uploadProgress[index] < 100 && (
-                  <div className="position-absolute top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
-                    <div className="text-white text-center">
-                      <Spinner animation="border" size="sm" />
-                      <div>{uploadProgress[index]}%</div>
-                    </div>
-                  </div>
-                )}
-              </div>
+                              {uploading && uploadProgress[index] < 100 && (
+                                <div className="position-absolute top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
+                                  <div className="text-white text-center">
+                                    <Spinner animation="border" size="sm" />
+                                    <div>{uploadProgress[index]}%</div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
 
-              <Card.Body className="text-center">
-                <Form.Group controlId={`imgInput-${index}`}>
-                  <Form.Label className="btn w-100 text-white" style={{backgroundColor: "#2d4495"}}>
-                    <FiUpload className="me-1" />
-                    {src ? "Change Image" : "Select Image"}
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      className="d-none"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          handleSingleImageChange(index, file);
-                        }
-                      }}
-                    />
-                  </Form.Label>
-                </Form.Group>
-                <div className="mt-2 text-muted">
-                  Ad Slot {index + 1}
-                  {src && (
-                    <div className=" mt-1 d-flex justify-content-center align-items-center" style={{color: "#2d4495"}}>
-                      <FiCheckCircle className="me-1" /> Image selected
+                            <Card.Body className="text-center">
+                              <Form.Group controlId={`imgInput-${index}`}>
+                                <Form.Label
+                                  className="btn w-100 text-white"
+                                  style={{ backgroundColor: "#2d4495" }}
+                                >
+                                  <FiUpload className="me-1" />
+                                  {src ? "Change Image" : "Select Image"}
+                                  <Form.Control
+                                    type="file"
+                                    accept="image/*"
+                                    className="d-none"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                        handleSingleImageChange(index, file);
+                                      }
+                                    }}
+                                  />
+                                </Form.Label>
+                              </Form.Group>
+                              <div className="mt-2 text-muted">
+                                Ad Slot {index + 1}
+                                {src && (
+                                  <div
+                                    className=" mt-1 d-flex justify-content-center align-items-center"
+                                    style={{ color: "#2d4495" }}
+                                  >
+                                    <FiCheckCircle className="me-1" /> Image
+                                    selected
+                                  </div>
+                                )}
+                              </div>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+
+                    <Alert
+                      variant="info"
+                      className="mt-4 d-flex align-items-center"
+                    >
+                      <FiAlertCircle className="me-2" />
+                      All three images are required for the ad display.
+                    </Alert>
+                    <div className="text-center mt-4">
+                      <Button
+                        onClick={handleUpload}
+                        style={{
+                          backgroundColor: uploading
+                            ? "#2d4495"
+                            : isHovered
+                            ? "#3b57c4"
+                            : "#2d4495",
+                          color: "#ffffff", // Explicitly set text color to white
+                          transition: "all 0.3s ease",
+                          transform:
+                            isHovered && !uploading ? "scale(1.05)" : "none",
+                          boxShadow:
+                            isHovered && !uploading
+                              ? "0 4px 8px rgba(0, 0, 0, 0.2)"
+                              : "none",
+                        }}
+                        size="lg"
+                        disabled={uploading}
+                        onMouseEnter={() => !uploading && setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                      >
+                        {uploading ? (
+                          <>
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                              className="me-2"
+                              style={{ color: "#ffffff" }} // Spinner white
+                            />
+                            Uploading...
+                          </>
+                        ) : (
+                          <>
+                            <FiUpload
+                              className="me-2"
+                              style={{ color: "#ffffff" }}
+                            />{" "}
+                            {/* Icon white */}
+                            Upload Images
+                          </>
+                        )}
+                      </Button>
                     </div>
-                  )}
+                  </Card.Body>
+                </Card>
+
+                <div className="text-center text-muted small">
+                  Recommended image size: 1200 × 675 pixels (16:9 ratio)
                 </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      <Alert variant="info" className="mt-4 d-flex align-items-center">
-        <FiAlertCircle className="me-2" />
-        All three images are required for the ad display.
-      </Alert>
-      <div className="text-center mt-4">
-      <Button
-        onClick={handleUpload}
-        style={{
-          backgroundColor: uploading
-            ? '#2d4495'
-            : isHovered
-            ? '#3b57c4'
-            : '#2d4495',
-          color: '#ffffff', // Explicitly set text color to white
-          transition: 'all 0.3s ease',
-          transform: isHovered && !uploading ? 'scale(1.05)' : 'none',
-          boxShadow:
-            isHovered && !uploading
-              ? '0 4px 8px rgba(0, 0, 0, 0.2)'
-              : 'none',
-        }}
-        size="lg"
-        disabled={uploading}
-        onMouseEnter={() => !uploading && setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {uploading ? (
-          <>
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              className="me-2"
-              style={{ color: '#ffffff' }} // Spinner white
-            />
-            Uploading...
-          </>
-        ) : (
-          <>
-            <FiUpload className="me-2" style={{ color: '#ffffff' }} />{' '}
-            {/* Icon white */}
-            Upload Images
-          </>
-        )}
-      </Button>
-    </div>
-    </Card.Body>
-  </Card>
-
-  <div className="text-center text-muted small">
-    Recommended image size: 1200 × 675 pixels (16:9 ratio)
-  </div>
-</Container>
+              </Container>
             </div>
           </div>
         </div>

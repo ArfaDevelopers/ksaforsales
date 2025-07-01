@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
 import { verified, chat, rating } from "../../imagepath";
 import Header from "../../home/header";
@@ -8,6 +8,7 @@ import AutomativeCarousel from "./../../../components/home/ComercialsAds/Comerci
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 const Dashboard = () => {
   const [filter, setFilter] = useState("All Listing");
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const [userId, setUserId] = useState(null);
   const [Activelisting, setActivelisting] = useState(null);
   const [Message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const [userReviews1, setuserReviews1] = useState(null);
   const [chartFilter, setChartFilter] = useState("This Week"); // New state for chart filter
@@ -88,6 +90,15 @@ const Dashboard = () => {
     setChartData(weekDays);
   }, [visitorReviews, userId, chartFilter]);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   const handleChartFilterChange = (newFilter) => {
     setChartFilter(newFilter);
   };
@@ -497,7 +508,7 @@ const Dashboard = () => {
                 </Link>
               </li> */}
               <li>
-                <Link to="/login">
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <i className="fas fa-light fa-circle-arrow-left" />{" "}
                   <span>Logout</span>
                 </Link>

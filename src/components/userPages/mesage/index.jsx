@@ -22,7 +22,8 @@ import {
 import { FaPaperPlane } from "react-icons/fa";
 import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 export default function Message() {
   const [user, setUser] = useState(null);
@@ -31,7 +32,17 @@ export default function Message() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const dummy = useRef();
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(setUser);
     return () => unsub();
@@ -157,7 +168,7 @@ export default function Message() {
                 </Link>
               </li> */}
               <li>
-                <Link to="/login">
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <i className="fas fa-light fa-circle-arrow-left" />{" "}
                   <span>Logout</span>
                 </Link>

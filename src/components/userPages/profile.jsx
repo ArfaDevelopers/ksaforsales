@@ -25,6 +25,7 @@ import { auth } from "./../Firebase/FirebaseConfig";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { signOut } from "firebase/auth";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -35,7 +36,15 @@ const Profile = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -319,7 +328,7 @@ const Profile = () => {
                 </Link>
               </li> */}
               <li>
-                <Link to="/login">
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <i className="fas fa-light fa-circle-arrow-left" />{" "}
                   <span>Logout</span>
                 </Link>

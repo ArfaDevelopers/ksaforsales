@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Table } from "antd";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
@@ -21,12 +21,9 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import UserHeader from "../Userheader";
 import Header from "../../home/header";
-
+import { signOut } from "firebase/auth";
 import Footer from "../../home/footer/Footer";
-import {
-  ProfileAvatar02,
-  eye,
-} from "../../imagepath";
+import { ProfileAvatar02, eye } from "../../imagepath";
 
 const MySwal = withReactContent(Swal);
 
@@ -47,7 +44,17 @@ const Bookmarks = () => {
   const [view, setView] = useState(false);
   const [sortOrder, setSortOrder] = useState("Newest");
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   const categoryMapping = {
     "Sports & Game": "SPORTSGAMESComp",
     Electronics: "ELECTRONICS",
@@ -96,9 +103,10 @@ const Bookmarks = () => {
           const querySnapshot = await getDocs(collRef);
           const collData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
-            category: Object.keys(categoryMapping).find(
-              (key) => categoryMapping[key] === coll
-            ) || coll,
+            category:
+              Object.keys(categoryMapping).find(
+                (key) => categoryMapping[key] === coll
+              ) || coll,
             ...doc.data(),
           }));
           allData.push(...collData);
@@ -198,7 +206,9 @@ const Bookmarks = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         const filteredData = Object.fromEntries(
-          Object.entries(data).filter(([_, value]) => value !== "" && value !== null)
+          Object.entries(data).filter(
+            ([_, value]) => value !== "" && value !== null
+          )
         );
 
         setFormDataView(filteredData);
@@ -224,7 +234,9 @@ const Bookmarks = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         const filteredData = Object.fromEntries(
-          Object.entries(data).filter(([_, value]) => value !== "" && value !== null)
+          Object.entries(data).filter(
+            ([_, value]) => value !== "" && value !== null
+          )
         );
 
         setFormData(filteredData);
@@ -338,13 +350,8 @@ const Bookmarks = () => {
   return (
     <>
       <Header />
-      <div
-        className="dashboard-content"
-        style={{ marginTop: "6rem" }}
-      >
+      <div className="dashboard-content" style={{ marginTop: "6rem" }}>
         <div className="container">
-       
-
           <div className="">
             <ul className="dashborad-menus">
               <li>
@@ -369,7 +376,8 @@ const Bookmarks = () => {
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" />{" "}
+                  <span>Messages</span>
                 </Link>
               </li>
               {/* <li>
@@ -378,8 +386,9 @@ const Bookmarks = () => {
                 </Link>
               </li> */}
               <li>
-                <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
+                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                  <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -395,24 +404,24 @@ const Bookmarks = () => {
             <div className="row">
               {loading ? (
                 <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100vh",
-                }}
-              >
-                <img
-                  src={Loading1}
-                  alt="Loading..."
                   style={{
-                    width: "200px",
-                    height: "200px",
-                    animation: "spin 1s linear infinite", // Apply the spin animation
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
                   }}
-                />
-                <style>
-                  {`
+                >
+                  <img
+                    src={Loading1}
+                    alt="Loading..."
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      animation: "spin 1s linear infinite", // Apply the spin animation
+                    }}
+                  />
+                  <style>
+                    {`
                     @keyframes spin {
                       from {
                         transform: rotate(0deg);
@@ -422,46 +431,56 @@ const Bookmarks = () => {
                       }
                     }
                   `}
-                </style>
-              </div>
+                  </style>
+                </div>
               ) : paginatedData.length === 0 ? (
                 <div className="col-12 text-center">
                   <p>No bookmarked items found.</p>
                 </div>
               ) : (
                 paginatedData.map((car) => (
-                  <div className="col-lg-4 col-md-4 col-sm-6" key={`${car.id}-${car.category}`}>
-                    <div className="card aos aos-init aos-animate" data-aos="fade-up">
+                  <div
+                    className="col-lg-4 col-md-4 col-sm-6"
+                    key={`${car.id}-${car.category}`}
+                  >
+                    <div
+                      className="card aos aos-init aos-animate"
+                      data-aos="fade-up"
+                    >
                       <div className="blog-widget">
                         <div className="blog-img">
                           <Link
-    to={
-      car.isActive
-        ? "#"
-        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-          car.category.trim() === "Pet & Animals"
-              ? "PetAnimalsComp"
-              : car.category.trim() === "Automotive"
-              ? "AutomotiveComp"
-              : car.category.trim() === "Other"
-              ? "Education"
-              : car.category.trim() === "Services"
-              ? "TravelComp"
-              : car.category.trim() === "JobBoard"
-              ? "JobBoard"
-              : car.category.trim() === "FashionStyle"
-              ? "FashionStyle"
-              : car.category.trim() === "Electronics"
-              ? "ElectronicComp"
-              : car.category.trim() === "Home & Furnituer"
-              ? "HealthCareComp"
-              : car.category.trim() === "Sports & Game"
-              ? "SportGamesComp"
-              : car.category.trim() === "Real Estate"
-              ? "RealEstateComp"
-              : formatCategory(car.category.trim())
-          )}`
-    }                           >
+                            to={
+                              car.isActive
+                                ? "#"
+                                : `/Dynamic_Route?id=${
+                                    car.id
+                                  }&callingFrom=${formatCategory(
+                                    car.category.trim() === "Pet & Animals"
+                                      ? "PetAnimalsComp"
+                                      : car.category.trim() === "Automotive"
+                                      ? "AutomotiveComp"
+                                      : car.category.trim() === "Other"
+                                      ? "Education"
+                                      : car.category.trim() === "Services"
+                                      ? "TravelComp"
+                                      : car.category.trim() === "JobBoard"
+                                      ? "JobBoard"
+                                      : car.category.trim() === "FashionStyle"
+                                      ? "FashionStyle"
+                                      : car.category.trim() === "Electronics"
+                                      ? "ElectronicComp"
+                                      : car.category.trim() ===
+                                        "Home & Furnituer"
+                                      ? "HealthCareComp"
+                                      : car.category.trim() === "Sports & Game"
+                                      ? "SportGamesComp"
+                                      : car.category.trim() === "Real Estate"
+                                      ? "RealEstateComp"
+                                      : formatCategory(car.category.trim())
+                                  )}`
+                            }
+                          >
                             <img
                               style={{ height: "322px" }}
                               src={car.galleryImages?.[0] || "placeholder.jpg"}
@@ -477,7 +496,11 @@ const Bookmarks = () => {
                               to="#"
                               className="fav-icon"
                               onClick={() =>
-                                toggleBookmark(car.id, car.category, car.bookmarked)
+                                toggleBookmark(
+                                  car.id,
+                                  car.category,
+                                  car.bookmarked
+                                )
                               }
                             >
                               <FaHeart
@@ -497,113 +520,145 @@ const Bookmarks = () => {
                               </div>
                               <div className="blog-features">
                                 {/* <Link to="#"> */}
-                                  <span style={{fontSize:"20px",fontWeight:"bold"}}>
-                                    <i className="fa-regular fa-circle-stop" />{" "}
-                                    {car.displayName}
-                                  </span>
+                                <span
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  <i className="fa-regular fa-circle-stop" />{" "}
+                                  {car.displayName}
+                                </span>
                                 {/* </Link> */}
                               </div>
                               <div className="blog-author text-end">
                                 <span>
-                                <Link
-                           to={
-                            car.isActive
-                              ? "#"
-                              : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-                                car.category.trim() === "Pet & Animals"
-                                    ? "PetAnimalsComp"
-                                    : car.category.trim() === "Automotive"
-                                    ? "AutomotiveComp"
-                                    : car.category.trim() === "Other"
-                                    ? "Education"
-                                    : car.category.trim() === "Services"
-                                    ? "TravelComp"
-                                    : car.category.trim() === "JobBoard"
-                                    ? "JobBoard"
-                                    : car.category.trim() === "FashionStyle"
-                                    ? "FashionStyle"
-                                    : car.category.trim() === "Electronics"
-                                    ? "ElectronicComp"
-                                    : car.category.trim() === "Home & Furnituer"
-                                    ? "HealthCareComp"
-                                    : car.category.trim() === "Sports & Game"
-                                    ? "SportGamesComp"
-                                    : car.category.trim() === "Real Estate"
-                                    ? "RealEstateComp"
-                                    : formatCategory(car.category.trim())
-                                )}`
-                          } 
-                          >
-                                  <img src={eye} alt="views" />
-</Link>
+                                  <Link
+                                    to={
+                                      car.isActive
+                                        ? "#"
+                                        : `/Dynamic_Route?id=${
+                                            car.id
+                                          }&callingFrom=${formatCategory(
+                                            car.category.trim() ===
+                                              "Pet & Animals"
+                                              ? "PetAnimalsComp"
+                                              : car.category.trim() ===
+                                                "Automotive"
+                                              ? "AutomotiveComp"
+                                              : car.category.trim() === "Other"
+                                              ? "Education"
+                                              : car.category.trim() ===
+                                                "Services"
+                                              ? "TravelComp"
+                                              : car.category.trim() ===
+                                                "JobBoard"
+                                              ? "JobBoard"
+                                              : car.category.trim() ===
+                                                "FashionStyle"
+                                              ? "FashionStyle"
+                                              : car.category.trim() ===
+                                                "Electronics"
+                                              ? "ElectronicComp"
+                                              : car.category.trim() ===
+                                                "Home & Furnituer"
+                                              ? "HealthCareComp"
+                                              : car.category.trim() ===
+                                                "Sports & Game"
+                                              ? "SportGamesComp"
+                                              : car.category.trim() ===
+                                                "Real Estate"
+                                              ? "RealEstateComp"
+                                              : formatCategory(
+                                                  car.category.trim()
+                                                )
+                                          )}`
+                                    }
+                                  >
+                                    <img src={eye} alt="views" />
+                                  </Link>
                                   4000
                                 </span>
                               </div>
                             </div>
                             <h6>
-                              
                               <Link
-    to={
-      car.isActive
-        ? "#"
-        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-          car.category.trim() === "Pet & Animals"
-              ? "PetAnimalsComp"
-              : car.category.trim() === "Automotive"
-              ? "AutomotiveComp"
-              : car.category.trim() === "Other"
-              ? "Education"
-              : car.category.trim() === "Services"
-              ? "TravelComp"
-              : car.category.trim() === "JobBoard"
-              ? "JobBoard"
-              : car.category.trim() === "FashionStyle"
-              ? "FashionStyle"
-              : car.category.trim() === "Electronics"
-              ? "ElectronicComp"
-              : car.category.trim() === "Home & Furnituer"
-              ? "HealthCareComp"
-              : car.category.trim() === "Sports & Game"
-              ? "SportGamesComp"
-              : car.category.trim() === "Real Estate"
-              ? "RealEstateComp"
-              : formatCategory(car.category.trim())
-          )}`
-    }                               >
+                                to={
+                                  car.isActive
+                                    ? "#"
+                                    : `/Dynamic_Route?id=${
+                                        car.id
+                                      }&callingFrom=${formatCategory(
+                                        car.category.trim() === "Pet & Animals"
+                                          ? "PetAnimalsComp"
+                                          : car.category.trim() === "Automotive"
+                                          ? "AutomotiveComp"
+                                          : car.category.trim() === "Other"
+                                          ? "Education"
+                                          : car.category.trim() === "Services"
+                                          ? "TravelComp"
+                                          : car.category.trim() === "JobBoard"
+                                          ? "JobBoard"
+                                          : car.category.trim() ===
+                                            "FashionStyle"
+                                          ? "FashionStyle"
+                                          : car.category.trim() ===
+                                            "Electronics"
+                                          ? "ElectronicComp"
+                                          : car.category.trim() ===
+                                            "Home & Furnituer"
+                                          ? "HealthCareComp"
+                                          : car.category.trim() ===
+                                            "Sports & Game"
+                                          ? "SportGamesComp"
+                                          : car.category.trim() ===
+                                            "Real Estate"
+                                          ? "RealEstateComp"
+                                          : formatCategory(car.category.trim())
+                                      )}`
+                                }
+                              >
                                 {car.title}
                               </Link>
                             </h6>
                             <h6>
-                              
                               <Link
-    to={
-      car.isActive
-        ? "#"
-        : `/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-          car.category.trim() === "Pet & Animals"
-              ? "PetAnimalsComp"
-              : car.category.trim() === "Automotive"
-              ? "AutomotiveComp"
-              : car.category.trim() === "Other"
-              ? "Education"
-              : car.category.trim() === "Services"
-              ? "TravelComp"
-              : car.category.trim() === "JobBoard"
-              ? "JobBoard"
-              : car.category.trim() === "FashionStyle"
-              ? "FashionStyle"
-              : car.category.trim() === "Electronics"
-              ? "ElectronicComp"
-              : car.category.trim() === "Home & Furnituer"
-              ? "HealthCareComp"
-              : car.category.trim() === "Sports & Game"
-              ? "SportGamesComp"
-              : car.category.trim() === "Real Estate"
-              ? "RealEstateComp"
-              : formatCategory(car.category.trim())
-          )}`
-    }                               >
-                               Product Id : {car.id}
+                                to={
+                                  car.isActive
+                                    ? "#"
+                                    : `/Dynamic_Route?id=${
+                                        car.id
+                                      }&callingFrom=${formatCategory(
+                                        car.category.trim() === "Pet & Animals"
+                                          ? "PetAnimalsComp"
+                                          : car.category.trim() === "Automotive"
+                                          ? "AutomotiveComp"
+                                          : car.category.trim() === "Other"
+                                          ? "Education"
+                                          : car.category.trim() === "Services"
+                                          ? "TravelComp"
+                                          : car.category.trim() === "JobBoard"
+                                          ? "JobBoard"
+                                          : car.category.trim() ===
+                                            "FashionStyle"
+                                          ? "FashionStyle"
+                                          : car.category.trim() ===
+                                            "Electronics"
+                                          ? "ElectronicComp"
+                                          : car.category.trim() ===
+                                            "Home & Furnituer"
+                                          ? "HealthCareComp"
+                                          : car.category.trim() ===
+                                            "Sports & Game"
+                                          ? "SportGamesComp"
+                                          : car.category.trim() ===
+                                            "Real Estate"
+                                          ? "RealEstateComp"
+                                          : formatCategory(car.category.trim())
+                                      )}`
+                                }
+                              >
+                                Product Id : {car.id}
                               </Link>
                             </h6>
                             <div className="blog-location-details">
@@ -613,13 +668,17 @@ const Bookmarks = () => {
                               <div className="location-info">
                                 <i className="fa-solid fa-calendar-days" />{" "}
                                 {car.createdAt
-                                  ? new Date(car.createdAt.seconds * 1000).toLocaleDateString()
+                                  ? new Date(
+                                      car.createdAt.seconds * 1000
+                                    ).toLocaleDateString()
                                   : "N/A"}
                               </div>
                             </div>
                             <div className="amount-details">
                               <div className="amount">
-                                <span className="validrate">${car.Price || "N/A"}</span>
+                                <span className="validrate">
+                                  ${car.Price || "N/A"}
+                                </span>
                               </div>
                               {/* <div className="ratings">
                                 <span>4.7</span> (5)
@@ -638,12 +697,16 @@ const Bookmarks = () => {
               <nav>
                 <ul className="pagination">
                   <li
-                    className={`page-item previtem ${currentPage === 1 ? "disabled" : ""}`}
+                    className={`page-item previtem ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
                   >
                     <Link
                       className="page-link"
                       to="#"
-                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
                     >
                       <i className="fas fa-regular fa-arrow-left" /> Prev
                     </Link>
@@ -656,7 +719,9 @@ const Bookmarks = () => {
                         ].map((_, index) => (
                           <li
                             key={index}
-                            className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                            className={`page-item ${
+                              currentPage === index + 1 ? "active" : ""
+                            }`}
                           >
                             <Link
                               className="page-link"

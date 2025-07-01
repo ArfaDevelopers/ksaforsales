@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Mylistings from "../../json/Mylisting";
 import { Table } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import UserHeader from "../Userheader";
@@ -20,9 +20,11 @@ import {
 } from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import { signOut } from "firebase/auth";
 
 const MyListe = () => {
   const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
 
   const data = Mylistings.Mylistings;
   const dataSource = { data };
@@ -37,7 +39,7 @@ const MyListe = () => {
   const [editData, setEditData] = useState(null);
   const [formData, setFormData] = useState({});
   const [itemCategory, setItemCategory] = useState("");
-  console.log("itemCategory______",itemCategory)
+  console.log("itemCategory______", itemCategory);
   const [itemId, setItemId] = useState(null);
   const [FormDataView, setFormDataView] = useState({});
   const [view, setView] = useState(false);
@@ -46,7 +48,15 @@ const MyListe = () => {
   const [sortOrder, setSortOrder] = useState("Newest");
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -64,14 +74,14 @@ const MyListe = () => {
   }, []);
 
   const categoryMapping = {
-    "Automotive": "AutomotiveComp",
+    Automotive: "AutomotiveComp",
     "Sports&Game": "SPORTSGAMESComp",
-    "Electronics": "ELECTRONICS",
-    "FashionStyle": "FASHION",
-    "JobBoard": "JOBBOARD",
-    "RealEstate": "REALESTATECOMP",
-    "Other": "Education",
-    "Services": "TRAVEL",
+    Electronics: "ELECTRONICS",
+    FashionStyle: "FASHION",
+    JobBoard: "JOBBOARD",
+    RealEstate: "REALESTATECOMP",
+    Other: "Education",
+    Services: "TRAVEL",
     "Pet & Animals": "PETANIMALCOMP",
     "Home&Furnituer": "HEALTHCARE",
   };
@@ -125,7 +135,9 @@ const MyListe = () => {
         }));
 
         const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
-        const ELECTRONICSQuerySnapshot = await getDocs(ELECTRONICSCollectionRef);
+        const ELECTRONICSQuerySnapshot = await getDocs(
+          ELECTRONICSCollectionRef
+        );
         const ELECTRONICSData = ELECTRONICSQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -165,20 +177,28 @@ const MyListe = () => {
         }));
 
         const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
-        const MAGAZINESCOMPQuerySnapshot = await getDocs(MAGAZINESCOMPCollectionRef);
-        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
+        const MAGAZINESCOMPQuerySnapshot = await getDocs(
+          MAGAZINESCOMPCollectionRef
+        );
+        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map(
+          (doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            isActive: doc.data().isActive ?? false,
+          })
+        );
 
         const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
-        const PETANIMALCOMPQuerySnapshot = await getDocs(PETANIMALCOMPCollectionRef);
-        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
+        const PETANIMALCOMPQuerySnapshot = await getDocs(
+          PETANIMALCOMPCollectionRef
+        );
+        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map(
+          (doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            isActive: doc.data().isActive ?? false,
+          })
+        );
 
         const TRAVELCollectionRef = collection(db, "TRAVEL");
         const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
@@ -214,7 +234,9 @@ const MyListe = () => {
         }
 
         const userId = user.uid;
-        const filteredData = uniqueData.filter((item) => item.userId === userId);
+        const filteredData = uniqueData.filter(
+          (item) => item.userId === userId
+        );
         console.log(uniqueData, "+");
         console.log("Combined Data Count:", uniqueData.length);
         console.log("Filtered Data Count (by userId):", filteredData.length);
@@ -256,7 +278,10 @@ const MyListe = () => {
       return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
     });
 
-    console.log("Filtered Cars Count (after filter/search/sort):", result.length);
+    console.log(
+      "Filtered Cars Count (after filter/search/sort):",
+      result.length
+    );
     setFilteredCars(result);
   }, [cars, filter, searchQuery, sortOrder]);
 
@@ -294,11 +319,23 @@ const MyListe = () => {
       const tableName = categoryMapping[trimmedCategory];
 
       if (!tableName) {
-        console.error("Invalid category:", category, "Mapped table:", tableName);
+        console.error(
+          "Invalid category:",
+          category,
+          "Mapped table:",
+          tableName
+        );
         return;
       }
 
-      console.log("Category:", trimmedCategory, "Table Name:", tableName, "ID:", id);
+      console.log(
+        "Category:",
+        trimmedCategory,
+        "Table Name:",
+        tableName,
+        "ID:",
+        id
+      );
       const docRef = doc(db, tableName, id);
       const docSnap = await getDoc(docRef);
 
@@ -359,7 +396,9 @@ const MyListe = () => {
           const tableName = categoryMapping[category] || category;
           const docRef = doc(db, tableName, id);
           await deleteDoc(docRef);
-          console.log(`Deleted item with ID: ${id} from collection: ${tableName}`);
+          console.log(
+            `Deleted item with ID: ${id} from collection: ${tableName}`
+          );
         } catch (error) {
           console.error("Error deleting ad from Firestore:", error);
         }
@@ -380,15 +419,8 @@ const MyListe = () => {
 
     // Always show the first page
     items.push(
-      <li
-        key={1}
-        className={`page-item ${currentPage === 1 ? 'active' : ''}`}
-      >
-        <Link
-          className="page-link"
-          to="#"
-          onClick={() => setCurrentPage(1)}
-        >
+      <li key={1} className={`page-item ${currentPage === 1 ? "active" : ""}`}>
+        <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
           1
         </Link>
       </li>
@@ -423,7 +455,7 @@ const MyListe = () => {
         items.push(
           <li
             key={i}
-            className={`page-item ${currentPage === i ? 'active' : ''}`}
+            className={`page-item ${currentPage === i ? "active" : ""}`}
           >
             <Link
               className="page-link"
@@ -450,7 +482,9 @@ const MyListe = () => {
         items.push(
           <li
             key={totalPages}
-            className={`page-item ${currentPage === totalPages ? 'active' : ''}`}
+            className={`page-item ${
+              currentPage === totalPages ? "active" : ""
+            }`}
           >
             <Link
               className="page-link"
@@ -468,15 +502,15 @@ const MyListe = () => {
   };
   const toggleDisable = async (id, category, isActive) => {
     const categoryMapping1 = {
-      "Automotive": "Cars",
- 
+      Automotive: "Cars",
+
       "Sports&Game": "SPORTSGAMESComp",
-      "Electronics": "ELECTRONICS",
-      "FashionStyle": "FASHION",
-      "JobBoard": "JOBBOARD",
-      "RealEstate": "REALESTATECOMP",
-      "Other": "Education",
-      "Services": "TRAVEL",
+      Electronics: "ELECTRONICS",
+      FashionStyle: "FASHION",
+      JobBoard: "JOBBOARD",
+      RealEstate: "REALESTATECOMP",
+      Other: "Education",
+      Services: "TRAVEL",
       "Pet & Animals": "PETANIMALCOMP",
       "Home&Furnituer": "HEALTHCARE",
     };
@@ -485,26 +519,36 @@ const MyListe = () => {
       if (!id || !category || typeof isActive !== "boolean") {
         throw new Error("Invalid input parameters");
       }
-  
+
       console.log("toggleDisable called with:", { id, category, isActive });
-  
+
       // Map category to collection name
       const tableName = categoryMapping1[category] || category;
       console.log(`Updating document: ${tableName}/${id}`);
-  
+
       // Create document reference
-      const docRef = doc(db, tableName==="Pet&Animals"?"PETANIMALCOMP":tableName==="Automotive"?"Cars":tableName, id);
-  
+      const docRef = doc(
+        db,
+        tableName === "Pet&Animals"
+          ? "PETANIMALCOMP"
+          : tableName === "Automotive"
+          ? "Cars"
+          : tableName,
+        id
+      );
+
       // Check if document exists
       const docSnap = await getDoc(docRef);
       if (!docSnap.exists()) {
         throw new Error(`Document ${id} does not exist in ${tableName}`);
       }
-  
+
       // Update Firestore document
       await updateDoc(docRef, { isActive });
-      console.log(`Firestore updated: ${id} in ${tableName} to isActive=${isActive}`);
-  
+      console.log(
+        `Firestore updated: ${id} in ${tableName} to isActive=${isActive}`
+      );
+
       // Update local state
       setFilteredCars((prevData) => {
         const updated = prevData.map((item) =>
@@ -513,7 +557,7 @@ const MyListe = () => {
         console.log("Updated filteredCars:", updated);
         return updated;
       });
-  
+
       setCars((prevData) => {
         const updated = prevData.map((item) =>
           item.id === id ? { ...item, isActive } : item
@@ -521,8 +565,10 @@ const MyListe = () => {
         console.log("Updated cars:", updated);
         return updated;
       });
-  
-      console.log(`Toggled ${id} in ${category} to ${isActive ? "disabled" : "enabled"}`);
+
+      console.log(
+        `Toggled ${id} in ${category} to ${isActive ? "disabled" : "enabled"}`
+      );
     } catch (error) {
       console.error("Error toggling disable status:", error.message, error);
       MySwal.fire({
@@ -551,36 +597,36 @@ const MyListe = () => {
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
-          onClick={()=>{
-            console.log(record.category,'record.category_______')
-          }}
-to={
-  record.isActive
-    ? "#"
-    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-        record.category.trim() === "Pet & Animals"
-          ? "PetAnimalsComp"
-          : record.category.trim() === "Automotive"
-          ? "AutomotiveComp"
-          : record.category.trim() === "Other"
-          ? "Education"
-          : record.category.trim() === "Services"
-          ? "TravelComp"
-          : record.category.trim() === "JobBoard"
-          ? "JobBoard"
-          : record.category.trim() === "FashionStyle"
-          ? "FashionStyle"
-          : record.category.trim() === "Electronics"
-          ? "ElectronicComp"
-          : record.category.trim() === "Home & Furnituer"
-          ? "HealthCareComp"
-          : record.category.trim() === "Sports & Game"
-          ? "SportGamesComp"
-          : record.category.trim() === "Real Estate"
-          ? "RealEstateComp"
-          : formatCategory(record.category.trim())
-      )}`
-}
+            onClick={() => {
+              console.log(record.category, "record.category_______");
+            }}
+            to={
+              record.isActive
+                ? "#"
+                : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+                    record.category.trim() === "Pet & Animals"
+                      ? "PetAnimalsComp"
+                      : record.category.trim() === "Automotive"
+                      ? "AutomotiveComp"
+                      : record.category.trim() === "Other"
+                      ? "Education"
+                      : record.category.trim() === "Services"
+                      ? "TravelComp"
+                      : record.category.trim() === "JobBoard"
+                      ? "JobBoard"
+                      : record.category.trim() === "FashionStyle"
+                      ? "FashionStyle"
+                      : record.category.trim() === "Electronics"
+                      ? "ElectronicComp"
+                      : record.category.trim() === "Home & Furnituer"
+                      ? "HealthCareComp"
+                      : record.category.trim() === "Sports & Game"
+                      ? "SportGamesComp"
+                      : record.category.trim() === "Real Estate"
+                      ? "RealEstateComp"
+                      : formatCategory(record.category.trim())
+                  )}`
+            }
             style={{
               pointerEvents: record.isActive ? "none" : "auto",
               opacity: record.isActive ? 0.5 : 1,
@@ -602,7 +648,8 @@ to={
         </div>
       ),
       sorter: (a, b) =>
-        (a.galleryImages?.[0]?.length || 0) - (b.galleryImages?.[0]?.length || 0),
+        (a.galleryImages?.[0]?.length || 0) -
+        (b.galleryImages?.[0]?.length || 0),
     },
     {
       title: "Details",
@@ -611,33 +658,36 @@ to={
         <>
           <h6>
             <Link
-to={
-  record.isActive
-    ? "#"
-    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-        record.category.trim() === "Pet & Animals"
-          ? "PetAnimalsComp"
-          : record.category.trim() === "Automotive"
-          ? "AutomotiveComp"
-          : record.category.trim() === "Other"
-          ? "Education"
-          : record.category.trim() === "Services"
-          ? "TravelComp"
-          : record.category.trim() === "JobBoard"
-          ? "JobBoard"
-          : record.category.trim() === "FashionStyle"
-          ? "FashionStyle"
-          : record.category.trim() === "Electronics"
-          ? "ElectronicComp"
-          : record.category.trim() === "Home & Furnituer"
-          ? "HealthCareComp"
-          : record.category.trim() === "Sports & Game"
-          ? "SportGamesComp"
-          : record.category.trim() === "Real Estate"
-          ? "RealEstateComp"
-          : formatCategory(record.category.trim())
-      )}`
-}              style={{
+              to={
+                record.isActive
+                  ? "#"
+                  : `/Dynamic_Route?id=${
+                      record.id
+                    }&callingFrom=${formatCategory(
+                      record.category.trim() === "Pet & Animals"
+                        ? "PetAnimalsComp"
+                        : record.category.trim() === "Automotive"
+                        ? "AutomotiveComp"
+                        : record.category.trim() === "Other"
+                        ? "Education"
+                        : record.category.trim() === "Services"
+                        ? "TravelComp"
+                        : record.category.trim() === "JobBoard"
+                        ? "JobBoard"
+                        : record.category.trim() === "FashionStyle"
+                        ? "FashionStyle"
+                        : record.category.trim() === "Electronics"
+                        ? "ElectronicComp"
+                        : record.category.trim() === "Home & Furnituer"
+                        ? "HealthCareComp"
+                        : record.category.trim() === "Sports & Game"
+                        ? "SportGamesComp"
+                        : record.category.trim() === "Real Estate"
+                        ? "RealEstateComp"
+                        : formatCategory(record.category.trim())
+                    )}`
+              }
+              style={{
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
                 cursor: record.isActive ? "not-allowed" : "pointer",
@@ -648,40 +698,44 @@ to={
           </h6>
           <div className="listingtable-rate">
             <Link
-to={
-  record.isActive
-    ? "#"
-    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-        record.category.trim() === "Pet & Animals"
-          ? "PetAnimalsComp"
-          : record.category.trim() === "Automotive"
-          ? "AutomotiveComp"
-          : record.category.trim() === "Other"
-          ? "Education"
-          : record.category.trim() === "Services"
-          ? "TravelComp"
-          : record.category.trim() === "JobBoard"
-          ? "JobBoard"
-          : record.category.trim() === "FashionStyle"
-          ? "FashionStyle"
-          : record.category.trim() === "Electronics"
-          ? "ElectronicComp"
-          : record.category.trim() === "Home & Furnituer"
-          ? "HealthCareComp"
-          : record.category.trim() === "Sports & Game"
-          ? "SportGamesComp"
-          : record.category.trim() === "Real Estate"
-          ? "RealEstateComp"
-          : formatCategory(record.category.trim())
-      )}`
-}              className="cat-icon"
+              to={
+                record.isActive
+                  ? "#"
+                  : `/Dynamic_Route?id=${
+                      record.id
+                    }&callingFrom=${formatCategory(
+                      record.category.trim() === "Pet & Animals"
+                        ? "PetAnimalsComp"
+                        : record.category.trim() === "Automotive"
+                        ? "AutomotiveComp"
+                        : record.category.trim() === "Other"
+                        ? "Education"
+                        : record.category.trim() === "Services"
+                        ? "TravelComp"
+                        : record.category.trim() === "JobBoard"
+                        ? "JobBoard"
+                        : record.category.trim() === "FashionStyle"
+                        ? "FashionStyle"
+                        : record.category.trim() === "Electronics"
+                        ? "ElectronicComp"
+                        : record.category.trim() === "Home & Furnituer"
+                        ? "HealthCareComp"
+                        : record.category.trim() === "Sports & Game"
+                        ? "SportGamesComp"
+                        : record.category.trim() === "Real Estate"
+                        ? "RealEstateComp"
+                        : formatCategory(record.category.trim())
+                    )}`
+              }
+              className="cat-icon"
               style={{
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
                 cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
-              <i className="fa-regular fa-circle-stop" /> {formatCategory(record.category)}
+              <i className="fa-regular fa-circle-stop" />{" "}
+              {formatCategory(record.category)}
             </Link>{" "}
             <span className="discount-amt" style={{ color: "#2d4495" }}>
               ${record.Price}
@@ -698,32 +752,39 @@ to={
       render: (text, record) => <span className={record.bg}>{"Active"}</span>,
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
     },
-    ...(showInvoiceColumn ? [{
-      title: "Invoice",
-      dataIndex: "invoiceNumber",
-      render: (text, record) => (
-        <div 
-          className="invoice-cell"
-          onClick={() => {
-            if (!record.isActive) {
-              setSelectedInvoice(record);
-              setShowInvoiceModal(true);
-            }
-          }}
-          style={{
-            cursor: record.isActive ? "not-allowed" : "pointer",
-            opacity: record.isActive ? 0.5 : 1,
-          }}
-        >
-          <div>
-            <div><strong>Invoice #{text || 'N/A'}</strong></div>
-            <div className="invoice-date">{record.invoiceDate}</div>
-            <div className="invoice-status">{record.invoiceStatus}</div>
-          </div>
-        </div>
-      ),
-      sorter: (a, b) => (a.invoiceNumber?.length || 0) - (b.invoiceNumber?.length || 0),
-    }] : []),
+    ...(showInvoiceColumn
+      ? [
+          {
+            title: "Invoice",
+            dataIndex: "invoiceNumber",
+            render: (text, record) => (
+              <div
+                className="invoice-cell"
+                onClick={() => {
+                  if (!record.isActive) {
+                    setSelectedInvoice(record);
+                    setShowInvoiceModal(true);
+                  }
+                }}
+                style={{
+                  cursor: record.isActive ? "not-allowed" : "pointer",
+                  opacity: record.isActive ? 0.5 : 1,
+                }}
+              >
+                <div>
+                  <div>
+                    <strong>Invoice #{text || "N/A"}</strong>
+                  </div>
+                  <div className="invoice-date">{record.invoiceDate}</div>
+                  <div className="invoice-status">{record.invoiceStatus}</div>
+                </div>
+              </div>
+            ),
+            sorter: (a, b) =>
+              (a.invoiceNumber?.length || 0) - (b.invoiceNumber?.length || 0),
+          },
+        ]
+      : []),
     {
       title: "Views",
       dataIndex: "numbers",
@@ -743,37 +804,38 @@ to={
           }}
         >
           <Link
-to={
-  record.isActive
-    ? "#"
-    : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-        record.category.trim() === "Pet & Animals"
-          ? "PetAnimalsComp"
-          : record.category.trim() === "Automotive"
-          ? "AutomotiveComp"
-          : record.category.trim() === "Other"
-          ? "Education"
-          : record.category.trim() === "Services"
-          ? "TravelComp"
-          : record.category.trim() === "JobBoard"
-          ? "JobBoard"
-          : record.category.trim() === "FashionStyle"
-          ? "FashionStyle"
-          : record.category.trim() === "Electronics"
-          ? "ElectronicComp"
-          : record.category.trim() === "Home & Furnituer"
-          ? "HealthCareComp"
-          : record.category.trim() === "Sports & Game"
-          ? "SportGamesComp"
-          : record.category.trim() === "Real Estate"
-          ? "RealEstateComp"
-          : formatCategory(record.category.trim())
-      )}`
-}            className="action-btn btn-view"
+            to={
+              record.isActive
+                ? "#"
+                : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+                    record.category.trim() === "Pet & Animals"
+                      ? "PetAnimalsComp"
+                      : record.category.trim() === "Automotive"
+                      ? "AutomotiveComp"
+                      : record.category.trim() === "Other"
+                      ? "Education"
+                      : record.category.trim() === "Services"
+                      ? "TravelComp"
+                      : record.category.trim() === "JobBoard"
+                      ? "JobBoard"
+                      : record.category.trim() === "FashionStyle"
+                      ? "FashionStyle"
+                      : record.category.trim() === "Electronics"
+                      ? "ElectronicComp"
+                      : record.category.trim() === "Home & Furnituer"
+                      ? "HealthCareComp"
+                      : record.category.trim() === "Sports & Game"
+                      ? "SportGamesComp"
+                      : record.category.trim() === "Real Estate"
+                      ? "RealEstateComp"
+                      : formatCategory(record.category.trim())
+                  )}`
+            }
+            className="action-btn btn-view"
             onClick={() => {
               if (!record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
-               }
+              }
             }}
             style={{
               display: "inline-flex",
@@ -786,7 +848,13 @@ to={
             <i className="feather-eye" />
           </Link>
           <Link
-            to={record.isActive ? "#" : `/add-listing?id=${record.id}&callingFrom=${formatCategory(record.category)}`}
+            to={
+              record.isActive
+                ? "#"
+                : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
+                    record.category
+                  )}`
+            }
             className="action-btn btn-edit"
             style={{
               display: "inline-flex",
@@ -799,23 +867,32 @@ to={
             <i className="feather-edit-3" />
           </Link>
           <button
-            className={`action-btn ${record.isActive ? 'btn-disabled' : 'btn-enabled'}`}
-            onClick={() =>{ toggleDisable(record.id, formatCategory(record.category), !record.isActive)
-            console.log(record,'record______')
+            className={`action-btn ${
+              record.isActive ? "btn-disabled" : "btn-enabled"
+            }`}
+            onClick={() => {
+              toggleDisable(
+                record.id,
+                formatCategory(record.category),
+                !record.isActive
+              );
+              console.log(record, "record______");
             }}
-            style={{ 
-              display: "inline-flex", 
-              alignItems: "center", 
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
               backgroundColor: record.isActive ? "#cccccc" : "#2d4495",
               color: "#ffffff",
               cursor: "pointer",
               border: "none",
               padding: "5px 10px",
-              borderRadius: "4px"
+              borderRadius: "4px",
             }}
             title={record.isActive ? "Enable" : "Disable"}
           >
-            <i className={record.isActive ? "feather-lock" : "feather-unlock"} />
+            <i
+              className={record.isActive ? "feather-lock" : "feather-unlock"}
+            />
           </button>
         </div>
       ),
@@ -853,7 +930,9 @@ to={
           <div className="container p-3">
             <div className="row g-3">
               {Object.entries(FormDataView).map(([key, value]) =>
-                value && typeof value !== "object" && key !== "galleryImages" ? (
+                value &&
+                typeof value !== "object" &&
+                key !== "galleryImages" ? (
                   <div key={key} className="col-md-6">
                     <strong className="text-dark">
                       {key.replace(/([A-Z])/g, " $1").trim()}:
@@ -863,22 +942,23 @@ to={
                 ) : null
               )}
             </div>
-            {FormDataView.galleryImages && FormDataView.galleryImages.length > 0 && (
-              <div className="mt-4">
-                <strong className="text-dark">Gallery Images:</strong>
-                <div className="d-flex flex-wrap gap-3 mt-3">
-                  {FormDataView.galleryImages.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Gallery ${index}`}
-                      className="img-thumbnail rounded"
-                      style={{ width: 100, height: 100, objectFit: "cover" }}
-                    />
-                  ))}
+            {FormDataView.galleryImages &&
+              FormDataView.galleryImages.length > 0 && (
+                <div className="mt-4">
+                  <strong className="text-dark">Gallery Images:</strong>
+                  <div className="d-flex flex-wrap gap-3 mt-3">
+                    {FormDataView.galleryImages.map((img, index) => (
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`Gallery ${index}`}
+                        className="img-thumbnail rounded"
+                        style={{ width: 100, height: 100, objectFit: "cover" }}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -890,7 +970,7 @@ to={
       <Modal
         show={showInvoiceModal}
         onHide={() => setShowInvoiceModal(false)}
-        style={{marginTop:"70px"}}
+        style={{ marginTop: "70px" }}
         size="lg"
         centered
       >
@@ -901,18 +981,28 @@ to={
           {selectedInvoice && (
             <div className="invoice-detail">
               <h2>Invoice #{selectedInvoice.invoiceNumber}</h2>
-              <p><strong>Date:</strong> {selectedInvoice.invoiceDate}</p>
-              <p><strong>Status:</strong> {selectedInvoice.invoiceStatus}</p>
+              <p>
+                <strong>Date:</strong> {selectedInvoice.invoiceDate}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedInvoice.invoiceStatus}
+              </p>
               <hr />
               <h3>Billing To:</h3>
               <p>
-                {selectedInvoice.billingName}<br />
-                Email: {selectedInvoice.billingEmail}<br />
+                {selectedInvoice.billingName}
+                <br />
+                Email: {selectedInvoice.billingEmail}
+                <br />
                 Phone: {selectedInvoice.billingPhone}
               </p>
               <h3>Ad Details:</h3>
-              <p><strong>Title:</strong> {selectedInvoice.adTitle}</p>
-              <p><strong>Ad ID:</strong> {selectedInvoice.adId}</p>
+              <p>
+                <strong>Title:</strong> {selectedInvoice.adTitle}
+              </p>
+              <p>
+                <strong>Ad ID:</strong> {selectedInvoice.adId}
+              </p>
               <h3>Payment Details:</h3>
               <table className="invoice-items">
                 <tr>
@@ -926,8 +1016,12 @@ to={
                   </tr>
                 ))}
                 <tr>
-                  <td><strong>Total</strong></td>
-                  <td><strong>{selectedInvoice.totalAmount}</strong></td>
+                  <td>
+                    <strong>Total</strong>
+                  </td>
+                  <td>
+                    <strong>{selectedInvoice.totalAmount}</strong>
+                  </td>
                 </tr>
               </table>
               <hr />
@@ -951,7 +1045,9 @@ to={
               <Form>
                 {Object.keys(formData).map((key) => (
                   <Form.Group className="mt-3" key={key}>
-                    <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
+                    <Form.Label>
+                      {key.replace(/([A-Z])/g, " $1").trim()}
+                    </Form.Label>
                     <Form.Control
                       type="text"
                       name={key}
@@ -968,7 +1064,9 @@ to={
             <div className="container">
               <Row>
                 {Object.entries(formData).map(([key, value]) =>
-                  value && typeof value !== "object" && key !== "galleryImages" ? (
+                  value &&
+                  typeof value !== "object" &&
+                  key !== "galleryImages" ? (
                     <Col md={6} key={key} className="mb-3">
                       <strong className="text-primary">
                         {key.replace(/([A-Z])/g, " $1").trim()}:
@@ -1021,7 +1119,6 @@ to={
 
       <div className="dashboard-content" style={{ marginTop: "6rem" }}>
         <div className="container">
-
           <div className="">
             <ul className="dashborad-menus">
               <li>
@@ -1046,7 +1143,8 @@ to={
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
+                  <i className="fa-solid fa-comment-dots" />{" "}
+                  <span>Messages</span>
                 </Link>
               </li>
               {/* <li>
@@ -1055,8 +1153,9 @@ to={
                 </Link>
               </li> */}
               <li>
-                <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" /> <span>Logout</span>
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
+                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                  <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -1064,148 +1163,160 @@ to={
 
           <div className="dash-listingcontent dashboard-info">
             <div className="dash-cards card">
-            <div
-      style={{
-        display: 'flex',
-        justifyContent: isMobile ? 'flex-start' : 'space-between',
-        alignItems: isMobile ? 'flex-start' : 'center',
-        padding: isMobile ? '10px' : '15px',
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #e0e0e0',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? '10px' : '0',
-      }}
-    >
-      <h4
-        style={{
-          margin: '0',
-          fontSize: isMobile ? '18px' : '20px',
-          fontWeight: '600',
-        }}
-      >
-        My Listings
-      </h4>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: isMobile ? '5px' : '10px',
-          flexDirection: isMobile ? 'row' : 'row', // Keep row for both mobile and desktop
-          width: isMobile ? '100%' : 'auto',
-          justifyContent: isMobile ? 'space-between' : 'flex-start',
-        }}
-      >
-        <div style={{ position: 'relative', width: isMobile ? '50%' : 'auto' }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            <li style={{ position: 'relative' }}>
-              <Link
-                to="#"
-                className="dropdown-toggle pageviews-link"
-                data-bs-toggle="dropdown"
-                aria-expanded={change}
-                onClick={() => {
-                  setChange(!change);
-                  console.log('Change:', change);
-                }}
-                style={{
-                  textDecoration: 'none',
-                  color: '#000',
-                  padding: isMobile ? '6px 10px' : '8px 12px',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  fontSize: isMobile ? '12px' : '14px',
-                  width: isMobile ? '100%' : 'auto',
-                  justifyContent: isMobile ? 'center' : 'flex-start',
-                  textAlign: 'center',
-                }}
-              >
-                <span>{filter}</span>
-              </Link>
               <div
-                className={`dropdown-menu dropdown-menu-end ${change ? 'show' : ''}`}
                 style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 5px)',
-                  left: isMobile ? '0' : 'auto',
-                  right: isMobile ? '0' : '0',
-                  backgroundColor: '#fff',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                  borderRadius: '4px',
-                  minWidth: isMobile ? '120px' : '150px',
-                  zIndex: 1000,
+                  display: "flex",
+                  justifyContent: isMobile ? "flex-start" : "space-between",
+                  alignItems: isMobile ? "flex-start" : "center",
+                  padding: isMobile ? "10px" : "15px",
+                  backgroundColor: "#fff",
+                  borderBottom: "1px solid #e0e0e0",
+                  flexDirection: isMobile ? "column" : "row",
+                  gap: isMobile ? "10px" : "0",
                 }}
               >
-                <Link
-                  className="dropdown-item"
-                  to="#"
-                  onClick={() => handleFilterChange('All Listing')}
+                <h4
                   style={{
-                    display: 'block',
-                    padding: isMobile ? '6px 12px' : '8px 16px',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: isMobile ? '12px' : '14px',
+                    margin: "0",
+                    fontSize: isMobile ? "18px" : "20px",
+                    fontWeight: "600",
                   }}
                 >
-                  All Listing
-                </Link>
-                <Link
-                  className="dropdown-item"
-                  to="#"
-                  onClick={() => handleFilterChange('Featured Ads')}
+                  My Listings
+                </h4>
+                <div
                   style={{
-                    display: 'block',
-                    padding: isMobile ? '6px 12px' : '8px 16px',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: isMobile ? '12px' : '14px',
+                    display: "flex",
+                    alignItems: "center",
+                    gap: isMobile ? "5px" : "10px",
+                    flexDirection: isMobile ? "row" : "row", // Keep row for both mobile and desktop
+                    width: isMobile ? "100%" : "auto",
+                    justifyContent: isMobile ? "space-between" : "flex-start",
                   }}
                 >
-                  Featured Ads
-                </Link>
-                <Link
-                  className="dropdown-item"
-                  to="#"
-                  onClick={() => handleFilterChange('Not Featured Ads')}
-                  style={{
-                    display: 'block',
-                    padding: isMobile ? '6px 12px' : '8px 16px',
-                    textDecoration: 'none',
-                    color: '#000',
-                    fontSize: isMobile ? '12px' : '14px',
-                  }}
-                >
-                  Not Featured Ads
-                </Link>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: isMobile ? "50%" : "auto",
+                    }}
+                  >
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                      <li style={{ position: "relative" }}>
+                        <Link
+                          to="#"
+                          className="dropdown-toggle pageviews-link"
+                          data-bs-toggle="dropdown"
+                          aria-expanded={change}
+                          onClick={() => {
+                            setChange(!change);
+                            console.log("Change:", change);
+                          }}
+                          style={{
+                            textDecoration: "none",
+                            color: "#000",
+                            padding: isMobile ? "6px 10px" : "8px 12px",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            fontSize: isMobile ? "12px" : "14px",
+                            width: isMobile ? "100%" : "auto",
+                            justifyContent: isMobile ? "center" : "flex-start",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span>{filter}</span>
+                        </Link>
+                        <div
+                          className={`dropdown-menu dropdown-menu-end ${
+                            change ? "show" : ""
+                          }`}
+                          style={{
+                            position: "absolute",
+                            top: "calc(100% + 5px)",
+                            left: isMobile ? "0" : "auto",
+                            right: isMobile ? "0" : "0",
+                            backgroundColor: "#fff",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                            borderRadius: "4px",
+                            minWidth: isMobile ? "120px" : "150px",
+                            zIndex: 1000,
+                          }}
+                        >
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => handleFilterChange("All Listing")}
+                            style={{
+                              display: "block",
+                              padding: isMobile ? "6px 12px" : "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                              fontSize: isMobile ? "12px" : "14px",
+                            }}
+                          >
+                            All Listing
+                          </Link>
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() => handleFilterChange("Featured Ads")}
+                            style={{
+                              display: "block",
+                              padding: isMobile ? "6px 12px" : "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                              fontSize: isMobile ? "12px" : "14px",
+                            }}
+                          >
+                            Featured Ads
+                          </Link>
+                          <Link
+                            className="dropdown-item"
+                            to="#"
+                            onClick={() =>
+                              handleFilterChange("Not Featured Ads")
+                            }
+                            style={{
+                              display: "block",
+                              padding: isMobile ? "6px 12px" : "8px 16px",
+                              textDecoration: "none",
+                              color: "#000",
+                              fontSize: isMobile ? "12px" : "14px",
+                            }}
+                          >
+                            Not Featured Ads
+                          </Link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <Link
+                    className="nav-link header-login add-listing"
+                    to="/add-listing"
+                    style={{
+                      backgroundColor: "#2d4495",
+                      color: "#fff",
+                      padding: isMobile ? "6px 10px" : "8px 12px",
+                      borderRadius: "4px",
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontSize: isMobile ? "12px" : "14px",
+                      width: isMobile ? "50%" : "auto",
+                      justifyContent: isMobile ? "center" : "flex-start",
+                      textAlign: "center",
+                    }}
+                  >
+                    <i
+                      className="fa-solid fa-plus"
+                      style={{ fontSize: isMobile ? "12px" : "14px" }}
+                    />
+                    Add Listing
+                  </Link>
+                </div>
               </div>
-            </li>
-          </ul>
-        </div>
-        <Link
-          className="nav-link header-login add-listing"
-          to="/add-listing"
-          style={{
-            backgroundColor: '#2d4495',
-            color: '#fff',
-            padding: isMobile ? '6px 10px' : '8px 12px',
-            borderRadius: '4px',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '5px',
-            fontSize: isMobile ? '12px' : '14px',
-            width: isMobile ? '50%' : 'auto',
-            justifyContent: isMobile ? 'center' : 'flex-start',
-            textAlign: 'center',
-          }}
-        >
-          <i className="fa-solid fa-plus" style={{ fontSize: isMobile ? '12px' : '14px' }} />
-          Add Listing
-        </Link>
-      </div>
-    </div>
               <div className="card-body">
                 <div className="listing-search">
                   <div className="filter-content form-group">
@@ -1279,40 +1390,48 @@ to={
                   )}
                 </div>
                 <div className="blog-pagination">
-      <nav>
-        <ul className="pagination">
-          <li
-            className={`page-item previtem ${currentPage === 1 ? 'disabled' : ''}`}
-          >
-            <Link
-              className="page-link"
-              to="#"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              <i className="fas fa-regular fa-arrow-left" /> Prev
-            </Link>
-          </li>
-          <li className="justify-content-center pagination-center">
-            <div className="pagelink">
-              <ul>{renderPaginationItems()}</ul>
-            </div>
-          </li>
-          <li
-            className={`page-item nextlink ${currentPage === totalPages ? 'disabled' : ''}`}
-          >
-            <Link
-              className="page-link"
-              to="#"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-            >
-              Next <i className="fas fa-regular fa-arrow-right" />
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+                  <nav>
+                    <ul className="pagination">
+                      <li
+                        className={`page-item previtem ${
+                          currentPage === 1 ? "disabled" : ""
+                        }`}
+                      >
+                        <Link
+                          className="page-link"
+                          to="#"
+                          onClick={() =>
+                            setCurrentPage((prev) => Math.max(prev - 1, 1))
+                          }
+                        >
+                          <i className="fas fa-regular fa-arrow-left" /> Prev
+                        </Link>
+                      </li>
+                      <li className="justify-content-center pagination-center">
+                        <div className="pagelink">
+                          <ul>{renderPaginationItems()}</ul>
+                        </div>
+                      </li>
+                      <li
+                        className={`page-item nextlink ${
+                          currentPage === totalPages ? "disabled" : ""
+                        }`}
+                      >
+                        <Link
+                          className="page-link"
+                          to="#"
+                          onClick={() =>
+                            setCurrentPage((prev) =>
+                              Math.min(prev + 1, totalPages)
+                            )
+                          }
+                        >
+                          Next <i className="fas fa-regular fa-arrow-right" />
+                        </Link>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>

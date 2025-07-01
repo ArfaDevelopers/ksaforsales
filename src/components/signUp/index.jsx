@@ -47,7 +47,7 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  const fullPhoneNumber = `+92${phoneNumber}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
