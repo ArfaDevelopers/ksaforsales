@@ -3626,10 +3626,14 @@ const AutomotiveComp = () => {
                                 setSelected(null); // clear selected value on change
                                 setShowList(true);
                               }}
-                              onFocus={() => setShowList(true)}
+                              onFocus={() => {
+                                setQuery(""); // Clear previous value when clicked again
+                                setSelected(null); // Optional, clear any saved state
+                                setShowList(true);
+                              }}
                               onBlur={() =>
                                 setTimeout(() => setShowList(false), 150)
-                              } // slight delay for selection
+                              } // delay to allow click
                             />
                             {showList && filteredBrands.length > 0 && (
                               <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
@@ -3637,7 +3641,7 @@ const AutomotiveComp = () => {
                                   <li
                                     key={brand}
                                     className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                                    onMouseDown={() => handleSelect(brand)} // use onMouseDown to avoid blur race condition
+                                    onMouseDown={() => handleSelect(brand)} // avoids onBlur issue
                                   >
                                     {brand}
                                   </li>
@@ -3645,13 +3649,14 @@ const AutomotiveComp = () => {
                               </ul>
                             )}
                           </div>
+
                           {selected === "Toyota" && (
                             <div className="mt-4">
                               <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
                               <select
-                                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="form-control"
                                 onChange={(e) =>
                                   setModel((prev) => ({
                                     ...prev,
@@ -3675,7 +3680,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3700,7 +3705,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3725,7 +3730,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3751,7 +3756,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3776,7 +3781,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3802,7 +3807,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3828,7 +3833,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3854,7 +3859,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3880,7 +3885,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3906,7 +3911,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3932,7 +3937,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3960,7 +3965,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -3986,7 +3991,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4012,7 +4017,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4040,7 +4045,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4066,7 +4071,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4094,7 +4099,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4121,7 +4126,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4147,7 +4152,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4174,7 +4179,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4200,7 +4205,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4224,7 +4229,7 @@ const AutomotiveComp = () => {
 
                                       <div className="mt-0">
                                         <select
-                                          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          className="form-control"
                                           onChange={(e) =>
                                             setModel((prev) => ({
                                               ...prev,
@@ -4257,7 +4262,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4283,7 +4288,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4311,7 +4316,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4339,7 +4344,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4365,7 +4370,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4391,7 +4396,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4417,7 +4422,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4443,7 +4448,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4469,7 +4474,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4495,7 +4500,7 @@ const AutomotiveComp = () => {
 
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4521,7 +4526,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4547,7 +4552,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4573,7 +4578,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4599,7 +4604,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4625,7 +4630,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4653,7 +4658,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4681,7 +4686,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4707,7 +4712,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4733,7 +4738,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4759,7 +4764,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4785,7 +4790,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4812,7 +4817,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4838,7 +4843,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4864,7 +4869,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4892,7 +4897,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4920,7 +4925,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4946,7 +4951,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4972,7 +4977,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -4998,7 +5003,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5026,7 +5031,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5052,7 +5057,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5078,7 +5083,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5106,7 +5111,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5132,7 +5137,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5158,7 +5163,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5184,7 +5189,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5212,7 +5217,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5238,7 +5243,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5264,7 +5269,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5292,7 +5297,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5318,7 +5323,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5344,7 +5349,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5372,7 +5377,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,
@@ -5398,7 +5403,7 @@ const AutomotiveComp = () => {
                               </label>
                               <div className="mt-0">
                                 <select
-                                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="form-control"
                                   onChange={(e) =>
                                     setModel((prev) => ({
                                       ...prev,

@@ -6184,26 +6184,29 @@ const AddLisiting = () => {
                               </div>
                             </div>
                             <div className="card-body">
-                              <div className="form-group">
-                                {" "}
+                              <div className="form-group relative">
                                 <div className="card-header">
                                   <h4>Make</h4>
                                 </div>
                                 <input
                                   className="form-control pass-input"
                                   type="text"
-                                  // className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                   placeholder="Select car brand"
                                   value={query}
                                   onChange={(e) => {
                                     setQuery(e.target.value);
-                                    setSelected(null); // clear selected value on change
+                                    setSelected(null);
                                     setShowList(true);
                                   }}
-                                  onFocus={() => setShowList(true)}
+                                  onFocus={() => {
+                                    // Clear previously selected value when clicking again
+                                    setQuery("");
+                                    setSelected(null);
+                                    setShowList(true);
+                                  }}
                                   onBlur={() =>
                                     setTimeout(() => setShowList(false), 150)
-                                  } // slight delay for selection
+                                  } // slight delay
                                 />
                                 {showList && filteredBrands.length > 0 && (
                                   <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
@@ -6211,7 +6214,7 @@ const AddLisiting = () => {
                                       <li
                                         key={brand}
                                         className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                                        onMouseDown={() => handleSelect(brand)} // use onMouseDown to avoid blur race condition
+                                        onMouseDown={() => handleSelect(brand)}
                                       >
                                         {brand}
                                       </li>
@@ -6219,6 +6222,7 @@ const AddLisiting = () => {
                                   </ul>
                                 )}
                               </div>
+
                               {selected === "Toyota" && (
                                 <div className="mt-4">
                                   <div className="card-header">
@@ -6274,7 +6278,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6297,7 +6301,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6320,7 +6324,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6344,7 +6348,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6367,7 +6371,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6390,7 +6394,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6413,7 +6417,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6436,7 +6440,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6459,7 +6463,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6482,7 +6486,7 @@ const AddLisiting = () => {
                                     Brand
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6507,7 +6511,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6530,7 +6534,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6553,7 +6557,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6578,7 +6582,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6601,7 +6605,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6626,7 +6630,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6649,7 +6653,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6674,7 +6678,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6697,7 +6701,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6722,7 +6726,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6747,7 +6751,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6772,7 +6776,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6797,7 +6801,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6822,7 +6826,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6847,7 +6851,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6870,7 +6874,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6895,7 +6899,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6918,7 +6922,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6943,7 +6947,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6968,7 +6972,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -6993,7 +6997,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7018,7 +7022,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7041,7 +7045,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7066,7 +7070,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7091,7 +7095,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7114,7 +7118,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7139,7 +7143,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7164,7 +7168,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7187,7 +7191,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7210,7 +7214,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7235,7 +7239,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7260,7 +7264,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7284,7 +7288,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7309,7 +7313,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7332,7 +7336,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7357,7 +7361,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7382,7 +7386,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7407,7 +7411,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7430,7 +7434,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7453,7 +7457,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7478,7 +7482,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7501,7 +7505,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7524,7 +7528,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7549,7 +7553,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7572,7 +7576,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7597,7 +7601,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7620,7 +7624,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7645,7 +7649,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7668,7 +7672,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7691,7 +7695,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7716,7 +7720,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7739,7 +7743,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7762,7 +7766,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7787,7 +7791,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7810,7 +7814,7 @@ const AddLisiting = () => {
                                     Model
                                   </label>
                                   <select
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="form-control"
                                     onChange={(e) =>
                                       setFormData((prev) => ({
                                         ...prev,
@@ -7845,133 +7849,6 @@ const AddLisiting = () => {
                             </div>
                           </div>
 
-                          {/* <div className="card">
-                            <div className="card-header">
-                              <h4>Emirates </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Downtown Dubai",
-                                      label: "Downtown Dubai",
-                                    },
-                                    {
-                                      name: "Dubai Marina",
-                                      label: "Dubai Marina",
-                                    },
-                                    { name: "Jumeirah", label: "Jumeirah" },
-                                    { name: "Deira", label: "Deira" },
-                                    {
-                                      name: "Business Bay",
-                                      label: "Business Bay",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Emirates === area.name
-                                          }
-                                          onChange={handleEmiratesChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div> */}
-
-                          {/* <div className="card">
-                            <div className="card-header">
-                              <h4>Registered In </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Downtown Dubai",
-                                      label: "Downtown Dubai",
-                                    },
-                                    {
-                                      name: "Dubai Marina",
-                                      label: "Dubai Marina",
-                                    },
-                                    { name: "Jumeirah", label: "Jumeirah" },
-                                    { name: "Deira", label: "Deira" },
-                                    {
-                                      name: "Business Bay",
-                                      label: "Business Bay",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Registeredin === area.name
-                                          }
-                                          onChange={handleRegisteredinChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div> */}
-                          {/* <div className="card">
-                            <div className="card-header">
-                              <h4>Trusted Cars </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Toyota", label: "Toyota" },
-                                    {
-                                      name: "Mercedes-Benz",
-                                      label: "Mercedes-Benz",
-                                    },
-                                    { name: "Nissan", label: "Nissan" },
-                                    { name: "BMW", label: "BMW" },
-                                    {
-                                      name: "Lamborghini",
-                                      label: "Lamborghini",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.TrustedCars === area.name
-                                          }
-                                          onChange={handleTrustedCarsChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div> */}
                           <div className="card">
                             <div className="card-header">
                               <h4>Regional Specs</h4>
