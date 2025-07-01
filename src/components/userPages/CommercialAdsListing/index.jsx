@@ -23,6 +23,7 @@ const CommercialAdsListing = () => {
   const [Url, setUrl] = useState("");
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -68,11 +69,41 @@ const CommercialAdsListing = () => {
   }, []);
 
   // Handle form input changes
+  const [phoneError, setPhoneError] = useState("");
+  const [whatsappError, setWhatsappError] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
+    // Only allow digits and '+' for both fields
+    if ((name === "phone" || name === "whatsapp") && !/^[+0-9]*$/.test(value)) {
+      return; // Prevent invalid characters
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    const saudiPhoneRegex = /^\+9665\d{8}$/;
+
+    if (name === "phone") {
+      if (value && !saudiPhoneRegex.test(value)) {
+        setPhoneError(
+          "Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)"
+        );
+      } else {
+        setPhoneError("");
+      }
+    }
+
+    if (name === "whatsapp") {
+      if (value && !saudiPhoneRegex.test(value)) {
+        setWhatsappError(
+          "Please enter a valid Saudi WhatsApp number (e.g., +9665XXXXXXXX)"
+        );
+      } else {
+        setWhatsappError("");
+      }
+    }
+  };
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -139,6 +170,10 @@ const CommercialAdsListing = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
+    if (!imagePreview && imagePreview === null) {
+      setimagePreviewMessage("Please upload an image.");
+      return;
+    }
     e.preventDefault();
     try {
       // Save the form data to the CommercialAdscom collection
@@ -354,7 +389,7 @@ const CommercialAdsListing = () => {
                           Phone
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           id="phone"
                           name="phone"
                           value={formData.phone}
@@ -363,13 +398,26 @@ const CommercialAdsListing = () => {
                           style={{
                             width: "100%",
                             padding: "10px",
-                            border: "1px solid #ddd",
+                            border: phoneError
+                              ? "1px solid red"
+                              : "1px solid #ddd",
                             borderRadius: "5px",
                             fontSize: "14px",
                             color: "#333",
                           }}
                           required
                         />
+                        {phoneError && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              marginTop: "5px",
+                            }}
+                          >
+                            {phoneError}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div
@@ -399,7 +447,7 @@ const CommercialAdsListing = () => {
                           WhatsApp
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           id="whatsapp"
                           name="whatsapp"
                           value={formData.whatsapp}
@@ -408,13 +456,26 @@ const CommercialAdsListing = () => {
                           style={{
                             width: "100%",
                             padding: "10px",
-                            border: "1px solid #ddd",
+                            border: whatsappError
+                              ? "1px solid red"
+                              : "1px solid #ddd",
                             borderRadius: "5px",
                             fontSize: "14px",
                             color: "#333",
                           }}
                           required
                         />
+                        {whatsappError && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              marginTop: "5px",
+                            }}
+                          >
+                            {whatsappError}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -502,10 +563,27 @@ const CommercialAdsListing = () => {
                         style={{ display: "none" }}
                       />
                     </div>
+                    {imagePreviewMessage && (
+                      <p
+                        style={{
+                          color: "red",
+                          fontSize: "14px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {imagePreviewMessage}
+                      </p>
+                    )}
                   </div>
 
                   {/* Submit Button */}
                   <button
+                    disabled={
+                      !formData.name ||
+                      !formData.phone ||
+                      !formData.whatsapp ||
+                      !Url
+                    }
                     type="submit"
                     style={{
                       width: "150px",
