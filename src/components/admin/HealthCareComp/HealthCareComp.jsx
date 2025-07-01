@@ -3044,7 +3044,7 @@ const HealthCareComp = () => {
                           </button>
                         </div>
 
-                        <div className="container mt-5">
+                        <div className="container">
                           <div
                             className="modal fade show more_optn_modal_main"
                             tabIndex="-1"
