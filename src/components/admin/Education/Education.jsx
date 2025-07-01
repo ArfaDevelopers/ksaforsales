@@ -3187,7 +3187,7 @@ const Education = () => {
                                 alt={car.title || "Car"}
                                 style={{
                                   width: "100%",
-                                  height: "250px",
+                                  height: "230px",
                                   objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",

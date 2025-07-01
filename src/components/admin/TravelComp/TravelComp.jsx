@@ -3520,7 +3520,7 @@ const TravelComp = () => {
                             <div
                               style={{
                                 position: "absolute",
-                                top: "15%",
+                                top: "10%",
                                 left: "90%",
                                 transform: "translate(-50%, -50%)",
                                 borderRadius: "50%",
@@ -3574,7 +3574,7 @@ const TravelComp = () => {
                                 alt={car.title || "Car"}
                                 style={{
                                   width: "100%",
-                                  height: "250px",
+                                  height: "230px",
                                   objectFit: "cover",
                                   borderTopLeftRadius: "20px",
                                   borderBottomLeftRadius: "20px",
