@@ -30,6 +30,7 @@ import { MdMessage } from "react-icons/md";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import { ref, getDownloadURL } from "firebase/storage";
 import { IoLocationOutline } from "react-icons/io5";
+import { Modal } from "bootstrap";
 
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
@@ -337,7 +338,24 @@ const FashionStyle = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  useEffect(() => {
+    const modalEl = cityModalRef.current;
+    if (!modalEl) return;
 
+    const bsModal = Modal.getOrCreateInstance(modalEl);
+
+    if (isCityModalVisible) {
+      bsModal.show();
+    } else {
+      bsModal.hide();
+    }
+
+    return () => {
+      try {
+        bsModal.hide();
+      } catch (e) {}
+    };
+  }, [isCityModalVisible]);
   for (let i = 0; i < regionOptions.length; i += 2) {
     regionPairs.push(regionOptions.slice(i, i + 2));
   }
@@ -2442,9 +2460,12 @@ const FashionStyle = () => {
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
-          <Row>
+          <Row className="filter_outterwrap">
             {/* Sidebar */}
-            <Col md={3} className="bg-light p-3 style={{ height: '200px' }}">
+            <Col
+              md={3}
+              className="filter_main_wrap style={{ height: '200px' }}"
+            >
               <h5
                 style={{
                   borderTopLeftRadius: "5px",
@@ -2460,7 +2481,7 @@ const FashionStyle = () => {
                 Show Results by:
               </h5>
 
-              <Form>
+              <Form className="filter_innerwrap">
                 <Row className="my-3">
                   <Col>
                     <Form.Label
@@ -2620,7 +2641,7 @@ const FashionStyle = () => {
 
                                 {/* Professional Modal */}
                                 <div
-                                  className="modal fade"
+                                  className="modal fade more_optn_modal_main"
                                   id="regionModal11"
                                   tabIndex="-1"
                                   ref={modalRef}
@@ -2896,7 +2917,7 @@ const FashionStyle = () => {
                                                      </div> */}
 
                           <div
-                            className="modal fade"
+                            className="modal fade more_optn_modal_main"
                             id="moreCitiesModal1"
                             tabIndex="-1"
                             ref={cityModalRef}
@@ -3053,7 +3074,7 @@ const FashionStyle = () => {
 
                         <div className="container mt-5">
                           <div
-                            className="modal fade show"
+                            className="modal fade show more_optn_modal_main"
                             tabIndex="-1"
                             style={{
                               display: showModalDistricts ? "block" : "none",
@@ -3486,20 +3507,7 @@ const FashionStyle = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
+
                 {/*--------------------------------------*/}
               </Form>
             </Col>

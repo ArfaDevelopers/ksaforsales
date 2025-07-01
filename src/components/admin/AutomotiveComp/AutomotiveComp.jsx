@@ -3289,21 +3289,8 @@ const AutomotiveComp = () => {
                                 <span>{option.label}</span>
                               </label>
                             ))}
-
-                            {/* Show More Link */}
-                            {/* {cityOptions.length > 4 && (
-                              <button
-                                type="button"
-                                className="btn btn-link p-0"
-                                data-bs-toggle="modal"
-                                data-bs-target="#moreCitiesModal1"
-                              >
-                                Show more choices...
-                              </button>
-                            )} */}
                           </div>
 
-                          {/* {cityOptions.length > 4 && ( */}
                           <button
                             type="button"
                             className="btn btn-link p-0"

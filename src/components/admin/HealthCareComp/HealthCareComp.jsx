@@ -28,6 +28,7 @@ import image4 from "../../../assets/img/banner/bannerimage4.png";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import { ref, getDownloadURL } from "firebase/storage";
 import { IoLocationOutline } from "react-icons/io5";
+import { Modal } from "bootstrap";
 
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
@@ -348,7 +349,24 @@ const HealthCareComp = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  useEffect(() => {
+    const modalEl = cityModalRef.current;
+    if (!modalEl) return;
 
+    const bsModal = Modal.getOrCreateInstance(modalEl);
+
+    if (isCityModalVisible) {
+      bsModal.show();
+    } else {
+      bsModal.hide();
+    }
+
+    return () => {
+      try {
+        bsModal.hide();
+      } catch (e) {}
+    };
+  }, [isCityModalVisible]);
   for (let i = 0; i < regionOptions.length; i += 2) {
     regionPairs.push(regionOptions.slice(i, i + 2));
   }
@@ -2522,9 +2540,12 @@ const HealthCareComp = () => {
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
-          <Row>
+          <Row className="filter_outterwrap">
             {/* Sidebar */}
-            <Col md={3} className="bg-light p-3 style={{ height: '200px' }}">
+            <Col
+              md={3}
+              className="filter_main_wrap  style={{ height: '200px' }}"
+            >
               <h5
                 style={{
                   borderTopLeftRadius: "5px",
@@ -2540,7 +2561,7 @@ const HealthCareComp = () => {
                 Show Results by:
               </h5>
 
-              <Form>
+              <Form className="filter_innerwrap">
                 <Row className="my-3">
                   <Col>
                     <Form.Label
@@ -2682,140 +2703,123 @@ const HealthCareComp = () => {
                               </label>
                             </div>
                           ))}
-
+                          <button
+                            type="button"
+                            className="btn btn-link p-0"
+                            onClick={() => setModalVisible(true)}
+                          >
+                            Show more choices...
+                          </button>
                           <div className="container ">
-                            <div className="card shadow-sm">
-                              <div className="card-body">
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2"
-                                  onClick={() => setModalVisible(true)}
-                                >
-                                  <i className="bi bi-geo-alt"></i>
-                                  More choices...
-                                </button>
+                            <div
+                              className="modal fade more_optn_modal_main"
+                              id="regionModal11"
+                              tabIndex="-1"
+                              ref={modalRef}
+                              aria-labelledby="regionModalLabel"
+                              aria-hidden="true"
+                            >
+                              {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
+                              <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                                <div className="modal-content border-0 shadow-lg">
+                                  <div className="modal-header bg-light border-bottom">
+                                    <div className="d-flex align-items-center">
+                                      <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                      <h5
+                                        className="modal-title fw-semibold mb-0"
+                                        id="regionModalLabel"
+                                      >
+                                        Select a Region
+                                      </h5>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setModalVisible(false)}
+                                      aria-label="Close"
+                                    ></button>
+                                  </div>
 
-                                {/* Professional Modal */}
-                                <div
-                                  className="modal fade"
-                                  id="regionModal11"
-                                  tabIndex="-1"
-                                  ref={modalRef}
-                                  aria-labelledby="regionModalLabel"
-                                  aria-hidden="true"
-                                >
-                                  {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
-                                  <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-                                    <div className="modal-content border-0 shadow-lg">
-                                      <div className="modal-header bg-light border-bottom">
-                                        <div className="d-flex align-items-center">
-                                          <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
-                                          <h5
-                                            className="modal-title fw-semibold mb-0"
-                                            id="regionModalLabel"
-                                          >
-                                            Select a Region
-                                          </h5>
-                                        </div>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          onClick={() => setModalVisible(false)}
-                                          aria-label="Close"
-                                        ></button>
-                                      </div>
-
-                                      <div className="modal-body p-3">
-                                        <div className="mb-2">
-                                          <small className="text-muted">
-                                            Choose your preferred region from
-                                            the options below
-                                          </small>
-                                        </div>
-                                        <div className="row g-2">
-                                          {regionPairs.map(
-                                            (pair, pairIndex) => (
+                                  <div className="modal-body p-3">
+                                    <div className="mb-2">
+                                      <small className="text-muted">
+                                        Choose your preferred region from the
+                                        options below
+                                      </small>
+                                    </div>
+                                    <div className="row g-2">
+                                      {regionPairs.map((pair, pairIndex) => (
+                                        <div className="col-12" key={pairIndex}>
+                                          <div className="row g-2">
+                                            {pair.map((region) => (
                                               <div
-                                                className="col-12"
-                                                key={pairIndex}
+                                                className="col-md-6"
+                                                key={region.regionId}
                                               >
-                                                <div className="row g-2">
-                                                  {pair.map((region) => (
-                                                    <div
-                                                      className="col-md-6"
-                                                      key={region.regionId}
-                                                    >
-                                                      <div className="form-check d-flex align-items-start p-2 ps-3 border rounded-2 hover-shadow transition-all">
-                                                        <input
-                                                          className="form-check-input me-2 mt-1"
-                                                          type="checkbox"
-                                                          id={`modal-region-${region.regionId}`}
-                                                          checked={
-                                                            selectedRegion ===
-                                                            region.regionId
-                                                          }
-                                                          onChange={() =>
-                                                            setSelectedRegionId(
-                                                              selectedRegion ===
-                                                                region.regionId
-                                                                ? ""
-                                                                : region.regionId
-                                                            )
-                                                          }
-                                                        />
-                                                        <label
-                                                          className="form-check-label"
-                                                          htmlFor={`modal-region-${region.regionId}`}
-                                                        >
-                                                          <div className="fw-medium text-dark">
-                                                            {region.regionEn}
-                                                          </div>
-                                                          <div className="small text-muted">
-                                                            {region.label
-                                                              .split("(")[1]
-                                                              ?.replace(
-                                                                ")",
-                                                                ""
-                                                              ) || region.label}
-                                                          </div>
-                                                        </label>
-                                                      </div>
+                                                <div className="form-check d-flex align-items-start p-2 ps-3 border rounded-2 hover-shadow transition-all">
+                                                  <input
+                                                    className="form-check-input me-2 mt-1"
+                                                    type="checkbox"
+                                                    id={`modal-region-${region.regionId}`}
+                                                    checked={
+                                                      selectedRegion ===
+                                                      region.regionId
+                                                    }
+                                                    onChange={() =>
+                                                      setSelectedRegionId(
+                                                        selectedRegion ===
+                                                          region.regionId
+                                                          ? ""
+                                                          : region.regionId
+                                                      )
+                                                    }
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor={`modal-region-${region.regionId}`}
+                                                  >
+                                                    <div className="fw-medium text-dark">
+                                                      {region.regionEn}
                                                     </div>
-                                                  ))}
+                                                    <div className="small text-muted">
+                                                      {region.label
+                                                        .split("(")[1]
+                                                        ?.replace(")", "") ||
+                                                        region.label}
+                                                    </div>
+                                                  </label>
                                                 </div>
                                               </div>
-                                            )
-                                          )}
+                                            ))}
+                                          </div>
                                         </div>
-                                      </div>
+                                      ))}
+                                    </div>
+                                  </div>
 
-                                      <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
-                                        <div className="text-muted small">
-                                          {selectedRegion
-                                            ? "1 region selected"
-                                            : "No region selected"}
-                                        </div>
-                                        <div className="d-flex gap-2">
-                                          <button
-                                            type="button"
-                                            className="btn btn-outline-secondary"
-                                            onClick={() => {
-                                              setSelectedRegionId("");
-                                            }}
-                                          >
-                                            Clear Selection
-                                          </button>
-                                          <button
-                                            type="button"
-                                            className="btn btn-primary px-4"
-                                            onClick={() =>
-                                              setModalVisible(false)
-                                            }
-                                          >
-                                            Done
-                                          </button>
-                                        </div>
-                                      </div>
+                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                    <div className="text-muted small">
+                                      {selectedRegion
+                                        ? "1 region selected"
+                                        : "No region selected"}
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => {
+                                          setSelectedRegionId("");
+                                        }}
+                                      >
+                                        Clear Selection
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary px-4"
+                                        onClick={() => setModalVisible(false)}
+                                      >
+                                        Done
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
@@ -2973,7 +2977,7 @@ const HealthCareComp = () => {
                                           </div> */}
 
                           <div
-                            className="modal fade"
+                            className="modal fade more_optn_modal_main"
                             id="moreCitiesModal1"
                             tabIndex="-1"
                             ref={cityModalRef}
@@ -3130,7 +3134,7 @@ const HealthCareComp = () => {
 
                         <div className="container mt-5">
                           <div
-                            className="modal fade show"
+                            className="modal fade show more_optn_modal_main"
                             tabIndex="-1"
                             style={{
                               display: showModalDistricts ? "block" : "none",
@@ -3405,16 +3409,6 @@ const HealthCareComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "1px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
               </Form>
             </Col>
 

@@ -900,7 +900,7 @@ const CategoryDetail = () => {
               <div className="d-flex justify-content-center gap-3 mt-3">
                 <Button
                   variant="primary"
-                  className="d-flex align-items-center gap-1"
+                  className="d-flex align-items-center gap-1 unhover"
                   style={{
                     backgroundColor: "#2d4495",
                     borderColor: "#2d4495",

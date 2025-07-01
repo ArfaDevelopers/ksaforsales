@@ -1160,7 +1160,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -1176,7 +1176,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -1605,7 +1605,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -1621,7 +1621,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -2050,7 +2050,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -2066,7 +2066,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -2495,7 +2495,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -2511,7 +2511,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -2940,7 +2940,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -2956,7 +2956,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -3385,7 +3385,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -3401,7 +3401,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -3830,7 +3830,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -3846,7 +3846,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -4275,7 +4275,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -4291,7 +4291,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -4720,7 +4720,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -4736,7 +4736,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (
@@ -5165,7 +5165,7 @@ const Dynamic_Route = () => {
                         textAlign: "center",
                       }}
                     >
-                      <div
+                      {/* <div
                         style={{
                           position: "absolute",
                           bottom: "10px",
@@ -5181,7 +5181,7 @@ const Dynamic_Route = () => {
                           itemData?.galleryImages.indexOf(selectedImage) + 1 ||
                           1
                         } of ${itemData?.galleryImages.length} photos`}
-                      </div>
+                      </div> */}
                     </div>
 
                     {isFullScreen && (

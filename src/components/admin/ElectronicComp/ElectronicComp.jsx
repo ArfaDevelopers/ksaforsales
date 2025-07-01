@@ -4,6 +4,7 @@ import Header from "../../home/header"; // Ensure Header is correctly implemente
 import Footer from "../../home/footer/Footer";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IoLocationOutline } from "react-icons/io5";
+import { Modal } from "bootstrap";
 
 import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
@@ -248,7 +249,24 @@ const ElectronicComp = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  useEffect(() => {
+    const modalEl = cityModalRef.current;
+    if (!modalEl) return;
 
+    const bsModal = Modal.getOrCreateInstance(modalEl);
+
+    if (isCityModalVisible) {
+      bsModal.show();
+    } else {
+      bsModal.hide();
+    }
+
+    return () => {
+      try {
+        bsModal.hide();
+      } catch (e) {}
+    };
+  }, [isCityModalVisible]);
   for (let i = 0; i < regionOptions.length; i += 2) {
     regionPairs.push(regionOptions.slice(i, i + 2));
   }
@@ -2069,94 +2087,6 @@ const ElectronicComp = () => {
               </h1>
             )}
           </div>
-
-          {/* <div
-            className="CategoryInfodiv_btn2container"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-              marginTop: window.innerWidth <= 576 ? "10px" : "20px",
-            }}
-          >
-            <button
-              onClick={() => {
-                navigate("/AutomotiveComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Cars
-            </button>
-            <button
-              onClick={() => {
-                navigate("/JobBoard");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Jobs
-            </button>
-            <button
-              onClick={() => {
-                navigate("/RealEstateComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Real Estate for Rent
-            </button>
-            <button
-              onClick={() => {
-                navigate("/HealthCareComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Home & Furniture
-            </button>
-            <button
-              onClick={() => {
-                navigate("/ElectronicComp");
-              }}
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-            >
-              Electronics
-            </button>
-          </div> */}
         </Container>
         <Container
           fluid
@@ -2169,9 +2099,12 @@ const ElectronicComp = () => {
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
-          <Row>
+          <Row className="filter_outterwrap">
             {/* Sidebar */}
-            <Col md={3} className="bg-light p-3 style={{ height: '200px' }}">
+            <Col
+              md={3}
+              className=" filter_main_wrap style={{ height: '200px' }}"
+            >
               <h5
                 style={{
                   borderTopLeftRadius: "5px",
@@ -2187,7 +2120,7 @@ const ElectronicComp = () => {
                 Show Results by:
               </h5>
 
-              <Form>
+              <Form className="filter_innerwrap">
                 <Row className="my-3">
                   <Col>
                     <Form.Label
@@ -2350,13 +2283,14 @@ const ElectronicComp = () => {
                     borderColor: "#000000", // Set border color to black
                   }}
                 />
-                {/*      ----------               */}
+
+                {/*--------------------------------------*/}
                 <Accordion>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Select Region</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a Region</Form.Label>
+                        {/* <Form.Label>Select a Region</Form.Label> */}
                         <div className="mb-3">
                           {regionOptions.slice(0, 4).map((region) => (
                             <div className="form-check" key={region.regionId}>
@@ -2381,146 +2315,114 @@ const ElectronicComp = () => {
                               </label>
                             </div>
                           ))}
-
-                          <div className="container ">
-                            <div className="card shadow-sm">
-                              <div className="card-body">
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2"
-                                  onClick={() => setModalVisible(true)}
-                                >
-                                  <i className="bi bi-geo-alt"></i>
-                                  More choices...
-                                </button>
-
-                                {/* Professional Modal */}
-                                <div
-                                  className="modal fade"
-                                  id="regionModal11"
-                                  tabIndex="-1"
-                                  ref={modalRef}
-                                  aria-labelledby="regionModalLabel"
-                                  aria-hidden="true"
-                                >
-                                  {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
-                                  <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-                                    <div className="modal-content border-0 shadow-lg">
-                                      <div className="modal-header bg-light border-bottom">
-                                        <div className="d-flex align-items-center">
-                                          <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
-                                          <h5
-                                            className="modal-title fw-semibold mb-0"
-                                            id="regionModalLabel"
+                          <button
+                            type="button"
+                            className="btn btn-link p-0"
+                            onClick={() => setModalVisible(true)}
+                          >
+                            Show more choices...
+                          </button>
+                          <div className="">
+                            <div
+                              className="modal fade more_optn_modal_main"
+                              id="regionModal11"
+                              tabIndex="-1"
+                              ref={modalRef}
+                              aria-labelledby="regionModalLabel"
+                              aria-hidden="true"
+                            >
+                              {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
+                              <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                                <div className="modal-content border-0 shadow-lg">
+                                  <div className="modal-header bg-light border-bottom">
+                                    <div className="d-flex align-items-center">
+                                      <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                      <h5
+                                        className="modal-title fw-semibold mb-0"
+                                        id="regionModalLabel"
+                                      >
+                                        Select a Region
+                                      </h5>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() => setModalVisible(false)}
+                                      aria-label="Close"
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body p-3">
+                                    <div className="mb-2">
+                                      <small className="text-muted">
+                                        Choose your preferred region from the
+                                        options below
+                                      </small>
+                                    </div>
+                                    <div className="row g-2">
+                                      <ul className="more_choice_main_list">
+                                        {regionOptions.map((region) => (
+                                          <li
+                                            className=""
+                                            key={region.regionId}
                                           >
-                                            Select a Region
-                                          </h5>
-                                        </div>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          onClick={() => setModalVisible(false)}
-                                          aria-label="Close"
-                                        ></button>
-                                      </div>
-
-                                      <div className="modal-body p-3">
-                                        <div className="mb-2">
-                                          <small className="text-muted">
-                                            Choose your preferred region from
-                                            the options below
-                                          </small>
-                                        </div>
-                                        <div className="row g-2">
-                                          {regionPairs.map(
-                                            (pair, pairIndex) => (
-                                              <div
-                                                className="col-12"
-                                                key={pairIndex}
-                                              >
-                                                <div className="row g-2">
-                                                  {pair.map((region) => (
-                                                    <div
-                                                      className="col-md-6"
-                                                      key={region.regionId}
-                                                    >
-                                                      <div className="form-check d-flex align-items-start p-2 ps-3 border rounded-2 hover-shadow transition-all">
-                                                        <input
-                                                          className="form-check-input me-2 mt-1"
-                                                          type="checkbox"
-                                                          id={`modal-region-${region.regionId}`}
-                                                          checked={
-                                                            selectedRegion ===
-                                                            region.regionId
-                                                          }
-                                                          onChange={() =>
-                                                            setSelectedRegionId(
-                                                              selectedRegion ===
-                                                                region.regionId
-                                                                ? ""
-                                                                : region.regionId
-                                                            )
-                                                          }
-                                                        />
-                                                        <label
-                                                          className="form-check-label"
-                                                          htmlFor={`modal-region-${region.regionId}`}
-                                                        >
-                                                          <div className="fw-medium text-dark">
-                                                            {region.regionEn}
-                                                          </div>
-                                                          <div className="small text-muted">
-                                                            {region.label
-                                                              .split("(")[1]
-                                                              ?.replace(
-                                                                ")",
-                                                                ""
-                                                              ) || region.label}
-                                                          </div>
-                                                        </label>
-                                                      </div>
-                                                    </div>
-                                                  ))}
-                                                </div>
-                                              </div>
-                                            )
-                                          )}
-                                        </div>
-                                      </div>
-
-                                      <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
-                                        <div className="text-muted small">
-                                          {selectedRegion
-                                            ? "1 region selected"
-                                            : "No region selected"}
-                                        </div>
-                                        <div className="d-flex gap-2">
-                                          <button
-                                            type="button"
-                                            className="btn btn-outline-secondary"
-                                            onClick={() => {
-                                              setSelectedRegionId("");
-                                            }}
-                                          >
-                                            Clear Selection
-                                          </button>
-                                          <button
-                                            type="button"
-                                            className="btn btn-primary px-4"
-                                            onClick={() =>
-                                              setModalVisible(false)
-                                            }
-                                          >
-                                            Done
-                                          </button>
-                                        </div>
-                                      </div>
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor={`modal-region-${region.regionId}`}
+                                            >
+                                              <input
+                                                className="form-check-input me-2 mt-1"
+                                                type="checkbox"
+                                                id={`modal-region-${region.regionId}`}
+                                                checked={
+                                                  selectedRegion ===
+                                                  region.regionId
+                                                }
+                                                onChange={() =>
+                                                  setSelectedRegionId(
+                                                    selectedRegion ===
+                                                      region.regionId
+                                                      ? ""
+                                                      : region.regionId
+                                                  )
+                                                }
+                                              />
+                                              <span className="fw-medium text-dark">
+                                                {region.regionEn}
+                                              </span>
+                                            </label>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                    <div className="text-muted small">
+                                      {selectedRegion
+                                        ? "1 region selected"
+                                        : "No region selected"}
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => {
+                                          setSelectedRegionId("");
+                                        }}
+                                      >
+                                        Clear Selection
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary px-4"
+                                        onClick={() => setModalVisible(false)}
+                                      >
+                                        Done
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-
                             <style jsx>{`
                               .hover-shadow {
                                 transition: all 0.15s ease-in-out;
@@ -2593,15 +2495,15 @@ const ElectronicComp = () => {
 
                             {/* Show More Link */}
                             {/* {cityOptions.length > 4 && (
-                                              <button
-                                                type="button"
-                                                className="btn btn-link p-0"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#moreCitiesModal1"
-                                              >
-                                                Show more choices...
-                                              </button>
-                                            )} */}
+                                            <button
+                                              type="button"
+                                              className="btn btn-link p-0"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#moreCitiesModal1"
+                                            >
+                                              Show more choices...
+                                            </button>
+                                          )} */}
                           </div>
 
                           {/* {cityOptions.length > 4 && ( */}
@@ -2612,67 +2514,9 @@ const ElectronicComp = () => {
                           >
                             Show more choices...
                           </button>
-                          {/* )} */}
-                          {/* <div
-                                            className="modal fade"
-                                            id="moreCitiesModal1"
-                                            tabIndex="-1"
-                                            ref={cityModalRef}
-                                            aria-labelledby="moreCitiesModalLabel1"
-                                            aria-hidden="true"
-                                          >
-                                            <div className="modal-dialog modal-dialog-scrollable">
-                                              <div className="modal-content">
-                                                <div className="modal-header">
-                                                  <h5
-                                                    className="modal-title"
-                                                    id="moreCitiesModalLabel1"
-                                                  >
-                                                    Select More Cities
-                                                  </h5>
-                                                  <button
-                                                    type="button"
-                                                    className="btn-close"
-                                                    onClick={() => setIsCityModalVisible(false)}
-                                                  ></button>
-                                                </div>
-                
-                                                <div className="modal-body">
-                                                  {cityOptions.slice(4).map((option) => (
-                                                    <label
-                                                      key={option.value}
-                                                      className="d-flex align-items-center gap-2 mb-2"
-                                                    >
-                                                      <input
-                                                        type="checkbox"
-                                                        checked={selectedCities.some(
-                                                          (city) =>
-                                                            city.CITY_ID === option.cityId
-                                                        )}
-                                                        onChange={() =>
-                                                          handleCheckboxChange1(option)
-                                                        }
-                                                      />
-                                                      <span>{option.label}</span>
-                                                    </label>
-                                                  ))}
-                                                </div>
-                
-                                                <div className="modal-footer">
-                                                  <button
-                                                    type="button"
-                                                    className="btn btn-secondary"
-                                                    onClick={() => setIsCityModalVisible(false)}
-                                                  >
-                                                    Close
-                                                  </button>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div> */}
 
                           <div
-                            className="modal fade"
+                            className="modal fade more_optn_modal_main"
                             id="moreCitiesModal1"
                             tabIndex="-1"
                             ref={cityModalRef}
@@ -2697,26 +2541,25 @@ const ElectronicComp = () => {
 
                                 <div className="modal-body">
                                   <div className="row">
-                                    {cityOptions.slice(4).map((option) => (
-                                      <div
-                                        key={option.value}
-                                        className="col-6 mb-2"
-                                      >
-                                        <label className="d-flex align-items-center gap-2">
-                                          <input
-                                            type="checkbox"
-                                            checked={selectedCities.some(
-                                              (city) =>
-                                                city.CITY_ID === option.cityId
-                                            )}
-                                            onChange={() =>
-                                              handleCheckboxChange1(option)
-                                            }
-                                          />
-                                          <span>{option.label}</span>
-                                        </label>
-                                      </div>
-                                    ))}
+                                    <ul className="more_choice_main_list">
+                                      {cityOptions.slice(4).map((option) => (
+                                        <li className="" key={option.value}>
+                                          <label className="d-flex align-items-center gap-2">
+                                            <input
+                                              type="checkbox"
+                                              checked={selectedCities.some(
+                                                (city) =>
+                                                  city.CITY_ID === option.cityId
+                                              )}
+                                              onChange={() =>
+                                                handleCheckboxChange1(option)
+                                              }
+                                            />
+                                            <span>{option.label}</span>
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
                                   </div>
                                 </div>
 
@@ -2737,7 +2580,6 @@ const ElectronicComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-
                 <hr
                   style={{
                     width: "100%",
@@ -2759,20 +2601,20 @@ const ElectronicComp = () => {
                       <Form.Group className="mb-3">
                         <Form.Label>Select a District</Form.Label>
                         {/* <WindowedSelect
-                                                          options={districtOptions}
-                                                          isMulti
-                                                          placeholder="Select Districts"
-                                                          className="w-100"
-                                                          onChange={(selected) => {
-                                                            const selectedInfo = selected.map((item) => ({
-                                                              REGION_ID: item.regionId,
-                                                              CITY_ID: item.cityId,
-                                                              DISTRICT_ID: item.value,
-                                                            }));
-                                                            setSelectedDistricts(selectedInfo);
-                                                            console.log("Selected Districts:", selectedInfo);
-                                                          }}
-                                                        /> */}
+                                        options={districtOptions}
+                                        isMulti
+                                        placeholder="Select Districts"
+                                        className="w-100"
+                                        onChange={(selected) => {
+                                          const selectedInfo = selected.map((item) => ({
+                                            REGION_ID: item.regionId,
+                                            CITY_ID: item.cityId,
+                                            DISTRICT_ID: item.value,
+                                          }));
+                                          setSelectedDistricts(selectedInfo);
+                                          console.log("Selected Districts:", selectedInfo);
+                                        }}
+                                      /> */}
                         <div className="grid grid-cols-1 gap-2">
                           {districtOptions.slice(0, 4).map((option) => {
                             const isChecked = selectedDistricts.some(
@@ -2829,7 +2671,7 @@ const ElectronicComp = () => {
 
                         <div className="container mt-5">
                           <div
-                            className="modal fade show"
+                            className="modal fade show more_optn_modal_main"
                             tabIndex="-1"
                             style={{
                               display: showModalDistricts ? "block" : "none",
@@ -2852,59 +2694,66 @@ const ElectronicComp = () => {
                                 </div>
 
                                 {/* Compact Body */}
-                                <div className="modal-body py-2">
+                                <div className="modal-body">
                                   <div className="row g-1 ml-4">
-                                    {districtOptions.slice(4).map((option) => {
-                                      const isChecked = selectedDistricts.some(
-                                        (district) =>
-                                          district.DISTRICT_ID === option.value
-                                      );
+                                    <ul className="more_choice_main_list">
+                                      {districtOptions
+                                        .slice(4)
+                                        .map((option) => {
+                                          const isChecked =
+                                            selectedDistricts.some(
+                                              (district) =>
+                                                district.DISTRICT_ID ===
+                                                option.value
+                                            );
 
-                                      return (
-                                        <div
-                                          key={option.value}
-                                          className="col-6"
-                                        >
-                                          <label className="form-check d-flex align-items-center py-1 px-2 rounded hover-bg  ml-4">
-                                            <input
-                                              type="checkbox"
-                                              className="form-check-input me-2 flex-shrink-0  ml-4"
-                                              checked={isChecked}
-                                              onChange={(e) => {
-                                                if (e.target.checked) {
-                                                  setSelectedDistricts(
-                                                    (prev) => [
-                                                      ...prev,
-                                                      {
-                                                        REGION_ID:
-                                                          option.regionId,
-                                                        CITY_ID: option.cityId,
-                                                        DISTRICT_ID:
-                                                          option.value,
-                                                      },
-                                                    ]
-                                                  );
-                                                } else {
-                                                  setSelectedDistricts((prev) =>
-                                                    prev.filter(
-                                                      (district) =>
-                                                        district.DISTRICT_ID !==
-                                                        option.value
-                                                    )
-                                                  );
-                                                }
-                                              }}
-                                            />
-                                            <span
-                                              className="form-check-label text-truncate small ml-4"
-                                              style={{ cursor: "pointer" }}
-                                            >
-                                              {option.label}
-                                            </span>
-                                          </label>
-                                        </div>
-                                      );
-                                    })}
+                                          return (
+                                            <li key={option.value} className="">
+                                              <label className="d-flex align-items-center gap-2">
+                                                <input
+                                                  type="checkbox"
+                                                  className=""
+                                                  checked={isChecked}
+                                                  onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                      setSelectedDistricts(
+                                                        (prev) => [
+                                                          ...prev,
+                                                          {
+                                                            REGION_ID:
+                                                              option.regionId,
+                                                            CITY_ID:
+                                                              option.cityId,
+                                                            DISTRICT_ID:
+                                                              option.value,
+                                                          },
+                                                        ]
+                                                      );
+                                                    } else {
+                                                      setSelectedDistricts(
+                                                        (prev) =>
+                                                          prev.filter(
+                                                            (district) =>
+                                                              district.DISTRICT_ID !==
+                                                              option.value
+                                                          )
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                <span
+                                                  className=""
+                                                  style={{
+                                                    cursor: "pointer",
+                                                  }}
+                                                >
+                                                  {option.label}
+                                                </span>
+                                              </label>
+                                            </li>
+                                          );
+                                        })}
+                                    </ul>
                                   </div>
 
                                   {/* Selection Count */}
@@ -2921,7 +2770,7 @@ const ElectronicComp = () => {
                                 <div className="modal-footer py-2">
                                   <button
                                     type="button"
-                                    className="btn btn-sm btn-secondary"
+                                    className="btn btn-outline-secondary"
                                     onClick={() => setShowModalDistricts(false)}
                                   >
                                     Close
@@ -2959,7 +2808,6 @@ const ElectronicComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-
                 <hr
                   style={{
                     width: "100%",
@@ -3083,8 +2931,6 @@ const ElectronicComp = () => {
                 />
 
                 {/*-------------------------------------*/}
-              </Form>
-              <div>
                 {/* Accordion with Checkbox Selection for Color */}
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
@@ -3121,18 +2967,8 @@ const ElectronicComp = () => {
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
-              </div>
-
-              <hr
-                style={{
-                  width: "100%",
-                  height: "1px",
-                  borderTop: "1px solid #000000",
-                  opacity: "0.5", // Adjust opacity for visibility
-                  margin: "20px 0",
-                  borderColor: "#000000", // Set border color to black
-                }}
-              />
+              </Form>
+              <div></div>
             </Col>
 
             <Col md={9} className="p-3">
