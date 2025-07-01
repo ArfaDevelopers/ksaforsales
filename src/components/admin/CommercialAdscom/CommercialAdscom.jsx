@@ -37,6 +37,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "./../../Firebase/FirebaseConfig.jsx";
 import Footer from "../../home/footer/Footer";
+import axios from "axios";
 const ITEMS_PER_PAGE = 4; // Set number of items per page
 
 const CommercialAdscom = () => {
@@ -314,14 +315,11 @@ const CommercialAdscom = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const carsCollectionRef = collection(db, "CommercialAdscom");
-        const querySnapshot = await getDocs(carsCollectionRef);
-        const carsData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setCategories(carsData);
-        console.log(carsData, "userClickedId__________contentapi");
+        const response = await axios.get(
+          "http://168.231.80.24:9002/route/commercial-ads"
+        );
+        setCategories(response.data);
+        console.log(response.data, "userClickedId__________contentapi");
       } catch (error) {
         console.error("Error getting cars:", error);
       }
@@ -329,7 +327,6 @@ const CommercialAdscom = () => {
 
     fetchCars();
   }, [refresh]);
-
   // Calculate total pages
   const totalPages = Math.ceil(categories.length / ITEMS_PER_PAGE);
 
@@ -647,7 +644,7 @@ const CommercialAdscom = () => {
             }}
           >
             <Row className="g-4">
-              {currentItems.map((item) => (
+              {categories.map((item) => (
                 <Col key={item.id} md={3} sm={6}>
                   <Card
                     className="shadow-lg"
