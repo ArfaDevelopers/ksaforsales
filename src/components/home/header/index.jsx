@@ -2365,7 +2365,7 @@ const Header = ({ parms }) => {
                         )}
                       </div>
                     )}
-                    {!isMobile && (
+                    {!isMobile && userId && (
                       <li>
                         <Link
                           to="/listing"
@@ -2602,7 +2602,7 @@ const Header = ({ parms }) => {
                         <i className="fa-solid fa-plus" /> Sign In
                       </Link>
                     </li>
-                    {!isMobile && (
+                    {!isMobile && userId && (
                       <li>
                         <Link
                           to="/listing"

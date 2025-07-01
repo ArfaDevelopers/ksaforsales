@@ -10,7 +10,7 @@ import Footer from "../../home/footer/Footer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import Header from "../../home/header";
-
+import { signOut } from "firebase/auth";
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
@@ -24,7 +24,15 @@ const CommercialAdsListing = () => {
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
-
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -268,7 +276,7 @@ const CommercialAdsListing = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/login">
+                  <Link className="dropdown-item" to="#" onClick={handleLogout}>
                     <i className="fas fa-light fa-circle-arrow-left" />{" "}
                     <span>Logout</span>
                   </Link>

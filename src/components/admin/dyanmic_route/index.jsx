@@ -1125,7 +1125,7 @@ const Dynamic_Route = () => {
             maxWidth: "1410px", // Optional: Add max-width to ensure padding is visible
             margin: "0 auto", // Optional: Center the container if desired
             // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
-            marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
+            marginBottom: window.innerWidth <= 576 ? "0rem" : "0rem",
             // margintop: window.innerWidth <= 576 ? "0px" : "-30px",
           }}
         >
@@ -5890,7 +5890,7 @@ const Dynamic_Route = () => {
                               className="rounded shadow"
                               style={{
                                 width:
-                                  window.innerWidth <= 576 ? "330px" : "100%",
+                                  window.innerWidth <= 576 ? "100%" : "100%",
                                 height: "300px",
                                 objectFit: "cover",
                               }}

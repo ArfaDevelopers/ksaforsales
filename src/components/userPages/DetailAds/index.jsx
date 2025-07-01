@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig";
 import { db } from "../../Firebase/FirebaseConfig.jsx";
 import { addDoc, collection, getDocs } from "firebase/firestore";
@@ -41,6 +41,15 @@ const DetailAds = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [userId, setUserId] = useState(null);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Logs out the user
+      console.log("User logged out successfully!");
+      navigate("/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
+  };
   // State for image previews and selected images for each slot
   const [imagePreviews, setImagePreviews] = useState({
     slot1: "https://via.placeholder.com/200x100?text=Ad+Slot+1",
@@ -258,7 +267,7 @@ const DetailAds = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/login">
+                  <Link className="dropdown-item" to="#" onClick={handleLogout}>
                     <i className="fas fa-light fa-circle-arrow-left" />{" "}
                     <span>Logout</span>
                   </Link>
