@@ -1094,15 +1094,8 @@ const Dynamic_Routes = () => {
           </div>
         </Container>
         <Container
-          fluid
           style={{
-            paddingLeft: "10px", // Padding on the left side
-            paddingRight: "1px", // Padding on the right side
-            color: "black", // Text color
-            maxWidth: "1400px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
-            marginBottom: window.innerWidth <= 576 ? "10rem" : "0rem",
+            marginBottom: window.innerWidth <= 576 ? "2rem" : "3rem",
           }}
         >
           <div className="d-flex flex-wrap justify-content-end">
@@ -1118,10 +1111,7 @@ const Dynamic_Routes = () => {
           </div>
           <Row>
             {/* Sidebar */}
-            <Col
-              md={8}
-              style={{ marginLeft: window.innerWidth <= 576 ? -5 : -10 }}
-            >
+            <Col lg={8}>
               <div>
                 <div
                   style={{
@@ -1529,16 +1519,15 @@ const Dynamic_Routes = () => {
               </div>
             </Col>
 
-            <Col md={4} className="p-3">
+            <Col lg={4} className="p-3">
               <Col xs={12}>
                 <Card
                   style={{
                     position: "relative",
                     minHeight: "100px",
                     borderRadius: "12px",
-                    width: window.innerWidth <= 576 ? "100%" : "105%",
-                    marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",
-                    marginTop: window.innerWidth <= 576 ? -10 : 10,
+                    width: window.innerWidth <= 576 ? "100%" : "100%",
+                    marginLeft: window.innerWidth <= 576 ? "0rem" : "0rem",
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
                 >
@@ -1774,8 +1763,8 @@ const Dynamic_Routes = () => {
                     position: "relative",
                     minHeight: "100px",
                     borderRadius: "12px",
-                    width: window.innerWidth <= 576 ? "100%" : "105%",
-                    marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",
+                    width: window.innerWidth <= 576 ? "100%" : "100%",
+                    marginLeft: window.innerWidth <= 576 ? "0rem" : "0rem",
                     marginTop: 18,
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
@@ -1783,11 +1772,10 @@ const Dynamic_Routes = () => {
                   <Card.Body
                     style={{
                       position: "relative",
-                      marginTop: -40,
-                      marginLeft: -20,
+                      padding: "0",
                     }}
                   >
-                    <div className="d-flex flex-column gap-3 mt-4 ms-0">
+                    <div className="d-flex flex-column gap-3 mt-0 ms-0">
                       {adsDetailImagesContent.length > 0 &&
                         adsDetailImagesContent[0].imageUrls.map(
                           (imageUrl, index) => (
@@ -1798,7 +1786,7 @@ const Dynamic_Routes = () => {
                               className="rounded shadow"
                               style={{
                                 width:
-                                  window.innerWidth <= 576 ? "330px" : "385px",
+                                  window.innerWidth <= 576 ? "100%" : "100%",
                                 height: "300px",
                                 objectFit: "cover",
                               }}
