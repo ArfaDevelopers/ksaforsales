@@ -9,6 +9,7 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { BsChatDots } from "react-icons/bs";
 import { MdMessage } from "react-icons/md";
 import Loading1 from "../../../public/Progress circle.png";
+import { FaRegHeart } from "react-icons/fa";
 
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -803,10 +804,13 @@ const Dynamic_Routes = () => {
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
             >
-              <span>
-                <img src={left} alt="leftarrow" />
-              </span>{" "}
-              Favourite
+              <Link to="/bookmarks">
+                <span>
+                  {/* <img src={left} alt="leftarrow" /> */}
+                  <FaRegHeart />
+                </span>{" "}
+                Favourite
+              </Link>
             </button>
             <>
               {/* Button to open modal */}
@@ -857,7 +861,7 @@ const Dynamic_Routes = () => {
                           ></button>
                         </div>
                         <div className="modal-body">
-                          <h6 style={{ wordBreak: "break-all" }}>{link}</h6>
+                          <div style={{ wordBreak: "break-all" }}>{link}</div>
                         </div>
                         <div className="modal-footer">
                           <button

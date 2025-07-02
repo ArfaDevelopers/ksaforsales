@@ -1563,7 +1563,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "ElectronicComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -2008,7 +2008,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "FashionStyle" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -2453,7 +2453,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "HealthCareComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -2898,7 +2898,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "JobBoard" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -3343,7 +3343,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "Education" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -3788,7 +3788,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "RealEstateComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -4233,7 +4233,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "TravelComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -4678,7 +4678,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "SportGamesComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
@@ -5123,7 +5123,7 @@ const Dynamic_Route = () => {
               ) : callingFrom === "PetAnimalsComp" ? (
                 <>
                   <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
+                  // style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
                   >
                     {/* Main Image with Previous & Next Buttons */}
                     <div
