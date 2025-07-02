@@ -3723,6 +3723,29 @@ button.unhover:hover{
   box-shadow: unset !important;
 }
 /* Filter css ends */
+/* CHAT BUTTON CSS STARTS */
+.chat_btns_wrap button{
+    background-color: #fff !important;
+    border: 1px solid #2d4495 !important;
+    color: #2d4495;
+    box-shadow: inset 0 0 0 #fff;
+    border-radius: 5px;
+    -webkit-transition: all 0.7s;
+    -moz-transition: all 0.7s;
+    -o-transition: all 0.7s;
+    transition: all 0.7s;
+    padding: 9px 12px !important;
+}
+.chat_btns_wrap button:hover{
+  background-color: #2d4495 !important;
+  box-shadow: unset !important;
+}
+.chat_btns_wrap button.btn-primary{
+  background-color: #2d4495 !important;
+  box-shadow: unset !important;
+  color: #fff !important;
+}
+/* CHAT BUTTON CSS ENDS */
 /* Category Inner pages css starts */
 .CategoryInfodiv_btn2container button {
   display: flex;
@@ -6662,11 +6685,11 @@ margin-bottom: 26px;
 .dashboard-content ul.dashborad-menus {
   background: #fff;
   border-radius: 10px;
-  padding: 25px 12px;
+  padding: 25px 30px;
   align-items: center;
   display: flex;
   box-shadow: 3px 5px 13px rgb(222 226 231 / 44%);
-  justify-content: space-around;
+  justify-content: space-between;
   margin: 0 0 25px;
 }
 .dashboard-content ul.dashborad-menus li {
@@ -20117,7 +20140,6 @@ margin-bottom: 20px;
   }
   .dashboard-content ul.dashborad-menus li a {
     font-size: 15px;
-    padding: 0;
   }
   .messages-form .form-group.formlast-input {
     margin-bottom: 15px;

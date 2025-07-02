@@ -3,13 +3,23 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  getDocs,
+} from "firebase/firestore";
+import { Elements } from "@stripe/react-stripe-js";
+
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { loadStripe } from "@stripe/stripe-js";
 import Footer from "../../home/footer/Footer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import Header from "../../home/header";
+import PaymentForm from "./PaymentForm.jsx";
+import { loadStripe } from "@stripe/stripe-js";
 import { signOut } from "firebase/auth";
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -24,6 +34,9 @@ const CommercialAdsListing = () => {
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
+  const [showPayment, setshowPayment] = useState(null); // Store a single URL, initially null
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const handleLogout = async () => {
     try {
       await signOut(auth); // Logs out the user
@@ -583,14 +596,19 @@ const CommercialAdsListing = () => {
                       </p>
                     )}
                   </div>
-
+                  {/* {showPayment && ( */}
+                  <Elements stripe={stripePromise}>
+                    <PaymentForm getpaymentSuccess={setPaymentSuccess} />
+                  </Elements>
+                  {/* )} */}
                   {/* Submit Button */}
                   <button
                     disabled={
                       !formData.name ||
                       !formData.phone ||
                       !formData.whatsapp ||
-                      !Url
+                      !Url ||
+                      !paymentSuccess
                     }
                     type="submit"
                     style={{

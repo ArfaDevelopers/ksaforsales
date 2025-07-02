@@ -179,7 +179,12 @@ const Header = ({ parms }) => {
       {/* <UpperHeader /> */}
       <div className="containerWrapper">
         <div className="container">
-          <nav className="navbar navbar-expand-lg header-nav">
+          <nav
+            className="navbar navbar-expand-lg header-nav"
+            style={{
+              height: "85px",
+            }}
+          >
             <div
               className="container-fluid d-flex align-items-center justify-content-between"
               style={{ flexWrap: "nowrap" }}

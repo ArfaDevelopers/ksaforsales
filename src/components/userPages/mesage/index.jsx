@@ -179,28 +179,36 @@ export default function Message() {
       </div>
 
       <Container style={{ marginTop: "-1rem" }}>
-        <Row className="min-vh-100">
+        <Row className="">
           <Col md={3} className="border-end p-3 bg-white">
             <h5>Chats</h5>
-            {chatUsers.length === 0 ? (
-              <Alert>No chats yet.</Alert>
-            ) : (
-              chatUsers.map((u) => (
-                <Button
-                  key={u.id}
-                  variant={
-                    selected?.id === u.id ? "primary" : "outline-primary"
-                  }
-                  className="w-100 text-start mb-2"
-                  onClick={() => setSelected(u)}
-                >
-                  {u.name}
-                </Button>
-              ))
-            )}
+            <div className="chat_btns_wrap">
+              {chatUsers.length === 0 ? (
+                <Alert>No chats yet.</Alert>
+              ) : (
+                chatUsers.map((u) => (
+                  <Button
+                    key={u.id}
+                    variant={
+                      selected?.id === u.id ? "primary" : "outline-primary"
+                    }
+                    className="w-100 text-start mb-2"
+                    onClick={() => setSelected(u)}
+                  >
+                    {u.name}
+                  </Button>
+                ))
+              )}
+            </div>
           </Col>
 
-          <Col md={9} className="d-flex flex-column p-0">
+          <Col
+            md={9}
+            className="d-flex flex-column p-0"
+            style={{
+              height: "400px",
+            }}
+          >
             <div className="p-3 bg-white border-bottom">
               <h5>Chat with {selected ? selected.name : "..."}</h5>
             </div>
