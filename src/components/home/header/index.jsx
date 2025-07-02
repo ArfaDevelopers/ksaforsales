@@ -2257,7 +2257,7 @@ const Header = ({ parms }) => {
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
                 style={{
-                  gap: "15px",
+                  gap: window.innerWidth <= 576 ? "0" : "15px",
                   marginBottom: 0,
                   flexShrink: 0,
                 }}
@@ -2378,36 +2378,37 @@ const Header = ({ parms }) => {
                         )}
                       </div>
                     )}
-                    {!isMobile && userId && (
-                      <li>
-                        <Link
-                          to="/listing"
-                          style={{
-                            backgroundColor: "#2d4495",
-                            color: "#fff",
-                            border: "none",
-                            fontWeight: "bold",
-                            borderRadius: 10,
-                            transition: "none",
-                            outline: "none",
-                            boxShadow: "none",
-                            cursor: "pointer",
-                            padding: "12px 24px", // Increased padding for larger size
-                            fontSize: "16px", // Increased font size
-                          }}
-                          onMouseOver={(e) => {
-                            e.currentTarget.style.backgroundColor = "#2d4495";
-                            e.currentTarget.style.color = "#fff";
-                          }}
-                          onMouseOut={(e) => {
-                            e.currentTarget.style.backgroundColor = "#2d4495";
-                            e.currentTarget.style.color = "#fff";
-                          }}
-                        >
-                          <i className="fa-solid fa-plus" /> Post Ad
-                        </Link>
-                      </li>
-                    )}
+                    {/* {!isMobile && userId && ( */}
+                    <li>
+                      <Link
+                        to="/listing"
+                        style={{
+                          backgroundColor: "#2d4495",
+                          color: "#fff",
+                          border: "none",
+                          fontWeight: "bold",
+                          borderRadius: 10,
+                          transition: "none",
+                          outline: "none",
+                          boxShadow: "none",
+                          cursor: "pointer",
+                          padding:
+                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
+                        }}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.backgroundColor = "#2d4495";
+                          e.currentTarget.style.color = "#fff";
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.backgroundColor = "#2d4495";
+                          e.currentTarget.style.color = "#fff";
+                        }}
+                      >
+                        <i className="fa-solid fa-plus" /> Post Ad
+                      </Link>
+                    </li>
+                    {/* // )} */}
                     <li className="nav-item dropdown logged-item">
                       <Link
                         to="#"
@@ -2572,8 +2573,9 @@ const Header = ({ parms }) => {
                           outline: "none",
                           boxShadow: "none",
                           cursor: "pointer",
-                          padding: "12px 24px", // Increased padding for larger size
-                          fontSize: "16px", // Increased font size
+                          padding:
+                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
                         }}
                         onMouseOver={(e) => {
                           e.currentTarget.style.backgroundColor = "#2d4495";
@@ -2600,8 +2602,9 @@ const Header = ({ parms }) => {
                           outline: "none",
                           boxShadow: "none",
                           cursor: "pointer",
-                          padding: "12px 24px", // Increased padding for larger size
-                          fontSize: "16px", // Increased font size
+                          padding:
+                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
                         }}
                         onMouseOver={(e) => {
                           e.currentTarget.style.backgroundColor = "#2d4495";

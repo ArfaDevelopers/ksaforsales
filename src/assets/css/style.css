@@ -353,6 +353,7 @@ ul {
   display: flex;
   gap: 9rem;
   margin-bottom: 20px;
+  margin-top: 5px;
 }
 
 .info-list li {
