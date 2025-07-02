@@ -1117,16 +1117,8 @@ const Dynamic_Route = () => {
         </Container>
 
         <Container
-          fluid
           style={{
-            paddingLeft: "10px", // Padding on the left side
-            paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1410px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
-            marginBottom: window.innerWidth <= 576 ? "0rem" : "0rem",
-            // margintop: window.innerWidth <= 576 ? "0px" : "-30px",
           }}
         >
           <div className="d-flex flex-wrap justify-content-end">
@@ -1142,42 +1134,17 @@ const Dynamic_Route = () => {
           </div>
           <Row>
             {/* Sidebar */}
-            <Col
-              md={8}
-              style={{ marginLeft: window.innerWidth <= 576 ? -5 : -20 }}
-            >
+            <Col lg={8}>
               {callingFrom === "AutomotiveComp" ? (
-                // <div className="col  border-none container ">
-                //   <div className="col  border-none">\
                 <>
-                  <div
-                    style={{ marginLeft: window.innerWidth <= 576 ? 5 : 10 }}
-                  >
+                  <div>
                     {/* Main Image with Previous & Next Buttons */}
                     <div
                       style={{
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -5618,16 +5585,15 @@ const Dynamic_Route = () => {
                 />
               </div>
             </Col>
-            <Col md={4} className="p-3">
+            <Col lg={4} className="p-3">
               <Col xs={12}>
                 <Card
                   style={{
                     position: "relative",
                     minHeight: "100px",
                     borderRadius: "12px",
-                    width: window.innerWidth <= 576 ? "100%" : "105%",
+                    width: window.innerWidth <= 576 ? "100%" : "100%",
                     marginTop: window.innerWidth <= 576 ? -10 : 10,
-                    marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
                 >
@@ -5865,8 +5831,7 @@ const Dynamic_Route = () => {
                     position: "relative",
                     minHeight: "100px",
                     borderRadius: "12px",
-                    width: window.innerWidth <= 576 ? "100%" : "105%",
-                    marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "0rem",
+                    width: window.innerWidth <= 576 ? "100%" : "100%",
                     marginTop: 18,
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
