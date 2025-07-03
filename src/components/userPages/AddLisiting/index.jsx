@@ -2186,7 +2186,7 @@ const AddLisiting = () => {
   const handleGalleryChange = async (e) => {
     const files = Array.from(e.target.files);
 
-    const MAX_IMAGES = 10;
+    const MAX_IMAGES = 15;
     const MAX_SIZE_MB = 2;
 
     if (uploading) return;
@@ -4742,6 +4742,17 @@ const AddLisiting = () => {
                       >
                         {uploading ? "Uploading..." : "Upload Files"}
                       </label>
+                      <p
+                        style={{
+                          marginTop: "10px",
+                          fontSize: "12px",
+                          color: "#777",
+                          textAlign: "center",
+                        }}
+                      >
+                        Maximum 15 images allowed, with each image size not
+                        exceeding 2MB.
+                      </p>
                     </div>
                   </div>
                   <span
@@ -13490,7 +13501,7 @@ const AddLisiting = () => {
                                     fontSize: "18px",
                                   }}
                                 >
-                                  Price Range
+                                  Price
                                 </label>
                                 <div
                                   style={{

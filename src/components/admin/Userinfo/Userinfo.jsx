@@ -1,13 +1,13 @@
 import React from "react";
 
- import { Table } from "antd";
+import { Table } from "antd";
 import { useLocation, useParams } from "react-router-dom";
 // import Footer from "../../home/footer/Footer";
 import Footer from "../../home/footer/Footer";
 import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa"; // For the heart icon
 // import { timeAgo } from "./your-utils"; // Assuming you have a timeAgo function for "Updated about"
- import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { Modal, Button, Form } from "react-bootstrap";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
@@ -41,6 +41,7 @@ const Userinfo = () => {
   const [pageSize, setPageSize] = useState(5);
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -325,154 +326,53 @@ const Userinfo = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location]);
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${userId}&sortOrder=${sortOrder}`
+  //       );
+  //       const result = await response.json();
+  //       if (result.success) {
+  //         setCars(result.data);
+  //         setFilteredCars(result.data);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [searchQuery, userId, sortOrder]);
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        // Fetch data from the first collection
-        const sportsCollectionRef = collection(db, "SPORTSGAMESComp");
-        const sportsQuerySnapshot = await getDocs(sportsCollectionRef);
-        const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // Fetch data from the second collection
-        const realEstateCollectionRef = collection(db, "REALESTATECOMP");
-        const realEstateQuerySnapshot = await getDocs(realEstateCollectionRef);
-        const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const CarsCollectionRef = collection(db, "Cars");
-        const CarsQuerySnapshot = await getDocs(CarsCollectionRef);
-        const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
-        const ELECTRONICSQuerySnapshot = await getDocs(
-          ELECTRONICSCollectionRef
+        const response = await fetch(
+          `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${userId}&sortOrder=${sortOrder}&page=${currentPage}&limit=${pageSize}`
         );
-        const ELECTRONICSData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const EducationCollectionRef = collection(db, "Education");
-        const EducationQuerySnapshot = await getDocs(EducationCollectionRef);
-        const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const FASHIONCollectionRef = collection(db, "FASHION");
-        const FASHIONQuerySnapshot = await getDocs(FASHIONCollectionRef);
-        const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
-        const HEALTHCAREQuerySnapshot = await getDocs(HEALTHCARECollectionRef);
-        const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
-        const JOBBOARDQuerySnapshot = await getDocs(JOBBOARDCollectionRef);
-        const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
-        const MAGAZINESCOMPQuerySnapshot = await getDocs(
-          MAGAZINESCOMPCollectionRef
-        );
-        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
-        const PETANIMALCOMPQuerySnapshot = await getDocs(
-          PETANIMALCOMPCollectionRef
-        );
-        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        const TRAVELCollectionRef = collection(db, "TRAVEL");
-        const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
-        const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        // Combine both datasets
-        const combinedData = [
-          ...sportsData,
-          ...realEstateData,
-          ...CarsData,
-          ...ELECTRONICSData,
-          ...EducationData,
-          ...FASHIONData,
-          ...HEALTHCAREData,
-          ...JOBBOARDData,
-          ...MAGAZINESCOMPData,
-          ...PETANIMALCOMPData,
-          ...TRAVELData,
-        ];
-
-        const user = auth.currentUser;
-
-        // Filter by userId (replace 'yourUser Id' with the actual userId you want to filter by)
-        const userId = user.uid; // Replace with the actual userId you want to filter by
-        const callingFrom = getQueryParam("callingFrom");
-        const ids = getQueryParam("id");
-    
-        console.log("callingFrom______ID:ids1111", ids);
-        console.log("callingFrom______Calling From:", callingFrom);
-        setCallingFrom(callingFrom);
-        setId(ids);
-        const filteredData = combinedData.filter(
-          (item) => item.userId == ids
-        );
-        console.log(combinedData, "combinedData___________");
-        console.log(filteredData, "combinedData___________");
-
-        const searchedData = filteredData.filter((item) => {
-          return (
-            item.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Assuming 'title' is a field in your data
-            item.description.toLowerCase().includes(searchQuery.toLowerCase()) // Assuming 'description' is another field
-          );
-        });
-        console.log(ids, "combinedData___________1filteredData");
-
-        const sortedData = searchedData.sort((a, b) => {
-          const dateA = a.createdAt.seconds; // Assuming createdAt is a timestamp
-          const dateB = b.createdAt.seconds;
-
-          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
-        });
-        // Set the state with the sorted data
-        setCars(sortedData);
-        setFilteredCars(sortedData);
-        // Set the state with the filtered data
-        // setCars(filteredData);
-        // setFilteredCars(filteredData); // Initially, show filtered cars
-        setLoading(false);
-
-        // console.log(filteredData, "Filtered Data by userId");
-      } catch (error) {
-        console.error("Error getting cars:", error);
-        setLoading(false);
+        const result = await response.json();
+        if (result.success) {
+          setCars(result.data);
+          setFilteredCars(result.data);
+          setTotalPages(result.totalPages);
+        } else {
+          setCars([]);
+          setFilteredCars([]);
+          setTotalPages(1);
+        }
+      } catch (err) {
+        console.error("Error:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [searchQuery]);
+    if (userId) fetchCars();
+  }, [searchQuery, userId, sortOrder, currentPage, pageSize]);
   useEffect(() => {
     if (!searchQuery) {
       setFilteredCars(cars);
@@ -776,8 +676,12 @@ const Userinfo = () => {
         }}
       >
         <div className="container">
-          <div class="col-12 text-start text-dark " style={{fontSize:26,fontWeight:500}}>Home / User Listing</div>
-
+          <div
+            class="col-12 text-start text-dark "
+            style={{ fontSize: 26, fontWeight: 500 }}
+          >
+            Home / User Listing
+          </div>
 
           {/* <div className="">
             <ul className="dashborad-menus">
@@ -888,26 +792,26 @@ const Userinfo = () => {
                   )}
                 </div> */}
                 <div>
-      {loading ? (
-          <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <img
-            src={Loading1}
-            alt="Loading..."
-            style={{
-              width: "200px",
-              height: "200px",
-              animation: "spin 1s linear infinite", // Apply the spin animation
-            }}
-          />
-          <style>
-            {`
+                  {loading ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                      }}
+                    >
+                      <img
+                        src={Loading1}
+                        alt="Loading..."
+                        style={{
+                          width: "200px",
+                          height: "200px",
+                          animation: "spin 1s linear infinite", // Apply the spin animation
+                        }}
+                      />
+                      <style>
+                        {`
               @keyframes spin {
                 from {
                   transform: rotate(0deg);
@@ -917,234 +821,270 @@ const Userinfo = () => {
                 }
               }
             `}
-          </style>
-        </div>
-      ) : (
-        paginatedData.map((item, index) => (
-          <Card key={index} className="mt-3">
-            <Row className="g-0">
-              {/* Image Section */}
-              <Col md={4} style={{ position: "relative" }}>
-                {/* Featured Label */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "10px",
-                    left: "10px",
-                    backgroundColor: "#36A680",
-                    color: "white",
-                    padding: "5px 10px",
-                    fontWeight: "bold",
-                    borderRadius: "5px",
-                    zIndex: 2,
-                  }}
-                >
-                  Featured
+                      </style>
+                    </div>
+                  ) : (
+                    filteredCars.map((item, index) => (
+                      <Card key={index} className="mt-3">
+                        <Row className="g-0">
+                          {/* Image Section */}
+                          <Col md={4} style={{ position: "relative" }}>
+                            {/* Featured Label */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                left: "10px",
+                                backgroundColor: "#36A680",
+                                color: "white",
+                                padding: "5px 10px",
+                                fontWeight: "bold",
+                                borderRadius: "5px",
+                                zIndex: 2,
+                              }}
+                            >
+                              Featured
+                            </div>
+
+                            {/* Heart Icon */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: "11%",
+                                left: "90%",
+                                transform: "translate(-50%, -50%)",
+                                borderRadius: "50%",
+                                padding: "10px",
+                                zIndex: 3,
+                                cursor: "pointer",
+                              }}
+                              onClick={() => toggleBookmark(item.id)}
+                            >
+                              <FaHeart
+                                style={{
+                                  color:
+                                    item.bookmarked && item.userId === userId
+                                      ? "red"
+                                      : "gray",
+                                  fontSize: "30px",
+                                }}
+                              />
+                            </div>
+
+                            {/* Image */}
+                            <Link
+                              to={`/service-details?id=${
+                                item.id
+                              }&callingFrom=${formatCategory(item.category)}`}
+                            >
+                              <Card.Img
+                                src={
+                                  item.galleryImages?.[0] ||
+                                  "https://via.placeholder.com/150"
+                                }
+                                alt={item.title || "Item"}
+                                style={{
+                                  width: "100%",
+                                  height: "250px",
+                                  borderTopLeftRadius: "20px",
+                                  borderBottomLeftRadius: "20px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </Link>
+                          </Col>
+
+                          {/* Details Section */}
+                          <Col md={8}>
+                            <Card.Body>
+                              {/* Title */}
+                              <Card.Title style={{ color: "#2D4495" }}>
+                                {item.title || "Item"}
+                              </Card.Title>
+
+                              {/* Location and Description */}
+                              <Card.Text style={{ color: "black" }}>
+                                <small className="text-muted">
+                                  <i
+                                    className="fas fa-map-marker-alt"
+                                    style={{
+                                      marginRight: "5px",
+                                      color: "#6c757d",
+                                    }}
+                                  />
+                                  <span style={{ color: "black" }}>
+                                    {item.City || "Location"}
+                                  </span>
+                                </small>
+                                <br />
+                                {item.tagline || "Description not available."}
+                              </Card.Text>
+
+                              {/* Price and Updated Time */}
+                              <Col
+                                className="align-items-center"
+                                style={{ position: "relative" }}
+                              >
+                                {/* Price */}
+                                <p
+                                  style={{
+                                    position: "absolute",
+                                    top: "-100px",
+                                    left: "500px",
+                                    fontWeight: "bold",
+                                    fontSize: "20px",
+                                    zIndex: 2,
+                                    color: "#2D4495",
+                                  }}
+                                >
+                                  {item.Price
+                                    ? `$${item.Price}`
+                                    : "Price not available"}
+                                </p>
+                              </Col>
+
+                              {/* Buttons */}
+                              <Row
+                                className="gx-2 gy-2 mt-4 mt-sm-5 text-center"
+                                style={{ margin: 0 }}
+                              >
+                                {/* Call Button */}
+                                <Col
+                                  xs={6}
+                                  sm={3}
+                                  lg={2}
+                                  className="p-0 d-flex align-items-center justify-content-center"
+                                >
+                                  <button
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      gap: "5px",
+                                      padding: "12px 20px",
+                                      border: "none",
+                                      borderRadius: "20px",
+                                      backgroundColor: "#2d4fad",
+                                      color: "white",
+                                      fontSize: "13px",
+                                      cursor: "pointer",
+                                      width: "100%",
+                                      maxWidth: "150px",
+                                      margin: "5px",
+                                    }}
+                                  >
+                                    <i className="fas fa-phone" /> Call
+                                  </button>
+                                </Col>
+
+                                {/* Message Button */}
+                                <Col
+                                  xs={6}
+                                  sm={3}
+                                  lg={2}
+                                  className="p-0 d-flex align-items-center justify-content-center"
+                                >
+                                  <button
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      gap: "5px",
+                                      padding: "12px 12px",
+                                      border: "1px solid #2d4fad",
+                                      borderRadius: "20px",
+                                      backgroundColor: "white",
+                                      color: "#2d4fad",
+                                      fontSize: "13px",
+                                      cursor: "pointer",
+                                      width: "100%",
+                                      maxWidth: "150px",
+                                      margin: "5px",
+                                    }}
+                                  >
+                                    <i className="fas fa-comment" /> Message
+                                  </button>
+                                </Col>
+
+                                {/* WhatsApp Button */}
+                                <Col
+                                  xs={6}
+                                  sm={3}
+                                  lg={2}
+                                  className="p-0 d-flex align-items-center justify-content-center"
+                                >
+                                  <button
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      gap: "5px",
+                                      padding: "12px 10px",
+                                      border: "1px solid #2d4fad",
+                                      borderRadius: "20px",
+                                      backgroundColor: "white",
+                                      color: "#2d4fad",
+                                      fontSize: "13px",
+                                      cursor: "pointer",
+                                      width: "100%",
+                                      maxWidth: "150px",
+                                      margin: "5px",
+                                    }}
+                                  >
+                                    <i
+                                      className="fab fa-whatsapp"
+                                      style={{ color: "#2D4495" }}
+                                    />{" "}
+                                    WhatsApp
+                                  </button>
+                                </Col>
+
+                                {/* Favorite Button */}
+                                <Col
+                                  xs={6}
+                                  sm={3}
+                                  lg={2}
+                                  className="p-0 d-flex align-items-center justify-content-center position-relative"
+                                  style={{ marginLeft: 5 }}
+                                >
+                                  <button
+                                    style={{
+                                      border: "1px solid #2D4495",
+                                      backgroundColor: "white",
+                                      borderRadius: "5px",
+                                      cursor: "pointer",
+                                      color: "#2D4495",
+                                      width: "fit-content",
+                                      height: "fit-content",
+                                      padding: "8px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      margin: "5px",
+                                      marginRight: "60px",
+                                    }}
+                                  >
+                                    <FaRegHeart
+                                      onClick={() => toggleBookmark(item.id)}
+                                      style={{
+                                        color:
+                                          item.bookmarked &&
+                                          item.userId === userId
+                                            ? "red"
+                                            : "#2D4495",
+                                        fontSize: "30px",
+                                      }}
+                                    />
+                                  </button>
+                                </Col>
+                              </Row>
+                            </Card.Body>
+                          </Col>
+                        </Row>
+                      </Card>
+                    ))
+                  )}
                 </div>
-
-                {/* Heart Icon */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "11%",
-                    left: "90%",
-                    transform: "translate(-50%, -50%)",
-                    borderRadius: "50%",
-                    padding: "10px",
-                    zIndex: 3,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => toggleBookmark(item.id)}
-                >
-                  <FaHeart
-                    style={{
-                      color: item.bookmarked && item.userId === userId ? "red" : "gray",
-                      fontSize: "30px",
-                    }}
-                  />
-                </div>
-
-                {/* Image */}
-                <Link
-                  to={`/service-details?id=${item.id}&callingFrom=${formatCategory(item.category)}`}
-                >
-                  <Card.Img
-                    src={item.galleryImages?.[0] || "https://via.placeholder.com/150"}
-                    alt={item.title || "Item"}
-                    style={{
-                      width: "100%",
-                      height: "250px",
-                      borderTopLeftRadius: "20px",
-                      borderBottomLeftRadius: "20px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </Link>
-              </Col>
-
-              {/* Details Section */}
-              <Col md={8}>
-                <Card.Body>
-                  {/* Title */}
-                  <Card.Title style={{ color: "#2D4495" }}>
-                    {item.title || "Item"}
-                  </Card.Title>
-
-                  {/* Location and Description */}
-                  <Card.Text style={{ color: "black" }}>
-                    <small className="text-muted">
-                      <i
-                        className="fas fa-map-marker-alt"
-                        style={{
-                          marginRight: "5px",
-                          color: "#6c757d",
-                        }}
-                      />
-                      <span style={{ color: "black" }}>
-                        {item.City || "Location"}
-                      </span>
-                    </small>
-                    <br />
-                    {item.tagline || "Description not available."}
-                  </Card.Text>
-
-                  {/* Price and Updated Time */}
-                  <Col className="align-items-center" style={{ position: "relative" }}>
-                    {/* Price */}
-                    <p
-                      style={{
-                        position: "absolute",
-                        top: "-100px",
-                        left: "500px",
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        zIndex: 2,
-                        color: "#2D4495",
-                      }}
-                    >
-                      {item.Price ? `$${item.Price}` : "Price not available"}
-                    </p>
-                  </Col>
-
-
-                  {/* Buttons */}
-                  <Row className="gx-2 gy-2 mt-4 mt-sm-5 text-center" style={{ margin: 0 }}>
-                    {/* Call Button */}
-                    <Col xs={6} sm={3} lg={2} className="p-0 d-flex align-items-center justify-content-center">
-                      <button
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "5px",
-                          padding: "12px 20px",
-                          border: "none",
-                          borderRadius: "20px",
-                          backgroundColor: "#2d4fad",
-                          color: "white",
-                          fontSize: "13px",
-                          cursor: "pointer",
-                          width: "100%",
-                          maxWidth: "150px",
-                          margin: "5px",
-                        }}
-                      >
-                        <i className="fas fa-phone" /> Call
-                      </button>
-                    </Col>
-
-                    {/* Message Button */}
-                    <Col xs={6} sm={3} lg={2} className="p-0 d-flex align-items-center justify-content-center">
-                      <button
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "5px",
-                          padding: "12px 12px",
-                          border: "1px solid #2d4fad",
-                          borderRadius: "20px",
-                          backgroundColor: "white",
-                          color: "#2d4fad",
-                          fontSize: "13px",
-                          cursor: "pointer",
-                          width: "100%",
-                          maxWidth: "150px",
-                          margin: "5px",
-                        }}
-                      >
-                        <i className="fas fa-comment" /> Message
-                      </button>
-                    </Col>
-
-                    {/* WhatsApp Button */}
-                    <Col xs={6} sm={3} lg={2} className="p-0 d-flex align-items-center justify-content-center">
-                      <button
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "5px",
-                          padding: "12px 10px",
-                          border: "1px solid #2d4fad",
-                          borderRadius: "20px",
-                          backgroundColor: "white",
-                          color: "#2d4fad",
-                          fontSize: "13px",
-                          cursor: "pointer",
-                          width: "100%",
-                          maxWidth: "150px",
-                          margin: "5px",
-                        }}
-                      >
-                        <i className="fab fa-whatsapp" style={{ color: "#2D4495" }} /> WhatsApp
-                      </button>
-                    </Col>
-
-                    {/* Favorite Button */}
-                    <Col
-                      xs={6}
-                      sm={3}
-                      lg={2}
-                      className="p-0 d-flex align-items-center justify-content-center position-relative"
-                      style={{ marginLeft: 5 }}
-                    >
-                      <button
-                        style={{
-                          border: "1px solid #2D4495",
-                          backgroundColor: "white",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          color: "#2D4495",
-                          width: "fit-content",
-                          height: "fit-content",
-                          padding: "8px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          margin: "5px",
-                          marginRight: "60px",
-                        }}
-                      >
-                        <FaRegHeart
-                          onClick={() => toggleBookmark(item.id)}
-                          style={{
-                            color: item.bookmarked && item.userId === userId ? "red" : "#2D4495",
-                            fontSize: "30px",
-                          }}
-                        />
-                      </button>
-                    </Col>
-                  </Row>
-
-
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
-        ))
-      )}
-    </div>
                 <div className="blog-pagination">
                   <nav>
                     <ul className="pagination">
@@ -1163,35 +1103,33 @@ const Userinfo = () => {
                           <i className="fas fa-regular fa-arrow-left" /> Prev
                         </Link>
                       </li>
+
                       <li className="justify-content-center pagination-center">
                         <div className="pagelink">
                           <ul>
-                            {[...Array(Math.ceil(cars.length / pageSize))].map(
-                              (_, index) => (
-                                <li
-                                  key={index}
-                                  className={`page-item ${
-                                    currentPage === index + 1 ? "active" : ""
-                                  }`}
+                            {[...Array(totalPages)].map((_, index) => (
+                              <li
+                                key={index}
+                                className={`page-item ${
+                                  currentPage === index + 1 ? "active" : ""
+                                }`}
+                              >
+                                <Link
+                                  className="page-link"
+                                  to="#"
+                                  onClick={() => setCurrentPage(index + 1)}
                                 >
-                                  <Link
-                                    className="page-link"
-                                    to="#"
-                                    onClick={() => setCurrentPage(index + 1)}
-                                  >
-                                    {index + 1}
-                                  </Link>
-                                </li>
-                              )
-                            )}
+                                  {index + 1}
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </li>
+
                       <li
                         className={`page-item nextlink ${
-                          currentPage === Math.ceil(cars.length / pageSize)
-                            ? "disabled"
-                            : ""
+                          currentPage === totalPages ? "disabled" : ""
                         }`}
                       >
                         <Link
@@ -1199,10 +1137,7 @@ const Userinfo = () => {
                           to="#"
                           onClick={() =>
                             setCurrentPage((prev) =>
-                              Math.min(
-                                prev + 1,
-                                Math.ceil(cars.length / pageSize)
-                              )
+                              Math.min(prev + 1, totalPages)
                             )
                           }
                         >

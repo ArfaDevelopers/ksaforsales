@@ -3341,7 +3341,7 @@ const TravelComp = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Row>

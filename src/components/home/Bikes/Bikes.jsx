@@ -1181,7 +1181,7 @@ const Bikes = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Row>
@@ -1886,25 +1886,25 @@ const Bikes = () => {
               </Row>
               <div>
                 {loading ? (
-               <div
-               style={{
-                 display: "flex",
-                 justifyContent: "center",
-                 alignItems: "center",
-                 height: "100vh",
-               }}
-             >
-               <img
-                 src={Loading1}
-                 alt="Loading..."
-                 style={{
-                   width: "200px",
-                   height: "200px",
-                   animation: "spin 1s linear infinite", // Apply the spin animation
-                 }}
-               />
-               <style>
-                 {`
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                    @keyframes spin {
                      from {
                        transform: rotate(0deg);
@@ -1914,8 +1914,8 @@ const Bikes = () => {
                      }
                    }
                  `}
-               </style>
-             </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => (
                     <Card key={index} className="mt-3">

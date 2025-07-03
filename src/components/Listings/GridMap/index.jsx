@@ -788,7 +788,7 @@ const GridMap = () => {
                         </div>
                       </div>
                       <div className="filter-content amenities mb-0">
-                        <h4> Price Range</h4>
+                        <h4> Price</h4>
                         <div className="form-group mb-0">
                           <input
                             type="text"

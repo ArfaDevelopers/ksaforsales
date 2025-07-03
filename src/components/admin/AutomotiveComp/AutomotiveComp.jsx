@@ -2701,7 +2701,6 @@ const AutomotiveComp = () => {
       filtered = filtered.filter((car) => selectedCarsMake.includes(car.Make));
     }
 
-    // Filter by price range
     if (fromValue || toValue) {
       filtered = filtered.filter((car) => {
         // Use car.Price instead of car.price
@@ -5443,7 +5442,7 @@ const AutomotiveComp = () => {
                 />
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Row>

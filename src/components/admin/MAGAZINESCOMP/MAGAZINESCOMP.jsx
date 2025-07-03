@@ -88,9 +88,9 @@ const MAGAZINESCOMP = () => {
 
   const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
     useState([]);
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [location]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   // Handle checkbox change for Toyota locations
   const [selectedCars1, setSelectedCars1] = useState([]);
   const [selectedOptionTransmission, setSelectedOptionTransmission] =
@@ -1825,7 +1825,7 @@ const MAGAZINESCOMP = () => {
 
                 <Accordion className="mt-3">
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price Range</Accordion.Header>
+                    <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Row>
@@ -2500,24 +2500,24 @@ const MAGAZINESCOMP = () => {
               <div>
                 {loading ? (
                   <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                  <img
-                    src={Loading1}
-                    alt="Loading..."
                     style={{
-                      width: "200px",
-                      height: "200px",
-                      animation: "spin 1s linear infinite", // Apply the spin animation
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
                     }}
-                  />
-                  <style>
-                    {`
+                  >
+                    <img
+                      src={Loading1}
+                      alt="Loading..."
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        animation: "spin 1s linear infinite", // Apply the spin animation
+                      }}
+                    />
+                    <style>
+                      {`
                       @keyframes spin {
                         from {
                           transform: rotate(0deg);
@@ -2527,8 +2527,8 @@ const MAGAZINESCOMP = () => {
                         }
                       }
                     `}
-                  </style>
-                </div>
+                    </style>
+                  </div>
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => (
                     <Card key={index} className="mt-3">
