@@ -23195,3 +23195,8 @@ height: 400px;
     height: auto !important;
 }
 }
+.updatedel_wrap{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}

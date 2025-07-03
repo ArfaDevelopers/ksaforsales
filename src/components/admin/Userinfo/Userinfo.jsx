@@ -1,10 +1,11 @@
 import React from "react";
 
 import { Table } from "antd";
-import { useLocation, useParams } from "react-router-dom";
+// import { useLocation, useParams, } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
+
 // import Footer from "../../home/footer/Footer";
 import Footer from "../../home/footer/Footer";
-import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa"; // For the heart icon
 // import { timeAgo } from "./your-utils"; // Assuming you have a timeAgo function for "Updated about"
 import { useEffect, useState } from "react";
@@ -42,7 +43,34 @@ const Userinfo = () => {
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
   const [totalPages, setTotalPages] = useState(1);
+  // const { id } = useParams();
+  // const getQueryParam = (param) => {
+  //   const hash = window.location.hash;
+  //   const queryIndex = hash.indexOf("?");
+  //   if (queryIndex === -1) return null;
 
+  //   const queryString = hash.substring(queryIndex + 1); // Extract query part after ?
+  //   const searchParams = new URLSearchParams(queryString);
+  //   return searchParams.get(param);
+  // };
+
+  // useEffect(() => {
+  //   const callingFrom = getQueryParam("callingFrom");
+  //   const subCatgoryParam = getQueryParam("subCatgory");
+  //   const nestedSubCategoryParam = getQueryParam("NestedSubCategory");
+  //   const ids = getQueryParam("id");
+  //   setsubCatgory(subCatgoryParam);
+  //   setNestedSubCategory(nestedSubCategoryParam);
+  //   console.log(nestedSubCategoryParam, "subCatgory___________5");
+  //   console.log(subCatgoryParam, "subCatgory___________5");
+  //   console.log(callingFrom, "subCatgory___________6");
+
+  //   console.log("callingFrom_____ID:ids11", ids);
+  //   console.log("callingFrom From:11", callingFrom);
+
+  //   setCallingFrom(callingFrom);
+  //   setId(ids);
+  // }, [id, location, getQueryParam]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -316,6 +344,7 @@ const Userinfo = () => {
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   console.log("callingFrom______ID:ids15555", _Id);
+  console.log("callingFrom______ID:ids15555callingFrom", callingFrom);
 
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
@@ -352,7 +381,7 @@ const Userinfo = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${userId}&sortOrder=${sortOrder}&page=${currentPage}&limit=${pageSize}`
+          `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${_Id}&sortOrder=${sortOrder}&page=${currentPage}&limit=${pageSize}`
         );
         const result = await response.json();
         if (result.success) {
