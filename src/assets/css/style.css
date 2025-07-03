@@ -3753,6 +3753,17 @@ button.unhover:hover{
   gap: 5px;
 }
 /* Category Inner pages css ends */
+/* columns classes starts */
+ul.colu-2{
+  columns: 2;
+}
+ul.colu-3{
+  columns: 3;
+}
+ul.colu-4{
+  columns: 4;
+}
+/* columns classes ends */
 /* SWIPER CSS STARTS */
 .swiper_main_wrap .swiper-button-next:after,
 .swiper_main_wrap .swiper-button-prev:after {
@@ -7283,7 +7294,7 @@ textarea.form-control {
 .settings-upload-btn {
   position: relative;
   display: inline-block;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 0px;
 }
 .settings-upload-btn .file-upload {
   color: #fff;
@@ -7722,10 +7733,10 @@ textarea.form-control {
   height: 47px;
   right: 6px;
 }
-.featuresform-list ul li {
+/* .featuresform-list ul li {
   width: 50%;
   float: left;
-}
+} */
 .profile-form .form-group.formlast-input {
   margin-bottom: 0;
 }
@@ -23106,6 +23117,15 @@ height: 400px;
   }
 }
 @media screen and (max-width: 480px) {
+  ul.colu-2{
+    columns: 2;
+  }
+  ul.colu-3{
+    columns: 2;
+  }
+  ul.colu-4{
+    columns: 3;
+  }
   .cat_icon_main {
     justify-content: flex-start;
   }

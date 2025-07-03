@@ -4592,15 +4592,23 @@ const AddLisiting = () => {
 
             <div className="profile-content">
               <div className="messages-form">
-                <div className="card gap-2">
+                <div className="gap-2">
                   <div
                     className="card-header"
                     style={{
                       boxShadow: "3px 5px 13px rgba(222, 226, 231, 0.44)",
-                      padding: "20px 0 0 20px",
+                      padding: "20px 20px 20px 20px",
+                      borderRadius: "6px",
+                      marginBottom: "10px",
                     }}
                   >
-                    <h4>Basic information</h4>
+                    <h4
+                      style={{
+                        marginBottom: "0",
+                      }}
+                    >
+                      Basic information
+                    </h4>
                   </div>
                   <div
                     className="card media-section"
@@ -4612,7 +4620,9 @@ const AddLisiting = () => {
                       textAlign: "center",
                       margin: "0",
                       padding: "0",
-                      padding: "20px 0",
+                      padding: "20px 15px",
+                      marginBottom: "10px",
+                      borderRadius: "6px",
                     }}
                   >
                     <div
@@ -4743,163 +4753,160 @@ const AddLisiting = () => {
                   >
                     {galleryImagesErrMsg}
                   </span>
-                  <div className="container mt-3">
-                    <div className="row">
-                      {/* Region Select */}
-                      <div className="col-12 col-md-4 mb-3">
-                        <h6 className="mb-2">Select a Region:</h6>
-                        <WindowedSelect
-                          options={regionOptions}
-                          onChange={handleChangeRegion}
-                          placeholder="-- Choose Region --"
-                          classNamePrefix="select"
-                          isSearchable
-                          value={
-                            regionOptions.find(
-                              (r) => r.regionId === selectedRegionId
-                            ) || null
-                          }
-                        />
-                        {galleryselectedRegionIdErrMsg && (
-                          <div
-                            className="text-danger mt-1"
-                            style={{ fontSize: "14px" }}
-                          >
-                            {galleryselectedRegionIdErrMsg}
-                          </div>
-                        )}
-                      </div>
+                  <div className="card">
+                    <div className="container mt-3 p-0">
+                      <div className="row">
+                        {/* Region Select */}
+                        <div className="col-12 col-md-4 mb-3">
+                          <h6 className="mb-2">Select a Region:</h6>
+                          <WindowedSelect
+                            options={regionOptions}
+                            onChange={handleChangeRegion}
+                            placeholder="-- Choose Region --"
+                            classNamePrefix="select"
+                            isSearchable
+                            value={
+                              regionOptions.find(
+                                (r) => r.regionId === selectedRegionId
+                              ) || null
+                            }
+                          />
+                          {galleryselectedRegionIdErrMsg && (
+                            <div
+                              className="text-danger mt-1"
+                              style={{ fontSize: "14px" }}
+                            >
+                              {galleryselectedRegionIdErrMsg}
+                            </div>
+                          )}
+                        </div>
 
-                      {/* City Select */}
-                      <div className="col-12 col-md-4 mb-3">
-                        <h6 className="mb-2">Select a City:</h6>
-                        <WindowedSelect
-                          options={cityOptions}
-                          onChange={handleCityChangecities}
-                          placeholder="-- Choose City --"
-                          classNamePrefix="select"
-                          isSearchable
-                          value={
-                            cityOptions.find(
-                              (c) => c.CITY_ID === selectedCityData.cityId
-                            ) || null
-                          }
-                        />
-                        {galleryselectedCityDataErrMsg && (
-                          <div
-                            className="text-danger mt-1"
-                            style={{ fontSize: "14px" }}
-                          >
-                            {galleryselectedCityDataErrMsg}
-                          </div>
-                        )}
-                      </div>
+                        {/* City Select */}
+                        <div className="col-12 col-md-4 mb-3">
+                          <h6 className="mb-2">Select a City:</h6>
+                          <WindowedSelect
+                            options={cityOptions}
+                            onChange={handleCityChangecities}
+                            placeholder="-- Choose City --"
+                            classNamePrefix="select"
+                            isSearchable
+                            value={
+                              cityOptions.find(
+                                (c) => c.CITY_ID === selectedCityData.cityId
+                              ) || null
+                            }
+                          />
+                          {galleryselectedCityDataErrMsg && (
+                            <div
+                              className="text-danger mt-1"
+                              style={{ fontSize: "14px" }}
+                            >
+                              {galleryselectedCityDataErrMsg}
+                            </div>
+                          )}
+                        </div>
 
-                      {/* District Select */}
-                      <div className="col-12 col-md-4 mb-3">
-                        <h6 className="mb-2">Select a District:</h6>
-                        <WindowedSelect
-                          options={districtOptions}
-                          onChange={handleDistrictChange}
-                          placeholder="-- Choose District --"
-                          classNamePrefix="select"
-                          isSearchable
-                          value={
-                            districtOptions.find(
-                              (d) =>
-                                d.District_ID === selectedDistrict.districtId
-                            ) || null
-                          }
-                        />
+                        {/* District Select */}
+                        <div className="col-12 col-md-4 mb-3">
+                          <h6 className="mb-2">Select a District:</h6>
+                          <WindowedSelect
+                            options={districtOptions}
+                            onChange={handleDistrictChange}
+                            placeholder="-- Choose District --"
+                            classNamePrefix="select"
+                            isSearchable
+                            value={
+                              districtOptions.find(
+                                (d) =>
+                                  d.District_ID === selectedDistrict.districtId
+                              ) || null
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="  ">
-                    <div className="mt-2 d-flex flex-column gap-2">
-                      {/* <div className="form-group mx-4"> */}
-                      <div
-                        className="form-group"
-                        style={{
-                          padding: "30px",
-                          boxShadow: "3px 5px 13px rgba(222, 226, 231, 0.44)",
-                        }}
-                      >
-                        <label className="col-form-label">
-                          Listing Title <span>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="title"
-                          className="form-control pass-input input-margin" // Add the new class here
-                          placeholder="Title"
-                          value={formData.title}
-                          onChange={handleChange}
-                        />
-                        {galleryListingTitleErrMsg && (
-                          <div
-                            className="text-danger ml-4 mt-1 "
-                            style={{ fontSize: "14px" }}
-                          >
-                            {galleryListingTitleErrMsg}
-                          </div>
-                        )}
-                      </div>
-
-                      <div
-                        className="d-flex justify-content-between"
-                        style={{
-                          marginTop: "1rem",
-                          width: "100vw",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        <div
-                          className="d-flex flex-column flex-md-row justify-content-between gap-2"
-                          style={{ width: "100%", marginTop: "-1rem" }}
-                        >
-                          <div className="card w-100 w-md-50">
-                            <div className="form-group">
-                              <label className="col-form-label label-heading">
-                                Category
-                              </label>
-                              <div className="row category-listing">
-                                <Select
-                                  options={categoryOptions}
-                                  value={categoryOptions.find(
-                                    (option) =>
-                                      option.value === formData.category
-                                  )}
-                                  onChange={handleCategoryChange}
-                                  className="basic-single"
-                                  classNamePrefix="select"
-                                  placeholder="Select Category"
-                                />
-                              </div>
-                              {error && <p style={{ color: "red" }}>{error}</p>}
+                    <div className="  ">
+                      <div className="mt-2 d-flex flex-column gap-2">
+                        {/* <div className="form-group mx-4"> */}
+                        <div className="form-group" style={{}}>
+                          <label className="col-form-label">
+                            Listing Title <span>*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="title"
+                            className="form-control pass-input input-margin" // Add the new class here
+                            placeholder="Title"
+                            value={formData.title}
+                            onChange={handleChange}
+                          />
+                          {galleryListingTitleErrMsg && (
+                            <div
+                              className="text-danger ml-4 mt-1 "
+                              style={{ fontSize: "14px" }}
+                            >
+                              {galleryListingTitleErrMsg}
                             </div>
-                          </div>
+                          )}
+                        </div>
 
-                          <div className="card w-100 w-md-50">
-                            <div className="form-group">
-                              <label className="col-form-label label-heading">
-                                Select SubCategory
-                              </label>
-                              <div className="row category-listing">
-                                <Select
-                                  options={subcategories}
-                                  value={
-                                    subcategories.find(
+                        <div
+                          className="d-flex justify-content-between"
+                          style={{
+                            marginTop: "1rem",
+                            width: "100vw",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <div
+                            className="d-flex flex-column flex-md-row justify-content-between gap-2"
+                            style={{ width: "100%", marginTop: "-1rem" }}
+                          >
+                            <div className="w-100 w-md-50">
+                              <div className="form-group">
+                                <label className="col-form-label label-heading">
+                                  Category
+                                </label>
+                                <div className="row category-listing">
+                                  <Select
+                                    options={categoryOptions}
+                                    value={categoryOptions.find(
                                       (option) =>
-                                        option.value === formData.SubCategory
-                                    ) || null
-                                  } // ✅ Set null when not found to clear it visually
-                                  onChange={handleSubcategoryChange}
-                                  className="basic-single"
-                                  classNamePrefix="select"
-                                  placeholder="Select Subcategory"
-                                />
-                                {/* <Select
+                                        option.value === formData.category
+                                    )}
+                                    onChange={handleCategoryChange}
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    placeholder="Select Category"
+                                  />
+                                </div>
+                                {error && (
+                                  <p style={{ color: "red" }}>{error}</p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="w-100 w-md-50">
+                              <div className="form-group">
+                                <label className="col-form-label label-heading">
+                                  Select SubCategory
+                                </label>
+                                <div className="row category-listing">
+                                  <Select
+                                    options={subcategories}
+                                    value={
+                                      subcategories.find(
+                                        (option) =>
+                                          option.value === formData.SubCategory
+                                      ) || null
+                                    } // ✅ Set null when not found to clear it visually
+                                    onChange={handleSubcategoryChange}
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    placeholder="Select Subcategory"
+                                  />
+                                  {/* <Select
                                   options={subcategories}
                                   value={subcategories.find(
                                     (option) =>
@@ -4910,1126 +4917,1130 @@ const AddLisiting = () => {
                                   classNamePrefix="select"
                                   placeholder="Select Subcategory"
                                 /> */}
+                                </div>
                               </div>
+                              <span
+                                style={{
+                                  fontSize: "16px",
+                                  color: "red",
+                                  textAlign: "start",
+                                }}
+                              >
+                                {SubCategoryErrMsg}
+                              </span>
                             </div>
-                            <span
-                              style={{
-                                fontSize: "16px",
-                                color: "red",
-                                textAlign: "start",
-                              }}
-                            >
-                              {SubCategoryErrMsg}
-                            </span>
+
+                            {Category.SubCategory === "Spare Parts" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={SpareParts}
+                                      value={SpareParts.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Trucks & Heavy Machinery" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={TrucksHeavyMachinery}
+                                      value={TrucksHeavyMachinery.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Boats & Jet Ski" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={BoatsJetSki}
+                                      value={BoatsJetSki.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Mobile Phones" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={MobilePhones}
+                                      value={MobilePhones.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Tablet Devices" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={TabletDevices}
+                                      value={TabletDevices.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Video Games" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={VideoGames}
+                                      value={VideoGames.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory ===
+                            "Accounts & Subscriptions" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={AccountsSubscriptions}
+                                      value={AccountsSubscriptions.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory === "Special Number" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={SpecialNumber}
+                                      value={SpecialNumber.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory ===
+                            "Home & Kitchen Appliance" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={HomeKitchenAppliance}
+                                      value={HomeKitchenAppliance.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Watches" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Watches}
+                                      value={Watches.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Perfumes & Incense" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={PerfumesIncense}
+                                      value={PerfumesIncense.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory === "Cameras" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Cameras}
+                                      value={Cameras.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Sports Equipment" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={SportsEquipment}
+                                      value={SportsEquipment.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Men's Fashion" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={MenFashion}
+                                      value={MenFashion.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Women's Fashion" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={WomenFashion}
+                                      value={WomenFashion.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Children's Clothing & Accessories" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={ChildrenClothingAccessories}
+                                      value={ChildrenClothingAccessories.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Health & Beauty" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={HealthBeauty}
+                                      value={HealthBeauty.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Administrative Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={AdministrativeJobs}
+                                      value={AdministrativeJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Fashion & Beauty Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={FashionBeautyJobs}
+                                      value={FashionBeautyJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Security & Safety Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={SecuritySafetyJobs}
+                                      value={SecuritySafetyJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "IT & Design Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={ITDesignJobs}
+                                      value={ITDesignJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Agriculture & Farming Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={AgricultureFarmingJobs}
+                                      value={AgricultureFarmingJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Industrial Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={IndustrialJobs}
+                                      value={IndustrialJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory ===
+                            "Medical & Nursing Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={MedicalNursingJobs}
+                                      value={MedicalNursingJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory ===
+                            "Architecture & Construction Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={ArchitectureConstructionJobs}
+                                      value={ArchitectureConstructionJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Housekeeping Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={HousekeepingJobs}
+                                      value={HousekeepingJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Restaurant Jobs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={RestaurantJobs}
+                                      value={RestaurantJobs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Sheep" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Sheep}
+                                      value={Sheep.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Goats" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Goats}
+                                      value={Goats.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Parrot" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Parrot}
+                                      value={Parrot.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Dove/Pigeon" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={DovePigeon}
+                                      value={DovePigeon.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Cats" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Cats}
+                                      value={Cats.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Chickens" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Chickens}
+                                      value={Chickens.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Camels" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Camels}
+                                      value={Camels.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Horses" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Horses}
+                                      value={Horses.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory === "Dogs" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Dogs}
+                                      value={Dogs.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+
+                            {Category.SubCategory === "Cows" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Cows}
+                                      value={Cows.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Hamsters" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Hamsters}
+                                      value={Hamsters.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Squirrels" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Squirrels}
+                                      value={Squirrels.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {Category.SubCategory === "Ducks" ? (
+                              <div className="w-100 w-md-50">
+                                <div className="form-group">
+                                  <label className="col-form-label label-heading">
+                                    Select Nested SubCategory
+                                  </label>
+                                  <div className="row category-listing">
+                                    <Select
+                                      options={Ducks}
+                                      value={Ducks.find(
+                                        (option) =>
+                                          option.value ===
+                                          formData.NestedSubCategory
+                                      )}
+                                      onChange={SparePartsChange}
+                                      className="basic-single"
+                                      classNamePrefix="select"
+                                      placeholder="Select Subcategory"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
-
-                          {Category.SubCategory === "Spare Parts" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={SpareParts}
-                                    value={SpareParts.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory ===
-                          "Trucks & Heavy Machinery" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={TrucksHeavyMachinery}
-                                    value={TrucksHeavyMachinery.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Boats & Jet Ski" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={BoatsJetSki}
-                                    value={BoatsJetSki.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Mobile Phones" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={MobilePhones}
-                                    value={MobilePhones.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Tablet Devices" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={TabletDevices}
-                                    value={TabletDevices.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Video Games" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={VideoGames}
-                                    value={VideoGames.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory ===
-                          "Accounts & Subscriptions" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={AccountsSubscriptions}
-                                    value={AccountsSubscriptions.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory === "Special Number" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={SpecialNumber}
-                                    value={SpecialNumber.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory ===
-                          "Home & Kitchen Appliance" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={HomeKitchenAppliance}
-                                    value={HomeKitchenAppliance.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Watches" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Watches}
-                                    value={Watches.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Perfumes & Incense" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={PerfumesIncense}
-                                    value={PerfumesIncense.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory === "Cameras" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Cameras}
-                                    value={Cameras.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Sports Equipment" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={SportsEquipment}
-                                    value={SportsEquipment.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Men's Fashion" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={MenFashion}
-                                    value={MenFashion.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Women's Fashion" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={WomenFashion}
-                                    value={WomenFashion.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory ===
-                          "Children's Clothing & Accessories" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={ChildrenClothingAccessories}
-                                    value={ChildrenClothingAccessories.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Health & Beauty" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={HealthBeauty}
-                                    value={HealthBeauty.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Administrative Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={AdministrativeJobs}
-                                    value={AdministrativeJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Fashion & Beauty Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={FashionBeautyJobs}
-                                    value={FashionBeautyJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Security & Safety Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={SecuritySafetyJobs}
-                                    value={SecuritySafetyJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "IT & Design Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={ITDesignJobs}
-                                    value={ITDesignJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory ===
-                          "Agriculture & Farming Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={AgricultureFarmingJobs}
-                                    value={AgricultureFarmingJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Industrial Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={IndustrialJobs}
-                                    value={IndustrialJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory === "Medical & Nursing Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={MedicalNursingJobs}
-                                    value={MedicalNursingJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory ===
-                          "Architecture & Construction Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={ArchitectureConstructionJobs}
-                                    value={ArchitectureConstructionJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Housekeeping Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={HousekeepingJobs}
-                                    value={HousekeepingJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Restaurant Jobs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={RestaurantJobs}
-                                    value={RestaurantJobs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Sheep" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Sheep}
-                                    value={Sheep.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Goats" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Goats}
-                                    value={Goats.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Parrot" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Parrot}
-                                    value={Parrot.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Dove/Pigeon" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={DovePigeon}
-                                    value={DovePigeon.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Cats" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Cats}
-                                    value={Cats.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Chickens" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Chickens}
-                                    value={Chickens.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Camels" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Camels}
-                                    value={Camels.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Horses" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Horses}
-                                    value={Horses.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory === "Dogs" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Dogs}
-                                    value={Dogs.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-
-                          {Category.SubCategory === "Cows" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Cows}
-                                    value={Cows.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Hamsters" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Hamsters}
-                                    value={Hamsters.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Squirrels" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Squirrels}
-                                    value={Squirrels.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                          {Category.SubCategory === "Ducks" ? (
-                            <div className="card w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  Select Nested SubCategory
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={Ducks}
-                                    value={Ducks.find(
-                                      (option) =>
-                                        option.value ===
-                                        formData.NestedSubCategory
-                                    )}
-                                    onChange={SparePartsChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder="Select Subcategory"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
                         </div>
-                      </div>
-                      {[
-                        "Mobile Phones",
-                        "Tablet Devices",
-                        "Computers & Laptops",
-                        "Video Games",
-                        "Television & Audio System",
-                        "Accounts & Subscriptions",
-                        "Special Number",
-                        "Home & Kitchen Appliance",
-                        "Motors & Generators",
-                        "Cameras",
-                        "Networking Devices",
-                        "Screens & Projectors",
-                        "Printer & Scanner",
-                        "Computer Accessories",
-                      ].some(
-                        (item) =>
-                          item === Category.SubCategory ||
-                          item === DataCatorgySHow
-                      ) ? (
-                        <>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                        {[
+                          "Mobile Phones",
+                          "Tablet Devices",
+                          "Computers & Laptops",
+                          "Video Games",
+                          "Television & Audio System",
+                          "Accounts & Subscriptions",
+                          "Special Number",
+                          "Home & Kitchen Appliance",
+                          "Motors & Generators",
+                          "Cameras",
+                          "Networking Devices",
+                          "Screens & Projectors",
+                          "Printer & Scanner",
+                          "Computer Accessories",
+                        ].some(
+                          (item) =>
+                            item === Category.SubCategory ||
+                            item === DataCatorgySHow
+                        ) ? (
+                          <>
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Condition</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New",
-                                      label: "New",
-                                    },
-                                    {
-                                      name: "Used",
-                                      label: "Used",
-                                    },
-                                    { name: "Manual", label: "Manual" },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={
-                                            formData.Condition === feature.name
-                                          }
-                                          onChange={handleCondition} // ✅ Fixed function name
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="condition_block">
+                              <div className="card-header">
+                                <h4>Condition</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New",
+                                        label: "New",
+                                      },
+                                      {
+                                        name: "Used",
+                                        label: "Used",
+                                      },
+                                      { name: "Manual", label: "Manual" },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={
+                                              formData.Condition ===
+                                              feature.name
+                                            }
+                                            onChange={handleCondition} // ✅ Fixed function name
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -6061,1920 +6072,1961 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Cars For Sale",
-                          "Car Rental",
-                          "Plates Number",
-                          "Spare Parts",
-                          "Accessories",
-                          "Wheels & Rims",
-                          "Trucks & Heavy Machinery",
-                          "Tshaleeh",
-                          "Boats & Jet Ski",
-                          "Classic Cars",
-                          "Salvage Cars",
-                          "Mortgaged Cars",
-                          "Recovery",
-                          "Food Truck",
-                          "Caravans",
-                          "Reports",
-                          "Car Cleaning",
-                          "Vehicle Services",
-                          "Cars",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          <div className="card gap-2">
-                            <div className="card-header">
-                              <h4>Basic Information</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group">
-                                <label className="col-form-label">
-                                  KM Driven
-                                </label>
-                                <input
-                                  type="text"
-                                  name="kmDriven"
-                                  className="form-control pass-input"
-                                  placeholder="Enter kilometers driven"
-                                  value={formData.kmDriven}
-                                  onChange={handleChange}
-                                />
+                          </>
+                        ) : [
+                            "Cars For Sale",
+                            "Car Rental",
+                            "Plates Number",
+                            "Spare Parts",
+                            "Accessories",
+                            "Wheels & Rims",
+                            "Trucks & Heavy Machinery",
+                            "Tshaleeh",
+                            "Boats & Jet Ski",
+                            "Classic Cars",
+                            "Salvage Cars",
+                            "Mortgaged Cars",
+                            "Recovery",
+                            "Food Truck",
+                            "Caravans",
+                            "Reports",
+                            "Car Cleaning",
+                            "Vehicle Services",
+                            "Cars",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            <div className="basic_info_wrap gap-2">
+                              <div className="card-header">
+                                <h4>Basic Information</h4>
                               </div>
-                              <div className="card">
-                                <div className="card-header">
-                                  <h4>Transmission</h4>
+                              <div className="card-body">
+                                <div className="form-group">
+                                  <label className="col-form-label">
+                                    KM Driven
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="kmDriven"
+                                    className="form-control pass-input"
+                                    placeholder="Enter kilometers driven"
+                                    value={formData.kmDriven}
+                                    onChange={handleChange}
+                                  />
                                 </div>
-                                <div className="card-body">
-                                  <div className="form-group featuresform-list mb-0">
-                                    <ul>
-                                      {[
-                                        {
-                                          name: "Automatic",
-                                          label: "Automatic",
-                                        },
-                                        { name: "Manual", label: "Manual" },
-                                      ].map((feature) => (
-                                        <li key={feature.name}>
-                                          <label className="custom_check">
-                                            <input
-                                              type="checkbox"
-                                              name={feature.name}
-                                              checked={
-                                                formData.Transmission ===
-                                                feature.name
-                                              }
-                                              onChange={
-                                                handleTransmissionChange
-                                              } // ✅ Fixed function name
-                                            />
-                                            <span className="checkmark" />{" "}
-                                            {feature.label}
-                                          </label>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                    <div className="clearfix" />
+                                <div className="transmission_block">
+                                  <div className="card-header">
+                                    <h4>Transmission</h4>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="form-group featuresform-list mb-0">
+                                      <ul className="colu-2">
+                                        {[
+                                          {
+                                            name: "Automatic",
+                                            label: "Automatic",
+                                          },
+                                          { name: "Manual", label: "Manual" },
+                                        ].map((feature) => (
+                                          <li key={feature.name}>
+                                            <label className="custom_check">
+                                              <input
+                                                type="checkbox"
+                                                name={feature.name}
+                                                checked={
+                                                  formData.Transmission ===
+                                                  feature.name
+                                                }
+                                                onChange={
+                                                  handleTransmissionChange
+                                                } // ✅ Fixed function name
+                                              />
+                                              <span className="checkmark" />{" "}
+                                              {feature.label}
+                                            </label>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                      <div className="clearfix" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="condition_block">
+                                  <div className="card-header">
+                                    <h4>Condition</h4>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="form-group featuresform-list mb-0">
+                                      <ul className="colu-3">
+                                        {[
+                                          {
+                                            name: "New",
+                                            label: "New",
+                                          },
+                                          {
+                                            name: "Used",
+                                            label: "Used",
+                                          },
+                                          { name: "Manual", label: "Manual" },
+                                        ].map((feature) => (
+                                          <li key={feature.name}>
+                                            <label className="custom_check">
+                                              <input
+                                                type="checkbox"
+                                                name={feature.name}
+                                                checked={
+                                                  formData.Condition ===
+                                                  feature.name
+                                                }
+                                                onChange={handleCondition} // ✅ Fixed function name
+                                              />
+                                              <span className="checkmark" />{" "}
+                                              {feature.label}
+                                            </label>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                      <div className="clearfix" />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="card">
-                                <div className="card-header">
-                                  <h4>Condition</h4>
-                                </div>
-                                <div className="card-body">
-                                  <div className="form-group featuresform-list mb-0">
-                                    <ul>
-                                      {[
-                                        {
-                                          name: "New",
-                                          label: "New",
-                                        },
-                                        {
-                                          name: "Used",
-                                          label: "Used",
-                                        },
-                                        { name: "Manual", label: "Manual" },
-                                      ].map((feature) => (
-                                        <li key={feature.name}>
-                                          <label className="custom_check">
-                                            <input
-                                              type="checkbox"
-                                              name={feature.name}
-                                              checked={
-                                                formData.Condition ===
-                                                feature.name
-                                              }
-                                              onChange={handleCondition} // ✅ Fixed function name
-                                            />
-                                            <span className="checkmark" />{" "}
-                                            {feature.label}
-                                          </label>
+                              <div className="card-body">
+                                <div className="form-group relative">
+                                  <div className="card-header">
+                                    <h4>Make</h4>
+                                  </div>
+                                  <input
+                                    className="form-control pass-input"
+                                    type="text"
+                                    placeholder="Select car brand"
+                                    value={query}
+                                    onChange={(e) => {
+                                      setQuery(e.target.value);
+                                      setSelected(null);
+                                      setShowList(true);
+                                    }}
+                                    onFocus={() => {
+                                      // Clear previously selected value when clicking again
+                                      setQuery("");
+                                      setSelected(null);
+                                      setShowList(true);
+                                    }}
+                                    onBlur={() =>
+                                      setTimeout(() => setShowList(false), 150)
+                                    } // slight delay
+                                  />
+                                  {showList && filteredBrands.length > 0 && (
+                                    <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
+                                      {filteredBrands.map((brand) => (
+                                        <li
+                                          key={brand}
+                                          className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                          onMouseDown={() =>
+                                            handleSelect(brand)
+                                          }
+                                        >
+                                          {brand}
                                         </li>
                                       ))}
                                     </ul>
-                                    <div className="clearfix" />
+                                  )}
+                                </div>
+
+                                {selected === "Toyota" && (
+                                  <div className="mt-4">
+                                    <div className="card-header">
+                                      <h4>Model</h4>
+                                    </div>
+                                    {/* <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Model
+                                  </label> */}
+                                    <select
+                                      className="form-control pass-input"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {toyotaModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
                                   </div>
+                                )}
+                                {selected === "Ford" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control pass-input"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {fordModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Chevrolet" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {chevroletModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Nissan" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {nissanModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Hyundai" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {hyundaiModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+
+                                {selected === "Genesis" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {genesisModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Lexus" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {lexusModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "GMC" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {gmcModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Mercedes" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {mercedesModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Honda" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {hondaModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "BMW" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Model</option>
+                                      {bmwModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Motorcycles" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Brand
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Motorcycle Brand
+                                      </option>
+                                      {motorcycleBrands.map((brand) => (
+                                        <option key={brand} value={brand}>
+                                          {brand}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Kia" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Kia Model</option>
+                                      {kiaModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Dodge" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Dodge Model
+                                      </option>
+                                      {dodgeModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Chrysler" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Chrysler Model
+                                      </option>
+                                      {chryslerModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Jeep" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Jeep Model
+                                      </option>
+                                      {jeepModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Mitsubishi" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Mitsubishi Model
+                                      </option>
+                                      {mitsubishiModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Mazda" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Mazda Model
+                                      </option>
+                                      {mazdaModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Porsche" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Porsche Model
+                                      </option>
+                                      {porscheModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Audi" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Audi Model
+                                      </option>
+                                      {audiModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Suzuki" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Suzuki Model
+                                      </option>
+                                      {suzukiModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Infiniti" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Infiniti Model
+                                      </option>
+                                      {infinitiModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Hummer" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Hummer Model
+                                      </option>
+                                      {hummerModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Lincoln" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Lincoln Model
+                                      </option>
+                                      {lincolnModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Volkswagen" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Volkswagen Model
+                                      </option>
+                                      {volkswagenModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Daihatsu" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Daihatsu Model
+                                      </option>
+                                      {daihatsuModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Geely" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Geely Model
+                                      </option>
+                                      {geelyModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Mercury" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Mercury Model
+                                      </option>
+                                      {mercuryModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Volvo" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Volvo Model
+                                      </option>
+                                      {volvoModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Peugeot" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Peugeot Model
+                                      </option>
+                                      {peugeotModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Bentley" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Bentley Model
+                                      </option>
+                                      {bentleyModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Jaguar" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Jaguar Model
+                                      </option>
+                                      {jaguarModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Subaru" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Subaru Model
+                                      </option>
+                                      {subaruModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "MG" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select MG Model</option>
+                                      {mgModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Changan" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Changan Model
+                                      </option>
+                                      {changanModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Renault" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Renault Model
+                                      </option>
+                                      {renaultModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Buick" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Buick Model
+                                      </option>
+                                      {buickModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Rolls-Royce" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Rolls-Royce Model
+                                      </option>
+                                      {rollsRoyceModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Lamborghini" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Lamborghini Model
+                                      </option>
+                                      {lamborghiniModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Opel" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Opel Model
+                                      </option>
+                                      {opelModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Skoda" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Skoda Model
+                                      </option>
+                                      {skodaModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Ferrari" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Ferrari Model
+                                      </option>
+                                      {ferrariModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Citroen" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Citroen Model
+                                      </option>
+                                      {citroenModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Chery" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Chery Model
+                                      </option>
+                                      {cheryModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+
+                                {selected === "Daewoo" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Daewoo Model
+                                      </option>
+                                      {daewooModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "SABB" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select SABB Model
+                                      </option>
+                                      {sabbModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "SsangYong" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select SsangYong Model
+                                      </option>
+                                      {ssangYongModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Aston Martin" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Aston Martin Model
+                                      </option>
+                                      {astonMartinModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Proton" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Proton Model
+                                      </option>
+                                      {protonModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Haval" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Haval Model
+                                      </option>
+                                      {havalModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "GAC" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select GAC Model</option>
+                                      {gacModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Great Wall" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Great Wall Model
+                                      </option>
+                                      {greatWallModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "FAW" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select FAW Model</option>
+                                      {fawModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "BYD" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select BYD Model</option>
+                                      {bydModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Alfa Romeo" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Alfa Romeo Model
+                                      </option>
+                                      {alfaRomeoModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "TATA" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select TATA Model
+                                      </option>
+                                      {tataModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "JETOUR" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select JETOUR Model
+                                      </option>
+                                      {jetourModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "CMC" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select CMC Model</option>
+                                      {cmcModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "VICTORY AUTO" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Victory Auto Model
+                                      </option>
+                                      {victoryAutoModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "MAXUS" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Maxus Model
+                                      </option>
+                                      {maxusModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "BAIC" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Baic Model
+                                      </option>
+                                      {baicModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "DONGFENG" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Dongfeng Model
+                                      </option>
+                                      {dongfengModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "EXEED" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select EXEED Model
+                                      </option>
+                                      {exeedModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Tank" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Tank Model
+                                      </option>
+                                      {tankModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Lynk & Co" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Lynk & Co Model
+                                      </option>
+                                      {lynkCoModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "Lucid" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select Lucid Model
+                                      </option>
+                                      {lucidModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                                {selected === "INEOS" && (
+                                  <div className="mt-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                      Model
+                                    </label>
+                                    <select
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          Model: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">
+                                        Select INEOS Model
+                                      </option>
+                                      {ineosModels.map((model) => (
+                                        <option key={model} value={model}>
+                                          {model}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group">
+                                  <label className="col-form-label">
+                                    Mileage
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="mileage"
+                                    className="form-control pass-input"
+                                    placeholder="Enter mileage"
+                                    value={formData.mileage}
+                                    onChange={handleChange}
+                                  />
                                 </div>
                               </div>
                             </div>
-                            <div className="card-body">
-                              <div className="form-group relative">
-                                <div className="card-header">
-                                  <h4>Make</h4>
-                                </div>
-                                <input
-                                  className="form-control pass-input"
-                                  type="text"
-                                  placeholder="Select car brand"
-                                  value={query}
-                                  onChange={(e) => {
-                                    setQuery(e.target.value);
-                                    setSelected(null);
-                                    setShowList(true);
-                                  }}
-                                  onFocus={() => {
-                                    // Clear previously selected value when clicking again
-                                    setQuery("");
-                                    setSelected(null);
-                                    setShowList(true);
-                                  }}
-                                  onBlur={() =>
-                                    setTimeout(() => setShowList(false), 150)
-                                  } // slight delay
-                                />
-                                {showList && filteredBrands.length > 0 && (
-                                  <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
-                                    {filteredBrands.map((brand) => (
-                                      <li
-                                        key={brand}
-                                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                                        onMouseDown={() => handleSelect(brand)}
-                                      >
-                                        {brand}
+
+                            <div className="regional_block">
+                              <div className="card-header">
+                                <h4>Regional Specs</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "GCC", label: "GCC Specs" },
+                                      {
+                                        name: "American",
+                                        label: "American Specs",
+                                      },
+                                      {
+                                        name: "Japanese",
+                                        label: "Japanese Specs",
+                                      },
+                                      {
+                                        name: "European",
+                                        label: "European Specs",
+                                      },
+                                      {
+                                        name: "Canadian",
+                                        label: "Canadian Specs",
+                                      },
+                                    ].map((spec) => (
+                                      <li key={spec.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={spec.name}
+                                            checked={
+                                              formData.RegionalSpec ===
+                                              spec.name
+                                            }
+                                            onChange={handleRegionalSpecChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {spec.label}
+                                        </label>
                                       </li>
                                     ))}
                                   </ul>
-                                )}
-                              </div>
-
-                              {selected === "Toyota" && (
-                                <div className="mt-4">
-                                  <div className="card-header">
-                                    <h4>Model</h4>
-                                  </div>
-                                  {/* <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label> */}
-                                  <select
-                                    className="form-control pass-input"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {toyotaModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
+                                  <div className="clearfix" />
                                 </div>
-                              )}
-                              {selected === "Ford" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control pass-input"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {fordModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Chevrolet" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {chevroletModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Nissan" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {nissanModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Hyundai" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {hyundaiModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              {selected === "Genesis" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {genesisModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Lexus" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {lexusModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "GMC" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {gmcModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Mercedes" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {mercedesModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Honda" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {hondaModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "BMW" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Model</option>
-                                    {bmwModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Motorcycles" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Brand
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Motorcycle Brand
-                                    </option>
-                                    {motorcycleBrands.map((brand) => (
-                                      <option key={brand} value={brand}>
-                                        {brand}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Kia" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Kia Model</option>
-                                    {kiaModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Dodge" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Dodge Model</option>
-                                    {dodgeModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Chrysler" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Chrysler Model
-                                    </option>
-                                    {chryslerModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Jeep" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Jeep Model</option>
-                                    {jeepModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Mitsubishi" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Mitsubishi Model
-                                    </option>
-                                    {mitsubishiModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Mazda" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Mazda Model</option>
-                                    {mazdaModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Porsche" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Porsche Model
-                                    </option>
-                                    {porscheModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Audi" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Audi Model</option>
-                                    {audiModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Suzuki" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Suzuki Model
-                                    </option>
-                                    {suzukiModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Infiniti" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Infiniti Model
-                                    </option>
-                                    {infinitiModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Hummer" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Hummer Model
-                                    </option>
-                                    {hummerModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Lincoln" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Lincoln Model
-                                    </option>
-                                    {lincolnModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Volkswagen" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Volkswagen Model
-                                    </option>
-                                    {volkswagenModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Daihatsu" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Daihatsu Model
-                                    </option>
-                                    {daihatsuModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Geely" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Geely Model</option>
-                                    {geelyModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Mercury" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Mercury Model
-                                    </option>
-                                    {mercuryModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Volvo" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Volvo Model</option>
-                                    {volvoModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Peugeot" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Peugeot Model
-                                    </option>
-                                    {peugeotModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Bentley" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Bentley Model
-                                    </option>
-                                    {bentleyModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Jaguar" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Jaguar Model
-                                    </option>
-                                    {jaguarModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Subaru" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Subaru Model
-                                    </option>
-                                    {subaruModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "MG" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select MG Model</option>
-                                    {mgModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Changan" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Changan Model
-                                    </option>
-                                    {changanModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Renault" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Renault Model
-                                    </option>
-                                    {renaultModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Buick" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Buick Model</option>
-                                    {buickModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Rolls-Royce" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Rolls-Royce Model
-                                    </option>
-                                    {rollsRoyceModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Lamborghini" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Lamborghini Model
-                                    </option>
-                                    {lamborghiniModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Opel" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Opel Model</option>
-                                    {opelModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Skoda" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Skoda Model</option>
-                                    {skodaModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Ferrari" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Ferrari Model
-                                    </option>
-                                    {ferrariModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Citroen" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Citroen Model
-                                    </option>
-                                    {citroenModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Chery" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Chery Model</option>
-                                    {cheryModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-
-                              {selected === "Daewoo" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Daewoo Model
-                                    </option>
-                                    {daewooModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "SABB" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select SABB Model</option>
-                                    {sabbModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "SsangYong" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select SsangYong Model
-                                    </option>
-                                    {ssangYongModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Aston Martin" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Aston Martin Model
-                                    </option>
-                                    {astonMartinModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Proton" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Proton Model
-                                    </option>
-                                    {protonModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Haval" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Haval Model</option>
-                                    {havalModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "GAC" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select GAC Model</option>
-                                    {gacModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Great Wall" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Great Wall Model
-                                    </option>
-                                    {greatWallModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "FAW" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select FAW Model</option>
-                                    {fawModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "BYD" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select BYD Model</option>
-                                    {bydModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Alfa Romeo" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Alfa Romeo Model
-                                    </option>
-                                    {alfaRomeoModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "TATA" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select TATA Model</option>
-                                    {tataModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "JETOUR" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select JETOUR Model
-                                    </option>
-                                    {jetourModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "CMC" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select CMC Model</option>
-                                    {cmcModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "VICTORY AUTO" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Victory Auto Model
-                                    </option>
-                                    {victoryAutoModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "MAXUS" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Maxus Model</option>
-                                    {maxusModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "BAIC" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Baic Model</option>
-                                    {baicModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "DONGFENG" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Dongfeng Model
-                                    </option>
-                                    {dongfengModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "EXEED" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select EXEED Model</option>
-                                    {exeedModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Tank" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Tank Model</option>
-                                    {tankModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Lynk & Co" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">
-                                      Select Lynk & Co Model
-                                    </option>
-                                    {lynkCoModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "Lucid" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select Lucid Model</option>
-                                    {lucidModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                              {selected === "INEOS" && (
-                                <div className="mt-4">
-                                  <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Model
-                                  </label>
-                                  <select
-                                    className="form-control"
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        Model: e.target.value,
-                                      }))
-                                    }
-                                  >
-                                    <option value="">Select INEOS Model</option>
-                                    {ineosModels.map((model) => (
-                                      <option key={model} value={model}>
-                                        {model}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                              )}
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group">
-                                <label className="col-form-label">
-                                  Mileage
-                                </label>
-                                <input
-                                  type="text"
-                                  name="mileage"
-                                  className="form-control pass-input"
-                                  placeholder="Enter mileage"
-                                  value={formData.mileage}
-                                  onChange={handleChange}
-                                />
                               </div>
                             </div>
-                          </div>
+                            <div className="fuel_type_block">
+                              <div className="card-header">
+                                <h4>Fuel type</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      // Added fuel types below
+                                      { name: "petrol", label: "Petrol" },
+                                      { name: "diesel", label: "Diesel" },
+                                      { name: "electric", label: "Electric" },
+                                      { name: "hybrid", label: "Hybrid" },
+                                      { name: "lpg", label: "LPG" },
+                                      { name: "cng", label: "CNG" },
+                                    ].map((spec) => (
+                                      <li key={spec.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={spec.name}
+                                            checked={
+                                              formData.Fueltype === spec.name
+                                            }
+                                            onChange={handleFueltype}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {spec.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="insurance_block">
+                              <div className="card-header">
+                                <h4>Insurance</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Comprehensive",
+                                        label: "Comprehensive Insurance",
+                                      },
+                                      {
+                                        name: "ThirdParty",
+                                        label: "Third-Party Insurance",
+                                      },
+                                      {
+                                        name: "No Insurance",
+                                        label: "No Insurance",
+                                      },
+                                    ].map((insurance) => (
+                                      <li key={insurance.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={insurance.name}
+                                            checked={
+                                              formData.Insurance ===
+                                              insurance.name
+                                            }
+                                            onChange={handleInsuranceChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {insurance.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
+                              </div>
+                            </div>
 
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Regional Specs</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "GCC", label: "GCC Specs" },
-                                    {
-                                      name: "American",
-                                      label: "American Specs",
-                                    },
-                                    {
-                                      name: "Japanese",
-                                      label: "Japanese Specs",
-                                    },
-                                    {
-                                      name: "European",
-                                      label: "European Specs",
-                                    },
-                                    {
-                                      name: "Canadian",
-                                      label: "Canadian Specs",
-                                    },
-                                  ].map((spec) => (
-                                    <li key={spec.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={spec.name}
-                                          checked={
-                                            formData.RegionalSpec === spec.name
-                                          }
-                                          onChange={handleRegionalSpecChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {spec.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Fuel type</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    // Added fuel types below
-                                    { name: "petrol", label: "Petrol" },
-                                    { name: "diesel", label: "Diesel" },
-                                    { name: "electric", label: "Electric" },
-                                    { name: "hybrid", label: "Hybrid" },
-                                    { name: "lpg", label: "LPG" },
-                                    { name: "cng", label: "CNG" },
-                                  ].map((spec) => (
-                                    <li key={spec.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={spec.name}
-                                          checked={
-                                            formData.Fueltype === spec.name
-                                          }
-                                          onChange={handleFueltype}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {spec.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Insurance</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Comprehensive",
-                                      label: "Comprehensive Insurance",
-                                    },
-                                    {
-                                      name: "ThirdParty",
-                                      label: "Third-Party Insurance",
-                                    },
-                                    {
-                                      name: "No Insurance",
-                                      label: "No Insurance",
-                                    },
-                                  ].map((insurance) => (
-                                    <li key={insurance.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={insurance.name}
-                                          checked={
-                                            formData.Insurance ===
-                                            insurance.name
-                                          }
-                                          onChange={handleInsuranceChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {insurance.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Color </h4>
                             </div>
@@ -8006,276 +8058,285 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Interior Color </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "White", label: "White" },
-                                    { name: "Black", label: "Black" },
-                                    { name: "Grey", label: "Grey" },
-                                    { name: "Red", label: "Red" },
-                                    { name: "Yellow", label: "Yellow" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.InteriorColor === area.name
-                                          }
-                                          onChange={handleInteriorColor}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="interior_block">
+                              <div className="card-header">
+                                <h4>Interior Color </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "White", label: "White" },
+                                      { name: "Black", label: "Black" },
+                                      { name: "Grey", label: "Grey" },
+                                      { name: "Red", label: "Red" },
+                                      { name: "Yellow", label: "Yellow" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.InteriorColor ===
+                                              area.name
+                                            }
+                                            onChange={handleInteriorColor}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Exterior Color: </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "White", label: "White" },
-                                    { name: "Black", label: "Black" },
-                                    { name: "Grey", label: "Grey" },
-                                    { name: "Red", label: "Red" },
-                                    { name: "Yellow", label: "Yellow" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Color === area.name}
-                                          onChange={handleExteriorColorChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="exterior_main_block">
+                              <div className="card-header">
+                                <h4>Exterior Color: </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-2">
+                                    {[
+                                      { name: "White", label: "White" },
+                                      { name: "Black", label: "Black" },
+                                      { name: "Grey", label: "Grey" },
+                                      { name: "Red", label: "Red" },
+                                      { name: "Yellow", label: "Yellow" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Color === area.name
+                                            }
+                                            onChange={handleExteriorColorChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Additional Features </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "fullOption",
-                                      label: "Full option",
-                                    },
-                                    { name: "insured", label: "Insured" },
-                                    {
-                                      name: "selfParking",
-                                      label: "Self Parking",
-                                    },
-                                    {
-                                      name: "alarmSystem",
-                                      label: "Alarm System",
-                                    },
-                                    { name: "dealership", label: "Dealership" },
-                                    {
-                                      name: "quickSelling",
-                                      label: "Quick Selling",
-                                    },
-                                    { name: "navigation", label: "Navigation" },
-                                    {
-                                      name: "temperatureSeats",
-                                      label: "Temperature Controlled Seats",
-                                    },
-                                    { name: "inspected", label: "Inspected" },
-                                    {
-                                      name: "parkingSensors",
-                                      label: "Parking Sensors",
-                                    },
-                                    { name: "bluetooth", label: "Bluetooth" },
-                                    {
-                                      name: "sunroof",
-                                      label: "Sunroof/Moonroof",
-                                    },
-                                    {
-                                      name: "leatherSeats",
-                                      label: "Leather Seats",
-                                    },
-                                    {
-                                      name: "backupCamera",
-                                      label: "Backup Camera",
-                                    },
-                                    {
-                                      name: "heatedSeats",
-                                      label: "Heated Seats",
-                                    },
-                                    {
-                                      name: "keylessEntry",
-                                      label: "Keyless Entry",
-                                    },
-                                    {
-                                      name: "remoteStart",
-                                      label: "Remote Start",
-                                    },
-                                    {
-                                      name: "adaptiveCruise",
-                                      label: "Adaptive Cruise Control",
-                                    },
-                                    {
-                                      name: "laneDeparture",
-                                      label: "Lane Departure Warning",
-                                    },
-                                    {
-                                      name: "blindSpot",
-                                      label: "Blind Spot Monitoring",
-                                    },
-                                    {
-                                      name: "premiumSound",
-                                      label: "Premium Sound System",
-                                    },
-                                    { name: "awd", label: "All-Wheel Drive" },
-                                    {
-                                      name: "touchscreen",
-                                      label: "Touchscreen Display",
-                                    },
-                                    {
-                                      name: "carPlay",
-                                      label: "Apple CarPlay/Android Auto",
-                                    },
-                                    {
-                                      name: "ledHeadlights",
-                                      label: "LED Headlights",
-                                    },
-                                    {
-                                      name: "towPackage",
-                                      label: "Tow Package",
-                                    },
-                                    {
-                                      name: "powerLiftgate",
-                                      label: "Power Liftgate",
-                                    },
-                                    {
-                                      name: "headUpDisplay",
-                                      label: "Head-Up Display",
-                                    },
-                                    {
-                                      name: "rainWipers",
-                                      label: "Rain-Sensing Wipers",
-                                    },
-                                    {
-                                      name: "emergencyBraking",
-                                      label: "Automatic Emergency Braking",
-                                    },
-                                    {
-                                      name: "ambientLighting",
-                                      label: "Ambient Lighting",
-                                    },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={formData.AdditionalFeatures?.includes(
-                                            feature.name
-                                          )}
-                                          onChange={handleAdditionalFeatures}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="additional_feat_block">
+                              <div className="card-header">
+                                <h4>Additional Features </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "fullOption",
+                                        label: "Full option",
+                                      },
+                                      { name: "insured", label: "Insured" },
+                                      {
+                                        name: "selfParking",
+                                        label: "Self Parking",
+                                      },
+                                      {
+                                        name: "alarmSystem",
+                                        label: "Alarm System",
+                                      },
+                                      {
+                                        name: "dealership",
+                                        label: "Dealership",
+                                      },
+                                      {
+                                        name: "quickSelling",
+                                        label: "Quick Selling",
+                                      },
+                                      {
+                                        name: "navigation",
+                                        label: "Navigation",
+                                      },
+                                      {
+                                        name: "temperatureSeats",
+                                        label: "Temperature Controlled Seats",
+                                      },
+                                      { name: "inspected", label: "Inspected" },
+                                      {
+                                        name: "parkingSensors",
+                                        label: "Parking Sensors",
+                                      },
+                                      { name: "bluetooth", label: "Bluetooth" },
+                                      {
+                                        name: "sunroof",
+                                        label: "Sunroof/Moonroof",
+                                      },
+                                      {
+                                        name: "leatherSeats",
+                                        label: "Leather Seats",
+                                      },
+                                      {
+                                        name: "backupCamera",
+                                        label: "Backup Camera",
+                                      },
+                                      {
+                                        name: "heatedSeats",
+                                        label: "Heated Seats",
+                                      },
+                                      {
+                                        name: "keylessEntry",
+                                        label: "Keyless Entry",
+                                      },
+                                      {
+                                        name: "remoteStart",
+                                        label: "Remote Start",
+                                      },
+                                      {
+                                        name: "adaptiveCruise",
+                                        label: "Adaptive Cruise Control",
+                                      },
+                                      {
+                                        name: "laneDeparture",
+                                        label: "Lane Departure Warning",
+                                      },
+                                      {
+                                        name: "blindSpot",
+                                        label: "Blind Spot Monitoring",
+                                      },
+                                      {
+                                        name: "premiumSound",
+                                        label: "Premium Sound System",
+                                      },
+                                      { name: "awd", label: "All-Wheel Drive" },
+                                      {
+                                        name: "touchscreen",
+                                        label: "Touchscreen Display",
+                                      },
+                                      {
+                                        name: "carPlay",
+                                        label: "Apple CarPlay/Android Auto",
+                                      },
+                                      {
+                                        name: "ledHeadlights",
+                                        label: "LED Headlights",
+                                      },
+                                      {
+                                        name: "towPackage",
+                                        label: "Tow Package",
+                                      },
+                                      {
+                                        name: "powerLiftgate",
+                                        label: "Power Liftgate",
+                                      },
+                                      {
+                                        name: "headUpDisplay",
+                                        label: "Head-Up Display",
+                                      },
+                                      {
+                                        name: "rainWipers",
+                                        label: "Rain-Sensing Wipers",
+                                      },
+                                      {
+                                        name: "emergencyBraking",
+                                        label: "Automatic Emergency Braking",
+                                      },
+                                      {
+                                        name: "ambientLighting",
+                                        label: "Ambient Lighting",
+                                      },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={formData.AdditionalFeatures?.includes(
+                                              feature.name
+                                            )}
+                                            onChange={handleAdditionalFeatures}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Seller Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Dealers", label: "Dealers" },
-                                    {
-                                      name: "Individuals",
-                                      label: "Individuals",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.SellerType === area.name
-                                          }
-                                          onChange={handleSellerTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="seller_type_block">
+                              <div className="card-header">
+                                <h4>Seller Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-2">
+                                    {[
+                                      { name: "Dealers", label: "Dealers" },
+                                      {
+                                        name: "Individuals",
+                                        label: "Individuals",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.SellerType === area.name
+                                            }
+                                            onChange={handleSellerTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Model Category </h4>
                             </div>
@@ -8321,77 +8382,80 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Number of Doors </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "4", label: "4" },
-                                    { name: "5", label: "5" },
-                                    { name: "2", label: "2" },
-                                    { name: "3", label: "3" },
-                                    { name: "0", label: "0" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.NumberofDoors === area.name
-                                          }
-                                          onChange={handleNumberofDoorsChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="doors_block">
+                              <div className="card-header">
+                                <h4>Number of Doors </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "4", label: "4" },
+                                      { name: "5", label: "5" },
+                                      { name: "2", label: "2" },
+                                      { name: "3", label: "3" },
+                                      { name: "0", label: "0" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.NumberofDoors ===
+                                              area.name
+                                            }
+                                            onChange={handleNumberofDoorsChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Seating Capacity </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "4", label: "4" },
-                                    { name: "5", label: "5" },
-                                    { name: "2", label: "2" },
-                                    { name: "3", label: "3" },
-                                    { name: "0", label: "0" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.SeatingCapacity ===
-                                            area.name
-                                          }
-                                          onChange={handleSeatingCapacityChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="capacity_block">
+                              <div className="card-header">
+                                <h4>Seating Capacity </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "4", label: "4" },
+                                      { name: "5", label: "5" },
+                                      { name: "2", label: "2" },
+                                      { name: "3", label: "3" },
+                                      { name: "0", label: "0" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.SeatingCapacity ===
+                                              area.name
+                                            }
+                                            onChange={
+                                              handleSeatingCapacityChange
+                                            }
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Engine Type </h4>
                             </div>
@@ -8441,66 +8505,66 @@ const AddLisiting = () => {
                             </div>
                           </div> */}
 
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Body Type</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Coupe", label: "Coupe" },
-                                    {
-                                      name: "Sedan (Saloon)",
-                                      label: "Sedan (Saloon)",
-                                    },
-                                    { name: "SUV", label: "SUV" },
-                                    { name: "Hatchback", label: "Hatchback" },
-                                    {
-                                      name: "Convertible",
-                                      label: "Convertible",
-                                    },
-                                    {
-                                      name: "Wagon (Estate)",
-                                      label: "Wagon (Estate)",
-                                    },
-                                    {
-                                      name: "Pickup Truck",
-                                      label: "Pickup Truck",
-                                    },
-                                    { name: "Crossover", label: "Crossover" },
-                                    {
-                                      name: "Minivan (MPV)",
-                                      label: "Minivan (MPV)",
-                                    },
-                                    { name: "Roadster", label: "Roadster" },
-                                    { name: "Fastback", label: "Fastback" },
-                                    { name: "Liftback", label: "Liftback" },
-                                    { name: "Van", label: "Van" },
-                                    { name: "Microcar", label: "Microcar" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.BodyType === area.name
-                                          }
-                                          onChange={handleBodyTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="body_type_block">
+                              <div className="card-header">
+                                <h4>Body Type</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Coupe", label: "Coupe" },
+                                      {
+                                        name: "Sedan (Saloon)",
+                                        label: "Sedan (Saloon)",
+                                      },
+                                      { name: "SUV", label: "SUV" },
+                                      { name: "Hatchback", label: "Hatchback" },
+                                      {
+                                        name: "Convertible",
+                                        label: "Convertible",
+                                      },
+                                      {
+                                        name: "Wagon (Estate)",
+                                        label: "Wagon (Estate)",
+                                      },
+                                      {
+                                        name: "Pickup Truck",
+                                        label: "Pickup Truck",
+                                      },
+                                      { name: "Crossover", label: "Crossover" },
+                                      {
+                                        name: "Minivan (MPV)",
+                                        label: "Minivan (MPV)",
+                                      },
+                                      { name: "Roadster", label: "Roadster" },
+                                      { name: "Fastback", label: "Fastback" },
+                                      { name: "Liftback", label: "Liftback" },
+                                      { name: "Van", label: "Van" },
+                                      { name: "Microcar", label: "Microcar" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.BodyType === area.name
+                                            }
+                                            onChange={handleBodyTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          {/* <div className="form-group">
+                            {/* <div className="form-group">
                             <label className="col-form-label">
                               Engine Capacity
                             </label>
@@ -8512,39 +8576,39 @@ const AddLisiting = () => {
                               onChange={handleChange} // Ensures changes are handled
                             />
                           </div> */}
-                          <div className="form-group">
-                            <label className="col-form-label">
-                              Manufacture Year{" "}
-                            </label>
-                            <input
-                              type="text"
-                              name="ManufactureYear"
-                              className="form-control pass-input"
-                              placeholder="Manufacture Year"
-                              value={formData.ManufactureYear}
-                              onChange={handleChange}
-                            />
-                          </div>
-                        </>
-                      ) : [
-                          "Watches",
-                          "Perfumes & Incense",
-                          "Sports Equipment",
-                          "Men's Fashion",
-                          "Women's Fashion",
-                          "Children's Clothing & Accessories",
-                          "Sleepwear",
-                          "Gifts",
-                          "Luggage",
-                          "Health & Beauty",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                            <div className="form-group">
+                              <label className="col-form-label">
+                                Manufacture Year{" "}
+                              </label>
+                              <input
+                                type="text"
+                                name="ManufactureYear"
+                                className="form-control pass-input"
+                                placeholder="Manufacture Year"
+                                value={formData.ManufactureYear}
+                                onChange={handleChange}
+                              />
+                            </div>
+                          </>
+                        ) : [
+                            "Watches",
+                            "Perfumes & Incense",
+                            "Sports Equipment",
+                            "Men's Fashion",
+                            "Women's Fashion",
+                            "Children's Clothing & Accessories",
+                            "Sleepwear",
+                            "Gifts",
+                            "Luggage",
+                            "Health & Beauty",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -8575,139 +8639,145 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Brand </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Nike", label: "Nike" },
-                                    { name: "Adidas", label: "Adidas" },
-                                    { name: "Zara", label: "Zara" },
-                                    { name: "H&M", label: "H&M" },
-                                    { name: "Gucci", label: "Gucci" },
-                                    { name: "Prada", label: "Prada" },
-                                    { name: "Levis", label: "Levi's" },
-                                    { name: "Uniqlo", label: "Uniqlo" },
-                                    {
-                                      name: "LouisVuitton",
-                                      label: "Louis Vuitton",
-                                    },
-                                    { name: "Balenciaga", label: "Balenciaga" },
-                                    {
-                                      name: "UnderArmour",
-                                      label: "Under Armour",
-                                    },
-                                    { name: "Puma", label: "Puma" },
-                                    { name: "Versace", label: "Versace" },
-                                    {
-                                      name: "TommyHilfiger",
-                                      label: "Tommy Hilfiger",
-                                    },
-                                    {
-                                      name: "DolceGabbana",
-                                      label: "Dolce & Gabbana",
-                                    },
-                                    { name: "Armani", label: "Armani" },
-                                    {
-                                      name: "CalvinKlein",
-                                      label: "Calvin Klein",
-                                    },
-                                    { name: "OffWhite", label: "Off-White" },
-                                    { name: "Burberry", label: "Burberry" },
-                                    { name: "Shein", label: "Shein" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Brand === area.name}
-                                          onChange={handleBrandChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="brand_main_block">
+                              <div className="card-header">
+                                <h4>Brand </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Nike", label: "Nike" },
+                                      { name: "Adidas", label: "Adidas" },
+                                      { name: "Zara", label: "Zara" },
+                                      { name: "H&M", label: "H&M" },
+                                      { name: "Gucci", label: "Gucci" },
+                                      { name: "Prada", label: "Prada" },
+                                      { name: "Levis", label: "Levi's" },
+                                      { name: "Uniqlo", label: "Uniqlo" },
+                                      {
+                                        name: "LouisVuitton",
+                                        label: "Louis Vuitton",
+                                      },
+                                      {
+                                        name: "Balenciaga",
+                                        label: "Balenciaga",
+                                      },
+                                      {
+                                        name: "UnderArmour",
+                                        label: "Under Armour",
+                                      },
+                                      { name: "Puma", label: "Puma" },
+                                      { name: "Versace", label: "Versace" },
+                                      {
+                                        name: "TommyHilfiger",
+                                        label: "Tommy Hilfiger",
+                                      },
+                                      {
+                                        name: "DolceGabbana",
+                                        label: "Dolce & Gabbana",
+                                      },
+                                      { name: "Armani", label: "Armani" },
+                                      {
+                                        name: "CalvinKlein",
+                                        label: "Calvin Klein",
+                                      },
+                                      { name: "OffWhite", label: "Off-White" },
+                                      { name: "Burberry", label: "Burberry" },
+                                      { name: "Shein", label: "Shein" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Brand === area.name
+                                            }
+                                            onChange={handleBrandChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Condition</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New",
-                                      label: "New",
-                                    },
-                                    {
-                                      name: "Used",
-                                      label: "Used",
-                                    },
-                                    { name: "Manual", label: "Manual" },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={
-                                            formData.Condition === feature.name
-                                          }
-                                          onChange={handleCondition} // ✅ Fixed function name
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="condition_block">
+                              <div className="card-header">
+                                <h4>Condition</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New",
+                                        label: "New",
+                                      },
+                                      {
+                                        name: "Used",
+                                        label: "Used",
+                                      },
+                                      { name: "Manual", label: "Manual" },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={
+                                              formData.Condition ===
+                                              feature.name
+                                            }
+                                            onChange={handleCondition} // ✅ Fixed function name
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Gender </h4>
                             </div>
@@ -8740,38 +8810,40 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Size </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "XS", label: "XS" },
-                                    { name: "M", label: "M" },
-                                    { name: "L", label: "L" },
-                                    { name: "XL", label: "XL" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Size === area.name}
-                                          onChange={handleSizeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="size_block">
+                              <div className="card-header">
+                                <h4>Size </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-4">
+                                    {[
+                                      { name: "XS", label: "XS" },
+                                      { name: "M", label: "M" },
+                                      { name: "L", label: "L" },
+                                      { name: "XL", label: "XL" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Size === area.name
+                                            }
+                                            onChange={handleSizeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Fit </h4>
                             </div>
@@ -8811,7 +8883,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Material </h4>
                             </div>
@@ -8856,38 +8928,40 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Color </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Blue", label: "Blue" },
-                                    { name: "Black", label: "Black" },
-                                    { name: "Grey", label: "Grey" },
-                                    { name: "White", label: "White" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Color === area.name}
-                                          onChange={handleColorChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="color_main_block">
+                              <div className="card-header">
+                                <h4>Color </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-4">
+                                    {[
+                                      { name: "Blue", label: "Blue" },
+                                      { name: "Black", label: "Black" },
+                                      { name: "Grey", label: "Grey" },
+                                      { name: "White", label: "White" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Color === area.name
+                                            }
+                                            onChange={handleColorChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Style/Design </h4>
                             </div>
@@ -8927,7 +9001,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Closure Type </h4>
                             </div>
@@ -8965,7 +9039,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Collar Type </h4>
                             </div>
@@ -9005,7 +9079,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Sleeve Length </h4>
                             </div>
@@ -9046,7 +9120,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Wash Type </h4>
                             </div>
@@ -9095,7 +9169,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Features </h4>
                             </div>
@@ -9134,7 +9208,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Season </h4>
                             </div>
@@ -9170,7 +9244,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -9212,31 +9286,31 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Outdoor Furniture",
-                          "Majlis & Sofas",
-                          "Cabinets & Wardrobes",
-                          "Beds & Mattresses",
-                          "Tables & Chairs",
-                          "Kitchens",
-                          "Bathrooms",
-                          "Carpets",
-                          "Curtains",
-                          "Decoration & Accessories",
-                          "Lighting",
-                          "Household Items",
-                          "Garden - Plants",
-                          "Office Furniture",
-                          "Doors - Windows - Aluminium",
-                          "Tiles & Flooring",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Outdoor Furniture",
+                            "Majlis & Sofas",
+                            "Cabinets & Wardrobes",
+                            "Beds & Mattresses",
+                            "Tables & Chairs",
+                            "Kitchens",
+                            "Bathrooms",
+                            "Carpets",
+                            "Curtains",
+                            "Decoration & Accessories",
+                            "Lighting",
+                            "Household Items",
+                            "Garden - Plants",
+                            "Office Furniture",
+                            "Doors - Windows - Aluminium",
+                            "Tiles & Flooring",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -9267,77 +9341,78 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Condition</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New",
-                                      label: "New",
-                                    },
-                                    {
-                                      name: "Used",
-                                      label: "Used",
-                                    },
-                                    { name: "Manual", label: "Manual" },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={
-                                            formData.Condition === feature.name
-                                          }
-                                          onChange={handleCondition} // ✅ Fixed function name
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="condition_block">
+                              <div className="card-header">
+                                <h4>Condition</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New",
+                                        label: "New",
+                                      },
+                                      {
+                                        name: "Used",
+                                        label: "Used",
+                                      },
+                                      { name: "Manual", label: "Manual" },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={
+                                              formData.Condition ===
+                                              feature.name
+                                            }
+                                            onChange={handleCondition} // ✅ Fixed function name
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -9805,7 +9880,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -9847,27 +9922,27 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Administrative Jobs",
-                          "Fashion & Beauty Jobs",
-                          "Security & Safety Jobs",
-                          "Teaching Jobs",
-                          "IT & Design Jobs",
-                          "Agriculture & Farming Jobs",
-                          "Industrial Jobs",
-                          "Medical & Nursing Jobs",
-                          "Architecture & Construction Jobs",
-                          "Housekeeping Jobs",
-                          "Restaurant Jobs",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Administrative Jobs",
+                            "Fashion & Beauty Jobs",
+                            "Security & Safety Jobs",
+                            "Teaching Jobs",
+                            "IT & Design Jobs",
+                            "Agriculture & Farming Jobs",
+                            "Industrial Jobs",
+                            "Medical & Nursing Jobs",
+                            "Architecture & Construction Jobs",
+                            "Housekeeping Jobs",
+                            "Restaurant Jobs",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -9898,7 +9973,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card ">
+                            {/* <div className="card ">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -10240,33 +10315,33 @@ const AddLisiting = () => {
                               onChange={handleChange} // Ensures changes are handled
                             />
                           </div> */}
-                        </>
-                      ) : [
-                          "Hunting & Trips",
-                          "Gardening & Agriculture",
-                          "Parties & Events",
-                          "Travel & Tourism",
-                          "Roommate",
-                          "Lost & Found",
-                          "Education & Training",
-                          "Sports Training",
-                          "Stock & Forex Education",
-                          "Driving Lessons",
-                          "Private Tutoring",
-                          "Training Courses",
-                          "Antiques & Collectibles",
-                          "Projects & Investments",
-                          "Books & Arts",
-                          "Programming & Design",
-                          "Food & Beverages",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Hunting & Trips",
+                            "Gardening & Agriculture",
+                            "Parties & Events",
+                            "Travel & Tourism",
+                            "Roommate",
+                            "Lost & Found",
+                            "Education & Training",
+                            "Sports Training",
+                            "Stock & Forex Education",
+                            "Driving Lessons",
+                            "Private Tutoring",
+                            "Training Courses",
+                            "Antiques & Collectibles",
+                            "Projects & Investments",
+                            "Books & Arts",
+                            "Programming & Design",
+                            "Food & Beverages",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -10297,7 +10372,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Subject Categories </h4>
                             </div>
@@ -10509,32 +10584,32 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Apartments for Rent",
-                          "Apartments for Sale",
-                          "Building for Rent",
-                          "Building for Sale",
-                          "Camps for Rent",
-                          "Chalets for Sale",
-                          "Commercial Lands for Sale",
-                          "Compound for Rent",
-                          "Compound for Sale",
-                          "Farm for Rent",
-                          "Farms for Sale",
-                          "Floor for Sale",
-                          "Floors for Rent",
-                          "Hall for Rent",
-                          "Houses for Rent",
-                          "Houses for Sale",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Apartments for Rent",
+                            "Apartments for Sale",
+                            "Building for Rent",
+                            "Building for Sale",
+                            "Camps for Rent",
+                            "Chalets for Sale",
+                            "Commercial Lands for Sale",
+                            "Compound for Rent",
+                            "Compound for Sale",
+                            "Farm for Rent",
+                            "Farms for Sale",
+                            "Floor for Sale",
+                            "Floors for Rent",
+                            "Hall for Rent",
+                            "Houses for Rent",
+                            "Houses for Sale",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -10565,7 +10640,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Type </h4>
                             </div>
@@ -10605,84 +10680,84 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Frequency </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Dailly", label: "Dailly" },
-                                    {
-                                      name: "Weekly",
-                                      label: "Weekly",
-                                    },
-                                    {
-                                      name: "Montly",
-                                      label: "Montly",
-                                    },
-                                    { name: "Yearly", label: "Yearly" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Frequency === area.name
-                                          }
-                                          onChange={handleFrequency}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="frequency_main_block">
+                              <div className="card-header">
+                                <h4>Frequency </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-2">
+                                    {[
+                                      { name: "Dailly", label: "Dailly" },
+                                      {
+                                        name: "Weekly",
+                                        label: "Weekly",
+                                      },
+                                      {
+                                        name: "Montly",
+                                        label: "Montly",
+                                      },
+                                      { name: "Yearly", label: "Yearly" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Frequency === area.name
+                                            }
+                                            onChange={handleFrequency}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="condition_block">
                             <div className="card-header">
                               <h4>Condition</h4>
                             </div>
                             <div className="card-body">
                               <div className="form-group featuresform-list mb-0">
-                                <ul>
+                                <ul className="colu-3">
                                   {[
                                     {
                                       name: "New",
@@ -10714,301 +10789,304 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Residence Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Single", label: "Single" },
-                                    {
-                                      name: "Families",
-                                      label: "Families",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.ResidenceType === area.name
-                                          }
-                                          onChange={handleResidenceType}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="residence_main_block">
+                              <div className="card-header">
+                                <h4>Residence Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-2">
+                                    {[
+                                      { name: "Single", label: "Single" },
+                                      {
+                                        name: "Families",
+                                        label: "Families",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.ResidenceType ===
+                                              area.name
+                                            }
+                                            onChange={handleResidenceType}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Number of rooms </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "1 Bedroom",
-                                      label: "1 Bedroom",
-                                    },
-                                    {
-                                      name: "2 Bedroom",
-                                      label: "2 Bedroom",
-                                    },
-                                    {
-                                      name: "3 Bedroom",
-                                      label: "3 Bedroom",
-                                    },
-                                    {
-                                      name: "4 Bedroom",
-                                      label: "4 Bedroom",
-                                    },
-                                    {
-                                      name: "5 Bedroom",
-                                      label: "5 Bedroom",
-                                    },
-                                    {
-                                      name: "5+ Bedrooms",
-                                      label: "5+ Bedrooms",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Bedroom === area.name
-                                          }
-                                          onChange={handleBedroomChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="numroom_block">
+                              <div className="card-header">
+                                <h4>Number of rooms </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "1 Bedroom",
+                                        label: "1 Bedroom",
+                                      },
+                                      {
+                                        name: "2 Bedroom",
+                                        label: "2 Bedroom",
+                                      },
+                                      {
+                                        name: "3 Bedroom",
+                                        label: "3 Bedroom",
+                                      },
+                                      {
+                                        name: "4 Bedroom",
+                                        label: "4 Bedroom",
+                                      },
+                                      {
+                                        name: "5 Bedroom",
+                                        label: "5 Bedroom",
+                                      },
+                                      {
+                                        name: "5+ Bedrooms",
+                                        label: "5+ Bedrooms",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Bedroom === area.name
+                                            }
+                                            onChange={handleBedroomChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Number of bathrooms </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "1 bathrooms",
-                                      label: "1 bathrooms",
-                                    },
-                                    {
-                                      name: "2 bathrooms",
-                                      label: "2 bathrooms",
-                                    },
-                                    {
-                                      name: "3 bathrooms",
-                                      label: "3 bathrooms",
-                                    },
-                                    {
-                                      name: "4 bathrooms",
-                                      label: "4 bathrooms",
-                                    },
-                                    {
-                                      name: "5 bathrooms",
-                                      label: "5 bathrooms",
-                                    },
-                                    {
-                                      name: "5+ bathroomss",
-                                      label: "5+ bathroomss",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.bathrooms === area.name
-                                          }
-                                          onChange={handlebathroomsChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="numbthroom_block">
+                              <div className="card-header">
+                                <h4>Number of bathrooms </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "1 bathrooms",
+                                        label: "1 bathrooms",
+                                      },
+                                      {
+                                        name: "2 bathrooms",
+                                        label: "2 bathrooms",
+                                      },
+                                      {
+                                        name: "3 bathrooms",
+                                        label: "3 bathrooms",
+                                      },
+                                      {
+                                        name: "4 bathrooms",
+                                        label: "4 bathrooms",
+                                      },
+                                      {
+                                        name: "5 bathrooms",
+                                        label: "5 bathrooms",
+                                      },
+                                      {
+                                        name: "5+ bathroomss",
+                                        label: "5+ bathroomss",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.bathrooms === area.name
+                                            }
+                                            onChange={handlebathroomsChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Area </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Under 50 sq.m",
-                                      label: "Under 50 sq.m",
-                                    },
-                                    {
-                                      name: "50 - 100 sq.m",
-                                      label: "50 - 100 sq.m",
-                                    },
+                            <div className="area_block">
+                              <div className="card-header">
+                                <h4>Area </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "Under 50 sq.m",
+                                        label: "Under 50 sq.m",
+                                      },
+                                      {
+                                        name: "50 - 100 sq.m",
+                                        label: "50 - 100 sq.m",
+                                      },
 
-                                    {
-                                      name: "100 - 150 sq.m",
-                                      label: "100 - 150 sq.m",
-                                    },
-                                    {
-                                      name: "150 - 200 sq.m",
-                                      label: "150 - 200 sq.m",
-                                    },
-                                    {
-                                      name: "200+ sq.m",
-                                      label: "200+ sq.m",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Area === area.name}
-                                          onChange={handleAreaChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                                      {
+                                        name: "100 - 150 sq.m",
+                                        label: "100 - 150 sq.m",
+                                      },
+                                      {
+                                        name: "150 - 200 sq.m",
+                                        label: "150 - 200 sq.m",
+                                      },
+                                      {
+                                        name: "200+ sq.m",
+                                        label: "200+ sq.m",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Area === area.name
+                                            }
+                                            onChange={handleAreaChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Furnished </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Furnished",
-                                      label: "Furnished",
-                                    },
-                                    {
-                                      name: "Unfurnished",
-                                      label: "Unfurnished",
-                                    },
-                                    {
-                                      name: "Partially Furnished",
-                                      label: "Partially Furnished",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Furnished === area.name
-                                          }
-                                          onChange={handleFurnishedChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="furnished_block">
+                              <div className="card-header">
+                                <h4>Furnished </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "Furnished",
+                                        label: "Furnished",
+                                      },
+                                      {
+                                        name: "Unfurnished",
+                                        label: "Unfurnished",
+                                      },
+                                      {
+                                        name: "Partially Furnished",
+                                        label: "Partially Furnished",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Furnished === area.name
+                                            }
+                                            onChange={handleFurnishedChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Facade </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "East Facing",
-                                      label: "East Facing",
-                                    },
-                                    {
-                                      name: "West Facing",
-                                      label: "West Facing",
-                                    },
-                                    {
-                                      name: "North Facing",
-                                      label: "North Facing",
-                                    },
-                                    {
-                                      name: "South Facing",
-                                      label: "South Facing",
-                                    },
-                                    {
-                                      name: "North-East Facing",
-                                      label: "North-East Facing",
-                                    },
-                                    {
-                                      name: "North-West Facing",
-                                      label: "North-West Facing",
-                                    },
-                                    {
-                                      name: "South-East Facing",
-                                      label: "South-East Facing",
-                                    },
-                                    {
-                                      name: "South-West Facing",
-                                      label: "South-West Facing",
-                                    },
-                                    {
-                                      name: "Partially Furnished",
-                                      label: "Partially Furnished",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Facade === area.name
-                                          }
-                                          onChange={handleFacadeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="facade_block">
+                              <div className="card-header">
+                                <h4>Facade </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "East Facing",
+                                        label: "East Facing",
+                                      },
+                                      {
+                                        name: "West Facing",
+                                        label: "West Facing",
+                                      },
+                                      {
+                                        name: "North Facing",
+                                        label: "North Facing",
+                                      },
+                                      {
+                                        name: "South Facing",
+                                        label: "South Facing",
+                                      },
+                                      {
+                                        name: "North-East Facing",
+                                        label: "North-East Facing",
+                                      },
+                                      {
+                                        name: "North-West Facing",
+                                        label: "North-West Facing",
+                                      },
+                                      {
+                                        name: "South-East Facing",
+                                        label: "South-East Facing",
+                                      },
+                                      {
+                                        name: "South-West Facing",
+                                        label: "South-West Facing",
+                                      },
+                                      {
+                                        name: "Partially Furnished",
+                                        label: "Partially Furnished",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Facade === area.name
+                                            }
+                                            onChange={handleFacadeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Features </h4>
                             </div>
@@ -11056,32 +11134,32 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>License Number</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group">
-                                <label htmlFor="licenseNumberInput">
-                                  Enter License Number
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  id="licenseNumberInput"
-                                  placeholder="License Number"
-                                  value={formData.licenseNumber}
-                                  onChange={(e) =>
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      licenseNumber: e.target.value,
-                                    }))
-                                  }
-                                />
+                            <div className="liscence_block">
+                              <div className="card-header">
+                                <h4>License Number</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group">
+                                  <label htmlFor="licenseNumberInput">
+                                    Enter License Number
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    id="licenseNumberInput"
+                                    placeholder="License Number"
+                                    value={formData.licenseNumber}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        licenseNumber: e.target.value,
+                                      }))
+                                    }
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <label>Property Age</label>
+                            {/* <label>Property Age</label>
                           <select
                             value={formData.propertyAge}
                             onChange={(e) =>
@@ -11105,238 +11183,241 @@ const AddLisiting = () => {
                               Under Construction
                             </option>
                           </select> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Floor </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Basement",
-                                      label: "Basement",
-                                    },
-                                    {
-                                      name: "Ground Floor",
-                                      label: "Ground Floor",
-                                    },
-                                    {
-                                      name: "1st Floor",
-                                      label: "1st Floor",
-                                    },
-                                    {
-                                      name: "2nd Floor",
-                                      label: "2nd Floor",
-                                    },
-                                    {
-                                      name: "3rd Floor",
-                                      label: "3rd Floor",
-                                    },
-                                    {
-                                      name: "4th Floor",
-                                      label: "4th Floor",
-                                    },
-                                    {
-                                      name: "5th Floor",
-                                      label: "5th Floor",
-                                    },
-                                    {
-                                      name: "6th Floor",
-                                      label: "6th Floor",
-                                    },
-                                    {
-                                      name: "7th Floor",
-                                      label: "7th Floor",
-                                    },
-                                    {
-                                      name: "8th Floor",
-                                      label: "8th Floor",
-                                    },
-                                    {
-                                      name: "9th Floor",
-                                      label: "9th Floor",
-                                    },
-                                    {
-                                      name: "10th Floor",
-                                      label: "10th Floor",
-                                    },
-                                    {
-                                      name: "10+ Floors",
-                                      label: "10+ Floors",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Floor === area.name}
-                                          onChange={handleFloorChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="floor_block">
+                              <div className="card-header">
+                                <h4>Floor </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "Basement",
+                                        label: "Basement",
+                                      },
+                                      {
+                                        name: "Ground Floor",
+                                        label: "Ground Floor",
+                                      },
+                                      {
+                                        name: "1st Floor",
+                                        label: "1st Floor",
+                                      },
+                                      {
+                                        name: "2nd Floor",
+                                        label: "2nd Floor",
+                                      },
+                                      {
+                                        name: "3rd Floor",
+                                        label: "3rd Floor",
+                                      },
+                                      {
+                                        name: "4th Floor",
+                                        label: "4th Floor",
+                                      },
+                                      {
+                                        name: "5th Floor",
+                                        label: "5th Floor",
+                                      },
+                                      {
+                                        name: "6th Floor",
+                                        label: "6th Floor",
+                                      },
+                                      {
+                                        name: "7th Floor",
+                                        label: "7th Floor",
+                                      },
+                                      {
+                                        name: "8th Floor",
+                                        label: "8th Floor",
+                                      },
+                                      {
+                                        name: "9th Floor",
+                                        label: "9th Floor",
+                                      },
+                                      {
+                                        name: "10th Floor",
+                                        label: "10th Floor",
+                                      },
+                                      {
+                                        name: "10+ Floors",
+                                        label: "10+ Floors",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Floor === area.name
+                                            }
+                                            onChange={handleFloorChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Condition</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New",
-                                      label: "New",
-                                    },
-                                    {
-                                      name: "Used",
-                                      label: "Used",
-                                    },
-                                    { name: "Manual", label: "Manual" },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={
-                                            formData.Condition === feature.name
-                                          }
-                                          onChange={handleCondition} // ✅ Fixed function name
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="condition_block">
+                              <div className="card-header">
+                                <h4>Condition</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New",
+                                        label: "New",
+                                      },
+                                      {
+                                        name: "Used",
+                                        label: "Used",
+                                      },
+                                      { name: "Manual", label: "Manual" },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={
+                                              formData.Condition ===
+                                              feature.name
+                                            }
+                                            onChange={handleCondition} // ✅ Fixed function name
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Property Age </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New (0-1 year)",
-                                      label: "New (0-1 year)",
-                                    },
-                                    {
-                                      name: "1-5 years",
-                                      label: "1-5 years",
-                                    },
-                                    {
-                                      name: "6-10 years",
-                                      label: "6-10 years",
-                                    },
-                                    {
-                                      name: "11-15 years",
-                                      label: "11-15 years",
-                                    },
-                                    {
-                                      name: "16-20 years",
-                                      label: "16-20 years",
-                                    },
-                                    {
-                                      name: "21-30 years",
-                                      label: "21-30 years",
-                                    },
-                                    {
-                                      name: "31+ years",
-                                      label: "31+ years",
-                                    },
-                                    {
-                                      name: "Under Construction",
-                                      label: "Under Construction",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.PropertyAge === area.name
-                                          }
-                                          onChange={handlePropertyAgeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="propert_age_block">
+                              <div className="card-header">
+                                <h4>Property Age </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New (0-1 year)",
+                                        label: "New (0-1 year)",
+                                      },
+                                      {
+                                        name: "1-5 years",
+                                        label: "1-5 years",
+                                      },
+                                      {
+                                        name: "6-10 years",
+                                        label: "6-10 years",
+                                      },
+                                      {
+                                        name: "11-15 years",
+                                        label: "11-15 years",
+                                      },
+                                      {
+                                        name: "16-20 years",
+                                        label: "16-20 years",
+                                      },
+                                      {
+                                        name: "21-30 years",
+                                        label: "21-30 years",
+                                      },
+                                      {
+                                        name: "31+ years",
+                                        label: "31+ years",
+                                      },
+                                      {
+                                        name: "Under Construction",
+                                        label: "Under Construction",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.PropertyAge === area.name
+                                            }
+                                            onChange={handlePropertyAgeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Featuers </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Seprate  Entrances",
-                                      label: "Seprate  Entrances",
-                                    },
-                                    {
-                                      name: "Private Entrance",
-                                      label: "Private Entrance",
-                                    },
-                                    {
-                                      name: "In a Villa",
-                                      label: "In a Villa",
-                                    },
-                                    {
-                                      name: "With roof",
-                                      label: "With roof",
-                                    },
-                                    {
-                                      name: "AC",
-                                      label: "AC",
-                                    },
-                                    {
-                                      name: "Car Parking",
-                                      label: "Car Parking",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Featuers === area.name
-                                          }
-                                          onChange={handleFeatuersChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="feature_block">
+                              <div className="card-header">
+                                <h4>Featuers </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "Seprate  Entrances",
+                                        label: "Seprate  Entrances",
+                                      },
+                                      {
+                                        name: "Private Entrance",
+                                        label: "Private Entrance",
+                                      },
+                                      {
+                                        name: "In a Villa",
+                                        label: "In a Villa",
+                                      },
+                                      {
+                                        name: "With roof",
+                                        label: "With roof",
+                                      },
+                                      {
+                                        name: "AC",
+                                        label: "AC",
+                                      },
+                                      {
+                                        name: "Car Parking",
+                                        label: "Car Parking",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Featuers === area.name
+                                            }
+                                            onChange={handleFeatuersChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -11377,25 +11458,25 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Other Services",
-                          "Contracting Services",
-                          "Government Paperwork Services",
-                          "Delivery Services",
-                          "Furniture Moving Services",
-                          "Cleaning Services",
-                          "International Shopping Services",
-                          "Legal Services",
-                          "Accounting & Financial Services",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Other Services",
+                            "Contracting Services",
+                            "Government Paperwork Services",
+                            "Delivery Services",
+                            "Furniture Moving Services",
+                            "Cleaning Services",
+                            "International Shopping Services",
+                            "Legal Services",
+                            "Accounting & Financial Services",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -11426,7 +11507,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Check-in/Check-out Dates </h4>
                             </div>
@@ -11546,7 +11627,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Type </h4>
                             </div>
@@ -11579,22 +11660,22 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Gaming Consoles",
-                          "Video Games",
-                          "Controllers",
-                          "Gaming Accessories",
-                          "Gift Cards",
-                          "Accounts",
-                          "Toys",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Gaming Consoles",
+                            "Video Games",
+                            "Controllers",
+                            "Gaming Accessories",
+                            "Gift Cards",
+                            "Accounts",
+                            "Toys",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -11625,7 +11706,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Brand </h4>
                             </div>
@@ -11937,77 +12018,78 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Rent", label: "Rent" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Rent", label: "Rent" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Condition</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "New",
-                                      label: "New",
-                                    },
-                                    {
-                                      name: "Used",
-                                      label: "Used",
-                                    },
-                                    { name: "Manual", label: "Manual" },
-                                  ].map((feature) => (
-                                    <li key={feature.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={feature.name}
-                                          checked={
-                                            formData.Condition === feature.name
-                                          }
-                                          onChange={handleCondition} // ✅ Fixed function name
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {feature.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="condition_block">
+                              <div className="card-header">
+                                <h4>Condition</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "New",
+                                        label: "New",
+                                      },
+                                      {
+                                        name: "Used",
+                                        label: "Used",
+                                      },
+                                      { name: "Manual", label: "Manual" },
+                                    ].map((feature) => (
+                                      <li key={feature.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={feature.name}
+                                            checked={
+                                              formData.Condition ===
+                                              feature.name
+                                            }
+                                            onChange={handleCondition} // ✅ Fixed function name
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {feature.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -12049,32 +12131,32 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Sheep",
-                          "Goats",
-                          "Parrot",
-                          "Dove/Pigeon",
-                          "Cats",
-                          "Chickens",
-                          "Camels",
-                          "Horses",
-                          "Dogs",
-                          "Cows",
-                          "Fish & Turtles",
-                          "Rabbits",
-                          "Ducks",
-                          "Squirrels",
-                          "Hamsters",
-                          "Fur",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {" "}
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Sheep",
+                            "Goats",
+                            "Parrot",
+                            "Dove/Pigeon",
+                            "Cats",
+                            "Chickens",
+                            "Camels",
+                            "Horses",
+                            "Dogs",
+                            "Cows",
+                            "Fish & Turtles",
+                            "Rabbits",
+                            "Ducks",
+                            "Squirrels",
+                            "Hamsters",
+                            "Fur",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {" "}
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -12105,7 +12187,7 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Breed </h4>
                             </div>
@@ -12145,78 +12227,78 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Age </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Puppy (0–1 year)",
-                                      label: "Puppy (0–1 year)",
-                                    },
-                                    {
-                                      name: "Young (1–3 years)",
-                                      label: "Young (1–3 years)",
-                                    },
-                                    {
-                                      name: "Adult (3–6 years)",
-                                      label: "Adult (3–6 years)",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Age === area.name}
-                                          onChange={handleAgeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="age_block">
+                              <div className="card-header">
+                                <h4>Age </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      {
+                                        name: "Puppy (0–1 year)",
+                                        label: "Puppy (0–1 year)",
+                                      },
+                                      {
+                                        name: "Young (1–3 years)",
+                                        label: "Young (1–3 years)",
+                                      },
+                                      {
+                                        name: "Adult (3–6 years)",
+                                        label: "Adult (3–6 years)",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={formData.Age === area.name}
+                                            onChange={handleAgeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Add Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Sell", label: "Sell" },
-                                    { name: "Exchange", label: "Exchange" },
-                                    { name: "Wanted", label: "Wanted" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Purpose === area.name
-                                          }
-                                          onChange={handlePurposeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="add_type_block">
+                              <div className="card-header">
+                                <h4>Add Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Sell", label: "Sell" },
+                                      { name: "Exchange", label: "Exchange" },
+                                      { name: "Wanted", label: "Wanted" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Purpose === area.name
+                                            }
+                                            onChange={handlePurposeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Gender </h4>
                             </div>
@@ -12247,7 +12329,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Color </h4>
                             </div>
@@ -12486,7 +12568,7 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -12528,25 +12610,25 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : [
-                          "Watches",
-                          "Perfumes & Incense",
-                          "Sports Equipment",
-                          "Men's Fashion",
-                          "Women's Fashion",
-                          "Children's Clothing & Accessories",
-                          "Sleepwear",
-                          "Gifts",
-                          "Luggage",
-                          "Health & Beauty",
-                        ].some(
-                          (item) =>
-                            item === Category.SubCategory ||
-                            item === DataCatorgySHow
-                        ) ? (
-                        <>
-                          {/* <div className="card">
+                          </>
+                        ) : [
+                            "Watches",
+                            "Perfumes & Incense",
+                            "Sports Equipment",
+                            "Men's Fashion",
+                            "Women's Fashion",
+                            "Children's Clothing & Accessories",
+                            "Sleepwear",
+                            "Gifts",
+                            "Luggage",
+                            "Health & Beauty",
+                          ].some(
+                            (item) =>
+                              item === Category.SubCategory ||
+                              item === DataCatorgySHow
+                          ) ? (
+                          <>
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -12577,216 +12659,216 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Category </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Nature & Wildlife",
-                                      label: "Nature & Wildlife",
-                                    },
-                                    {
-                                      name: "History & Culture",
-                                      label: "History & Culture",
-                                    },
-                                    {
-                                      name: "Science & Technology",
-                                      label: "Science & Technology",
-                                    },
-                                    {
-                                      name: "Travel & Adventure",
-                                      label: "Travel & Adventure",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.MAGAZINESCategory ===
-                                            area.name
-                                          }
-                                          onChange={
-                                            handleMAGAZINESCategoryChange
-                                          }
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Category </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Nature & Wildlife",
+                                        label: "Nature & Wildlife",
+                                      },
+                                      {
+                                        name: "History & Culture",
+                                        label: "History & Culture",
+                                      },
+                                      {
+                                        name: "Science & Technology",
+                                        label: "Science & Technology",
+                                      },
+                                      {
+                                        name: "Travel & Adventure",
+                                        label: "Travel & Adventure",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.MAGAZINESCategory ===
+                                              area.name
+                                            }
+                                            onChange={
+                                              handleMAGAZINESCategoryChange
+                                            }
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Subscription Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Digital",
-                                      label: "Digital",
-                                    },
-                                    {
-                                      name: "Print",
-                                      label: "Print",
-                                    },
-                                    {
-                                      name: "Combo",
-                                      label: "Combo",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.SubscriptionType ===
-                                            area.name
-                                          }
-                                          onChange={
-                                            handleSubscriptionTypeChange
-                                          }
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Subscription Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Digital",
+                                        label: "Digital",
+                                      },
+                                      {
+                                        name: "Print",
+                                        label: "Print",
+                                      },
+                                      {
+                                        name: "Combo",
+                                        label: "Combo",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.SubscriptionType ===
+                                              area.name
+                                            }
+                                            onChange={
+                                              handleSubscriptionTypeChange
+                                            }
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Issue Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Special Editions",
-                                      label: "Special Editions",
-                                    },
-                                    {
-                                      name: "Back Issues",
-                                      label: "Back Issues",
-                                    },
-                                    {
-                                      name: "Current Issue",
-                                      label: "Current Issue",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.IssueType === area.name
-                                          }
-                                          onChange={handleIssueTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Issue Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Special Editions",
+                                        label: "Special Editions",
+                                      },
+                                      {
+                                        name: "Back Issues",
+                                        label: "Back Issues",
+                                      },
+                                      {
+                                        name: "Current Issue",
+                                        label: "Current Issue",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.IssueType === area.name
+                                            }
+                                            onChange={handleIssueTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Language</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "English", label: "English" },
-                                    {
-                                      name: "Spanish",
-                                      label: "Spanish",
-                                    },
-                                    {
-                                      name: "French",
-                                      label: "French",
-                                    },
-                                    {
-                                      name: "Other",
-                                      label: "Other",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Language === area.name
-                                          }
-                                          onChange={handleLanguageChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Language</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      { name: "English", label: "English" },
+                                      {
+                                        name: "Spanish",
+                                        label: "Spanish",
+                                      },
+                                      {
+                                        name: "French",
+                                        label: "French",
+                                      },
+                                      {
+                                        name: "Other",
+                                        label: "Other",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Language === area.name
+                                            }
+                                            onChange={handleLanguageChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Age Group</h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Kids", label: "Kids" },
-                                    {
-                                      name: "Adults",
-                                      label: "Adults",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.AgeGroup === area.name
-                                          }
-                                          onChange={handleAgeGroupChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="age_block">
+                              <div className="card-header">
+                                <h4>Age Group</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      { name: "Kids", label: "Kids" },
+                                      {
+                                        name: "Adults",
+                                        label: "Adults",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.AgeGroup === area.name
+                                            }
+                                            onChange={handleAgeGroupChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -12828,13 +12910,13 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : Category.SubCategory === "Home Services" ||
-                        Category.SubCategory === "Personal Services" ? (
-                        //  Category === "Household"
+                          </>
+                        ) : Category.SubCategory === "Home Services" ||
+                          Category.SubCategory === "Personal Services" ? (
+                          //  Category === "Household"
 
-                        <>
-                          {/* <div className="card">
+                          <>
+                            {/* <div className="card">
                     <div className="card-header">
                       <h4>States </h4>
                     </div>
@@ -12865,343 +12947,349 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div> */}
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Brand </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "Dyson", label: "Dyson" },
-                                    { name: "Shark", label: "Shark" },
-                                    { name: "Bissell", label: "Bissell" },
-                                    { name: "Hoover", label: "Hoover" },
-                                    { name: "Miele", label: "Miele" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Brand === area.name}
-                                          onChange={handleBrandChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="brand_main_block">
+                              <div className="card-header">
+                                <h4>Brand </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Dyson", label: "Dyson" },
+                                      { name: "Shark", label: "Shark" },
+                                      { name: "Bissell", label: "Bissell" },
+                                      { name: "Hoover", label: "Hoover" },
+                                      { name: "Miele", label: "Miele" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Brand === area.name
+                                            }
+                                            onChange={handleBrandChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Noise Level </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Silent (<60 dB)",
-                                      label: "Silent (<60 dB)",
-                                    },
-                                    {
-                                      name: "Moderate (60-75 dB)",
-                                      label: "Moderate (60-75 dB)",
-                                    },
-                                    {
-                                      name: "Loud (>75 dB)",
-                                      label: "Loud (>75 dB)",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.NoiseLevel === area.name
-                                          }
-                                          onChange={handleNoiseLevelChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Noise Level </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Silent (<60 dB)",
+                                        label: "Silent (<60 dB)",
+                                      },
+                                      {
+                                        name: "Moderate (60-75 dB)",
+                                        label: "Moderate (60-75 dB)",
+                                      },
+                                      {
+                                        name: "Loud (>75 dB)",
+                                        label: "Loud (>75 dB)",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.NoiseLevel === area.name
+                                            }
+                                            onChange={handleNoiseLevelChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Capacity </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Small (up to 1L)",
-                                      label: "Small (up to 1L)",
-                                    },
-                                    {
-                                      name: "Medium (1-3L)",
-                                      label: "Medium (1-3L)",
-                                    },
-                                    {
-                                      name: "Large (above 3L)",
-                                      label: "Large (above 3L)",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Capacity === area.name
-                                          }
-                                          onChange={handleCapacityChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Capacity </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Small (up to 1L)",
+                                        label: "Small (up to 1L)",
+                                      },
+                                      {
+                                        name: "Medium (1-3L)",
+                                        label: "Medium (1-3L)",
+                                      },
+                                      {
+                                        name: "Large (above 3L)",
+                                        label: "Large (above 3L)",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Capacity === area.name
+                                            }
+                                            onChange={handleCapacityChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Upright",
-                                      label: "Upright",
-                                    },
-                                    { name: "Canister", label: "Canister" },
-                                    { name: "Handheld", label: "Handheld" },
-                                    { name: "Stick", label: "Stick" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Type === area.name}
-                                          onChange={handleTypedChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Upright",
+                                        label: "Upright",
+                                      },
+                                      { name: "Canister", label: "Canister" },
+                                      { name: "Handheld", label: "Handheld" },
+                                      { name: "Stick", label: "Stick" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Type === area.name
+                                            }
+                                            onChange={handleTypedChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Power Source </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Corded",
-                                      label: "Corded",
-                                    },
-                                    { name: "Cordless", label: "Cordless" },
-                                    {
-                                      name: "Battery-Powered",
-                                      label: "Battery-Powered",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.PowerSource === area.name
-                                          }
-                                          onChange={handlePowerSourceChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Power Source </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Corded",
+                                        label: "Corded",
+                                      },
+                                      { name: "Cordless", label: "Cordless" },
+                                      {
+                                        name: "Battery-Powered",
+                                        label: "Battery-Powered",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.PowerSource === area.name
+                                            }
+                                            onChange={handlePowerSourceChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Bag Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Bagged",
-                                      label: "Bagged",
-                                    },
-                                    { name: "Bagless", label: "Bagless" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.BagType === area.name
-                                          }
-                                          onChange={handleBagTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Bag Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Bagged",
+                                        label: "Bagged",
+                                      },
+                                      { name: "Bagless", label: "Bagless" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.BagType === area.name
+                                            }
+                                            onChange={handleBagTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Surface Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Carpet",
-                                      label: "Carpet",
-                                    },
-                                    { name: "Hardwood", label: "Hardwood" },
-                                    { name: "Tile", label: "Tile" },
-                                    {
-                                      name: "Multi-surface",
-                                      label: "Multi-surface",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.BagType === area.name
-                                          }
-                                          onChange={handleBagTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Surface Type </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "Carpet",
+                                        label: "Carpet",
+                                      },
+                                      { name: "Hardwood", label: "Hardwood" },
+                                      { name: "Tile", label: "Tile" },
+                                      {
+                                        name: "Multi-surface",
+                                        label: "Multi-surface",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.BagType === area.name
+                                            }
+                                            onChange={handleBagTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Features </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "HEPA filter",
-                                      label: "HEPA filter",
-                                    },
-                                    {
-                                      name: "Pet Hair Cleaning",
-                                      label: "Pet Hair Cleaning",
-                                    },
-                                    {
-                                      name: "Lightweight",
-                                      label: "Lightweight",
-                                    },
-                                    {
-                                      name: "Smart App Control",
-                                      label: "Smart App Control",
-                                    },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.Features === area.name
-                                          }
-                                          onChange={handleFeaturesChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="card">
+                              <div className="card-header">
+                                <h4>Features </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      {
+                                        name: "HEPA filter",
+                                        label: "HEPA filter",
+                                      },
+                                      {
+                                        name: "Pet Hair Cleaning",
+                                        label: "Pet Hair Cleaning",
+                                      },
+                                      {
+                                        name: "Lightweight",
+                                        label: "Lightweight",
+                                      },
+                                      {
+                                        name: "Smart App Control",
+                                        label: "Smart App Control",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Features === area.name
+                                            }
+                                            onChange={handleFeaturesChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="card">
-                            <div className="card-header">
-                              <h4>Color </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    { name: "White", label: "White" },
-                                    { name: "Black", label: "Black" },
-                                    { name: "Grey", label: "Grey" },
-                                    { name: "Red", label: "Red" },
-                                    { name: "Yellow", label: "Yellow" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={formData.Color === area.name}
-                                          onChange={handleColorChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
+                            <div className="color_main_block">
+                              <div className="card-header">
+                                <h4>Color </h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul>
+                                    {[
+                                      { name: "White", label: "White" },
+                                      { name: "Black", label: "Black" },
+                                      { name: "Grey", label: "Grey" },
+                                      { name: "Red", label: "Red" },
+                                      { name: "Yellow", label: "Yellow" },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.Color === area.name
+                                            }
+                                            onChange={handleColorChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div className="card">
+                            {/* <div className="card">
                             <div className="card-header">
                               <h4>Seller Type </h4>
                             </div>
@@ -13239,11 +13327,11 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      {/* <div
+                          </>
+                        ) : (
+                          ""
+                        )}
+                        {/* <div
                         className="form-group formlast-input w-50 d-flex align-items-center"
                         style={{
                           padding: "20px 0 10px 0",
@@ -13310,8 +13398,8 @@ const AddLisiting = () => {
                         </div>
                       </div> */}
 
-                      {/* {showPhone && ( */}
-                      {/* <>
+                        {/* {showPhone && ( */}
+                        {/* <>
                         <input
                           type={showPhone ? "text" : "password"} // Change type based on showPhone
                           name="Phone"
@@ -13328,188 +13416,194 @@ const AddLisiting = () => {
                         </p>
                       </> */}
 
-                      <div className="card-body">
-                        <div className="row">
-                          {/* Phone Field - 6 columns on medium screens and above */}
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label
-                                className="col-form-label"
-                                style={{
-                                  padding: "10px 0 0 0",
-                                  fontWeight: "bold",
-                                  fontSize: "18px",
-                                }}
-                              >
-                                Phone
-                              </label>
-                              <div
-                                style={{ position: "relative", width: "100%" }}
-                              >
-                                <input
-                                  type={showPhone ? "text" : "password"} // Toggle type based on showPhone
-                                  name="Phone"
-                                  value={formData.Phone}
-                                  onChange={handleChangePhone}
-                                  onBlur={validatePhone} // Validate when user leaves input
-                                  className="form-control"
-                                  placeholder="+9665XXXXXXXX"
-                                  maxLength="13" // Restrict input to 13 characters
-                                  required
+                        <div className="card-body">
+                          <div className="row">
+                            {/* Phone Field - 6 columns on medium screens and above */}
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label
+                                  className="col-form-label"
                                   style={{
-                                    paddingRight: "30px", // Make space for the icon
-                                    paddingLeft: "10px", // Add left padding for better appearance
-                                    width: "100%", // Ensure input takes full width
-                                    boxSizing: "border-box", // Prevent padding from affecting width
-                                    height: "48px", // Default height (~24px) doubled to 48px
-                                    fontSize: "16px", // Ensure text remains readable
-                                    lineHeight: "48px", // Vertically center text in the taller input
-                                  }}
-                                />
-                                <span
-                                  onClick={() => setShowPhone(!showPhone)}
-                                  style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    cursor: "pointer",
-                                    fontSize: "16px",
-                                    color: "#666",
+                                    padding: "10px 0 0 0",
+                                    fontWeight: "bold",
+                                    fontSize: "18px",
                                   }}
                                 >
-                                  {showPhone ? "👁️‍🗨️" : "👁️"}{" "}
-                                  {/* Unicode eye icons */}
-                                </span>
-                              </div>
-                              <p style={{ color: "red", fontSize: "12px" }}>
-                                {Saudinummsg}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Price Range Field - 6 columns on medium screens and above */}
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label
-                                className="col-form-label"
-                                style={{
-                                  padding: "10px 0 0 0",
-                                  fontWeight: "bold",
-                                  fontSize: "18px",
-                                }}
-                              >
-                                Price Range
-                              </label>
-                              <div
-                                style={{ position: "relative", width: "100%" }}
-                              >
-                                <input
-                                  type={showPrice ? "text" : "password"} // Toggle type based on showPrice
-                                  name="Price"
-                                  value={formData.Price}
-                                  onChange={handleChange}
-                                  placeholder="Price"
-                                  maxLength="13" // Restrict input to 13 characters
-                                  required
-                                  style={{
-                                    paddingRight: "30px", // Make space for the icon
-                                    paddingLeft: "10px", // Optional: Add left padding for better appearance
-                                    width: "100%", // Full width as previously set
-                                    boxSizing: "border-box", // Prevent padding from affecting width
-                                    height: "48px", // Default height (~24px) doubled to 48px
-                                    fontSize: "16px", // Ensure text remains readable
-                                    lineHeight: "48px", // Vertically center text in the taller input
-                                  }}
-                                />
-                                <span
-                                  onClick={() => setShowPrice(!showPrice)}
-                                  style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    cursor: "pointer",
-                                    fontSize: "16px",
-                                    color: "#666",
-                                  }}
-                                >
-                                  {showPrice ? "👁️‍🗨️" : "👁️"}{" "}
-                                  {/* Unicode eye icons */}
-                                </span>
-                              </div>
-                              {galleryPriceErrMsg && (
+                                  Phone
+                                </label>
                                 <div
-                                  className="text-danger mt-1 "
-                                  style={{ fontSize: "14px" }}
+                                  style={{
+                                    position: "relative",
+                                    width: "100%",
+                                  }}
                                 >
-                                  {galleryPriceErrMsg}
+                                  <input
+                                    type={showPhone ? "text" : "password"} // Toggle type based on showPhone
+                                    name="Phone"
+                                    value={formData.Phone}
+                                    onChange={handleChangePhone}
+                                    onBlur={validatePhone} // Validate when user leaves input
+                                    className="form-control"
+                                    placeholder="+9665XXXXXXXX"
+                                    maxLength="13" // Restrict input to 13 characters
+                                    required
+                                    style={{
+                                      paddingRight: "30px", // Make space for the icon
+                                      paddingLeft: "10px", // Add left padding for better appearance
+                                      width: "100%", // Ensure input takes full width
+                                      boxSizing: "border-box", // Prevent padding from affecting width
+                                      height: "48px", // Default height (~24px) doubled to 48px
+                                      fontSize: "16px", // Ensure text remains readable
+                                      lineHeight: "48px", // Vertically center text in the taller input
+                                    }}
+                                  />
+                                  <span
+                                    onClick={() => setShowPhone(!showPhone)}
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "50%",
+                                      transform: "translateY(-50%)",
+                                      cursor: "pointer",
+                                      fontSize: "16px",
+                                      color: "#666",
+                                    }}
+                                  >
+                                    {showPhone ? "👁️‍🗨️" : "👁️"}{" "}
+                                    {/* Unicode eye icons */}
+                                  </span>
                                 </div>
-                              )}
+                                <p style={{ color: "red", fontSize: "12px" }}>
+                                  {Saudinummsg}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Price Range Field - 6 columns on medium screens and above */}
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label
+                                  className="col-form-label"
+                                  style={{
+                                    padding: "10px 0 0 0",
+                                    fontWeight: "bold",
+                                    fontSize: "18px",
+                                  }}
+                                >
+                                  Price Range
+                                </label>
+                                <div
+                                  style={{
+                                    position: "relative",
+                                    width: "100%",
+                                  }}
+                                >
+                                  <input
+                                    type={showPrice ? "text" : "password"} // Toggle type based on showPrice
+                                    name="Price"
+                                    value={formData.Price}
+                                    onChange={handleChange}
+                                    placeholder="Price"
+                                    maxLength="13" // Restrict input to 13 characters
+                                    required
+                                    style={{
+                                      paddingRight: "30px", // Make space for the icon
+                                      paddingLeft: "10px", // Optional: Add left padding for better appearance
+                                      width: "100%", // Full width as previously set
+                                      boxSizing: "border-box", // Prevent padding from affecting width
+                                      height: "48px", // Default height (~24px) doubled to 48px
+                                      fontSize: "16px", // Ensure text remains readable
+                                      lineHeight: "48px", // Vertically center text in the taller input
+                                    }}
+                                  />
+                                  <span
+                                    onClick={() => setShowPrice(!showPrice)}
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "50%",
+                                      transform: "translateY(-50%)",
+                                      cursor: "pointer",
+                                      fontSize: "16px",
+                                      color: "#666",
+                                    }}
+                                  >
+                                    {showPrice ? "👁️‍🗨️" : "👁️"}{" "}
+                                    {/* Unicode eye icons */}
+                                  </span>
+                                </div>
+                                {galleryPriceErrMsg && (
+                                  <div
+                                    className="text-danger mt-1 "
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {galleryPriceErrMsg}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label
-                        className="col-form-label"
-                        style={{
-                          padding: "10px 0 0 0",
-                          fontWeight: "bold",
-                          fontSize: "18px",
-                        }}
-                      >
-                        Listing Description :
-                      </label>
-                      <textarea
-                        rows={6}
-                        name="description"
-                        className="form-control listingdescription"
-                        placeholder="Message"
-                        value={formData.description}
-                        onChange={(e) => {
-                          const text = e.target.value;
-                          // Count only alphabetic characters (a-z, A-Z)
-                          const alphaCount = (text.match(/[a-zA-Z]/g) || [])
-                            .length;
-                          if (alphaCount <= 1000) {
-                            handleChange(e); // Update state only if within limit
-                          }
-                        }}
-                      />
-                      {/* Display alphabetic character count and warning */}
-                      <div style={{ marginTop: "5px", fontSize: "12px" }}>
-                        <span>
-                          Characters:{" "}
-                          {
-                            (formData.description.match(/[a-zA-Z]/g) || [])
-                              .length
-                          }
-                          /1000
-                        </span>
-                        {(formData.description.match(/[a-zA-Z]/g) || [])
-                          .length > 1000 && (
-                          <span style={{ color: "red", marginLeft: "10px" }}>
-                            Alphabetic character limit exceeded! Maximum 100
-                            allowed.
+                    <div className="card-body">
+                      <div className="form-group">
+                        <label
+                          className="col-form-label"
+                          style={{
+                            padding: "10px 0 0 0",
+                            fontWeight: "bold",
+                            fontSize: "18px",
+                          }}
+                        >
+                          Listing Description :
+                        </label>
+                        <textarea
+                          rows={6}
+                          name="description"
+                          className="form-control listingdescription"
+                          placeholder="Message"
+                          value={formData.description}
+                          onChange={(e) => {
+                            const text = e.target.value;
+                            // Count only alphabetic characters (a-z, A-Z)
+                            const alphaCount = (text.match(/[a-zA-Z]/g) || [])
+                              .length;
+                            if (alphaCount <= 1000) {
+                              handleChange(e); // Update state only if within limit
+                            }
+                          }}
+                        />
+                        {/* Display alphabetic character count and warning */}
+                        <div style={{ marginTop: "5px", fontSize: "12px" }}>
+                          <span>
+                            Characters:{" "}
+                            {
+                              (formData.description.match(/[a-zA-Z]/g) || [])
+                                .length
+                            }
+                            /1000
                           </span>
+                          {(formData.description.match(/[a-zA-Z]/g) || [])
+                            .length > 1000 && (
+                            <span style={{ color: "red", marginLeft: "10px" }}>
+                              Alphabetic character limit exceeded! Maximum 100
+                              allowed.
+                            </span>
+                          )}
+                        </div>
+                        {gallerydescriptionErrMsg && (
+                          <div
+                            className="text-danger mt-1 "
+                            style={{ fontSize: "14px" }}
+                          >
+                            {gallerydescriptionErrMsg}
+                          </div>
                         )}
                       </div>
-                      {gallerydescriptionErrMsg && (
-                        <div
-                          className="text-danger mt-1 "
-                          style={{ fontSize: "14px" }}
-                        >
-                          {gallerydescriptionErrMsg}
-                        </div>
-                      )}
-                    </div>
 
-                    {/* <div className="row">
+                      {/* <div className="row">
                     <div className="p-4" style={{ marginTop: "-1rem" }}>
                       <h4 className="text-lg font-bold mb-2">
                         Select a Country
@@ -13543,44 +13637,45 @@ const AddLisiting = () => {
                       )}
                     </div>
                   </div> */}
+                    </div>
                   </div>
-                </div>
-                <div className="card" style={{ marginTop: "5px" }}>
-                  <div className="card-header">
-                    <h4>Featured </h4>
-                  </div>
-                  <div className="card-body">
-                    <div className="form-group featuresform-list mb-0">
-                      <ul>
-                        {[
-                          { name: "Featured Ads", label: "Featured Ads" },
-                          {
-                            name: "Not Featured Ads",
-                            label: "Not Featured Ads",
-                          },
-                        ].map((area) => (
-                          <li key={area.name}>
-                            <label className="custom_check">
-                              <input
-                                type="checkbox"
-                                name={area.name}
-                                checked={formData.FeaturedAds === area.name}
-                                onChange={handleFeaturedAdsChange}
-                              />
-                              <span className="checkmark" /> {area.label}
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
-                      {FeaturedAdsErrMsg && (
-                        <div
-                          className="text-danger mt-1 "
-                          style={{ fontSize: "14px" }}
-                        >
-                          {FeaturedAdsErrMsg}
-                        </div>
-                      )}
-                      <div className="clearfix" />
+                  <div className="card" style={{ marginTop: "5px" }}>
+                    <div className="card-header">
+                      <h4>Featured </h4>
+                    </div>
+                    <div className="card-body">
+                      <div className="form-group featuresform-list mb-0">
+                        <ul className="colu-2">
+                          {[
+                            { name: "Featured Ads", label: "Featured Ads" },
+                            {
+                              name: "Not Featured Ads",
+                              label: "Not Featured Ads",
+                            },
+                          ].map((area) => (
+                            <li key={area.name}>
+                              <label className="custom_check">
+                                <input
+                                  type="checkbox"
+                                  name={area.name}
+                                  checked={formData.FeaturedAds === area.name}
+                                  onChange={handleFeaturedAdsChange}
+                                />
+                                <span className="checkmark" /> {area.label}
+                              </label>
+                            </li>
+                          ))}
+                        </ul>
+                        {FeaturedAdsErrMsg && (
+                          <div
+                            className="text-danger mt-1 "
+                            style={{ fontSize: "14px" }}
+                          >
+                            {FeaturedAdsErrMsg}
+                          </div>
+                        )}
+                        <div className="clearfix" />
+                      </div>
                     </div>
                   </div>
                 </div>
