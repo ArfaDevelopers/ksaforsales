@@ -401,7 +401,7 @@ const Userinfo = () => {
     };
 
     if (userId) fetchCars();
-  }, [searchQuery, userId, sortOrder, currentPage, pageSize]);
+  }, [searchQuery, userId, sortOrder, currentPage, pageSize, _Id]);
   useEffect(() => {
     if (!searchQuery) {
       setFilteredCars(cars);
