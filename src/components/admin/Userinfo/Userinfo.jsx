@@ -1122,15 +1122,14 @@ const Userinfo = () => {
                           currentPage === 1 ? "disabled" : ""
                         }`}
                       >
-                        <Link
+                        <button
                           className="page-link"
-                          to="#"
                           onClick={() =>
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                         >
                           <i className="fas fa-regular fa-arrow-left" /> Prev
-                        </Link>
+                        </button>
                       </li>
 
                       <li className="justify-content-center pagination-center">
@@ -1143,13 +1142,12 @@ const Userinfo = () => {
                                   currentPage === index + 1 ? "active" : ""
                                 }`}
                               >
-                                <Link
+                                <button
                                   className="page-link"
-                                  to="#"
                                   onClick={() => setCurrentPage(index + 1)}
                                 >
                                   {index + 1}
-                                </Link>
+                                </button>
                               </li>
                             ))}
                           </ul>
@@ -1161,9 +1159,8 @@ const Userinfo = () => {
                           currentPage === totalPages ? "disabled" : ""
                         }`}
                       >
-                        <Link
+                        <button
                           className="page-link"
-                          to="#"
                           onClick={() =>
                             setCurrentPage((prev) =>
                               Math.min(prev + 1, totalPages)
@@ -1171,7 +1168,7 @@ const Userinfo = () => {
                           }
                         >
                           Next <i className="fas fa-regular fa-arrow-right" />
-                        </Link>
+                        </button>
                       </li>
                     </ul>
                   </nav>
