@@ -398,6 +398,24 @@ const ElectronicComp = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
   const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
   console.log(filteredCars, "filteredCars_________");
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close if click is outside a phone button
+      if (
+        !event.target.closest(".call-now-wrapper") &&
+        !event.target.closest(".call-now-link")
+      ) {
+        setActivePhoneIndex(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   const itemsPerPage = 3; // Number of items per page
   const [adsDetailImages, setAdsDetailImages] = useState([]);
   console.log(adsDetailImages, "adsDetailImages________");
@@ -2136,7 +2154,7 @@ const ElectronicComp = () => {
                       <input
                         type="search"
                         placeholder="Search here"
-                        className="form-control rounded-pill pe-5"
+                        className="form-control rounded-pill pe-5 input_feild"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
                         onChange={handleSearchChange} // Call the handler on input change
@@ -3280,34 +3298,64 @@ const ElectronicComp = () => {
                               </Col>
                               <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
-                                <a href={`tel:${car.Phone}`}>
-                                  <button
-                                    className={`sign-in-button ${
-                                      isActive ? "expanded" : ""
-                                    }`}
-                                    style={{
-                                      marginTop:
-                                        window.innerWidth <= 576
-                                          ? "10px"
-                                          : "50px",
-                                      width:
-                                        window.innerWidth <= 576
-                                          ? "150px"
-                                          : "auto",
-                                    }}
-                                    onClick={(e) => {
-                                      if (!isActive) {
-                                        e.preventDefault(); // Only prevent if not active
-                                        setActivePhoneIndex(index);
-                                      }
-                                    }}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span className="fw-semibold">
-                                      {isActive ? car.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
+                                <div className="call-now-wrapper">
+                                  {isActive ? (
+                                    <a
+                                      className="call-now-link"
+                                      href={`tel:${car.Phone}`}
+                                      onClick={(e) => {
+                                        // Allow call to proceed
+                                        setActivePhoneIndex(null); // Close after call
+                                      }}
+                                    >
+                                      <button
+                                        className={`sign-in-button expanded`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "10px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                        onClick={(e) => {
+                                          // Prevent this click from bubbling to body
+                                          e.stopPropagation();
+                                        }}
+                                      >
+                                        <FaPhoneAlt />
+                                        <span className="fw-semibold">
+                                          {car.Phone}
+                                        </span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button
+                                      className={`sign-in-button`}
+                                      style={{
+                                        marginTop:
+                                          window.innerWidth <= 576
+                                            ? "10px"
+                                            : "50px",
+                                        width:
+                                          window.innerWidth <= 576
+                                            ? "150px"
+                                            : "auto",
+                                      }}
+                                      onClick={(e) => {
+                                        e.stopPropagation(); // prevent global listener
+                                        setActivePhoneIndex(index); // show phone
+                                      }}
+                                    >
+                                      <FaPhoneAlt />
+                                      <span className="fw-semibold">
+                                        Call Now
+                                      </span>
+                                    </button>
+                                  )}
+                                </div>
 
                                 {/* Message Button */}
                                 <button

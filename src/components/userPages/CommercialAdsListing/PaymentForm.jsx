@@ -224,7 +224,7 @@ const PaymentForm = (props) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-xl">
+    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-xl mt-3 mb-3">
       <h2 className="text-2xl font-semibold text-center text-gray-800">
         Complete Your Payment
       </h2>
