@@ -89,6 +89,29 @@ export default function AutomativeCarousel() {
     slidesToScroll: 1,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1400,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   // const settings = {
@@ -104,168 +127,182 @@ export default function AutomativeCarousel() {
   const slider = useRef();
 
   return (
-		<section className="featured-section-color electronic_card_section">
-			<div className="container">
-				<div className="row align-items-center">
-					<div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
-						<h2 className="featuresection_header">Healthcare</h2>
-						<Link to="/HealthCareComp">
-							<button className="featuresection_btn">View All</button>
-						</Link>
-					</div>
+    <section className="featured-section-color electronic_card_section">
+      <div className="container">
+        <div className="row align-items-center">
+          <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
+            <h2 className="featuresection_header">Healthcare</h2>
+            <Link to="/HealthCareComp">
+              <button className="featuresection_btn">View All</button>
+            </Link>
+          </div>
 
-					<div
-						className="feature-section-info"
-						style={{ marginTop: "-0.5rem" }}>
-						<ul className="info-list">
-							<li className="active">Sugar Apparatus</li>
-							<li>BP Apparatus</li>
-							<li>Medicines</li>
-						</ul>
-					</div>
+          <div
+            className="feature-section-info"
+            style={{ marginTop: "-0.5rem" }}
+          >
+            <ul className="info-list">
+              <li className="active">Sugar Apparatus</li>
+              <li>BP Apparatus</li>
+              <li>Medicines</li>
+            </ul>
+          </div>
 
-					{/* <div className="featureline">
+          {/* <div className="featureline">
             <div className="highlighter"></div>
           </div> */}
-				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<div>
-							<Slider
-								ref={slider}
-								{...settings}
-								className="featured-slider grid-view">
-								{ads.map((item, index) => (
-									<div key={index}>
-										<Link
-											to={`/car-details?id=${item.id}&callingFrom=HealthCare`}>
-											<div
-												className="card aos"
-												data-aos="fade-up"
-												style={{
-													height: "310px", // Adjusted to remove bottom gap
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "space-between",
-													overflow: "hidden",
-													backgroundColor: "#f0f0f0",
-												}}>
-												<div className="blog-widget">
-													<div
-														style={{
-															height: "200px",
-															width: "100%",
-															overflow: "hidden",
-														}}>
-														<img
-															src={
-																item.galleryImages?.[0] || "/placeholder.jpg"
-															}
-															className="img-fluid"
-															alt="blog-img"
-															style={{
-																objectFit: "cover",
-																width: "100%",
-																height: "100%",
-															}}
-														/>
-														{item.FeaturedAds === "Featured Ads" && (
-															<div className="fav-item">
-																<span className="Featured-text">Featured</span>
-															</div>
-														)}
-													</div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div>
+              <Slider
+                ref={slider}
+                {...settings}
+                className="featured-slider grid-view"
+              >
+                {ads.map((item, index) => (
+                  <div key={index}>
+                    <Link
+                      to={`/car-details?id=${item.id}&callingFrom=HealthCare`}
+                    >
+                      <div
+                        className="card aos"
+                        data-aos="fade-up"
+                        style={{
+                          height: "310px", // Adjusted to remove bottom gap
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          overflow: "hidden",
+                          backgroundColor: "#f0f0f0",
+                        }}
+                      >
+                        <div className="blog-widget">
+                          <div
+                            style={{
+                              height: "200px",
+                              width: "100%",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <img
+                              src={
+                                item.galleryImages?.[0] || "/placeholder.jpg"
+                              }
+                              className="img-fluid"
+                              alt="blog-img"
+                              style={{
+                                objectFit: "cover",
+                                width: "100%",
+                                height: "100%",
+                              }}
+                            />
+                            {item.FeaturedAds === "Featured Ads" && (
+                              <div className="fav-item">
+                                <span className="Featured-text">Featured</span>
+                              </div>
+                            )}
+                          </div>
 
-													<div
-														className="bloglist-content"
-														style={{
-															flexGrow: 1,
-															display: "flex",
-															flexDirection: "column",
-															justifyContent: "space-between",
-														}}>
-														<div
-															className="card-body fw-bold"
-															style={{ padding: "0.75rem" }} // Reduced padding
-														>
-															<h6
-																style={{
-																	marginBottom: "0.3rem",
-																	fontSize: "1.05rem",
-																}}>
-																<Link
-																	to="/index"
-																	style={{
-																		color: "#222",
-																		textDecoration: "none",
-																	}}>
-																	{item.title}
-																</Link>
-															</h6>
-															<p
-																style={{
-																	fontSize: "0.68rem",
-																	color: "#666",
-																	marginBottom: "0.3rem",
-																}}>
-																{item.District}, {item.City}
-															</p>
-															<div
-																className="blog-location-details"
-																style={{
-																	fontSize: "0.75rem",
-																	color: "#444",
-																	marginBottom: "0.3rem",
-																}}>
-																<div
-																	className="location-info"
-																	style={{
-																		fontFamily: "Inter",
-																		marginTop: "0.2rem",
-																	}}>
-																	{item.location}
-																</div>
-															</div>
-															<div
-																className="amount-details"
-																style={{
-																	display: "flex",
-																	justifyContent: "space-between",
-																	alignItems: "center",
-																}}>
-																<div className="amount">
-																	<span
-																		className="validrate"
-																		style={{
-																			fontWeight: "bold",
-																			// color: "#27ae60",
-																			fontSize: "0.9rem",
-																		}}>
-																		${item.Price}
-																	</span>
-																</div>
-																<div
-																	className="ratings"
-																	style={{
-																		color: "#999",
-																		fontStyle: "italic",
-																		fontSize: "0.7rem",
-																	}}>
-																	{timeAgo(item.createdAt)}
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</Link>
-									</div>
-								))}
-							</Slider>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+                          <div
+                            className="bloglist-content"
+                            style={{
+                              flexGrow: 1,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div
+                              className="card-body fw-bold"
+                              style={{ padding: "0.75rem" }} // Reduced padding
+                            >
+                              <h6
+                                style={{
+                                  marginBottom: "0.3rem",
+                                  fontSize: "1.05rem",
+                                }}
+                              >
+                                <Link
+                                  to="/index"
+                                  style={{
+                                    color: "#222",
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  {item.title}
+                                </Link>
+                              </h6>
+                              <p
+                                style={{
+                                  fontSize: "0.68rem",
+                                  color: "#666",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
+                                {item.District}, {item.City}
+                              </p>
+                              <div
+                                className="blog-location-details"
+                                style={{
+                                  fontSize: "0.75rem",
+                                  color: "#444",
+                                  marginBottom: "0.3rem",
+                                }}
+                              >
+                                <div
+                                  className="location-info"
+                                  style={{
+                                    fontFamily: "Inter",
+                                    marginTop: "0.2rem",
+                                  }}
+                                >
+                                  {item.location}
+                                </div>
+                              </div>
+                              <div
+                                className="amount-details"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <div className="amount">
+                                  <span
+                                    className="validrate"
+                                    style={{
+                                      fontWeight: "bold",
+                                      // color: "#27ae60",
+                                      fontSize: "0.9rem",
+                                    }}
+                                  >
+                                    ${item.Price}
+                                  </span>
+                                </div>
+                                <div
+                                  className="ratings"
+                                  style={{
+                                    color: "#999",
+                                    fontStyle: "italic",
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  {timeAgo(item.createdAt)}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

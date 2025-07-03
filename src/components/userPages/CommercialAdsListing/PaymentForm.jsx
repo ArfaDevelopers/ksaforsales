@@ -1,122 +1,225 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { auth } from "../../Firebase/FirebaseConfig";
+import { db } from "../../Firebase/FirebaseConfig.jsx";
+import {
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 
-const PaymentForm = () => {
+const PaymentForm = (props) => {
   const MySwal = withReactContent(Swal);
-  const stripe = useStripe();
-  const elements = useElements();
 
+  console.log(props, "FeaturedAds__________________props");
+
+  const [formData, setFormData] = useState({
+    selectedFeature: "",
+    email: "",
+    phone: "",
+    address: "8697-8747 Stirling Rd, Florida",
+  });
+  const [showPayment, setShowPayment] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  // Options for CardElement to customize its appearance
-  const CARD_ELEMENT_OPTIONS = {
-    style: {
-      base: {
-        fontSize: "16px",
-        color: "#424770",
-        "::placeholder": {
-          color: "#aab7c4",
-        },
-      },
-      invalid: {
-        color: "#9e2146",
-      },
-    },
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const updateFeaturedAds = async () => {
+    // Skip validation for testing
+    const carId = props._Id || "test_car_id"; // Fallback for testing
+    const collectionName = props.collectionName1 || "cars"; // Fallback for testing
+    const carDocRef = doc(db, collectionName, carId);
+
+    try {
+      const docSnap = await getDoc(carDocRef);
+      if (docSnap.exists()) {
+        const carData = docSnap.data();
+        const featuredAdsValue = carData.FeaturedAds;
+
+        if (featuredAdsValue === "Not Featured Ads") {
+          await updateDoc(carDocRef, {
+            FeaturedAds: "Featured Ads",
+          });
+          MySwal.fire({
+            title: "Updated!",
+            text: "FeaturedAds updated successfully!",
+            icon: "success",
+            timer: 1000,
+          });
+          console.log("FeaturedAds updated successfully!");
+        } else {
+          MySwal.fire({
+            title: "Error!",
+            text: "This ad is already set to Featured Ads",
+            icon: "error",
+            timer: 1000,
+          });
+          console.log(
+            "FeaturedAds is already set to Featured Ads or doesn't need updating."
+          );
+        }
+      } else {
+        MySwal.fire({
+          title: "Error!",
+          text: "No such document exists!",
+          icon: "error",
+          timer: 2000,
+        });
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error updating FeaturedAds:", error);
+      MySwal.fire({
+        title: "Error!",
+        text: "Failed to update FeaturedAds. Please try again.",
+        icon: "error",
+        timer: 2000,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (formData.selectedFeature === "accept-credit-card") {
+      setShowPayment(true);
+    } else {
+      setShowPayment(false);
+    }
+  }, [formData.selectedFeature]);
+
+  const handleFeatureChange = (e) => {
+    const { value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      selectedFeature: value,
+    }));
   };
 
   const handlePaymentSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    setError(null);
-    console.log("Payment submission started...");
 
     try {
       if (!stripe || !elements) {
-        setError("Stripe not initialized.");
+        console.error("Stripe or Elements are not loaded.");
+        setError("Stripe is not loaded. Please try again.");
         setLoading(false);
         return;
       }
 
       const cardElement = elements.getElement(CardElement);
       if (!cardElement) {
-        setError("CardElement not found.");
+        console.error("CardElement is not initialized.");
+        setError("Card information is not initialized.");
         setLoading(false);
         return;
       }
 
-      const { error: stripeError, paymentMethod } =
-        await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-        });
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+      });
 
-      if (stripeError) {
-        setError(stripeError.message);
+      if (error) {
+        setError(error.message);
         setLoading(false);
-        // Do NOT reset cardElement on client-side validation errors (e.g., incomplete card number)
-        // Only reset on actual payment attempt failures or after a successful transaction.
         return;
       }
 
-      const response = await fetch(
-        "http://168.231.80.24:9002/api/chargestripe",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paymentMethodId: paymentMethod.id }),
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(
+          db,
+          "payments",
+          `payment_${new Date().getTime()}`
+        );
+        const paymentData = {
+          userId: user.uid,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          paymentMethodId: paymentMethod.id,
+          amount: 10,
+          status: "Processing",
+          timestamp: new Date(),
+        };
+
+        await setDoc(userDocRef, paymentData);
+
+        const paymentResponse = await fetch(
+          "http://168.231.80.24:9002/api/charge",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: formData.name || "Unknown",
+              userId: user.uid,
+              productId: props._Id || "test_product_id", // Fallback for testing
+              amount: 10,
+              paymentStatus: "Processing",
+              paymentMethodId: paymentMethod.id,
+            }),
+          }
+        );
+
+        const paymentResult = await paymentResponse.json();
+
+        if (paymentResult.success) {
+          setPaymentSuccess(true);
+          // Check if getpaymentSuccess is a function before calling it
+          if (typeof props.getpaymentSuccess === "function") {
+            props.getpaymentSuccess(true);
+          } else {
+            console.warn(
+              "getpaymentSuccess is not a function or not provided."
+            );
+          }
+          await updateFeaturedAds();
+          await updateDoc(userDocRef, { status: "Success" });
+          MySwal.fire({
+            title: "Success!",
+            text: "Payment processed successfully!",
+            icon: "success",
+            timer: 2000,
+          });
+        } else {
+          setPaymentSuccess(false);
+          setError(paymentResult.error);
+          await updateDoc(userDocRef, { status: "Failed" });
+          MySwal.fire({
+            title: "Error!",
+            text: paymentResult.error || "Payment failed. Please try again.",
+            icon: "error",
+            timer: 2000,
+          });
         }
-      );
-
-      const result = await response.json();
-
-      if (result.success) {
-        setPaymentSuccess(true);
-        // Reset the CardElement only on success to clear out the card details
-        cardElement.clear();
-
-        MySwal.fire({
-          title: "Success!",
-          text: "Payment completed successfully.",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
       } else {
-        setPaymentSuccess(false);
-        setError(result.error || "Payment failed.");
-        // Consider resetting the CardElement on server-side failure as well
-        // if you want to force the user to re-enter details.
-        cardElement.clear();
-
+        setError("User is not authenticated.");
+        setLoading(false);
         MySwal.fire({
           title: "Error!",
-          text: result.error || "Payment failed. Please try again.",
+          text: "User is not authenticated.",
           icon: "error",
           timer: 2000,
-          showConfirmButton: false,
         });
       }
-    } catch (err) {
-      console.error("Payment error:", err);
-      setError("Something went wrong. Please try again.");
-      // Reset the CardElement on unexpected errors
-      const cardElement = elements.getElement(CardElement);
-      if (cardElement) {
-        cardElement.clear();
-      }
+    } catch (error) {
+      console.error("Error during payment processing:", error);
+      setError("An error occurred. Please try again.");
+      setLoading(false);
       MySwal.fire({
         title: "Error!",
-        text: "Unexpected error during payment.",
+        text: "An error occurred during payment processing.",
         icon: "error",
         timer: 2000,
-        showConfirmButton: false,
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -126,47 +229,50 @@ const PaymentForm = () => {
         Complete Your Payment
       </h2>
 
-      <form onSubmit={handlePaymentSubmit} className="space-y-6 mt-4">
-        <div>
-          <label
-            htmlFor="card"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Card Information
-          </label>
-          <div className="mt-2">
-            <CardElement
-              id="card"
-              options={CARD_ELEMENT_OPTIONS} // Apply custom styles
-              className="px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
-            />
+      <div className="mt-4">
+        <h3 className="text-lg font-medium text-gray-700 border-2">
+          Payment Information
+        </h3>
+
+        <form onSubmit={handlePaymentSubmit} className="space-y-6">
+          <div>
+            <label
+              htmlFor="card"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Card Information
+            </label>
+            <div className="mt-2">
+              <CardElement
+                id="card"
+                className="px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
+              />
+            </div>
           </div>
-        </div>
 
-        {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div className="text-red-500 text-sm">{error}</div>}
 
-        <button
-          type="submit"
-          disabled={loading || !stripe || !elements} // Disable if stripe or elements not ready
-          className={`w-full py-2 mt-4 rounded-lg text-white font-semibold ${
-            loading || !stripe || !elements
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-indigo-600 hover:bg-indigo-700"
-          }`}
-        >
-          {loading ? (
-            <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full" />
-          ) : (
-            "Pay Now"
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 mt-4 rounded-lg text-white font-semibold bg-dark ${
+              loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
+          >
+            {loading ? (
+              <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark"></div>
+            ) : (
+              "Pay Now"
+            )}
+          </button>
+        </form>
 
         {paymentSuccess && (
-          <div className="mt-4 text-green-500 text-center">
-            Payment Successful! Thank you.
+          <div className="mt-4 text-green-500 text-center border-1">
+            <p>Payment Successful! Thank you for your order.</p>
           </div>
         )}
-      </form>
+      </div>
     </div>
   );
 };

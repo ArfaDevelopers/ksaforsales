@@ -18,9 +18,9 @@ import Footer from "../../home/footer/Footer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import Header from "../../home/header";
-import PaymentForm from "./PaymentForm.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import { signOut } from "firebase/auth";
+import PaymentForm from "../AddLisiting/PaymentForm";
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
@@ -34,7 +34,7 @@ const CommercialAdsListing = () => {
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
-  const [showPayment, setshowPayment] = useState(null); // Store a single URL, initially null
+  const [showPayment, setshowPayment] = useState(true); // Store a single URL, initially null
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const handleLogout = async () => {
@@ -500,7 +500,11 @@ const CommercialAdsListing = () => {
                       </div>
                     </div>
                   </div>
-
+                  {showPayment && (
+                    <Elements stripe={stripePromise}>
+                      <PaymentForm getpaymentSuccess={setPaymentSuccess} />
+                    </Elements>
+                  )}
                   {/* Upload Banner Image */}
                   <div style={{ marginBottom: "20px" }}>
                     <h4
@@ -597,18 +601,15 @@ const CommercialAdsListing = () => {
                     )}
                   </div>
                   {/* {showPayment && ( */}
-                  <Elements stripe={stripePromise}>
-                    <PaymentForm getpaymentSuccess={setPaymentSuccess} />
-                  </Elements>
+
                   {/* )} */}
                   {/* Submit Button */}
                   <button
                     disabled={
-                      !formData.name ||
-                      !formData.phone ||
-                      !formData.whatsapp ||
-                      !Url ||
-                      !paymentSuccess
+                      !formData.name || !formData.phone || !formData.whatsapp
+                      // ||
+                      // !Url ||
+                      // !paymentSuccess
                     }
                     type="submit"
                     style={{

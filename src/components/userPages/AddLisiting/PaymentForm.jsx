@@ -135,7 +135,11 @@ const PaymentForm = (props) => {
 
       const user = auth.currentUser;
       if (user) {
-        const userDocRef = doc(db, "payments", `payment_${new Date().getTime()}`);
+        const userDocRef = doc(
+          db,
+          "payments",
+          `payment_${new Date().getTime()}`
+        );
         const paymentData = {
           userId: user.uid,
           email: formData.email,
@@ -149,18 +153,21 @@ const PaymentForm = (props) => {
 
         await setDoc(userDocRef, paymentData);
 
-        const paymentResponse = await fetch("http://168.231.80.24:9002/api/charge", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name || "Unknown",
-            userId: user.uid,
-            productId: props._Id || "test_product_id", // Fallback for testing
-            amount: 10,
-            paymentStatus: "Processing",
-            paymentMethodId: paymentMethod.id,
-          }),
-        });
+        const paymentResponse = await fetch(
+          "http://168.231.80.24:9002/api/charge",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: formData.name || "Unknown",
+              userId: user.uid,
+              productId: props._Id || "test_product_id", // Fallback for testing
+              amount: 10,
+              paymentStatus: "Processing",
+              paymentMethodId: paymentMethod.id,
+            }),
+          }
+        );
 
         const paymentResult = await paymentResponse.json();
 
@@ -170,7 +177,9 @@ const PaymentForm = (props) => {
           if (typeof props.getpaymentSuccess === "function") {
             props.getpaymentSuccess(true);
           } else {
-            console.warn("getpaymentSuccess is not a function or not provided.");
+            console.warn(
+              "getpaymentSuccess is not a function or not provided."
+            );
           }
           await updateFeaturedAds();
           await updateDoc(userDocRef, { status: "Success" });
@@ -245,7 +254,6 @@ const PaymentForm = (props) => {
 
           <button
             type="submit"
-            disabled={loading}
             className={`w-full py-2 mt-4 rounded-lg text-white font-semibold bg-dark ${
               loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
