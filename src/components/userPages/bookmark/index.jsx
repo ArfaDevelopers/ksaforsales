@@ -24,6 +24,7 @@ import Header from "../../home/header";
 import { signOut } from "firebase/auth";
 import Footer from "../../home/footer/Footer";
 import { ProfileAvatar02, eye } from "../../imagepath";
+import axios from "axios";
 
 const MySwal = withReactContent(Swal);
 
@@ -33,6 +34,9 @@ const Bookmarks = () => {
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
@@ -80,65 +84,54 @@ const Bookmarks = () => {
   }, []);
 
   useEffect(() => {
-    const fetchCars = async () => {
+    const fetchBookmarkedListings = async () => {
       setLoading(true);
       try {
-        const collections = [
-          "SPORTSGAMESComp",
-          "REALESTATECOMP",
-          "Cars",
-          "ELECTRONICS",
-          "Education",
-          "FASHION",
-          "HEALTHCARE",
-          "JOBBOARD",
-          "MAGAZINESCOMP",
-          "PETANIMALCOMP",
-          "TRAVEL",
-        ];
-
-        const allData = [];
-        for (const coll of collections) {
-          const collRef = collection(db, coll);
-          const querySnapshot = await getDocs(collRef);
-          const collData = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            category:
-              Object.keys(categoryMapping).find(
-                (key) => categoryMapping[key] === coll
-              ) || coll,
-            ...doc.data(),
-          }));
-          allData.push(...collData);
+        const user = auth.currentUser;
+        if (!user) {
+          console.log("No user logged in");
+          setLoading(false);
+          return;
         }
 
-        const combinedData = [
-          ...new Map(allData.map((item) => [item.id, item])).values(),
-        ];
+        const userId = user.uid;
 
-        const user = auth.currentUser;
-        const filteredData = combinedData.filter(
-          (item) => item.userId === user.uid
+        const response = await axios.get(
+          `http://168.231.80.24:9002/api/bookmarked-listings`,
+          {
+            params: {
+              userId,
+              sortOrder,
+              page: currentPage,
+              limit: pageSize,
+            },
+          }
         );
+        console.log(response, "normalizedData____________1");
 
-        const sortedData = filteredData.sort((a, b) => {
-          const dateA = a.createdAt?.seconds || 0;
-          const dateB = b.createdAt?.seconds || 0;
-          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
-        });
+        const { data, totalPages, total } = response.data;
+        const normalizedData = data.map((item) => ({
+          ...item,
+          isActive: item.isActive ?? false,
+        }));
+        console.log(normalizedData, "normalizedData____________");
+        console.log(data, "normalizedData____________data");
 
-        setCars(sortedData);
-        setFilteredCars(sortedData.filter((val) => val.bookmarked === true));
+        setCars(normalizedData);
+        setFilteredCars(normalizedData);
+        setTotalItems(total);
+
+        setTotalPages(totalPages);
       } catch (error) {
-        console.error("Error getting cars:", error);
-        setError("Failed to fetch data");
+        console.error("Error fetching bookmarked listings from API:", error);
+        setError("Failed to fetch bookmarked data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [sortOrder]);
+    fetchBookmarkedListings();
+  }, [currentPage, sortOrder]);
 
   useEffect(() => {
     if (!searchQuery) {
@@ -438,7 +431,7 @@ const Bookmarks = () => {
                   <p>No bookmarked items found.</p>
                 </div>
               ) : (
-                paginatedData.map((car) => (
+                filteredCars.map((car) => (
                   <div
                     className="col-lg-4 col-md-4 col-sm-6"
                     key={`${car.id}-${car.category}`}
@@ -714,9 +707,7 @@ const Bookmarks = () => {
                   <li className="justify-content-center pagination-center">
                     <div className="pagelink">
                       <ul>
-                        {[
-                          ...Array(Math.ceil(filteredCars.length / pageSize)),
-                        ].map((_, index) => (
+                        {[...Array(totalPages)].map((_, index) => (
                           <li
                             key={index}
                             className={`page-item ${
@@ -737,21 +728,14 @@ const Bookmarks = () => {
                   </li>
                   <li
                     className={`page-item nextlink ${
-                      currentPage === Math.ceil(filteredCars.length / pageSize)
-                        ? "disabled"
-                        : ""
+                      currentPage === totalPages ? "disabled" : ""
                     }`}
                   >
                     <Link
                       className="page-link"
                       to="#"
                       onClick={() =>
-                        setCurrentPage((prev) =>
-                          Math.min(
-                            prev + 1,
-                            Math.ceil(filteredCars.length / pageSize)
-                          )
-                        )
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                       }
                     >
                       Next <i className="fas fa-regular fa-arrow-right" />

@@ -21,6 +21,7 @@ import {
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
+import axios from "axios";
 
 const MyListe = () => {
   const MySwal = withReactContent(Swal);
@@ -31,6 +32,8 @@ const MyListe = () => {
   const [loading, setLoading] = useState(true);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [userId, setUserId] = useState("");
@@ -39,7 +42,7 @@ const MyListe = () => {
   const [editData, setEditData] = useState(null);
   const [formData, setFormData] = useState({});
   const [itemCategory, setItemCategory] = useState("");
-  console.log("itemCategory______", itemCategory);
+  console.log("itemCategory______", currentPage);
   const [itemId, setItemId] = useState(null);
   const [FormDataView, setFormDataView] = useState({});
   const [view, setView] = useState(false);
@@ -93,6 +96,7 @@ const MyListe = () => {
   const [showInvoiceColumn, setShowInvoiceColumn] = useState(false);
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
+    setCurrentPage(1); // 🔄 Reset to page 1 on sort change
   };
 
   const handleSearchChange = (event) => {
@@ -107,125 +111,9 @@ const MyListe = () => {
   };
 
   useEffect(() => {
-    const fetchCars = async () => {
+    const fetchCarsFromApi = async () => {
       setLoading(true);
       try {
-        const sportsCollectionRef = collection(db, "SPORTSGAMESComp");
-        const sportsQuerySnapshot = await getDocs(sportsCollectionRef);
-        const sportsData = sportsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const realEstateCollectionRef = collection(db, "REALESTATECOMP");
-        const realEstateQuerySnapshot = await getDocs(realEstateCollectionRef);
-        const realEstateData = realEstateQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const CarsCollectionRef = collection(db, "Cars");
-        const CarsQuerySnapshot = await getDocs(CarsCollectionRef);
-        const CarsData = CarsQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const ELECTRONICSCollectionRef = collection(db, "ELECTRONICS");
-        const ELECTRONICSQuerySnapshot = await getDocs(
-          ELECTRONICSCollectionRef
-        );
-        const ELECTRONICSData = ELECTRONICSQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const EducationCollectionRef = collection(db, "Education");
-        const EducationQuerySnapshot = await getDocs(EducationCollectionRef);
-        const EducationData = EducationQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const FASHIONCollectionRef = collection(db, "FASHION");
-        const FASHIONQuerySnapshot = await getDocs(FASHIONCollectionRef);
-        const FASHIONData = FASHIONQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const HEALTHCARECollectionRef = collection(db, "HEALTHCARE");
-        const HEALTHCAREQuerySnapshot = await getDocs(HEALTHCARECollectionRef);
-        const HEALTHCAREData = HEALTHCAREQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const JOBBOARDCollectionRef = collection(db, "JOBBOARD");
-        const JOBBOARDQuerySnapshot = await getDocs(JOBBOARDCollectionRef);
-        const JOBBOARDData = JOBBOARDQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const MAGAZINESCOMPCollectionRef = collection(db, "MAGAZINESCOMP");
-        const MAGAZINESCOMPQuerySnapshot = await getDocs(
-          MAGAZINESCOMPCollectionRef
-        );
-        const MAGAZINESCOMPData = MAGAZINESCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            isActive: doc.data().isActive ?? false,
-          })
-        );
-
-        const PETANIMALCOMPCollectionRef = collection(db, "PETANIMALCOMP");
-        const PETANIMALCOMPQuerySnapshot = await getDocs(
-          PETANIMALCOMPCollectionRef
-        );
-        const PETANIMALCOMPData = PETANIMALCOMPQuerySnapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-            isActive: doc.data().isActive ?? false,
-          })
-        );
-
-        const TRAVELCollectionRef = collection(db, "TRAVEL");
-        const TRAVELQuerySnapshot = await getDocs(TRAVELCollectionRef);
-        const TRAVELData = TRAVELQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          isActive: doc.data().isActive ?? false,
-        }));
-
-        const combinedData = [
-          ...sportsData,
-          ...realEstateData,
-          ...CarsData,
-          ...ELECTRONICSData,
-          ...EducationData,
-          ...FASHIONData,
-          ...HEALTHCAREData,
-          ...JOBBOARDData,
-          ...MAGAZINESCOMPData,
-          ...PETANIMALCOMPData,
-          ...TRAVELData,
-        ];
-
-        const uniqueData = Array.from(
-          new Map(combinedData.map((item) => [item.id, item])).values()
-        );
-
         const user = auth.currentUser;
         if (!user) {
           console.log("No user logged in");
@@ -234,25 +122,116 @@ const MyListe = () => {
         }
 
         const userId = user.uid;
-        const filteredData = uniqueData.filter(
-          (item) => item.userId === userId
-        );
-        console.log(uniqueData, "+");
-        console.log("Combined Data Count:", uniqueData.length);
-        console.log("Filtered Data Count (by userId):", filteredData.length);
 
-        setCars(filteredData);
-        setFilteredCars(filteredData);
-        setLoading(false);
+        const response = await axios.get(
+          `http://168.231.80.24:9002/api/listings`,
+          {
+            params: {
+              userId,
+              page: currentPage,
+              sortOrder,
+            },
+          }
+        );
+
+        const { data, totalPages: serverTotalPages } = response.data;
+
+        const normalizedData = data.map((item) => ({
+          ...item,
+          isActive: item.isActive ?? false,
+        }));
+
+        setCars(normalizedData);
+        setFilteredCars(normalizedData);
+        setTotalPages(serverTotalPages);
       } catch (error) {
-        console.error("Error getting cars:", error);
-        setError("Failed to fetch listings");
+        console.error("Error fetching cars from API:", error);
+        setError("Failed to fetch listings from API");
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, []);
+    fetchCarsFromApi();
+  }, [currentPage, sortOrder]);
+  // useEffect(() => {
+  //   const fetchCarsFromApi = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const user = auth.currentUser;
+  //       if (!user) {
+  //         console.log("No user logged in");
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       const userId = user.uid;
+
+  //       const response = await axios.get(
+  //         `http://168.231.80.24:9002/api/listings?userId=${userId}&page=${currentPage}`
+  //       );
+
+  //       const { data, totalPages: serverTotalPages } = response.data;
+
+  //       const normalizedData = data.map((item) => ({
+  //         ...item,
+  //         isActive: item.isActive ?? false,
+  //       }));
+
+  //       setCars(normalizedData);
+  //       setFilteredCars(normalizedData);
+  //       setTotalPages(serverTotalPages);
+  //     } catch (error) {
+  //       console.error("Error fetching cars from API:", error);
+  //       setError("Failed to fetch listings from API");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCarsFromApi();
+  // }, [currentPage]);
+
+  // useEffect(() => {
+  //   const fetchCarsFromApi = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const user = auth.currentUser;
+  //       if (!user) {
+  //         console.log("No user logged in");
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       const userId = user.uid;
+  //       const page = 1;
+  //       const limit = 2;
+
+  //       const response = await axios.get(
+  //         `http://168.231.80.24:9002/api/listings?userId=${userId}&page=${currentPage}&limit=${limit}`
+  //       );
+
+  //       const { data } = response;
+  //       console.log(data, "data________");
+  //       const normalizedData = data.map((item) => ({
+  //         ...item,
+  //         isActive: item.isActive ?? false,
+  //       }));
+
+  //       setCars(normalizedData);
+  //       setFilteredCars(normalizedData);
+  //       console.log("Fetched Page Data Count:", normalizedData.length);
+  //     } catch (error) {
+  //       console.error("Error fetching cars from API:", error);
+  //       setError("Failed to fetch listings from API");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCarsFromApi();
+  // }, []);
+
   const isMobile = window.innerWidth <= 576;
   useEffect(() => {
     let result = [...cars];
@@ -412,94 +391,25 @@ const MyListe = () => {
       }
     });
   };
-  const totalPages = Math.ceil(filteredCars.length / pageSize);
+  // const totalPages = Math.ceil(filteredCars.length / pageSize);
 
   const renderPaginationItems = () => {
     const items = [];
-
-    // Always show the first page
-    items.push(
-      <li key={1} className={`page-item ${currentPage === 1 ? "active" : ""}`}>
-        <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
-          1
-        </Link>
-      </li>
-    );
-
-    // If there are more than 1 page, calculate the range of pages to display
-    if (totalPages > 1) {
-      // Add ellipsis after the first page if currentPage is greater than 3
-      if (currentPage > 3) {
-        items.push(
-          <li key="ellipsis-start" className="page-item disabled">
-            <span className="page-link">...</span>
-          </li>
-        );
-      }
-
-      // Determine the range of three pages to show around the current page
-      let startPage = Math.max(2, currentPage - 1); // Start at least at page 2
-      let endPage = Math.min(totalPages - 1, currentPage + 1); // End before the last page
-
-      // Adjust the range to always show 3 pages if possible
-      if (endPage - startPage < 2) {
-        if (startPage === 2) {
-          endPage = Math.min(startPage + 2, totalPages - 1);
-        } else if (endPage === totalPages - 1) {
-          startPage = Math.max(2, endPage - 2);
-        }
-      }
-
-      // Render the three pages in the range
-      for (let i = startPage; i <= endPage; i++) {
-        items.push(
-          <li
-            key={i}
-            className={`page-item ${currentPage === i ? "active" : ""}`}
-          >
-            <Link
-              className="page-link"
-              to="#"
-              onClick={() => setCurrentPage(i)}
-            >
-              {i}
-            </Link>
-          </li>
-        );
-      }
-
-      // Add ellipsis before the last page if needed
-      if (endPage < totalPages - 1) {
-        items.push(
-          <li key="ellipsis-end" className="page-item disabled">
-            <span className="page-link">...</span>
-          </li>
-        );
-      }
-
-      // Always show the last page
-      if (totalPages > 1) {
-        items.push(
-          <li
-            key={totalPages}
-            className={`page-item ${
-              currentPage === totalPages ? "active" : ""
-            }`}
-          >
-            <Link
-              className="page-link"
-              to="#"
-              onClick={() => setCurrentPage(totalPages)}
-            >
-              {totalPages}
-            </Link>
-          </li>
-        );
-      }
+    for (let i = 1; i <= totalPages; i++) {
+      items.push(
+        <li
+          key={i}
+          className={`page-item ${currentPage === i ? "active" : ""}`}
+        >
+          <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+            {i}
+          </Link>
+        </li>
+      );
     }
-
     return items;
   };
+
   const toggleDisable = async (id, category, isActive) => {
     const categoryMapping1 = {
       Automotive: "Cars",
@@ -1336,12 +1246,12 @@ const MyListe = () => {
                       <span className="sortbytitle">Sort by</span>
                       <div className="sorting-select">
                         <select
-                          className="form-control select"
                           value={sortOrder}
                           onChange={handleSortChange}
+                          className="form-control"
                         >
-                          <option value="Newest">Newest</option>
-                          <option value="Oldest">Oldest</option>
+                          <option value="Newest">Newest First</option>
+                          <option value="Oldest">Oldest First</option>
                         </select>
                       </div>
                     </div>
@@ -1383,7 +1293,7 @@ const MyListe = () => {
                     <Table
                       className="listing-table datatable"
                       columns={columns}
-                      dataSource={paginatedData}
+                      dataSource={filteredCars}
                       rowKey={(record) => record.id}
                       pagination={false}
                     />
@@ -1404,7 +1314,7 @@ const MyListe = () => {
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                         >
-                          <i className="fas fa-regular fa-arrow-left" /> Prev
+                          <i className="fas fa-arrow-left" /> Prev
                         </Link>
                       </li>
                       <li className="justify-content-center pagination-center">
@@ -1426,7 +1336,7 @@ const MyListe = () => {
                             )
                           }
                         >
-                          Next <i className="fas fa-regular fa-arrow-right" />
+                          Next <i className="fas fa-arrow-right" />
                         </Link>
                       </li>
                     </ul>
