@@ -1544,7 +1544,7 @@ const AddLisiting = () => {
     Travel: "TRAVEL",
     Pet: "PETANIMALCOMP",
 
-    Automotive: "Cars",
+    Motors: "Cars",
     Sports: "SPORTSGAMESComp",
     Electronics: "ELECTRONICS",
     "Fashion Style": "FASHION",
@@ -1903,7 +1903,7 @@ const AddLisiting = () => {
       if (user) {
         setError("");
         const Collection =
-          Category1 === "Automotive"
+          Category1 === "Motors"
             ? "Cars"
             : Category1 === "Electronics"
             ? "ELECTRONICS"
@@ -2009,7 +2009,7 @@ const AddLisiting = () => {
 
         setError("");
         const Collection =
-          Category1 === "Automotive"
+          Category1 === "Motors"
             ? "Cars"
             : Category1 === "Electronics"
             ? "ELECTRONICS"
@@ -2832,7 +2832,7 @@ const AddLisiting = () => {
   };
 
   const categories = [
-    "Automotive",
+    "Motors",
     "Electronics",
     "Fashion Style",
     "Health Care",
@@ -2863,7 +2863,7 @@ const AddLisiting = () => {
   const subcategoriesMapping = {
     categories: [
       {
-        name: "Automotive",
+        name: "Motors",
         subcategories: [
           {
             name: "Cars For Sale",
