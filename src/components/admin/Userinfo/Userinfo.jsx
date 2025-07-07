@@ -854,8 +854,28 @@ const Userinfo = () => {
                           <Col md={8}>
                             <Card.Body>
                               {/* Title */}
-                              <Card.Title style={{ color: "#2D4495" }}>
+                              <Card.Title
+                                style={{
+                                  color: "#2D4495",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  flexWrap: "wrap",
+                                }}
+                              >
                                 {item.title || "Item"}
+                                {/* Price */}
+                                <p
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: "20px",
+                                    zIndex: 2,
+                                    color: "#2D4495",
+                                  }}
+                                >
+                                  {item.Price
+                                    ? `$${item.Price}`
+                                    : "Price not available"}
+                                </p>
                               </Card.Title>
 
                               {/* Location and Description */}
@@ -877,129 +897,60 @@ const Userinfo = () => {
                               </Card.Text>
 
                               {/* Price and Updated Time */}
-                              <Col
-                                className="align-items-center"
-                                style={{ position: "relative" }}
-                              >
-                                {/* Price */}
-                                <p
-                                  style={{
-                                    position: "absolute",
-                                    top: "-100px",
-                                    left: "500px",
-                                    fontWeight: "bold",
-                                    fontSize: "20px",
-                                    zIndex: 2,
-                                    color: "#2D4495",
-                                  }}
-                                >
-                                  {item.Price
-                                    ? `$${item.Price}`
-                                    : "Price not available"}
-                                </p>
-                              </Col>
 
                               {/* Buttons */}
-                              <Row
-                                className="gx-2 gy-2 mt-4 mt-sm-5 text-center"
-                                style={{ margin: 0 }}
+                              <div
+                                className="gx-2 gy-2 mt-4 mt-sm-5 card_btn_wrap"
+                                style={{
+                                  display: "flex",
+                                  gap: "10px",
+                                  flexWrap: "wrap",
+                                }}
                               >
                                 {/* Call Button */}
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
+                                <div className="p-0 d-flex align-items-center justify-content-center">
                                   <button
+                                    className="sign-in-button userlisting"
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 20px",
-                                      border: "none",
-                                      borderRadius: "20px",
-                                      backgroundColor: "#2d4fad",
-                                      color: "white",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
                                       width: "100%",
                                       maxWidth: "150px",
-                                      margin: "5px",
                                     }}
                                   >
-                                    <i className="fas fa-phone" /> Call
+                                    <i className="fas fa-phone" />{" "}
+                                    <span>Call</span>
                                   </button>
-                                </Col>
-
+                                </div>
                                 {/* Message Button */}
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
+                                <div className="p-0 d-flex align-items-center justify-content-center">
                                   <button
+                                    className="sign-in-button userlisting"
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 12px",
-                                      border: "1px solid #2d4fad",
-                                      borderRadius: "20px",
-                                      backgroundColor: "white",
-                                      color: "#2d4fad",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
                                       width: "100%",
                                       maxWidth: "150px",
-                                      margin: "5px",
                                     }}
                                   >
-                                    <i className="fas fa-comment" /> Message
+                                    <i className="fas fa-comment" />{" "}
+                                    <span>Message</span>
                                   </button>
-                                </Col>
-
+                                </div>
                                 {/* WhatsApp Button */}
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
-                                  className="p-0 d-flex align-items-center justify-content-center"
-                                >
+                                <div className="p-0 d-flex align-items-center justify-content-center">
                                   <button
+                                    className="sign-in-button userlisting"
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "5px",
-                                      padding: "12px 10px",
-                                      border: "1px solid #2d4fad",
-                                      borderRadius: "20px",
-                                      backgroundColor: "white",
-                                      color: "#2d4fad",
-                                      fontSize: "13px",
-                                      cursor: "pointer",
                                       width: "100%",
                                       maxWidth: "150px",
-                                      margin: "5px",
                                     }}
                                   >
                                     <i
                                       className="fab fa-whatsapp"
-                                      style={{ color: "#2D4495" }}
+                                      style={{ color: "#fff" }}
                                     />{" "}
-                                    WhatsApp
+                                    <span>WhatsApp</span>
                                   </button>
-                                </Col>
-
+                                </div>
                                 {/* Favorite Button */}
-                                <Col
-                                  xs={6}
-                                  sm={3}
-                                  lg={2}
+                                <div
                                   className="p-0 d-flex align-items-center justify-content-center position-relative"
                                   style={{ marginLeft: 5 }}
                                 >
@@ -1016,8 +967,6 @@ const Userinfo = () => {
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
-                                      margin: "5px",
-                                      marginRight: "60px",
                                     }}
                                   >
                                     <FaRegHeart
@@ -1031,12 +980,12 @@ const Userinfo = () => {
                                           item.userId === userId
                                             ? "red"
                                             : "#2D4495",
-                                        fontSize: "30px",
+                                        fontSize: "24px",
                                       }}
                                     />
                                   </button>
-                                </Col>
-                              </Row>
+                                </div>
+                              </div>
                             </Card.Body>
                           </Col>
                         </Row>

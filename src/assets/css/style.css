@@ -2659,6 +2659,23 @@ html.menu-opened body {
 p:last-child {
   margin-bottom: 0;
 }
+.sign-in-button.userlisting {
+    background-color: #0055a5;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: width 0.3s ease;
+    padding: 10px 23px;
+}
 .fav-item .fav-icon {
   width: 35px;
   height: 35px;
