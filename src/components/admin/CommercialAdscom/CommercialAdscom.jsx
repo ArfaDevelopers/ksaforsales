@@ -223,6 +223,10 @@ const CommercialAdscom = () => {
     setSelectedPhone(phone);
     setShowWhatsApp(true);
   };
+  const handleShowselectedPhone = (phone) => {
+    setSelectedPhone(phone);
+    setShowCall(true);
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -731,7 +735,7 @@ const CommercialAdscom = () => {
                           }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleShowWhatsApp(item.phone);
+                            handleShowselectedPhone(item.phone);
                             setSelectedPhone(item.phone);
                           }}
                         >
