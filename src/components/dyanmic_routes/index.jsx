@@ -9,7 +9,7 @@ import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { BsChatDots } from "react-icons/bs";
 import { MdMessage } from "react-icons/md";
 import Loading1 from "../../../public/Progress circle.png";
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -105,6 +105,49 @@ const Dynamic_Routes = () => {
 
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const handleFavourite = async (id, category) => {
+    try {
+      // 🔁 Map category to actual Firestore collection name
+      const collectionMap = {
+        Motors: "Cars",
+        Electronics: "ELECTRONICS",
+        Services: "TRAVEL",
+        Other: "Education",
+        "Pet & Animals": "PETANIMALCOMP",
+        "Sports & Game": "SPORTSGAMESComp",
+        "Fashion Style": "FASHION",
+        "Job Board": "JOBBOARD",
+        Automotive: "Cars",
+      };
+
+      const firestoreCollection = collectionMap[category] || category;
+
+      // 🔍 Get current document
+      const docRef = doc(db, firestoreCollection, id);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        console.warn(
+          `Document with ID ${id} not found in ${firestoreCollection}`
+        );
+        return;
+      }
+
+      const currentData = docSnap.data();
+      const currentBookmarkStatus = currentData.bookmarked || false;
+
+      // ✅ Toggle the bookmark field
+      await updateDoc(docRef, {
+        bookmarked: !currentBookmarkStatus,
+      });
+      setRefresh(!refresh);
+      console.log(
+        `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`
+      );
+    } catch (error) {
+      console.error("❌ Error toggling bookmark:", error);
+    }
+  };
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isFullScreen) return;
@@ -652,7 +695,7 @@ const Dynamic_Routes = () => {
     };
 
     fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db, location]); // Re-run if `id` changes
+  }, [id, callingFrom, db, refresh, location]); // Re-run if `id` changes
 
   if (loading) {
     return (
@@ -803,15 +846,30 @@ const Dynamic_Routes = () => {
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
+              onClick={() => handleFavourite(itemData?.id, itemData?.category)}
+            >
+              <span style={{ color: itemData?.bookmarked ? "red" : "gray" }}>
+                {itemData?.bookmarked ? <FaHeart /> : <FaRegHeart />}
+              </span>{" "}
+              Favourite
+            </button>
+            {/* <button
+              className="head2btn"
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto",
+              }}
             >
               <Link to="/bookmarks">
                 <span>
-                  {/* <img src={left} alt="leftarrow" /> */}
-                  <FaRegHeart />
+                   <FaRegHeart />
                 </span>{" "}
                 Favourite
               </Link>
-            </button>
+            </button> */}
             <>
               {/* Button to open modal */}
               <button

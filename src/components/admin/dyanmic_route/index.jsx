@@ -14,6 +14,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useParams, useLocation } from "react-router";
 import { useMyContext } from "../../store/Contexxt.store";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+
 import arrow from "./Vector.png";
 import left from "./left.png";
 import right from "./right.png";
@@ -29,7 +31,7 @@ import image2 from "../../../assets/img/banner/bannerimage2.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
 import { HiMiniSlash } from "react-icons/hi2";
-import { FaRegHeart } from "react-icons/fa";
+// import { FaRegHeart } from "react-icons/fa";
 import ads from "./adsimg.png";
 import {
   getDocs,
@@ -73,7 +75,52 @@ const Dynamic_Route = () => {
   };
   const [_Id, setId] = useState(null); // State to store ads data
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  const [refresh, setRefresh] = useState(false);
+
   const link = getQueryParam("link") || window.location.href;
+  const handleFavourite = async (id, category) => {
+    try {
+      // 🔁 Map category to actual Firestore collection name
+      const collectionMap = {
+        Motors: "Cars",
+        Electronics: "ELECTRONICS",
+        Services: "TRAVEL",
+        Other: "Education",
+        "Pet & Animals": "PETANIMALCOMP",
+        "Sports & Game": "SPORTSGAMESComp",
+        "Fashion Style": "FASHION",
+        "Job Board": "JOBBOARD",
+        Automotive: "Cars",
+      };
+
+      const firestoreCollection = collectionMap[category] || category;
+
+      // 🔍 Get current document
+      const docRef = doc(db, firestoreCollection, id);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        console.warn(
+          `Document with ID ${id} not found in ${firestoreCollection}`
+        );
+        return;
+      }
+
+      const currentData = docSnap.data();
+      const currentBookmarkStatus = currentData.bookmarked || false;
+
+      // ✅ Toggle the bookmark field
+      await updateDoc(docRef, {
+        bookmarked: !currentBookmarkStatus,
+      });
+      setRefresh(!refresh);
+      console.log(
+        `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`
+      );
+    } catch (error) {
+      console.error("❌ Error toggling bookmark:", error);
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -172,7 +219,6 @@ const Dynamic_Route = () => {
   );
   const [receiverId, setReceiverId] = useState("3");
   const [chatId, setChatId] = useState("");
-  const [refresh, setRefresh] = useState(false);
   //  const [userId, setUserId] = useState(null);
 
   const copyToClipboard = () => {
@@ -368,7 +414,7 @@ const Dynamic_Route = () => {
     };
 
     fetchChatIdAndMessages();
-  }, [refresh, itemData?.userId, userId]);
+  }, [refresh, itemData?.userId, refresh, userId]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -623,7 +669,7 @@ const Dynamic_Route = () => {
     };
 
     fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db, location]); // Re-run if `id` changes
+  }, [id, callingFrom, db, location, refresh]); // Re-run if `id` changes
 
   if (loading) {
     return (
@@ -816,6 +862,22 @@ const Dynamic_Route = () => {
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
             }}
           >
+            {/* <button
+              className="head2btn"
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #2D4495",
+                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                textAlign: "center",
+                width: window.innerWidth <= 576 ? "47%" : "auto",
+              }}
+              onClick={() => handleFavourite(itemData?.id, itemData?.category)} // ← Add this
+            >
+              <span>
+                <FaRegHeart />
+              </span>{" "}
+              Favourite
+            </button> */}
             <button
               className="head2btn"
               style={{
@@ -825,14 +887,12 @@ const Dynamic_Route = () => {
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
+              onClick={() => handleFavourite(itemData?.id, itemData?.category)}
             >
-              <Link to="/bookmarks">
-                <span>
-                  {/* <img src={left} alt="leftarrow" /> */}
-                  <FaRegHeart />
-                </span>{" "}
-                Favourite
-              </Link>
+              <span style={{ color: itemData?.bookmarked ? "red" : "gray" }}>
+                {itemData?.bookmarked ? <FaHeart /> : <FaRegHeart />}
+              </span>{" "}
+              Favourite
             </button>
             <>
               {/* Button to open modal */}
