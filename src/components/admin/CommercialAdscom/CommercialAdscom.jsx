@@ -638,14 +638,10 @@ const CommercialAdscom = () => {
               </div>
             </Modal.Body>
           </Modal>
-          <Container
-            style={{
-              marginBottom: window.innerWidth <= 576 ? "65rem" : "0rem",
-            }}
-          >
+          <Container className="p-0">
             <Row className="g-4">
               {categories.map((item) => (
-                <Col key={item.id} md={3} sm={6}>
+                <Col key={item.id} xl={3} md={6} sm={6}>
                   <Card
                     className="shadow-lg"
                     onClick={() => {
