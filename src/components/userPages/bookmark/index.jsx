@@ -426,7 +426,7 @@ const Bookmarks = () => {
                   `}
                   </style>
                 </div>
-              ) : paginatedData.length === 0 ? (
+              ) : filteredCars.length === 0 ? (
                 <div className="col-12 text-center">
                   <p>No bookmarked items found.</p>
                 </div>
