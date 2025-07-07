@@ -2653,7 +2653,7 @@ html.menu-opened body {
 }
 .fav-item .fav-icon:hover,
 .fav-item .fav-icon.selected {
-  background-color: #c10037;
+  background-color: transparent;
   color: #fff;
 }
 p:last-child {
@@ -2662,7 +2662,7 @@ p:last-child {
 .fav-item .fav-icon {
   width: 35px;
   height: 35px;
-  background: #ffffff;
+  background: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

@@ -43,34 +43,7 @@ const Userinfo = () => {
   const [userId, setUserId] = useState(""); // State for image preview
   const [error, setError] = useState(""); // ✅ Error state
   const [totalPages, setTotalPages] = useState(1);
-  // const { id } = useParams();
-  // const getQueryParam = (param) => {
-  //   const hash = window.location.hash;
-  //   const queryIndex = hash.indexOf("?");
-  //   if (queryIndex === -1) return null;
 
-  //   const queryString = hash.substring(queryIndex + 1); // Extract query part after ?
-  //   const searchParams = new URLSearchParams(queryString);
-  //   return searchParams.get(param);
-  // };
-
-  // useEffect(() => {
-  //   const callingFrom = getQueryParam("callingFrom");
-  //   const subCatgoryParam = getQueryParam("subCatgory");
-  //   const nestedSubCategoryParam = getQueryParam("NestedSubCategory");
-  //   const ids = getQueryParam("id");
-  //   setsubCatgory(subCatgoryParam);
-  //   setNestedSubCategory(nestedSubCategoryParam);
-  //   console.log(nestedSubCategoryParam, "subCatgory___________5");
-  //   console.log(subCatgoryParam, "subCatgory___________5");
-  //   console.log(callingFrom, "subCatgory___________6");
-
-  //   console.log("callingFrom_____ID:ids11", ids);
-  //   console.log("callingFrom From:11", callingFrom);
-
-  //   setCallingFrom(callingFrom);
-  //   setId(ids);
-  // }, [id, location, getQueryParam]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -148,9 +121,84 @@ const Userinfo = () => {
     });
     setCars(sortedCars);
   };
-  const toggleBookmark = (id) => {
-    console.log(`Toggling bookmark for item ${id}`);
-    // Add your bookmark logic here
+  // const toggleBookmark = (id) => {
+  //   console.log(`Toggling bookmark for item ${id}`);
+  //   // Add your bookmark logic here
+  // };
+  const [popoverCarId, setPopoverCarId] = useState(null); // Store the specific car's ID
+  const [bookmarkedCar, setBookmarkedCar] = useState({
+    bookmarked: false,
+    id: null,
+  });
+  const [refresh, setRefresh] = useState(false); // Add loading state
+
+  const toggleBookmark = async (itemId, collectionName) => {
+    console.log(
+      "Toggling bookmark for item:",
+      itemId,
+      "in collection:",
+      collectionName
+    );
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        setPopoverCarId(itemId);
+        setTimeout(() => setPopoverCarId(null), 3000);
+        return;
+      }
+
+      const userId = user.uid;
+
+      // 🔁 Map display category name to Firestore collection name
+      const collectionMap = {
+        Motors: "Cars",
+        Automotive: "Cars",
+        Other: "Education",
+        Services: "TRAVEL",
+        "Pet & Animals": "PETANIMALCOMP",
+        "Sports & Game": "SPORTSGAMESComp",
+        "Real Estate": "REALESTATECOMP",
+        "Home & Furnituer": "HEALTHCARE",
+
+        "Fashion Style": "FASHION",
+        "Job Board": "JOBBOARD",
+        Electronics: "ELECTRONICS",
+      };
+
+      const firestoreCollection =
+        collectionMap[collectionName] || collectionName;
+
+      // Reference to the document
+      const itemDocRef = doc(db, firestoreCollection, itemId);
+
+      // Read current bookmark status from Firestore
+      const itemSnapshot = await getDoc(itemDocRef);
+      if (!itemSnapshot.exists()) {
+        console.warn(`Item ${itemId} not found in ${firestoreCollection}`);
+        return;
+      }
+
+      const currentData = itemSnapshot.data();
+      const newBookmarkedStatus = !(currentData.bookmarked || false);
+
+      // Set UI state only if needed
+      setBookmarkedCar({ bookmarked: newBookmarkedStatus, id: itemId });
+
+      // Update Firestore
+      await updateDoc(itemDocRef, {
+        bookmarked: newBookmarkedStatus,
+        userId: userId,
+      });
+
+      // Optional: refresh trigger for parent
+      setRefresh((prev) => !prev);
+
+      console.log(
+        `${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`
+      );
+    } catch (error) {
+      console.error(`Error updating bookmark in ${collectionName}:`, error);
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -401,7 +449,7 @@ const Userinfo = () => {
     };
 
     if (userId) fetchCars();
-  }, [searchQuery, userId, sortOrder, currentPage, pageSize, _Id]);
+  }, [searchQuery, userId, sortOrder, currentPage, pageSize, refresh, _Id]);
   useEffect(() => {
     if (!searchQuery) {
       setFilteredCars(cars);
@@ -435,8 +483,8 @@ const Userinfo = () => {
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
-            to={`/service-details?id=${record.id}&callingFrom=${formatCategory(
-              record.category
+            to={`/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+              record.category === "Motors" ? "AutomotiveComp" : record.category
             )}`}
           >
             <img
@@ -477,65 +525,6 @@ const Userinfo = () => {
       ),
       sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0), // Fixed incorrect sorter
     },
-    // {
-    //   title: "Status",
-    //   dataIndex: "status",
-    //   render: (text, record) => <span className={record.bg}>{"Active"}</span>,
-    //   sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
-    // },
-    // {
-    //   title: "Views",
-    //   dataIndex: "numbers",
-    //   render: (text) => <span>{text}</span>,
-    //   sorter: (a, b) => (a.numbers || 0) - (b.numbers || 0), // Ensure numbers are valid
-    // },
-    // {
-    //   title: "Action",
-    //   dataIndex: "class",
-    //   render: (text, record) => (
-    //     <div
-    //       className={text}
-    //       style={{
-    //         display: "flex",
-    //         gap: "10px",
-    //         justifyContent: "flex-start",
-    //       }}
-    //     >
-    //       <Link
-    //         to="#"
-    //         className="action-btn btn-view"
-    //         onClick={() => viewItem(record.id, formatCategory(record.Category))}
-    //         style={{ display: "inline-flex", alignItems: "center" }}
-    //       >
-    //         <i className="feather-eye" />
-    //       </Link>
-    //       <Link
-    //         to="#"
-    //         className="action-btn btn-edit"
-    //         onClick={() => {
-    //           console.log("Record ID:__", record.id);
-    //           console.log("Record ID:___", record.Category);
-
-    //           editItem(record.id, formatCategory(record.Category));
-    //         }}
-    //         style={{ display: "inline-flex", alignItems: "center" }}
-    //       >
-    //         <i className="feather-edit-3" />
-    //       </Link>
-    //       <Link
-    //         to="#"
-    //         className="action-btn btn-trash"
-    //         onClick={() =>
-    //           deleteItem(record.id, formatCategory(record.Category))
-    //         }
-    //         style={{ display: "inline-flex", alignItems: "center" }}
-    //       >
-    //         <i className="feather-trash-2" />
-    //       </Link>
-    //     </div>
-    //   ),
-    //   sorter: (a, b) => (a.class?.length || 0) - (b.class?.length || 0),
-    // },
   ];
 
   const parms = useLocation().pathname;
@@ -671,33 +660,7 @@ const Userinfo = () => {
         </Modal.Footer>
       </Modal>
       <Header />
-      {/* Breadscrumb Section */}
-      {/* <div className="breadcrumb-bar">
-        <div className="container">
-          <div className="row align-items-center text-center">
-            <div className="col-md-12 col-12">
-              <h2 className="breadcrumb-title">My Listing</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/index">Home</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    My Listing
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col-12 text-start fw-bold">Home / My Listing</div>
-        </div>
-      </div> */}
-      {/* /Breadscrumb Section */}
-      {/* Dashboard Content */}
+
       <div
         className="dashboard-content"
         style={{
@@ -711,48 +674,6 @@ const Userinfo = () => {
           >
             Home / User Listing
           </div>
-
-          {/* <div className="">
-            <ul className="dashborad-menus">
-              <li>
-                <Link to="/dashboard">
-                  <i className="feather-grid" /> <span>Dashboard</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile">
-                  <i className="fa-solid fa-user" /> <span>Profile</span>
-                </Link>
-              </li>
-              <li className="active">
-                <Link to="/my-listing">
-                  <i className="feather-list" /> <span>My Listing</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/reviews">
-                  <i className="fas fa-solid fa-star" /> <span>Reviews</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/login">
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                  <span>Logout</span>
-                </Link>
-              </li>
-            </ul>
-          </div> */}
 
           <div className="dash-listingcontent dashboard-info">
             <div className="dash-cards card">
@@ -887,7 +808,9 @@ const Userinfo = () => {
                                 zIndex: 3,
                                 cursor: "pointer",
                               }}
-                              onClick={() => toggleBookmark(item.id)}
+                              onClick={() =>
+                                toggleBookmark(item.id, item.category)
+                              }
                             >
                               <FaHeart
                                 style={{
@@ -902,9 +825,13 @@ const Userinfo = () => {
 
                             {/* Image */}
                             <Link
-                              to={`/service-details?id=${
+                              to={`/Dynamic_Route?id=${
                                 item.id
-                              }&callingFrom=${formatCategory(item.category)}`}
+                              }&callingFrom=${formatCategory(
+                                item.category === "Motors"
+                                  ? "AutomotiveComp"
+                                  : item.category
+                              )}`}
                             >
                               <Card.Img
                                 src={
@@ -1094,7 +1021,10 @@ const Userinfo = () => {
                                     }}
                                   >
                                     <FaRegHeart
-                                      onClick={() => toggleBookmark(item.id)}
+                                      // onClick={() => toggleBookmark(item.id)}
+                                      onClick={() =>
+                                        toggleBookmark(item.id, iten.category)
+                                      }
                                       style={{
                                         color:
                                           item.bookmarked &&
