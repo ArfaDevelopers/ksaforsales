@@ -640,44 +640,77 @@ const Dynamic_Routes = () => {
       ? _Id
       : id;
 
+  // useEffect(() => {
+  //   const fetchItem = async () => {
+  //     setLoading(true); // Start loading
+  //     try {
+  //       const collectionName =
+  //         callingFrom === "automotive"
+  //           ? "Cars"
+  //           : callingFrom === "RealEstate"
+  //           ? "REALESTATECOMP"
+  //           : callingFrom === "Electronic"
+  //           ? "ELECTRONICS"
+  //           : callingFrom === "HealthCare"
+  //           ? "HEALTHCARE"
+  //           : callingFrom === "GamesSport"
+  //           ? "SPORTSGAMESComp"
+  //           : callingFrom === "ComercialsAds"
+  //           ? "ComercialsAds"
+  //           : callingFrom === "Education"
+  //           ? "Education"
+  //           : "books";
+  //       // Determine collection based on `callingFrom`
+  //       // const collectionName = callingFrom === "automotive" ? "carData" : "books";
+  //       const adsCollection = collection(db, collectionName); // Reference to dynamic collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id, // Include document ID
+  //         ...doc.data(), // Spread document data
+  //       }));
+
+  //       console.log(adsList, "item Data__________adsList");
+
+  //       // Find the ad that matches the `id` from the URL
+  //       const selectedAd = adsList.find((ad) => ad.id === _Id);
+  //       if (selectedAd) {
+  //         setItemData({
+  //           ...selectedAd,
+  //           timeAgo: selectedAd.createdAt
+  //             ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+  //                 addSuffix: true,
+  //               })
+  //             : "Unknown time",
+  //         });
+  //       } else {
+  //         setItemData(null);
+  //       }
+
+  //       setLoading(false); // Stop loading
+  //     } catch (error) {
+  //       console.error("Error fetching item:", error);
+  //       setError("Failed to fetch data");
+  //       setLoading(false); // Stop loading on error
+  //     }
+  //   };
+
+  //   fetchItem(); // Call the fetch function
+  // }, [id, callingFrom, db, refresh, _Id,location]); // Re-run if `id` changes
   useEffect(() => {
     const fetchItem = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
-        const collectionName =
-          callingFrom === "automotive"
-            ? "Cars"
-            : callingFrom === "RealEstate"
-            ? "REALESTATECOMP"
-            : callingFrom === "Electronic"
-            ? "ELECTRONICS"
-            : callingFrom === "HealthCare"
-            ? "HEALTHCARE"
-            : callingFrom === "GamesSport"
-            ? "SPORTSGAMESComp"
-            : callingFrom === "ComercialsAds"
-            ? "ComercialsAds"
-            : callingFrom === "Education"
-            ? "Education"
-            : "books";
-        // Determine collection based on `callingFrom`
-        // const collectionName = callingFrom === "automotive" ? "carData" : "books";
-        const adsCollection = collection(db, collectionName); // Reference to dynamic collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id, // Include document ID
-          ...doc.data(), // Spread document data
-        }));
+        const res = await fetch(
+          `http://168.231.80.24:9002/route/getItemById?callingFrom=${callingFrom}&id=${_Id}`
+        );
 
-        console.log(adsList, "item Data__________adsList");
+        const item = await res.json();
 
-        // Find the ad that matches the `id` from the URL
-        const selectedAd = adsList.find((ad) => ad.id === NewId);
-        if (selectedAd) {
+        if (item?.id) {
           setItemData({
-            ...selectedAd,
-            timeAgo: selectedAd.createdAt
-              ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+            ...item,
+            timeAgo: item.createdAt?._seconds
+              ? formatDistanceToNow(new Date(item.createdAt._seconds * 1000), {
                   addSuffix: true,
                 })
               : "Unknown time",
@@ -686,16 +719,16 @@ const Dynamic_Routes = () => {
           setItemData(null);
         }
 
-        setLoading(false); // Stop loading
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching item:", error);
         setError("Failed to fetch data");
-        setLoading(false); // Stop loading on error
+        setLoading(false);
       }
     };
 
-    fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db, refresh, location]); // Re-run if `id` changes
+    if (_Id && callingFrom) fetchItem();
+  }, [_Id, callingFrom, refresh]);
 
   if (loading) {
     return (

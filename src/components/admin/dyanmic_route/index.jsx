@@ -59,6 +59,7 @@ import SuggestedAds from "../../../components/home/SuggestedAds/SuggestedAds";
 import RatingAndReviews from "../../admin/RatingSection/RatingSection";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import SwiperSlider from "../SwiperSlider/SwiperSlider";
+import { ref } from "firebase/storage";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -608,50 +609,83 @@ const Dynamic_Route = () => {
       ? _Id
       : id;
 
+  // useEffect(() => {
+  //   const fetchItem = async () => {
+  //     setLoading(true); // Start loading
+  //     try {
+  //       const collectionName =
+  //         callingFrom === "AutomotiveComp"
+  //           ? "Cars"
+  //           : callingFrom === "ElectronicComp"
+  //           ? "ELECTRONICS"
+  //           : callingFrom === "FashionStyle"
+  //           ? "FASHION"
+  //           : callingFrom === "HealthCareComp"
+  //           ? "HEALTHCARE"
+  //           : callingFrom === "JobBoard"
+  //           ? "JOBBOARD"
+  //           : callingFrom === "Education"
+  //           ? "Education"
+  //           : callingFrom === "RealEstateComp"
+  //           ? "REALESTATECOMP"
+  //           : callingFrom === "TravelComp"
+  //           ? "TRAVEL"
+  //           : callingFrom === "SportGamesComp"
+  //           ? "SPORTSGAMESComp"
+  //           : callingFrom === "PetAnimalsComp"
+  //           ? "PETANIMALCOMP"
+  //           : "books";
+  //       // Determine collection based on `callingFrom`
+  //       // const collectionName = callingFrom === "automotive" ? "carData" : "books";
+  //       const adsCollection = collection(db, collectionName); // Reference to dynamic collection
+  //       const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
+  //       const adsList = adsSnapshot.docs.map((doc) => ({
+  //         id: doc.id, // Include document ID
+  //         ...doc.data(), // Spread document data
+  //       }));
+
+  //       console.log(adsList, "Fetched Ads");
+
+  //       // Find the ad that matches the `id` from the URL
+  //       const selectedAd = adsList.find((ad) => ad.id === NewId);
+  //       if (selectedAd) {
+  //         setItemData({
+  //           ...selectedAd,
+  //           timeAgo: selectedAd.createdAt
+  //             ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+  //                 addSuffix: true,
+  //               })
+  //             : "Unknown time",
+  //         });
+  //       } else {
+  //         setItemData(null);
+  //       }
+
+  //       setLoading(false); // Stop loading
+  //     } catch (error) {
+  //       console.error("Error fetching item:", error);
+  //       setError("Failed to fetch data");
+  //       setLoading(false); // Stop loading on error
+  //     }
+  //   };
+
+  //   fetchItem(); // Call the fetch function
+  // }, [id, callingFrom, db, location, refresh]); // Re-run if `id` changes
   useEffect(() => {
     const fetchItem = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
-        const collectionName =
-          callingFrom === "AutomotiveComp"
-            ? "Cars"
-            : callingFrom === "ElectronicComp"
-            ? "ELECTRONICS"
-            : callingFrom === "FashionStyle"
-            ? "FASHION"
-            : callingFrom === "HealthCareComp"
-            ? "HEALTHCARE"
-            : callingFrom === "JobBoard"
-            ? "JOBBOARD"
-            : callingFrom === "Education"
-            ? "Education"
-            : callingFrom === "RealEstateComp"
-            ? "REALESTATECOMP"
-            : callingFrom === "TravelComp"
-            ? "TRAVEL"
-            : callingFrom === "SportGamesComp"
-            ? "SPORTSGAMESComp"
-            : callingFrom === "PetAnimalsComp"
-            ? "PETANIMALCOMP"
-            : "books";
-        // Determine collection based on `callingFrom`
-        // const collectionName = callingFrom === "automotive" ? "carData" : "books";
-        const adsCollection = collection(db, collectionName); // Reference to dynamic collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id, // Include document ID
-          ...doc.data(), // Spread document data
-        }));
+        const res = await fetch(
+          `http://168.231.80.24:9002/route/getItemById?callingFrom=${callingFrom}&id=${_Id}`
+        );
 
-        console.log(adsList, "Fetched Ads");
+        const item = await res.json();
 
-        // Find the ad that matches the `id` from the URL
-        const selectedAd = adsList.find((ad) => ad.id === NewId);
-        if (selectedAd) {
+        if (item?.id) {
           setItemData({
-            ...selectedAd,
-            timeAgo: selectedAd.createdAt
-              ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
+            ...item,
+            timeAgo: item.createdAt?._seconds
+              ? formatDistanceToNow(new Date(item.createdAt._seconds * 1000), {
                   addSuffix: true,
                 })
               : "Unknown time",
@@ -660,17 +694,16 @@ const Dynamic_Route = () => {
           setItemData(null);
         }
 
-        setLoading(false); // Stop loading
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching item:", error);
         setError("Failed to fetch data");
-        setLoading(false); // Stop loading on error
+        setLoading(false);
       }
     };
 
-    fetchItem(); // Call the fetch function
-  }, [id, callingFrom, db, location, refresh]); // Re-run if `id` changes
-
+    if (_Id && callingFrom) fetchItem();
+  }, [_Id, callingFrom, refresh]); // Re-run if `_Id` or `callingFrom` changes
   if (loading) {
     return (
       <div
