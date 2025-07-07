@@ -2257,7 +2257,7 @@ const FashionStyle = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Fashion Style
+              Fashion
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

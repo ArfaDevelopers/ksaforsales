@@ -2361,7 +2361,7 @@ const PetAnimalsComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Pet & Animal
+              Pet
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

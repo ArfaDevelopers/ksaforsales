@@ -2888,7 +2888,7 @@ const AutomotiveComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Automotive
+              Motors
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

@@ -2471,7 +2471,7 @@ const HealthCareComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Healthcare
+              Home & Furniture
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

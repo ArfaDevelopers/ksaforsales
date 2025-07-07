@@ -138,7 +138,7 @@ const AddLisiting = () => {
 
     bathrooms: "",
 
-    Fueltype: "",
+    Fueltype: [], // now an array
 
     Model: "",
 
@@ -2597,9 +2597,35 @@ const AddLisiting = () => {
     setFormData((prev) => ({ ...prev, RegionalSpec: name }));
   };
   const handleFueltype = (e) => {
-    const { name } = e.target;
-    setFormData((prev) => ({ ...prev, Fueltype: name }));
+    const { name, checked } = e.target;
+
+    const groupA = ["petrol", "diesel", "hybrid"];
+    const groupB = ["electric", "cng", "lpg"];
+
+    setFormData((prev) => {
+      let updatedFueltype = [...prev.Fueltype];
+
+      if (checked) {
+        // If checking an item
+        if (groupB.includes(name)) {
+          // Remove all and only allow selected group B item
+          updatedFueltype = [name];
+        } else {
+          // If selecting from group A, remove group B
+          updatedFueltype = updatedFueltype.filter((f) => !groupB.includes(f));
+          if (!updatedFueltype.includes(name)) {
+            updatedFueltype.push(name);
+          }
+        }
+      } else {
+        // If unchecking
+        updatedFueltype = updatedFueltype.filter((f) => f !== name);
+      }
+
+      return { ...prev, Fueltype: updatedFueltype };
+    });
   };
+
   const handleInsuranceChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Insurance: name }));
@@ -7991,7 +8017,6 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      // Added fuel types below
                                       { name: "petrol", label: "Petrol" },
                                       { name: "diesel", label: "Diesel" },
                                       { name: "electric", label: "Electric" },
@@ -8004,9 +8029,9 @@ const AddLisiting = () => {
                                           <input
                                             type="checkbox"
                                             name={spec.name}
-                                            checked={
-                                              formData.Fueltype === spec.name
-                                            }
+                                            checked={formData.Fueltype.includes(
+                                              spec.name
+                                            )}
                                             onChange={handleFueltype}
                                           />
                                           <span className="checkmark" />{" "}

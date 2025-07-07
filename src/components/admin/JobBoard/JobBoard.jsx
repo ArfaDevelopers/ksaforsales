@@ -2596,7 +2596,7 @@ const JobBoard = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Jobboards
+              Jobs
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

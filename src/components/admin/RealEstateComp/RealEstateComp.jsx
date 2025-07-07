@@ -2809,7 +2809,7 @@ const RealEstateComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Apartment
+              Realestate
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

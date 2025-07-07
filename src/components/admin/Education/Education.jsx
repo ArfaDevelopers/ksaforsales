@@ -2087,7 +2087,7 @@ const Education = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Education
+              Other
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

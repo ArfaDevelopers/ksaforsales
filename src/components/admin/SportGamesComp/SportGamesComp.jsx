@@ -2228,7 +2228,7 @@ const SPORTSGAMESComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Sports & Games
+              Games & Toys
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&

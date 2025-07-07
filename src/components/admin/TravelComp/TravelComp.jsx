@@ -2608,7 +2608,7 @@ const TravelComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Travel
+              Services
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
