@@ -775,7 +775,13 @@ const Userinfo = () => {
                     </div>
                   ) : (
                     filteredCars.map((item, index) => (
-                      <Card key={index} className="mt-3">
+                      <Card
+                        key={index}
+                        className="mt-3"
+                        style={{
+                          boxShadow: "0px 0px 39px 0px rgba(225, 225, 225, 1)",
+                        }}
+                      >
                         <Row className="g-0">
                           {/* Image Section */}
                           <Col md={4} style={{ position: "relative" }}>
