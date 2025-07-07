@@ -13453,22 +13453,28 @@ const AddLisiting = () => {
                       </> */}
 
                         <div className="card-body">
-                          <div className="row">
+                          <div className="row align-items-end">
                             {/* Phone Field - 6 columns on medium screens and above */}
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label
                                   style={{
-                                    fontWeight: "normal",
-                                    fontSize: "16px",
+                                    padding: "10px 0 0 0",
+                                    fontWeight: "bold",
+                                    fontSize: "18px",
+                                    display: "flex",
+                                    justifyContent: "space-between",
                                   }}
                                 >
+                                  Show Number
                                   <input
+                                    style={{
+                                      marginRight: "20px",
+                                    }}
                                     type="checkbox"
                                     checked={formData.showNumberChecked}
                                     onChange={handleCheckboxChange}
                                   />
-                                  Show Number
                                 </label>
 
                                 <div
@@ -13746,7 +13752,7 @@ const AddLisiting = () => {
                   />
                   <label
                     style={{
-                      fontSize: "24px",
+                      fontSize: "16px",
                       marginTop: "20px",
                       fontWeight: "bold",
                     }}
