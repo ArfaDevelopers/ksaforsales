@@ -77,7 +77,7 @@ const MyListe = () => {
   }, []);
 
   const categoryMapping = {
-    Automotive: "AutomotiveComp",
+    Motors: "AutomotiveComp",
     "Sports&Game": "SPORTSGAMESComp",
     Electronics: "ELECTRONICS",
     FashionStyle: "FASHION",
@@ -412,7 +412,7 @@ const MyListe = () => {
 
   const toggleDisable = async (id, category, isActive) => {
     const categoryMapping1 = {
-      Automotive: "Cars",
+      Motors: "Cars",
 
       "Sports&Game": "SPORTSGAMESComp",
       Electronics: "ELECTRONICS",
@@ -441,7 +441,7 @@ const MyListe = () => {
         db,
         tableName === "Pet&Animals"
           ? "PETANIMALCOMP"
-          : tableName === "Automotive"
+          : tableName === "Motors"
           ? "Cars"
           : tableName,
         id
@@ -516,7 +516,7 @@ const MyListe = () => {
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
                       ? "PetAnimalsComp"
-                      : record.category.trim() === "Automotive"
+                      : record.category.trim() === "Motors"
                       ? "AutomotiveComp"
                       : record.category.trim() === "Other"
                       ? "Education"
@@ -576,7 +576,7 @@ const MyListe = () => {
                     }&callingFrom=${formatCategory(
                       record.category.trim() === "Pet & Animals"
                         ? "PetAnimalsComp"
-                        : record.category.trim() === "Automotive"
+                        : record.category.trim() === "Motors"
                         ? "AutomotiveComp"
                         : record.category.trim() === "Other"
                         ? "Education"
@@ -616,7 +616,7 @@ const MyListe = () => {
                     }&callingFrom=${formatCategory(
                       record.category.trim() === "Pet & Animals"
                         ? "PetAnimalsComp"
-                        : record.category.trim() === "Automotive"
+                        : record.category.trim() === "Motors"
                         ? "AutomotiveComp"
                         : record.category.trim() === "Other"
                         ? "Education"
@@ -720,7 +720,7 @@ const MyListe = () => {
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
                       ? "PetAnimalsComp"
-                      : record.category.trim() === "Automotive"
+                      : record.category.trim() === "Motors"
                       ? "AutomotiveComp"
                       : record.category.trim() === "Other"
                       ? "Education"
