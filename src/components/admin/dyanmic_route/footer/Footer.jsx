@@ -29,7 +29,6 @@ const Footer = () => {
     AOS.init({ duration: 1000, once: true });
   }, []);
   return (
-
     <footer>
       <div className="footer">
         <div className="topfooter_wrapper container">
@@ -85,7 +84,10 @@ const Footer = () => {
         {/* footer mid */}
 
         <div className="footermid-wrapper ">
-          <div className="footermid-container container" style={{marginRight:"19rem"}}>
+          <div
+            className="footermid-container container"
+            style={{ marginRight: "19rem" }}
+          >
             <h3 className="footermid-heading">We are always here to help</h3>
             <div className="footermidinfo-container">
               <div className="midfooterinfo">
@@ -95,7 +97,7 @@ const Footer = () => {
                 <div className="footermidgmail">
                   <h4 className="footermidgmailheading">Email support</h4>
                   <p className="footermid-para" style={{ fontFamily: "Inter" }}>
-                    emailsupport@Ksa4sale.com
+                    Info@ksa4sale.com
                   </p>
                 </div>
               </div>
@@ -106,7 +108,7 @@ const Footer = () => {
                 <div className="footermidgmail">
                   <h4 className="footermidgmailheading">Phone Number</h4>
                   <p className="footermid-para" style={{ fontFamily: "Inter" }}>
-                    + 965 43215678
+                    530771851
                   </p>
                 </div>
               </div>
@@ -125,9 +127,7 @@ const Footer = () => {
                     </Link>
                   </div>
                   <div className="footer-content">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing {" "}
-                    </p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing </p>
                     <h3>Donwload Our App</h3>
                     <div
                       className="socialicons "
@@ -245,7 +245,6 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-    
   );
 };
 

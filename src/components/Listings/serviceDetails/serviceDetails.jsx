@@ -29,7 +29,7 @@ const ServiceDetails = () => {
   const { id } = useParams();
   const location = useLocation();
   const [itemData, setItemData] = useState(null);
-  console.log(itemData,"itemData______________")
+  console.log(itemData, "itemData______________");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -75,19 +75,18 @@ const ServiceDetails = () => {
     "Job board": "JOBBOARD",
     Education: "Education",
     Travel: "TRAVEL",
-    "Pet": "PETANIMALCOMP",
+    Pet: "PETANIMALCOMP",
 
-
-    "Automotive": "Cars",
-    "Sports": "SPORTSGAMESComp",
-    "Electronics": "ELECTRONICS",
+    Automotive: "Cars",
+    Sports: "SPORTSGAMESComp",
+    Electronics: "ELECTRONICS",
     "Fashion Style": "FASHION",
     "Job Board": "JOBBOARD",
     "Real Estate": "REALESTATECOMP",
-    "Other": "Education",
-    "Services": "TRAVEL",
+    Other: "Education",
+    Services: "TRAVEL",
     "Pet & Animal": "PETANIMALCOMP",
-    "Home": "HEALTHCARE",
+    Home: "HEALTHCARE",
   };
 
   // Reverse mapping for formatted category to Firestore collection
@@ -102,8 +101,6 @@ const ServiceDetails = () => {
     },
     {}
   );
-
-
 
   // Fetch item data
   useEffect(() => {
@@ -173,7 +170,7 @@ const ServiceDetails = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   // Handle report submission
-  
+
   const handleSubmitReport = async () => {
     const callingFrom = getQueryParam("callingFrom");
     const itemId = getQueryParam("id") || id;
@@ -202,23 +199,24 @@ const ServiceDetails = () => {
   };
 
   // Add this state at the top of your component with other states
-const [copyCount, setCopyCount] = useState(0);
-console.log("copyCount___________",copyCount)
-// Modify your existing copyToClipboard function
+  const [copyCount, setCopyCount] = useState(0);
+  console.log("copyCount___________", copyCount);
+  // Modify your existing copyToClipboard function
 
-const copyToClipboard = () => {
-  const link = getQueryParam("link") || window.location.href;
-  navigator.clipboard.writeText(link)
-    .then(() => {
-      // Increment copy count only after successful copy
-      setCopyCount(prevCount => prevCount + 1);
-      alert("Link copied to clipboard!");
-    })
-    .catch(err => {
-      console.error("Failed to copy:", err);
-      alert("Failed to copy link!");
-    });
-};
+  const copyToClipboard = () => {
+    const link = getQueryParam("link") || window.location.href;
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        // Increment copy count only after successful copy
+        setCopyCount((prevCount) => prevCount + 1);
+        alert("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy:", err);
+        alert("Failed to copy link!");
+      });
+  };
   // // Copy link to clipboard
   // const copyToClipboard = () => {
   //   const link = getQueryParam("link") || window.location.href;
@@ -238,24 +236,24 @@ const copyToClipboard = () => {
   if (loading) {
     return (
       <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                  <img
-                    src={Loading1}
-                    alt="Loading..."
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      animation: "spin 1s linear infinite", // Apply the spin animation
-                    }}
-                  />
-                  <style>
-                    {`
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src={Loading1}
+          alt="Loading..."
+          style={{
+            width: "200px",
+            height: "200px",
+            animation: "spin 1s linear infinite", // Apply the spin animation
+          }}
+        />
+        <style>
+          {`
                       @keyframes spin {
                         from {
                           transform: rotate(0deg);
@@ -265,8 +263,8 @@ const copyToClipboard = () => {
                         }
                       }
                     `}
-                  </style>
-                </div>
+        </style>
+      </div>
     );
   }
 
@@ -306,9 +304,12 @@ const copyToClipboard = () => {
       </div> */}
 
       {/* Details Description Section */}
-      <section className="details-description" style={{marginTop: window.innerWidth <= 576 ? "130px" : "200px"}}>
+      <section
+        className="details-description"
+        style={{ marginTop: window.innerWidth <= 576 ? "130px" : "200px" }}
+      >
         <div className="container">
-          <div className="about-details" >
+          <div className="about-details">
             <div className="about-headings">
               <div className="author-img">
                 <img src={itemData?.galleryImages[0]} alt="authorimg" />
@@ -341,7 +342,10 @@ const copyToClipboard = () => {
             </div>
           </div>
           <div className="descriptionlinks">
-            <div className="row" style={{marginLeft: window.innerWidth <= 576 ? 0 : 270,}}>
+            <div
+              className="row"
+              style={{ marginLeft: window.innerWidth <= 576 ? 0 : 270 }}
+            >
               <div className="col-lg-8">
                 {/* <ul>
                   <li onClick={() => setShowModal1(true)}>
@@ -351,124 +355,129 @@ const copyToClipboard = () => {
           
                 </ul> */}
               </div>
-              <div className="col-lg-4" > 
-                          <div className="d-flex align-items-center gap-2  innerContainer2 head2btflex">
- 
-  <a href={`tel:${itemData.Phone}`}>
-    <button
-      className={`sign-in-button ${showPhone ? "expanded" : ""}`}
-      onClick={() => setShowPhone(true)}
-    >
-      <FaPhoneAlt />
-      <span className="fw-semibold">
-        {showPhone ? itemData.Phone : "Call Now"}
-      </span>
-    </button>
-  </a>
+              <div className="col-lg-4">
+                <div className="d-flex align-items-center gap-2  innerContainer2 head2btflex">
+                  <a href={`tel:${itemData.Phone}`}>
+                    <button
+                      className={`sign-in-button ${
+                        showPhone ? "expanded" : ""
+                      }`}
+                      onClick={() => setShowPhone(true)}
+                    >
+                      <FaPhoneAlt />
+                      <span className="fw-semibold">
+                        {showPhone ? itemData.Phone : "Call Now"}
+                      </span>
+                    </button>
+                  </a>
 
+                  <a
+                    href={`https://wa.me/${itemData.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button
+                      className={`sign-in-button ${
+                        showPhone ? "icon-only" : ""
+                      }`}
+                    >
+                      <FaWhatsapp />
+                      <span className="button-text">WhatsApp</span>
+                    </button>
+                  </a>
 
-  <a href={`https://wa.me/${itemData.whatsapp}`} target="_blank" rel="noopener noreferrer">
-    <button className={`sign-in-button ${showPhone ? "icon-only" : ""}`}>
-      <FaWhatsapp />
-      <span className="button-text">WhatsApp</span>
-    </button>
-  </a>
+                  <button
+                    className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <MdMessage />
+                    <span className="button-text">Message</span>
+                  </button>
 
- 
-  <button
-    className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
-    onClick={() => setShowModal(true)}
-  >
-    <MdMessage />
-    <span className="button-text">Message</span>
-  </button>
+                  <style jsx>{`
+                    .sign-in-button {
+                      background-color: #0055a5; /* Blue background color matching the image */
+                      color: white; /* White text color */
+                      font-size: 18px; /* Approximate font size */
+                      font-weight: bold; /* Bold text */
+                      width: 120px; /* Default fixed width */
+                      height: 50px; /* Fixed height */
+                      border: none; /* No border */
+                      border-radius: 10px; /* Rounded corners */
+                      cursor: pointer; /* Hand cursor on hover */
+                      text-transform: capitalize; /* Capitalize the text like in the image */
+                      display: flex; /* Use flexbox to center icon and text */
+                      align-items: center; /* Vertically center */
+                      justify-content: center; /* Horizontally center */
+                      gap: 8px; /* Space between icon and text */
+                      transition: width 0.3s ease; /* Smooth transition for width change */
+                    }
 
- 
-  <style jsx>{`
-    .sign-in-button {
-      background-color: #0055a5; /* Blue background color matching the image */
-      color: white; /* White text color */
-      font-size: 18px; /* Approximate font size */
-      font-weight: bold; /* Bold text */
-      width: 120px; /* Default fixed width */
-      height: 50px; /* Fixed height */
-      border: none; /* No border */
-      border-radius: 10px; /* Rounded corners */
-      cursor: pointer; /* Hand cursor on hover */
-      text-transform: capitalize; /* Capitalize the text like in the image */
-      display: flex; /* Use flexbox to center icon and text */
-      align-items: center; /* Vertically center */
-      justify-content: center; /* Horizontally center */
-      gap: 8px; /* Space between icon and text */
-      transition: width 0.3s ease; /* Smooth transition for width change */
-    }
+                    .sign-in-button:hover {
+                      background-color: #004080; /* Slightly darker blue on hover for feedback */
+                    }
 
-    .sign-in-button:hover {
-      background-color: #004080; /* Slightly darker blue on hover for feedback */
-    }
+                    /* Expanded state for Call Now button */
+                    .expanded {
+                      width: 200px; /* Larger width when showing phone number */
+                      font-size: 16px; /* Slightly smaller font to fit the number */
+                    }
 
-    /* Expanded state for Call Now button */
-    .expanded {
-      width: 200px; /* Larger width when showing phone number */
-      font-size: 16px; /* Slightly smaller font to fit the number */
-    }
+                    /* Icon-only state for WhatsApp and Message buttons */
+                    .icon-only {
+                      width: 50px; /* Smaller width to fit just the icon */
+                    }
 
-    /* Icon-only state for WhatsApp and Message buttons */
-    .icon-only {
-      width: 50px; /* Smaller width to fit just the icon */
-    }
+                    /* Hide text in icon-only state */
+                    .icon-only .button-text {
+                      display: none; /* Hide the text */
+                    }
 
-    /* Hide text in icon-only state */
-    .icon-only .button-text {
-      display: none; /* Hide the text */
-    }
-
-    /* Remove underline from <a> tags */
-    a {
-      text-decoration: none;
-    }
-  `}</style>
-</div>
-<div>
-                                                    <div
-                                                      className={`modal fade ${
-                                                        showModal ? "show d-block" : "d-none"
-                                                      }`}
-                                                      tabIndex="-1"
-                                                      role="dialog"
-                                                      style={{
-                                                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                        marginTop:100
-                                                      }} // Backdrop effect
-                                                    >
-                                                      <div
-                                                        className="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                      >
-                                                        <div className="modal-content">
-                                                       
-                                                          <div className="modal-header">
-                                                            <h5 className="modal-title">Send Message</h5>
-                                                            <button
-                                                              type="button"
-                                                              className="btn-close"
-                                                              onClick={() => setShowModal(false)}
-                                                            ></button>
-                                                          </div>
-                                                          {userId && recieverId ? (
-                                      <Mesagedeals
-                                      userId={userId}
-                                      recieverId={recieverId}
-                                      fullWidth={true} // :point_left: Add this prop
-                                    />
-                                      ) : (
-                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                          <p className="text-lg font-semibold text-gray-600">
-                                            Please log in to start messaging.
-                                          </p>
-                                        </div>
-                                      )}
-                                                          {/* <div className="modal-body">
+                    /* Remove underline from <a> tags */
+                    a {
+                      text-decoration: none;
+                    }
+                  `}</style>
+                </div>
+                <div>
+                  <div
+                    className={`modal fade ${
+                      showModal ? "show d-block" : "d-none"
+                    }`}
+                    tabIndex="-1"
+                    role="dialog"
+                    style={{
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      marginTop: 100,
+                    }} // Backdrop effect
+                  >
+                    <div
+                      className="modal-dialog modal-dialog-centered"
+                      role="document"
+                    >
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Send Message</h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            onClick={() => setShowModal(false)}
+                          ></button>
+                        </div>
+                        {userId && recieverId ? (
+                          <Mesagedeals
+                            userId={userId}
+                            recieverId={recieverId}
+                            fullWidth={true} // :point_left: Add this prop
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                            <p className="text-lg font-semibold text-gray-600">
+                              Please log in to start messaging.
+                            </p>
+                          </div>
+                        )}
+                        {/* <div className="modal-body">
                                 <div className="p-4 w-full max-w-lg mx-auto">
                                   {userId && recieverId ? (
                                     <Chat
@@ -484,93 +493,90 @@ const copyToClipboard = () => {
                                   )}
                                 </div>
                               </div> */}
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                            
-                                                  
-                                                    {showModal && (
-                                                      <div
-                                                        className="modal-backdrop fade show"
-                                                        onClick={() => setShowModal(false)}
-                                                      ></div>
-                                                    )}
-                                                  </div>
-                            <div>
-            </div>
-            </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {showModal && (
+                    <div
+                      className="modal-backdrop fade show"
+                      onClick={() => setShowModal(false)}
+                    ></div>
+                  )}
+                </div>
+                <div></div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-  
-
       {showModal1 && (
-  <div className="modal fade show d-block"
-    tabIndex="-1"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      zIndex: 1050,
-    }}
-  >
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">Share</h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => setShowModal1(false)}
-          ></button>
-        </div>
-        <div className="modal-body">
-          <div style={{ wordBreak: "break-all" }}>
-            {getQueryParam("link") || window.location.href}
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 1050,
+          }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Share</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal1(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div style={{ wordBreak: "break-all" }}>
+                  {getQueryParam("link") || window.location.href}
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn"
+                  style={{
+                    backgroundColor: "#2d4495",
+                    color: "#fff",
+                    border: "none",
+                    fontWeight: "bold",
+                    borderRadius: 10,
+                  }}
+                  onClick={copyToClipboard}
+                >
+                  Copy
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{
+                    backgroundColor: "#2d4495",
+                    color: "#fff",
+                    border: "none",
+                    fontWeight: "bold",
+                    borderRadius: 10,
+                  }}
+                  onClick={() => setShowModal1(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn"
-            style={{
-              backgroundColor: "#2d4495",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              borderRadius: 10,
-            }}
-            onClick={copyToClipboard}
-          >
-            Copy
-          </button>
-          <button
-            type="button"
-            className="btn"
-            style={{
-              backgroundColor: "#2d4495",
-              color: "#fff",
-              border: "none",
-              fontWeight: "bold",
-              borderRadius: 10,
-            }}
-            onClick={() => setShowModal1(false)}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
       {/* Details Main Section */}
       <div className="details-main-wrapper">
         <div className="container" style={{ marginTop: -60 }}>
@@ -578,7 +584,6 @@ const copyToClipboard = () => {
             <div className="col-lg-9">
               <div className="card">
                 <div className="card-header">
-                  
                   <h4>Description</h4>
                 </div>
                 <div className="card-body">
@@ -603,17 +608,20 @@ const copyToClipboard = () => {
                     <Roomspics filteredData={itemData} />
                   </div>
                 </div>
-              </div>       
+              </div>
               <div
-    style={{
-      marginTop: "20px",
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-    }}
-  >  
-      <RatingAndReviews currentAdId={_Id} listingUserId={itemData?.userId} />
-  </div>
+                style={{
+                  marginTop: "20px",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                <RatingAndReviews
+                  currentAdId={_Id}
+                  listingUserId={itemData?.userId}
+                />
+              </div>
             </div>
             <div className="col-lg-3 theiaStickySidebar">
               <StickyBox>
@@ -630,7 +638,7 @@ const copyToClipboard = () => {
                       />{" "}
                       Details
                     </h4>
-                    <ul >
+                    <ul>
                       {[
                         { label: "City", value: itemData.City },
                         { label: "Closure Type", value: itemData.ClosureType },
@@ -689,7 +697,7 @@ const copyToClipboard = () => {
                       />{" "}
                       Statistics
                     </h4>
-                    <ul className="statistics-list" >
+                    <ul className="statistics-list">
                       <li>
                         <div className="statistic-details">
                           <span className="icons">
@@ -742,7 +750,10 @@ const copyToClipboard = () => {
                   </div>
                   <div className="card">
                     <h4>
-                      <i className="feather-user" style={{ color: "#2d4495" }} />{" "}
+                      <i
+                        className="feather-user"
+                        style={{ color: "#2d4495" }}
+                      />{" "}
                       {/* {itemData.title || "N/A"} */}
                       Profile
                     </h4>

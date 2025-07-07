@@ -112,6 +112,8 @@ const AddLisiting = () => {
   }, [navigate]);
 
   const [formData, setFormData] = useState({
+    showNumberChecked: false, // default value
+
     title: "",
     description: "",
     category: "",
@@ -2777,6 +2779,29 @@ const AddLisiting = () => {
   //     setFormData((prev) => ({ ...prev, [name]: value }));
   //   }
   // };
+  const [showNumberChecked, setShowNumberChecked] = useState(false);
+  console.log("showNumberChecked Form Data:", showNumberChecked);
+
+  const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+
+    // Update showNumberChecked state
+    setShowNumberChecked(isChecked);
+
+    // Update formData with new checkbox state
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      showNumberChecked: isChecked,
+    }));
+
+    // Console log conditionally
+    console.log(isChecked ? "ShowNumber" : "notShowNumber");
+  };
+
+  useEffect(() => {
+    setShowPhone(showNumberChecked);
+  }, [showNumberChecked]);
+
   const handleChangePhone = (e) => {
     const { name, value } = e.target;
 
@@ -13433,15 +13458,19 @@ const AddLisiting = () => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label
-                                  className="col-form-label"
                                   style={{
-                                    padding: "10px 0 0 0",
-                                    fontWeight: "bold",
-                                    fontSize: "18px",
+                                    fontWeight: "normal",
+                                    fontSize: "16px",
                                   }}
                                 >
-                                  Phone
+                                  <input
+                                    type="checkbox"
+                                    checked={formData.showNumberChecked}
+                                    onChange={handleCheckboxChange}
+                                  />
+                                  Show Number
                                 </label>
+
                                 <div
                                   style={{
                                     position: "relative",

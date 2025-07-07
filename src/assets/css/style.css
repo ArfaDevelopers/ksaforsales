@@ -22344,13 +22344,13 @@ align-items: center;
 }
 .submenu-link.active-link {
   color: #333;
-  font-weight: bold;
+  font-weight: 400;
 }
 .submenu-item::before,
 .submenu-item::after,
 .submenu-link::before,
 .submenu-link::after {
-  content: none; /* Disable pseudo-elements */
+  content: none;
 }
 .sub-submenu {
   position: absolute;
@@ -22933,7 +22933,7 @@ height: 400px;
 .blog-pagination .page-link {
   padding: 8px 12px;
   text-decoration: none;
-  color: #333;
+  color: #2d4495;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -22945,7 +22945,7 @@ height: 400px;
 }
 
 .blog-pagination .page-item.disabled .page-link {
-  color: #6c757d;
+  color: #2d4495;
   pointer-events: none;
   cursor: not-allowed;
 }

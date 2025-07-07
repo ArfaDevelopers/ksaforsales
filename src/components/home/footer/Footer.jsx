@@ -145,7 +145,7 @@ const Footer = () => {
                       className="footermid-para"
                       style={{ fontFamily: "Inter" }}
                     >
-                      emailsupport@Ksa4sale.com
+                      Info@ksa4sale.com
                     </p>
                   </div>
                 </div>
@@ -172,7 +172,7 @@ const Footer = () => {
                       className="footermid-para"
                       style={{ fontFamily: "Inter" }}
                     >
-                      + 965 43215678
+                      530771851
                     </p>
                   </div>
                 </div>

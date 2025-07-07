@@ -1224,8 +1224,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -1669,8 +1673,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -2114,8 +2122,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -2561,6 +2573,7 @@ const Dynamic_Route = () => {
                             >
                               <a href={`tel:${itemData.Phone}`}>
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -3004,8 +3017,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -3449,8 +3466,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -3894,8 +3915,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -4339,8 +4364,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -4784,8 +4813,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -5229,8 +5262,12 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
+                              <a
+                                disabled={itemData.showNumberChecked}
+                                href={`tel:${itemData.Phone}`}
+                              >
                                 <button
+                                  disabled={itemData.showNumberChecked}
                                   className={`sign-in-button ${
                                     showPhone ? "expanded" : ""
                                   }`}
@@ -5677,8 +5714,12 @@ const Dynamic_Route = () => {
 
                         <div className="col-12 mt-3 innerContainer2">
                           <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
-                            <a href={`tel:${itemData.Phone}`}>
+                            <a
+                              disabled={itemData.showNumberChecked}
+                              href={`tel:${itemData.Phone}`}
+                            >
                               <button
+                                disabled={itemData.showNumberChecked}
                                 className={`sign-in-button ${
                                   showPhone ? "expanded" : ""
                                 }`}

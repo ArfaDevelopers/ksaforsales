@@ -1198,15 +1198,22 @@ const Dynamic_Routes = () => {
                               window.innerWidth <= 576 ? "70px" : "0px",
                           }}
                         >
-                          <a href={`tel:${itemData.Phone}`}>
+                          <a
+                            disabled={itemData.showNumberChecked}
+                            href={`tel:${itemData.Phone}`}
+                          >
                             <button
+                              disabled={itemData.showNumberChecked}
                               className={`sign-in-button ${
                                 showPhone ? "expanded" : ""
                               }`}
                               onClick={() => setShowPhone(true)}
                             >
                               <FaPhoneAlt />
-                              <span className="fw-semibold">
+                              <span
+                                className="fw-semibold"
+                                disabled={itemData.showNumberChecked}
+                              >
                                 {showPhone ? itemData.Phone : "Call Now"}
                               </span>
                             </button>
@@ -1610,15 +1617,22 @@ const Dynamic_Routes = () => {
 
                         <div className="col mt-3 innerContainer2">
                           <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex">
-                            <a href={`tel:${itemData.Phone}`}>
+                            <a
+                              disabled={itemData.showNumberChecked}
+                              href={`tel:${itemData.Phone}`}
+                            >
                               <button
+                                disabled={itemData.showNumberChecked}
                                 className={`sign-in-button ${
                                   showPhone ? "expanded" : ""
                                 }`}
                                 onClick={() => setShowPhone(true)}
                               >
                                 <FaPhoneAlt />
-                                <span className="fw-semibold">
+                                <span
+                                  className="fw-semibold"
+                                  disabled={itemData.showNumberChecked}
+                                >
                                   {showPhone ? itemData.Phone : "Call Now"}
                                 </span>
                               </button>
