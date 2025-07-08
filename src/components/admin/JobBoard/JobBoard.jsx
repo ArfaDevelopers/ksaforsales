@@ -1636,7 +1636,14 @@ const JobBoard = () => {
     };
 
     fetchJobBoard();
-  }, [searchText, refresh, selectedCities, selectedDistricts, selectedRegion]);
+  }, [
+    searchText,
+    refresh,
+    selectedCities,
+    selectedDistricts,
+    searchQuery,
+    selectedRegion,
+  ]);
 
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
@@ -1693,14 +1700,16 @@ const JobBoard = () => {
     setLoading(true);
 
     filterCars(
-      searchQuery,
       selectedDistrict,
       selectedCity,
       selectedSubCategory,
       subCatgory,
       nestedSubCategory,
       selectedCities,
+      searchQuery,
+
       selectedEmirates,
+
       selectedCarsMake,
       fromValue,
       toValue,
@@ -1947,6 +1956,8 @@ const JobBoard = () => {
     selectedSubCategory,
     subCatgory,
     nestedSubCategory,
+    searchQuery,
+
     cities,
     emirates,
     selectedCarsMake,
@@ -2022,7 +2033,7 @@ const JobBoard = () => {
     setLoading(true);
 
     // Filter by search query
-    if (query.trim() !== "") {
+    if (query?.trim() !== "") {
       const lowercasedQuery = query?.toLowerCase();
       filtered = filtered.filter(
         (car) =>
@@ -2702,7 +2713,7 @@ const JobBoard = () => {
                       <input
                         type="search"
                         placeholder="Search here"
-                        className="form-control rounded-pill pe-5"
+                        className="form-control rounded-pill pe-5 input_feild"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
                         onChange={handleSearchChange} // Call the handler on input change

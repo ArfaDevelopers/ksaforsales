@@ -2493,11 +2493,25 @@ const FashionStyle = () => {
                     >
                       Search by Keywords
                     </Form.Label>
-                    <div className="position-relative">
+                    {/* <div className="position-relative">
                       <input
                         type="search"
                         placeholder="Search here"
                         className="form-control rounded-pill pe-5"
+                        id="example-search-input"
+                        value={searchQuery} // Bind value to searchQuery state
+                        onChange={handleSearchChange} // Call the handler on input change
+                      />
+                      <FaSearch
+                        className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+                        style={{ pointerEvents: "none" }}
+                      />
+                    </div> */}
+                    <div className="position-relative">
+                      <input
+                        type="search"
+                        placeholder="Search here"
+                        className="form-control rounded-pill pe-5 input_feild"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
                         onChange={handleSearchChange} // Call the handler on input change

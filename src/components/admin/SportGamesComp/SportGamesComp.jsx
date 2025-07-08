@@ -2334,7 +2334,7 @@ const SPORTSGAMESComp = () => {
                       <input
                         type="search"
                         placeholder="Search here"
-                        className="form-control rounded-pill pe-5"
+                        className="form-control rounded-pill pe-5 input_feild"
                         id="example-search-input"
                         value={searchQuery} // Bind value to searchQuery state
                         onChange={handleSearchChange} // Call the handler on input change

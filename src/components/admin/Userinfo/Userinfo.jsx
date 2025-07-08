@@ -490,6 +490,20 @@ const Userinfo = () => {
                 ? "TravelComp"
                 : record.category == "RealEstate"
                 ? "RealEstateComp"
+                : record.category == "Real Estate"
+                ? "RealEstateComp"
+                : record.category === "Other"
+                ? "Education"
+                : record.category === "Electronics"
+                ? "ElectronicComp"
+                : record.category === "Electronics"
+                ? "ElectronicComp"
+                : record.category === "Sports&Game"
+                ? "SportGamesComp"
+                : record.category === "Home & Furnituer"
+                ? "HealthCareComp"
+                : record.category === "Home & Furnituer"
+                ? "HealthCareComp"
                 : record.category
             )}`}
           >
@@ -849,8 +863,18 @@ const Userinfo = () => {
                                   ? "TravelComp"
                                   : item.category == "RealEstate"
                                   ? "RealEstateComp"
+                                  : item.category == "Real Estate"
+                                  ? "RealEstateComp"
                                   : item.category === "Automotive"
                                   ? "AutomotiveComp"
+                                  : item.category === "Other"
+                                  ? "Education"
+                                  : item.category === "Electronics"
+                                  ? "ElectronicComp"
+                                  : item.category.trim() === "Sports & Game"
+                                  ? "SportGamesComp"
+                                  : item.category === "Home & Furnituer"
+                                  ? "HealthCareComp"
                                   : item.category
                               )}`}
                             >
