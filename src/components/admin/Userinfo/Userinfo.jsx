@@ -978,7 +978,7 @@ const Userinfo = () => {
                                     <FaRegHeart
                                       // onClick={() => toggleBookmark(item.id)}
                                       onClick={() =>
-                                        toggleBookmark(item.id, iten.category)
+                                        toggleBookmark(item.id, item.category)
                                       }
                                       style={{
                                         color:
