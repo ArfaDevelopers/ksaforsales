@@ -88,6 +88,8 @@ const Dynamic_Route = () => {
         Services: "TRAVEL",
         Other: "Education",
         "Pet & Animals": "PETANIMALCOMP",
+        "Home & Furnituer": "HEALTHCARE",
+
         "Sports & Game": "SPORTSGAMESComp",
         "Fashion Style": "FASHION",
         "Job Board": "JOBBOARD",

@@ -134,7 +134,7 @@ const Userinfo = () => {
 
   const toggleBookmark = async (itemId, collectionName) => {
     console.log(
-      "Toggling bookmark for item:",
+      "Toggling bookmark for itemnot found in :",
       itemId,
       "in collection:",
       collectionName
@@ -156,6 +156,8 @@ const Userinfo = () => {
         Other: "Education",
         Services: "TRAVEL",
         "Pet & Animals": "PETANIMALCOMP",
+        "Home & Furniture": "HEALTHCARE",
+
         "Sports & Game": "SPORTSGAMESComp",
         "Real Estate": "REALESTATECOMP",
         "Home & Furnituer": "HEALTHCARE",
@@ -174,7 +176,9 @@ const Userinfo = () => {
       // Read current bookmark status from Firestore
       const itemSnapshot = await getDoc(itemDocRef);
       if (!itemSnapshot.exists()) {
-        console.warn(`Item ${itemId} not found in ${firestoreCollection}`);
+        console.warn(
+          `Toggling bookmark forItem ${itemId} not found in ${firestoreCollection}`
+        );
         return;
       }
 
@@ -194,7 +198,7 @@ const Userinfo = () => {
       setRefresh((prev) => !prev);
 
       console.log(
-        `${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`
+        `Toggling bookmark for ${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`
       );
     } catch (error) {
       console.error(`Error updating bookmark in ${collectionName}:`, error);
