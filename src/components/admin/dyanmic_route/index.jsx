@@ -1227,7 +1227,7 @@ const Dynamic_Route = () => {
           </div>
           <Row>
             {/* Sidebar */}
-            <Col lg={8}>
+            <Col xl={8}>
               {callingFrom === "AutomotiveComp" ? (
                 <>
                   <div>
@@ -5715,7 +5715,7 @@ const Dynamic_Route = () => {
                 />
               </div>
             </Col>
-            <Col lg={4} className="p-3">
+            <Col xl={4} className="p-3">
               <Col xs={12}>
                 <Card
                   style={{
@@ -5770,10 +5770,10 @@ const Dynamic_Route = () => {
                       }}
                     />
 
-                    <div className="col-md ">
+                    <div className="col-md">
                       <h1 className="sallerinfo_para">Seller Information</h1>
                       <div className="row profileinner_container ">
-                        <div className="col-5 profileimg">
+                        <div className="col-4 profileimg">
                           <Link
                             to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                           >
@@ -5789,7 +5789,7 @@ const Dynamic_Route = () => {
                             />
                           </Link>
                         </div>
-                        <div className="col-5 profile_rightbarTags">
+                        <div className="col-8 profile_rightbarTags">
                           <p className="sallerInfo_para">
                             {itemData.displayName}
                           </p>

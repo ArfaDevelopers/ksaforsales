@@ -20,6 +20,8 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
+import { getDatabase, ref, get, child } from "firebase/database";
+
 import { db } from "./../Firebase/FirebaseConfig.jsx";
 import { auth } from "./../Firebase/FirebaseConfig";
 import withReactContent from "sweetalert2-react-content";
@@ -84,23 +86,62 @@ const Profile = () => {
   const [photoURL, setphotoURL] = useState("");
   const [creationTime, setcreationTime] = useState("");
   const [error, setError] = useState("");
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     const uid = auth.currentUser.uid;
+  //     const fetchData = async () => {
+  //       const userDoc = await getDoc(doc(db, "users", uid));
+  //       if (userDoc.exists()) {
+  //         const data = userDoc.data();
+
+  //         // ✅ Log the user data to console
+  //         console.log("User Data:__________", data);
+
+  //         setdisplayName(data.displayName || "");
+  //         setEmail(data.email || "");
+  //         setPhoneNumber(data.phoneNumber || "");
+  //         setphotoURL(data.photoURL || "");
+  //       } else {
+  //         console.log("No user document found for UID:", uid);
+  //       }
+  //     };
+  //     fetchData();
+  //   } else {
+  //     console.log("No authenticated user.");
+  //   }
+  // }, []);
   useEffect(() => {
     if (auth.currentUser) {
       const uid = auth.currentUser.uid;
       const fetchData = async () => {
-        const userDoc = await getDoc(doc(db, "users", uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          setdisplayName(data.displayName || "");
-          setEmail(data.email || "");
-          setPhoneNumber(data.phoneNumber || "");
-          setphotoURL(data.photoURL || "");
+        const dbRef = ref(getDatabase());
+
+        try {
+          const snapshot = await get(child(dbRef, `users/${uid}`));
+
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+
+            // ✅ Log the user data to console
+            console.log("User Data from Realtime DB:", data);
+
+            setdisplayName(data.displayName || "");
+            setEmail(data.email || "");
+            setPhoneNumber(data.phoneNumber || "");
+            setphotoURL(data.photoURL || "");
+          } else {
+            console.log("No data available for UID:", uid);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
         }
       };
+
       fetchData();
+    } else {
+      console.log("No authenticated user.");
     }
   }, []);
-
   const handleDeleteUser = async () => {
     const user = auth.currentUser;
     if (!user) {

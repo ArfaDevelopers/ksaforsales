@@ -3740,6 +3740,9 @@ button.unhover:hover{
   box-shadow: unset !important;
 }
 /* Filter css ends */
+.profileinner_container .sallerInfo_para{
+  margin-bottom: 2px;
+}
 /* CHAT BUTTON CSS STARTS */
 .chat_btns_wrap button{
     background-color: #fff !important;
@@ -21830,6 +21833,16 @@ border-radius: 16px !important;
     gap: unset;
     justify-content: space-between;
   }
+.profileinner_container{
+  flex-direction: column;
+  gap: 10px;
+}
+.profileinner_container .profileimg{
+  justify-content: flex-start;
+}
+.profileinner_container .sallerInfo_para{
+  margin-bottom: 2px;
+}
   .card_btn_wrap {
     margin-top: 0 !important;
     flex-direction: row !important;

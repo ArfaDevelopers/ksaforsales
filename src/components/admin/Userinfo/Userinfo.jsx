@@ -484,7 +484,13 @@ const Userinfo = () => {
         <div className="listingtable-img">
           <Link
             to={`/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-              record.category === "Motors" ? "AutomotiveComp" : record.category
+              record.category === "Motors"
+                ? "AutomotiveComp"
+                : record.category === "Services"
+                ? "TravelComp"
+                : record.category == "RealEstate"
+                ? "RealEstateComp"
+                : record.category
             )}`}
           >
             <img
@@ -834,7 +840,16 @@ const Userinfo = () => {
                               to={`/Dynamic_Route?id=${
                                 item.id
                               }&callingFrom=${formatCategory(
+                                // item.category === "Motors"
+                                //   ? "AutomotiveComp"
+                                //   : item.category
                                 item.category === "Motors"
+                                  ? "AutomotiveComp"
+                                  : item.category === "Services"
+                                  ? "TravelComp"
+                                  : item.category == "RealEstate"
+                                  ? "RealEstateComp"
+                                  : item.category === "Automotive"
                                   ? "AutomotiveComp"
                                   : item.category
                               )}`}
