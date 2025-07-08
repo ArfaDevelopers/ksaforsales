@@ -282,6 +282,9 @@ export default function AutomativeCarousel() {
                                     fontSize: "0.68rem",
                                     color: "#666",
                                     marginBottom: "0.3rem",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
                                   }}
                                 >
                                   {item.District}, {item.City}

@@ -18,19 +18,24 @@ const HeaderLower = () => {
   const location = useLocation();
 
   const [loading, setLoading] = useState(false); // Add loading state
-  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState("");
+  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] =
+    useState("");
   const [ElectronicsTitle, setElectronicsTitle] = useState("");
   const [FashionStyleTitle, setFashionStyleTitle] = useState("");
-  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] = useState("");
-  console.log("title1111",OurCategoryHealthCareTitle)
+  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] =
+    useState("");
+  console.log("title1111", OurCategoryHealthCareTitle);
 
   const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState("");
-  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] = useState("");
+  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] =
+    useState("");
   const [OurCategoryTravelTitle, setOurCategoryTravelTitle] = useState("");
-  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] = useState("");
-  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] = useState("");
-  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] = useState("");
-
+  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] =
+    useState("");
+  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] =
+    useState("");
+  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] =
+    useState("");
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -497,7 +502,10 @@ const HeaderLower = () => {
           path: "/ElectronicComp?subCatgory=Tablet Devices",
           subSubcategories: [
             // { name: "iPad", path: "/ElectronicComp/TabletDevices/iPad" },
-            { name: "iPad", path: "/ElectronicComp?subCatgory=Tablet Devices&NestedSubCategory=iPad" },
+            {
+              name: "iPad",
+              path: "/ElectronicComp?subCatgory=Tablet Devices&NestedSubCategory=iPad",
+            },
 
             {
               name: "Galaxy Tab",
@@ -611,7 +619,10 @@ const HeaderLower = () => {
               name: "Mobily",
               path: "/ElectronicComp?subCatgory=Special Number&NestedSubCategory=Mobily",
             },
-            { name: "Zain", path: "/ElectronicComp?subCatgory=Special Number&NestedSubCategory=Zain" },
+            {
+              name: "Zain",
+              path: "/ElectronicComp?subCatgory=Special Number&NestedSubCategory=Zain",
+            },
           ],
         },
         {
@@ -679,7 +690,10 @@ const HeaderLower = () => {
               path: "/ElectronicComp?subCatgory=Cameras&NestedSubCategory=Lenses",
             },
 
-            { name: "Drone", path: "/ElectronicComp?subCatgory=Cameras&NestedSubCategory=Drone " },
+            {
+              name: "Drone",
+              path: "/ElectronicComp?subCatgory=Cameras&NestedSubCategory=Drone ",
+            },
             {
               name: "Camera Accessories",
               path: "/ElectronicComp?subCatgory=Cameras&NestedSubCategory=Camera Accessories",
@@ -838,7 +852,10 @@ const HeaderLower = () => {
               name: "Women's Bags",
               path: "/FashionStyle?subCatgory=Women's Fashion&NestedSubCategory=Women's Bags",
             },
-            { name: "Abayas", path: "/FashionStyle?subCatgory=Women's Fashion&NestedSubCategory=Abayas" },
+            {
+              name: "Abayas",
+              path: "/FashionStyle?subCatgory=Women's Fashion&NestedSubCategory=Abayas",
+            },
             {
               name: "Dresses",
               path: "/FashionStyle?subCatgory=Women's Fashion&NestedSubCategory=Dresses",
@@ -913,7 +930,10 @@ const HeaderLower = () => {
               name: "Hair Care",
               path: "/FashionStyle?subCatgory=Health & Beauty&NestedSubCategory=Hair Care",
             },
-            { name: "Makeup", path: "/FashionStyle?subCatgory=Health & Beauty&NestedSubCategory=Makeup" },
+            {
+              name: "Makeup",
+              path: "/FashionStyle?subCatgory=Health & Beauty&NestedSubCategory=Makeup",
+            },
             {
               name: "Other Beauty Products",
               path: "/FashionStyle?subCatgory=Health & Beauty&NestedSubCategory=Other Beauty Products",
@@ -1033,7 +1053,10 @@ const HeaderLower = () => {
           path: "/JobBoard?subCatgory=Fashion & Beauty Jobs",
           subSubcategories: [
             // { name: "Tailor", path: "/JobBoard/Fashion&BeautyJobs/Tailor" },
-            { name: "Tailor", path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Tailor" },
+            {
+              name: "Tailor",
+              path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Tailor",
+            },
 
             {
               name: "Female Hairdresser",
@@ -1043,7 +1066,10 @@ const HeaderLower = () => {
               name: "Fashion Designer",
               path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Fashion Designer",
             },
-            { name: "Model", path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Model" },
+            {
+              name: "Model",
+              path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Model",
+            },
             {
               name: "Makeup Artist",
               path: "/JobBoard?subCatgory=Fashion & Beauty Jobs&NestedSubCategory=Makeup Artist",
@@ -1149,7 +1175,10 @@ const HeaderLower = () => {
               // path: "/JobBoard/Medical&NursingJobs/Pharmacist",
               path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Pharmacist",
             },
-            { name: "Doctor", path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Doctor" },
+            {
+              name: "Doctor",
+              path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Doctor",
+            },
             {
               name: "Physical Therapy Technician",
               path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Physical Therapy Technician",
@@ -1158,7 +1187,10 @@ const HeaderLower = () => {
               name: "Massage Therapist",
               path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Massage Therapist",
             },
-            { name: "Nurse", path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Nurse" },
+            {
+              name: "Nurse",
+              path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Nurse",
+            },
             {
               name: "Other Medical Jobs",
               path: "/JobBoard?subCatgory=Medical & Nursing Jobs&NestedSubCategory=Other Medical Jobs",
@@ -1823,8 +1855,14 @@ const HeaderLower = () => {
               name: "Sharshari Ducks",
               path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Sharshari Ducks",
             },
-            { name: "Geese", path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Geese" },
-            { name: "Fish", path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Fish" },
+            {
+              name: "Geese",
+              path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Geese",
+            },
+            {
+              name: "Fish",
+              path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Fish",
+            },
             {
               name: "Bikini Ducks",
               path: "/PetAnimalsComp?subCatgory=Ducks&NestedSubCategory=Bikini Ducks",
@@ -1852,7 +1890,10 @@ const HeaderLower = () => {
           name: "Hamsters",
           path: "/PetAnimalsComp?subCatgory=Hamsters",
           subSubcategories: [
-            { name: "Geese", path: "/PetAnimalsComp?subCatgory=Hamsters&NestedSubCategory=Geese" },
+            {
+              name: "Geese",
+              path: "/PetAnimalsComp?subCatgory=Hamsters&NestedSubCategory=Geese",
+            },
           ],
         },
         { name: "Fur", path: "/PetAnimalsComp?subCatgory=Fur" },
@@ -1980,17 +2021,17 @@ const HeaderLower = () => {
           ...category,
           name: OurCategoryEducationTitle,
         };
-        case "Commercial":
-          return {
-            ...category,
-            name: "Commercial",
-          };
+      case "Commercial":
+        return {
+          ...category,
+          name: "Commercial",
+        };
       default:
         return category;
     }
   });
-  
-  console.log(updatedCategories,"updatedCategories");
+
+  console.log(updatedCategories, "updatedCategories");
   if (isMobile) {
     return null;
   }
@@ -1998,7 +2039,7 @@ const HeaderLower = () => {
   return (
     <div className="header-lower container">
       <nav className="nav-links" style={{ fontFamily: "VIP Rawy Regular" }}>
-        {updatedCategories.map((category,index) => (
+        {updatedCategories.map((category, index) => (
           <div
             key={index}
             className="nav-link-wrapper"
@@ -2047,7 +2088,7 @@ const HeaderLower = () => {
                         >
                           {subcategory.name}
                           {subcategory.subSubcategories && (
-                            <span className="arrow"> ></span>
+                            <span className="arrow"> </span>
                           )}
                         </NavLink>
                         {subcategory.subSubcategories &&
