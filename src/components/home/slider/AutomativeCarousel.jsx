@@ -19,7 +19,28 @@ const formatPostedTime = (timestamp) => {
     ? "Today"
     : `${diffDays} day${diffDays > 1 ? "s" : ""} ago`; // Return formatted string
 };
-
+function timeAgo(timestamp) {
+  let date;
+  if (timestamp instanceof Date) {
+    date = timestamp;
+  } else if (timestamp?._seconds) {
+    date = new Date(timestamp._seconds * 1000);
+  } else if (typeof timestamp === "number") {
+    date = new Date(timestamp);
+  } else {
+    return "Invalid time";
+  }
+  const now = new Date();
+  const diff = now - date;
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+  if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+  return "Just now";
+}
 export default function AutomativeCarousel() {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
@@ -29,29 +50,43 @@ export default function AutomativeCarousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "Cars"); // Get reference to the 'ads' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "dtaa__________");
-        setAds(adsList); // Set the state with the ads data
-        setLoading(false); // Stop loading when data is fetched
+        const response = await fetch(
+          "http://168.231.80.24:9002/route/carsCarousal"
+        );
+        const data = await response.json();
+
+        console.log(data, "data from carsCarousal");
+        setAds(data); // Set the state with API data
+        setLoading(false); // Stop loading
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching ads from API:", error);
         setLoading(false);
       }
     };
 
     fetchAds();
   }, []);
+
   function timeAgo(timestamp) {
-    const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+    let seconds;
+
+    if (!timestamp) return "Unknown time";
+
+    if (timestamp._seconds) {
+      // Firestore format (from backend response)
+      seconds = timestamp._seconds;
+    } else if (timestamp.seconds) {
+      // Client format
+      seconds = timestamp.seconds;
+    } else {
+      return "Invalid date";
+    }
+
+    const date = new Date(seconds * 1000);
     const now = new Date();
-    const difference = Math.abs(now - date); // Difference in milliseconds
-    const seconds = Math.floor(difference / 1000);
-    const minutes = Math.floor(seconds / 60);
+    const difference = Math.abs(now - date);
+    const diffSeconds = Math.floor(difference / 1000);
+    const minutes = Math.floor(diffSeconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
@@ -60,6 +95,7 @@ export default function AutomativeCarousel() {
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
     return "Just now";
   }
+
   // Update slidesToShow on screen resize
   useEffect(() => {
     const handleResize = () => {
@@ -335,7 +371,7 @@ export default function AutomativeCarousel() {
                                       fontSize: "0.7rem",
                                     }}
                                   >
-                                    {timeAgo(item.createdAt)}
+                                    {timeAgo(item.createdAt)}{" "}
                                   </div>
                                 </div>
                               </div>

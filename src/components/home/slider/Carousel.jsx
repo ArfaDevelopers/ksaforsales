@@ -7,13 +7,26 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
 function timeAgo(timestamp) {
-  const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+  let seconds;
+
+  if (!timestamp) return "Unknown time";
+
+  if (timestamp._seconds) {
+    // Firestore format (from backend response)
+    seconds = timestamp._seconds;
+  } else if (timestamp.seconds) {
+    // Client format
+    seconds = timestamp.seconds;
+  } else {
+    return "Invalid date";
+  }
+
+  const date = new Date(seconds * 1000);
   const now = new Date();
-  const difference = Math.abs(now - date); // Difference in milliseconds
-  const seconds = Math.floor(difference / 1000);
-  const minutes = Math.floor(seconds / 60);
+  const difference = Math.abs(now - date);
+  const diffSeconds = Math.floor(difference / 1000);
+  const minutes = Math.floor(diffSeconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
@@ -22,7 +35,6 @@ function timeAgo(timestamp) {
   if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
   return "Just now";
 }
-
 export default function Carousel() {
   const [slidesToShow, setSlidesToShow] = useState(1);
   const [ads, setAds] = useState([]);
@@ -32,17 +44,15 @@ export default function Carousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "Education");
-        const adsSnapshot = await getDocs(adsCollection);
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const response = await fetch(
+          "http://168.231.80.24:9002/route/EducationCarousal"
+        );
+        const data = await response.json();
 
-        setAds(adsList.slice(0, 6)); // Ensure we only take 4 items
+        setAds(data.slice(0, 6)); // Limit to 6 items
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching ads from API:", error);
         setLoading(false);
       }
     };
@@ -109,12 +119,15 @@ export default function Carousel() {
             data-aos="fade-up"
           >
             <div className="section-heading">
-              <h2 >Feature Ads</h2>
+              <h2>Feature Ads</h2>
             </div>
           </div>
         </div>
 
-        <div className="row" style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}>
+        <div
+          className="row"
+          style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}
+        >
           <div className="col-md-12">
             {loading ? (
               <div
@@ -167,8 +180,7 @@ export default function Carousel() {
                           flexDirection: "column",
                           justifyContent: "space-between",
                           overflow: "hidden",
-    backgroundColor:"#f0f0f0"
-
+                          backgroundColor: "#f0f0f0",
                         }}
                       >
                         <div className="blog-widget">

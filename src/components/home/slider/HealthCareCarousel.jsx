@@ -7,13 +7,26 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-// Function to format the time ago in human-readable form
 function timeAgo(timestamp) {
-  const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
+  let seconds;
+
+  if (!timestamp) return "Unknown time";
+
+  if (timestamp._seconds) {
+    // Firestore format (from backend response)
+    seconds = timestamp._seconds;
+  } else if (timestamp.seconds) {
+    // Client format
+    seconds = timestamp.seconds;
+  } else {
+    return "Invalid date";
+  }
+
+  const date = new Date(seconds * 1000);
   const now = new Date();
-  const difference = Math.abs(now - date); // Difference in milliseconds
-  const seconds = Math.floor(difference / 1000);
-  const minutes = Math.floor(seconds / 60);
+  const difference = Math.abs(now - date);
+  const diffSeconds = Math.floor(difference / 1000);
+  const minutes = Math.floor(diffSeconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
@@ -27,21 +40,19 @@ export default function AutomativeCarousel() {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const adsCollection = collection(db, "HEALTHCARE"); // Get reference to the 'HealthCare' collection
-        const adsSnapshot = await getDocs(adsCollection); // Fetch the data
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Spread the document data
-        }));
-        console.log(adsList, "mydata");
-        setAds(adsList); // Set the state with the ads data
+        const response = await fetch(
+          "http://168.231.80.24:9002/route/HEALTHCARECarousal"
+        );
+        const data = await response.json();
+
+        console.log(data, "mydata");
+        setAds(data); // Set the state with the ads data
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        console.error("Error fetching ads from API:", error);
         setLoading(false);
       }
     };
