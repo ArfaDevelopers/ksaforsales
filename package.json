@@ -44,6 +44,7 @@
     "react-datepicker": "^7.6.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.4.0",
+    "react-image-lightbox": "^5.1.4",
     "react-owl-carousel": "^2.3.3",
     "react-photo-album": "^2.3.0",
     "react-photoswipe-gallery": "^3.0.0",

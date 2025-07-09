@@ -6,11 +6,14 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import "react-image-lightbox/style.css";
+import Lightbox from "react-image-lightbox";
 
 export default function SwiperSlider(props) {
   const { images } = props;
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   const imageList = images && images.length > 0 ? images : [];
 
@@ -54,11 +57,16 @@ export default function SwiperSlider(props) {
                 width: "100%",
                 height: "550px",
                 objectFit: "cover",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                // Set index THEN open the lightbox in the next tick
+                setCurrentIndex(index);
+                setTimeout(() => setIsOpen(true), 0);
               }}
             />
           </SwiperSlide>
         ))}
-        {/* ✅ Pagination Text */}
         <div
           className="swiper_pagination"
           style={{ textAlign: "center", marginTop: "10px", fontWeight: "500" }}
@@ -68,9 +76,7 @@ export default function SwiperSlider(props) {
       </Swiper>
 
       <Swiper
-        style={{
-          marginTop: "20px",
-        }}
+        style={{ marginTop: "20px" }}
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
         slidesPerView={7}
@@ -95,6 +101,26 @@ export default function SwiperSlider(props) {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* Lightbox Implementation */}
+      {isOpen && (
+        <Lightbox
+          mainSrc={imageList[currentIndex]}
+          nextSrc={imageList[(currentIndex + 1) % imageList.length]}
+          prevSrc={
+            imageList[(currentIndex + imageList.length - 1) % imageList.length]
+          }
+          onCloseRequest={() => setIsOpen(false)}
+          onMovePrevRequest={() =>
+            setCurrentIndex(
+              (currentIndex + imageList.length - 1) % imageList.length
+            )
+          }
+          onMoveNextRequest={() =>
+            setCurrentIndex((currentIndex + 1) % imageList.length)
+          }
+        />
+      )}
     </>
   );
 }
