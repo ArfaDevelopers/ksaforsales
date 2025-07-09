@@ -536,7 +536,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 className="col-lg-4 col-md-4 col-6"
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
@@ -553,7 +553,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div
                 className="col-lg-4 col-md-4 col-12"
                 style={{
@@ -577,7 +577,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="row dashboard-info">
+            {/* <div className="row dashboard-info">
               <div className="col-lg-6 d-flex">
                 <div className="card dash-cards w-100">
                   <div className="card-header">
@@ -768,7 +768,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
