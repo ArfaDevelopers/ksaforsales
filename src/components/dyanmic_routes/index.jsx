@@ -1601,7 +1601,7 @@ const Dynamic_Routes = () => {
                   </p>
                 </div>
               </div>
-              <div
+              {/* <div
                 className="adsCategory_head"
                 style={{
                   display: "flex",
@@ -1614,7 +1614,7 @@ const Dynamic_Routes = () => {
                   currentAdId={_Id}
                   listingUserId={itemData?.userId}
                 />
-              </div>
+              </div> */}
             </Col>
 
             <Col xl={4} className="p-3">

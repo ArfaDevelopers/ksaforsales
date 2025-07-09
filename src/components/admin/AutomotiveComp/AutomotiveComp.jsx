@@ -5548,7 +5548,7 @@ const AutomotiveComp = () => {
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <Row>
-                            <Col>
+                            <Col className="col-6">
                               <Form.Control
                                 type="date"
                                 placeholder="From"
@@ -5556,7 +5556,7 @@ const AutomotiveComp = () => {
                                 onChange={handleFromDateChange}
                               />
                             </Col>
-                            <Col>
+                            <Col className="col-6">
                               <Form.Control
                                 type="date"
                                 placeholder="To"

@@ -609,7 +609,7 @@ const ServiceDetails = () => {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 style={{
                   marginTop: "20px",
                   display: "flex",
@@ -621,7 +621,7 @@ const ServiceDetails = () => {
                   currentAdId={_Id}
                   listingUserId={itemData?.userId}
                 />
-              </div>
+              </div> */}
             </div>
             <div className="col-lg-3 theiaStickySidebar">
               <StickyBox>

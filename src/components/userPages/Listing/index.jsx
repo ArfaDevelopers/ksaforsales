@@ -46,7 +46,7 @@ const Listing = () => {
       navigate("/add-listing");
     } else if (box === "box2") {
       navigate("/commercial-ads");
-    }  else if (box === "box4") {
+    } else if (box === "box4") {
       navigate("/detail-ads");
     }
   };
@@ -77,18 +77,21 @@ const Listing = () => {
                   flex: 1,
                   minWidth: "250px",
                   padding: "25px",
-                  background: activeBox === "box1"
-                    ? "linear-gradient(135deg, #2d4495 0%, #4a67d6 100%)"
-                    : "#ffffff",
+                  background:
+                    activeBox === "box1"
+                      ? "linear-gradient(135deg, #2d4495 0%, #4a67d6 100%)"
+                      : "#ffffff",
                   color: activeBox === "box1" ? "#ffffff" : "#333333",
                   border: "1px solid #e0e0e0",
                   borderRadius: "12px",
-                  boxShadow: activeBox === "box1"
-                    ? "0 8px 16px rgba(45, 68, 149, 0.3)"
-                    : "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  boxShadow:
+                    activeBox === "box1"
+                      ? "0 8px 16px rgba(45, 68, 149, 0.3)"
+                      : "0 4px 8px rgba(0, 0, 0, 0.1)",
                   textAlign: "center",
                   cursor: "pointer",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
+                  transition:
+                    "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
                   transform: activeBox === "box1" ? "scale(1.05)" : "scale(1)",
                 }}
                 onClick={() => handleBoxChange("box1")}
@@ -97,13 +100,15 @@ const Listing = () => {
                 onMouseEnter={(e) => {
                   if (activeBox !== "box1") {
                     e.currentTarget.style.transform = "scale(1.03)";
-                    e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.15)";
+                    e.currentTarget.style.boxShadow =
+                      "0 6px 12px rgba(0, 0, 0, 0.15)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (activeBox !== "box1") {
                     e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+                    e.currentTarget.style.boxShadow =
+                      "0 4px 8px rgba(0, 0, 0, 0.1)";
                   }
                 }}
               >
@@ -139,18 +144,21 @@ const Listing = () => {
                   flex: 1,
                   minWidth: "250px",
                   padding: "25px",
-                  background: activeBox === "box2"
-                    ? "linear-gradient(135deg, #2d4495 0%, #4a67d6 100%)"
-                    : "#ffffff",
+                  background:
+                    activeBox === "box2"
+                      ? "linear-gradient(135deg, #2d4495 0%, #4a67d6 100%)"
+                      : "#ffffff",
                   color: activeBox === "box2" ? "#ffffff" : "#333333",
                   border: "1px solid #e0e0e0",
                   borderRadius: "12px",
-                  boxShadow: activeBox === "box2"
-                    ? "0 8px 16px rgba(45, 68, 149, 0.3)"
-                    : "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  boxShadow:
+                    activeBox === "box2"
+                      ? "0 8px 16px rgba(45, 68, 149, 0.3)"
+                      : "0 4px 8px rgba(0, 0, 0, 0.1)",
                   textAlign: "center",
                   cursor: "pointer",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
+                  transition:
+                    "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
                   transform: activeBox === "box2" ? "scale(1.05)" : "scale(1)",
                 }}
                 onClick={() => handleBoxChange("box2")}
@@ -159,13 +167,15 @@ const Listing = () => {
                 onMouseEnter={(e) => {
                   if (activeBox !== "box2") {
                     e.currentTarget.style.transform = "scale(1.03)";
-                    e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.15)";
+                    e.currentTarget.style.boxShadow =
+                      "0 6px 12px rgba(0, 0, 0, 0.15)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (activeBox !== "box2") {
                     e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+                    e.currentTarget.style.boxShadow =
+                      "0 4px 8px rgba(0, 0, 0, 0.1)";
                   }
                 }}
               >
@@ -258,7 +268,7 @@ const Listing = () => {
                   Highlight your ads with premium features.
                 </p>
               </div> */}
-              <div
+              {/* <div
                 style={{
                   flex: 1,
                   minWidth: "250px",
@@ -319,7 +329,7 @@ const Listing = () => {
                 >
                   Provide detailed information for your ads.
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

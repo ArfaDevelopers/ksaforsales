@@ -4649,8 +4649,8 @@ const AddLisiting = () => {
                     style={{
                       boxShadow: "3px 5px 13px rgba(222, 226, 231, 0.44)",
                       padding: "20px 20px 20px 20px",
-                      borderRadius: "6px",
-                      marginBottom: "10px",
+                      borderRadius: "6px 6px 0 0",
+                      marginBottom: "0px",
                     }}
                   >
                     <h4
@@ -4672,8 +4672,7 @@ const AddLisiting = () => {
                       margin: "0",
                       padding: "0",
                       padding: "20px 15px",
-                      marginBottom: "10px",
-                      borderRadius: "6px",
+                      borderRadius: "0px",
                     }}
                   >
                     <div
@@ -4815,7 +4814,12 @@ const AddLisiting = () => {
                   >
                     {galleryImagesErrMsg}
                   </span>
-                  <div className="card">
+                  <div
+                    className="card"
+                    style={{
+                      borderRadius: "0",
+                    }}
+                  >
                     <div className="container mt-3 p-0">
                       <div className="row">
                         {/* Region Select */}
@@ -13710,7 +13714,7 @@ const AddLisiting = () => {
                   </div> */}
                     </div>
                   </div>
-                  <div className="card" style={{ marginTop: "5px" }}>
+                  <div className="card" style={{ borderRadius: "0 0 6px 6px" }}>
                     <div className="card-header">
                       <h4>Featured </h4>
                     </div>

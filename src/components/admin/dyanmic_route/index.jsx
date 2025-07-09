@@ -5701,7 +5701,7 @@ const Dynamic_Route = () => {
                 ""
               )}
 
-              <div
+              {/* <div
                 className="adsCategory_head"
                 style={{
                   display: "flex",
@@ -5715,7 +5715,7 @@ const Dynamic_Route = () => {
                   currentAdId={_Id}
                   listingUserId={itemData?.userId}
                 />
-              </div>
+              </div> */}
             </Col>
             <Col xl={4} className="p-3">
               <Col xs={12}>
