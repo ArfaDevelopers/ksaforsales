@@ -519,7 +519,7 @@ const Dashboard = () => {
           <div className="dashboard-details">
             <div className="row g-2">
               <div
-                className="col-lg-4 col-md-4 col-6"
+                className="col-lg-6 col-md-6 col-6"
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
@@ -555,7 +555,7 @@ const Dashboard = () => {
                 </div>
               </div> */}
               <div
-                className="col-lg-4 col-md-4 col-12"
+                className="col-lg-6 col-md-6 col-12"
                 style={{
                   flex: "0 0 auto",
                   minWidth: "100px",
