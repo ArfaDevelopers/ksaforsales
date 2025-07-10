@@ -591,6 +591,8 @@ const AutomotiveComp = () => {
   const [selectedRegion, setSelectedRegionId] = useState("");
   console.log(selectedRegion, "adsDetailImages________1");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef1 = useRef(null);
+  const modalInstanceRef = useRef(null);
 
   const [mileage, setMileage] = useState("");
   const [adsDetailImages, setAdsDetailImages] = useState([]);
@@ -601,6 +603,27 @@ const AutomotiveComp = () => {
   for (let i = 0; i < regionOptions.length; i += 2) {
     regionPairs.push(regionOptions.slice(i, i + 2));
   }
+  // ✅ Renamed refs as per your request
+  const regionModalRef = useRef(null);
+  const regionModalInstanceRef = useRef(null);
+
+  // ✅ Setup Bootstrap Modal once
+  useEffect(() => {
+    if (regionModalRef.current) {
+      regionModalInstanceRef.current = new Modal(regionModalRef.current, {
+        backdrop: "static",
+      });
+    }
+  }, []);
+
+  // ✅ Control modal open/close based on modalVisible state
+  useEffect(() => {
+    if (modalVisible) {
+      regionModalInstanceRef.current?.show();
+    } else {
+      regionModalInstanceRef.current?.hide();
+    }
+  }, [modalVisible]);
   useEffect(() => {
     if (modalVisible && modalRef.current) {
       modalRef.current.style.display = "block";
@@ -4190,6 +4213,7 @@ const AutomotiveComp = () => {
                               </label>
                             </div>
                           ))}
+
                           <button
                             type="button"
                             className="btn btn-link p-0"
@@ -4197,16 +4221,17 @@ const AutomotiveComp = () => {
                           >
                             Show more choices...
                           </button>
-                          <div className="">
+
+                          {/* ✅ Modal */}
+                          <div>
                             <div
                               className="modal fade more_optn_modal_main"
                               id="regionModal11"
                               tabIndex="-1"
-                              ref={modalRef}
+                              ref={regionModalRef} // ✅ updated ref
                               aria-labelledby="regionModalLabel"
                               aria-hidden="true"
                             >
-                              {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
                               <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                                 <div className="modal-content border-0 shadow-lg">
                                   <div className="modal-header bg-light border-bottom">
@@ -4226,6 +4251,7 @@ const AutomotiveComp = () => {
                                       aria-label="Close"
                                     ></button>
                                   </div>
+
                                   <div className="modal-body p-3">
                                     <div className="mb-2">
                                       <small className="text-muted">
@@ -4233,43 +4259,40 @@ const AutomotiveComp = () => {
                                         options below
                                       </small>
                                     </div>
-                                    <div className="row g-2">
-                                      <ul className="more_choice_main_list">
-                                        {regionOptions.map((region) => (
-                                          <li
-                                            className=""
-                                            key={region.regionId}
+
+                                    <ul className="more_choice_main_list row g-2">
+                                      {regionOptions.map((region) => (
+                                        <li key={region.regionId}>
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`modal-region-${region.regionId}`}
                                           >
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor={`modal-region-${region.regionId}`}
-                                            >
-                                              <input
-                                                className="form-check-input me-2 mt-1"
-                                                type="checkbox"
-                                                id={`modal-region-${region.regionId}`}
-                                                checked={
+                                            <input
+                                              className="form-check-input me-2 mt-1"
+                                              type="checkbox"
+                                              id={`modal-region-${region.regionId}`}
+                                              checked={
+                                                selectedRegion ===
+                                                region.regionId
+                                              }
+                                              onChange={() =>
+                                                setSelectedRegionId(
                                                   selectedRegion ===
-                                                  region.regionId
-                                                }
-                                                onChange={() =>
-                                                  setSelectedRegionId(
-                                                    selectedRegion ===
-                                                      region.regionId
-                                                      ? ""
-                                                      : region.regionId
-                                                  )
-                                                }
-                                              />
-                                              <span className="fw-medium text-dark">
-                                                {region.regionEn}
-                                              </span>
-                                            </label>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
+                                                    region.regionId
+                                                    ? ""
+                                                    : region.regionId
+                                                )
+                                              }
+                                            />
+                                            <span className="fw-medium text-dark">
+                                              {region.regionEn}
+                                            </span>
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
                                   </div>
+
                                   <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                                     <div className="text-muted small">
                                       {selectedRegion
@@ -4280,9 +4303,7 @@ const AutomotiveComp = () => {
                                       <button
                                         type="button"
                                         className="btn btn-outline-secondary"
-                                        onClick={() => {
-                                          setSelectedRegionId("");
-                                        }}
+                                        onClick={() => setSelectedRegionId("")}
                                       >
                                         Clear Selection
                                       </button>
@@ -4298,6 +4319,7 @@ const AutomotiveComp = () => {
                                 </div>
                               </div>
                             </div>
+
                             <style jsx>{`
                               .hover-shadow {
                                 transition: all 0.15s ease-in-out;
