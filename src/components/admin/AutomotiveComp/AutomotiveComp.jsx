@@ -553,6 +553,7 @@ const AutomotiveComp = () => {
   const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
   const [showModal, setShowModal] = useState(false);
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  const [showModalCarBrand, setShowModalCarBrand] = useState(false);
 
   const [receiverId, setReceiverId] = useState(null);
   // useEffect(() => {
@@ -1536,10 +1537,24 @@ const AutomotiveComp = () => {
 
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState("");
-  const [Model, setModel] = useState("");
 
+  console.log(State, "State____________");
   const [showList, setShowList] = useState(false);
+  let modalInstance = useRef(null);
 
+  useEffect(() => {
+    if (modalRef.current) {
+      modalInstance.current = new Modal(modalRef.current);
+    }
+  }, []);
+
+  const openModal = () => {
+    modalInstance.current?.show();
+  };
+
+  const closeModal = () => {
+    modalInstance.current?.hide();
+  };
   const filteredBrands =
     query === ""
       ? carBrands
@@ -1549,11 +1564,28 @@ const AutomotiveComp = () => {
   console.log("Selected:______", filteredBrands);
   console.log("Selected:______1", selected);
   console.log("Selected:______2", query);
+  const carBrandModalRef = useRef(null);
+  const carBrandModalInstance = useRef(null);
 
+  useEffect(() => {
+    if (carBrandModalRef.current) {
+      carBrandModalInstance.current = new Modal(carBrandModalRef.current);
+    }
+  }, []);
+
+  const openCarBrandModal = () => {
+    carBrandModalInstance.current?.show();
+  };
+
+  const closeCarBrandModal = () => {
+    carBrandModalInstance.current?.hide();
+  };
   const handleSelect = (brand) => {
     setQuery(brand);
     setSelected(brand);
     setShowList(false);
+    closeCarBrandModal();
+
     console.log("Selected:", brand);
   };
 
@@ -2203,7 +2235,1053 @@ const AutomotiveComp = () => {
       console.log(`Please wait 30 seconds before viewing this car again.`);
     }
   };
+  const fordModalInstance = useRef(null);
+  const fordModalRef = useRef(null);
 
+  useEffect(() => {
+    if (fordModalRef.current) {
+      fordModalInstance.current = new Modal(fordModalRef.current);
+    }
+  }, []);
+
+  const openFordModal = () => {
+    fordModalInstance.current?.show();
+  };
+
+  const closeFordModal = () => {
+    fordModalInstance.current?.hide();
+  };
+  const chevroletModalRef = useRef(null);
+  const chevroletModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (chevroletModalRef.current) {
+      chevroletModalInstance.current = new Modal(chevroletModalRef.current);
+    }
+  }, []);
+
+  const openChevroletModal = () => {
+    chevroletModalInstance.current?.show();
+  };
+
+  const closeChevroletModal = () => {
+    chevroletModalInstance.current?.hide();
+  };
+  const nissanModalRef = useRef(null);
+  const nissanModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (nissanModalRef.current) {
+      nissanModalInstance.current = new Modal(nissanModalRef.current);
+    }
+  }, []);
+
+  const openNissanModal = () => {
+    nissanModalInstance.current?.show();
+  };
+
+  const closeNissanModal = () => {
+    nissanModalInstance.current?.hide();
+  };
+  const hyundaiModalRef = useRef(null);
+  const hyundaiModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (hyundaiModalRef.current) {
+      hyundaiModalInstance.current = new Modal(hyundaiModalRef.current);
+    }
+  }, []);
+
+  const openHyundaiModal = () => {
+    hyundaiModalInstance.current?.show();
+  };
+
+  const closeHyundaiModal = () => {
+    hyundaiModalInstance.current?.hide();
+  };
+  const genesisModalRef = useRef(null);
+  const genesisModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (genesisModalRef.current) {
+      genesisModalInstance.current = new Modal(genesisModalRef.current);
+    }
+  }, []);
+
+  const openGenesisModal = () => {
+    genesisModalInstance.current?.show();
+  };
+
+  const closeGenesisModal = () => {
+    genesisModalInstance.current?.hide();
+  };
+  const lexusModalRef = useRef(null);
+  const lexusModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (lexusModalRef.current) {
+      lexusModalInstance.current = new Modal(lexusModalRef.current);
+    }
+  }, []);
+
+  const openLexusModal = () => {
+    lexusModalInstance.current?.show();
+  };
+
+  const closeLexusModal = () => {
+    lexusModalInstance.current?.hide();
+  };
+  const gmcModalRef = useRef(null);
+  const gmcModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (gmcModalRef.current) {
+      gmcModalInstance.current = new Modal(gmcModalRef.current);
+    }
+  }, []);
+
+  const openGmcModal = () => {
+    gmcModalInstance.current?.show();
+  };
+
+  const closeGmcModal = () => {
+    gmcModalInstance.current?.hide();
+  };
+  const mercedesModalRef = useRef(null);
+  const mercedesModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (mercedesModalRef.current) {
+      mercedesModalInstance.current = new Modal(mercedesModalRef.current);
+    }
+  }, []);
+
+  const openMercedesModal = () => {
+    mercedesModalInstance.current?.show();
+  };
+
+  const closeMercedesModal = () => {
+    mercedesModalInstance.current?.hide();
+  };
+
+  const hondaModalRef = useRef(null);
+  const hondaModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (hondaModalRef.current) {
+      hondaModalInstance.current = new Modal(hondaModalRef.current);
+    }
+  }, []);
+
+  const openHondaModal = () => {
+    hondaModalInstance.current?.show();
+  };
+
+  const closeHondaModal = () => {
+    hondaModalInstance.current?.hide();
+  };
+  const bmwModalRef = useRef(null);
+  const bmwModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (bmwModalRef.current) {
+      bmwModalInstance.current = new Modal(bmwModalRef.current);
+    }
+  }, []);
+
+  const openBmwModal = () => {
+    bmwModalInstance.current?.show();
+  };
+
+  const closeBmwModal = () => {
+    bmwModalInstance.current?.hide();
+  };
+
+  const motorcycleModalRef = useRef(null);
+  const motorcycleModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (motorcycleModalRef.current) {
+      motorcycleModalInstance.current = new Modal(motorcycleModalRef.current);
+    }
+  }, []);
+
+  const openMotorcycleModal = () => {
+    motorcycleModalInstance.current?.show();
+  };
+
+  const closeMotorcycleModal = () => {
+    motorcycleModalInstance.current?.hide();
+  };
+  const kiaModalRef = useRef(null);
+  const kiaModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (kiaModalRef.current) {
+      kiaModalInstance.current = new Modal(kiaModalRef.current);
+    }
+  }, []);
+
+  const openKiaModal = () => {
+    kiaModalInstance.current?.show();
+  };
+
+  const closeKiaModal = () => {
+    kiaModalInstance.current?.hide();
+  };
+  const dodgeModalRef = useRef(null);
+  const dodgeModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (dodgeModalRef.current) {
+      dodgeModalInstance.current = new Modal(dodgeModalRef.current);
+    }
+  }, []);
+
+  const openDodgeModal = () => {
+    dodgeModalInstance.current?.show();
+  };
+
+  const closeDodgeModal = () => {
+    dodgeModalInstance.current?.hide();
+  };
+  const chryslerModalRef = useRef(null);
+  const chryslerModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (chryslerModalRef.current) {
+      chryslerModalInstance.current = new Modal(chryslerModalRef.current);
+    }
+  }, []);
+
+  const openChryslerModal = () => {
+    chryslerModalInstance.current?.show();
+  };
+
+  const closeChryslerModal = () => {
+    chryslerModalInstance.current?.hide();
+  };
+  const jeepModalRef = useRef(null);
+  const jeepModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (jeepModalRef.current) {
+      jeepModalInstance.current = new Modal(jeepModalRef.current);
+    }
+  }, []);
+
+  const openJeepModal = () => {
+    jeepModalInstance.current?.show();
+  };
+
+  const closeJeepModal = () => {
+    jeepModalInstance.current?.hide();
+  };
+  const mitsubishiModalRef = useRef(null);
+  const mitsubishiModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (mitsubishiModalRef.current) {
+      mitsubishiModalInstance.current = new Modal(mitsubishiModalRef.current);
+    }
+  }, []);
+
+  const openMitsubishiModal = () => {
+    mitsubishiModalInstance.current?.show();
+  };
+
+  const closeMitsubishiModal = () => {
+    mitsubishiModalInstance.current?.hide();
+  };
+  const mazdaModalRef = useRef(null);
+  const mazdaModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (mazdaModalRef.current) {
+      mazdaModalInstance.current = new Modal(mazdaModalRef.current);
+    }
+  }, []);
+
+  const openMazdaModal = () => {
+    mazdaModalInstance.current?.show();
+  };
+
+  const closeMazdaModal = () => {
+    mazdaModalInstance.current?.hide();
+  };
+  const porscheModalRef = useRef(null);
+  const porscheModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (porscheModalRef.current) {
+      porscheModalInstance.current = new Modal(porscheModalRef.current);
+    }
+  }, []);
+
+  const openPorscheModal = () => {
+    porscheModalInstance.current?.show();
+  };
+
+  const closePorscheModal = () => {
+    porscheModalInstance.current?.hide();
+  };
+  const audiModalRef = useRef(null);
+  const audiModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (audiModalRef.current) {
+      audiModalInstance.current = new Modal(audiModalRef.current);
+    }
+  }, []);
+
+  const openAudiModal = () => {
+    audiModalInstance.current?.show();
+  };
+
+  const closeAudiModal = () => {
+    audiModalInstance.current?.hide();
+  };
+  const suzukiModalRef = useRef(null);
+  const suzukiModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (suzukiModalRef.current) {
+      suzukiModalInstance.current = new Modal(suzukiModalRef.current);
+    }
+  }, []);
+
+  const openSuzukiModal = () => {
+    suzukiModalInstance.current?.show();
+  };
+
+  const closeSuzukiModal = () => {
+    suzukiModalInstance.current?.hide();
+  };
+  const infinitiModalRef = useRef(null);
+  const hummerModalRef = useRef(null);
+  // Top of your component
+  const lincolnModalRef = useRef(null);
+  const lincolnModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (lincolnModalRef.current) {
+      lincolnModalInstance.current = new Modal(lincolnModalRef.current);
+    }
+  }, []);
+
+  const openLincolnModal = () => {
+    lincolnModalInstance.current?.show();
+  };
+
+  const closeLincolnModal = () => {
+    lincolnModalInstance.current?.hide();
+  };
+
+  useEffect(() => {
+    if (infinitiModalRef.current)
+      infinitiModalInstance.current = new Modal(infinitiModalRef.current);
+    if (hummerModalRef.current)
+      hummerModalInstance.current = new Modal(hummerModalRef.current);
+  }, []);
+
+  const infinitiModalInstance = useRef(null);
+  const openInfinitiModal = () => infinitiModalInstance.current?.show();
+  const closeInfinitiModal = () => infinitiModalInstance.current?.hide();
+
+  const hummerModalInstance = useRef(null);
+  const openHummerModal = () => hummerModalInstance.current?.show();
+  const closeHummerModal = () => hummerModalInstance.current?.hide();
+  const volkswagenModalRef = useRef(null);
+  const volkswagenModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (volkswagenModalRef.current) {
+      volkswagenModalInstance.current = new Modal(volkswagenModalRef.current);
+    }
+  }, []);
+
+  const openVolkswagenModal = () => {
+    volkswagenModalInstance.current?.show();
+  };
+
+  const closeVolkswagenModal = () => {
+    volkswagenModalInstance.current?.hide();
+  };
+  const daihatsuModalRef = useRef(null);
+  const daihatsuModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (daihatsuModalRef.current) {
+      daihatsuModalInstance.current = new Modal(daihatsuModalRef.current);
+    }
+  }, []);
+
+  const openDaihatsuModal = () => {
+    daihatsuModalInstance.current?.show();
+  };
+
+  const closeDaihatsuModal = () => {
+    daihatsuModalInstance.current?.hide();
+  };
+  const geelyModalRef = useRef(null);
+  const geelyModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (geelyModalRef.current) {
+      geelyModalInstance.current = new Modal(geelyModalRef.current);
+    }
+  }, []);
+
+  const openGeelyModal = () => {
+    geelyModalInstance.current?.show();
+  };
+
+  const closeGeelyModal = () => {
+    geelyModalInstance.current?.hide();
+  };
+  const mercuryModalRef = useRef(null);
+  const mercuryModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (mercuryModalRef.current) {
+      mercuryModalInstance.current = new Modal(mercuryModalRef.current);
+    }
+  }, []);
+
+  const openMercuryModal = () => {
+    mercuryModalInstance.current?.show();
+  };
+
+  const closeMercuryModal = () => {
+    mercuryModalInstance.current?.hide();
+  };
+  const volvoModalRef = useRef(null);
+  const volvoModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (volvoModalRef.current) {
+      volvoModalInstance.current = new Modal(volvoModalRef.current);
+    }
+  }, []);
+
+  const openVolvoModal = () => {
+    volvoModalInstance.current?.show();
+  };
+
+  const closeVolvoModal = () => {
+    volvoModalInstance.current?.hide();
+  };
+  const peugeotModalRef = useRef(null);
+  const peugeotModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (peugeotModalRef.current) {
+      peugeotModalInstance.current = new Modal(peugeotModalRef.current);
+    }
+  }, []);
+
+  const openPeugeotModal = () => {
+    peugeotModalInstance.current?.show();
+  };
+
+  const closePeugeotModal = () => {
+    peugeotModalInstance.current?.hide();
+  };
+  const bentleyModalRef = useRef(null);
+  const bentleyModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (bentleyModalRef.current) {
+      bentleyModalInstance.current = new Modal(bentleyModalRef.current);
+    }
+  }, []);
+
+  const openBentleyModal = () => {
+    bentleyModalInstance.current?.show();
+  };
+
+  const closeBentleyModal = () => {
+    bentleyModalInstance.current?.hide();
+  };
+  const jaguarModalRef = useRef(null);
+  const jaguarModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (jaguarModalRef.current) {
+      jaguarModalInstance.current = new Modal(jaguarModalRef.current);
+    }
+  }, []);
+
+  const openJaguarModal = () => {
+    jaguarModalInstance.current?.show();
+  };
+
+  const closeJaguarModal = () => {
+    jaguarModalInstance.current?.hide();
+  };
+  const subaruModalRef = useRef(null);
+  const subaruModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (subaruModalRef.current) {
+      subaruModalInstance.current = new Modal(subaruModalRef.current);
+    }
+  }, []);
+
+  const openSubaruModal = () => {
+    subaruModalInstance.current?.show();
+  };
+
+  const closeSubaruModal = () => {
+    subaruModalInstance.current?.hide();
+  };
+  const mgModalRef = useRef(null);
+  const mgModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (mgModalRef.current) {
+      mgModalInstance.current = new Modal(mgModalRef.current);
+    }
+  }, []);
+
+  const openMgModal = () => {
+    mgModalInstance.current?.show();
+  };
+
+  const closeMgModal = () => {
+    mgModalInstance.current?.hide();
+  };
+  const changanModalRef = useRef(null);
+  const changanModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (changanModalRef.current) {
+      changanModalInstance.current = new Modal(changanModalRef.current);
+    }
+  }, []);
+
+  const openChanganModal = () => {
+    changanModalInstance.current?.show();
+  };
+
+  const closeChanganModal = () => {
+    changanModalInstance.current?.hide();
+  };
+  const renaultModalRef = useRef(null);
+  const renaultModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (renaultModalRef.current) {
+      renaultModalInstance.current = new Modal(renaultModalRef.current);
+    }
+  }, []);
+
+  const openRenaultModal = () => {
+    renaultModalInstance.current?.show();
+  };
+
+  const closeRenaultModal = () => {
+    renaultModalInstance.current?.hide();
+  };
+  const buickModalRef = useRef(null);
+  const buickModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (buickModalRef.current) {
+      buickModalInstance.current = new Modal(buickModalRef.current);
+    }
+  }, []);
+
+  const openBuickModal = () => {
+    buickModalInstance.current?.show();
+  };
+
+  const closeBuickModal = () => {
+    buickModalInstance.current?.hide();
+  };
+  const rollsRoyceModalRef = useRef(null);
+  const rollsRoyceModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (rollsRoyceModalRef.current) {
+      rollsRoyceModalInstance.current = new Modal(rollsRoyceModalRef.current);
+    }
+  }, []);
+
+  const openRollsRoyceModal = () => {
+    rollsRoyceModalInstance.current?.show();
+  };
+
+  const closeRollsRoyceModal = () => {
+    rollsRoyceModalInstance.current?.hide();
+  };
+  const lamborghiniModalRef = useRef(null);
+  const lamborghiniModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (lamborghiniModalRef.current) {
+      lamborghiniModalInstance.current = new Modal(lamborghiniModalRef.current);
+    }
+  }, []);
+
+  const openLamborghiniModal = () => {
+    lamborghiniModalInstance.current?.show();
+  };
+
+  const closeLamborghiniModal = () => {
+    lamborghiniModalInstance.current?.hide();
+  };
+  const opelModalRef = useRef(null);
+  const opelModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (opelModalRef.current) {
+      opelModalInstance.current = new Modal(opelModalRef.current);
+    }
+  }, []);
+
+  const openOpelModal = () => {
+    opelModalInstance.current?.show();
+  };
+
+  const closeOpelModal = () => {
+    opelModalInstance.current?.hide();
+  };
+  const skodaModalRef = useRef(null);
+  const skodaModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (skodaModalRef.current) {
+      skodaModalInstance.current = new Modal(skodaModalRef.current);
+    }
+  }, []);
+
+  const openSkodaModal = () => {
+    skodaModalInstance.current?.show();
+  };
+
+  const closeSkodaModal = () => {
+    skodaModalInstance.current?.hide();
+  };
+  const ferrariModalRef = useRef(null);
+  const ferrariModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (ferrariModalRef.current) {
+      ferrariModalInstance.current = new Modal(ferrariModalRef.current);
+    }
+  }, []);
+
+  const openFerrariModal = () => {
+    ferrariModalInstance.current?.show();
+  };
+
+  const closeFerrariModal = () => {
+    ferrariModalInstance.current?.hide();
+  };
+  const citroenModalRef = useRef(null);
+  const citroenModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (citroenModalRef.current) {
+      citroenModalInstance.current = new Modal(citroenModalRef.current);
+    }
+  }, []);
+
+  const openCitroenModal = () => {
+    citroenModalInstance.current?.show();
+  };
+
+  const closeCitroenModal = () => {
+    citroenModalInstance.current?.hide();
+  };
+  const cheryModalRef = useRef(null);
+  const cheryModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (cheryModalRef.current) {
+      cheryModalInstance.current = new Modal(cheryModalRef.current);
+    }
+  }, []);
+
+  const openCheryModal = () => {
+    cheryModalInstance.current?.show();
+  };
+
+  const closeCheryModal = () => {
+    cheryModalInstance.current?.hide();
+  };
+  const daewooModalRef = useRef(null);
+  const daewooModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (daewooModalRef.current) {
+      daewooModalInstance.current = new Modal(daewooModalRef.current);
+    }
+  }, []);
+
+  const openDaewooModal = () => {
+    daewooModalInstance.current?.show();
+  };
+
+  const closeDaewooModal = () => {
+    daewooModalInstance.current?.hide();
+  };
+  const sabbModalRef = useRef(null);
+  const sabbModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (sabbModalRef.current) {
+      sabbModalInstance.current = new Modal(sabbModalRef.current);
+    }
+  }, []);
+
+  const openSabbModal = () => {
+    sabbModalInstance.current?.show();
+  };
+
+  const closeSabbModal = () => {
+    sabbModalInstance.current?.hide();
+  };
+  const ssangYongModalRef = useRef(null);
+  const ssangYongModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (ssangYongModalRef.current) {
+      ssangYongModalInstance.current = new Modal(ssangYongModalRef.current);
+    }
+  }, []);
+
+  const openSsangYongModal = () => {
+    ssangYongModalInstance.current?.show();
+  };
+
+  const closeSsangYongModal = () => {
+    ssangYongModalInstance.current?.hide();
+  };
+  const astonMartinModalRef = useRef(null);
+  const astonMartinModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (astonMartinModalRef.current) {
+      astonMartinModalInstance.current = new Modal(astonMartinModalRef.current);
+    }
+  }, []);
+
+  const openAstonMartinModal = () => {
+    astonMartinModalInstance.current?.show();
+  };
+
+  const closeAstonMartinModal = () => {
+    astonMartinModalInstance.current?.hide();
+  };
+  const protonModalRef = useRef(null);
+  const protonModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (protonModalRef.current) {
+      protonModalInstance.current = new Modal(protonModalRef.current);
+    }
+  }, []);
+
+  const openProtonModal = () => {
+    protonModalInstance.current?.show();
+  };
+
+  const closeProtonModal = () => {
+    protonModalInstance.current?.hide();
+  };
+  const havalModalRef = useRef(null);
+  const havalModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (havalModalRef.current) {
+      havalModalInstance.current = new Modal(havalModalRef.current);
+    }
+  }, []);
+
+  const openHavalModal = () => {
+    havalModalInstance.current?.show();
+  };
+
+  const closeHavalModal = () => {
+    havalModalInstance.current?.hide();
+  };
+  const gacModalRef = useRef(null);
+  const gacModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (gacModalRef.current) {
+      gacModalInstance.current = new Modal(gacModalRef.current);
+    }
+  }, []);
+
+  const openGacModal = () => {
+    gacModalInstance.current?.show();
+  };
+
+  const closeGacModal = () => {
+    gacModalInstance.current?.hide();
+  };
+  const greatWallModalRef = useRef(null);
+  const greatWallModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (greatWallModalRef.current) {
+      greatWallModalInstance.current = new Modal(greatWallModalRef.current);
+    }
+  }, []);
+
+  const openGreatWallModal = () => {
+    greatWallModalInstance.current?.show();
+  };
+
+  const closeGreatWallModal = () => {
+    greatWallModalInstance.current?.hide();
+  };
+  const fawModalRef = useRef(null);
+  const fawModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (fawModalRef.current) {
+      fawModalInstance.current = new Modal(fawModalRef.current);
+    }
+  }, []);
+
+  const openFawModal = () => {
+    fawModalInstance.current?.show();
+  };
+
+  const closeFawModal = () => {
+    fawModalInstance.current?.hide();
+  };
+  const bydModalRef = useRef(null);
+  const bydModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (bydModalRef.current) {
+      bydModalInstance.current = new Modal(bydModalRef.current);
+    }
+  }, []);
+
+  const openBydModal = () => {
+    bydModalInstance.current?.show();
+  };
+
+  const closeBydModal = () => {
+    bydModalInstance.current?.hide();
+  };
+  const alfaModalRef = useRef(null);
+  const alfaModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (alfaModalRef.current) {
+      alfaModalInstance.current = new Modal(alfaModalRef.current);
+    }
+  }, []);
+
+  const openAlfaModal = () => {
+    alfaModalInstance.current?.show();
+  };
+
+  const closeAlfaModal = () => {
+    alfaModalInstance.current?.hide();
+  };
+  const tataModalRef = useRef(null);
+  const tataModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (tataModalRef.current) {
+      tataModalInstance.current = new Modal(tataModalRef.current);
+    }
+  }, []);
+
+  const openTataModal = () => {
+    tataModalInstance.current?.show();
+  };
+
+  const closeTataModal = () => {
+    tataModalInstance.current?.hide();
+  };
+  const jetourModalRef = useRef(null);
+  const jetourModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (jetourModalRef.current) {
+      jetourModalInstance.current = new Modal(jetourModalRef.current);
+    }
+  }, []);
+
+  const openJetourModal = () => {
+    jetourModalInstance.current?.show();
+  };
+
+  const closeJetourModal = () => {
+    jetourModalInstance.current?.hide();
+  };
+  const cmcModalRef = useRef(null);
+  const cmcModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (cmcModalRef.current) {
+      cmcModalInstance.current = new Modal(cmcModalRef.current);
+    }
+  }, []);
+
+  const openCmcModal = () => {
+    cmcModalInstance.current?.show();
+  };
+
+  const closeCmcModal = () => {
+    cmcModalInstance.current?.hide();
+  };
+  const victoryAutoModalRef = useRef(null);
+  const victoryAutoModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (victoryAutoModalRef.current) {
+      victoryAutoModalInstance.current = new Modal(victoryAutoModalRef.current);
+    }
+  }, []);
+
+  const openVictoryAutoModal = () => {
+    victoryAutoModalInstance.current?.show();
+  };
+
+  const closeVictoryAutoModal = () => {
+    victoryAutoModalInstance.current?.hide();
+  };
+  const maxusModalRef = useRef(null);
+  const maxusModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (maxusModalRef.current) {
+      maxusModalInstance.current = new Modal(maxusModalRef.current);
+    }
+  }, []);
+
+  const openMaxusModal = () => {
+    maxusModalInstance.current?.show();
+  };
+
+  const closeMaxusModal = () => {
+    maxusModalInstance.current?.hide();
+  };
+  const baicModalRef = useRef(null);
+  const baicModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (baicModalRef.current) {
+      baicModalInstance.current = new Modal(baicModalRef.current);
+    }
+  }, []);
+
+  const openBaicModal = () => {
+    baicModalInstance.current?.show();
+  };
+
+  const closeBaicModal = () => {
+    baicModalInstance.current?.hide();
+  };
+  const dongfengModalRef = useRef(null);
+  const dongfengModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (dongfengModalRef.current) {
+      dongfengModalInstance.current = new Modal(dongfengModalRef.current);
+    }
+  }, []);
+
+  const openDongfengModal = () => {
+    dongfengModalInstance.current?.show();
+  };
+
+  const closeDongfengModal = () => {
+    dongfengModalInstance.current?.hide();
+  };
+  const exeedModalRef = useRef(null);
+  const exeedModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (exeedModalRef.current) {
+      exeedModalInstance.current = new Modal(exeedModalRef.current);
+    }
+  }, []);
+
+  const openExeedModal = () => {
+    exeedModalInstance.current?.show();
+  };
+
+  const closeExeedModal = () => {
+    exeedModalInstance.current?.hide();
+  };
+  const tankModalRef = useRef(null);
+  const tankModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (tankModalRef.current) {
+      tankModalInstance.current = new Modal(tankModalRef.current);
+    }
+  }, []);
+
+  const openTankModal = () => {
+    tankModalInstance.current?.show();
+  };
+
+  const closeTankModal = () => {
+    tankModalInstance.current?.hide();
+  };
+  const lynkModalRef = useRef(null);
+  const lynkModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (lynkModalRef.current) {
+      lynkModalInstance.current = new Modal(lynkModalRef.current);
+    }
+  }, []);
+
+  const openLynkModal = () => {
+    lynkModalInstance.current?.show();
+  };
+
+  const closeLynkModal = () => {
+    lynkModalInstance.current?.hide();
+  };
+  const lucidModalRef = useRef(null);
+  const lucidModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (lucidModalRef.current) {
+      lucidModalInstance.current = new Modal(lucidModalRef.current);
+    }
+  }, []);
+
+  const openLucidModal = () => {
+    lucidModalInstance.current?.show();
+  };
+
+  const closeLucidModal = () => {
+    lucidModalInstance.current?.hide();
+  };
+  const ineosModalRef = useRef(null);
+  const ineosModalInstance = useRef(null);
+
+  useEffect(() => {
+    if (ineosModalRef.current) {
+      ineosModalInstance.current = new Modal(ineosModalRef.current);
+    }
+  }, []);
+
+  const openIneosModal = () => {
+    ineosModalInstance.current?.show();
+  };
+
+  const closeIneosModal = () => {
+    ineosModalInstance.current?.hide();
+  };
+
+  const [Model, setModel] = useState([]);
+  console.log(Model, "Model___________");
   const toggleBookmark = async (carId) => {
     try {
       // Find the selected car
@@ -2265,6 +3343,7 @@ const AutomotiveComp = () => {
       subCatgory,
       searchText,
       AdditionalFeatures,
+      Model,
 
       nestedSubCategory,
       selectedEmirates,
@@ -2297,7 +3376,6 @@ const AutomotiveComp = () => {
       Insurance,
       InteriorColor,
       selected,
-      Model,
       Fueltype,
       Condition,
       selectedCity,
@@ -2309,6 +3387,7 @@ const AutomotiveComp = () => {
     subCatgory,
     searchText,
     AdditionalFeatures,
+    Model,
 
     nestedSubCategory,
     selectedEmirates,
@@ -2341,7 +3420,6 @@ const AutomotiveComp = () => {
     Insurance,
     InteriorColor,
     selected,
-    Model,
     Fueltype,
     Condition,
     selectedCity,
@@ -2360,6 +3438,7 @@ const AutomotiveComp = () => {
       subCatgory,
       searchText,
       AdditionalFeatures,
+      Model,
 
       nestedSubCategory,
       selectedEmirates,
@@ -2392,7 +3471,6 @@ const AutomotiveComp = () => {
       Insurance,
       InteriorColor,
       selected,
-      Model,
       Fueltype,
       Condition,
       selectedCity,
@@ -2405,6 +3483,7 @@ const AutomotiveComp = () => {
     subCatgory,
     searchText,
     AdditionalFeatures,
+    Model,
 
     nestedSubCategory,
     emirates,
@@ -2437,7 +3516,6 @@ const AutomotiveComp = () => {
     Insurance,
     InteriorColor,
     selected,
-    Model,
     Fueltype,
     Condition,
     selectedCity,
@@ -2456,8 +3534,10 @@ const AutomotiveComp = () => {
           car.Make,
           car.Registeredin,
           car.AdditionalFeatures,
+          car.Model,
 
           car.Color,
+
           car.Transmission,
           car.EngineType,
           car.Assembly,
@@ -2476,7 +3556,6 @@ const AutomotiveComp = () => {
           car.RegionalSpec,
           car.Insurance,
           car.InteriorColor,
-          car.Model,
           car.Fueltype,
           car.Condition,
           car.NestedSubCategory,
@@ -3614,508 +4693,2146 @@ const AutomotiveComp = () => {
                     <Accordion.Body>
                       <Form.Group className="mb-3">
                         <Row>
-                          <div className="relative w-full max-w-md">
-                            <input
-                              type="text"
-                              className="w-full form-control"
-                              placeholder="Select car brand"
-                              value={query}
-                              onChange={(e) => {
-                                setQuery(e.target.value);
-                                setSelected(null); // clear selected value on change
-                                setShowList(true);
-                              }}
-                              onFocus={() => {
-                                setQuery(""); // Clear previous value when clicked again
-                                setSelected(null); // Optional, clear any saved state
-                                setShowList(true);
-                              }}
-                              onBlur={() =>
-                                setTimeout(() => setShowList(false), 150)
-                              } // delay to allow click
-                            />
-                            {showList && filteredBrands.length > 0 && (
-                              <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
-                                {filteredBrands.map((brand) => (
-                                  <li
-                                    key={brand}
-                                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                                    onMouseDown={() => handleSelect(brand)} // avoids onBlur issue
-                                  >
-                                    {brand}
-                                  </li>
+                          <>
+                            <div className="relative w-full max-w-md d-flex  ">
+                              <div className="position-relative w-100 border p-3 rounded bg-light">
+                                {filteredBrands.slice(0, 4).map((brand) => (
+                                  <>
+                                    <div className="form-check" key={brand}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={selected === brand}
+                                        onChange={() => {
+                                          handleSelect(brand);
+                                        }}
+                                        id={`check-${brand}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`check-${brand}`}
+                                      >
+                                        {brand}
+                                      </label>
+                                    </div>
+                                  </>
                                 ))}
-                              </ul>
-                            )}
-                          </div>
 
-                          {selected === "Toyota" && (
-                            <div className="mt-4">
-                              <label className="block mb-2 text-sm font-medium text-gray-700">
-                                Model
-                              </label>
-                              <select
-                                className="form-control"
-                                onChange={(e) =>
-                                  setModel((prev) => ({
-                                    ...prev,
-                                    Model: e.target.value,
-                                  }))
-                                }
+                                {filteredBrands.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openCarBrandModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
+                              </div>
+
+                              <div
+                                onClick={() => {
+                                  setSelected("");
+
+                                  setQuery("");
+                                  setSelected("");
+                                  setShowList(false);
+                                }}
                               >
-                                <option value="">Select Model</option>
-                                {toyotaModels.map((model) => (
-                                  <option key={model} value={model}>
-                                    {model}
-                                  </option>
-                                ))}
-                              </select>
+                                <span>Clear All</span>
+                              </div>
                             </div>
-                          )}
+
+                            {/* Bootstrap Modal with ref */}
+                            <div
+                              className="modal fade"
+                              id="modalCarBrand"
+                              ref={carBrandModalRef}
+                              tabIndex="-1"
+                              aria-labelledby="modalCarBrandLabel"
+                              aria-hidden="true"
+                            >
+                              <div className="modal-dialog modal-dialog-scrollable">
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5
+                                      className="modal-title"
+                                      id="modalCarBrandLabel"
+                                    >
+                                      Select Car Brands
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      aria-label="Close"
+                                      onClick={closeCarBrandModal}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    {filteredBrands.slice(4).map((brand) => (
+                                      <div className="form-check" key={brand}>
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          checked={selected === brand}
+                                          onChange={() => handleSelect(brand)}
+                                          id={`modal-carbrand-${brand}`}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`modal-carbrand-${brand}`}
+                                        >
+                                          {brand}
+                                        </label>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button
+                                      type="button"
+                                      className="btn btn-secondary"
+                                      onClick={closeCarBrandModal}
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+
+                          <>
+                            {selected === "Toyota" && (
+                              <div className="mt-4">
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                  Model
+                                </label>
+
+                                {/* First 4 Toyota Models */}
+                                <div className="relative w-full max-w-md d-flex">
+                                  <div className="border rounded p-3 bg-light">
+                                    {toyotaModels.slice(0, 4).map((model) => (
+                                      <div className="form-check" key={model}>
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          checked={Model.includes(model)}
+                                          onChange={() => {
+                                            if (Model.includes(model)) {
+                                              // Remove model from selection
+                                              setModel((prev) =>
+                                                prev.filter((m) => m !== model)
+                                              );
+                                            } else {
+                                              // Add model to selection
+                                              setModel((prev) => [
+                                                ...prev,
+                                                model,
+                                              ]);
+                                            }
+                                          }}
+                                          id={`check-${model}`}
+                                        />
+
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`check-${model}`}
+                                        >
+                                          {model}
+                                        </label>
+                                      </div>
+                                    ))}
+
+                                    {toyotaModels.length > 4 && (
+                                      <button
+                                        type="button"
+                                        className="btn btn-link p-0 mt-2"
+                                        onClick={openModal}
+                                      >
+                                        Show more...
+                                      </button>
+                                    )}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      setModel([]);
+                                    }}
+                                  >
+                                    <span>Clear All</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Bootstrap Modal (outside conditional rendering!) */}
+                            <div
+                              className="modal fade"
+                              id="modalToyota"
+                              ref={modalRef}
+                              tabIndex="-1"
+                              aria-labelledby="modalToyotaLabel"
+                              aria-hidden="true"
+                            >
+                              <div className="modal-dialog modal-dialog-scrollable">
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5
+                                      className="modal-title"
+                                      id="modalToyotaLabel"
+                                    >
+                                      Select Toyota Model
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      aria-label="Close"
+                                      onClick={closeModal}
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    {toyotaModels.slice(4).map((model) => (
+                                      <div className="form-check" key={model}>
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          checked={Model.includes(model)}
+                                          onChange={() => {
+                                            if (Model.includes(model)) {
+                                              // Remove model from selection
+                                              setModel((prev) =>
+                                                prev.filter((m) => m !== model)
+                                              );
+                                            } else {
+                                              // Add model to selection
+                                              setModel((prev) => [
+                                                ...prev,
+                                                model,
+                                              ]);
+                                            }
+                                          }}
+                                          id={`check-${model}`}
+                                        />
+
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`modal-check-${model}`}
+                                        >
+                                          {model}
+                                        </label>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button
+                                      type="button"
+                                      className="btn btn-secondary"
+                                      onClick={closeModal}
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+
                           {selected === "Ford" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {fordModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              {/* First 4 Ford Models */}
+                              <div className="border rounded p-3 bg-light">
+                                {fordModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`ford-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`ford-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {fordModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openFordModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalFord"
+                            ref={fordModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalFordLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalFordLabel"
+                                  >
+                                    Select Ford Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeFordModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {fordModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-ford-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-ford-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeFordModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Chevrolet" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {chevroletModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              {/* First 4 Chevrolet Models */}
+                              <div className="border rounded p-3 bg-light">
+                                {chevroletModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`chevrolet-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`chevrolet-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {chevroletModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openChevroletModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalChevrolet"
+                            ref={chevroletModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalChevroletLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalChevroletLabel"
+                                  >
+                                    Select Chevrolet Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeChevroletModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {chevroletModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-chevrolet-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-chevrolet-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeChevroletModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Nissan" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {nissanModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {nissanModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`nissan-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`nissan-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {nissanModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openNissanModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalNissan"
+                            ref={nissanModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalNissanLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalNissanLabel"
+                                  >
+                                    Select Nissan Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeNissanModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {nissanModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-nissan-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-nissan-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeNissanModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Hyundai" && (
                             <>
-                              {" "}
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {hyundaiModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {hyundaiModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`hyundai-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`hyundai-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {hyundaiModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openHyundaiModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalHyundai"
+                            ref={hyundaiModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalHyundaiLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalHyundaiLabel"
+                                  >
+                                    Select Hyundai Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeHyundaiModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {hyundaiModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-hyundai-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-hyundai-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeHyundaiModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Genesis" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {genesisModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {genesisModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`genesis-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`genesis-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {genesisModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openGenesisModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalGenesis"
+                            ref={genesisModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalGenesisLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalGenesisLabel"
+                                  >
+                                    Select Genesis Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeGenesisModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {genesisModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-genesis-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-genesis-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeGenesisModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Lexus" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {lexusModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {lexusModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`lexus-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`lexus-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {lexusModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openLexusModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalLexus"
+                            ref={lexusModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalLexusLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalLexusLabel"
+                                  >
+                                    Select Lexus Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeLexusModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {lexusModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-lexus-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-lexus-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeLexusModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "GMC" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {gmcModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {gmcModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`gmc-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`gmc-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {gmcModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openGmcModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalGMC"
+                            ref={gmcModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalGMCLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalGMCLabel"
+                                  >
+                                    Select GMC Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeGmcModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {gmcModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-gmc-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-gmc-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeGmcModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Mercedes" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {mercedesModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {mercedesModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`mercedes-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`mercedes-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {mercedesModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMercedesModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMercedes"
+                            ref={mercedesModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalMercedesLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMercedesLabel"
+                                  >
+                                    Select Mercedes Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeMercedesModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {mercedesModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-mercedes-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-mercedes-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMercedesModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Honda" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {hondaModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {hondaModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`honda-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`honda-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {hondaModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openHondaModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalHonda"
+                            ref={hondaModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalHondaLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalHondaLabel"
+                                  >
+                                    Select Honda Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeHondaModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {hondaModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-honda-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-honda-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeHondaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "BMW" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Model</option>
-                                  {bmwModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {bmwModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`bmw-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`bmw-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {bmwModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openBmwModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalBMW"
+                            ref={bmwModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalBMWLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalBMWLabel"
+                                  >
+                                    Select BMW Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeBmwModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {bmwModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-bmw-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-bmw-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeBmwModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Motorcycles" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Motorcycle Brand
-                                  </option>
-                                  {motorcycleBrands.map((brand) => (
-                                    <option key={brand} value={brand}>
+                              <div className="border rounded p-3 bg-light">
+                                {motorcycleBrands.slice(0, 4).map((brand) => (
+                                  <div className="form-check" key={brand}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(brand)}
+                                      onChange={() => {
+                                        if (Model.includes(brand)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== brand)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, brand]);
+                                        }
+                                      }}
+                                      id={`motorcycle-check-${brand}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`motorcycle-check-${brand}`}
+                                    >
                                       {brand}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {motorcycleBrands.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMotorcycleModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMotorcycle"
+                            ref={motorcycleModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalMotorcycleLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMotorcycleLabel"
+                                  >
+                                    Select Motorcycle Brands
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeMotorcycleModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {motorcycleBrands.slice(4).map((brand) => (
+                                    <div className="form-check" key={brand}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(brand)}
+                                        onChange={() => {
+                                          if (Model.includes(brand)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== brand)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              brand,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-motorcycle-check-${brand}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-motorcycle-check-${brand}`}
+                                      >
+                                        {brand}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMotorcycleModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Kia" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Kia Model</option>
-                                  {kiaModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {kiaModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`kia-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`kia-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {kiaModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openKiaModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalKia"
+                            ref={kiaModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalKiaLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalKiaLabel"
+                                  >
+                                    Select Kia Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeKiaModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {kiaModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-kia-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-kia-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeKiaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Dodge" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Dodge Model</option>
-                                  {dodgeModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {dodgeModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`dodge-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`dodge-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {dodgeModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openDodgeModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalDodge"
+                            ref={dodgeModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalDodgeLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalDodgeLabel"
+                                  >
+                                    Select Dodge Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeDodgeModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {dodgeModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-dodge-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-dodge-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeDodgeModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Chrysler" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Chrysler Model
-                                  </option>
-                                  {chryslerModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {chryslerModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`chrysler-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`chrysler-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {chryslerModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openChryslerModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalChrysler"
+                            ref={chryslerModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalChryslerLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalChryslerLabel"
+                                  >
+                                    Select Chrysler Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeChryslerModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {chryslerModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-chrysler-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-chrysler-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeChryslerModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Jeep" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Jeep Model</option>
-                                  {jeepModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {jeepModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`jeep-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`jeep-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {jeepModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openJeepModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalJeep"
+                            ref={jeepModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalJeepLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalJeepLabel"
+                                  >
+                                    Select Jeep Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={closeJeepModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {jeepModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-jeep-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-jeep-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeJeepModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Mitsubishi" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Mitsubishi Model
-                                  </option>
-                                  {mitsubishiModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {mitsubishiModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`mitsubishi-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`mitsubishi-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {mitsubishiModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMitsubishiModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMitsubishi"
+                            ref={mitsubishiModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalMitsubishiLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMitsubishiLabel"
+                                  >
+                                    Select Mitsubishi Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeMitsubishiModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {mitsubishiModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-mitsubishi-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-mitsubishi-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMitsubishiModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Mazda" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Mazda Model</option>
-                                  {mazdaModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {mazdaModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`mazda-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`mazda-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {mazdaModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMazdaModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMazda"
+                            ref={mazdaModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalMazdaLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMazdaLabel"
+                                  >
+                                    Select Mazda Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeMazdaModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {mazdaModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-mazda-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-mazda-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMazdaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
                           {selected === "Porsche" && (
                             <>
@@ -4123,52 +6840,221 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Porsche Model</option>
-                                  {porscheModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {porscheModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`porsche-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`porsche-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {porscheModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openPorscheModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalPorsche"
+                            ref={porscheModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalPorscheLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalPorscheLabel"
+                                  >
+                                    Select Porsche Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closePorscheModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {porscheModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-porsche-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-porsche-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closePorscheModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Audi" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Audi Model</option>
-                                  {audiModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {audiModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`audi-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`audi-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {audiModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openAudiModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalAudi"
+                            ref={audiModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalAudiLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalAudiLabel"
+                                  >
+                                    Select Audi Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeAudiModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {audiModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-audi-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-audi-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeAudiModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
                           {selected === "Suzuki" && (
                             <>
@@ -4176,1250 +7062,5003 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Suzuki Model</option>
-                                  {suzukiModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {suzukiModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        if (Model.includes(model)) {
+                                          setModel((prev) =>
+                                            prev.filter((m) => m !== model)
+                                          );
+                                        } else {
+                                          setModel((prev) => [...prev, model]);
+                                        }
+                                      }}
+                                      id={`suzuki-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`suzuki-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {suzukiModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openSuzukiModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
                             </>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalSuzuki"
+                            ref={suzukiModalRef}
+                            tabIndex="-1"
+                            aria-labelledby="modalSuzukiLabel"
+                            aria-hidden="true"
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalSuzukiLabel"
+                                  >
+                                    Select Suzuki Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeSuzukiModal}
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {suzukiModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() => {
+                                          if (Model.includes(model)) {
+                                            setModel((prev) =>
+                                              prev.filter((m) => m !== model)
+                                            );
+                                          } else {
+                                            setModel((prev) => [
+                                              ...prev,
+                                              model,
+                                            ]);
+                                          }
+                                        }}
+                                        id={`modal-suzuki-check-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-suzuki-check-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeSuzukiModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Infiniti" && (
                             <>
                               <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Infiniti Model
-                                  </option>
-                                  {infinitiModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {infinitiModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        );
+                                      }}
+                                      id={`infiniti-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`infiniti-check-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                  {selected === "Hummer" && (
-                                    <>
-                                      <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
-                                        Model
-                                      </label>
+                                    </label>
+                                  </div>
+                                ))}
 
-                                      <div className="mt-0">
-                                        <select
-                                          className="form-control"
-                                          onChange={(e) =>
-                                            setModel((prev) => ({
-                                              ...prev,
-                                              Model: e.target.value,
-                                            }))
-                                          }
-                                        >
-                                          <option value="">
-                                            Select Hummer Model
-                                          </option>
-                                          {hummerModels.map((model) => (
-                                            <option key={model} value={model}>
-                                              {model}
-                                            </option>
-                                          ))}
-                                        </select>
-                                      </div>
-                                    </>
-                                  )}
-                                </select>
+                                {infinitiModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openInfinitiModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
+                              </div>
+
+                              {/* Infiniti Modal */}
+                              <div
+                                className="modal fade"
+                                id="modalInfiniti"
+                                ref={infinitiModalRef}
+                                tabIndex="-1"
+                                aria-labelledby="modalInfinitiLabel"
+                                aria-hidden="true"
+                              >
+                                <div className="modal-dialog modal-dialog-scrollable">
+                                  <div className="modal-content">
+                                    <div className="modal-header">
+                                      <h5
+                                        className="modal-title"
+                                        id="modalInfinitiLabel"
+                                      >
+                                        Select Infiniti Models
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={closeInfinitiModal}
+                                      ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                      {infinitiModels.slice(4).map((model) => (
+                                        <div className="form-check" key={model}>
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={Model.includes(model)}
+                                            onChange={() => {
+                                              setModel((prev) =>
+                                                prev.includes(model)
+                                                  ? prev.filter(
+                                                      (m) => m !== model
+                                                    )
+                                                  : [...prev, model]
+                                              );
+                                            }}
+                                            id={`modal-infiniti-check-${model}`}
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`modal-infiniti-check-${model}`}
+                                          >
+                                            {model}
+                                          </label>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="modal-footer">
+                                      <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={closeInfinitiModal}
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </>
                           )}
+                          {selected === "Hummer" && (
+                            <>
+                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                                Model
+                              </label>
 
+                              <div className="border rounded p-3 bg-light">
+                                {hummerModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() => {
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        );
+                                      }}
+                                      id={`hummer-check-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`hummer-check-${model}`}
+                                    >
+                                      {model}
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {hummerModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openHummerModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
+                              </div>
+
+                              {/* Hummer Modal */}
+                              <div
+                                className="modal fade"
+                                id="modalHummer"
+                                ref={hummerModalRef}
+                                tabIndex="-1"
+                                aria-labelledby="modalHummerLabel"
+                                aria-hidden="true"
+                              >
+                                <div className="modal-dialog modal-dialog-scrollable">
+                                  <div className="modal-content">
+                                    <div className="modal-header">
+                                      <h5
+                                        className="modal-title"
+                                        id="modalHummerLabel"
+                                      >
+                                        Select Hummer Models
+                                      </h5>
+                                      <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={closeHummerModal}
+                                      ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                      {hummerModels.slice(4).map((model) => (
+                                        <div className="form-check" key={model}>
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={Model.includes(model)}
+                                            onChange={() => {
+                                              setModel((prev) =>
+                                                prev.includes(model)
+                                                  ? prev.filter(
+                                                      (m) => m !== model
+                                                    )
+                                                  : [...prev, model]
+                                              );
+                                            }}
+                                            id={`modal-hummer-check-${model}`}
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`modal-hummer-check-${model}`}
+                                          >
+                                            {model}
+                                          </label>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="modal-footer">
+                                      <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={closeHummerModal}
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
                           {selected === "Lincoln" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Lincoln Model</option>
-                                  {lincolnModels.map((model) => (
-                                    <option key={model} value={model}>
+                              <div className="border rounded p-3 bg-light">
+                                {lincolnModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-lincoln-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-lincoln-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                <button
+                                  type="button"
+                                  className="btn btn-link p-0 mt-2"
+                                  onClick={openLincolnModal}
+                                >
+                                  Show more...
+                                </button>
                               </div>
-                            </>
+                            </div>
                           )}
+                          {/* Modal is outside so it's always in the DOM */}
+                          <div
+                            className="modal fade"
+                            id="modalLincolnModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalLincolnModelLabel"
+                            aria-hidden="true"
+                            ref={lincolnModalRef} // <-- important!
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalLincolnModelLabel"
+                                  >
+                                    Select Lincoln Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeLincolnModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {selected === "Lincoln" &&
+                                    lincolnModels.slice(4).map((model) => (
+                                      <div className="form-check" key={model}>
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          checked={Model.includes(model)}
+                                          onChange={() =>
+                                            setModel((prev) =>
+                                              prev.includes(model)
+                                                ? prev.filter(
+                                                    (m) => m !== model
+                                                  )
+                                                : [...prev, model]
+                                            )
+                                          }
+                                          id={`modal-check-lincoln-${model}`}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`modal-check-lincoln-${model}`}
+                                        >
+                                          {model}
+                                        </label>
+                                      </div>
+                                    ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeLincolnModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Volkswagen" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Volkswagen Model
-                                  </option>
-                                  {volkswagenModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Volkswagen Models */}
+                              <div className="border rounded p-3 bg-light">
+                                {volkswagenModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-volkswagen-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-volkswagen-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {volkswagenModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openVolkswagenModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalVolkswagen"
+                            tabIndex="-1"
+                            aria-labelledby="modalVolkswagenLabel"
+                            aria-hidden="true"
+                            ref={volkswagenModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalVolkswagenLabel"
+                                  >
+                                    Select Volkswagen Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeVolkswagenModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {volkswagenModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-volkswagen-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-volkswagen-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeVolkswagenModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Daihatsu" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Daihatsu Model
-                                  </option>
-                                  {daihatsuModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Daihatsu Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {daihatsuModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-daihatsu-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-daihatsu-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {daihatsuModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openDaihatsuModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalDaihatsu"
+                            tabIndex="-1"
+                            aria-labelledby="modalDaihatsuLabel"
+                            aria-hidden="true"
+                            ref={daihatsuModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalDaihatsuLabel"
+                                  >
+                                    Select Daihatsu Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeDaihatsuModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {daihatsuModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-daihatsu-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-daihatsu-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeDaihatsuModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Geely" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Geely Model</option>
-                                  {geelyModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Geely Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {geelyModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-geely-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-geely-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {geelyModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openGeelyModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalGeely"
+                            tabIndex="-1"
+                            aria-labelledby="modalGeelyLabel"
+                            aria-hidden="true"
+                            ref={geelyModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalGeelyLabel"
+                                  >
+                                    Select Geely Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeGeelyModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {geelyModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-geely-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-geely-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeGeelyModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Mercury" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Mercury Model</option>
-                                  {mercuryModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Mercury Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {mercuryModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-mercury-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-mercury-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {mercuryModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMercuryModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMercury"
+                            tabIndex="-1"
+                            aria-labelledby="modalMercuryLabel"
+                            aria-hidden="true"
+                            ref={mercuryModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMercuryLabel"
+                                  >
+                                    Select Mercury Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeMercuryModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {mercuryModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-mercury-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-mercury-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMercuryModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Volvo" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Volvo Model</option>
-                                  {volvoModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Volvo Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {volvoModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-volvo-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-volvo-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {volvoModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openVolvoModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalVolvoModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalVolvoModelLabel"
+                            aria-hidden="true"
+                            ref={volvoModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalVolvoModelLabel"
+                                  >
+                                    Select Volvo Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeVolvoModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {volvoModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-volvo-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-volvo-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeVolvoModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Peugeot" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Peugeot Model</option>
-                                  {peugeotModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Peugeot Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {peugeotModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-peugeot-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-peugeot-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {peugeotModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openPeugeotModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalPeugeotModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalPeugeotModelLabel"
+                            aria-hidden="true"
+                            ref={peugeotModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalPeugeotModelLabel"
+                                  >
+                                    Select Peugeot Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closePeugeotModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {peugeotModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-peugeot-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-peugeot-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closePeugeotModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Bentley" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Bentley Model</option>
-                                  {bentleyModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Bentley Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {bentleyModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-bentley-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-bentley-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {bentleyModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openBentleyModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalBentleyModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalBentleyModelLabel"
+                            aria-hidden="true"
+                            ref={bentleyModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalBentleyModelLabel"
+                                  >
+                                    Select Bentley Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeBentleyModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {bentleyModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-bentley-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-bentley-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeBentleyModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Jaguar" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Jaguar Model</option>
-                                  {jaguarModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Jaguar Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {jaguarModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-jaguar-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-jaguar-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {jaguarModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openJaguarModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalJaguarModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalJaguarModelLabel"
+                            aria-hidden="true"
+                            ref={jaguarModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalJaguarModelLabel"
+                                  >
+                                    Select Jaguar Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeJaguarModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {jaguarModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-jaguar-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-jaguar-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeJaguarModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Subaru" && (
-                            <>
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
 
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Subaru Model</option>
-                                  {subaruModels.map((model) => (
-                                    <option key={model} value={model}>
+                              {/* First 4 Subaru Models as checkboxes */}
+                              <div className="border rounded p-3 bg-light">
+                                {subaruModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-subaru-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-subaru-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {subaruModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openSubaruModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalSubaruModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalSubaruModelLabel"
+                            aria-hidden="true"
+                            ref={subaruModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalSubaruModelLabel"
+                                  >
+                                    Select Subaru Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeSubaruModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {subaruModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-subaru-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-subaru-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeSubaruModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "MG" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select MG Model</option>
-                                  {mgModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {mgModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-mg-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-mg-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {mgModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMgModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMgModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalMgModelLabel"
+                            aria-hidden="true"
+                            ref={mgModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMgModelLabel"
+                                  >
+                                    Select MG Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeMgModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {mgModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-mg-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-mg-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMgModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Changan" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Changan Model</option>
-                                  {changanModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {changanModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-changan-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-changan-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {changanModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openChanganModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalChanganModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalChanganModelLabel"
+                            aria-hidden="true"
+                            ref={changanModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalChanganModelLabel"
+                                  >
+                                    Select Changan Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeChanganModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {changanModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-changan-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-changan-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeChanganModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Renault" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Renault Model</option>
-                                  {renaultModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {renaultModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-renault-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-renault-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {renaultModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openRenaultModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalRenaultModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalRenaultModelLabel"
+                            aria-hidden="true"
+                            ref={renaultModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalRenaultModelLabel"
+                                  >
+                                    Select Renault Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeRenaultModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {renaultModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-renault-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-renault-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeRenaultModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Buick" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Buick Model</option>
-                                  {buickModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {buickModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-buick-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-buick-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {buickModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openBuickModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalBuickModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalBuickModelLabel"
+                            aria-hidden="true"
+                            ref={buickModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalBuickModelLabel"
+                                  >
+                                    Select Buick Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeBuickModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {buickModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-buick-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-buick-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeBuickModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Rolls-Royce" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Rolls-Royce Model
-                                  </option>
-                                  {rollsRoyceModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {rollsRoyceModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-rolls-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-rolls-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {rollsRoyceModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openRollsRoyceModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalRollsRoyceModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalRollsRoyceModelLabel"
+                            aria-hidden="true"
+                            ref={rollsRoyceModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalRollsRoyceModelLabel"
+                                  >
+                                    Select Rolls-Royce Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeRollsRoyceModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {rollsRoyceModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-rolls-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-rolls-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeRollsRoyceModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Lamborghini" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Lamborghini Model
-                                  </option>
-                                  {lamborghiniModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {lamborghiniModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-lamborghini-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-lamborghini-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {lamborghiniModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openLamborghiniModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalLamborghiniModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalLamborghiniModelLabel"
+                            aria-hidden="true"
+                            ref={lamborghiniModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalLamborghiniModelLabel"
+                                  >
+                                    Select Lamborghini Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeLamborghiniModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {lamborghiniModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-lamborghini-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-lamborghini-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeLamborghiniModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Opel" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Opel Model</option>
-                                  {opelModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {opelModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-opel-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-opel-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {opelModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openOpelModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalOpelModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalOpelModelLabel"
+                            aria-hidden="true"
+                            ref={opelModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalOpelModelLabel"
+                                  >
+                                    Select Opel Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeOpelModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {opelModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-opel-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-opel-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeOpelModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Skoda" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Skoda Model</option>
-                                  {skodaModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {skodaModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-skoda-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-skoda-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {skodaModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openSkodaModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalSkodaModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalSkodaModelLabel"
+                            aria-hidden="true"
+                            ref={skodaModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalSkodaModelLabel"
+                                  >
+                                    Select Skoda Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeSkodaModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {skodaModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-skoda-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-skoda-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeSkodaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Ferrari" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Ferrari Model</option>
-                                  {ferrariModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {ferrariModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-ferrari-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-ferrari-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {ferrariModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openFerrariModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalFerrariModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalFerrariModelLabel"
+                            aria-hidden="true"
+                            ref={ferrariModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalFerrariModelLabel"
+                                  >
+                                    Select Ferrari Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeFerrariModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {ferrariModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-ferrari-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-ferrari-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeFerrariModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Citroen" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Citroen Model</option>
-                                  {citroenModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {citroenModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-citroen-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-citroen-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {citroenModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openCitroenModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalCitroenModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalCitroenModelLabel"
+                            aria-hidden="true"
+                            ref={citroenModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalCitroenModelLabel"
+                                  >
+                                    Select Citroen Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeCitroenModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {citroenModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-citroen-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-citroen-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeCitroenModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Chery" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Chery Model</option>
-                                  {cheryModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {cheryModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-chery-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-chery-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {cheryModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openCheryModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalCheryModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalCheryModelLabel"
+                            aria-hidden="true"
+                            ref={cheryModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalCheryModelLabel"
+                                  >
+                                    Select Chery Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeCheryModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {cheryModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-chery-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-chery-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeCheryModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
                           {selected === "Daewoo" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Daewoo Model</option>
-                                  {daewooModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {daewooModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-daewoo-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-daewoo-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {daewooModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openDaewooModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalDaewooModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalDaewooModelLabel"
+                            aria-hidden="true"
+                            ref={daewooModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalDaewooModelLabel"
+                                  >
+                                    Select Daewoo Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeDaewooModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {daewooModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-daewoo-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-daewoo-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeDaewooModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "SABB" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select SABB Model</option>
-                                  {sabbModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {sabbModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-sabb-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-sabb-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {sabbModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openSabbModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalSabbModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalSabbModelLabel"
+                            aria-hidden="true"
+                            ref={sabbModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalSabbModelLabel"
+                                  >
+                                    Select SABB Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeSabbModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {sabbModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-sabb-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-sabb-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeSabbModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "SsangYong" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select SsangYong Model
-                                  </option>
-                                  {ssangYongModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {ssangYongModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-ssangyong-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-ssangyong-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {ssangYongModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openSsangYongModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalSsangYongModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalSsangYongModelLabel"
+                            aria-hidden="true"
+                            ref={ssangYongModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalSsangYongModelLabel"
+                                  >
+                                    Select SsangYong Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeSsangYongModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {ssangYongModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-ssangyong-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-ssangyong-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeSsangYongModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Aston Martin" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Aston Martin Model
-                                  </option>
-                                  {astonMartinModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {astonMartinModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-aston-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-aston-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {astonMartinModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openAstonMartinModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalAstonMartinModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalAstonMartinModelLabel"
+                            aria-hidden="true"
+                            ref={astonMartinModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalAstonMartinModelLabel"
+                                  >
+                                    Select Aston Martin Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeAstonMartinModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {astonMartinModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-aston-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-aston-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeAstonMartinModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Proton" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Proton Model</option>
-                                  {protonModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {protonModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-proton-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-proton-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {protonModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openProtonModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalProtonModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalProtonModelLabel"
+                            aria-hidden="true"
+                            ref={protonModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalProtonModelLabel"
+                                  >
+                                    Select Proton Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeProtonModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {protonModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-proton-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-proton-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeProtonModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Haval" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Haval Model</option>
-                                  {havalModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {havalModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-haval-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-haval-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {havalModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openHavalModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalHavalModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalHavalModelLabel"
+                            aria-hidden="true"
+                            ref={havalModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalHavalModelLabel"
+                                  >
+                                    Select Haval Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeHavalModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {havalModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-haval-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-haval-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeHavalModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "GAC" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select GAC Model</option>
-                                  {gacModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {gacModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-gac-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-gac-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {gacModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openGacModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalGacModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalGacModelLabel"
+                            aria-hidden="true"
+                            ref={gacModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalGacModelLabel"
+                                  >
+                                    Select GAC Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeGacModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {gacModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-gac-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-gac-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeGacModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Great Wall" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Great Wall Model
-                                  </option>
-                                  {greatWallModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {greatWallModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-greatwall-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-greatwall-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {greatWallModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openGreatWallModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalGreatWallModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalGreatWallModelLabel"
+                            aria-hidden="true"
+                            ref={greatWallModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalGreatWallModelLabel"
+                                  >
+                                    Select Great Wall Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeGreatWallModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {greatWallModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-greatwall-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-greatwall-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeGreatWallModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "FAW" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select FAW Model</option>
-                                  {fawModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {fawModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-faw-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-faw-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {fawModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openFawModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalFawModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalFawModelLabel"
+                            aria-hidden="true"
+                            ref={fawModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalFawModelLabel"
+                                  >
+                                    Select FAW Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeFawModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {fawModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-faw-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-faw-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeFawModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "BYD" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select BYD Model</option>
-                                  {bydModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {bydModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-byd-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-byd-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {bydModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openBydModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalBydModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalBydModelLabel"
+                            aria-hidden="true"
+                            ref={bydModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalBydModelLabel"
+                                  >
+                                    Select BYD Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeBydModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {bydModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-byd-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-byd-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeBydModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="modal fade"
+                            id="modalAlfaModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalAlfaModelLabel"
+                            aria-hidden="true"
+                            ref={alfaModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalAlfaModelLabel"
+                                  >
+                                    Select Alfa Romeo Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeAlfaModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {alfaRomeoModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-alfa-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-alfa-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeAlfaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Alfa Romeo" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Alfa Romeo Model
-                                  </option>
-                                  {alfaRomeoModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {alfaRomeoModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-alfa-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-alfa-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {alfaRomeoModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openAlfaModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalAlfaModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalAlfaModelLabel"
+                            aria-hidden="true"
+                            ref={alfaModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalAlfaModelLabel"
+                                  >
+                                    Select Alfa Romeo Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeAlfaModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {alfaRomeoModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-alfa-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-alfa-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeAlfaModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "TATA" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select TATA Model</option>
-                                  {tataModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {tataModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-tata-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-tata-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {tataModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openTataModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalTataModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalTataModelLabel"
+                            aria-hidden="true"
+                            ref={tataModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalTataModelLabel"
+                                  >
+                                    Select TATA Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeTataModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {tataModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-tata-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-tata-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeTataModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "JETOUR" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select JETOUR Model</option>
-                                  {jetourModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {jetourModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-jetour-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-jetour-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {jetourModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openJetourModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalJetourModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalJetourModelLabel"
+                            aria-hidden="true"
+                            ref={jetourModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalJetourModelLabel"
+                                  >
+                                    Select JETOUR Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeJetourModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {jetourModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-jetour-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-jetour-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeJetourModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "CMC" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select CMC Model</option>
-                                  {cmcModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {cmcModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-cmc-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-cmc-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {cmcModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openCmcModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalCmcModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalCmcModelLabel"
+                            aria-hidden="true"
+                            ref={cmcModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalCmcModelLabel"
+                                  >
+                                    Select CMC Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeCmcModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {cmcModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-cmc-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-cmc-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeCmcModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "VICTORY AUTO" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Victory Auto Model
-                                  </option>
-                                  {victoryAutoModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {victoryAutoModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-victoryauto-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-victoryauto-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {victoryAutoModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openVictoryAutoModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalVictoryAutoModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalVictoryAutoModelLabel"
+                            aria-hidden="true"
+                            ref={victoryAutoModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalVictoryAutoModelLabel"
+                                  >
+                                    Select Victory Auto Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeVictoryAutoModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {victoryAutoModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-victoryauto-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-victoryauto-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeVictoryAutoModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "MAXUS" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Maxus Model</option>
-                                  {maxusModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {maxusModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-maxus-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-maxus-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {maxusModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openMaxusModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalMaxusModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalMaxusModelLabel"
+                            aria-hidden="true"
+                            ref={maxusModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalMaxusModelLabel"
+                                  >
+                                    Select Maxus Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeMaxusModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {maxusModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-maxus-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-maxus-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeMaxusModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "BAIC" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Baic Model</option>
-                                  {baicModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {baicModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-baic-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-baic-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {baicModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openBaicModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalBaicModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalBaicModelLabel"
+                            aria-hidden="true"
+                            ref={baicModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalBaicModelLabel"
+                                  >
+                                    Select BAIC Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeBaicModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {baicModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-baic-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-baic-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeBaicModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "DONGFENG" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Dongfeng Model
-                                  </option>
-                                  {dongfengModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {dongfengModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-dongfeng-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-dongfeng-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {dongfengModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openDongfengModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalDongfengModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalDongfengModelLabel"
+                            aria-hidden="true"
+                            ref={dongfengModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalDongfengModelLabel"
+                                  >
+                                    Select Dongfeng Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeDongfengModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {dongfengModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-dongfeng-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-dongfeng-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeDongfengModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "EXEED" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select EXEED Model</option>
-                                  {exeedModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {exeedModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-exeed-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-exeed-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {exeedModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openExeedModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalExeedModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalExeedModelLabel"
+                            aria-hidden="true"
+                            ref={exeedModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalExeedModelLabel"
+                                  >
+                                    Select EXEED Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeExeedModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {exeedModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-exeed-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-exeed-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeExeedModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Tank" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Tank Model</option>
-                                  {tankModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {tankModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-tank-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-tank-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {tankModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openTankModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalTankModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalTankModelLabel"
+                            aria-hidden="true"
+                            ref={tankModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalTankModelLabel"
+                                  >
+                                    Select Tank Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeTankModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {tankModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-tank-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-tank-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeTankModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "Lynk & Co" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">
-                                    Select Lynk & Co Model
-                                  </option>
-                                  {lynkCoModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {lynkCoModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-lynk-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-lynk-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {lynkCoModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openLynkModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalLynkModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalLynkModelLabel"
+                            aria-hidden="true"
+                            ref={lynkModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalLynkModelLabel"
+                                  >
+                                    Select Lynk & Co Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeLynkModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {lynkCoModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-lynk-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-lynk-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeLynkModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                           {selected === "Lucid" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select Lucid Model</option>
-                                  {lucidModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {lucidModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-lucid-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-lucid-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {lucidModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openLucidModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalLucidModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalLucidModelLabel"
+                            aria-hidden="true"
+                            ref={lucidModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalLucidModelLabel"
+                                  >
+                                    Select Lucid Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeLucidModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {lucidModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-lucid-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-lucid-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeLucidModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {selected === "INEOS" && (
-                            <>
-                              {" "}
-                              <label className="block mb-2 text-sm font-medium text-gray-700 mt-4">
+                            <div className="mt-4">
+                              <label className="block mb-2 text-sm font-medium text-gray-700">
                                 Model
                               </label>
-                              <div className="mt-0">
-                                <select
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    setModel((prev) => ({
-                                      ...prev,
-                                      Model: e.target.value,
-                                    }))
-                                  }
-                                >
-                                  <option value="">Select INEOS Model</option>
-                                  {ineosModels.map((model) => (
-                                    <option key={model} value={model}>
+
+                              <div className="border rounded p-3 bg-light">
+                                {ineosModels.slice(0, 4).map((model) => (
+                                  <div className="form-check" key={model}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      checked={Model.includes(model)}
+                                      onChange={() =>
+                                        setModel((prev) =>
+                                          prev.includes(model)
+                                            ? prev.filter((m) => m !== model)
+                                            : [...prev, model]
+                                        )
+                                      }
+                                      id={`check-ineos-${model}`}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`check-ineos-${model}`}
+                                    >
                                       {model}
-                                    </option>
-                                  ))}
-                                </select>
+                                    </label>
+                                  </div>
+                                ))}
+
+                                {ineosModels.length > 4 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={openIneosModal}
+                                  >
+                                    Show more...
+                                  </button>
+                                )}
                               </div>
-                            </>
+                            </div>
                           )}
+                          <div
+                            className="modal fade"
+                            id="modalIneosModel"
+                            tabIndex="-1"
+                            aria-labelledby="modalIneosModelLabel"
+                            aria-hidden="true"
+                            ref={ineosModalRef}
+                          >
+                            <div className="modal-dialog modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h5
+                                    className="modal-title"
+                                    id="modalIneosModelLabel"
+                                  >
+                                    Select INEOS Models
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeIneosModal}
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div className="modal-body">
+                                  {ineosModels.slice(4).map((model) => (
+                                    <div className="form-check" key={model}>
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={Model.includes(model)}
+                                        onChange={() =>
+                                          setModel((prev) =>
+                                            prev.includes(model)
+                                              ? prev.filter((m) => m !== model)
+                                              : [...prev, model]
+                                          )
+                                        }
+                                        id={`modal-check-ineos-${model}`}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`modal-check-ineos-${model}`}
+                                      >
+                                        {model}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeIneosModal}
+                                  >
+                                    Close
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </Row>
                       </Form.Group>
                     </Accordion.Body>
