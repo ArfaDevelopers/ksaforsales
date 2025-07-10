@@ -4695,10 +4695,13 @@ const AutomotiveComp = () => {
                         <Row>
                           <>
                             <div className="relative w-full max-w-md d-flex  ">
-                              <div className="position-relative w-100 border p-3 rounded bg-light">
+                              <div className="position-relative w-100 border  rounded  ">
                                 {filteredBrands.slice(0, 4).map((brand) => (
                                   <>
-                                    <div className="form-check" key={brand}>
+                                    <div
+                                      className="form-check bg-transparent"
+                                      key={brand}
+                                    >
                                       <input
                                         className="form-check-input"
                                         type="checkbox"
@@ -4738,7 +4741,13 @@ const AutomotiveComp = () => {
                                   setShowList(false);
                                 }}
                               >
-                                <span>Clear All</span>
+                                {query.length > 0 ? (
+                                  <span className="btn btn-link p-0  text-decoration-none">
+                                    Clear
+                                  </span>
+                                ) : (
+                                  ""
+                                )}
                               </div>
                             </div>
 
