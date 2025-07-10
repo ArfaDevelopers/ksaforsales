@@ -4806,9 +4806,11 @@ const AddLisiting = () => {
                     </div>
                   </div>
                   <span
+                    className="text-center"
                     style={{
                       fontSize: "16px",
                       color: "red",
+                      display: "block",
                       textAlign: "center",
                     }}
                   >
@@ -13513,7 +13515,7 @@ const AddLisiting = () => {
                                   }}
                                 >
                                   <input
-                                    type={showPhone ? "text" : "password"} // Toggle type based on showPhone
+                                    type={showPhone ? "password" : "text"} // Toggle type based on showPhone
                                     name="Phone"
                                     value={formData.Phone}
                                     onChange={handleChangePhone}
@@ -13533,7 +13535,7 @@ const AddLisiting = () => {
                                     }}
                                   />
                                   <span
-                                    onClick={() => setShowPhone(!showPhone)}
+                                    // onClick={() => setShowPhone(!showPhone)}
                                     style={{
                                       position: "absolute",
                                       right: "10px",
@@ -13574,7 +13576,7 @@ const AddLisiting = () => {
                                   }}
                                 >
                                   <input
-                                    type={showPrice ? "text" : "password"} // Toggle type based on showPrice
+                                    type={showPrice ? "text" : "text"} // Toggle type based on showPrice
                                     name="Price"
                                     value={formData.Price}
                                     onChange={handleChange}
@@ -13603,7 +13605,7 @@ const AddLisiting = () => {
                                       color: "#666",
                                     }}
                                   >
-                                    {showPrice ? "👁️‍🗨️" : "👁️"}{" "}
+                                    {/* {showPrice ? "👁️‍🗨️" : "👁️"}{" "} */}
                                     {/* Unicode eye icons */}
                                   </span>
                                 </div>
@@ -13760,7 +13762,7 @@ const AddLisiting = () => {
                     <PaymentForm getpaymentSuccess={setPaymentSuccess} />
                   </Elements>
                 )}
-                <div
+                {/* <div
                   className="settings-upload-btn"
                   style={{
                     display: "flex",
@@ -13802,14 +13804,17 @@ const AddLisiting = () => {
                       Agree to terms and conditions
                     </Link>
                   </label>
-                </div>
+                </div> */}
                 <button
                   onClick={handleSubmit}
-                  disabled={
-                    uploading || !isChecked || (showPayment && !paymentSuccess)
-                  } // Disable if uploading or checkbox is unchecked
+                  disabled={uploading || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked
                   className="btn"
-                  style={{ backgroundColor: "#2d4495", color: "white" }}
+                  style={{
+                    backgroundColor: "#2d4495",
+                    color: "white",
+                    marginTop:
+                      formData.FeaturedAds === "Featured Ads" ? "20px" : "",
+                  }}
                   type="button"
                 >
                   {_Id ? "Update" : "Submit"}
@@ -13828,4 +13833,5 @@ const AddLisiting = () => {
     </>
   );
 };
+
 export default AddLisiting;

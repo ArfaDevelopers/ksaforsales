@@ -183,6 +183,7 @@ const PaymentForm = (props) => {
           }
           await updateFeaturedAds();
           await updateDoc(userDocRef, { status: "Success" });
+          setLoading(false);
           MySwal.fire({
             title: "Success!",
             text: "Payment processed successfully!",
@@ -191,6 +192,7 @@ const PaymentForm = (props) => {
           });
         } else {
           setPaymentSuccess(false);
+          setLoading(false);
           setError(paymentResult.error);
           await updateDoc(userDocRef, { status: "Failed" });
           MySwal.fire({
@@ -202,6 +204,7 @@ const PaymentForm = (props) => {
         }
       } else {
         setError("User is not authenticated.");
+
         setLoading(false);
         MySwal.fire({
           title: "Error!",
@@ -249,6 +252,7 @@ const PaymentForm = (props) => {
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
           <button
+            disabled={loading || paymentSuccess}
             style={{
               backgroundColor: "rgb(45, 68, 149)",
               color: "rgb(255, 255, 255)",
@@ -263,7 +267,23 @@ const PaymentForm = (props) => {
             }`}
           >
             {loading ? (
-              <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark d-none"></div>
+              <>
+                <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark d-none"></div>
+                <div
+                  class="spinner-border"
+                  style={{ width: "3rem", height: "3rem" }}
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div
+                  class="spinner-grow"
+                  style={{ width: "3rem", height: "3rem" }}
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </>
             ) : (
               "Pay Now"
             )}
@@ -272,7 +292,10 @@ const PaymentForm = (props) => {
 
         {paymentSuccess && (
           <div className="mt-4 text-green-500 text-center border-1">
-            <p>Payment Successful! Thank you for your order.</p>
+            <p>
+              Great! Payment completed. You can now proceed to submit or feature
+              your listing.
+            </p>
           </div>
         )}
       </div>
