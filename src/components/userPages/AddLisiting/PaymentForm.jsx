@@ -226,7 +226,7 @@ const PaymentForm = (props) => {
   return (
     <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-xl mt-3">
       <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-700 border-2 m-0">
+        <h3 className="text-lg font-medium text-gray-700 border-2 m-0 mb-2">
           Payment Information
         </h3>
 
@@ -258,7 +258,7 @@ const PaymentForm = (props) => {
               fontSize: "16px",
             }}
             type="submit"
-            className={`w-full py-2 mt-4 rounded-lg text-white font-semibold  ${
+            className={`w-full py-2 mt-1 rounded-lg text-white font-semibold  ${
               loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >

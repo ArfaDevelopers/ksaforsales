@@ -255,7 +255,7 @@ const PaymentForm = (props) => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 mt-4 rounded-lg text-white font-semibold bg-dark ${
+            className={`w-full py-2 mt-1 rounded-lg text-white font-semibold bg-dark ${
               loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >

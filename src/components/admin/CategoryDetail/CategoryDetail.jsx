@@ -886,7 +886,7 @@ const CategoryDetail = () => {
             variant="top"
             src={categories.image}
             style={{
-              height: "300px",
+              height: "350px",
               width: "100%", // Makes it responsive
               maxWidth: "100%",
               objectFit: "cover",

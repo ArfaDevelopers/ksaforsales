@@ -506,7 +506,12 @@ const CommercialAdsListing = () => {
                     </Elements>
                   )}
                   {/* Upload Banner Image */}
-                  <div style={{ marginBottom: "20px" }}>
+                  <div
+                    style={{
+                      marginBottom: "20px",
+                      marginTop: "20px",
+                    }}
+                  >
                     <h4
                       style={{
                         fontSize: "16px",
