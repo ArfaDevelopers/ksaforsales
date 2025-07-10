@@ -721,7 +721,22 @@ const AutomotiveComp = () => {
 
     fetchAdsDetailImages();
   }, []);
+  const toyotaModalRef = useRef(null);
+  const toyotaModalInstanceRef = useRef(null);
 
+  useEffect(() => {
+    if (toyotaModalRef.current) {
+      toyotaModalInstanceRef.current = new Modal(toyotaModalRef.current);
+    }
+  }, []);
+
+  const openToyotaModal = () => {
+    toyotaModalInstanceRef.current?.show();
+  };
+
+  const closeToyotaModal = () => {
+    toyotaModalInstanceRef.current?.hide();
+  };
   const carBrands = [
     "Toyota",
     "Ford",
@@ -4838,7 +4853,6 @@ const AutomotiveComp = () => {
                                   Model
                                 </label>
 
-                                {/* First 4 Toyota Models */}
                                 <div className="relative w-full max-w-md d-flex">
                                   <div className="border rounded p-3 bg-light">
                                     {toyotaModels.slice(0, 4).map((model) => (
@@ -4849,12 +4863,10 @@ const AutomotiveComp = () => {
                                           checked={Model.includes(model)}
                                           onChange={() => {
                                             if (Model.includes(model)) {
-                                              // Remove model from selection
                                               setModel((prev) =>
                                                 prev.filter((m) => m !== model)
                                               );
                                             } else {
-                                              // Add model to selection
                                               setModel((prev) => [
                                                 ...prev,
                                                 model,
@@ -4863,7 +4875,6 @@ const AutomotiveComp = () => {
                                           }}
                                           id={`check-${model}`}
                                         />
-
                                         <label
                                           className="form-check-label"
                                           htmlFor={`check-${model}`}
@@ -4877,30 +4888,26 @@ const AutomotiveComp = () => {
                                       <button
                                         type="button"
                                         className="btn btn-link p-0 mt-2"
-                                        onClick={openModal}
+                                        onClick={openToyotaModal}
                                       >
                                         Show more...
                                       </button>
                                     )}
                                   </div>
-                                  <div
-                                    onClick={() => {
-                                      setModel([]);
-                                    }}
-                                  >
+                                  <div onClick={() => setModel([])}>
                                     <span>Clear All</span>
                                   </div>
                                 </div>
                               </div>
                             )}
 
-                            {/* Bootstrap Modal (outside conditional rendering!) */}
+                            {/* ✅ Toyota Modal with updated ref and ID */}
                             <div
                               className="modal fade"
-                              id="modalToyota"
-                              ref={modalRef}
+                              id="toyotaModelModal"
+                              ref={toyotaModalRef}
                               tabIndex="-1"
-                              aria-labelledby="modalToyotaLabel"
+                              aria-labelledby="toyotaModelModalLabel"
                               aria-hidden="true"
                             >
                               <div className="modal-dialog modal-dialog-scrollable">
@@ -4908,7 +4915,7 @@ const AutomotiveComp = () => {
                                   <div className="modal-header">
                                     <h5
                                       className="modal-title"
-                                      id="modalToyotaLabel"
+                                      id="toyotaModelModalLabel"
                                     >
                                       Select Toyota Model
                                     </h5>
@@ -4916,9 +4923,10 @@ const AutomotiveComp = () => {
                                       type="button"
                                       className="btn-close"
                                       aria-label="Close"
-                                      onClick={closeModal}
+                                      onClick={closeToyotaModal}
                                     ></button>
                                   </div>
+
                                   <div className="modal-body">
                                     {toyotaModels.slice(4).map((model) => (
                                       <div className="form-check" key={model}>
@@ -4928,21 +4936,18 @@ const AutomotiveComp = () => {
                                           checked={Model.includes(model)}
                                           onChange={() => {
                                             if (Model.includes(model)) {
-                                              // Remove model from selection
                                               setModel((prev) =>
                                                 prev.filter((m) => m !== model)
                                               );
                                             } else {
-                                              // Add model to selection
                                               setModel((prev) => [
                                                 ...prev,
                                                 model,
                                               ]);
                                             }
                                           }}
-                                          id={`check-${model}`}
+                                          id={`modal-check-${model}`}
                                         />
-
                                         <label
                                           className="form-check-label"
                                           htmlFor={`modal-check-${model}`}
@@ -4952,11 +4957,12 @@ const AutomotiveComp = () => {
                                       </div>
                                     ))}
                                   </div>
+
                                   <div className="modal-footer">
                                     <button
                                       type="button"
                                       className="btn btn-secondary"
-                                      onClick={closeModal}
+                                      onClick={closeToyotaModal}
                                     >
                                       Close
                                     </button>
