@@ -6007,7 +6007,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {bmwModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6120,7 +6120,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {motorcycleBrands.slice(0, 4).map((brand) => (
                                   <div className="form-check" key={brand}>
                                     <input
@@ -6233,7 +6233,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {kiaModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6347,7 +6347,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {dodgeModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6460,7 +6460,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {chryslerModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6574,7 +6574,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {jeepModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6688,7 +6688,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {mitsubishiModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6801,7 +6801,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {mazdaModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -6914,7 +6914,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {porscheModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7027,7 +7027,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {audiModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7140,7 +7140,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {suzukiModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7253,7 +7253,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {infinitiModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7367,7 +7367,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {hummerModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7587,7 +7587,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Volkswagen Models */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {volkswagenModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7696,7 +7696,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Daihatsu Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {daihatsuModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7806,7 +7806,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Geely Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {geelyModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -7916,7 +7916,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Mercury Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0 ">
                                 {mercuryModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8026,7 +8026,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Volvo Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {volvoModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8136,7 +8136,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Peugeot Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {peugeotModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8245,7 +8245,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Bentley Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0 ">
                                 {bentleyModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8355,7 +8355,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Jaguar Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {jaguarModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8464,7 +8464,7 @@ const AutomotiveComp = () => {
                               </label>
 
                               {/* First 4 Subaru Models as checkboxes */}
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0 ">
                                 {subaruModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8572,7 +8572,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {mgModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8680,7 +8680,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {changanModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8789,7 +8789,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {renaultModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -8898,7 +8898,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {buickModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9007,7 +9007,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {rollsRoyceModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9115,7 +9115,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {lamborghiniModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9223,7 +9223,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {opelModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9441,7 +9441,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {ferrariModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9550,7 +9550,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {citroenModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9659,7 +9659,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {cheryModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9768,7 +9768,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {daewooModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9876,7 +9876,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {sabbModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -9984,7 +9984,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {ssangYongModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10093,7 +10093,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {astonMartinModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10202,7 +10202,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {protonModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10311,7 +10311,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {havalModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10420,7 +10420,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {gacModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10529,7 +10529,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {greatWallModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10638,7 +10638,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {fawModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10747,7 +10747,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {bydModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -10917,7 +10917,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {alfaRomeoModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11026,7 +11026,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {tataModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11135,7 +11135,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {jetourModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11244,7 +11244,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {cmcModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11353,7 +11353,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {victoryAutoModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11462,7 +11462,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {maxusModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11571,7 +11571,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {baicModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11679,7 +11679,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {dongfengModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11788,7 +11788,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {exeedModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -11897,7 +11897,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {tankModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -12005,7 +12005,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {lynkCoModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -12114,7 +12114,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {lucidModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
@@ -12222,7 +12222,7 @@ const AutomotiveComp = () => {
                                 Model
                               </label>
 
-                              <div className="border rounded bg-transparent  p-0 px-3">
+                              <div className="border rounded bg-transparent  p-0">
                                 {ineosModels.slice(0, 4).map((model) => (
                                   <div className="form-check" key={model}>
                                     <input
