@@ -611,7 +611,10 @@ const CommercialAdsListing = () => {
                   {/* Submit Button */}
                   <button
                     disabled={
-                      !formData.name || !formData.phone || !formData.whatsapp
+                      !formData.name ||
+                      !formData.phone ||
+                      !formData.whatsapp ||
+                      !imagePreview
                       // ||
                       // !Url ||
                       // !paymentSuccess

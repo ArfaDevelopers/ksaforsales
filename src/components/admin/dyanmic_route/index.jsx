@@ -202,7 +202,22 @@ const Dynamic_Route = () => {
   const [selectedReports, setSelectedReports] = useState([]);
   const [reportText, setReportText] = useState("");
   const [itemData, setItemData] = useState(null); // State to store ads
-
+  const [relatedCars, setRelatedCars] = useState([]);
+  console.log(relatedCars, "relatedCars___________");
+  useEffect(() => {
+    if (itemData?.title) {
+      axios
+        .post("http://168.231.80.24:9002/api/relatedcars", {
+          title: itemData.title,
+        })
+        .then((res) => {
+          setRelatedCars(res.data);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch related cars:", err);
+        });
+    }
+  }, [itemData]);
   console.log(itemData, "itemData111111111111111");
   const [showPhone, setShowPhone] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
