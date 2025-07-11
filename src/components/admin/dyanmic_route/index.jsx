@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import img from "./home-07.jpg";
@@ -15,7 +15,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { useParams, useLocation } from "react-router";
 import { useMyContext } from "../../store/Contexxt.store";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Pagination, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import "swiper/css/navigation";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 import arrow from "./Vector.png";
 import left from "./left.png";
 import right from "./right.png";
@@ -203,6 +210,38 @@ const Dynamic_Route = () => {
   const [reportText, setReportText] = useState("");
   const [itemData, setItemData] = useState(null); // State to store ads
   const [relatedCars, setRelatedCars] = useState([]);
+  const carData = [
+    {
+      title: "Honda Civic Turbo",
+      price: "4,200,000 PKR",
+      image:
+        "https://res.cloudinary.com/dgmjg9zr4/image/upload/v1751689723/stories/1751689720247-Frame%20427319411.png.png",
+    },
+    {
+      title: "Toyota Corolla Altis",
+      price: "3,500,000 PKR",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlrGruIVKsj2uzjjlOYkwHg98VDONShEW9dQ&s",
+    },
+    {
+      title: "Suzuki Swift GLX",
+      price: "2,800,000 PKR",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdyRtzhjFDm6oR4B2PBv5sd7eA4C4caG9Ipw&s",
+    },
+    {
+      title: "KIA Sportage AWD",
+      price: "5,500,000 PKR",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5ReTHK1NLoIBGiCvz9mCJCNzJDDtjs34fdg&s",
+    },
+    {
+      title: "Hyundai Tucson",
+      price: "5,400,000 PKR",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlrGruIVKsj2uzjjlOYkwHg98VDONShEW9dQ&s",
+    },
+  ];
   console.log(relatedCars, "relatedCars___________");
   useEffect(() => {
     if (itemData?.title) {
@@ -1670,6 +1709,52 @@ const Dynamic_Route = () => {
                             {itemData?.description?.trim() || "No description"}
                           </p>
                         </div>
+                      </div>
+                      <div className="relative">
+                        {/* Navigation Arrows */}
+                        <div className="absolute top-1/2 -left-4 z-10 transform -translate-y-1/2">
+                          <div className="swiper-button-prev text-xl bg-white border rounded-full p-2 shadow hover:bg-gray-100">
+                            <FaChevronLeft />
+                          </div>
+                        </div>
+                        <div className="absolute top-1/2 -right-4 z-10 transform -translate-y-1/2">
+                          <div className="swiper-button-next text-xl bg-white border rounded-full p-2 shadow hover:bg-gray-100">
+                            <FaChevronRight />
+                          </div>
+                        </div>
+
+                        {/* Swiper */}
+                        <Swiper
+                          slidesPerView={3}
+                          spaceBetween={30}
+                          pagination={{ clickable: true }}
+                          navigation={{
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                          }}
+                          modules={[Pagination, Navigation]}
+                          className="mySwiper"
+                        >
+                          {carData.map((car, index) => (
+                            <SwiperSlide key={index}>
+                              <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 bg-white">
+                                <img
+                                  src={car.image}
+                                  alt={car.title}
+                                  className="w-[100px] h-[185px] object-cover mx-auto mt-4 rounded"
+                                />
+                                <div className="p-4 text-center">
+                                  <h3 className="text-md font-bold">
+                                    {car.title}
+                                  </h3>
+                                  <p className="text-sm text-gray-600">
+                                    {car.price}
+                                  </p>
+                                </div>
+                              </div>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
                       </div>
                     </div>
                   </div>
