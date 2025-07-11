@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import img from "./home-07.jpg";
@@ -15,14 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useParams, useLocation } from "react-router";
 import { useMyContext } from "../../store/Contexxt.store";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { Pagination, Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import "swiper/css/navigation";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
 import arrow from "./Vector.png";
 import left from "./left.png";
 import right from "./right.png";
@@ -67,6 +60,7 @@ import RatingAndReviews from "../../admin/RatingSection/RatingSection";
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import SwiperSlider from "../SwiperSlider/SwiperSlider";
 import { ref } from "firebase/storage";
+import Relateddata from "./upperHeader/Relateddata";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -209,54 +203,7 @@ const Dynamic_Route = () => {
   const [selectedReports, setSelectedReports] = useState([]);
   const [reportText, setReportText] = useState("");
   const [itemData, setItemData] = useState(null); // State to store ads
-  const [relatedCars, setRelatedCars] = useState([]);
-  const carData = [
-    {
-      title: "Honda Civic Turbo",
-      price: "4,200,000 PKR",
-      image:
-        "https://res.cloudinary.com/dgmjg9zr4/image/upload/v1751689723/stories/1751689720247-Frame%20427319411.png.png",
-    },
-    {
-      title: "Toyota Corolla Altis",
-      price: "3,500,000 PKR",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlrGruIVKsj2uzjjlOYkwHg98VDONShEW9dQ&s",
-    },
-    {
-      title: "Suzuki Swift GLX",
-      price: "2,800,000 PKR",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdyRtzhjFDm6oR4B2PBv5sd7eA4C4caG9Ipw&s",
-    },
-    {
-      title: "KIA Sportage AWD",
-      price: "5,500,000 PKR",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5ReTHK1NLoIBGiCvz9mCJCNzJDDtjs34fdg&s",
-    },
-    {
-      title: "Hyundai Tucson",
-      price: "5,400,000 PKR",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlrGruIVKsj2uzjjlOYkwHg98VDONShEW9dQ&s",
-    },
-  ];
-  console.log(relatedCars, "relatedCars___________");
-  useEffect(() => {
-    if (itemData?.title) {
-      axios
-        .post("http://168.231.80.24:9002/api/relatedcars", {
-          title: itemData.title,
-        })
-        .then((res) => {
-          setRelatedCars(res.data);
-        })
-        .catch((err) => {
-          console.error("Failed to fetch related cars:", err);
-        });
-    }
-  }, [itemData]);
+
   console.log(itemData, "itemData111111111111111");
   const [showPhone, setShowPhone] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -1709,52 +1656,6 @@ const Dynamic_Route = () => {
                             {itemData?.description?.trim() || "No description"}
                           </p>
                         </div>
-                      </div>
-                      <div className="relative">
-                        {/* Navigation Arrows */}
-                        <div className="absolute top-1/2 -left-4 z-10 transform -translate-y-1/2">
-                          <div className="swiper-button-prev text-xl bg-white border rounded-full p-2 shadow hover:bg-gray-100">
-                            <FaChevronLeft />
-                          </div>
-                        </div>
-                        <div className="absolute top-1/2 -right-4 z-10 transform -translate-y-1/2">
-                          <div className="swiper-button-next text-xl bg-white border rounded-full p-2 shadow hover:bg-gray-100">
-                            <FaChevronRight />
-                          </div>
-                        </div>
-
-                        {/* Swiper */}
-                        <Swiper
-                          slidesPerView={3}
-                          spaceBetween={30}
-                          pagination={{ clickable: true }}
-                          navigation={{
-                            nextEl: ".swiper-button-next",
-                            prevEl: ".swiper-button-prev",
-                          }}
-                          modules={[Pagination, Navigation]}
-                          className="mySwiper"
-                        >
-                          {carData.map((car, index) => (
-                            <SwiperSlide key={index}>
-                              <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 bg-white">
-                                <img
-                                  src={car.image}
-                                  alt={car.title}
-                                  className="w-[100px] h-[185px] object-cover mx-auto mt-4 rounded"
-                                />
-                                <div className="p-4 text-center">
-                                  <h3 className="text-md font-bold">
-                                    {car.title}
-                                  </h3>
-                                  <p className="text-sm text-gray-600">
-                                    {car.price}
-                                  </p>
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
                       </div>
                     </div>
                   </div>
@@ -6104,6 +6005,7 @@ const Dynamic_Route = () => {
               </Col>
             </Col>
           </Row>
+          <Relateddata />
 
           {/* <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} /> */}
         </Container>
