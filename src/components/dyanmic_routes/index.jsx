@@ -57,6 +57,7 @@ import SuggestedAds from "../../components/home/SuggestedAds/SuggestedAds";
 
 import RatingAndReviews from "../../components/admin/RatingSection/RatingSection";
 import SwiperSlider from "../../components/admin/SwiperSlider/SwiperSlider";
+import Relateddata from "../../components/admin/dyanmic_route/upperHeader/Relateddata";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -1905,6 +1906,7 @@ const Dynamic_Routes = () => {
             </Col>
           </Row>
           {/* <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} /> */}
+          <Relateddata itemData={itemData} />
         </Container>
 
         <Footer />

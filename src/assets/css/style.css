@@ -3740,6 +3740,80 @@ button.unhover:hover {
   box-shadow: unset !important;
 }
 /* Filter css ends */
+/* related able css starts */
+.relative_swiper {
+  margin-bottom: 20px;
+}
+.relateable_card_wrap_main {
+  background-color: #fff;
+  /* box-shadow:0 0 4px 4px rgba(0,0,0,0.6) */
+  border-radius: 10px !important;
+  background-color: rgb(240, 240, 240);
+}
+.relateable_card_wrap_main .relateable_image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+.relateable_content_wrap_main {
+  padding: 34px 15px 16px 15px;
+}
+.relateable_content_wrap_main .title {
+  font-weight: 400px;
+  font-size: 18px;
+  text-transform: capitalize;
+  margin: 0 0 15px 0;
+}
+.relateable_content_wrap_main .content_footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+.relateable_content_wrap_main .price {
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: capitalize;
+  margin: 0;
+  color: #2d4495;
+}
+.relateable_content_wrap_main .location {
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 0 0 15px 0;
+}
+.relateable_content_wrap_main .date {
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 0;
+}
+.relative_swiper .swiper_btn_gen {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: #2d4495;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.relative_swiper .swiper_btn_gen svg {
+  fill: #fff;
+}
+.relative_swiper .swiper-button-next-custom {
+  right: -20px;
+}
+.relative_swiper .swiper-button-prev-custom {
+  left: -20px;
+}
+/* related able css ends */
 .profileinner_container .sallerInfo_para {
   margin-bottom: 2px;
 }
@@ -21836,6 +21910,12 @@ border-radius: 16px !important;
     gap: unset;
     justify-content: space-between;
   }
+  .relative_swiper .swiper-button-next-custom {
+    right: 0px;
+  }
+  .relative_swiper .swiper-button-prev-custom {
+    left: 0px;
+  }
   .profileinner_container {
     flex-direction: column;
     gap: 10px;
@@ -23234,4 +23314,10 @@ height: 400px;
   display: flex;
   gap: 20px;
   align-items: center;
+}
+.similarads{
+  color: #434343;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    /* font-size: 22px; */
 }

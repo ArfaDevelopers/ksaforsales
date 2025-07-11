@@ -6005,7 +6005,7 @@ const Dynamic_Route = () => {
               </Col>
             </Col>
           </Row>
-          <Relateddata />
+          <Relateddata itemData={itemData} />
 
           {/* <SuggestedAds callingFrom={callingFrom} currentAdId={_Id} /> */}
         </Container>
