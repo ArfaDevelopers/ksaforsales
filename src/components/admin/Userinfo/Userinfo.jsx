@@ -84,6 +84,7 @@ import {
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import axios from "axios";
 
 const Userinfo = () => {
   const parms = useLocation().pathname;
@@ -2169,6 +2170,30 @@ const Userinfo = () => {
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
+  const [userData, setUserData] = useState(null);
+  console.log("Fetched User:___", userData);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.post(
+          "http://168.231.80.24:9002/currentUserData/userData",
+          {
+            userId: "KP1YqEjam3gC3osBxSiQBzfMKq83",
+          }
+        );
+
+        setUserData(res.data.user);
+      } catch (error) {
+        console.error(
+          "Fetch user failed:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const [showPopover, setShowPopover] = useState(false);
   const [popoverCarId, setPopoverCarId] = useState(null); // Store the specific car's ID
@@ -4205,7 +4230,7 @@ const Userinfo = () => {
                                   }}
                                 >
                                   <img
-                                    src={car.photoURL || ImageURL}
+                                    src={userData?.photoURL || ImageURL}
                                     alt="User profile"
                                     onError={(e) => {
                                       e.target.onerror = null; // prevent infinite loop
