@@ -364,7 +364,7 @@ const Bookmarks = () => {
               </li>
               <li className="active">
                 <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
+                  <i className="fas fa-solid fa-heart" /> <span>ssssssss</span>
                 </Link>
               </li>
               <li>
