@@ -97,7 +97,7 @@ const Bookmarks = () => {
         const userId = user.uid;
 
         const response = await axios.get(
-          `http://168.231.80.24:9002/api/bookmarked-listings`,
+          `http://168.231.80.24:9002/currentUserData/bookmarked-listings`,
           {
             params: {
               userId,
