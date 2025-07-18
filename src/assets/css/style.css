@@ -3740,6 +3740,13 @@ button.unhover:hover {
   box-shadow: unset !important;
 }
 /* Filter css ends */
+/* CATEGORY IMAGE CSS STARTS */
+.category_icon_inner img {
+    width: 170px;
+    height: 100px;
+    object-fit: contain;
+}
+/* CATEGORY IMAGE CSS ENDS */
 /* related able css starts */
 .relative_swiper {
   margin-bottom: 20px;
@@ -21910,6 +21917,11 @@ border-radius: 16px !important;
     gap: unset;
     justify-content: space-between;
   }
+.category_icon_inner img {
+    width: 120px;
+    height: 100px;
+    object-fit: contain;
+}
   .relative_swiper .swiper-button-next-custom {
     right: 0px;
   }
@@ -22305,13 +22317,13 @@ border-radius: 16px !important;
   }
   .category_icon_inner img {
     width: 100%;
-    max-width: 50px !important;
+    max-width: 150px !important;
     aspect-ratio: 4/4;
     object-fit: contain;
   }
   .category_icon_inner {
     height: auto !important;
-    padding: 20px 0;
+    padding: 10px 0;
   }
   .category_icons h5 {
     font-size: 14px !important;
@@ -23262,13 +23274,14 @@ height: 400px;
   }
   .category_icon_inner img {
     width: 100%;
-    max-width: 50px !important;
-    aspect-ratio: 4/4;
+    max-width: 74px !important;
+    height: 80px;
+    aspect-ratio: 4 / 4;
     object-fit: contain;
-  }
+}
   .category_icon_inner {
     height: auto !important;
-    padding: 20px 0;
+    padding: 0px 0;
   }
   .category_icons h5 {
     font-size: 14px !important;
