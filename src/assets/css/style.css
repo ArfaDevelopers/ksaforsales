@@ -22448,7 +22448,7 @@ align-items: center;
 }
 .submenu-item {
   position: relative;
-  border: none; /* Ensure no border on the item */
+  border-bottom: 1px solid #eaeaea;
   outline: none;
 }
 .submenu-link {
@@ -22466,7 +22466,7 @@ align-items: center;
 .submenu-link:hover,
 .submenu-link:focus {
   color: #333;
-  background-color: #f5f5f5;
+  background-color: transparent;
   border: none;
   outline: none;
 }
@@ -22486,19 +22486,22 @@ align-items: center;
   left: 100%; /* Position to the right of the submenu */
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 5px;
+  padding: 0px;
   z-index: 1000;
   border-radius: 5px;
   min-width: 200px;
   /* Removed transform: translateY(-50%) to prevent vertical centering */
 }
 .arrow {
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   position: absolute;
   right: 10px; /* Distance from right edge */
   top: 50%; /* Vertically center */
   transform: translateY(-50%); /* Adjust for vertical centering */
+}
+.arrow::after{
+  content: ">";
 }
 /* Optional: Style the scrollbar for Real Estate */
 .submenu-list.real-estate-scroll::-webkit-scrollbar {
