@@ -9,7 +9,7 @@ import { auth, db } from "./../Firebase/FirebaseConfig";
 // import { auth } from "./../Firebase/FirebaseConfig"; // Ensure correct Firebase import
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import QRcode from "../../../public/QR.jpg";
+import QRcode from "../../../public/frames.png";
 import UpperHeader from "../../components/dyanmic_routes/upperHeader/Upper_Header";
 import {
   getFirestore,
@@ -200,29 +200,21 @@ const Login = () => {
                         width: "100%",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          border: "1px solid #e0e0e0",
-                          borderRadius: "10px",
-                          backgroundColor: "#f0f4ff",
-                          padding: "5px 10px",
-                          boxSizing: "border-box",
-                          width: "100%", // Ensure the container takes full width
-                        }}
-                      >
+                      <div className="group-img">
+                        <i
+                          className="feather-user"
+                          style={{ color: "#2d4495" }}
+                        />
                         <input
                           type="tel"
                           id="phoneNumber"
                           value={phoneNumber}
                           onChange={handlePhoneNumberChange1}
                           placeholder="05XXXXXXXX"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          className="form-control"
                           required
                           style={{
                             flex: 1, // Allow the input to grow and fill the space
-                            border: "none", // Remove border to match the container
                             outline: "none", // Remove outline
                             backgroundColor: "transparent", // Match background with container
                           }}
@@ -272,57 +264,75 @@ const Login = () => {
                     }}
                   >
                     <div
+                      className="group-img"
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "10px",
-                        backgroundColor: "#f0f4ff",
-                        padding: "5px 10px",
-                        width: "100%",
-                        boxSizing: "border-box",
+                        // display: "flex",
+                        // alignItems: "center",
+                        // border: "1px solid #e0e0e0",
+                        // borderRadius: "10px",
+                        // backgroundColor: "#f0f4ff",
+                        // padding: "5px 10px",
+                        // width: "100%",
+                        // boxSizing: "border-box",
                         position: "relative",
                       }}
                     >
-                      <span
-                        style={{
-                          marginRight: "10px",
-                          fontSize: "16px",
-                          color: "#2d4495",
-                        }}
-                      >
-                        🔒
-                      </span>
+                      <i
+                        className="feather-lock"
+                        style={{ color: "#2d4495" }}
+                      />
+                      {/* <span
+												style={{
+													marginRight: "10px",
+													fontSize: "16px",
+													color: "#2d4495",
+													position: "absolute",
+													top: "50%",
+													transform: "translateY(-50%)",
+													left: "10px",
+												}}>
+												🔒
+											</span> */}
                       <input
-                        className="mt-1 block w-full px-0 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="form-control"
                         type={passwordType}
                         placeholder="Password"
                         value={password}
                         onChange={handlePasswordChange}
                         required
                         style={{
-                          border: "none",
                           outline: "none",
                           flex: 1,
                           backgroundColor: "transparent",
                           color: "#666",
                           fontSize: "14px",
-                          padding: "5px 0",
+                          // paddingLeft: "35px",
                           width: "100%",
                         }}
                       />
 
+                      {/* <span
+												onClick={togglePassword}
+												style={{
+													marginLeft: "10px",
+													fontSize: "16px",
+													color: "#2d4495",
+													cursor: "pointer",
+													position: "absolute",
+													top: "50%",
+													transform: "translateY(-50%)",
+													right: "10px",
+												}}>
+												{passwordType === "password" ? "👁️" : "👁️‍🗨️"}
+											</span> */}
                       <span
+                        className={`toggle-password ${
+                          passwordType === "password"
+                            ? "feather-eye"
+                            : "feather-eye-off"
+                        }`}
                         onClick={togglePassword}
-                        style={{
-                          marginLeft: "10px",
-                          fontSize: "16px",
-                          color: "#2d4495",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {passwordType === "password" ? "👁️" : "👁️‍🗨️"}
-                      </span>
+                      ></span>
                     </div>
                     <style>
                       {`
