@@ -72,7 +72,7 @@ const SignUp = () => {
   }, []);
 
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+966\d{8}$/;
+    const saudiNumberRegex = /^\+92\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
       setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
       setPhoneNumber("");

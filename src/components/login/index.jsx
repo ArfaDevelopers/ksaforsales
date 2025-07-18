@@ -185,53 +185,6 @@ const Login = () => {
                   </p>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
-                {/* <span
-      style={{
-        display: "flex",
-        alignItems: "center",
-        marginRight: "10px",
-      }}
-    >
-      <img
-        src="https://flagcdn.com/16x12/kw.png"
-        alt="Kuwait Flag"
-        style={{
-          width: "20px",
-          height: "15px",
-          marginRight: "5px",
-        }}
-      />
-      <span
-        style={{
-          color: "#2d4495",
-          fontWeight: "500",
-          fontSize: "14px",
-        }}
-      >
-        +966
-      </span>
-    </span> */}
-                {/* <input
-      type="number"
-      placeholder="xxxxxxxxx"
-      value={phoneNumber}
-      onChange={(e) => {
-        const value = e.target.value.replace(/\D/g, "").slice(0, 9);
-        handlePhoneNumberChange({ target: { value } });
-      }}
-      maxLength={9}
-      required
-      style={{
-        border: "none",
-        outline: "none",
-        flex: 1,
-        backgroundColor: "transparent",
-        color: "#666",
-        fontSize: "14px",
-        padding: "5px 0",
-        width: "100%",
-      }}
-    /> */}
                 <form onSubmit={handleSubmit}>
                   <div
                     style={{
@@ -264,8 +217,8 @@ const Login = () => {
                           id="phoneNumber"
                           value={phoneNumber}
                           onChange={handlePhoneNumberChange1}
-                          placeholder="+9665xxxxxxxx"
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          placeholder="05XXXXXXXX"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                           required
                           style={{
                             flex: 1, // Allow the input to grow and fill the space
@@ -341,6 +294,7 @@ const Login = () => {
                         🔒
                       </span>
                       <input
+                        className="mt-1 block w-full px-0 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         type={passwordType}
                         placeholder="Password"
                         value={password}

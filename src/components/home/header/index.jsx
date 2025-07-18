@@ -177,12 +177,17 @@ const Header = ({ parms }) => {
   return (
     <header className="header">
       {/* <UpperHeader /> */}
-      <div className="containerWrapper">
+      <div
+        className="containerWrapper"
+        style={{
+          borderBottom: "1px solid #a0a0a0",
+        }}
+      >
         <div className="container">
           <nav
             className="navbar navbar-expand-lg header-nav"
             style={{
-              height: "85px",
+              height: "111px",
             }}
           >
             <div
@@ -2133,7 +2138,7 @@ const Header = ({ parms }) => {
                     src={ImageURL}
                     alt="Logo"
                     className="img-fluid"
-                    style={{ width: "80px", height: "auto" }} // 👈 adjust as needed
+                    style={{ width: "100px", height: "auto" }} // 👈 adjust as needed
                   />
                 </Link>
               </div>
@@ -2166,7 +2171,8 @@ const Header = ({ parms }) => {
                       borderRadius: "20px",
                       border: "1px solid #ccc",
                       width: "100%",
-                      backgroundColor: "#f1f1f1",
+                      height: "50px",
+                      backgroundColor: "rgba(241, 241, 241,0.5)",
                     }}
                   />
 
@@ -2248,7 +2254,7 @@ const Header = ({ parms }) => {
                     style={{
                       position: "absolute",
                       top: "50%",
-                      right: "10px",
+                      right: "20px",
                       transform: "translateY(-50%)",
                       background: "transparent",
                       border: "none",
