@@ -1093,7 +1093,7 @@ const Home = () => {
                 ? window.innerWidth <= 576
                   ? "9rem"
                   : "10rem"
-                : "1rem",
+                : "50px",
           }}
         >
           <h2
@@ -1142,7 +1142,7 @@ const Home = () => {
                 >
                   <h2
                     className="our_categoryPara"
-                    style={{ marginTop: "-2.5rem" }}
+                    // style={{ marginTop: "-2.5rem" }}
                   >
                     Our Category
                   </h2>
@@ -1156,8 +1156,8 @@ const Home = () => {
             <div
               className="row cat_icon_main"
               style={{
-                marginTop: window.innerWidth <= 576 ? "-2rem" : "-1rem",
-                marginBottom: window.innerWidth <= 576 ? "0rem" : "-2rem",
+                // marginTop: window.innerWidth <= 576 ? "-2rem" : "-1rem",
+                // marginBottom: window.innerWidth <= 576 ? "0rem" : "-2rem",
                 gap: window.innerWidth <= 576 ? "8px" : "10px",
                 padding: window.innerWidth <= 576 ? "12px 10px 10px 10px" : "0",
               }}

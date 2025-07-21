@@ -1616,8 +1616,8 @@ table.dataTable thead .sorting_desc_disabled:after {
   z-index: 99;
 }
 .header a.nav-link {
-  color: #000000;
-  font-weight: normal;
+  color: #2d4494;
+  font-weight: bold;
   text-decoration: none;
   font-family: "ABeeZee";
   font-size: 18px;
@@ -2419,11 +2419,14 @@ html.menu-opened body {
 }
 .section-heading h2 {
   font-weight: 700;
-  font-size: 32px;
+  font-size: 22px;
   color: #0d233e;
   margin: 0 0 15px;
   display: flex;
   align-items: center;
+}
+h2.featuresection_header{
+  font-size: 22px;
 }
 .section-heading h2 span {
   color: #fff;
@@ -2620,7 +2623,7 @@ html.menu-opened body {
   color: #fff;
 }
 .section-heading {
-  margin: 0 0 24px;
+  /* margin: 0 0 24px; */
 }
 .featured-section {
   background: white;
@@ -3746,6 +3749,30 @@ button.unhover:hover {
     object-fit: contain;
 }
 /* CATEGORY IMAGE CSS ENDS */
+/* SLICK ARROW STARTS */
+.commercial_slider_wrap .slick-prev:before{
+  content:"\f104";
+  font-family: "Font Awesome 6 Free";
+  font-weight:900;
+  color:#fff;
+}
+.commercial_slider_wrap .slick-next:before{
+  content:"\f105";
+  font-family: "Font Awesome 6 Free";
+  font-weight:900;
+  color:#fff;
+}
+.commercial_slider_wrap .slick-prev,
+.commercial_slider_wrap  .slick-next{
+  background: #000 !important;
+}
+.commercial_slider_wrap .slick-prev{
+  left: 20px;
+}
+.commercial_slider_wrap  .slick-next{
+  right: 20px;
+}
+/* SLICK ARROW ENDS */
 /* related able css starts */
 .relative_swiper {
   margin-bottom: 20px;
@@ -22990,7 +23017,7 @@ box-shadow: 0px 0px 4px #000000;
 
 * {
   /* font-family: "Cairo", sans-serif; */
-  font-family: "ABeeZee";
+  font-family: "ABeeZee" !important;
 }
 /* Latets blogs css */
 .latest-blog-img {
