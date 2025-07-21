@@ -282,17 +282,17 @@ const Login = () => {
                         style={{ color: "#2d4495" }}
                       />
                       {/* <span
-												style={{
-													marginRight: "10px",
-													fontSize: "16px",
-													color: "#2d4495",
-													position: "absolute",
-													top: "50%",
-													transform: "translateY(-50%)",
-													left: "10px",
-												}}>
-												🔒
-											</span> */}
+                        style={{
+                          marginRight: "10px",
+                          fontSize: "16px",
+                          color: "#2d4495",
+                          position: "absolute",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          left: "10px",
+                        }}>
+                        🔒
+                      </span> */}
                       <input
                         className="form-control"
                         type={passwordType}
@@ -312,19 +312,19 @@ const Login = () => {
                       />
 
                       {/* <span
-												onClick={togglePassword}
-												style={{
-													marginLeft: "10px",
-													fontSize: "16px",
-													color: "#2d4495",
-													cursor: "pointer",
-													position: "absolute",
-													top: "50%",
-													transform: "translateY(-50%)",
-													right: "10px",
-												}}>
-												{passwordType === "password" ? "👁️" : "👁️‍🗨️"}
-											</span> */}
+                        onClick={togglePassword}
+                        style={{
+                          marginLeft: "10px",
+                          fontSize: "16px",
+                          color: "#2d4495",
+                          cursor: "pointer",
+                          position: "absolute",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          right: "10px",
+                        }}>
+                        {passwordType === "password" ? "👁️" : "👁️‍🗨️"}
+                      </span> */}
                       <span
                         className={`toggle-password ${
                           passwordType === "password"
@@ -366,7 +366,7 @@ const Login = () => {
                       color: "#fff",
                       border: "none",
                       fontWeight: "bold",
-                      borderRadius: 50,
+                      borderRadius: "10px",
                     }}
                   >
                     Sign in

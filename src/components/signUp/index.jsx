@@ -309,9 +309,10 @@ const SignUp = () => {
                           alignItems: "center",
                           border: "1px solid #e0e0e0",
                           borderRadius: "10px",
-                          padding: "5px 10px",
+                          padding: "0px 15px",
                           width: "100%",
                           boxSizing: "border-box",
+                          backgroundColor: "#e8f0fe",
                         }}
                       >
                         <span
@@ -428,11 +429,13 @@ const SignUp = () => {
                   {!otpSent ? (
                     <button
                       type="button"
-                      className="btn w-100"
+                      className="btn w-100 login-btn"
                       style={{
                         backgroundColor: "#2d4495",
                         color: "#fff",
                         border: "none",
+                        fontWeight: "bold",
+                        borderRadius: "10px",
                       }}
                       onClick={sendOtp}
                     >
