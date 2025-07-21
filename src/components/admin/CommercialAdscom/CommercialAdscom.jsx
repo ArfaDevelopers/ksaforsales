@@ -379,25 +379,25 @@ const CommercialAdscom = () => {
   //   navigator.clipboard.writeText(categories.image);
   //   alert("Link copied to clipboard!");
   // };
-  // const handleCopyLink = () => {
-  //   const fullUrl = window.location.href;
-  //   const hashIndex = fullUrl.indexOf("#");
-  //   const urlWithHashOnly =
-  //     hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl;
-  //   navigator.clipboard.writeText(urlWithHashOnly);
-  //   alert("Link copied to clipboard!\n" + urlWithHashOnly);
-  // };
   const handleCopyLink = () => {
     const fullUrl = window.location.href;
     const hashIndex = fullUrl.indexOf("#");
-    const baseUrl =
-      hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl + "#";
-
-    const finalUrl = `${baseUrl}/CategoryDetail/${PramaId}`;
-
-    navigator.clipboard.writeText(finalUrl);
-    alert("Link copied to clipboard!\n" + finalUrl);
+    const urlWithHashOnly =
+      hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl;
+    navigator.clipboard.writeText(urlWithHashOnly);
+    alert("Link copied to clipboard!\n" + urlWithHashOnly);
   };
+  // const handleCopyLink = () => {
+  //   const fullUrl = window.location.href;
+  //   const hashIndex = fullUrl.indexOf("#");
+  //   const baseUrl =
+  //     hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl + "#";
+
+  //   const finalUrl = `${baseUrl}/CategoryDetail/${PramaId}`;
+
+  //   navigator.clipboard.writeText(finalUrl);
+  //   alert("Link copied to clipboard!\n" + finalUrl);
+  // };
 
   const [totalVisitors, setTotalVisitors] = useState(0);
   const MILLISECONDS_IN_24_HOURS = 24 * 60 * 60 * 1000;
