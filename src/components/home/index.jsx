@@ -1093,7 +1093,7 @@ const Home = () => {
                 ? window.innerWidth <= 576
                   ? "9rem"
                   : "10rem"
-                : "50px",
+                : "30px",
           }}
         >
           <h2

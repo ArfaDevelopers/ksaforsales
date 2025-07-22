@@ -16,7 +16,7 @@ const ProtectedRoute = ({ children }) => {
           height: "100vh",
         }}
       >
-        <img
+        {/* <img
           src={loading}
           alt="Loading..."
           style={{
@@ -24,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
             height: "200px",
             animation: "spin 1s linear infinite", // Apply the spin animation
           }}
-        />
+        /> */}
         <style>
           {`
       @keyframes spin {

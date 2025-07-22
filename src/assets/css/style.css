@@ -1,6 +1,6 @@
 /*dealer-1
 Author       : Dreamguys
-Template Name: Listee - Bootstrap Html Template
+Template Name: Listee	
 Version      : 1.0
 */
 
@@ -121,7 +121,7 @@ color: white;
   margin-top: 2rem;
 }
 .hero_slider {
-  padding-top: 200px;
+  padding-top: 185px;
 }
 /* .trendingproduct-para {
 font-weight: 500;
@@ -385,7 +385,7 @@ ul {
   padding: 0.5rem 0.5rem;
   cursor: pointer;
   border-radius: 0.7em;
-  background-color: #1e316d;
+  /* background-color: #1e316d; */
   width: 6rem;
   -webkit-border-radius: 0.7em;
   -moz-border-radius: 0.7em;
@@ -414,6 +414,7 @@ ul {
   background-color: #2d4495;
   border: 1px solid #2d4495;
   box-shadow: inset 0 0 0 #fff;
+  box-shadow: unset !important;
 
   border-radius: 5px;
   -webkit-transition: all 0.7s;
@@ -3765,7 +3766,7 @@ button.unhover:hover {
 }
 .commercial_slider_wrap .slick-prev,
 .commercial_slider_wrap  .slick-next{
-  background: #000 !important;
+  background: rgba(0,0,0,0.4) !important;
 }
 .commercial_slider_wrap .slick-prev{
   left: 20px;
@@ -21259,7 +21260,7 @@ font-size: 28px;
   .section-heading,
   .section-heading-two,
   .interset-btn {
-    margin: 0 0 30px;
+    margin: 0 0 0px;
     text-align: center;
   }
   .access-feature.featureslist {
@@ -21927,7 +21928,7 @@ border-radius: 16px !important;
 
 @media screen and (max-width: 1440px) {
   .hero_slider {
-    padding-top: 180px;
+    padding-top: 165px;
   }
 }
 @media screen and (max-width: 1200px) {
@@ -21999,7 +22000,7 @@ border-radius: 16px !important;
     display: none;
   }
   .hero_slider {
-    padding-top: 119px;
+    padding-top: 109px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 858px) {

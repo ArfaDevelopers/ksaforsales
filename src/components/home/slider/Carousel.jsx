@@ -124,10 +124,7 @@ export default function Carousel() {
           </div>
         </div>
 
-        <div
-          className="row"
-          style={{ marginTop: window.innerWidth <= 576 ? "-1rem" : "0rem" }}
-        >
+        <div className="row">
           <div className="col-md-12">
             {loading ? (
               <div

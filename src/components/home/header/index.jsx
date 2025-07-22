@@ -187,7 +187,7 @@ const Header = ({ parms }) => {
           <nav
             className="navbar navbar-expand-lg header-nav"
             style={{
-              height: "111px",
+              height: window.innerWidth <= 576 ? "87px" : "111px",
             }}
           >
             <div
@@ -2138,7 +2138,10 @@ const Header = ({ parms }) => {
                     src={imag}
                     alt="Logo"
                     className="img-fluid"
-                    style={{ width: "100px", height: "auto" }} // 👈 adjust as needed
+                    style={{
+                      width: window.innerWidth <= 575 ? "70px" : "100px",
+                      height: "auto",
+                    }} // 👈 adjust as needed
                   />
                 </Link>
               </div>
@@ -2397,14 +2400,13 @@ const Header = ({ parms }) => {
                           backgroundColor: "#2d4495",
                           color: "#fff",
                           border: "none",
-                          fontWeight: "bold",
+                          fontWeight: "normal",
                           borderRadius: 10,
                           transition: "none",
                           outline: "none",
                           boxShadow: "none",
                           cursor: "pointer",
-                          padding:
-                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                          padding: "0.5rem 1.5rem",
                           fontSize: window.innerWidth <= 576 ? "12px" : "16px",
                         }}
                         onMouseOver={(e) => {
@@ -2416,7 +2418,7 @@ const Header = ({ parms }) => {
                           e.currentTarget.style.color = "#fff";
                         }}
                       >
-                        <i className="fa-solid fa-plus" /> Post Ad
+                        Post Ad
                       </Link>
                     </li>
                     {/* // )} */}
@@ -2578,14 +2580,16 @@ const Header = ({ parms }) => {
                           backgroundColor: "#2d4495",
                           color: "#fff",
                           border: "none",
-                          fontWeight: "bold",
+                          fontWeight: "normal",
                           borderRadius: 10,
                           transition: "none",
                           outline: "none",
                           boxShadow: "none",
                           cursor: "pointer",
                           padding:
-                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                            window.innerWidth <= 576
+                              ? "0.5rem 1rem"
+                              : "0.5rem 1.5rem",
                           fontSize: window.innerWidth <= 576 ? "12px" : "16px",
                         }}
                         onMouseOver={(e) => {
@@ -2597,7 +2601,7 @@ const Header = ({ parms }) => {
                           e.currentTarget.style.color = "#fff";
                         }}
                       >
-                        <i className="fa-solid fa-plus" /> Sign Up
+                        Sign Up
                       </Link>
                     </li>
                     <li>
@@ -2607,14 +2611,16 @@ const Header = ({ parms }) => {
                           backgroundColor: "#2d4495",
                           color: "#fff",
                           border: "none",
-                          fontWeight: "bold",
+                          fontWeight: "normal",
                           borderRadius: 10,
                           transition: "none",
                           outline: "none",
                           boxShadow: "none",
                           cursor: "pointer",
                           padding:
-                            window.innerWidth <= 576 ? "6px 15px" : "12px 24px",
+                            window.innerWidth <= 576
+                              ? "0.5rem 1rem"
+                              : "0.5rem 1.5rem",
                           fontSize: window.innerWidth <= 576 ? "12px" : "16px",
                         }}
                         onMouseOver={(e) => {
@@ -2626,7 +2632,8 @@ const Header = ({ parms }) => {
                           e.currentTarget.style.color = "#fff";
                         }}
                       >
-                        <i className="fa-solid fa-plus" /> Sign In
+                        {" "}
+                        Sign In
                       </Link>
                     </li>
                     {!isMobile && userId && (
@@ -2637,13 +2644,13 @@ const Header = ({ parms }) => {
                             backgroundColor: "#2d4495",
                             color: "#fff",
                             border: "none",
-                            fontWeight: "bold",
+                            fontWeight: "normal",
                             borderRadius: 10,
                             transition: "none",
                             outline: "none",
                             boxShadow: "none",
                             cursor: "pointer",
-                            padding: "12px 24px", // Increased padding for larger size
+                            padding: "0.5rem 1.5rem", // Increased padding for larger size
                             fontSize: "16px", // Increased font size
                           }}
                           onMouseOver={(e) => {
@@ -2655,7 +2662,7 @@ const Header = ({ parms }) => {
                             e.currentTarget.style.color = "#fff";
                           }}
                         >
-                          <i className="fa-solid fa-plus" /> Post Ad
+                          Post Ad
                         </Link>
                       </li>
                     )}

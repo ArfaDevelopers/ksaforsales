@@ -73,10 +73,33 @@ export default function AutomativeCarousel() {
     dots: false,
     arrows: true,
     infinite: true,
-    lazyLoad: true,
+    lazyLoad: false,
     speed: 1000,
-    slidesToShow: slidesToShow,
+    slidesToShow: 4,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1400,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const slider = useRef();
@@ -85,7 +108,7 @@ export default function AutomativeCarousel() {
     <section
       className="featured-section-color electronic_card_section"
       style={{
-        padding: "30px 0 30px",
+        padding: "20px 0 20px",
       }}
     >
       <div className="container">
@@ -131,7 +154,7 @@ export default function AutomativeCarousel() {
                               alt={ad.name || "Image"}
                               // style={{ height: "200px", objectFit: "cover" }}
                               style={{
-                                height: "461px",
+                                height: "370px",
                                 objectFit: "cover",
                                 width: "328",
                               }}
