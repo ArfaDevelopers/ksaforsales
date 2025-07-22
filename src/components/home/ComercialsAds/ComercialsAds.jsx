@@ -82,7 +82,12 @@ export default function AutomativeCarousel() {
   const slider = useRef();
 
   return (
-    <section className="featured-section-color electronic_card_section">
+    <section
+      className="featured-section-color electronic_card_section"
+      style={{
+        padding: "30px 0 30px",
+      }}
+    >
       <div className="container">
         <div className="row align-items-center">
           <div
