@@ -42,7 +42,7 @@ const Header = ({ parms }) => {
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
   const getImageURL = async () => {
-    const imageRef = ref(storage, "ksa4sale4.png"); // image path inside storage
+    const imageRef = ref(storage, "ksa4sale4 final file-01.png"); // image path inside storage
 
     try {
       const url = await getDownloadURL(imageRef);
