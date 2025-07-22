@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
-import { Image } from "../../../../public/ksa4sale4.png";
+import imag from "../../../../public/NewLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig";
@@ -2135,7 +2135,7 @@ const Header = ({ parms }) => {
                   }}
                 >
                   <img
-                    src={ImageURL}
+                    src={imag}
                     alt="Logo"
                     className="img-fluid"
                     style={{ width: "100px", height: "auto" }} // 👈 adjust as needed
@@ -2171,7 +2171,7 @@ const Header = ({ parms }) => {
                       borderRadius: "20px",
                       border: "1px solid #ccc",
                       width: "100%",
-                      height: "50px",
+                      height: "60px",
                       backgroundColor: "rgba(241, 241, 241,0.5)",
                     }}
                   />

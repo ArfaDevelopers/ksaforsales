@@ -5,14 +5,16 @@ const LatestBlog = () => {
   useEffect(() => {
     const fetchBlogsWithImages = async () => {
       try {
-        const res = await fetch("https://ksa4sale.net/wp-json/wp/v2/posts?_embed");
+        const res = await fetch(
+          "https://ksa4sale.net/wp-json/wp/v2/posts?_embed"
+        );
         const posts = await res.json();
-  
+
         console.log("Fetched Posts:", posts);
-  
+
         const blogsWithImages = posts.map((post) => {
           let imageUrl = "";
-  
+
           if (
             post._embedded &&
             post._embedded["wp:featuredmedia"] &&
@@ -21,7 +23,7 @@ const LatestBlog = () => {
           ) {
             imageUrl = post._embedded["wp:featuredmedia"][0].source_url;
           }
-  
+
           return {
             id: post.id,
             title: post.title.rendered,
@@ -29,16 +31,16 @@ const LatestBlog = () => {
             link: post.link,
           };
         });
-  
+
         setBlogs(blogsWithImages);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
     };
-  
+
     fetchBlogsWithImages();
   }, []);
-  
+
   // useEffect(() => {
   //   const fetchBlogsWithImages = async () => {
   //     try {
@@ -83,15 +85,17 @@ const LatestBlog = () => {
     <div className="latestblog-wrapper latestBlog_Card ">
       <div className="container">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2>Latest Blog</h2>
+          <h2
+            style={{
+              fontSize: "22px",
+              marginBottom: "0px",
+            }}
+          >
+            Latest Blog
+          </h2>
           <button
-            className="featuresection_btn featuresection_btn1 mt-4"
-            onClick={() =>
-              window.open(
-                "https://ksa4sale.net/blogs",
-                "_blank"  
-              )
-            }
+            className="featuresection_btn featuresection_btn1 mt-0"
+            onClick={() => window.open("https://ksa4sale.net/blogs", "_blank")}
           >
             Explore Blogs
           </button>

@@ -144,16 +144,15 @@ export default function AutomativeCarousel() {
       <div className="container">
         <div className="row align-items-center">
           <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
-            <h2 className="featuresection_header">Real Estate</h2>
+            <h2 style={{ marginBottom: "0" }} className="featuresection_header">
+              Real Estate
+            </h2>
             <Link to="/RealEstateComp">
               <button className="featuresection_btn">View All</button>
             </Link>
           </div>
 
-          <div
-            className="feature-section-info"
-            style={{ marginTop: "-0.5rem" }}
-          >
+          <div className="feature-section-info">
             <ul className="info-list">
               <li className="active">Sale Property</li>
               <li>Rent Property </li>

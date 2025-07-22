@@ -6,25 +6,27 @@ import React from "react";
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  if (loading) return    <div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-  }}
->
-  <img
-    src={Loading1}
-    alt="Loading..."
-    style={{
-      width: "200px",
-      height: "200px",
-      animation: "spin 1s linear infinite", // Apply the spin animation
-    }}
-  />
-  <style>
-    {`
+  if (loading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <img
+          src={loading}
+          alt="Loading..."
+          style={{
+            width: "200px",
+            height: "200px",
+            animation: "spin 1s linear infinite", // Apply the spin animation
+          }}
+        />
+        <style>
+          {`
       @keyframes spin {
         from {
           transform: rotate(0deg);
@@ -34,8 +36,9 @@ const ProtectedRoute = ({ children }) => {
         }
       }
     `}
-  </style>
-</div>;
+        </style>
+      </div>
+    );
   if (!user) return <Navigate to="/login" />;
   return children;
 };
