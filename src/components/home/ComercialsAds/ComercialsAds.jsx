@@ -85,7 +85,12 @@ export default function AutomativeCarousel() {
     <section className="featured-section-color electronic_card_section">
       <div className="container">
         <div className="row align-items-center">
-          <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
+          <div
+            className="featuresection_infodev"
+            style={{
+              marginBottom: "10px",
+            }}
+          >
             <h2 className="featuresection_header">Commercial Ads</h2>
             <Link to="/CommercialAdscom">
               <button className="featuresection_btn">View All</button>
@@ -97,9 +102,9 @@ export default function AutomativeCarousel() {
             style={{ marginTop: "-0.5rem" }}
           ></div>
 
-          <div className="featureline">
+          {/* <div className="featureline">
             <div className="highlighter"></div>
-          </div>
+          </div> */}
         </div>
         <div className="row">
           <div className="col-md-12">

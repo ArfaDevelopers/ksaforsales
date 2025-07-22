@@ -2427,6 +2427,7 @@ html.menu-opened body {
 }
 h2.featuresection_header{
   font-size: 22px;
+  margin-bottom: 0px !important;
 }
 .section-heading h2 span {
   color: #fff;

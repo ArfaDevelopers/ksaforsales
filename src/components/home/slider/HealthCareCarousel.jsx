@@ -148,10 +148,7 @@ export default function AutomativeCarousel() {
             </Link>
           </div>
 
-          <div
-            className="feature-section-info"
-            style={{ marginTop: "-0.5rem" }}
-          >
+          <div className="feature-section-info">
             <ul className="info-list">
               <li className="active">Sugar Apparatus</li>
               <li>BP Apparatus</li>
