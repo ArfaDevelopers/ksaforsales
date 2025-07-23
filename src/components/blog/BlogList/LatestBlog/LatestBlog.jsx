@@ -6,11 +6,11 @@ const LatestBlog = () => {
     const fetchBlogsWithImages = async () => {
       try {
         const res = await fetch(
-          "https://ksa4sale.net/wp-json/wp/v2/posts?_embed"
+          "https://blogs.ksa4sale.net/wp-json/wp/v2/posts?_embed"
         );
         const posts = await res.json();
 
-        console.log("Fetched Posts:", posts);
+        console.log("Fetched Posts:__________", posts);
 
         const blogsWithImages = posts.map((post) => {
           let imageUrl = "";

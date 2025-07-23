@@ -1598,8 +1598,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -1619,37 +1619,42 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <h1 className="section-title dynamic_route">
+                            Features
+                          </h1>
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
-                          <h1 className="section-title section-title-description">
+                        <div className="section m-0">
+                          <h1 className="section-title section-title-description dynamic_route">
                             Description
                           </h1>
                           <p className="descriptions-para">
@@ -5774,7 +5779,7 @@ const Dynamic_Route = () => {
                     />
 
                     <div className="col-md">
-                      <h1 className="sallerinfo_para">Seller Information</h1>
+                      {/* <h1 className="sallerinfo_para">Seller Information</h1> */}
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link
@@ -5809,7 +5814,7 @@ const Dynamic_Route = () => {
                         </div>
 
                         <div className="col-12 mt-3 innerContainer2">
-                          <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
+                          <div className="d-flex align-items-center gap-2 innerContainer2 head2btflex card_btn_wrap">
                             <a
                               disabled={itemData.showNumberChecked}
                               href={`tel:${itemData.Phone}`}
@@ -5958,8 +5963,7 @@ const Dynamic_Route = () => {
                       </div>
                     </div>
 
-                    <h4 className="mt-4 mb-4">Location </h4>
-
+                    <h4 className="mt-2 mb-2">Location </h4>
                     <button className="location_btn ">{itemData.City} </button>
                   </Card.Body>
                 </Card>

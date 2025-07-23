@@ -110,7 +110,7 @@ export default function Carousel() {
   // };
 
   return (
-    <section className="featured-section-color automotive_card_section -mt-8 lg:-mt-16">
+    <section className="featured-section-color automotive_card_section -mt-8 lg:-mt-16 feature_section_carosel">
       {" "}
       <div className="container">
         <div className="row align-items-center">
