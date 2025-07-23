@@ -60,7 +60,7 @@ const Home5 = () => {
     };
     const handleScroll = () => {
       const e = document.querySelector(".progress-wrap path");
-      const t = e.getTotalLength();
+      const t = e?.getTotalLength();
       const o = window.scrollY;
       const r = document.body.clientHeight - window.innerHeight;
       const i = t - (o * t) / r;

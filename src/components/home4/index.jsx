@@ -58,10 +58,10 @@ const Home4 = () => {
     };
     const handleScroll = () => {
       const e = document.querySelector(".progress-wrap path");
-      const t = e.getTotalLength();
+      const t = e?.getTotalLength();
       const o = window.scrollY;
       const r = document.body.clientHeight - window.innerHeight;
-      const i = t - o * t / r;
+      const i = t - (o * t) / r;
       e.style.strokeDashoffset = i;
 
       if ($(window).scrollTop() > 50) {
@@ -160,7 +160,11 @@ const Home4 = () => {
                 >
                   <div className="category-box flex-fill">
                     <span>
-                      <img src={CategoryIcon1} className="img-fluid" alt="img" />
+                      <img
+                        src={CategoryIcon1}
+                        className="img-fluid"
+                        alt="img"
+                      />
                     </span>
                     <div className="category-info">
                       <h6>Extraordinarily Easy</h6>
@@ -174,7 +178,11 @@ const Home4 = () => {
                 >
                   <div className="category-box flex-fill">
                     <span>
-                      <img src={CategoryIcon2} className="img-fluid" alt="img" />
+                      <img
+                        src={CategoryIcon2}
+                        className="img-fluid"
+                        alt="img"
+                      />
                     </span>
                     <div className="category-info">
                       <h6>Truly Transparent</h6>
@@ -188,7 +196,11 @@ const Home4 = () => {
                 >
                   <div className="category-box flex-fill">
                     <span>
-                      <img src={CategoryIcon3} className="img-fluid" alt="img" />
+                      <img
+                        src={CategoryIcon3}
+                        className="img-fluid"
+                        alt="img"
+                      />
                     </span>
                     <div className="category-info">
                       <h6>Fantastically Free</h6>
@@ -202,7 +214,11 @@ const Home4 = () => {
                 >
                   <div className="category-box flex-fill">
                     <span>
-                      <img src={CategoryIcon2} className="img-fluid" alt="img" />
+                      <img
+                        src={CategoryIcon2}
+                        className="img-fluid"
+                        alt="img"
+                      />
                     </span>
                     <div className="category-info">
                       <h6>Convenient Place</h6>
@@ -305,7 +321,9 @@ const Home4 = () => {
                     data-aos="fade-up"
                   >
                     <h2>Newest Flexible Office Spaces</h2>
-                    <p>Search for coworking spaces in our most popular cities</p>
+                    <p>
+                      Search for coworking spaces in our most popular cities
+                    </p>
                   </div>
                 </div>
                 <div className="col-md-4 text-md-end aos" data-aos="fade-up">
@@ -537,15 +555,14 @@ const Home4 = () => {
                     data-aos="fade-up"
                   >
                     <h2>Top Coworking Cities</h2>
-                    <p>Search for coworking spaces in our most popular cities</p>
+                    <p>
+                      Search for coworking spaces in our most popular cities
+                    </p>
                   </div>
                 </div>
                 <div className="col-md-4 text-md-end aos" data-aos="fade-up">
                   <div className="interset-btn">
-                    <Link
-                      to="/categories"
-                      className="btn btn-primary more-btn"
-                    >
+                    <Link to="/categories" className="btn btn-primary more-btn">
                       View More <i className="feather-arrow-right"></i>
                     </Link>
                   </div>
@@ -555,7 +572,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity1} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity1}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -573,7 +594,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity2} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity2}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -591,7 +616,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity3} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity3}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -609,7 +638,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity4} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity4}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -627,7 +660,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity5} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity5}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -645,7 +682,11 @@ const Home4 = () => {
                 <div className="col-lg-2 col-sm-6 aos" data-aos="fade-up">
                   <div className="city-wrap">
                     <div className="city-img">
-                      <img src={WorkCity6} className="img-fluid" alt="blog-img" />
+                      <img
+                        src={WorkCity6}
+                        className="img-fluid"
+                        alt="blog-img"
+                      />
                       <Link to="/categories">
                         <i className="feather-arrow-right"></i>
                       </Link>
@@ -723,7 +764,10 @@ const Home4 = () => {
             </div>
             <div className="price-wrap">
               <div className="row">
-                <div className="col-lg-3 col-md-6 d-flex aos" data-aos="fade-up">
+                <div
+                  className="col-lg-3 col-md-6 d-flex aos"
+                  data-aos="fade-up"
+                >
                   <div className="price-card price-four flex-fill">
                     <div>
                       <div className="price-head">
@@ -750,7 +794,10 @@ const Home4 = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 d-flex aos" data-aos="fade-up">
+                <div
+                  className="col-lg-3 col-md-6 d-flex aos"
+                  data-aos="fade-up"
+                >
                   <div className="price-card price-four flex-fill">
                     <div>
                       <div className="price-head">
@@ -762,7 +809,9 @@ const Home4 = () => {
                         </div>
                       </div>
                       <div className="price-body">
-                        <p>Advanced tools to take your work to the next level.</p>
+                        <p>
+                          Advanced tools to take your work to the next level.
+                        </p>
                         <ul>
                           <li className="active">Multi-step Zaps</li>
                           <li className="active">3 Premium Apps</li>
@@ -810,7 +859,10 @@ const Home4 = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 d-flex aos" data-aos="fade-up">
+                <div
+                  className="col-lg-3 col-md-6 d-flex aos"
+                  data-aos="fade-up"
+                >
                   <div className="price-card price-four flex-fill">
                     <div>
                       <div className="price-head">
@@ -822,7 +874,9 @@ const Home4 = () => {
                         </div>
                       </div>
                       <div className="price-body">
-                        <p>Advanced tools to take your work to the next level.</p>
+                        <p>
+                          Advanced tools to take your work to the next level.
+                        </p>
                         <ul>
                           <li className="active">Multi-step Zaps</li>
                           <li className="active">3 Premium Apps</li>
@@ -870,7 +924,11 @@ const Home4 = () => {
                 <div className="blog grid-blog blog-four flex-fill">
                   <div className="blog-image">
                     <Link to="/blog-details">
-                      <img className="img-fluid" src={Blog12} alt="Post Image" />
+                      <img
+                        className="img-fluid"
+                        src={Blog12}
+                        alt="Post Image"
+                      />
                     </Link>
                   </div>
                   <div className="blog-content">
@@ -903,7 +961,11 @@ const Home4 = () => {
                 <div className="blog grid-blog blog-four flex-fill">
                   <div className="blog-image">
                     <Link to="/blog-details">
-                      <img className="img-fluid" src={Blog13} alt="Post Image" />
+                      <img
+                        className="img-fluid"
+                        src={Blog13}
+                        alt="Post Image"
+                      />
                     </Link>
                   </div>
                   <div className="blog-content">
@@ -935,7 +997,11 @@ const Home4 = () => {
                 <div className="blog grid-blog blog-four">
                   <div className="blog-image">
                     <Link to="/blog-details">
-                      <img className="img-fluid" src={Blog14} alt="Post Image" />
+                      <img
+                        className="img-fluid"
+                        src={Blog14}
+                        alt="Post Image"
+                      />
                     </Link>
                   </div>
                   <div className="blog-content">
@@ -968,7 +1034,11 @@ const Home4 = () => {
                 <div className="blog grid-blog blog-four">
                   <div className="blog-image">
                     <Link to="/blog-details">
-                      <img className="img-fluid" src={Blog15} alt="Post Image" />
+                      <img
+                        className="img-fluid"
+                        src={Blog15}
+                        alt="Post Image"
+                      />
                     </Link>
                   </div>
                   <div className="blog-content">
@@ -1017,7 +1087,7 @@ const Home4 = () => {
             style={{
               transition: "stroke-dashoffset 10ms linear 0s",
               strokeDasharray: "307.919px, 307.919px",
-              strokeDashoffset: "228.265px"
+              strokeDashoffset: "228.265px",
             }}
           />
         </svg>

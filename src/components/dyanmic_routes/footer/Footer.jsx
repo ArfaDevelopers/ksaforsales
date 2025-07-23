@@ -107,7 +107,7 @@ const Footer = () => {
               <div className="footermidinfo-container">
                 <div className="midfooterinfo">
                   <i className="midfooterinfo-icon">
-                    <img src={gmail} alt="" style={{ width: "3.5rem" }} />
+                    <img src={gmail} alt="" style={{ width: "50px" }} />
                   </i>
                   <div className="footermidgmail">
                     <h4 className="footermidgmailheading">Email support</h4>
@@ -121,7 +121,7 @@ const Footer = () => {
                 </div>
                 <div className="midfooterinfo">
                   <i className="midfooterinfo-icon">
-                    <img src={whatapp} alt="" style={{ width: "3.5rem" }} />
+                    <img src={whatapp} alt="" style={{ width: "50px" }} />
                   </i>
                   <div className="footermidgmail">
                     <h4 className="footermidgmailheading">Phone Number</h4>

@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     setMessage("");
     try {
       const res = await axios.post(
-        "http://168.231.80.24:9002/route/forgot-password/verify-otp-and-update",
+        "http://168.231.80.24:9002/route/verifyChangepasswdotp",
         {
           phoneNumber,
           otp,
