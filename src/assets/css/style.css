@@ -18241,6 +18241,9 @@ section.advertisement {
 }
 
 @media (max-width: 991.98px) {
+.sidenav{
+  margin-top: 0 !important;
+}
   .adv-content h4 {
     font-size: 26px;
   }
@@ -18773,7 +18776,7 @@ section.advertisement {
   }
   .header-four #mobile_btn {
     margin-right: 0px;
-    position: absolute;
+    position: static;
     top: 50%;
 transform: translateY(-50%);
     left: 0;
@@ -19241,7 +19244,7 @@ background: #fff;
   .login-content,
   .bloglisting,
   .contactus-info {
-    padding: 70px 0;
+    padding: 130px 0 20px;
   }
   .contactusform-section {
     padding: 0 0 70px;
@@ -20609,9 +20612,16 @@ font-size: 28px;
 }
 
 @media (max-width: 575.98px) {
+
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
+  .footermidinfo-container {
+      gap: 10px;
+  }
+  .download_icon {
+    max-width: 160px !important;
+}
   .section-heading-seven h1 {
     font-size: 26px !important;
   }
@@ -20755,6 +20765,9 @@ font-size: 28px;
   .header-nav {
     height: auto;
   }
+  .header-nav .container-fluid{
+  padding: 0 !important;
+  }
   .section-heading h2 {
     font-size: 28px;
   }
@@ -20772,6 +20785,7 @@ font-size: 28px;
     text-align: start;
     display: block;
     margin: 0;
+    margin-left: 5px !important;
     padding-bottom: 0;
   }
   .banner-section p.explore-text span {
@@ -21082,7 +21096,7 @@ font-size: 28px;
     font-weight: bold;
   }
   .login-content {
-    padding: 60px 0;
+    padding: 110px 0 10px;
   }
   .terms-content {
     padding: 60px 0;
@@ -21222,11 +21236,31 @@ font-size: 28px;
     width: auto;
   }
   #mobile_btn {
+display: flex;
+    width: 30px;
+    height: 30px;
     margin-right: 0px;
-    position: absolute;
+    position: static;
     top: 20px;
     left: 0;
+    padding: 0;
   }
+  .bar-icon{
+    width: fit-content;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+}
+.bar-icon span {
+    width: 15px !important;
+    margin: 2px 0 !important;
+}
+.bar-icon span:nth-child(2) {
+    width: 15px !important;
+}
+.bar-icon span:nth-child(3) {
+    width: 10px !important;
+}
   .australi-loc img {
     min-height: 240px;
   }
@@ -22045,7 +22079,7 @@ border-radius: 16px !important;
 
   .containerParaInfo {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
   }
 
   .popup_cnt .img img {
@@ -23241,10 +23275,10 @@ height: 400px;
   }
 
   /* If flex: 0 0 32% is used in a parent component, target it with a class */
-  .flex-column {
+  /* .flex-column {
     flex: 0 0 100% !important;
     max-width: 100% !important;
-  }
+  } */
 }
 
 .custom-arrow {

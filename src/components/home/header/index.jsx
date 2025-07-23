@@ -2139,7 +2139,7 @@ const Header = ({ parms }) => {
                     alt="Logo"
                     className="img-fluid"
                     style={{
-                      width: window.innerWidth <= 575 ? "70px" : "100px",
+                      width: window.innerWidth <= 575 ? "82px" : "100px",
                       height: "auto",
                     }} // 👈 adjust as needed
                   />
@@ -2674,14 +2674,14 @@ const Header = ({ parms }) => {
         </div>
       </div>
       {/* <hr
-				style={{
-					backgroundColor: "#000",
-					width: window.innerWidth <= 576 ? "100%" : "74%",
-					margin: "0 auto", // Centers the line horizontally
-					border: "none",
-					height: "2px",
-				}}
-			/> */}
+        style={{
+          backgroundColor: "#000",
+          width: window.innerWidth <= 576 ? "100%" : "74%",
+          margin: "0 auto", // Centers the line horizontally
+          border: "none",
+          height: "2px",
+        }}
+      /> */}
       {userId ? <HeaderLower /> : ""}
     </header>
   );

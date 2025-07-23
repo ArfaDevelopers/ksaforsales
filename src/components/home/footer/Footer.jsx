@@ -49,88 +49,9 @@ const Footer = () => {
   }, []);
   return (
     <>
-      {/* <style>
-        {`
-          footer {
-            margin-top: -3rem;
-          }
-
-          @media (max-width: 768px) {
-            footer {
-              margin-top: -65rem;
-            }
-          }
-        `}
-      </style> */}
       <footer>
         <div className="footer">
           {/* footer_top */}
-          {/* 
-        <div className="topfooter_wrapper container">
-          <div className="topfooter_container1">
-            <h4 className="topfooter_heading1">GET KSA4SALES APP</h4>
-            <div className="topfooter_soc   d-flex flex-column">
-              <div>
-                <h4 className="topfooter_heading2">
-                  The best for is You just one click away
-                </h4>
-              </div>
-              <div class="d-flex align-items-center"style={{gap: "2rem"}}>
-    <img src={QRcode} alt="QR Code" class="topfooter-qr" style={{width: "100px", height: "100px", marginright: "2rem"}} />
-    <div class="d-flex flex-column">
-      <a href="https://play.google.com" target="_blank">
-        <img src={googlebutton} alt="Google Play" class="topfooter-socialimg mb-2" style={{width:" 148px", height: "50px"}} />
-      </a>
-      <a href="https://www.apple.com/app-store/" target="_blank">
-        <img src={appstore} alt="App Store" class="topfooter-socialimg" style={{width: "148px", height: "50px"}} />
-      </a>
-    </div>
-  </div>
-            </div> */}
-          {/* <div class="topfooter_soc d-flex flex-column align-items-center">
-  <div>
-    <h4 class="topfooter_heading2">
-      The best for You is just one click away
-    </h4>
-  </div>
-  <div class="d-flex align-items-center">
-    <img src={QRcode} alt="QR Code" class="topfooter-qr" style={{width: "100px", height: "100px", marginright: "2rem"}} />
-    <div class="d-flex flex-column">
-      <a href="https://play.google.com" target="_blank">
-        <img src={googlebutton} alt="Google Play" class="topfooter-socialimg mb-2" style={{width:" 148px", height: "50px"}} />
-      </a>
-      <a href="https://www.apple.com/app-store/" target="_blank">
-        <img src={appstore} alt="App Store" class="topfooter-socialimg" style={{width: "148px", height: "50px"}} />
-      </a>
-    </div>
-  </div>
-</div> */}
-          {/* </div>
-          <div className="topfooter_qrcodescanner" style={{marginLeft: window.innerWidth <= 576 ? "-1.5rem" : "0rem",marginTop: window.innerWidth <= 576 ? "-2rem" : "0rem"}}>
-            <div className="qrcodescanner_socs">
-              <i className="topfooter_arrow">
-                <img src={arrowimage} alt="" />
-              </i>
-              <i className="topfooterscanner">
-                <img src={scanner} alt="" />
-              </i>
-            </div>
-            <div className="para_div">
-              <p className="qrcodepara">
-                Scan the Qr to <br />
-                get the app
-              </p>
-            </div>
-          </div>
-          <div className="topfooter-mobileimage">
-            <i className="topfooter-mob">
-              <img src={mobileimage} alt="" />
-            </i>
-          </div>
-        </div> */}
-
-          {/* footer mid */}
-
           <div className="footermid-wrapper ">
             <div className="footermid-container container">
               <h3 className="footermid-heading">We are always here to help</h3>
@@ -287,7 +208,7 @@ const Footer = () => {
                         }}
                       />
                       <div
-                        className="d-flex flex-column child-container"
+                        className="d-flex flex-column child-container download_icon"
                         style={{ gap: "0.5rem", alignItems: "center" }}
                       >
                         <a
