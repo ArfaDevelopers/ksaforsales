@@ -110,6 +110,8 @@ color: white;
   border: none ;
 }
 .footermid-heading {
+font-size: 26px !important;
+font-weight: bold;
   margin-left: 0 !important ;
 }
 .trendingproducts_container {
@@ -3775,6 +3777,11 @@ button.unhover:hover {
   right: 20px;
 }
 /* SLICK ARROW ENDS */
+.footermidgmailheading{
+font-size: 18px !important;
+margin-bottom: 6px !important;
+font-weight: 400;
+}
 /* related able css starts */
 .relative_swiper {
   margin-bottom: 20px;
@@ -12759,8 +12766,8 @@ section.home-six-trending-search {
   align-items: center;
   flex-wrap: wrap;
   /* padding-top: 60px; */
-  padding-bottom: 30px;
-  padding-top: 30px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .footermidinfo-container {
@@ -12771,7 +12778,7 @@ section.home-six-trending-search {
 .midfooterinfo {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 32px;
 }
 .midfooterinfo:first-child {
   margin-right: 92px;
@@ -16952,11 +16959,11 @@ section.advertisement {
   outline: none;
 }
 .footer .footer-menu ul li {
-  line-height: 35px;
+  line-height: 30px;
   position: relative;
   display: block;
   text-transform: capitalize;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 .footer .footer-menu ul li:last-child {
   margin-bottom: 0;
@@ -22249,7 +22256,7 @@ border-radius: 16px !important;
     gap: 40px;
   }
   .footer .footer-menu ul li a {
-    font-size: 20px;
+    font-size: 16px;
   }
   .footer-title {
     font-size: 25px;
@@ -22996,7 +23003,10 @@ box-shadow: 0px 0px 4px #000000;
 }
 
 .footermid-para {
-  color: #a0a0a0;
+  font-size: 18px !important;
+  font-weight: 400;
+  line-height: 30Px;
+  color: #a0a0a0 !important;
 }
 
 .footerEnd_container {
