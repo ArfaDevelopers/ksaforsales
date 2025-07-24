@@ -3801,6 +3801,14 @@ h2.trendingproduct_heading{
     cursor: pointer;
     padding: 10px 23px;
 }
+.blue_btn.list_btn{
+  font-size: 14px;
+  padding: 12px 18px;
+}
+.blue_btn.list_btn svg{
+  margin-right: 5px;
+  width: 15px;
+}
 /* blue button css ends */
 /* Global button css ends */
 /* SLICK ARROW STARTS */

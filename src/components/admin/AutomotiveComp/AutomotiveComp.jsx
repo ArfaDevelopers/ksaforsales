@@ -13884,7 +13884,7 @@ const AutomotiveComp = () => {
                                 {/* Call Now Button */}
                                 <a href={`tel:${car.Phone}`}>
                                   <button
-                                    className={`sign-in-button ${
+                                    className={`blue_btn list_btn ${
                                       isActive ? "expanded" : ""
                                     }`}
                                     style={{
@@ -13905,7 +13905,7 @@ const AutomotiveComp = () => {
                                     }}
                                   >
                                     <FaPhoneAlt />
-                                    <span className="fw-semibold">
+                                    <span>
                                       {isActive ? car.Phone : "Call Now"}
                                     </span>
                                   </button>
@@ -13913,7 +13913,7 @@ const AutomotiveComp = () => {
 
                                 {/* Message Button */}
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     isActive ? "icon-only" : ""
                                   }`}
                                   style={{
@@ -13936,7 +13936,7 @@ const AutomotiveComp = () => {
                                   rel="noopener noreferrer"
                                 >
                                   <button
-                                    className={`sign-in-button ${
+                                    className={`blue_btn list_btn ${
                                       isActive ? "icon-only" : ""
                                     }`}
                                     style={{

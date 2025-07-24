@@ -148,7 +148,7 @@ export default function AutomativeCarousel() {
               Real Estate
             </h2>
             <Link to="/RealEstateComp">
-              <button className="featuresection_btn">View All</button>
+              <button className="blue_btn">View All</button>
             </Link>
           </div>
 

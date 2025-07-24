@@ -121,7 +121,7 @@ export default function AutomativeCarousel() {
           >
             <h2 className="featuresection_header">Commercial Ads</h2>
             <Link to="/CommercialAdscom">
-              <button className="featuresection_btn">View All</button>
+              <button className="blue_btn">View All</button>
             </Link>
           </div>
 

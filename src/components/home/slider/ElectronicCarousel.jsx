@@ -148,7 +148,7 @@ export default function AutomativeCarousel() {
             style={{ marginTop: "2.5rem" }}
           >
             <h2 className="featuresection_header">Electronic</h2>
-            <button className="featuresection_btn">View All</button>
+            <button className="blue_btn">View All</button>
           </div>
 
           <div className="feature-section-info">

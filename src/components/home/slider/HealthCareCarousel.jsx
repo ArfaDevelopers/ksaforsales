@@ -144,7 +144,7 @@ export default function AutomativeCarousel() {
           <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
             <h2 className="featuresection_header">Healthcare</h2>
             <Link to="/HealthCareComp">
-              <button className="featuresection_btn">View All</button>
+              <button className="blue_btn">View All</button>
             </Link>
           </div>
 

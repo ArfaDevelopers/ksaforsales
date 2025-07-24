@@ -94,7 +94,7 @@ const LatestBlog = () => {
             Latest Blog
           </h2>
           <button
-            className="featuresection_btn featuresection_btn1 mt-0"
+            className="blue_btn"
             onClick={() => window.open("https://ksa4sale.net/blogs", "_blank")}
           >
             Explore Blogs

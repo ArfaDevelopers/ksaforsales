@@ -176,7 +176,7 @@ export default function AutomativeCarousel() {
           >
             <h2 className="featuresection_header">Automotive</h2>
             <Link to="/AutomotiveComp">
-              <button className="featuresection_btn">View All</button>
+              <button className="blue_btn">View All</button>
             </Link>
           </div>
 
@@ -194,8 +194,8 @@ export default function AutomativeCarousel() {
           </div>
 
           {/* <div className="featureline">
-						<div className="highlighter"></div>
-					</div> */}
+            <div className="highlighter"></div>
+          </div> */}
         </div>
 
         <div className="row">
