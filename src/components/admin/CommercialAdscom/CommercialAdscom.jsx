@@ -723,16 +723,9 @@ const CommercialAdscom = () => {
                         paddingRight: "0",
                       }}
                     >
-                      <div className="d-flex justify-content-between gap-2 mt-1">
-                        <Button
-                          variant="primary"
-                          className="d-flex align-items-center gap-1 bg-white"
-                          style={{
-                            ...whatsappButtonStyles,
-                            transition: "all 0.2s ease",
-                            padding: "0.375rem 0.75rem",
-                            fontSize: "14px",
-                          }}
+                      <div className="d-flex justify-content-between gap-1 mt-1">
+                        <button
+                          className="d-flex align-items-center blue_btn list_btn"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowselectedPhone(item.phone);
@@ -742,42 +735,24 @@ const CommercialAdscom = () => {
                           <FaPhoneAlt
                             style={{
                               fontSize: "0.8rem",
-                              color: "#2d4495",
+                              color: "#fff",
                             }}
                             // className="fill-white text-white mt-1"
                           />
-                          <span style={{ color: whatsappButtonStyles.color }}>
-                            Call
-                          </span>
-                        </Button>
+                          <span>Call</span>
+                        </button>
 
-                        <Button
-                          variant="primary"
-                          className="d-flex align-items-center gap-1 bg-white"
-                          style={{
-                            ...whatsappButtonStyles,
-                            transition: "all 0.2s ease",
-                            padding: "0.375rem 0.75rem",
-                            fontSize: "14px",
-                          }}
+                        <button
+                          className="d-flex align-items-center blue_btn list_btn"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowWhatsApp(item.phone);
                             setSelectedPhone(item.phone);
                           }}
                         >
-                          <IoLogoWhatsapp
-                            style={{
-                              fontSize: "1.5rem",
-                              color: "#2d4495",
-
-                              // color: whatsappButtonStyles.color,
-                            }}
-                          />
-                          <span style={{ color: whatsappButtonStyles.color }}>
-                            WhatsApp
-                          </span>
-                        </Button>
+                          <FaWhatsapp />
+                          <span>WhatsApp</span>
+                        </button>
                         <Button
                           variant="primary"
                           className="d-flex align-items-center gap-1 bg-white"

@@ -898,16 +898,9 @@ const CategoryDetail = () => {
           <div>
             <div>
               <div className="d-flex justify-content-center gap-3 mt-3">
-                <Button
+                <button
                   variant="primary"
-                  className="d-flex align-items-center gap-1 unhover"
-                  style={{
-                    backgroundColor: "#2d4495",
-                    borderColor: "#2d4495",
-                    color: "white",
-                    // transition: "all 0.2s ease",
-                    padding: "0.375rem 0.75rem",
-                  }}
+                  className="d-flex align-items-center blue_btn list_btn"
                   onClick={handleOpenCall}
                   onMouseEnter={handleCallMouseEnter}
                   onMouseLeave={handleCallMouseLeave}
@@ -922,30 +915,16 @@ const CategoryDetail = () => {
                     }}
                   />
                   <span style={{ color: "white" }}>Call</span>
-                </Button>
-                <Button
-                  variant="primary"
-                  className="d-flex align-items-center gap-1"
-                  style={{
-                    ...whatsappButtonStyles,
-                    transition: "all 0.2s ease",
-                    padding: "0.375rem 0.75rem",
-                    backgroundColor: "white",
-                  }}
+                </button>
+                <button
+                  className="d-flex align-items-center blue_btn list_btn"
                   onClick={handleOpenWhatsapp}
                   // onMouseEnter={handleWhatsappMouseEnter}
                   // onMouseLeave={handleWhatsappMouseLeave}
                 >
-                  <IoLogoWhatsapp
-                    style={{
-                      fontSize: "1.5rem",
-                      color: "#2d4495",
-                    }}
-                  />
-                  <span style={{ color: whatsappButtonStyles.color }}>
-                    WhatsApp
-                  </span>
-                </Button>
+                  <FaWhatsapp />
+                  <span>WhatsApp</span>
+                </button>
                 <Button
                   variant="primary"
                   className="d-flex align-items-center gap-1 bg-white"
