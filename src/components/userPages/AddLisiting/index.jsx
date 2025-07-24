@@ -1251,8 +1251,6 @@ const AddLisiting = () => {
     {
       value: 1,
       label: "Riyadh",
-      // label: "Riyadh (الرياض)",
-
       regionId: 1,
       regionEn: "Riyadh",
       // regionAr: "الرياض",
@@ -1368,6 +1366,7 @@ const AddLisiting = () => {
       longitude: 40.200476,
     },
   ];
+
   useEffect(() => {
     const fetchCities = async () => {
       try {

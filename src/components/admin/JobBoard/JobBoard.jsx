@@ -228,11 +228,10 @@ const JobBoard = () => {
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___subCatgory");
   const { searchText } = useSearchStore();
-
   const regionOptions = [
     {
       value: 1,
-      label: "Riyadh (الرياض)",
+      label: "Riyadh",
       regionId: 1,
       regionEn: "Riyadh",
       // regionAr: "الرياض",
@@ -241,7 +240,7 @@ const JobBoard = () => {
     },
     {
       value: 2,
-      label: "Makkah (مكة المكرمة)",
+      label: "Makkah",
       regionId: 2,
       regionEn: "Makkah",
       // regionAr: "مكة المكرمة",
@@ -250,7 +249,7 @@ const JobBoard = () => {
     },
     {
       value: 3,
-      label: "Al Madinah (المدينة المنورة)",
+      label: "Al Madinah",
       regionId: 3,
       regionEn: "Al Madinah",
       // regionAr: "المدينة المنورة",
@@ -259,7 +258,7 @@ const JobBoard = () => {
     },
     {
       value: 4,
-      label: "Al Qassim (القصيم)",
+      label: "Al Qassim",
       regionId: 4,
       regionEn: "Al Qassim",
       // regionAr: "القصيم",
@@ -268,7 +267,7 @@ const JobBoard = () => {
     },
     {
       value: 5,
-      label: "Eastern (المنطقة الشرقية)",
+      label: "Eastern",
       regionId: 5,
       regionEn: "Eastern",
       // regionAr: "المنطقة الشرقية",
@@ -277,7 +276,7 @@ const JobBoard = () => {
     },
     {
       value: 6,
-      label: "Asir (عسير)",
+      label: "Asir",
       regionId: 6,
       regionEn: "Asir",
       // regionAr: "عسير",
@@ -286,7 +285,7 @@ const JobBoard = () => {
     },
     {
       value: 7,
-      label: "Tabuk (تبوك)",
+      label: "Tabuk",
       regionId: 7,
       regionEn: "Tabuk",
       // regionAr: "تبوك",
@@ -295,7 +294,7 @@ const JobBoard = () => {
     },
     {
       value: 8,
-      label: "Hail (حائل)",
+      label: "Hail",
       regionId: 8,
       regionEn: "Hail",
       // regionAr: "حائل",
@@ -304,7 +303,7 @@ const JobBoard = () => {
     },
     {
       value: 9,
-      label: "Northern Borders (الحدود الشماليه)",
+      label: "Northern Borders",
       regionId: 9,
       regionEn: "Northern Borders",
       // regionAr: "الحدود الشماليه",
@@ -313,7 +312,7 @@ const JobBoard = () => {
     },
     {
       value: 10,
-      label: "Jazan (جازان)",
+      label: "Jazan",
       regionId: 10,
       regionEn: "Jazan",
       // regionAr: "جازان",
@@ -322,7 +321,7 @@ const JobBoard = () => {
     },
     {
       value: 11,
-      label: "Najran (نجران)",
+      label: "Najran",
       regionId: 11,
       regionEn: "Najran",
       // regionAr: "نجران",
@@ -331,7 +330,7 @@ const JobBoard = () => {
     },
     {
       value: 12,
-      label: "Al Bahah (الباحة)",
+      label: "Al Bahah",
       regionId: 12,
       regionEn: "Al Bahah",
       // regionAr: "الباحة",
@@ -340,7 +339,7 @@ const JobBoard = () => {
     },
     {
       value: 13,
-      label: "Al Jawf (الجوف)",
+      label: "Al Jawf",
       regionId: 13,
       regionEn: "Al Jawf",
       // regionAr: "الجوف",
@@ -348,6 +347,7 @@ const JobBoard = () => {
       longitude: 40.200476,
     },
   ];
+
   const [refresh, setRefresh] = useState(false); // Add loading state
 
   const [selectedRegion, setSelectedRegionId] = useState("");
