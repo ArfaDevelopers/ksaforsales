@@ -83,7 +83,7 @@ const ForgotPassword = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Phone Number (e.g. +923001234567)"
+                        placeholder="Phone Number (e.g. +9665xxxxxxxx)"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required

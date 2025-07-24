@@ -38,7 +38,10 @@ import fallbackImage from "../../../../public/7309681.jpg";
 const Header = ({ parms }) => {
   const [menu, setMenu] = useState(false);
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
+  // var token = localStorage.getItem("user");
+  const token = auth.currentUser;
 
+  console.log(token, "-------Token---------");
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
   const getImageURL = async () => {
@@ -116,6 +119,8 @@ const Header = ({ parms }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem("user");
+
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error.message);
@@ -202,18 +207,22 @@ const Header = ({ parms }) => {
                     <span></span>
                   </span>
                 </Link> */}
-                <Link
-                  id="mobile_btn"
-                  to="#"
-                  onClick={toggleMobileMenu}
-                  className="menu-btn"
-                >
-                  <span className="bar-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                </Link>
+                {token ? (
+                  <Link
+                    id="mobile_btn"
+                    to="#"
+                    onClick={toggleMobileMenu}
+                    className="menu-btn"
+                  >
+                    <span className="bar-icon">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
+                  </Link>
+                ) : (
+                  ""
+                )}
 
                 <Offcanvas
                   show={menu}
@@ -2271,7 +2280,7 @@ const Header = ({ parms }) => {
               <ul
                 className="nav header-navbar-rht d-flex align-items-center"
                 style={{
-                  gap: window.innerWidth <= 576 ? "0" : "15px",
+                  gap: window.innerWidth <= 576 ? "5px" : "15px",
                   marginBottom: 0,
                   flexShrink: 0,
                 }}
@@ -2394,30 +2403,7 @@ const Header = ({ parms }) => {
                     )}
                     {/* {!isMobile && userId && ( */}
                     <li>
-                      <Link
-                        to="/listing"
-                        style={{
-                          backgroundColor: "#2d4495",
-                          color: "#fff",
-                          border: "none",
-                          fontWeight: "normal",
-                          borderRadius: 10,
-                          transition: "none",
-                          outline: "none",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                          padding: "0.5rem 1.5rem",
-                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
-                      >
+                      <Link className="blue_btn" to="/listing">
                         Post Ad
                       </Link>
                     </li>
@@ -2574,67 +2560,21 @@ const Header = ({ parms }) => {
                       )}
                     </div>
                     <li>
-                      <Link
-                        to="/signup"
-                        style={{
-                          backgroundColor: "#2d4495",
-                          color: "#fff",
-                          border: "none",
-                          fontWeight: "normal",
-                          borderRadius: 10,
-                          transition: "none",
-                          outline: "none",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                          padding:
-                            window.innerWidth <= 576
-                              ? "0.5rem 1rem"
-                              : "0.5rem 1.5rem",
-                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
+                      <buttton
+                        className="blue_btn"
+                        onClick={() => navigate("/signup")}
                       >
                         Sign Up
-                      </Link>
+                      </buttton>
                     </li>
                     <li>
-                      <Link
-                        to="/login"
-                        style={{
-                          backgroundColor: "#2d4495",
-                          color: "#fff",
-                          border: "none",
-                          fontWeight: "normal",
-                          borderRadius: 10,
-                          transition: "none",
-                          outline: "none",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                          padding:
-                            window.innerWidth <= 576
-                              ? "0.5rem 1rem"
-                              : "0.5rem 1.5rem",
-                          fontSize: window.innerWidth <= 576 ? "12px" : "16px",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.backgroundColor = "#2d4495";
-                          e.currentTarget.style.color = "#fff";
-                        }}
+                      <button
+                        className="blue_btn"
+                        onClick={() => navigate("/login")}
                       >
                         {" "}
                         Sign In
-                      </Link>
+                      </button>
                     </li>
                     {!isMobile && userId && (
                       <li>

@@ -315,14 +315,14 @@ a {
   -webkit-transition: ease all 0.5s;
   -ms-transition: ease all 0.5s;
 }
-a:hover,
+/* a:hover,
 a:focus {
   text-decoration: none;
   outline: none;
   transition: ease all 0.5s;
   -webkit-transition: ease all 0.5s;
   -ms-transition: ease all 0.5s;
-}
+} */
 button:focus {
   outline: 0;
 }
@@ -2753,14 +2753,14 @@ p:last-child {
 .serv-info h6 {
   color: #c10037;
 }
-a:hover,
+/* a:hover,
 a:focus {
   text-decoration: none;
   outline: none;
   transition: ease all 0.5s;
   -webkit-transition: ease all 0.5s;
   -ms-transition: ease all 0.5s;
-}
+} */
 .service-img .serv-img {
   border-radius: 10px 10px 0 0;
   -webkit-transform: translateZ(0);
@@ -3786,6 +3786,23 @@ h2.trendingproduct_heading{
   object-fit: contain;
 }
 /* CATEGORY IMAGE CSS ENDS */
+/* Global button css starts */
+/* blue button css starts */
+.blue_btn{
+    font-size: 16px;
+    line-height: 1.2;
+    color: #fff !important;
+    background-color: #2d4495;
+    border: none;
+    font-weight: normal;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 10px 23px;
+}
+/* blue button css ends */
+/* Global button css ends */
 /* SLICK ARROW STARTS */
 .commercial_slider_wrap .slick-prev:before {
   content: "\f104";
@@ -18070,7 +18087,7 @@ section.advertisement {
     margin-right: 9px;
   }
   .header-navbar-rht > li {
-    padding-right: 10px;
+    /* padding-right: 10px; */
   }
   .header-navbar-rht > li > .add-listing {
     display: none !important;
@@ -22216,6 +22233,9 @@ border-radius: 16px !important;
   .filter_card_main_wrap {
     width: 100% !important;
   }
+.login-wrap {
+    padding: 20px;
+}
   .filter_card_main_wrap {
     padding: 0 !important;
     padding-top: 30px !important;

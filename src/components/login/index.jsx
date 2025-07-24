@@ -394,8 +394,8 @@ const Login = () => {
                   style={{
                     position: "relative",
                     padding: 20,
-                    width: "300px",
-                    height: "300px",
+                    width: window.innerWidth <= 575 ? "100%" : "300px",
+                    height: window.innerWidth <= 575 ? "100%" : "300px",
                     margin: "0 auto 20px",
                     background: "#fff",
                     borderRadius: "10px",
@@ -404,6 +404,7 @@ const Login = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop: window.innerWidth <= 575 ? "20px" : "0px",
                   }}
                 >
                   {/* QR Code Image */}
@@ -422,7 +423,7 @@ const Login = () => {
                 <div
                   style={{ color: "black", fontWeight: "bold", fontSize: 26 }}
                 >
-                  Login with QR Code
+                  Visit our site with QR Code
                 </div>
                 <ol
                   style={{
@@ -459,7 +460,7 @@ const Login = () => {
                     >
                       1
                     </span>
-                    Open 4Sale on your phone.
+                    Open KSA4Sale on your phone.
                   </li>
                   <li
                     style={{
