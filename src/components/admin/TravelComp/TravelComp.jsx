@@ -2753,7 +2753,7 @@ const TravelComp = () => {
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          <Form.Label>Select a Category</Form.Label>
+                          {/* <Form.Label>Select a Category</Form.Label> */}
 
                           {(showAllServices
                             ? categories1
@@ -3001,7 +3001,7 @@ const TravelComp = () => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
+                        {/* <Form.Label>Select a City</Form.Label> */}
 
                         <>
                           {/* First 4 Checkboxes */}
@@ -3115,7 +3115,7 @@ const TravelComp = () => {
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a District</Form.Label>
+                        {/* <Form.Label>Select a District</Form.Label> */}
                         {/* <WindowedSelect
                                         options={districtOptions}
                                         isMulti

@@ -2552,7 +2552,7 @@ const FashionStyle = () => {
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          <Form.Label>Select a Category</Form.Label>
+                          {/* <Form.Label>Select a Category</Form.Label> */}
 
                           {/** Show 4 initially, all when showAll is true */}
                           {(showAll1
@@ -2797,7 +2797,7 @@ const FashionStyle = () => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
+                        {/* <Form.Label>Select a City</Form.Label> */}
 
                         <>
                           {/* First 4 Checkboxes */}
@@ -2911,7 +2911,7 @@ const FashionStyle = () => {
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a District</Form.Label>
+                        {/* <Form.Label>Select a District</Form.Label> */}
                         {/* <WindowedSelect
                                       options={districtOptions}
                                       isMulti

@@ -1296,16 +1296,13 @@ const Dynamic_Routes = () => {
                           >
                             <button
                               disabled={itemData.showNumberChecked}
-                              className={`sign-in-button ${
+                              className={`blue_btn list_btn ${
                                 showPhone ? "expanded" : ""
                               }`}
                               onClick={() => setShowPhone(true)}
                             >
                               <FaPhoneAlt />
-                              <span
-                                className="fw-semibold"
-                                disabled={itemData.showNumberChecked}
-                              >
+                              <span disabled={itemData.showNumberChecked}>
                                 {showPhone ? itemData.Phone : "Call Now"}
                               </span>
                             </button>
@@ -1317,7 +1314,7 @@ const Dynamic_Routes = () => {
                             rel="noopener noreferrer"
                           >
                             <button
-                              className={`sign-in-button ${
+                              className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""
                               }`}
                             >
@@ -1327,7 +1324,7 @@ const Dynamic_Routes = () => {
                           </a>
 
                           <button
-                            className={`sign-in-button ${
+                            className={`blue_btn list_btn ${
                               showPhone ? "icon-only" : ""
                             }`}
                             onClick={() => setShowModal(true)}
@@ -1640,7 +1637,7 @@ const Dynamic_Routes = () => {
                         marginBottom: 20,
                       }}
                     >
-                      ${itemData?.Price || "N/A"}
+                      SAR {itemData?.Price || "N/A"}
                     </div>
                     <h5>Safety Tips</h5>
                     <ul
@@ -1709,16 +1706,13 @@ const Dynamic_Routes = () => {
                             >
                               <button
                                 disabled={itemData.showNumberChecked}
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "expanded" : ""
                                 }`}
                                 onClick={() => setShowPhone(true)}
                               >
                                 <FaPhoneAlt />
-                                <span
-                                  className="fw-semibold"
-                                  disabled={itemData.showNumberChecked}
-                                >
+                                <span disabled={itemData.showNumberChecked}>
                                   {showPhone ? itemData.Phone : "Call Now"}
                                 </span>
                               </button>
@@ -1730,7 +1724,7 @@ const Dynamic_Routes = () => {
                               rel="noopener noreferrer"
                             >
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                               >
@@ -1740,7 +1734,7 @@ const Dynamic_Routes = () => {
                             </a>
 
                             <button
-                              className={`sign-in-button ${
+                              className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""
                               }`}
                               onClick={() => setShowModal(true)}

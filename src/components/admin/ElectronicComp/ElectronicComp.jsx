@@ -3333,7 +3333,7 @@ const ElectronicComp = () => {
                                     </a>
                                   ) : (
                                     <button
-                                      className={`sign-in-button`}
+                                      className={`blue_btn list_btn`}
                                       style={{
                                         marginTop:
                                           window.innerWidth <= 576
@@ -3350,16 +3350,14 @@ const ElectronicComp = () => {
                                       }}
                                     >
                                       <FaPhoneAlt />
-                                      <span className="fw-semibold">
-                                        Call Now
-                                      </span>
+                                      <span>Call Now</span>
                                     </button>
                                   )}
                                 </div>
 
                                 {/* Message Button */}
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     isActive ? "icon-only" : ""
                                   }`}
                                   style={{
@@ -3382,7 +3380,7 @@ const ElectronicComp = () => {
                                   rel="noopener noreferrer"
                                 >
                                   <button
-                                    className={`sign-in-button ${
+                                    className={`blue_btn list_btn ${
                                       isActive ? "icon-only" : ""
                                     }`}
                                     style={{

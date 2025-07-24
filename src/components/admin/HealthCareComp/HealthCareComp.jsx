@@ -2616,7 +2616,7 @@ const HealthCareComp = () => {
                     <Accordion.Body>
                       <div style={{ maxWidth: "300px", margin: "20px" }}>
                         <Form.Group>
-                          <Form.Label>Select a Category</Form.Label>
+                          {/* <Form.Label>Select a Category</Form.Label> */}
 
                           {(showAll2
                             ? categories1
@@ -2860,7 +2860,7 @@ const HealthCareComp = () => {
                     <Accordion.Header>Select City</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
+                        {/* <Form.Label>Select a City</Form.Label> */}
 
                         <>
                           {/* First 4 Checkboxes */}
@@ -2974,7 +2974,7 @@ const HealthCareComp = () => {
                     <Accordion.Header>Select District</Accordion.Header>
                     <Accordion.Body>
                       <Form.Group className="mb-3">
-                        <Form.Label>Select a District</Form.Label>
+                        {/* <Form.Label>Select a District</Form.Label> */}
                         {/* <WindowedSelect
                                       options={districtOptions}
                                       isMulti

@@ -1326,13 +1326,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -1344,7 +1344,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -1354,7 +1354,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -1780,13 +1780,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -1798,7 +1798,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -1808,7 +1808,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -2229,13 +2229,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -2247,7 +2247,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -2257,7 +2257,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -2675,13 +2675,13 @@ const Dynamic_Route = () => {
                               <a href={`tel:${itemData.Phone}`}>
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -2693,7 +2693,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -2703,7 +2703,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -3124,13 +3124,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -3142,7 +3142,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -3152,7 +3152,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -3573,13 +3573,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -3591,7 +3591,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -3601,7 +3601,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -4022,13 +4022,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -4040,7 +4040,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -4050,7 +4050,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -4471,13 +4471,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -4489,7 +4489,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -4499,7 +4499,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -4920,13 +4920,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -4938,7 +4938,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -4948,7 +4948,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -5369,13 +5369,13 @@ const Dynamic_Route = () => {
                               >
                                 <button
                                   disabled={itemData.showNumberChecked}
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "expanded" : ""
                                   }`}
                                   onClick={() => setShowPhone(true)}
                                 >
                                   <FaPhoneAlt />
-                                  <span className="fw-semibold">
+                                  <span>
                                     {showPhone ? itemData.Phone : "Call Now"}
                                   </span>
                                 </button>
@@ -5387,7 +5387,7 @@ const Dynamic_Route = () => {
                                 rel="noopener noreferrer"
                               >
                                 <button
-                                  className={`sign-in-button ${
+                                  className={`blue_btn list_btn ${
                                     showPhone ? "icon-only" : ""
                                   }`}
                                 >
@@ -5397,7 +5397,7 @@ const Dynamic_Route = () => {
                               </a>
 
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                                 onClick={() => setShowModal(true)}
@@ -5752,7 +5752,7 @@ const Dynamic_Route = () => {
                         marginBottom: 20,
                       }}
                     >
-                      ${itemData?.Price || "N/A"}
+                      SAR {itemData?.Price || "N/A"}
                     </div>
                     <h5>Safety Tips</h5>
                     <ul
@@ -5821,13 +5821,13 @@ const Dynamic_Route = () => {
                             >
                               <button
                                 disabled={itemData.showNumberChecked}
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "expanded" : ""
                                 }`}
                                 onClick={() => setShowPhone(true)}
                               >
                                 <FaPhoneAlt />
-                                <span className="fw-semibold">
+                                <span>
                                   {showPhone ? itemData.Phone : "Call Now"}
                                 </span>
                               </button>
@@ -5839,7 +5839,7 @@ const Dynamic_Route = () => {
                               rel="noopener noreferrer"
                             >
                               <button
-                                className={`sign-in-button ${
+                                className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
                                 }`}
                               >
@@ -5849,7 +5849,7 @@ const Dynamic_Route = () => {
                             </a>
 
                             <button
-                              className={`sign-in-button ${
+                              className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""
                               }`}
                               onClick={() => setShowModal(true)}
@@ -5859,7 +5859,7 @@ const Dynamic_Route = () => {
                             </button>
 
                             <style jsx>{`
-                              .sign-in-button {
+                              .blue_btn list_btn {
                                 background-color: #0055a5; /* Blue background color matching the image */
                                 color: white; /* White text color */
                                 font-size: 18px; /* Approximate font size */
@@ -5877,7 +5877,7 @@ const Dynamic_Route = () => {
                                 transition: width 0.3s ease; /* Smooth transition for width change */
                               }
 
-                              .sign-in-button:hover {
+                              .blue_btn list_btn:hover {
                                 background-color: #004080; /* Slightly darker blue on hover for feedback */
                               }
 
