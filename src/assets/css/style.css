@@ -3835,6 +3835,25 @@ h2.trendingproduct_heading{
   right: 20px;
 }
 /* SLICK ARROW ENDS */
+/* MOBILE NAV BAR CSS STARTS */
+.mobile_header_bottom{
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    z-index: 99;
+    padding: 20px;
+}
+.mobile_header_bottom .mobile_nav ul{
+    display: flex;
+    justify-content: space-between;
+}
+.mobile_header_bottom .mobile_nav li svg{
+   font-size: 24px;
+}
+/* MOBILE NAV BAR CSS ENDS */
 .footermidgmailheading {
   font-size: 18px !important;
   margin-bottom: 6px !important;
@@ -4198,6 +4217,7 @@ ul.colu-4 {
   color: #374b5c;
   font-size: 15px;
   padding: 15px 15px;
+
 }
 .feedbackbox .form-group textarea::placeholder,
 .feedbackbox .form-group input::placeholder {
@@ -6890,7 +6910,7 @@ margin-bottom: 26px;
 -----------------------*/
 
 .dashboard-content {
-  padding: 70px 0;
+  padding: 110px 0 70px;
   background: white;
 }
 .dashboard-content ul.dashborad-menus {
@@ -7481,6 +7501,8 @@ textarea.form-control {
   color: #717171;
   font-size: 15px;
   padding: 10px;
+  border-radius: 5px;
+  border-color: rgb(191, 198, 208) !important;
 }
 .settings-upload-btn .hide-input {
   opacity: 0;
@@ -7807,9 +7829,11 @@ textarea.form-control {
 }
 .messages-form input {
   background: none;
-  border: 1px solid #e3e3e3;
-  border-radius: 8px;
   min-height: auto;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  min-height: auto;
+  border-color: rgb(191, 198, 208) !important;
 }
 .social-info input {
   background: #fff;
@@ -7836,8 +7860,10 @@ textarea.form-control {
 .messages-form .col-form-label {
   margin: 0 0 15px;
   padding: 0;
-  font-weight: 500;
+  font-weight: bold;
   color: #666;
+  font-size: 20px;
+  color: #374b5c;
 }
 .messages-form .card-header {
   background: none;
@@ -20673,6 +20699,9 @@ font-size: 28px;
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
+.mobile_header_bottom{
+    display: block;
+}
 .header{
 position: fixed;
 }

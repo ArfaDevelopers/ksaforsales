@@ -1132,7 +1132,7 @@ const Home = () => {
         </div>
 
         {/* Category Section */}
-        <section className="category-section">
+        <section className="category-section" id="our_category">
           <div className="container">
             <div className="section-heading">
               <div className="row align-items-center">

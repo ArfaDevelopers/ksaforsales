@@ -428,15 +428,15 @@ const Profile = () => {
                         <span>Max file size: 10 MB</span>
                       </div>
                       {/* <Link
-												to="#"
-												className="profile-img-del"
-												onClick={handleDeleteUser}
-												style={{
-													marginTop:
-														window.innerWidth <= 576 ? "-1rem" : "0rem",
-												}}>
-												<i className="feather-trash-2" />
-											</Link> */}
+                        to="#"
+                        className="profile-img-del"
+                        onClick={handleDeleteUser}
+                        style={{
+                          marginTop:
+                            window.innerWidth <= 576 ? "-1rem" : "0rem",
+                        }}>
+                        <i className="feather-trash-2" />
+                      </Link> */}
                     </div>
                     <div className="profile-form">
                       <form onSubmit={handleUpdate}>
@@ -504,22 +504,21 @@ const Profile = () => {
                           </div>
                         </div>
                         <div className="updatedel_wrap">
-                          <button
-                            type="submit"
-                            className="btn"
-                            style={{
-                              backgroundColor: "#2d4495",
-                              color: "white",
-                            }}
-                          >
+                          <button type="submit" className="blue_btn list_btn">
                             Update Profile
                           </button>
                           <Link
                             to="#"
-                            className="profile-img-del"
+                            className="blue_btn list_btn"
                             onClick={handleDeleteUser}
                           >
-                            <i className="feather-trash-2" />
+                            <i
+                              style={{
+                                marginRight: "3px",
+                              }}
+                              className="feather-trash-2"
+                            />
+                            <span>Delete Profile</span>
                           </Link>
                         </div>
                       </form>

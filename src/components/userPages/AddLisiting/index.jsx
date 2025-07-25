@@ -2781,11 +2781,11 @@ const AddLisiting = () => {
 
     if (name === "title") {
       // Allow letters and spaces, limit to 25 characters
-      const cleanedValue = value.replace(/[^a-zA-Z ]/g, "").slice(0, 25);
+      const cleanedValue = value.replace(/[^a-zA-Z ]/g, "").slice(0, 200000);
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "kmDriven" || name === "mileage") {
       // Only allow digits, limit to 10 characters
-      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      const numericValue = value.replace(/\D/g, "").slice(0, 1000);
       setFormData((prev) => ({ ...prev, [name]: numericValue }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -2849,7 +2849,7 @@ const AddLisiting = () => {
       setSaudinummsg("Phone number cannot exceed 13 digits");
     } else if (!phone.startsWith("+966") || phone.length !== 13) {
       setSaudinummsg(
-        "Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)"
+        "Please enter a valid Saudi Mobile Number (e.g., +9665XXXXXXXX)"
       );
     } else {
       setSaudinummsg("");
@@ -4594,6 +4594,7 @@ const AddLisiting = () => {
           className="dashboard-content"
           style={{
             marginTop: "5rem",
+            boxShadow: "0px 0px 23px rgba(222, 226, 231, 0.44)",
           }}
         >
           <div className="container">
@@ -4642,26 +4643,14 @@ const AddLisiting = () => {
 
             <div className="profile-content">
               <div className="messages-form">
-                <div className="gap-2">
+                <div
+                  className="gap-2 card"
+                  style={{
+                    boxShadow: "0px 0px 23px rgba(222, 226, 231, 0.44)",
+                  }}
+                >
                   <div
-                    className="card-header"
-                    style={{
-                      boxShadow: "3px 5px 13px rgba(222, 226, 231, 0.44)",
-                      padding: "20px 20px 20px 20px",
-                      borderRadius: "6px 6px 0 0",
-                      marginBottom: "0px",
-                    }}
-                  >
-                    <h4
-                      style={{
-                        marginBottom: "0",
-                      }}
-                    >
-                      Basic information
-                    </h4>
-                  </div>
-                  <div
-                    className="card media-section"
+                    className="media-section"
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -4816,7 +4805,7 @@ const AddLisiting = () => {
                     {galleryImagesErrMsg}
                   </span>
                   <div
-                    className="card"
+                    className=""
                     style={{
                       borderRadius: "0",
                     }}
@@ -4903,7 +4892,7 @@ const AddLisiting = () => {
                           <input
                             type="text"
                             name="title"
-                            className="form-control pass-input input-margin" // Add the new class here
+                            className="form-control pass-input input-margin"
                             placeholder="Title"
                             value={formData.title}
                             onChange={handleChange}
@@ -6170,97 +6159,7 @@ const AddLisiting = () => {
                               <div className="card-header">
                                 <h4>Basic Information</h4>
                               </div>
-                              <div className="card-body">
-                                <div className="form-group">
-                                  <label className="col-form-label">
-                                    KM Driven
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="kmDriven"
-                                    className="form-control pass-input"
-                                    placeholder="Enter kilometers driven"
-                                    value={formData.kmDriven}
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                                <div className="transmission_block">
-                                  <div className="card-header">
-                                    <h4>Transmission</h4>
-                                  </div>
-                                  <div className="card-body">
-                                    <div className="form-group featuresform-list mb-0">
-                                      <ul className="colu-2">
-                                        {[
-                                          {
-                                            name: "Automatic",
-                                            label: "Automatic",
-                                          },
-                                          { name: "Manual", label: "Manual" },
-                                        ].map((feature) => (
-                                          <li key={feature.name}>
-                                            <label className="custom_check">
-                                              <input
-                                                type="checkbox"
-                                                name={feature.name}
-                                                checked={
-                                                  formData.Transmission ===
-                                                  feature.name
-                                                }
-                                                onChange={
-                                                  handleTransmissionChange
-                                                } // ✅ Fixed function name
-                                              />
-                                              <span className="checkmark" />{" "}
-                                              {feature.label}
-                                            </label>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                      <div className="clearfix" />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="condition_block">
-                                  <div className="card-header">
-                                    <h4>Condition</h4>
-                                  </div>
-                                  <div className="card-body">
-                                    <div className="form-group featuresform-list mb-0">
-                                      <ul className="colu-3">
-                                        {[
-                                          {
-                                            name: "New",
-                                            label: "New",
-                                          },
-                                          {
-                                            name: "Used",
-                                            label: "Used",
-                                          },
-                                          { name: "Manual", label: "Manual" },
-                                        ].map((feature) => (
-                                          <li key={feature.name}>
-                                            <label className="custom_check">
-                                              <input
-                                                type="checkbox"
-                                                name={feature.name}
-                                                checked={
-                                                  formData.Condition ===
-                                                  feature.name
-                                                }
-                                                onChange={handleCondition} // ✅ Fixed function name
-                                              />
-                                              <span className="checkmark" />{" "}
-                                              {feature.label}
-                                            </label>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                      <div className="clearfix" />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+
                               <div className="card-body">
                                 <div className="form-group relative">
                                   <div className="card-header">
@@ -6304,7 +6203,7 @@ const AddLisiting = () => {
                                 </div>
 
                                 {selected === "Toyota" && (
-                                  <div className="mt-4">
+                                  <div className="mt-4 mb-4">
                                     <div className="card-header">
                                       <h4>Model</h4>
                                     </div>
@@ -7965,6 +7864,84 @@ const AddLisiting = () => {
                                   />
                                 </div>
                               </div>
+                              <div className="card-body">
+                                <div className="transmission_block">
+                                  <div className="card-header">
+                                    <h4>Transmission</h4>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="form-group featuresform-list mb-0">
+                                      <ul className="colu-3">
+                                        {[
+                                          {
+                                            name: "Automatic",
+                                            label: "Automatic",
+                                          },
+                                          { name: "Manual", label: "Manual" },
+                                        ].map((feature) => (
+                                          <li key={feature.name}>
+                                            <label className="custom_check">
+                                              <input
+                                                type="checkbox"
+                                                name={feature.name}
+                                                checked={
+                                                  formData.Transmission ===
+                                                  feature.name
+                                                }
+                                                onChange={
+                                                  handleTransmissionChange
+                                                } // ✅ Fixed function name
+                                              />
+                                              <span className="checkmark" />{" "}
+                                              {feature.label}
+                                            </label>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                      <div className="clearfix" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="condition_block">
+                                  <div className="card-header">
+                                    <h4>Condition</h4>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="form-group featuresform-list mb-0">
+                                      <ul className="colu-3">
+                                        {[
+                                          {
+                                            name: "New",
+                                            label: "New",
+                                          },
+                                          {
+                                            name: "Used",
+                                            label: "Used",
+                                          },
+                                          { name: "Manual", label: "Manual" },
+                                        ].map((feature) => (
+                                          <li key={feature.name}>
+                                            <label className="custom_check">
+                                              <input
+                                                type="checkbox"
+                                                name={feature.name}
+                                                checked={
+                                                  formData.Condition ===
+                                                  feature.name
+                                                }
+                                                onChange={handleCondition} // ✅ Fixed function name
+                                              />
+                                              <span className="checkmark" />{" "}
+                                              {feature.label}
+                                            </label>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                      <div className="clearfix" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
 
                             <div className="regional_block">
@@ -8197,7 +8174,7 @@ const AddLisiting = () => {
                               </div>
                               <div className="card-body">
                                 <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-2">
+                                  <ul className="colu-3">
                                     {[
                                       { name: "White", label: "White" },
                                       { name: "Black", label: "Black" },
@@ -8647,6 +8624,9 @@ const AddLisiting = () => {
                                 Manufacture Year{" "}
                               </label>
                               <input
+                                style={{
+                                  height: "48px",
+                                }}
                                 type="text"
                                 name="ManufactureYear"
                                 className="form-control pass-input"
@@ -13491,9 +13471,10 @@ const AddLisiting = () => {
                                   style={{
                                     padding: "10px 0 0 0",
                                     fontWeight: "bold",
-                                    fontSize: "18px",
+                                    fontSize: "20px",
                                     display: "flex",
                                     justifyContent: "space-between",
+                                    color: "#374b5c",
                                   }}
                                 >
                                   Show Number
@@ -13549,7 +13530,13 @@ const AddLisiting = () => {
                                     {/* Unicode eye icons */}
                                   </span>
                                 </div>
-                                <p style={{ color: "red", fontSize: "12px" }}>
+                                <p
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    position: "absolute",
+                                  }}
+                                >
                                   {Saudinummsg}
                                 </p>
                               </div>
@@ -13563,7 +13550,8 @@ const AddLisiting = () => {
                                   style={{
                                     padding: "10px 0 0 0",
                                     fontWeight: "bold",
-                                    fontSize: "18px",
+                                    fontSize: "20px",
+                                    color: "#374b5c",
                                   }}
                                 >
                                   Price
@@ -13624,13 +13612,14 @@ const AddLisiting = () => {
                     </div>
 
                     <div className="card-body">
-                      <div className="form-group">
+                      <div className="form-group mt-3">
                         <label
                           className="col-form-label"
                           style={{
                             padding: "10px 0 0 0",
                             fontWeight: "bold",
-                            fontSize: "18px",
+                            fontSize: "20px",
+                            color: "#374b5c",
                           }}
                         >
                           Listing Description :
@@ -13715,7 +13704,7 @@ const AddLisiting = () => {
                   </div> */}
                     </div>
                   </div>
-                  <div className="card" style={{ borderRadius: "0 0 6px 6px" }}>
+                  <div className="" style={{ borderRadius: "0 0 6px 6px" }}>
                     <div className="card-header">
                       <h4>Featured </h4>
                     </div>
@@ -13807,12 +13796,14 @@ const AddLisiting = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={uploading || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked
-                  className="btn"
+                  className="blue_btn"
                   style={{
-                    backgroundColor: "#2d4495",
-                    color: "white",
                     marginTop:
-                      formData.FeaturedAds === "Featured Ads" ? "20px" : "",
+                      formData.FeaturedAds === "Featured Ads" ? "20px" : "20px",
+                    padding:
+                      formData.FeaturedAds === "Featured Ads"
+                        ? "12px 70px"
+                        : "10px 23px;",
                   }}
                   type="button"
                 >

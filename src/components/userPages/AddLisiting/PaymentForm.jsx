@@ -253,16 +253,8 @@ const PaymentForm = (props) => {
 
           <button
             disabled={loading || paymentSuccess}
-            style={{
-              backgroundColor: "rgb(45, 68, 149)",
-              color: "rgb(255, 255, 255)",
-              fontWeight: "bold",
-              borderRadius: "10px",
-              padding: "12px 24px",
-              fontSize: "16px",
-            }}
             type="submit"
-            className={`w-full py-2 mt-1 rounded-lg text-white font-semibold  ${
+            className={`blue_btn  ${
               loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >

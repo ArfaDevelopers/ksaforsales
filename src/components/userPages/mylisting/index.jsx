@@ -22,7 +22,6 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { signOut } from "firebase/auth";
 import axios from "axios";
-
 const MyListe = () => {
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -707,6 +706,7 @@ const MyListe = () => {
       render: (text, record) => (
         <div
           className={text}
+          title={record.isActive ? "Not Active" : "View Item"}
           style={{
             display: "flex",
             gap: "10px",
@@ -766,6 +766,7 @@ const MyListe = () => {
                   )}`
             }
             className="action-btn btn-edit"
+            title={"Edit Item"}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -798,7 +799,7 @@ const MyListe = () => {
               padding: "5px 10px",
               borderRadius: "4px",
             }}
-            title={record.isActive ? "Enable" : "Disable"}
+            title={record.isActive ? "Enable Item" : "Disable Item"}
           >
             <i
               className={record.isActive ? "feather-lock" : "feather-unlock"}
