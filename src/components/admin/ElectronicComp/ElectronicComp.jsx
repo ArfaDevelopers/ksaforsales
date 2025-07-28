@@ -2041,14 +2041,10 @@ const ElectronicComp = () => {
         <Header parms={parms} />
 
         <Container
-          className="parent-main"
+          className="parent-main category"
           style={{
-            paddingLeft: "2px", // Padding on the left side
-            paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
+            marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
           }}
         >
           <div
@@ -2057,9 +2053,8 @@ const ElectronicComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: "40px",
+              marginBottom: "20px",
               alignItems: "center",
             }}
           >
@@ -2152,438 +2147,437 @@ const ElectronicComp = () => {
           </div>
         </Container>
         <Container
-          fluid
           style={{
-            paddingLeft: "10px", // Padding on the left side
-            paddingRight: "1px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1410px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            // marginLeft: window.innerWidth <= 576 ? "-0.3rem" : "13%",
           }}
         >
           <Row className="filter_outterwrap">
             {/* Sidebar */}
             <Col
-              md={3}
+              lg={3}
               className=" filter_main_wrap style={{ height: '200px' }}"
             >
-              <h5
-                style={{
-                  borderTopLeftRadius: "5px",
-                  borderTopRightRadius: "5px",
-                  backgroundColor: "#2D4495",
-                  color: "white",
-                  width: "auto",
-                  height: "49.66px",
-                  paddingLeft: "12px",
-                  paddingTop: "12px",
-                }}
-              >
-                Show Results by:
-              </h5>
-
-              <Form className="filter_innerwrap">
-                <Row className="my-3">
-                  <Col>
-                    <Form.Label
-                      style={{
-                        fontWeight: "bold",
-                        color: "black",
-                        paddingLeft: "8px",
-                      }}
-                    >
-                      Search by Keywords
-                    </Form.Label>
-                    <div className="position-relative">
-                      <input
-                        type="search"
-                        placeholder="Search here"
-                        className="form-control rounded-pill pe-5 input_feild"
-                        id="example-search-input"
-                        value={searchQuery} // Bind value to searchQuery state
-                        onChange={handleSearchChange} // Call the handler on input change
-                      />
-                      <FaSearch
-                        className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
-                        style={{ pointerEvents: "none" }}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-                {/*  -------------  */}
-                <style>{`
+              <div className="side_bar_main_wrap">
+                <h5
+                  style={{
+                    borderTopLeftRadius: "5px",
+                    borderTopRightRadius: "5px",
+                    backgroundColor: "#2D4495",
+                    color: "white",
+                    width: "auto",
+                    height: "49.66px",
+                    paddingLeft: "12px",
+                    paddingTop: "12px",
+                  }}
+                >
+                  Show Results by:
+                </h5>
+                <Form className="filter_innerwrap">
+                  <Row className="my-3">
+                    <Col>
+                      <Form.Label
+                        style={{
+                          fontWeight: "bold",
+                          color: "black",
+                          paddingLeft: "8px",
+                        }}
+                      >
+                        Search by Keywords
+                      </Form.Label>
+                      <div className="position-relative">
+                        <input
+                          type="search"
+                          placeholder="Search here"
+                          className="form-control rounded-pill pe-5 input_feild"
+                          id="example-search-input"
+                          value={searchQuery} // Bind value to searchQuery state
+                          onChange={handleSearchChange} // Call the handler on input change
+                        />
+                        <FaSearch
+                          className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+                          style={{ pointerEvents: "none" }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                  {/*  -------------  */}
+                  <style>{`
     .form-check-input:checked {
       background-color: #2D4495 !important; 
       border-color: black !important; 
     }
   `}</style>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
 
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Sub Categories</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          <Form.Label>Select a Category</Form.Label>
-                          {visibleCategories.map((category, index) => (
-                            <div key={index} className="form-check mb-2">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`cat-${index}`}
-                                value={category}
-                                checked={selectedSubCategory === category}
-                                onChange={() => handleCategoryCheck(category)}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`cat-${index}`}
-                              >
-                                {category}
-                              </label>
-                            </div>
-                          ))}
-
-                          {categories.length > 4 && (
-                            <Button
-                              variant="link"
-                              onClick={() => setShowAll((prev) => !prev)}
-                              className="p-0 mt-2"
-                            >
-                              {showAll ? "Show less..." : "Show more..."}
-                            </Button>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                {brandOptions[selectedSubCategory] && (
-                  <>
-                    <hr
-                      style={{
-                        width: "100%",
-                        height: "0px",
-                        top: "1310.01px",
-                        left: "239.88px",
-                        gap: "0px",
-                        borderTop: "1px solid #000000",
-                        opacity: "0.5", // Adjust opacity for visibility
-                        transform: "rotate(0deg)",
-                        margin: "20px 0",
-                        borderColor: "#000000", // Set border color to black
-                      }}
-                    />
-                    <Accordion className="mt-3">
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>Brands</Accordion.Header>
-                        <Accordion.Body>
-                          <div style={{ maxWidth: "300px", margin: "20px" }}>
-                            <Form.Group>
-                              {brandOptions[selectedSubCategory].map(
-                                (brand) => (
-                                  <div
-                                    key={brand}
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                      padding: "8px 0",
-                                    }}
-                                  >
-                                    <Form.Check
-                                      type="checkbox"
-                                      label={brand}
-                                      value={brand}
-                                      checked={brands.includes(brand)}
-                                      onChange={handleCheckboxBrand}
-                                    />
-                                    <span
-                                      style={{
-                                        fontWeight: "bold",
-                                        color: "#333",
-                                      }}
-                                    >
-                                      12345
-                                    </span>
-                                  </div>
-                                )
-                              )}
-                            </Form.Group>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </>
-                )}
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                {/*--------------------------------------*/}
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select Region</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        {/* <Form.Label>Select a Region</Form.Label> */}
-                        <div className="mb-3">
-                          {regionOptions.slice(0, 6).map((region) => {
-                            const isChecked = selectedRegion.includes(
-                              region.regionId
-                            );
-
-                            return (
-                              <div className="form-check" key={region.regionId}>
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Sub Categories</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            <Form.Label>Select a Category</Form.Label>
+                            {visibleCategories.map((category, index) => (
+                              <div key={index} className="form-check mb-2">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id={`region-${region.regionId}`}
-                                  checked={isChecked}
-                                  onChange={() => {
-                                    if (isChecked) {
-                                      setSelectedRegionId((prev) =>
-                                        prev.filter(
-                                          (id) => id !== region.regionId
-                                        )
-                                      );
-                                    } else {
-                                      setSelectedRegionId((prev) => [
-                                        ...prev,
-                                        region.regionId,
-                                      ]);
-                                    }
-                                  }}
+                                  id={`cat-${index}`}
+                                  value={category}
+                                  checked={selectedSubCategory === category}
+                                  onChange={() => handleCategoryCheck(category)}
                                 />
                                 <label
                                   className="form-check-label"
-                                  htmlFor={`region-${region.regionId}`}
+                                  htmlFor={`cat-${index}`}
                                 >
-                                  {region.label}
+                                  {category}
                                 </label>
                               </div>
-                            );
-                          })}
-                          <button
-                            type="button"
-                            className="btn btn-link p-0"
-                            onClick={() => setModalVisible(true)}
-                          >
-                            Show more choices...
-                          </button>
-                          <div className="">
-                            <div
-                              className="modal fade more_optn_modal_main"
-                              id="regionModal11"
-                              tabIndex="-1"
-                              ref={modalRef}
-                              aria-labelledby="regionModalLabel"
-                              aria-hidden="true"
-                            >
-                              {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
-                              <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-                                <div className="modal-content border-0 shadow-lg">
-                                  <div className="modal-header bg-light border-bottom">
-                                    <div className="d-flex align-items-center">
-                                      <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
-                                      <h5
-                                        className="modal-title fw-semibold mb-0"
-                                        id="regionModalLabel"
-                                      >
-                                        Select a Region
-                                      </h5>
-                                    </div>
-                                    <button
-                                      type="button"
-                                      className="btn-close"
-                                      onClick={() => setModalVisible(false)}
-                                      aria-label="Close"
-                                    ></button>
-                                  </div>
-                                  <div className="modal-body p-3">
-                                    <div className="mb-2">
-                                      <small className="text-muted">
-                                        Choose your preferred region from the
-                                        options below
-                                      </small>
-                                    </div>
-                                    <div className="row g-2">
-                                      <ul className="more_choice_main_list">
-                                        {regionOptions.map((region) => {
-                                          const isChecked =
-                                            selectedRegion.includes(
-                                              region.regionId
-                                            );
+                            ))}
 
-                                          return (
-                                            <div
-                                              className="form-check"
-                                              key={region.regionId}
-                                            >
-                                              <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id={`region-${region.regionId}`}
-                                                checked={isChecked}
-                                                onChange={() => {
-                                                  if (isChecked) {
-                                                    setSelectedRegionId(
-                                                      (prev) =>
-                                                        prev.filter(
-                                                          (id) =>
-                                                            id !==
-                                                            region.regionId
-                                                        )
-                                                    );
-                                                  } else {
-                                                    setSelectedRegionId(
-                                                      (prev) => [
-                                                        ...prev,
-                                                        region.regionId,
-                                                      ]
-                                                    );
-                                                  }
-                                                }}
-                                              />
-                                              <label
-                                                className="form-check-label"
-                                                htmlFor={`region-${region.regionId}`}
-                                              >
-                                                {region.label}
-                                              </label>
-                                            </div>
-                                          );
-                                        })}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
-                                    <div className="text-muted small">
-                                      {selectedRegion
-                                        ? "1 region selected"
-                                        : "No region selected"}
-                                    </div>
-                                    <div className="d-flex gap-2">
-                                      <button
-                                        type="button"
-                                        className="btn btn-outline-secondary"
-                                        onClick={() => {
-                                          setSelectedRegionId("");
+                            {categories.length > 4 && (
+                              <Button
+                                variant="link"
+                                onClick={() => setShowAll((prev) => !prev)}
+                                className="p-0 mt-2"
+                              >
+                                {showAll ? "Show less..." : "Show more..."}
+                              </Button>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  {brandOptions[selectedSubCategory] && (
+                    <>
+                      <hr
+                        style={{
+                          width: "100%",
+                          height: "0px",
+                          top: "1310.01px",
+                          left: "239.88px",
+                          gap: "0px",
+                          borderTop: "1px solid #000000",
+                          opacity: "0.5", // Adjust opacity for visibility
+                          transform: "rotate(0deg)",
+                          margin: "20px 0",
+                          borderColor: "#000000", // Set border color to black
+                        }}
+                      />
+                      <Accordion className="mt-3">
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>Brands</Accordion.Header>
+                          <Accordion.Body>
+                            <div style={{ maxWidth: "300px", margin: "20px" }}>
+                              <Form.Group>
+                                {brandOptions[selectedSubCategory].map(
+                                  (brand) => (
+                                    <div
+                                      key={brand}
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        padding: "8px 0",
+                                      }}
+                                    >
+                                      <Form.Check
+                                        type="checkbox"
+                                        label={brand}
+                                        value={brand}
+                                        checked={brands.includes(brand)}
+                                        onChange={handleCheckboxBrand}
+                                      />
+                                      <span
+                                        style={{
+                                          fontWeight: "bold",
+                                          color: "#333",
                                         }}
                                       >
-                                        Clear Selection
-                                      </button>
+                                        12345
+                                      </span>
+                                    </div>
+                                  )
+                                )}
+                              </Form.Group>
+                            </div>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    </>
+                  )}
+
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+
+                  {/*--------------------------------------*/}
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select Region</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          {/* <Form.Label>Select a Region</Form.Label> */}
+                          <div className="mb-3">
+                            {regionOptions.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegion.includes(
+                                region.regionId
+                              );
+
+                              return (
+                                <div
+                                  className="form-check"
+                                  key={region.regionId}
+                                >
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.regionId}`}
+                                    checked={isChecked}
+                                    onChange={() => {
+                                      if (isChecked) {
+                                        setSelectedRegionId((prev) =>
+                                          prev.filter(
+                                            (id) => id !== region.regionId
+                                          )
+                                        );
+                                      } else {
+                                        setSelectedRegionId((prev) => [
+                                          ...prev,
+                                          region.regionId,
+                                        ]);
+                                      }
+                                    }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.regionId}`}
+                                  >
+                                    {region.label}
+                                  </label>
+                                </div>
+                              );
+                            })}
+                            <button
+                              type="button"
+                              className="btn btn-link p-0"
+                              onClick={() => setModalVisible(true)}
+                            >
+                              Show more choices...
+                            </button>
+                            <div className="">
+                              <div
+                                className="modal fade more_optn_modal_main"
+                                id="regionModal11"
+                                tabIndex="-1"
+                                ref={modalRef}
+                                aria-labelledby="regionModalLabel"
+                                aria-hidden="true"
+                              >
+                                {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
+                                <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                                  <div className="modal-content border-0 shadow-lg">
+                                    <div className="modal-header bg-light border-bottom">
+                                      <div className="d-flex align-items-center">
+                                        <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                        <h5
+                                          className="modal-title fw-semibold mb-0"
+                                          id="regionModalLabel"
+                                        >
+                                          Select a Region
+                                        </h5>
+                                      </div>
                                       <button
                                         type="button"
-                                        className="btn btn-primary px-4"
+                                        className="btn-close"
                                         onClick={() => setModalVisible(false)}
-                                      >
-                                        Done
-                                      </button>
+                                        aria-label="Close"
+                                      ></button>
+                                    </div>
+                                    <div className="modal-body p-3">
+                                      <div className="mb-2">
+                                        <small className="text-muted">
+                                          Choose your preferred region from the
+                                          options below
+                                        </small>
+                                      </div>
+                                      <div className="row g-2">
+                                        <ul className="more_choice_main_list">
+                                          {regionOptions.map((region) => {
+                                            const isChecked =
+                                              selectedRegion.includes(
+                                                region.regionId
+                                              );
+
+                                            return (
+                                              <div
+                                                className="form-check"
+                                                key={region.regionId}
+                                              >
+                                                <input
+                                                  className="form-check-input"
+                                                  type="checkbox"
+                                                  id={`region-${region.regionId}`}
+                                                  checked={isChecked}
+                                                  onChange={() => {
+                                                    if (isChecked) {
+                                                      setSelectedRegionId(
+                                                        (prev) =>
+                                                          prev.filter(
+                                                            (id) =>
+                                                              id !==
+                                                              region.regionId
+                                                          )
+                                                      );
+                                                    } else {
+                                                      setSelectedRegionId(
+                                                        (prev) => [
+                                                          ...prev,
+                                                          region.regionId,
+                                                        ]
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                <label
+                                                  className="form-check-label"
+                                                  htmlFor={`region-${region.regionId}`}
+                                                >
+                                                  {region.label}
+                                                </label>
+                                              </div>
+                                            );
+                                          })}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                      <div className="text-muted small">
+                                        {selectedRegion
+                                          ? "1 region selected"
+                                          : "No region selected"}
+                                      </div>
+                                      <div className="d-flex gap-2">
+                                        <button
+                                          type="button"
+                                          className="btn btn-outline-secondary"
+                                          onClick={() => {
+                                            setSelectedRegionId("");
+                                          }}
+                                        >
+                                          Clear Selection
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary px-4"
+                                          onClick={() => setModalVisible(false)}
+                                        >
+                                          Done
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+                              <style jsx>{`
+                                .hover-shadow {
+                                  transition: all 0.15s ease-in-out;
+                                }
+                                .hover-shadow:hover {
+                                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+                                  transform: translateY(-0.5px);
+                                }
+                                .cursor-pointer {
+                                  cursor: pointer;
+                                }
+                                .transition-all {
+                                  transition: all 0.15s ease-in-out;
+                                }
+                                .form-check:has(.form-check-input:checked) {
+                                  background-color: #f8f9fa;
+                                  border-color: #0d6efd !important;
+                                }
+                                .form-check:has(.form-check-input:checked)
+                                  .form-check-label {
+                                  color: #0d6efd;
+                                }
+                              `}</style>
                             </div>
-                            <style jsx>{`
-                              .hover-shadow {
-                                transition: all 0.15s ease-in-out;
-                              }
-                              .hover-shadow:hover {
-                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-                                transform: translateY(-0.5px);
-                              }
-                              .cursor-pointer {
-                                cursor: pointer;
-                              }
-                              .transition-all {
-                                transition: all 0.15s ease-in-out;
-                              }
-                              .form-check:has(.form-check-input:checked) {
-                                background-color: #f8f9fa;
-                                border-color: #0d6efd !important;
-                              }
-                              .form-check:has(.form-check-input:checked)
-                                .form-check-label {
-                                color: #0d6efd;
-                              }
-                            `}</style>
                           </div>
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
 
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select City</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Select a City</Form.Label>
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select City</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Select a City</Form.Label>
 
-                        <>
-                          {/* First 4 Checkboxes */}
-                          <div className="grid grid-cols-1 gap-2">
-                            {cityOptions.slice(0, 6).map((option) => (
-                              <label
-                                key={option.value}
-                                className="d-flex align-items-center gap-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={selectedCities.some(
-                                    (city) => city.CITY_ID === option.cityId
-                                  )}
-                                  onChange={() => handleCheckboxChange1(option)}
-                                />
-                                <span>{option.label}</span>
-                              </label>
-                            ))}
+                          <>
+                            {/* First 4 Checkboxes */}
+                            <div className="grid grid-cols-1 gap-2">
+                              {cityOptions.slice(0, 6).map((option) => (
+                                <label
+                                  key={option.value}
+                                  className="d-flex align-items-center gap-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedCities.some(
+                                      (city) => city.CITY_ID === option.cityId
+                                    )}
+                                    onChange={() =>
+                                      handleCheckboxChange1(option)
+                                    }
+                                  />
+                                  <span>{option.label}</span>
+                                </label>
+                              ))}
 
-                            {/* Show More Link */}
-                            {/* {cityOptions.length > 4 && (
+                              {/* Show More Link */}
+                              {/* {cityOptions.length > 4 && (
                                             <button
                                               type="button"
                                               className="btn btn-link p-0"
@@ -2593,125 +2587,130 @@ const ElectronicComp = () => {
                                               Show more choices...
                                             </button>
                                           )} */}
-                          </div>
+                            </div>
 
-                          {/* {cityOptions.length > 4 && ( */}
-                          <button
-                            type="button"
-                            className="btn btn-link p-0"
-                            onClick={() => setIsCityModalVisible(true)}
-                          >
-                            Show more choices...
-                          </button>
+                            {/* {cityOptions.length > 4 && ( */}
+                            <button
+                              type="button"
+                              className="btn btn-link p-0"
+                              onClick={() => setIsCityModalVisible(true)}
+                            >
+                              Show more choices...
+                            </button>
 
-                          <div
-                            className="modal fade more_optn_modal_main"
-                            id="moreCitiesModal1"
-                            tabIndex="-1"
-                            ref={cityModalRef}
-                            aria-labelledby="moreCitiesModalLabel1"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-scrollable">
-                              <div className="modal-content">
-                                {/* Header with search */}
-                                <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                  <h5
-                                    className="modal-title mb-0"
-                                    id="moreCitiesModalLabel1"
-                                  >
-                                    Select More Cities
-                                  </h5>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Search cities..."
-                                    style={{ maxWidth: "250px" }}
-                                    value={searchCityText}
-                                    onChange={(e) =>
-                                      setSearchCityText(e.target.value)
-                                    }
-                                  />
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setIsCityModalVisible(false)}
-                                  ></button>
-                                </div>
-
-                                {/* Body with filtered cities */}
-                                <div className="modal-body">
-                                  <div className="row">
-                                    <ul className="more_choice_main_list">
-                                      {cityOptions
-                                        .filter((option) =>
-                                          option.label
-                                            ?.toLowerCase()
-                                            .includes(
-                                              searchCityText.toLowerCase()
-                                            )
-                                        )
-                                        .map((option) => (
-                                          <label
-                                            key={option.value}
-                                            className="d-flex align-items-center gap-2"
-                                          >
-                                            <input
-                                              type="checkbox"
-                                              checked={selectedCities.some(
-                                                (city) =>
-                                                  city.CITY_ID === option.cityId
-                                              )}
-                                              onChange={() =>
-                                                handleCheckboxChange1(option)
-                                              }
-                                            />
-                                            <span>{option.label}</span>
-                                          </label>
-                                        ))}
-                                    </ul>
+                            <div
+                              className="modal fade more_optn_modal_main"
+                              id="moreCitiesModal1"
+                              tabIndex="-1"
+                              ref={cityModalRef}
+                              aria-labelledby="moreCitiesModalLabel1"
+                              aria-hidden="true"
+                            >
+                              <div className="modal-dialog modal-dialog-scrollable">
+                                <div className="modal-content">
+                                  {/* Header with search */}
+                                  <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <h5
+                                      className="modal-title mb-0"
+                                      id="moreCitiesModalLabel1"
+                                    >
+                                      Select More Cities
+                                    </h5>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Search cities..."
+                                      style={{ maxWidth: "250px" }}
+                                      value={searchCityText}
+                                      onChange={(e) =>
+                                        setSearchCityText(e.target.value)
+                                      }
+                                    />
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() =>
+                                        setIsCityModalVisible(false)
+                                      }
+                                    ></button>
                                   </div>
-                                </div>
 
-                                {/* Footer */}
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => setIsCityModalVisible(false)}
-                                  >
-                                    Close
-                                  </button>
+                                  {/* Body with filtered cities */}
+                                  <div className="modal-body">
+                                    <div className="row">
+                                      <ul className="more_choice_main_list">
+                                        {cityOptions
+                                          .filter((option) =>
+                                            option.label
+                                              ?.toLowerCase()
+                                              .includes(
+                                                searchCityText.toLowerCase()
+                                              )
+                                          )
+                                          .map((option) => (
+                                            <label
+                                              key={option.value}
+                                              className="d-flex align-items-center gap-2"
+                                            >
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedCities.some(
+                                                  (city) =>
+                                                    city.CITY_ID ===
+                                                    option.cityId
+                                                )}
+                                                onChange={() =>
+                                                  handleCheckboxChange1(option)
+                                                }
+                                              />
+                                              <span>{option.label}</span>
+                                            </label>
+                                          ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+
+                                  {/* Footer */}
+                                  <div className="modal-footer">
+                                    <button
+                                      type="button"
+                                      className="btn btn-secondary"
+                                      onClick={() =>
+                                        setIsCityModalVisible(false)
+                                      }
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <Accordion>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Select District</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Select a District</Form.Label>
-                        {/* <WindowedSelect
+                          </>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select District</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Select a District</Form.Label>
+                          {/* <WindowedSelect
                                         options={districtOptions}
                                         isMulti
                                         placeholder="Select Districts"
@@ -2726,278 +2725,350 @@ const ElectronicComp = () => {
                                           console.log("Selected Districts:", selectedInfo);
                                         }}
                                       /> */}
-                        <div className="grid grid-cols-1 gap-2">
-                          {districtOptions.slice(0, 6).map((option) => {
-                            const isChecked = selectedDistricts.some(
-                              (district) =>
-                                district.DISTRICT_ID === option.value
-                            );
+                          <div className="grid grid-cols-1 gap-2">
+                            {districtOptions.slice(0, 6).map((option) => {
+                              const isChecked = selectedDistricts.some(
+                                (district) =>
+                                  district.DISTRICT_ID === option.value
+                              );
 
-                            return (
-                              <label
-                                key={option.value}
-                                className="form-check d-flex align-items-center gap-2"
-                                style={{ display: "flex" }}
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  checked={isChecked}
-                                  onChange={(e) => {
-                                    if (e.target.checked) {
-                                      setSelectedDistricts((prev) => [
-                                        ...prev,
-                                        {
-                                          REGION_ID: option.regionId,
-                                          CITY_ID: option.cityId,
-                                          DISTRICT_ID: option.value,
-                                        },
-                                      ]);
-                                    } else {
-                                      setSelectedDistricts((prev) =>
-                                        prev.filter(
-                                          (district) =>
-                                            district.DISTRICT_ID !==
-                                            option.value
-                                        )
-                                      );
-                                    }
-                                  }}
-                                />
-                                <span className="form-check-label">
-                                  {option.label}
-                                </span>
-                              </label>
-                            );
-                          })}
-
-                          <button
-                            type="button"
-                            className="btn btn-link p-0 mt-2"
-                            onClick={() => setShowModalDistricts(true)}
-                          >
-                            More choices...
-                          </button>
-                        </div>
-
-                        <div className="container ">
-                          <div
-                            className="modal fade show more_optn_modal_main"
-                            tabIndex="-1"
-                            style={{
-                              display: showModalDistricts ? "block" : "none",
-                              backgroundColor: "rgba(0,0,0,0.5)",
-                            }}
-                            role="dialog"
-                          >
-                            <div className="modal-dialog modal-dialog-scrollable modal-lg">
-                              <div className="modal-content">
-                                {/* Header with search input */}
-                                <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                  <h5 className="modal-title mb-0">
-                                    Select More Districts
-                                  </h5>
+                              return (
+                                <label
+                                  key={option.value}
+                                  className="form-check d-flex align-items-center gap-2"
+                                  style={{ display: "flex" }}
+                                >
                                   <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Search districts..."
-                                    style={{ maxWidth: "250px" }}
-                                    value={searchDistrictText}
-                                    onChange={(e) =>
-                                      setSearchDistrictText(e.target.value)
-                                    }
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={isChecked}
+                                    onChange={(e) => {
+                                      if (e.target.checked) {
+                                        setSelectedDistricts((prev) => [
+                                          ...prev,
+                                          {
+                                            REGION_ID: option.regionId,
+                                            CITY_ID: option.cityId,
+                                            DISTRICT_ID: option.value,
+                                          },
+                                        ]);
+                                      } else {
+                                        setSelectedDistricts((prev) =>
+                                          prev.filter(
+                                            (district) =>
+                                              district.DISTRICT_ID !==
+                                              option.value
+                                          )
+                                        );
+                                      }
+                                    }}
                                   />
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setShowModalDistricts(false)}
-                                  ></button>
-                                </div>
+                                  <span className="form-check-label">
+                                    {option.label}
+                                  </span>
+                                </label>
+                              );
+                            })}
 
-                                {/* Compact Body */}
-                                <div className="modal-body">
-                                  <div className="row g-1 ml-4">
-                                    <ul className="more_choice_main_list">
-                                      {districtOptions
-                                        .filter((option) =>
-                                          option.label
-                                            .toLowerCase()
-                                            .includes(
-                                              searchDistrictText.toLowerCase()
-                                            )
-                                        )
-                                        .map((option) => {
-                                          const isChecked =
-                                            selectedDistricts.some(
-                                              (district) =>
-                                                district.DISTRICT_ID ===
-                                                option.value
-                                            );
+                            <button
+                              type="button"
+                              className="btn btn-link p-0 mt-2"
+                              onClick={() => setShowModalDistricts(true)}
+                            >
+                              More choices...
+                            </button>
+                          </div>
 
-                                          return (
-                                            <li key={option.value}>
-                                              <label className="d-flex align-items-center gap-2">
-                                                <input
-                                                  type="checkbox"
-                                                  checked={isChecked}
-                                                  onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                      setSelectedDistricts(
-                                                        (prev) => [
-                                                          ...prev,
-                                                          {
-                                                            REGION_ID:
-                                                              option.regionId,
-                                                            CITY_ID:
-                                                              option.cityId,
-                                                            DISTRICT_ID:
-                                                              option.value,
-                                                          },
-                                                        ]
-                                                      );
-                                                    } else {
-                                                      setSelectedDistricts(
-                                                        (prev) =>
-                                                          prev.filter(
-                                                            (district) =>
-                                                              district.DISTRICT_ID !==
-                                                              option.value
-                                                          )
-                                                      );
-                                                    }
-                                                  }}
-                                                />
-                                                <span
-                                                  style={{ cursor: "pointer" }}
-                                                >
-                                                  {option.label}
-                                                </span>
-                                              </label>
-                                            </li>
-                                          );
-                                        })}
-                                    </ul>
+                          <div className="container ">
+                            <div
+                              className="modal fade show more_optn_modal_main"
+                              tabIndex="-1"
+                              style={{
+                                display: showModalDistricts ? "block" : "none",
+                                backgroundColor: "rgba(0,0,0,0.5)",
+                              }}
+                              role="dialog"
+                            >
+                              <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div className="modal-content">
+                                  {/* Header with search input */}
+                                  <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <h5 className="modal-title mb-0">
+                                      Select More Districts
+                                    </h5>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      placeholder="Search districts..."
+                                      style={{ maxWidth: "250px" }}
+                                      value={searchDistrictText}
+                                      onChange={(e) =>
+                                        setSearchDistrictText(e.target.value)
+                                      }
+                                    />
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      onClick={() =>
+                                        setShowModalDistricts(false)
+                                      }
+                                    ></button>
                                   </div>
 
-                                  {/* Selection Count */}
-                                  {selectedDistricts.length > 0 && (
-                                    <div className="mt-2 p-2 bg-light rounded">
-                                      <small className="text-muted">
-                                        {selectedDistricts.length} selected
-                                      </small>
-                                    </div>
-                                  )}
-                                </div>
+                                  {/* Compact Body */}
+                                  <div className="modal-body">
+                                    <div className="row g-1 ml-4">
+                                      <ul className="more_choice_main_list">
+                                        {districtOptions
+                                          .filter((option) =>
+                                            option.label
+                                              .toLowerCase()
+                                              .includes(
+                                                searchDistrictText.toLowerCase()
+                                              )
+                                          )
+                                          .map((option) => {
+                                            const isChecked =
+                                              selectedDistricts.some(
+                                                (district) =>
+                                                  district.DISTRICT_ID ===
+                                                  option.value
+                                              );
 
-                                {/* Footer */}
-                                <div className="modal-footer py-2">
-                                  <button
-                                    type="button"
-                                    className="btn btn-outline-secondary"
-                                    onClick={() => setShowModalDistricts(false)}
-                                  >
-                                    Close
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => setShowModalDistricts(false)}
-                                  >
-                                    Apply
-                                  </button>
+                                            return (
+                                              <li key={option.value}>
+                                                <label className="d-flex align-items-center gap-2">
+                                                  <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    onChange={(e) => {
+                                                      if (e.target.checked) {
+                                                        setSelectedDistricts(
+                                                          (prev) => [
+                                                            ...prev,
+                                                            {
+                                                              REGION_ID:
+                                                                option.regionId,
+                                                              CITY_ID:
+                                                                option.cityId,
+                                                              DISTRICT_ID:
+                                                                option.value,
+                                                            },
+                                                          ]
+                                                        );
+                                                      } else {
+                                                        setSelectedDistricts(
+                                                          (prev) =>
+                                                            prev.filter(
+                                                              (district) =>
+                                                                district.DISTRICT_ID !==
+                                                                option.value
+                                                            )
+                                                        );
+                                                      }
+                                                    }}
+                                                  />
+                                                  <span
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    {option.label}
+                                                  </span>
+                                                </label>
+                                              </li>
+                                            );
+                                          })}
+                                      </ul>
+                                    </div>
+
+                                    {/* Selection Count */}
+                                    {selectedDistricts.length > 0 && (
+                                      <div className="mt-2 p-2 bg-light rounded">
+                                        <small className="text-muted">
+                                          {selectedDistricts.length} selected
+                                        </small>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Footer */}
+                                  <div className="modal-footer py-2">
+                                    <button
+                                      type="button"
+                                      className="btn btn-outline-secondary"
+                                      onClick={() =>
+                                        setShowModalDistricts(false)
+                                      }
+                                    >
+                                      Close
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() =>
+                                        setShowModalDistricts(false)
+                                      }
+                                    >
+                                      Apply
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
+
+                            {/* Minimal Custom Styles */}
+                            <style jsx>{`
+                              .hover-bg:hover {
+                                background-color: #f8f9fa;
+                              }
+                              .form-check {
+                                margin-bottom: 0;
+                                min-height: auto;
+                              }
+                              .form-check-input {
+                                margin-top: 0;
+                              }
+                              .text-truncate {
+                                max-width: 100%;
+                              }
+                            `}</style>
                           </div>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+                  {/*      ----------               */}
 
-                          {/* Minimal Custom Styles */}
-                          <style jsx>{`
-                            .hover-bg:hover {
-                              background-color: #f8f9fa;
-                            }
-                            .form-check {
-                              margin-bottom: 0;
-                              min-height: auto;
-                            }
-                            .form-check-input {
-                              margin-top: 0;
-                            }
-                            .text-truncate {
-                              max-width: 100%;
-                            }
-                          `}</style>
-                        </div>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                {/*      ----------               */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Price</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <Row>
+                            <Col>
+                              <Form.Control
+                                type="number"
+                                placeholder="From"
+                                value={fromValue}
+                                onChange={handleFromChange}
+                              />
+                            </Col>
+                            <Col>
+                              <Form.Control
+                                type="number"
+                                placeholder="To"
+                                value={toValue}
+                                onChange={handleToChange}
+                              />
+                            </Col>
+                          </Row>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
 
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Price</Accordion.Header>
-                    <Accordion.Body>
-                      <Form.Group className="mb-3">
-                        <Row>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="From"
-                              value={fromValue}
-                              onChange={handleFromChange}
-                            />
-                          </Col>
-                          <Col>
-                            <Form.Control
-                              type="number"
-                              placeholder="To"
-                              value={toValue}
-                              onChange={handleToChange}
-                            />
-                          </Col>
-                        </Row>
-                      </Form.Group>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+                  <div>
+                    {/* Accordion with Checkbox Selection for Color */}
+                    <Accordion className="mt-3">
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Condition</Accordion.Header>
+                        <Accordion.Body>
+                          <div style={{ maxWidth: "300px", margin: "20px" }}>
+                            <Form.Group>
+                              {["New", "Used"].map((color) => (
+                                <div
+                                  key={color}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "8px 0",
+                                  }}
+                                >
+                                  <Form.Check
+                                    type="checkbox"
+                                    label={color}
+                                    // defaultChecked={color === "Grey"}
+                                    onChange={() =>
+                                      handleCheckboxCondition(color)
+                                    }
+                                  />
+                                  <span
+                                    style={{
+                                      fontWeight: "bold",
+                                      color: "#333",
+                                    }}
+                                  >
+                                    12345
+                                  </span>
+                                </div>
+                              ))}
+                            </Form.Group>
+                            {/* <p
+                                            style={{ color: "#2D4495", cursor: "pointer" }}
+                                            onClick={() => handleMoreChoicesToggle()}
+                                          >
+                                            More choices
+                                          </p> */}
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </div>
 
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-                <div>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+
+                  {/*-------------------------------------*/}
                   {/* Accordion with Checkbox Selection for Color */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Condition</Accordion.Header>
+                      <Accordion.Header>Ad Type</Accordion.Header>
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {["New", "Used"].map((color) => (
+                            {["Rent", "Sell", "Wanted"].map((color) => (
                               <div
                                 key={color}
                                 style={{
@@ -3011,90 +3082,26 @@ const ElectronicComp = () => {
                                   type="checkbox"
                                   label={color}
                                   // defaultChecked={color === "Grey"}
-                                  onChange={() =>
-                                    handleCheckboxCondition(color)
-                                  }
+                                  onChange={() => handleCheckboxPurpose(color)}
                                 />
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  12345
-                                </span>
                               </div>
                             ))}
                           </Form.Group>
                           {/* <p
-                                            style={{ color: "#2D4495", cursor: "pointer" }}
-                                            onClick={() => handleMoreChoicesToggle()}
-                                          >
-                                            More choices
-                                          </p> */}
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </div>
-
-                <hr
-                  style={{
-                    width: "100%",
-                    height: "0px",
-                    top: "1310.01px",
-                    left: "239.88px",
-                    gap: "0px",
-                    borderTop: "1px solid #000000",
-                    opacity: "0.5", // Adjust opacity for visibility
-                    transform: "rotate(0deg)",
-                    margin: "20px 0",
-                    borderColor: "#000000", // Set border color to black
-                  }}
-                />
-
-                {/*-------------------------------------*/}
-                {/* Accordion with Checkbox Selection for Color */}
-                <Accordion className="mt-3">
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header>Ad Type</Accordion.Header>
-                    <Accordion.Body>
-                      <div style={{ maxWidth: "300px", margin: "20px" }}>
-                        <Form.Group>
-                          {["Rent", "Sell", "Wanted"].map((color) => (
-                            <div
-                              key={color}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label={color}
-                                // defaultChecked={color === "Grey"}
-                                onChange={() => handleCheckboxPurpose(color)}
-                              />
-                            </div>
-                          ))}
-                        </Form.Group>
-                        {/* <p
                                        style={{ color: "#2D4495", cursor: "pointer" }}
                                        onClick={() => handleMoreChoicesToggle()}
                                      >
                                        More choices
                                      </p> */}
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              </Form>
-              <div></div>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Form>
+              </div>
             </Col>
 
-            <Col md={9} className="p-3">
+            <Col lg={9} className="filter_card_main_wrap">
               <Row className="mb-3">
                 <Col>
                   {/* <Form.Check type="checkbox" label="With Photos" /> */}
@@ -3715,26 +3722,22 @@ const ElectronicComp = () => {
           className="container"
           style={{
             color: "black",
-            maxWidth: "100%",
-            margin: "0 auto",
-            marginLeft: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
-            marginTop: window.innerWidth <= 576 ? "-2.5rem" : "0rem",
-
-            height: "auto",
-            paddingLeft: "13%",
-            paddingRight: "10%",
             paddingTop: "20px",
             paddingBottom: "30px",
           }}
         >
-          <div className="cars data">
-            {adsDetailImages.map((item) => (
-              <div
-                key={item.id}
-                dangerouslySetInnerHTML={{ __html: item.content }}
-              />
-            ))}
-          </div>
+          <Row>
+            <Col>
+              <div className="cars data">
+                {adsDetailImages.map((item) => (
+                  <div
+                    key={item.id}
+                    dangerouslySetInnerHTML={{ __html: item.content }}
+                  />
+                ))}
+              </div>
+            </Col>
+          </Row>
         </div>
 
         <style jsx>{`

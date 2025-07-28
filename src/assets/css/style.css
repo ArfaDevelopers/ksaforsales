@@ -3599,10 +3599,10 @@ a:focus {
 }
 /* Filter css starts */
 .filter_main_wrap {
-  background-color: #ffffff;
+  /* background-color: #ffffff;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  padding: 0;
+  border-radius: 12px; */
+  /* padding: 0; */
 }
 form.filter_innerwrap {
   padding: 0 14px 20px;
@@ -3729,7 +3729,7 @@ form.filter_innerwrap .accordion-item {
   box-shadow: unset;
 }
 .filter_card_main_wrap {
-  padding-right: 0 !important;
+  /* padding-right: 0 !important; */
 }
 .card_btn_wrap .sign-in-button {
   font-size: 14px !important;
@@ -3835,6 +3835,9 @@ h2.trendingproduct_heading{
   right: 20px;
 }
 /* SLICK ARROW ENDS */
+.top_log_header{
+  width: 100%;
+}
 /* MOBILE NAV BAR CSS STARTS */
 .mobile_header_bottom{
     display: none;
@@ -22131,9 +22134,6 @@ border-radius: 16px !important;
   .filter_card_main p.car_desc {
     width: 100%;
   }
-  .filter_outterwrap {
-    padding: 0 10px;
-  }
 }
 @media screen and (max-width: 991px) {
   .header-lower {
@@ -22277,7 +22277,6 @@ border-radius: 16px !important;
     padding: 20px;
 }
   .filter_card_main_wrap {
-    padding: 0 !important;
     padding-top: 30px !important;
   }
   .featuresection_infodev {

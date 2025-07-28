@@ -201,7 +201,7 @@ const Header = ({ parms }) => {
               }}
             >
               <div
-                className="container-fluid d-flex align-items-center justify-content-between"
+                className="top_log_header d-flex align-items-center justify-content-between"
                 style={{ flexWrap: "nowrap" }}
               >
                 <div className="navbar-header d-flex align-items-center">
