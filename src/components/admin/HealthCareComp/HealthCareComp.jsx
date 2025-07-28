@@ -1578,44 +1578,6 @@ const HealthCareComp = () => {
       console.error("Error updating bookmark:", error);
     }
   };
-  // useEffect(() => {
-  //   const CITY_ID = selectedCities[0]?.CITY_ID;
-  //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
-
-  //   const fetchCars = async () => {
-  //     try {
-  //       setLoading(true);
-
-  //       const params = new URLSearchParams();
-
-  //       if (searchText) params.append("searchText", searchText);
-
-  //       // ✅ Pass multiple regionId values
-  //       if (selectedRegion.length) {
-  //         selectedRegion.forEach((id) => params.append("regionId", id));
-  //       }
-
-  //       if (CITY_ID) params.append("CITY_ID", CITY_ID);
-  //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
-
-  //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
-  //       );
-
-  //       const carsData = await response.json();
-  //       setCars(carsData);
-  //       setFilteredCars(carsData);
-  //       setLoading(false);
-
-  //       console.log(carsData, "carsData_________cars");
-  //     } catch (error) {
-  //       console.error("Error getting cars:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCars();
-  // }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
   useEffect(() => {
     const CITY_ID = selectedCities[0]?.CITY_ID;
     const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
@@ -1654,6 +1616,44 @@ const HealthCareComp = () => {
 
     fetchCars();
   }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+  // useEffect(() => {
+  //   const CITY_ID = selectedCities[0]?.CITY_ID;
+  //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       const params = new URLSearchParams();
+
+  //       if (searchText) params.append("searchText", searchText);
+
+  //       // ✅ Pass multiple regionId values
+  //       if (selectedRegion.length) {
+  //         selectedRegion.forEach((id) => params.append("regionId", id));
+  //       }
+
+  //       if (CITY_ID) params.append("CITY_ID", CITY_ID);
+  //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
+  //       );
+
+  //       const carsData = await response.json();
+  //       setCars(carsData);
+  //       setFilteredCars(carsData);
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________cars");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug

@@ -345,12 +345,13 @@ const TravelComp = () => {
 
   const [refresh, setRefresh] = useState(false); // Add loading state
 
-  const [selectedRegion, setSelectedRegionId] = useState("");
+  const [selectedRegion, setSelectedRegionId] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const modalRef = useRef(null);
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
   // const [Brand, setBrand] = useState([]);
   const [CityList, setCityList] = useState([]);
+  const [searchCity, setSearchCity] = useState("");
 
   console.log(selectedCities, "Fetched cities:1");
   console.log(cities, "Fetched cities:1cities");
@@ -360,6 +361,10 @@ const TravelComp = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  const [searchText1, setSearchText1] = useState("");
+
+  // Filter district options based on search text
+
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -420,9 +425,15 @@ const TravelComp = () => {
   }));
   useEffect(() => {
     const fetchCities = async () => {
+      if (selectedRegion.length === 0) return;
+
       try {
+        const queryString = selectedRegion
+          .map((id) => `REGION_ID=${id}`)
+          .join("&");
+
         const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegion}`
+          `http://168.231.80.24:9002/api/cities?${queryString}`
         );
         const data = await response.json();
 
@@ -486,6 +497,11 @@ const TravelComp = () => {
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
   }));
+  const filteredOptions = districtOptions
+    .slice(6)
+    .filter((option) =>
+      option.label.toLowerCase().includes(searchText1.toLowerCase())
+    );
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
@@ -1644,40 +1660,77 @@ const TravelComp = () => {
 
   //   fetchCars();
   // }, [bookmarkedCar]);
+  // useEffect(() => {
+  //   const CITY_ID = selectedCities[0]?.CITY_ID;
+  //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+
+  //   const fetchTravel = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       // Create query parameters dynamically
+  //       const params = new URLSearchParams();
+  //       if (searchText) params.append("searchText", searchText);
+  //       if (selectedRegion) params.append("regionId", selectedRegion);
+  //       if (CITY_ID) params.append("CITY_ID", CITY_ID);
+  //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/TRAVEL?${params.toString()}`
+  //       );
+  //       const data = await response.json();
+
+  //       setCars(data);
+  //       setFilteredCars(data);
+  //       setLoading(false);
+
+  //       console.log(data, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchTravel();
+  // }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
   useEffect(() => {
     const CITY_ID = selectedCities[0]?.CITY_ID;
     const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
 
-    const fetchTravel = async () => {
+    const fetchCars = async () => {
       try {
         setLoading(true);
 
-        // Create query parameters dynamically
         const params = new URLSearchParams();
+
         if (searchText) params.append("searchText", searchText);
-        if (selectedRegion) params.append("regionId", selectedRegion);
+
+        // ✅ Pass multiple regionId values
+        if (selectedRegion.length) {
+          selectedRegion.forEach((id) => params.append("regionId", id));
+        }
+
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
         const response = await fetch(
           `http://168.231.80.24:9002/route/TRAVEL?${params.toString()}`
         );
-        const data = await response.json();
 
-        setCars(data);
-        setFilteredCars(data);
+        const carsData = await response.json();
+        setCars(carsData);
+        setFilteredCars(carsData);
         setLoading(false);
 
-        console.log(data, "carsData_________");
+        console.log(carsData, "carsData_________cars");
       } catch (error) {
         console.error("Error getting cars:", error);
         setLoading(false);
       }
     };
 
-    fetchTravel();
-  }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
-
+    fetchCars();
+  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
@@ -2809,29 +2862,45 @@ const TravelComp = () => {
                         <Form.Group className="mb-3">
                           {/* <Form.Label>Select a Region</Form.Label> */}
                           <div className="mb-3">
-                            {regionOptions.slice(0, 4).map((region) => (
-                              <div className="form-check" key={region.regionId}>
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`region-${region.regionId}`}
-                                  checked={selectedRegion === region.regionId}
-                                  onChange={() =>
-                                    setSelectedRegionId(
-                                      selectedRegion === region.regionId
-                                        ? ""
-                                        : region.regionId
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`region-${region.regionId}`}
+                            {regionOptions.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegion.includes(
+                                region.regionId
+                              );
+
+                              return (
+                                <div
+                                  className="form-check"
+                                  key={region.regionId}
                                 >
-                                  {region.label}
-                                </label>
-                              </div>
-                            ))}
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.regionId}`}
+                                    checked={isChecked}
+                                    onChange={() => {
+                                      if (isChecked) {
+                                        setSelectedRegionId((prev) =>
+                                          prev.filter(
+                                            (id) => id !== region.regionId
+                                          )
+                                        );
+                                      } else {
+                                        setSelectedRegionId((prev) => [
+                                          ...prev,
+                                          region.regionId,
+                                        ]);
+                                      }
+                                    }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.regionId}`}
+                                  >
+                                    {region.label}
+                                  </label>
+                                </div>
+                              );
+                            })}
                             <button
                               type="button"
                               className="btn btn-link p-0"
@@ -2877,38 +2946,53 @@ const TravelComp = () => {
                                       </div>
                                       <div className="row g-2">
                                         <ul className="more_choice_main_list">
-                                          {regionOptions.map((region) => (
-                                            <li
-                                              className=""
-                                              key={region.regionId}
-                                            >
-                                              <label
-                                                className="form-check-label"
-                                                htmlFor={`modal-region-${region.regionId}`}
-                                              >
-                                                <input
-                                                  className="form-check-input me-2 mt-1"
-                                                  type="checkbox"
-                                                  id={`modal-region-${region.regionId}`}
-                                                  checked={
-                                                    selectedRegion ===
-                                                    region.regionId
-                                                  }
-                                                  onChange={() =>
-                                                    setSelectedRegionId(
-                                                      selectedRegion ===
-                                                        region.regionId
-                                                        ? ""
-                                                        : region.regionId
-                                                    )
-                                                  }
-                                                />
-                                                <span className="fw-medium text-dark">
-                                                  {region.regionEn}
-                                                </span>
-                                              </label>
-                                            </li>
-                                          ))}
+                                          {regionOptions
+                                            .slice(6)
+                                            .map((region) => {
+                                              const isChecked =
+                                                selectedRegion.includes(
+                                                  region.regionId
+                                                );
+
+                                              return (
+                                                <div
+                                                  className="form-check"
+                                                  key={region.regionId}
+                                                >
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`region-${region.regionId}`}
+                                                    checked={isChecked}
+                                                    onChange={() => {
+                                                      if (isChecked) {
+                                                        setSelectedRegionId(
+                                                          (prev) =>
+                                                            prev.filter(
+                                                              (id) =>
+                                                                id !==
+                                                                region.regionId
+                                                            )
+                                                        );
+                                                      } else {
+                                                        setSelectedRegionId(
+                                                          (prev) => [
+                                                            ...prev,
+                                                            region.regionId,
+                                                          ]
+                                                        );
+                                                      }
+                                                    }}
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor={`region-${region.regionId}`}
+                                                  >
+                                                    {region.label}
+                                                  </label>
+                                                </div>
+                                              );
+                                            })}
                                         </ul>
                                       </div>
                                     </div>
@@ -2994,7 +3078,7 @@ const TravelComp = () => {
                           <>
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
-                              {cityOptions.slice(0, 4).map((option) => (
+                              {cityOptions.slice(0, 6).map((option) => (
                                 <label
                                   key={option.value}
                                   className="d-flex align-items-center gap-2"
@@ -3020,7 +3104,6 @@ const TravelComp = () => {
                             >
                               Show more choices...
                             </button>
-
                             <div
                               className="modal fade more_optn_modal_main"
                               id="moreCitiesModal1"
@@ -3048,26 +3131,49 @@ const TravelComp = () => {
                                   </div>
 
                                   <div className="modal-body">
+                                    <div className="mb-3">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search cities..."
+                                        value={searchCity}
+                                        onChange={(e) =>
+                                          setSearchCity(e.target.value)
+                                        }
+                                      />
+                                    </div>
+
                                     <div className="row">
                                       <ul className="more_choice_main_list">
-                                        {cityOptions.slice(4).map((option) => (
-                                          <li className="" key={option.value}>
-                                            <label className="d-flex align-items-center gap-2">
-                                              <input
-                                                type="checkbox"
-                                                checked={selectedCities.some(
-                                                  (city) =>
-                                                    city.CITY_ID ===
-                                                    option.cityId
-                                                )}
-                                                onChange={() =>
-                                                  handleCheckboxChange1(option)
-                                                }
-                                              />
-                                              <span>{option.label}</span>
-                                            </label>
-                                          </li>
-                                        ))}
+                                        {cityOptions
+                                          .slice(6)
+                                          .filter((option) =>
+                                            option.label
+                                              ?.toLowerCase()
+                                              .includes(
+                                                searchCity?.toLowerCase()
+                                              )
+                                          )
+                                          .map((option) => (
+                                            <li key={option.value}>
+                                              <label className="d-flex align-items-center gap-2">
+                                                <input
+                                                  type="checkbox"
+                                                  checked={selectedCities.some(
+                                                    (city) =>
+                                                      city.CITY_ID ===
+                                                      option.cityId
+                                                  )}
+                                                  onChange={() =>
+                                                    handleCheckboxChange1(
+                                                      option
+                                                    )
+                                                  }
+                                                />
+                                                <span>{option.label}</span>
+                                              </label>
+                                            </li>
+                                          ))}
                                       </ul>
                                     </div>
                                   </div>
@@ -3127,7 +3233,7 @@ const TravelComp = () => {
                                         }}
                                       /> */}
                           <div className="grid grid-cols-1 gap-2">
-                            {districtOptions.slice(0, 4).map((option) => {
+                            {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
                                   district.DISTRICT_ID === option.value
@@ -3182,11 +3288,11 @@ const TravelComp = () => {
 
                           <div className="container ">
                             <div
-                              className="modal fade show more_optn_modal_main"
+                              className="modal fade show"
                               tabIndex="-1"
                               style={{
                                 display: showModalDistricts ? "block" : "none",
-                                backgroundColor: "rgba(0,0,0,0.5)",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
                               }}
                               role="dialog"
                             >
@@ -3206,75 +3312,86 @@ const TravelComp = () => {
                                     ></button>
                                   </div>
 
-                                  {/* Compact Body */}
-                                  <div className="modal-body">
-                                    <div className="row g-1 ml-4">
-                                      <ul className="more_choice_main_list">
-                                        {districtOptions
-                                          .slice(4)
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
+                                  {/* Body */}
+                                  <div
+                                    className="modal-body"
+                                    style={{
+                                      maxHeight: "60vh",
+                                      overflowY: "auto",
+                                    }}
+                                  >
+                                    {/* Search Input */}
+                                    <input
+                                      type="text"
+                                      className="form-control mb-3"
+                                      placeholder="Search District..."
+                                      value={searchText1}
+                                      onChange={(e) =>
+                                        setSearchText1(e.target.value)
+                                      }
+                                    />
 
-                                            return (
-                                              <li
-                                                key={option.value}
-                                                className=""
+                                    {/* Checkbox List */}
+                                    <div className="row">
+                                      {filteredOptions.map((option) => {
+                                        const isChecked =
+                                          selectedDistricts.some(
+                                            (district) =>
+                                              district.DISTRICT_ID ===
+                                              option.value
+                                          );
+
+                                        return (
+                                          <div
+                                            className="col-6 mb-2"
+                                            key={option.value}
+                                          >
+                                            <label className="form-check d-flex align-items-center gap-2">
+                                              <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                checked={isChecked}
+                                                onChange={(e) => {
+                                                  if (e.target.checked) {
+                                                    setSelectedDistricts(
+                                                      (prev) => [
+                                                        ...prev,
+                                                        {
+                                                          REGION_ID:
+                                                            option.regionId,
+                                                          CITY_ID:
+                                                            option.cityId,
+                                                          DISTRICT_ID:
+                                                            option.value,
+                                                        },
+                                                      ]
+                                                    );
+                                                  } else {
+                                                    setSelectedDistricts(
+                                                      (prev) =>
+                                                        prev.filter(
+                                                          (district) =>
+                                                            district.DISTRICT_ID !==
+                                                            option.value
+                                                        )
+                                                    );
+                                                  }
+                                                }}
+                                              />
+                                              <span
+                                                style={{ cursor: "pointer" }}
                                               >
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    className=""
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    className=""
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
-                                            );
-                                          })}
-                                      </ul>
+                                                {option.label}
+                                              </span>
+                                            </label>
+                                          </div>
+                                        );
+                                      })}
                                     </div>
 
-                                    {/* Selection Count */}
+                                    {/* Selected Count */}
                                     {selectedDistricts.length > 0 && (
-                                      <div className="mt-2 p-2 bg-light rounded">
+                                      <div className="mt-3 p-2 bg-light rounded">
                                         <small className="text-muted">
                                           {selectedDistricts.length} selected
                                         </small>
@@ -3283,7 +3400,7 @@ const TravelComp = () => {
                                   </div>
 
                                   {/* Footer */}
-                                  <div className="modal-footer py-2">
+                                  <div className="modal-footer">
                                     <button
                                       type="button"
                                       className="btn btn-outline-secondary"
@@ -3295,7 +3412,7 @@ const TravelComp = () => {
                                     </button>
                                     <button
                                       type="button"
-                                      className="btn btn-sm btn-primary"
+                                      className="btn btn-primary"
                                       onClick={() =>
                                         setShowModalDistricts(false)
                                       }
