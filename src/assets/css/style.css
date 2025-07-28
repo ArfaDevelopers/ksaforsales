@@ -3747,36 +3747,37 @@ button.unhover:hover {
 }
 /* Filter css ends */
 /* PRODUCT DETAIL CSS STARTS */
-.product_Detail_main{}
-.product_Detail_main .product_Detail_inner{
+.product_Detail_main {
+}
+.product_Detail_main .product_Detail_inner {
   columns: 2;
   gap: 30px;
 }
-.product_Detail_main .product_Detail_inner .product_Detail_block{
-display: flex;
-justify-content: space-between;
-border-bottom: 1px solid #000000;
-padding-bottom: 10px;
-margin-bottom: 20px;
+.product_Detail_main .product_Detail_inner .product_Detail_block {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
-.product_Detail_main .product_Detail_inner .product_Detail_block .detail_text{
+.product_Detail_main .product_Detail_inner .product_Detail_block .detail_text {
   font-size: 18px;
   line-height: 26px;
   font-weight: 500;
   color: #000;
 }
-.info_wrapper{
+.info_wrapper {
   margin: 20px 0 !important;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
 }
 /* PRODUCT DETAIL CSS ENDS */
-h2.trendingproduct_heading{
+h2.trendingproduct_heading {
   font-size: 22px !important;
   margin-bottom: 10px !important;
 }
-.feature_section_carosel{
+.feature_section_carosel {
   padding-bottom: 30px;
 }
 /* CATEGORY IMAGE CSS STARTS */
@@ -3788,24 +3789,24 @@ h2.trendingproduct_heading{
 /* CATEGORY IMAGE CSS ENDS */
 /* Global button css starts */
 /* blue button css starts */
-.blue_btn{
-    font-size: 16px;
-    line-height: 1.2;
-    color: #fff !important;
-    background-color: #2d4495;
-    border: none;
-    font-weight: normal;
-    border-radius: 10px;
-    outline: none;
-    box-shadow: none;
-    cursor: pointer;
-    padding: 10px 23px;
+.blue_btn {
+  font-size: 16px;
+  line-height: 1.2;
+  color: #fff !important;
+  background-color: #2d4495;
+  border: none;
+  font-weight: normal;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 10px 23px;
 }
-.blue_btn.list_btn{
+.blue_btn.list_btn {
   font-size: 14px;
   padding: 12px 18px;
 }
-.blue_btn.list_btn svg{
+.blue_btn.list_btn svg {
   margin-right: 5px;
   width: 15px;
 }
@@ -3835,26 +3836,26 @@ h2.trendingproduct_heading{
   right: 20px;
 }
 /* SLICK ARROW ENDS */
-.top_log_header{
+.top_log_header {
   width: 100%;
 }
 /* MOBILE NAV BAR CSS STARTS */
-.mobile_header_bottom{
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: #fff;
-    width: 100%;
-    z-index: 99;
-    padding: 20px;
+.mobile_header_bottom {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  width: 100%;
+  z-index: 99;
+  padding: 20px;
 }
-.mobile_header_bottom .mobile_nav ul{
-    display: flex;
-    justify-content: space-between;
+.mobile_header_bottom .mobile_nav ul {
+  display: flex;
+  justify-content: space-between;
 }
-.mobile_header_bottom .mobile_nav li svg{
-   font-size: 24px;
+.mobile_header_bottom .mobile_nav li svg {
+  font-size: 24px;
 }
 /* MOBILE NAV BAR CSS ENDS */
 .footermidgmailheading {
@@ -4220,7 +4221,6 @@ ul.colu-4 {
   color: #374b5c;
   font-size: 15px;
   padding: 15px 15px;
-
 }
 .feedbackbox .form-group textarea::placeholder,
 .feedbackbox .form-group input::placeholder {
@@ -20702,22 +20702,22 @@ font-size: 28px;
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
-.mobile_header_bottom{
+  .mobile_header_bottom {
     display: block;
-}
-.header{
-position: fixed;
-}
-.footermidinfo-container {
-        gap: 10px !important;
-    }
-.product_Detail_main .product_Detail_inner {
+  }
+  .header {
+    position: fixed;
+  }
+  .footermidinfo-container {
+    gap: 10px !important;
+  }
+  .product_Detail_main .product_Detail_inner {
     columns: 1;
     gap: 0px;
-}
-.descriptions-wrapper{
-  columns: 1 !important;
-}
+  }
+  .descriptions-wrapper {
+    columns: 1 !important;
+  }
   .footermidinfo-container {
     gap: 10px;
   }
@@ -22273,9 +22273,9 @@ border-radius: 16px !important;
   .filter_card_main_wrap {
     width: 100% !important;
   }
-.login-wrap {
+  .login-wrap {
     padding: 20px;
-}
+  }
   .filter_card_main_wrap {
     padding-top: 30px !important;
   }
@@ -22438,10 +22438,6 @@ border-radius: 16px !important;
     margin-bottom: 1rem;
   }
 
-  .trendingprodct_wrapper {
-    padding-left: 29px;
-  }
-
   .banner-para {
     width: 220px !important;
   }
@@ -22511,11 +22507,6 @@ border-radius: 16px !important;
   .home-banner-about {
     padding-left: 0;
   }
-
-  .trendingprodct_wrapper {
-    padding-left: 5px;
-  }
-
   .trendingproducts_container {
     gap: 1.3rem;
   }
@@ -23300,12 +23291,11 @@ height: 400px;
   padding-left: 5px;
   margin-bottom: 15px;
 }
-.section-title.dynamic_route{
+.section-title.dynamic_route {
   font-size: 30px;
   padding-left: 5px;
   margin-bottom: 24px;
 }
-
 
 .descriptions-wrapper {
   padding: 5px;

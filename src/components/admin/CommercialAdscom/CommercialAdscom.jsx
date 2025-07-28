@@ -643,7 +643,7 @@ const CommercialAdscom = () => {
           <Container className="p-0">
             <Row className="g-4">
               {categories.map((item) => (
-                <Col key={item.id} xl={3} md={6} sm={6}>
+                <Col key={item.id} xxl={3} xl={4} md={6} sm={6}>
                   <Card
                     className="shadow-lg"
                     onClick={() => {
@@ -723,7 +723,7 @@ const CommercialAdscom = () => {
                     >
                       <div className="d-flex justify-content-between gap-1 mt-1">
                         <button
-                          className="d-flex align-items-center blue_btn list_btn"
+                          className="d-flex align-items-center blue_btn list_btn categories"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowselectedPhone(item.phone);
@@ -741,7 +741,7 @@ const CommercialAdscom = () => {
                         </button>
 
                         <button
-                          className="d-flex align-items-center blue_btn list_btn"
+                          className="d-flex align-items-center blue_btn list_btn categories"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowWhatsApp(item.phone);

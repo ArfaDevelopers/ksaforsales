@@ -4,10 +4,15 @@
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
   padding: 0;
+  height: calc(100% - 88px);
 }
 .cars.data h3 {
   margin-left: 0 !important;
   margin-bottom: 10px !important;
+}
+.blue_btn.list_btn.categories {
+  width: 44%;
+  justify-content: center;
 }
 /* listing css ends */
 @media screen and (max-width: 1366px) {
