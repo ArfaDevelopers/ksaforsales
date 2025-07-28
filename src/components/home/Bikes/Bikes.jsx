@@ -852,10 +852,9 @@ const Bikes = () => {
     <>
       <div className="main-wrapper">
         <Header parms={parms} />
-        <div className="main-wrapper">
-          <Header />
-          {/* Banner Section */}
-          {/* <section className="banner-section">
+
+        {/* Banner Section */}
+        {/* <section className="banner-section">
             <div className="container">
               <div className="home-banner">
                 <div className="home-banner-about">
@@ -891,88 +890,87 @@ const Bikes = () => {
               </div>
             </div>
           </section> */}
-          <section
-            className="banner-section bg-no-repeat bg-center w-full"
-            style={{
-              backgroundImage: `url(${"/12750.jpg"})`,
-              backgroundSize: "cover", // Use 'cover' to fill the section without repeating
-              height: "50vh", // Adjust height as needed
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="container mx-auto flex items-center justify-center h-full">
-              <div className="home-banner">
-                <div className="home-banner-about">
-                  <div
-                    className="section-search aos r homebannerwrapper_2"
-                    data-aos="fade-up"
-                  ></div>
-                </div>
+        <section
+          className="banner-section bg-no-repeat bg-center w-full"
+          style={{
+            backgroundImage: `url(${"/12750.jpg"})`,
+            backgroundSize: "cover", // Use 'cover' to fill the section without repeating
+            height: "50vh", // Adjust height as needed
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto flex items-center justify-center h-full">
+            <div className="home-banner">
+              <div className="home-banner-about">
+                <div
+                  className="section-search aos r homebannerwrapper_2"
+                  data-aos="fade-up"
+                ></div>
               </div>
-            </div>
-          </section>
-          {/* Banner Section */}
-
-          {/* Trending Products */}
-          <div className="trendingprodct_wrapper container">
-            <h3 className="trendingproduct_heading"> Our Trending Product</h3>
-            <div className="trendingproducts_container">
-              <button className="trendingProductsallname">Iphone 16</button>
-              <button
-                className="trendingProductsallname"
-                onClick={() => {
-                  navigate("/Bikes");
-                }}
-              >
-                Bikes
-              </button>
-              <button className="trendingProductsallname">Cricket Kit</button>
-              <button className="trendingProductsallname">Bags</button>
-              <button className="trendingProductsallname">Apparel</button>
-              <button className="trendingProductsallname">Mens Hoodies</button>
-              <button className="trendingProductsallname">Apparel</button>
-              <button className="trendingProductsallname">Magazines</button>
-              <button className="trendingProductsallname">Mens Hoodies</button>
             </div>
           </div>
-          {/* Trending Products */}
+        </section>
+        {/* Banner Section */}
 
-          {/* Category Section */}
-          <section className="category-section">
-            <div className="container">
-              <div className="allMedia_Icons d-none d-md-flex">
-                <div>
-                  <img src={xIcon} alt="Xicon" />
-                </div>
-                <div>
-                  <img src={insta} alt="instagram" />
-                </div>
-                <div>
-                  <img src={fb} alt="facebook" />
-                </div>
-                <div>
-                  <img src={tiktok} alt="tiktok" />
-                </div>
-                <div>
-                  <img src={whatapp} alt="whatsapp" />
-                </div>
+        {/* Trending Products */}
+        <div className="trendingprodct_wrapper container">
+          <h3 className="trendingproduct_heading"> Our Trending Product</h3>
+          <div className="trendingproducts_container">
+            <button className="trendingProductsallname">Iphone 16</button>
+            <button
+              className="trendingProductsallname"
+              onClick={() => {
+                navigate("/Bikes");
+              }}
+            >
+              Bikes
+            </button>
+            <button className="trendingProductsallname">Cricket Kit</button>
+            <button className="trendingProductsallname">Bags</button>
+            <button className="trendingProductsallname">Apparel</button>
+            <button className="trendingProductsallname">Mens Hoodies</button>
+            <button className="trendingProductsallname">Apparel</button>
+            <button className="trendingProductsallname">Magazines</button>
+            <button className="trendingProductsallname">Mens Hoodies</button>
+          </div>
+        </div>
+        {/* Trending Products */}
+
+        {/* Category Section */}
+        <section className="category-section">
+          <div className="container">
+            <div className="allMedia_Icons d-none d-md-flex">
+              <div>
+                <img src={xIcon} alt="Xicon" />
+              </div>
+              <div>
+                <img src={insta} alt="instagram" />
+              </div>
+              <div>
+                <img src={fb} alt="facebook" />
+              </div>
+              <div>
+                <img src={tiktok} alt="tiktok" />
+              </div>
+              <div>
+                <img src={whatapp} alt="whatsapp" />
               </div>
             </div>
-          </section>
-          {/* Category Section */}
+          </div>
+        </section>
+        {/* Category Section */}
 
-          {/* Featured Ads Section */}
-          {/* Featured Ads Section */}
+        {/* Featured Ads Section */}
+        {/* Featured Ads Section */}
 
-          {/* All carousel */}
+        {/* All carousel */}
 
-          {/* All carousel */}
+        {/* All carousel */}
 
-          {/* Blog Section */}
+        {/* Blog Section */}
 
-          {/* Footer */}
-          {/* Footer */}
-        </div>
+        {/* Footer */}
+        {/* Footer */}
 
         <Container fluid>
           <Row>

@@ -2554,9 +2554,7 @@ const TravelComp = () => {
     <>
       <div className="main-wrapper">
         <Header parms={parms} />
-        <div className="main-wrapper">
-          <Header />
-        </div>
+
         <Container
           className="parent-main"
           style={{
