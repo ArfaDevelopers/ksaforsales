@@ -4,8 +4,6 @@
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
   padding: 0;
-  position: sticky;
-  top: 0;
 }
 .cars.data h3 {
   margin-left: 0 !important;
@@ -23,32 +21,9 @@
     width: 300px;
   }
 }
-@media screen and (max-width: 840px) {
-  .parent-main.category {
-    margin-top: 7rem !important;
-  }
-}
-/* listing css starts */
-.side_bar_main_wrap {
-  background-color: #ffffff;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  padding: 0;
-}
-.cars.data h3 {
-  margin-left: 0 !important;
-  margin-bottom: 10px !important;
-}
-/* listing css ends */
-@media screen and (max-width: 1366px) {
-  .user_profile_block p {
-    margin-top: 10px !important;
-  }
-  .filter_card_main .card-body .user_profile_block {
-    bottom: 60px;
-  }
-  .filter_card_main p.car_desc {
-    width: 300px;
+@media screen and (max-width: 1024px) {
+  .filter_card_main_wrap .card-img {
+    height: 100% !important;
   }
 }
 @media screen and (max-width: 480px) {

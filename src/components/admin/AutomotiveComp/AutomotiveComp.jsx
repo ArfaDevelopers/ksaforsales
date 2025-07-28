@@ -4049,7 +4049,7 @@ const AutomotiveComp = () => {
           <Row className="filter_outterwrap">
             {/* Sidebar */}
             <Col
-              md={3}
+              lg={3}
               className="filter_main_wrap style={{ height: '200px' }}"
             >
               <div className="side_bar_main_wrap">
@@ -13790,7 +13790,7 @@ const AutomotiveComp = () => {
                 </Form>
               </div>
             </Col>
-            <Col md={9} className="filter_card_main_wrap">
+            <Col lg={9} className="filter_card_main_wrap">
               <Row className="mb-3">
                 <Col>
                   {/* <Form.Check type="checkbox" label="With Photos" /> */}

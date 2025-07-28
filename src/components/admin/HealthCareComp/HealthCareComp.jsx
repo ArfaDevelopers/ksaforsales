@@ -2442,14 +2442,10 @@ const HealthCareComp = () => {
         <Header parms={parms} />
 
         <Container
-          className="parent-main"
+          className="parent-main category"
           style={{
-            paddingLeft: "2px", // Padding on the left side
-            paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430px", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
-            marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
+            marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
           }}
         >
           <div
@@ -2458,9 +2454,8 @@ const HealthCareComp = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
-              marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
               marginTop: "40px",
+              marginBottom: "20px",
               alignItems: "center",
             }}
           >
