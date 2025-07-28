@@ -433,14 +433,14 @@ const Bookmarks = () => {
               ) : (
                 filteredCars.map((car) => (
                   <div
-                    className="col-lg-4 col-md-4 col-sm-6"
+                    className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
                     key={`${car.id}-${car.category}`}
                   >
                     <div
                       className="card aos aos-init aos-animate"
                       data-aos="fade-up"
                     >
-                      <div className="blog-widget">
+                      <div className="blog-widget shadow-sm">
                         <div className="blog-img">
                           <Link
                             to={
@@ -568,7 +568,13 @@ const Bookmarks = () => {
                                           )}`
                                     }
                                   >
-                                    <img src={eye} alt="views" />
+                                    <img
+                                      src={eye}
+                                      alt="views"
+                                      style={{
+                                        width: "25px",
+                                      }}
+                                    />
                                   </Link>
                                   4000
                                 </span>

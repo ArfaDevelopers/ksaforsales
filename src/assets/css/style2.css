@@ -6,6 +6,21 @@
   padding: 0;
   height: calc(100% - 88px);
 }
+.chats_btn_wrap_main {
+  background-color: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  height: 100%;
+}
+.chats_btn_wrap_main h5.chat_heading {
+  background-color: #2d4495;
+  color: #fff;
+  padding: 20px 15px;
+  border-radius: 10px 10px 0 0;
+}
+.chats_btn_wrap_main .chat_btns_wrap {
+  padding: 20px 15px;
+}
 .cars.data h3 {
   margin-left: 0 !important;
   margin-bottom: 10px !important;
