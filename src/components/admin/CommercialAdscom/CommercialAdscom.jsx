@@ -499,13 +499,11 @@ const CommercialAdscom = () => {
       >
         <div className="container">
           <Header />
-          <Container
-            className="parent-main"
+          <div
+            className="parent-main category"
             style={{
-              maxWidth: "1530px",
-              paddingTop: "200px",
-              marginTop: window.innerWidth <= 576 ? "-7rem" : "-4rem",
-              marginLeft: -10,
+              color: "black", // Text color
+              marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
             }}
           >
             <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
@@ -542,7 +540,7 @@ const CommercialAdscom = () => {
                 </button>
               </div>
             </div>
-          </Container>
+          </div>
 
           {/* <hr /> */}
 
