@@ -6,6 +6,16 @@
   padding: 0;
   height: calc(100% - 88px);
 }
+.cars.data h3 {
+  margin-left: 0 !important;
+  margin-bottom: 10px !important;
+}
+.blue_btn.list_btn.categories {
+  width: 44%;
+  justify-content: center;
+}
+/* listing css ends */
+/* chat css starts */
 .chats_btn_wrap_main {
   background-color: #ffffff;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
@@ -21,15 +31,29 @@
 .chats_btn_wrap_main .chat_btns_wrap {
   padding: 20px 15px;
 }
-.cars.data h3 {
-  margin-left: 0 !important;
-  margin-bottom: 10px !important;
+.chat_messages_main_wrap {
+  background-color: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  height: 100%;
+  overflow-y: auto;
 }
-.blue_btn.list_btn.categories {
-  width: 44%;
-  justify-content: center;
+.chat_messages_main_wrap .btn-primary:hover {
+  box-shadow: unset;
+  background-color: #2d4495;
+  color: #fff;
 }
-/* listing css ends */
+.title_wrap {
+  background-color: #2d4495;
+  color: #fff;
+  padding: 20px 15px;
+  border-radius: 10px 10px 0 0;
+}
+.title_wrap h5 {
+  color: #fff;
+  margin-bottom: 0;
+}
+/* chat css ends */
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;

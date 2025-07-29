@@ -2190,11 +2190,11 @@ const Header = ({ parms }) => {
                       }}
                       style={{
                         paddingRight: "40px",
-                        borderRadius: "20px",
+                        borderRadius: "12px",
                         border: "1px solid #ccc",
                         width: "100%",
-                        height: "60px",
                         backgroundColor: "rgba(241, 241, 241,0.5)",
+                        padding: "15px 15px",
                       }}
                     />
 
@@ -2276,14 +2276,15 @@ const Header = ({ parms }) => {
                       style={{
                         position: "absolute",
                         top: "50%",
-                        right: "20px",
+                        right: "0px",
                         transform: "translateY(-50%)",
                         background: "transparent",
-                        border: "none",
-                        padding: 0,
+                        borderRadius: "6px",
+                        padding: "14px 14px",
+                        backgroundColor: "#2d4495",
                       }}
                     >
-                      <FaSearch style={{ color: "#0056b3" }} />
+                      <FaSearch style={{ color: "#fff" }} />
                     </button>
                   </form>
                 )}

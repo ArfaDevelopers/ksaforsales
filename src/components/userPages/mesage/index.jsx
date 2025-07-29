@@ -130,7 +130,8 @@ export default function Message() {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "6rem",
+          marginTop: "5rem",
+          paddingBottom: "0px",
         }}
       >
         <div className="container">
@@ -178,9 +179,9 @@ export default function Message() {
         </div>
       </div>
 
-      <Container style={{ marginTop: "-1rem" }}>
-        <Row className="">
-          <Col md={3}>
+      <Container className="mb-3">
+        <Row className="gap-3 gap-lg-0">
+          <Col lg={3}>
             <div className="chats_btn_wrap_main">
               <h5 className="chat_heading">Chats</h5>
               <div className="chat_btns_wrap">
@@ -204,63 +205,64 @@ export default function Message() {
             </div>
           </Col>
 
-          <Col
-            md={9}
-            className="d-flex flex-column"
-            style={{
-              height: "800px",
-            }}
-          >
-            <div className="p-3 bg-white border-bottom">
-              <h5>Chat with {selected ? selected.name : "..."}</h5>
-            </div>
-            <div className="flex-grow-1 p-3 bg-light overflow-auto">
-              {!selected ? (
-                <Alert>Select a chat.</Alert>
-              ) : messages.length === 0 ? (
-                <Alert>No messages yet.</Alert>
-              ) : (
-                messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`d-flex mb-2 ${
-                      msg.uid === user.uid
-                        ? "justify-content-end"
-                        : "justify-content-start"
-                    }`}
-                  >
+          <Col lg={9} className="d-flex flex-column">
+            <div className="chat_messages_main_wrap">
+              <div className="title_wrap">
+                <h5>Chat with {selected ? selected.name : "..."}</h5>
+              </div>
+              <div
+                className="flex-grow-1 p-3 bg-light overflow-auto"
+                style={{
+                  height: "600px",
+                }}
+              >
+                {!selected ? (
+                  <Alert>Select a chat.</Alert>
+                ) : messages.length === 0 ? (
+                  <Alert>No messages yet.</Alert>
+                ) : (
+                  messages.map((msg) => (
                     <div
-                      className={`p-2 rounded ${
+                      key={msg.id}
+                      className={`d-flex mb-2 ${
                         msg.uid === user.uid
-                          ? "bg-primary text-white"
-                          : "bg-white border"
+                          ? "justify-content-end"
+                          : "justify-content-start"
                       }`}
                     >
-                      <div>
-                        <small className="fw-bold">{msg.name}</small>{" "}
-                        <small>{formatTime(msg.createdAt)}</small>
+                      <div
+                        className={`p-2 rounded ${
+                          msg.uid === user.uid
+                            ? "bg-primary text-white"
+                            : "bg-white border"
+                        }`}
+                      >
+                        <div>
+                          <small className="fw-bold">{msg.name}</small>{" "}
+                          <small>{formatTime(msg.createdAt)}</small>
+                        </div>
+                        <div>{msg.text}</div>
                       </div>
-                      <div>{msg.text}</div>
                     </div>
-                  </div>
-                ))
-              )}
-              <div ref={dummy} />
-            </div>
-            <div className="p-3 border-top bg-white">
-              <Form onSubmit={handleSend}>
-                <InputGroup>
-                  <Form.Control
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type a message…"
-                    disabled={!selected}
-                  />
-                  <Button type="submit" disabled={!input.trim() || !selected}>
-                    <FaPaperPlane />
-                  </Button>
-                </InputGroup>
-              </Form>
+                  ))
+                )}
+                <div ref={dummy} />
+              </div>
+              <div className="p-3 border-top bg-white">
+                <Form onSubmit={handleSend}>
+                  <InputGroup>
+                    <Form.Control
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder="Type a message…"
+                      disabled={!selected}
+                    />
+                    <Button type="submit" disabled={!input.trim() || !selected}>
+                      <FaPaperPlane />
+                    </Button>
+                  </InputGroup>
+                </Form>
+              </div>
             </div>
           </Col>
         </Row>
