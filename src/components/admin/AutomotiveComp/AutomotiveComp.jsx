@@ -4048,10 +4048,7 @@ const AutomotiveComp = () => {
         >
           <Row className="filter_outterwrap">
             {/* Sidebar */}
-            <Col
-              lg={3}
-              className="filter_main_wrap style={{ height: '200px' }}"
-            >
+            <Col lg={3} className="filter_main_wrap">
               <div className="side_bar_main_wrap">
                 <h5
                   style={{
