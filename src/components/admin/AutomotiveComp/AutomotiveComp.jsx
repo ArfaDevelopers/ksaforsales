@@ -83,6 +83,7 @@ import {
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import axios from "axios";
 
 const AutomotiveComp = () => {
   const parms = useLocation().pathname;
@@ -559,25 +560,50 @@ const AutomotiveComp = () => {
   // useEffect(() => {
   //   setSearchQuery(searchText); // Update searchQuery from searchText
   // }, [searchText]);
-  const categories = [
-    "Cars For Sale",
-    "Car Rental",
-    "Plates Number",
-    "Spare Parts",
-    "Accessories",
-    "Wheels & Rims",
-    "Trucks & Heavy Machinery",
-    "Tshaleeh",
-    "Boats & Jet Ski",
-    "Classic Cars",
-    "Salvage Cars",
-    "Mortgaged Cars",
-    "Recovery",
-    "Food Truck",
-    "Caravans",
-    "Reports",
-    "Car Cleaning",
-  ];
+  // const categories = [
+  //   "Cars For Sale",
+  //   "Car Rental",
+  //   "Plates Number",
+  //   "Spare Parts",
+  //   "Accessories",
+  //   "Wheels & Rims",
+  //   "Trucks & Heavy Machinery",
+  //   "Tshaleeh",
+  //   "Boats & Jet Ski",
+  //   "Classic Cars",
+  //   "Salvage Cars",
+  //   "Mortgaged Cars",
+  //   "Recovery",
+  //   "Food Truck",
+  //   "Caravans",
+  //   "Reports",
+  //   "Car Cleaning",
+  // ];
+  const [categories, setCategories] = useState([]);
+  const [selectedSubCategory1, setSelectedSubCategory1] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://168.231.80.24:9002/route/carsSubCategories")
+      .then((response) => {
+        setCategories(response.data); // store all categories, including count === 0
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
+
+  // const handleCategoryCheck = (category) => {
+  //   setSelectedSubCategory((prev) => (prev === category ? "" : category));
+  // };
+
+  // const handleCategoryCheck = (category) => {
+  //   setSelectedSubCategory((prev) => (prev === category ? "" : category));
+  // };
+
+  // const visibleCategories = showAll
+  //   ? categories
+  //   : categories.slice(0, 4);
+
   const user = auth.currentUser;
   const currentUserId = user?.uid;
 
@@ -4122,34 +4148,40 @@ const AutomotiveComp = () => {
                           <Form.Group>
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
-                            {visibleCategories.map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() => handleCategoryCheck(category)}
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`cat-${index}`}
-                                >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
+                            <>
+                              {visibleCategories.map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`cat-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory === item.category
+                                    }
+                                    onChange={() =>
+                                      handleCategoryCheck(item.category)
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`cat-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {categories.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() => setShowAll((prev) => !prev)}
-                                className="p-0 mt-2"
-                              >
-                                {showAll ? "Show less..." : "Show more..."}
-                              </Button>
-                            )}
+                              {categories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() => setShowAll((prev) => !prev)}
+                                  className="p-0 mt-2"
+                                >
+                                  {showAll ? "Show less..." : "Show more..."}
+                                </Button>
+                              )}
+                            </>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

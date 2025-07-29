@@ -15,7 +15,12 @@ import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
-import { Dropdown } from 'bootstrap';
+import { Dropdown } from "bootstrap";
+import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { TiMessages } from "react-icons/ti";
+import { TbLogout2 } from "react-icons/tb";
+
 const Review = () => {
   const [change, setChange] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -59,46 +64,50 @@ const Review = () => {
   // Fetch reviews
   useEffect(() => {
     const reviewsCollection = collection(db, "reviews");
-    const unsubscribe = onSnapshot(reviewsCollection, (snapshot) => {
-      const reviewsList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = onSnapshot(
+      reviewsCollection,
+      (snapshot) => {
+        const reviewsList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-      // Sort reviews by createdAt date (newest first)
-      reviewsList.sort((a, b) => {
-        const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
-        const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
-        return dateB - dateA;
-      });
-
-      setVisitorReviews(reviewsList);
-      setFilteredReviews(reviewsList);
-
-      console.log("=== All Visitor Reviews ===");
-      console.log(`Total Reviews: ${reviewsList.length}`);
-      reviewsList.forEach((review, index) => {
-        console.log(`Review ${index + 1}:`, {
-          id: review.id,
-          adId: review.adId,
-          name: review.name,
-          email: review.email,
-          review: review.review,
-          rating: review.rating,
-          date: review.date,
-          by: review.by,
-          likes: review.likes,
-          dislikes: review.dislikes,
-          replies: review.replies || [],
-          userId: review.userId,
-          listingUserId: review.listingUserId || "Not found",
-          createdAt: review.createdAt?.toDate().toLocaleString(),
+        // Sort reviews by createdAt date (newest first)
+        reviewsList.sort((a, b) => {
+          const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+          const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+          return dateB - dateA;
         });
-      });
-      console.log("========================");
-    }, (error) => {
-      console.error("Error listening to reviews:", error);
-    });
+
+        setVisitorReviews(reviewsList);
+        setFilteredReviews(reviewsList);
+
+        console.log("=== All Visitor Reviews ===");
+        console.log(`Total Reviews: ${reviewsList.length}`);
+        reviewsList.forEach((review, index) => {
+          console.log(`Review ${index + 1}:`, {
+            id: review.id,
+            adId: review.adId,
+            name: review.name,
+            email: review.email,
+            review: review.review,
+            rating: review.rating,
+            date: review.date,
+            by: review.by,
+            likes: review.likes,
+            dislikes: review.dislikes,
+            replies: review.replies || [],
+            userId: review.userId,
+            listingUserId: review.listingUserId || "Not found",
+            createdAt: review.createdAt?.toDate().toLocaleString(),
+          });
+        });
+        console.log("========================");
+      },
+      (error) => {
+        console.error("Error listening to reviews:", error);
+      }
+    );
 
     return () => unsubscribe();
   }, []);
@@ -111,21 +120,27 @@ const Review = () => {
     if (filter === "Last Week") {
       const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= oneWeekAgo && reviewDate <= now;
       });
     } else if (filter === "Last Month") {
       const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
       const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= lastMonthStart && reviewDate <= lastMonthEnd;
       });
     } else if (filter === "Last Year") {
       const lastYearStart = new Date(now.getFullYear() - 1, 0, 1);
       const lastYearEnd = new Date(now.getFullYear() - 1, 11, 31);
       filtered = visitorReviews.filter((review) => {
-        const reviewDate = review.createdAt ? review.createdAt.toDate() : new Date(0);
+        const reviewDate = review.createdAt
+          ? review.createdAt.toDate()
+          : new Date(0);
         return reviewDate >= lastYearStart && reviewDate <= lastYearEnd;
       });
     } else {
@@ -140,7 +155,7 @@ const Review = () => {
     setVisibleCount((prevCount) => prevCount + 4);
   };
   useEffect(() => {
-    const dropdownElement = document.querySelector('.dropdown-toggle');
+    const dropdownElement = document.querySelector(".dropdown-toggle");
     new Dropdown(dropdownElement);
   }, []);
   const handleFilterChange = (newFilter) => {
@@ -199,7 +214,7 @@ const Review = () => {
       <div
         className="dashboard-content"
         style={{
-          marginTop: "6rem",
+          marginTop: "5rem",
         }}
       >
         <div className="container">
@@ -207,37 +222,38 @@ const Review = () => {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <i className="feather-grid" /> <span>Dashboard</span>
+                  <MdDashboard /> <span>Dashboard</span>
                 </Link>
               </li>
-              <li>
+              <li className="active">
                 <Link to="/profile">
-                  <i className="fa-solid fa-user" /> <span>Profile</span>
+                  <FaUserAlt /> <span>Profile</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <i className="feather-list" /> <span>My Listing</span>
+                  <FaListUl /> <span>My Listing</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
+                  <FaHeart /> <span>Favourite</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
+                  <TiMessages /> <span>Messages</span>
                 </Link>
               </li>
-              <li className="active">
+              {/* <li>
                 <Link to="/reviews">
-                  <i className="fas fa-star" /> <span>Reviews</span>
+                  <i className="fas fa-solid fa-star" /> <span>Reviews</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link to="/login">
-                  <i className="fas fa-circle-arrow-left" /> <span>Logout</span>
+                <Link className="dropdown-item" to="#" onClick={handleLogout}>
+                  <TbLogout2 />
+                  <span>Logout</span>
                 </Link>
               </li>
             </ul>
@@ -253,118 +269,121 @@ const Review = () => {
               marginBottom: window.innerWidth <= 576 ? "3rem" : "0rem",
             }}
           >
-          <div
-  className="card-header"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 20px",
-  }}
->
-  <h1 style={{ margin: "20px", fontSize: "24px", fontWeight: 600 }}>
-    All Review
-  </h1>
-  <div className="card-dropdown" style={{ position: "relative" }}>
-    <ul className="nav" style={{ listStyle: "none", padding: 0, margin: 0 }}>
-      <li className="nav-item dropdown has-arrow logged-item">
-     <Link
-  to="#"
-  className="dropdown-toggle pageviews-link"
-  data-bs-toggle="dropdown"
-  data-bs-popper-config={JSON.stringify({
-    strategy: 'absolute',
-    modifiers: [
-      {
-        name: 'offset',
-        options: { offset: [0, 8] }, // Adjust vertical offset
-      },
-      {
-        name: 'preventOverflow',
-        options: { boundary: 'viewport' },
-      },
-    ],
-  })}
-  style={{
-    textDecoration: "none",
-    color: "#000",
-    padding: "8px 16px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    display: "inline-block",
-  }}
->
-  <span>{filter}</span>
-</Link>
-        <div
-          className="dropdown-menu dropdown-menu-end"
-          style={{
-            position: "absolute",
-            top: "100%",
-            right: 0,
-            backgroundColor: "#fff",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            borderRadius: "4px",
-            zIndex: 1000,
-          }}
-        >
-          <Link
-            className="dropdown-item"
-            to="#"
-            onClick={() => handleFilterChange("All Listing")}
-            style={{
-              display: "block",
-              padding: "8px 16px",
-              textDecoration: "none",
-              color: "#000",
-            }}
-          >
-            All Listing
-          </Link>
-          <Link
-            className="dropdown-item"
-            to="#"
-            onClick={() => handleFilterChange("Last Week")}
-            style={{
-              display: "block",
-              padding: "8px 16px",
-              textDecoration: "none",
-              color: "#000",
-            }}
-          >
-            Last Week
-          </Link>
-          <Link
-            className="dropdown-item"
-            to="#"
-            onClick={() => handleFilterChange("Last Month")}
-            style={{
-              display: "block",
-              padding: "8px 16px",
-              textDecoration: "none",
-              color: "#000",
-            }}
-          >
-            Last Month
-          </Link>
-          <Link
-            className="dropdown-item"
-            to="#"
-            onClick={() => handleFilterChange("Last Year")}
-            style={{
-              display: "block",
-              padding: "8px 16px",
-              textDecoration: "none",
-              color: "#000",
-            }}
-          >
-            Last Year
-          </Link>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
+            <div
+              className="card-header"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 20px",
+              }}
+            >
+              <h1 style={{ margin: "20px", fontSize: "24px", fontWeight: 600 }}>
+                All Review
+              </h1>
+              <div className="card-dropdown" style={{ position: "relative" }}>
+                <ul
+                  className="nav"
+                  style={{ listStyle: "none", padding: 0, margin: 0 }}
+                >
+                  <li className="nav-item dropdown has-arrow logged-item">
+                    <Link
+                      to="#"
+                      className="dropdown-toggle pageviews-link"
+                      data-bs-toggle="dropdown"
+                      data-bs-popper-config={JSON.stringify({
+                        strategy: "absolute",
+                        modifiers: [
+                          {
+                            name: "offset",
+                            options: { offset: [0, 8] }, // Adjust vertical offset
+                          },
+                          {
+                            name: "preventOverflow",
+                            options: { boundary: "viewport" },
+                          },
+                        ],
+                      })}
+                      style={{
+                        textDecoration: "none",
+                        color: "#000",
+                        padding: "8px 16px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        display: "inline-block",
+                      }}
+                    >
+                      <span>{filter}</span>
+                    </Link>
+                    <div
+                      className="dropdown-menu dropdown-menu-end"
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        right: 0,
+                        backgroundColor: "#fff",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                        borderRadius: "4px",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={() => handleFilterChange("All Listing")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
+                      >
+                        All Listing
+                      </Link>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={() => handleFilterChange("Last Week")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
+                      >
+                        Last Week
+                      </Link>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={() => handleFilterChange("Last Month")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
+                      >
+                        Last Month
+                      </Link>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={() => handleFilterChange("Last Year")}
+                        style={{
+                          display: "block",
+                          padding: "8px 16px",
+                          textDecoration: "none",
+                          color: "#000",
+                        }}
+                      >
+                        Last Year
+                      </Link>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <div
               className="card dash-cards"
               style={{
@@ -402,10 +421,7 @@ const Review = () => {
                       Visitor Review
                     </h4>
                   </div>
-                  <div
-                    className="col-lg-6 your-reviews"
-                    style={{ padding: 0 }}
-                  >
+                  <div className="col-lg-6 your-reviews" style={{ padding: 0 }}>
                     <h4
                       style={{
                         margin: 0,
@@ -485,7 +501,10 @@ const Review = () => {
                                         key={i}
                                         className={`fas fa-star`}
                                         style={{
-                                          color: i < review.rating ? "#f5c518" : "#ccc",
+                                          color:
+                                            i < review.rating
+                                              ? "#f5c518"
+                                              : "#ccc",
                                           fontSize: "14px",
                                         }}
                                       />
@@ -599,13 +618,17 @@ const Review = () => {
                                   ))
                                 ) : (
                                   <>
-                                    {userId && userId === review.listingUserId ? (
+                                    {userId &&
+                                    userId === review.listingUserId ? (
                                       <div style={{ marginBottom: "10px" }}>
                                         <textarea
                                           placeholder="Write your reply..."
                                           value={replyInputs[review.id] || ""}
                                           onChange={(e) =>
-                                            handleReplyInputChange(review.id, e.target.value)
+                                            handleReplyInputChange(
+                                              review.id,
+                                              e.target.value
+                                            )
                                           }
                                           style={{
                                             padding: "10px",
@@ -618,10 +641,14 @@ const Review = () => {
                                           }}
                                         />
                                         <button
-                                          onClick={() => handleAddReply(review.id)}
+                                          onClick={() =>
+                                            handleAddReply(review.id)
+                                          }
                                           disabled={!replyInputs[review.id]}
                                           style={{
-                                            backgroundColor: replyInputs[review.id]
+                                            backgroundColor: replyInputs[
+                                              review.id
+                                            ]
                                               ? "#2D4494"
                                               : "#cccccc",
                                             color: "#fff",
@@ -659,7 +686,10 @@ const Review = () => {
                       ))
                     ) : (
                       <div className="row" style={{ margin: 0 }}>
-                        <div className="col-lg-6" style={{ padding: "itha15px" }}>
+                        <div
+                          className="col-lg-6"
+                          style={{ padding: "itha15px" }}
+                        >
                           <p
                             style={{
                               fontSize: "14px",
@@ -711,24 +741,30 @@ const Review = () => {
                   </div>
                 )}
               </div>
-              {userId && filteredReviews.filter((review) => userId === review.listingUserId).length > visibleCount && (
-                <div className="text-center mt-3" style={{ marginTop: "20px" }}>
-                  <button
-                    className="btn"
-                    onClick={loadMoreReviews}
-                    style={{
-                      padding: "10px 20px",
-                      backgroundColor: "#2d4495",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
+              {userId &&
+                filteredReviews.filter(
+                  (review) => userId === review.listingUserId
+                ).length > visibleCount && (
+                  <div
+                    className="text-center mt-3"
+                    style={{ marginTop: "20px" }}
                   >
-                    Load More
-                  </button>
-                </div>
-              )}
+                    <button
+                      className="btn"
+                      onClick={loadMoreReviews}
+                      style={{
+                        padding: "10px 20px",
+                        backgroundColor: "#2d4495",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Load More
+                    </button>
+                  </div>
+                )}
             </div>
           </div>
         </div>

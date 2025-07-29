@@ -25,6 +25,10 @@ import { signOut } from "firebase/auth";
 import Footer from "../../home/footer/Footer";
 import { ProfileAvatar02, eye } from "../../imagepath";
 import axios from "axios";
+import { FaUserAlt, FaListUl } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { TiMessages } from "react-icons/ti";
+import { TbLogout2 } from "react-icons/tb";
 
 const MySwal = withReactContent(Swal);
 
@@ -343,34 +347,33 @@ const Bookmarks = () => {
   return (
     <>
       <Header />
-      <div className="dashboard-content" style={{ marginTop: "6rem" }}>
+      <div className="dashboard-content" style={{ marginTop: "5rem" }}>
         <div className="container">
           <div className="">
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <i className="feather-grid" /> <span>Dashboard</span>
+                  <MdDashboard /> <span>Dashboard</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <i className="fa-solid fa-user" /> <span>Profile</span>
+                  <FaUserAlt /> <span>Profile</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <i className="feather-list" /> <span>My Listing</span>
+                  <FaListUl /> <span>My Listing</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
+                  <FaHeart /> <span>Favourite</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
+                  <TiMessages /> <span>Messages</span>
                 </Link>
               </li>
               {/* <li>
@@ -380,7 +383,7 @@ const Bookmarks = () => {
               </li> */}
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                  <TbLogout2 />
                   <span>Logout</span>
                 </Link>
               </li>

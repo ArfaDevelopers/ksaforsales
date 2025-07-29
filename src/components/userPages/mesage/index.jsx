@@ -24,6 +24,10 @@ import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { TiMessages } from "react-icons/ti";
+import { TbLogout2 } from "react-icons/tb";
 
 export default function Message() {
   const [user, setUser] = useState(null);
@@ -139,38 +143,37 @@ export default function Message() {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <i className="feather-grid" /> <span>Dashboard</span>
+                  <MdDashboard /> <span>Dashboard</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <i className="fa-solid fa-user" /> <span>Profile</span>
+                  <FaUserAlt /> <span>Profile</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <i className="feather-list" /> <span>My Listing</span>
+                  <FaListUl /> <span>My Listing</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <i className="fas fa-solid fa-heart" /> <span>Favourite</span>
+                  <FaHeart /> <span>Favourite</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/messages">
-                  <i className="fa-solid fa-comment-dots" />{" "}
-                  <span>Messages</span>
+                  <TiMessages /> <span>Messages</span>
                 </Link>
               </li>
               {/* <li>
-                <Link to="/reviews">
-                  <i className="fas fa-solid fa-star" /> <span>Reviews</span>
-                </Link>
-              </li> */}
+                            <Link to="/reviews">
+                              <i className="fas fa-solid fa-star" /> <span>Reviews</span>
+                            </Link>
+                          </li> */}
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
-                  <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                  <TbLogout2 />
                   <span>Logout</span>
                 </Link>
               </li>
