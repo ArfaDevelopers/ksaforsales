@@ -330,11 +330,12 @@ const Education = () => {
 
   const [refresh, setRefresh] = useState(false); // Add loading state
 
-  const [selectedRegion, setSelectedRegionId] = useState("");
+  const [selectedRegion, setSelectedRegionId] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const modalRef = useRef(null);
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
   // const [Brand, setBrand] = useState([]);
+  const [citySearchText, setCitySearchText] = useState("");
 
   console.log(selectedCities, "Fetched cities:1");
   console.log(cities, "Fetched cities:1cities");
@@ -344,6 +345,8 @@ const Education = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -404,9 +407,15 @@ const Education = () => {
   }));
   useEffect(() => {
     const fetchCities = async () => {
+      if (selectedRegion.length === 0) return;
+
       try {
+        const queryString = selectedRegion
+          .map((id) => `REGION_ID=${id}`)
+          .join("&");
+
         const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegion}`
+          `http://168.231.80.24:9002/api/cities?${queryString}`
         );
         const data = await response.json();
 
@@ -470,6 +479,11 @@ const Education = () => {
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
   }));
+  const filteredDistricts = districtOptions
+    .slice(6)
+    .filter((option) =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
       try {
@@ -1380,21 +1394,27 @@ const Education = () => {
         setLoading(true);
 
         const params = new URLSearchParams();
+
         if (searchText) params.append("searchText", searchText);
-        if (selectedRegion) params.append("regionId", selectedRegion);
+
+        // ✅ Pass multiple regionId values
+        if (selectedRegion.length) {
+          selectedRegion.forEach((id) => params.append("regionId", id));
+        }
+
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/Education?${params.toString()}`
+          `http://168.231.80.24:9002/route/PETANIMALCOMP?${params.toString()}`
         );
-        const carsData = await response.json();
 
+        const carsData = await response.json();
         setCars(carsData);
         setFilteredCars(carsData);
         setLoading(false);
 
-        console.log(carsData, "carsData_________");
+        console.log(carsData, "carsData_________cars");
       } catch (error) {
         console.error("Error getting cars:", error);
         setLoading(false);
@@ -1402,7 +1422,39 @@ const Education = () => {
     };
 
     fetchCars();
-  }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
+  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+  // useEffect(() => {
+  //   const CITY_ID = selectedCities[0]?.CITY_ID;
+  //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+
+  //   const fetchCars = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       const params = new URLSearchParams();
+  //       if (searchText) params.append("searchText", searchText);
+  //       if (selectedRegion) params.append("regionId", selectedRegion);
+  //       if (CITY_ID) params.append("CITY_ID", CITY_ID);
+  //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/Education?${params.toString()}`
+  //       );
+  //       const carsData = await response.json();
+
+  //       setCars(carsData);
+  //       setFilteredCars(carsData);
+  //       setLoading(false);
+
+  //       console.log(carsData, "carsData_________");
+  //     } catch (error) {
+  //       console.error("Error getting cars:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCars();
+  // }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
 
   const handleShowModal = (userId) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
@@ -2376,29 +2428,45 @@ const Education = () => {
                         <Form.Group className="mb-3">
                           {/* <Form.Label>Select a Region</Form.Label> */}
                           <div className="mb-3">
-                            {regionOptions.slice(0, 4).map((region) => (
-                              <div className="form-check" key={region.regionId}>
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`region-${region.regionId}`}
-                                  checked={selectedRegion === region.regionId}
-                                  onChange={() =>
-                                    setSelectedRegionId(
-                                      selectedRegion === region.regionId
-                                        ? ""
-                                        : region.regionId
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`region-${region.regionId}`}
+                            {regionOptions.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegion.includes(
+                                region.regionId
+                              );
+
+                              return (
+                                <div
+                                  className="form-check"
+                                  key={region.regionId}
                                 >
-                                  {region.label}
-                                </label>
-                              </div>
-                            ))}
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.regionId}`}
+                                    checked={isChecked}
+                                    onChange={() => {
+                                      if (isChecked) {
+                                        setSelectedRegionId((prev) =>
+                                          prev.filter(
+                                            (id) => id !== region.regionId
+                                          )
+                                        );
+                                      } else {
+                                        setSelectedRegionId((prev) => [
+                                          ...prev,
+                                          region.regionId,
+                                        ]);
+                                      }
+                                    }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.regionId}`}
+                                  >
+                                    {region.label}
+                                  </label>
+                                </div>
+                              );
+                            })}
                             <button
                               type="button"
                               className="btn btn-link p-0"
@@ -2444,38 +2512,51 @@ const Education = () => {
                                       </div>
                                       <div className="row g-2">
                                         <ul className="more_choice_main_list">
-                                          {regionOptions.map((region) => (
-                                            <li
-                                              className=""
-                                              key={region.regionId}
-                                            >
-                                              <label
-                                                className="form-check-label"
-                                                htmlFor={`modal-region-${region.regionId}`}
-                                              >
-                                                <input
-                                                  className="form-check-input me-2 mt-1"
-                                                  type="checkbox"
-                                                  id={`modal-region-${region.regionId}`}
-                                                  checked={
-                                                    selectedRegion ===
-                                                    region.regionId
-                                                  }
-                                                  onChange={() =>
-                                                    setSelectedRegionId(
-                                                      selectedRegion ===
-                                                        region.regionId
-                                                        ? ""
-                                                        : region.regionId
-                                                    )
-                                                  }
-                                                />
-                                                <span className="fw-medium text-dark">
-                                                  {region.regionEn}
-                                                </span>
-                                              </label>
-                                            </li>
-                                          ))}
+                                          {regionOptions
+                                            .slice(6)
+                                            .map((region) => {
+                                              const isChecked =
+                                                selectedRegion.includes(
+                                                  region.regionId
+                                                );
+                                              return (
+                                                <li key={region.regionId}>
+                                                  <div className="form-check">
+                                                    <input
+                                                      className="form-check-input"
+                                                      type="checkbox"
+                                                      id={`region-${region.regionId}`}
+                                                      checked={isChecked}
+                                                      onChange={() => {
+                                                        if (isChecked) {
+                                                          setSelectedRegionId(
+                                                            (prev) =>
+                                                              prev.filter(
+                                                                (id) =>
+                                                                  id !==
+                                                                  region.regionId
+                                                              )
+                                                          );
+                                                        } else {
+                                                          setSelectedRegionId(
+                                                            (prev) => [
+                                                              ...prev,
+                                                              region.regionId,
+                                                            ]
+                                                          );
+                                                        }
+                                                      }}
+                                                    />
+                                                    <label
+                                                      className="form-check-label"
+                                                      htmlFor={`region-${region.regionId}`}
+                                                    >
+                                                      {region.label}
+                                                    </label>
+                                                  </div>
+                                                </li>
+                                              );
+                                            })}
                                         </ul>
                                       </div>
                                     </div>
@@ -2561,7 +2642,7 @@ const Education = () => {
                           <>
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
-                              {cityOptions.slice(0, 4).map((option) => (
+                              {cityOptions.slice(0, 6).map((option) => (
                                 <label
                                   key={option.value}
                                   className="d-flex align-items-center gap-2"
@@ -2615,27 +2696,54 @@ const Education = () => {
                                   </div>
 
                                   <div className="modal-body">
-                                    <div className="row">
-                                      <ul className="more_choice_main_list">
-                                        {cityOptions.slice(4).map((option) => (
-                                          <li className="" key={option.value}>
-                                            <label className="d-flex align-items-center gap-2">
-                                              <input
-                                                type="checkbox"
-                                                checked={selectedCities.some(
-                                                  (city) =>
-                                                    city.CITY_ID ===
-                                                    option.cityId
-                                                )}
-                                                onChange={() =>
-                                                  handleCheckboxChange1(option)
-                                                }
-                                              />
-                                              <span>{option.label}</span>
-                                            </label>
-                                          </li>
+                                    {/* Search Input */}
+                                    <div className="mb-3">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search cities..."
+                                        value={citySearchText}
+                                        onChange={(e) =>
+                                          setCitySearchText(e.target.value)
+                                        }
+                                      />
+                                    </div>
+
+                                    {/* Filtered List */}
+                                    <div
+                                      className="more_choice_main_list"
+                                      style={{
+                                        maxHeight: "300px",
+                                        overflowY: "auto",
+                                      }}
+                                    >
+                                      {cityOptions
+                                        .slice(6)
+                                        .filter((option) =>
+                                          option.label
+                                            ?.toLowerCase()
+                                            .includes(
+                                              citySearchText?.toLowerCase()
+                                            )
+                                        )
+                                        .map((option) => (
+                                          <label
+                                            key={option.value}
+                                            className="d-flex align-items-center gap-2 mb-2"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              checked={selectedCities.some(
+                                                (city) =>
+                                                  city.CITY_ID === option.cityId
+                                              )}
+                                              onChange={() =>
+                                                handleCheckboxChange1(option)
+                                              }
+                                            />
+                                            <span>{option.label}</span>
+                                          </label>
                                         ))}
-                                      </ul>
                                     </div>
                                   </div>
 
@@ -2694,7 +2802,7 @@ const Education = () => {
                                        }}
                                      /> */}
                           <div className="grid grid-cols-1 gap-2">
-                            {districtOptions.slice(0, 4).map((option) => {
+                            {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
                                   district.DISTRICT_ID === option.value
@@ -2737,7 +2845,6 @@ const Education = () => {
                                 </label>
                               );
                             })}
-
                             <button
                               type="button"
                               className="btn btn-link p-0 mt-2"
@@ -2773,69 +2880,74 @@ const Education = () => {
                                     ></button>
                                   </div>
 
-                                  {/* Compact Body */}
+                                  {/* Body */}
                                   <div className="modal-body">
+                                    {/* Search Input */}
+                                    <div className="mb-3 px-3">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search districts..."
+                                        value={searchTerm}
+                                        onChange={(e) =>
+                                          setSearchTerm(e.target.value)
+                                        }
+                                      />
+                                    </div>
+
                                     <div className="row g-1 ml-4">
                                       <ul className="more_choice_main_list">
-                                        {districtOptions
-                                          .slice(4)
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
-
-                                            return (
-                                              <li
-                                                key={option.value}
-                                                className=""
-                                              >
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    className=""
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    className=""
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
+                                        {filteredDistricts.map((option) => {
+                                          const isChecked =
+                                            selectedDistricts.some(
+                                              (district) =>
+                                                district.DISTRICT_ID ===
+                                                option.value
                                             );
-                                          })}
+
+                                          return (
+                                            <label
+                                              key={option.value}
+                                              className="form-check d-flex align-items-center gap-2"
+                                              style={{ display: "flex" }}
+                                            >
+                                              <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                checked={isChecked}
+                                                onChange={(e) => {
+                                                  if (e.target.checked) {
+                                                    setSelectedDistricts(
+                                                      (prev) => [
+                                                        ...prev,
+                                                        {
+                                                          REGION_ID:
+                                                            option.regionId,
+                                                          CITY_ID:
+                                                            option.cityId,
+                                                          DISTRICT_ID:
+                                                            option.value,
+                                                        },
+                                                      ]
+                                                    );
+                                                  } else {
+                                                    setSelectedDistricts(
+                                                      (prev) =>
+                                                        prev.filter(
+                                                          (district) =>
+                                                            district.DISTRICT_ID !==
+                                                            option.value
+                                                        )
+                                                    );
+                                                  }
+                                                }}
+                                              />
+                                              <span className="form-check-label">
+                                                {option.label}
+                                              </span>
+                                            </label>
+                                          );
+                                        })}
                                       </ul>
                                     </div>
 
