@@ -79,6 +79,7 @@ import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import axios from "axios";
 
 const HealthCareComp = () => {
   const parms = useLocation().pathname;
@@ -571,27 +572,26 @@ const HealthCareComp = () => {
     });
   };
   const [showAll2, setShowAll2] = useState(false);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
 
-  const categories1 = [
-    "Outdoor Furniture",
-    "Majlis & Sofas",
-    "Cabinets & Wardrobes",
-    "Beds & Mattresses",
-    "Tables & Chairs",
-    "Kitchens",
-    "Bathrooms",
-    "Carpets",
-    "Curtains",
-    "Decoration & Accessories",
-    "Lighting",
-    "Household Items",
-    "Garden - Plants",
-    "Office Furniture",
-    "Doors - Windows - Aluminium",
-    "Tiles & Flooring",
-  ];
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://168.231.80.24:9002/route/healthcareSubCategories")
+      .then((response) => {
+        setCategories(response.data); // show all including count = 0
+      })
+      .catch((error) => {
+        console.error("Error fetching healthcare categories:", error);
+      });
+  }, []);
+
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
+  };
+  const visibleCategories = showAll2 ? categories : categories.slice(0, 4);
+  const handleCategoryCheck = (category) => {
+    setselectedSubCategory((prev) => (prev === category ? "" : category));
   };
   const { id } = useParams();
   const getQueryParam = (param) => {
@@ -634,7 +634,6 @@ const HealthCareComp = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
 
@@ -2631,41 +2630,40 @@ const HealthCareComp = () => {
                           <Form.Group>
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
-                            {(showAll2
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`cat2-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() =>
-                                    setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`cat2-${index}`}
-                                >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
+                            <>
+                              {visibleCategories.map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`cat2-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory === item.category
+                                    }
+                                    onChange={() =>
+                                      handleCategoryCheck(item.category)
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`cat2-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {categories1.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() => setShowAll2((prev) => !prev)}
-                                className="p-0 mt-2"
-                              >
-                                {showAll2 ? "Show less..." : "Show more..."}
-                              </Button>
-                            )}
+                              {categories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() => setShowAll2((prev) => !prev)}
+                                  className="p-0 mt-2"
+                                >
+                                  {showAll2 ? "Show less..." : "Show more..."}
+                                </Button>
+                              )}
+                            </>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

@@ -532,7 +532,10 @@ const JobBoard = () => {
     City: "",
     District: "",
   });
-  console.log(formData, "selectedSubCategory________");
+  console.log(
+    selectedSubCategory,
+    "selectedSubCategory________selectedSubCategory"
+  );
 
   const handleCitySelect = (selectedOptions) => {
     console.log("Selected Options:", selectedOptions); // Debug
@@ -591,20 +594,15 @@ const JobBoard = () => {
     [DistrictList]
   );
   const [showAllJobs, setShowAllJobs] = useState(false);
+  const [jobCategories, setJobCategories] = useState([]);
 
-  const categories1 = [
-    "Administrative Jobs",
-    "Fashion & Beauty Jobs",
-    "Security & Safety Jobs",
-    "Teaching Jobs",
-    "IT & Design Jobs",
-    "Agriculture & Farming Jobs",
-    "Industrial Jobs",
-    "Medical & Nursing Jobs",
-    "Architecture & Construction Jobs",
-    "Housekeeping Jobs",
-    "Restaurant Jobs",
-  ];
+  useEffect(() => {
+    fetch("http://168.231.80.24:9002/route/jobBoardSubCategories")
+      .then((res) => res.json())
+      .then((data) => setJobCategories(data))
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
+
   const handleFromChange = (e) => {
     setFromValue(e.target.value);
   };
@@ -1572,9 +1570,6 @@ const JobBoard = () => {
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
   useEffect(() => {
-    const CITY_ID = selectedCities[0]?.CITY_ID;
-    const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
-
     const fetchCars = async () => {
       try {
         setLoading(true);
@@ -1583,13 +1578,20 @@ const JobBoard = () => {
 
         if (searchText) params.append("searchText", searchText);
 
-        // ✅ Pass multiple regionId values
         if (selectedRegion.length) {
           selectedRegion.forEach((id) => params.append("regionId", id));
         }
 
+        const CITY_ID = selectedCities[0]?.CITY_ID;
+        const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+        // ✅ Add SubCategory filter
+        if (selectedSubCategory) {
+          params.append("SubCategory", selectedSubCategory);
+        }
 
         const response = await fetch(
           `http://168.231.80.24:9002/route/JOBBOARD?${params.toString()}`
@@ -1608,7 +1610,14 @@ const JobBoard = () => {
     };
 
     fetchCars();
-  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+  }, [
+    searchText,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+    selectedSubCategory,
+    refresh,
+  ]);
 
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
@@ -1791,8 +1800,9 @@ const JobBoard = () => {
   }, [
     selectedCities,
     selectedDistrict,
-    selectedCity,
     selectedSubCategory,
+
+    selectedCity,
     subCatgory,
     nestedSubCategory,
     searchQuery,
@@ -1878,8 +1888,9 @@ const JobBoard = () => {
     filterCars(
       query,
       selectedDistrict,
-      selectedCity,
       selectedSubCategory,
+
+      selectedCity,
       subCatgory,
       nestedSubCategory,
       selectedCities,
@@ -1959,8 +1970,9 @@ const JobBoard = () => {
   const filterCars = (
     query,
     selectedDistrict,
-    selectedCity,
     selectedSubCategory,
+
+    selectedCity,
     subCatgory,
     nestedSubCategory,
     searchQuery,
@@ -2126,12 +2138,13 @@ const JobBoard = () => {
         selectedSubCategory.includes(car.SubCategory)
       );
     }
-    if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+    if (Array.isArray(selectedCity) && selectedCity.length > 0) {
+      const selectedCityValues = selectedCity.map((city) => city.value); // No need for `?` now
       filtered = filtered.filter((car) =>
         selectedCityValues.includes(car.City)
       );
     }
+
     console.log(selectedDistrict, "selectedValue___________11");
 
     if (selectedDistrict?.value) {
@@ -2752,19 +2765,23 @@ const JobBoard = () => {
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
                             {(showAllJobs
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
+                              ? jobCategories
+                              : jobCategories.slice(0, 4)
+                            ).map((item, index) => (
                               <div key={index} className="form-check mb-2">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
                                   id={`job-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
+                                  value={item.category}
+                                  checked={
+                                    selectedSubCategory === item.category
+                                  }
                                   onChange={() =>
                                     setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
+                                      prev === item.category
+                                        ? ""
+                                        : item.category
                                     )
                                   }
                                 />
@@ -2772,12 +2789,12 @@ const JobBoard = () => {
                                   className="form-check-label"
                                   htmlFor={`job-cat-${index}`}
                                 >
-                                  {category}
+                                  {item.category} ({item.count})
                                 </label>
                               </div>
                             ))}
 
-                            {categories1.length > 4 && (
+                            {jobCategories.length > 4 && (
                               <Button
                                 variant="link"
                                 onClick={() => setShowAllJobs((prev) => !prev)}

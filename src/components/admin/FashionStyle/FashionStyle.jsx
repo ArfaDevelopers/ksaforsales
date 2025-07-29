@@ -78,6 +78,7 @@ import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import axios from "axios";
 
 const FashionStyle = () => {
   const parms = useLocation().pathname;
@@ -523,19 +524,26 @@ const FashionStyle = () => {
     [DistrictList]
   );
 
-  const categories1 = [
-    "Watches",
-    "Perfumes & Incense",
-    "Sports Equipment",
-    "Men's Fashion",
-    "Women's Fashion",
-    "Children's Clothing & Accessories",
-    "Sleepwear",
-    "Gifts",
-    "Luggage",
-    "Health & Beauty",
-  ];
+  const [categories, setCategories] = useState([]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+
   const [showAll1, setShowAll1] = useState(false);
+  useEffect(() => {
+    axios
+      .get("http://168.231.80.24:9002/route/fashionSubCategories")
+      .then((response) => {
+        setCategories(response.data); // Keep all, even if count = 0
+      })
+      .catch((error) => {
+        console.error("Error fetching fashion categories:", error);
+      });
+  }, []);
+
+  const handleCategoryCheck = (category) => {
+    setselectedSubCategory((prev) => (prev === category ? "" : category));
+  };
+
+  const visibleCategories = showAll1 ? categories : categories.slice(0, 4);
 
   const getQueryParam = (param) => {
     const hash = location.hash;
@@ -557,7 +565,6 @@ const FashionStyle = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
   const [adsDetailImages, setAdsDetailImages] = useState([]);
@@ -2595,44 +2602,40 @@ const FashionStyle = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {/* <Form.Label>Select a Category</Form.Label> */}
+                            <>
+                              {visibleCategories.map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`cat1-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory === item.category
+                                    }
+                                    onChange={() =>
+                                      handleCategoryCheck(item.category)
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`cat1-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {/** Show 4 initially, all when showAll is true */}
-                            {(showAll1
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`cat1-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() =>
-                                    setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`cat1-${index}`}
+                              {categories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() => setShowAll1((prev) => !prev)}
+                                  className="p-0 mt-2"
                                 >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
-
-                            {categories1.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() => setShowAll1((prev) => !prev)}
-                                className="p-0 mt-2"
-                              >
-                                {showAll1 ? "Show less..." : "Show more..."}
-                              </Button>
-                            )}
+                                  {showAll1 ? "Show less..." : "Show more..."}
+                                </Button>
+                              )}
+                            </>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

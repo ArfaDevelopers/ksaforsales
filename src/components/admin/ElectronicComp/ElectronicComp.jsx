@@ -79,6 +79,7 @@ import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import { ref, getDownloadURL } from "firebase/storage";
+import axios from "axios";
 
 const ElectronicComp = () => {
   const parms = useLocation().pathname;
@@ -384,22 +385,20 @@ const ElectronicComp = () => {
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
   }));
-  const categories = [
-    "Mobile Phones",
-    "Tablet Devices",
-    "Computers & Laptops",
-    "Video Games",
-    "Television & Audio System",
-    "Accounts & Subscriptions",
-    "Special Number",
-    "Home & Kitchen Appliance",
-    "Motors & Generators",
-    "Cameras",
-    "Networking Devices",
-    "Screens & Projectors",
-    "Printer & Scanner",
-    "Computer Accessories",
-  ];
+  const [categories, setCategories] = useState([]);
+  const [selectedSubCategory1, setSelectedSubCategory1] = useState("");
+  console.log(selectedSubCategory1, "filteredCars_________category");
+
+  useEffect(() => {
+    axios
+      .get("http://168.231.80.24:9002/route/electronicsSubCategories")
+      .then((response) => {
+        setCategories(response.data); // Store all categories with counts
+      })
+      .catch((error) => {
+        console.error("Error fetching electronics categories:", error);
+      });
+  }, []);
 
   // Handle city selection
   const [carsData, setCars] = useState([]); // All cars data
@@ -452,11 +451,12 @@ const ElectronicComp = () => {
   const [showAll, setShowAll] = useState(false);
 
   const handleCategoryCheck = (category) => {
-    setselectedSubCategory((prev) => (prev === category ? "" : category));
+    setSelectedSubCategory1((prev) => (prev === category ? "" : category));
   };
 
   // Show first 4 or all based on showAll state
   const visibleCategories = showAll ? categories : categories.slice(0, 4);
+  console.log(visibleCategories, "visibleCategories___");
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
@@ -1466,6 +1466,8 @@ const ElectronicComp = () => {
       selectedEmirates,
       selectedCarsMake,
       fromValue,
+      selectedSubCategory1,
+
       toValue,
       fromDate,
       toDate,
@@ -1516,6 +1518,7 @@ const ElectronicComp = () => {
     selectedEmirates,
     selectedCarsMake,
     fromValue,
+    selectedSubCategory1,
     toValue,
     toDate,
     fromDate,
@@ -1572,6 +1575,8 @@ const ElectronicComp = () => {
       selectedEmirates,
       selectedCarsMake,
       fromValue,
+      selectedSubCategory1,
+
       toValue,
       toDate,
       fromDate,
@@ -1622,6 +1627,8 @@ const ElectronicComp = () => {
     emirates,
     selectedCarsMake,
     fromValue,
+    selectedSubCategory1,
+
     toValue,
     fromDate,
     toDate,
@@ -1680,6 +1687,7 @@ const ElectronicComp = () => {
           car.Color?.toLowerCase().includes(lowercasedQuery) ||
           car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
           car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
+          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
           car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
           car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
@@ -1730,6 +1738,12 @@ const ElectronicComp = () => {
         selectedCityValues.includes(car.City)
       );
     }
+    if (selectedCity && selectedCity.length > 0) {
+      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+      filtered = filtered.filter((car) =>
+        selectedCityValues.includes(car.City)
+      );
+    }
     if (selectedDistrict) {
       filtered = filtered.filter(
         (car) => car.District === selectedDistrict.value
@@ -1744,6 +1758,11 @@ const ElectronicComp = () => {
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
         selectedSubCategory.includes(car.SubCategory)
+      );
+    }
+    if (selectedSubCategory1?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedSubCategory1.includes(car.SubCategory)
       );
     }
     if (brands?.length > 0) {
@@ -2229,34 +2248,40 @@ const ElectronicComp = () => {
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
                             <Form.Label>Select a Category</Form.Label>
-                            {visibleCategories.map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() => handleCategoryCheck(category)}
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`cat-${index}`}
-                                >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
+                            <>
+                              {visibleCategories.map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`cat-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory1 === item.category
+                                    }
+                                    onChange={() =>
+                                      handleCategoryCheck(item.category)
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`cat-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {categories.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() => setShowAll((prev) => !prev)}
-                                className="p-0 mt-2"
-                              >
-                                {showAll ? "Show less..." : "Show more..."}
-                              </Button>
-                            )}
+                              {categories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() => setShowAll((prev) => !prev)}
+                                  className="p-0 mt-2"
+                                >
+                                  {showAll ? "Show less..." : "Show more..."}
+                                </Button>
+                              )}
+                            </>
                           </Form.Group>
                         </div>
                       </Accordion.Body>
