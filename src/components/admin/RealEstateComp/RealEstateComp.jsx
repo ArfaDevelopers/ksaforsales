@@ -585,36 +585,17 @@ const RealEstateComp = () => {
     [DistrictList]
   );
   const [showAllRealEstate, setShowAllRealEstate] = useState(false);
+  const [realEstateCategories, setRealEstateCategories] = useState([]);
 
-  const categories1 = [
-    "Apartments for Rent",
-    "Apartments for Sale",
-    "Building for Rent",
-    "Building for Sale",
-    "Camps for Rent",
-    "Chalets for Sale",
-    "Commercial Lands for Sale",
-    "Compound for Rent",
-    "Compound for Sale",
-    "Farm for Rent",
-    "Farms for Sale",
-    "Floor for Sale",
-    "Floors for Rent",
-    "Hall for Rent",
-    "Houses for Rent",
-    "Houses for Sale",
-    "Lands for Sale",
-    "Offices for Rent",
-    "Rest Houses for Rent",
-    "Rest Houses for Sale",
-    "Rooms for Rent",
-    "Shops for Rent",
-    "Shops for Transfer",
-    "Villas for Rent",
-    "Villas for Sale",
-    "Warehouse for Sale",
-    "Warehouse for Rent",
-  ];
+  useEffect(() => {
+    fetch("http://168.231.80.24:9002/route/realEstateSubCategories")
+      .then((res) => res.json())
+      .then((data) => setRealEstateCategories(data))
+      .catch((err) =>
+        console.error("Error fetching real estate categories:", err)
+      );
+  }, []);
+
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -2947,45 +2928,51 @@ const RealEstateComp = () => {
                           <Form.Group>
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
-                            {(showAllRealEstate
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`real-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() =>
-                                    setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`real-cat-${index}`}
-                                >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
+                            <>
+                              {(showAllRealEstate
+                                ? realEstateCategories
+                                : realEstateCategories.slice(0, 4)
+                              ).map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`real-cat-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory === item.category
+                                    }
+                                    onChange={() =>
+                                      setselectedSubCategory((prev) =>
+                                        prev === item.category
+                                          ? ""
+                                          : item.category
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`real-cat-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {categories1.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() =>
-                                  setShowAllRealEstate((prev) => !prev)
-                                }
-                                className="p-0 mt-2"
-                              >
-                                {showAllRealEstate
-                                  ? "Show less..."
-                                  : "Show more..."}
-                              </Button>
-                            )}
+                              {realEstateCategories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() =>
+                                    setShowAllRealEstate((prev) => !prev)
+                                  }
+                                  className="p-0 mt-2"
+                                >
+                                  {showAllRealEstate
+                                    ? "Show less..."
+                                    : "Show more..."}
+                                </Button>
+                              )}
+                            </>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

@@ -644,18 +644,24 @@ const TravelComp = () => {
   );
   const [showAllServices, setShowAllServices] = useState(false);
 
-  const categories1 = [
-    "Other Services",
-    "Contracting Services",
-    "Government Paperwork Services",
-    "Delivery Services",
-    "Furniture Moving Services",
-    "Cleaning Services",
-    "International Shopping Services",
-    "Legal Services",
-    "Accounting & Financial Services",
-  ];
+  const [subCategories, setSubCategories] = useState([]);
 
+  // Fetch sub-categories from API
+  useEffect(() => {
+    const fetchSubCategories = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/route/travelSubCategories"
+        );
+        const data = await response.json();
+        setSubCategories(data);
+      } catch (error) {
+        console.error("Failed to fetch subcategories:", error);
+      }
+    };
+
+    fetchSubCategories();
+  }, []);
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
@@ -2797,19 +2803,23 @@ const TravelComp = () => {
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
                             {(showAllServices
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
+                              ? subCategories
+                              : subCategories.slice(0, 4)
+                            ).map((item, index) => (
                               <div key={index} className="form-check mb-2">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
                                   id={`service-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
+                                  value={item.category}
+                                  checked={
+                                    selectedSubCategory === item.category
+                                  }
                                   onChange={() =>
                                     setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
+                                      prev === item.category
+                                        ? ""
+                                        : item.category
                                     )
                                   }
                                 />
@@ -2817,12 +2827,12 @@ const TravelComp = () => {
                                   className="form-check-label"
                                   htmlFor={`service-cat-${index}`}
                                 >
-                                  {category}
+                                  {item.category} ({item.count})
                                 </label>
                               </div>
                             ))}
 
-                            {categories1.length > 4 && (
+                            {subCategories.length > 4 && (
                               <Button
                                 variant="link"
                                 onClick={() =>

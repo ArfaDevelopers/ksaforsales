@@ -54,6 +54,9 @@
   margin-bottom: 0;
 }
 /* chat css ends */
+.more_choice_main_list .form-check {
+  margin-bottom: 0.5rem !important;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;

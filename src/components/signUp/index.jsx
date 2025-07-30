@@ -400,7 +400,19 @@ const SignUp = () => {
                       />
                     </div>
                   </div>
-
+                  <div className="form-group group-img">
+                    <div className="group-img">
+                      <i className="feather-mail" />
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Email Address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
                   <div className="form-group">
                     <div className="pass-group group-img">
                       <i

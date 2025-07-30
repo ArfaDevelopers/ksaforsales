@@ -79,6 +79,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useRef } from "react";
+import axios from "axios";
 
 const SPORTSGAMESComp = () => {
   const parms = useLocation().pathname;
@@ -618,17 +619,28 @@ const SPORTSGAMESComp = () => {
       return newConditions;
     });
   };
-  const [showAllGaming, setShowAllGaming] = useState(false);
+  const [gamingCategories, setGamingCategories] = useState([]);
+  console.log("Selected Conditions:gamingCategories", gamingCategories);
 
-  const categories1 = [
-    "Gaming Consoles",
-    "Video Games",
-    "Controllers",
-    "Gaming Accessories",
-    "Gift Cards",
-    "Accounts",
-    "Toys",
-  ];
+  const [showAllGaming, setShowAllGaming] = useState(false);
+  useEffect(() => {
+    const fetchGamingCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://168.231.80.24:9002/route/sportsGamesSubCategories"
+        );
+        if (Array.isArray(response.data)) {
+          setGamingCategories(response.data);
+        } else {
+          console.error("Unexpected response format:", response);
+        }
+      } catch (error) {
+        console.error("Error fetching gaming categories:", error);
+      }
+    };
+
+    fetchGamingCategories();
+  }, []);
 
   // Handle country selection
   const handleCountryChange = (selected) => {
@@ -2376,45 +2388,51 @@ const SPORTSGAMESComp = () => {
                           <Form.Group>
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
-                            {(showAllGaming
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
-                              <div key={index} className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  id={`gaming-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
-                                  onChange={() =>
-                                    setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
-                                    )
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor={`gaming-cat-${index}`}
-                                >
-                                  {category}
-                                </label>
-                              </div>
-                            ))}
+                            <div>
+                              {(showAllGaming
+                                ? gamingCategories
+                                : gamingCategories.slice(0, 4)
+                              ).map((item, index) => (
+                                <div key={index} className="form-check mb-2">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`gaming-cat-${index}`}
+                                    value={item.category}
+                                    checked={
+                                      selectedSubCategory === item.category
+                                    }
+                                    onChange={() =>
+                                      setselectedSubCategory((prev) =>
+                                        prev === item.category
+                                          ? ""
+                                          : item.category
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`gaming-cat-${index}`}
+                                  >
+                                    {item.category} ({item.count})
+                                  </label>
+                                </div>
+                              ))}
 
-                            {categories1.length > 4 && (
-                              <Button
-                                variant="link"
-                                onClick={() =>
-                                  setShowAllGaming((prev) => !prev)
-                                }
-                                className="p-0 mt-2"
-                              >
-                                {showAllGaming
-                                  ? "Show less..."
-                                  : "Show more..."}
-                              </Button>
-                            )}
+                              {gamingCategories.length > 4 && (
+                                <Button
+                                  variant="link"
+                                  onClick={() =>
+                                    setShowAllGaming((prev) => !prev)
+                                  }
+                                  className="p-0 mt-2"
+                                >
+                                  {showAllGaming
+                                    ? "Show less..."
+                                    : "Show more..."}
+                                </Button>
+                              )}
+                            </div>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

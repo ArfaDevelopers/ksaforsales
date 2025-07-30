@@ -1075,26 +1075,14 @@ const PetAnimalsComp = () => {
     setselectedSubCategory(e.target.value);
   };
   const [showAllAnimals, setShowAllAnimals] = useState(false);
+  const [animalCategories, setAnimalCategories] = useState([]);
 
-  const categories1 = [
-    "Sheep",
-    "Goats",
-    "Parrot",
-    "Dove/Pigeon",
-    "Cats",
-    "Chickens",
-    "Camels",
-    "Horses",
-    "Dogs",
-    "Cows",
-    "Fish & Turtles",
-    "Rabbits",
-    "Ducks",
-    "Squirrels",
-    "Hamsters",
-    "Fur",
-  ];
-
+  useEffect(() => {
+    fetch("http://168.231.80.24:9002/route/petAnimalSubCategories")
+      .then((res) => res.json())
+      .then((data) => setAnimalCategories(data))
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
   const handlePageClick = (page) => {
     setActivePage(page);
   };
@@ -2525,21 +2513,24 @@ const PetAnimalsComp = () => {
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
                             {/* <Form.Label>Select a Category</Form.Label> */}
-
                             {(showAllAnimals
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
+                              ? animalCategories
+                              : animalCategories.slice(0, 4)
+                            ).map((item, index) => (
                               <div key={index} className="form-check mb-2">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
                                   id={`animal-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
+                                  value={item.category}
+                                  checked={
+                                    selectedSubCategory === item.category
+                                  }
                                   onChange={() =>
-                                    setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
+                                    setAnimalCategories((prev) =>
+                                      prev === item.category
+                                        ? ""
+                                        : item.category
                                     )
                                   }
                                 />
@@ -2547,12 +2538,12 @@ const PetAnimalsComp = () => {
                                   className="form-check-label"
                                   htmlFor={`animal-cat-${index}`}
                                 >
-                                  {category}
+                                  {item.category} ({item.count})
                                 </label>
                               </div>
                             ))}
 
-                            {categories1.length > 4 && (
+                            {animalCategories.length > 4 && (
                               <Button
                                 variant="link"
                                 onClick={() =>
