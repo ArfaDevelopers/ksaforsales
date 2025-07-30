@@ -1070,19 +1070,22 @@ const PetAnimalsComp = () => {
     fetchCars();
   }, []);
   console.log(activePage, "activePage_________");
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const handleCategorySelect = (e) => {
     setselectedSubCategory(e.target.value);
   };
   const [showAllAnimals, setShowAllAnimals] = useState(false);
-  const [animalCategories, setAnimalCategories] = useState([]);
 
+  const [animalCategories, setAnimalCategories] = useState([]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+
+  // Fetch API data
   useEffect(() => {
     fetch("http://168.231.80.24:9002/route/petAnimalSubCategories")
       .then((res) => res.json())
       .then((data) => setAnimalCategories(data))
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
+
   const handlePageClick = (page) => {
     setActivePage(page);
   };
@@ -2527,7 +2530,7 @@ const PetAnimalsComp = () => {
                                     selectedSubCategory === item.category
                                   }
                                   onChange={() =>
-                                    setAnimalCategories((prev) =>
+                                    setselectedSubCategory((prev) =>
                                       prev === item.category
                                         ? ""
                                         : item.category

@@ -522,7 +522,7 @@ const Dashboard = () => {
           <div className="dashboard-details">
             <div className="row g-2">
               <div
-                className="col-lg-6 col-md-6 col-6"
+                className="col-lg-6 col-md-6 col-12"
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
@@ -534,7 +534,7 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Active Listing</h6>
-                      <div>{Activelisting}</div>
+                      <div>{Activelisting ?? 0}</div>
                     </div>
                   </div>
                 </div>
@@ -559,11 +559,11 @@ const Dashboard = () => {
               </div> */}
               <div
                 className="col-lg-6 col-md-6 col-12"
-                style={{
-                  flex: "0 0 auto",
-                  minWidth: "100px",
-                  marginTop: windowWidth <= 576 ? "-15px" : "8px",
-                }}
+                // style={{
+                // 	flex: "0 0 auto",
+                // 	minWidth: "100px",
+                // 	marginTop: windowWidth <= 576 ? "-15px" : "8px",
+                // }}
               >
                 <div className="card dash-cards">
                   <div className="card-body">
@@ -574,7 +574,7 @@ const Dashboard = () => {
                     </div>
                     <div className="dash-widget-info">
                       <h6>Messages</h6>
-                      <div>{Message}</div>
+                      <div>{Message ?? 0}</div>
                     </div>
                   </div>
                 </div>

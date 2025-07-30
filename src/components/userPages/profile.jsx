@@ -28,7 +28,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { signOut } from "firebase/auth";
-import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaRegTrashAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -512,15 +512,10 @@ const Profile = () => {
                           </button>
                           <Link
                             to="#"
-                            className="blue_btn list_btn"
+                            className="blue_btn list_btn d-flex"
                             onClick={handleDeleteUser}
                           >
-                            <i
-                              style={{
-                                marginRight: "3px",
-                              }}
-                              className="feather-trash-2"
-                            />
+                            <FaRegTrashAlt />
                             <span>Delete Profile</span>
                           </Link>
                         </div>

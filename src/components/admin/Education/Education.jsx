@@ -553,26 +553,23 @@ const Education = () => {
     [DistrictList]
   );
   const [showAllGeneral, setShowAllGeneral] = useState(false);
+  const [generalCategories, setGeneralCategories] = useState([]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  console.log(selectedSubCategory, "selectedSubCategory_______----");
 
-  const categories1 = [
-    "Hunting & Trips",
-    "Gardening & Agriculture",
-    "Parties & Events",
-    "Travel & Tourism",
-    "Roommate",
-    "Lost & Found",
-    "Education & Training",
-    "Sports Training",
-    "Stock & Forex Education",
-    "Driving Lessons",
-    "Private Tutoring",
-    "Training Courses",
-    "Antiques & Collectibles",
-    "Projects & Investments",
-    "Books & Arts",
-    "Programming & Design",
-    "Food & Beverages",
-  ];
+  useEffect(() => {
+    fetch("http://168.231.80.24:9002/route/educationSubCategories")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setGeneralCategories(data);
+        } else {
+          console.error("Expected array but got:", data);
+        }
+      })
+      .catch((err) => console.error("API fetch error:", err));
+  }, []);
+
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -647,14 +644,13 @@ const Education = () => {
     window.scrollTo(0, 0);
   }, [location]);
   // Handle country selection
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
 
   console.log(selectedCity, "selectedSubCategory________");
 
   const handleCategorySelect = (e) => {
-    setselectedSubCategory(e.target.value);
+    // setselectedSubCategory(e.target.value);
   };
   const [formData, setFormData] = useState({
     City: "",
@@ -2363,19 +2359,23 @@ const Education = () => {
                             {/* <Form.Label>Select a Category</Form.Label> */}
 
                             {(showAllGeneral
-                              ? categories1
-                              : categories1.slice(0, 4)
-                            ).map((category, index) => (
+                              ? generalCategories
+                              : generalCategories.slice(0, 4)
+                            ).map((item, index) => (
                               <div key={index} className="form-check mb-2">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
                                   id={`gen-cat-${index}`}
-                                  value={category}
-                                  checked={selectedSubCategory === category}
+                                  value={item.category}
+                                  checked={
+                                    selectedSubCategory === item.category
+                                  }
                                   onChange={() =>
                                     setselectedSubCategory((prev) =>
-                                      prev === category ? "" : category
+                                      prev === item.category
+                                        ? ""
+                                        : item.category
                                     )
                                   }
                                 />
@@ -2383,12 +2383,12 @@ const Education = () => {
                                   className="form-check-label"
                                   htmlFor={`gen-cat-${index}`}
                                 >
-                                  {category}
+                                  {item.category} ({item.count})
                                 </label>
                               </div>
                             ))}
 
-                            {categories1.length > 4 && (
+                            {generalCategories.length > 4 && (
                               <Button
                                 variant="link"
                                 onClick={() =>

@@ -16,7 +16,7 @@ import {
   doc,
 } from "firebase/firestore";
 import Spinner from "react-bootstrap/Spinner";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import UserHeader from "../Userheader";
@@ -710,7 +710,7 @@ const Bookmarks = () => {
                         setCurrentPage((prev) => Math.max(prev - 1, 1))
                       }
                     >
-                      <i className="fas fa-regular fa-arrow-left" /> Prev
+                      <FaArrowLeft /> Prev
                     </Link>
                   </li>
                   <li className="justify-content-center pagination-center">
@@ -747,7 +747,7 @@ const Bookmarks = () => {
                         setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                       }
                     >
-                      Next <i className="fas fa-regular fa-arrow-right" />
+                      Next <FaArrowRight />
                     </Link>
                   </li>
                 </ul>

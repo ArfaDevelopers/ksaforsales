@@ -57,6 +57,16 @@
 .more_choice_main_list .form-check {
   margin-bottom: 0.5rem !important;
 }
+.dash-listingcontent,
+.bookmarks-content,
+.dashboard-info {
+  margin-bottom: 50px;
+}
+.listing-table .cat-icon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;

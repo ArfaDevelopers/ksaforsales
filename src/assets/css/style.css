@@ -3635,14 +3635,14 @@ form.filter_innerwrap .accordion-item {
   width: 100% !important;
 }
 .filter_main_wrap .accordion-body > div > div > div {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 .filter_main_wrap .form-check {
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-bottom: 0px !important;
+  margin-bottom: 0.5rem !important;
 }
 .filter_main_wrap label.form-check-label {
   margin-bottom: 0;
@@ -5203,7 +5203,7 @@ ul.colu-4 {
 .previtem a,
 .nextlink a {
   color: #374b5c;
-  min-width: 150px;
+  min-width: 140px;
   padding: 10px 38px;
 }
 .previtem a:hover,
@@ -5219,6 +5219,14 @@ ul.colu-4 {
 .page-item:first-child .page-link,
 .page-item:last-child .page-link {
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.page-item:first-child .page-link svg,
+.page-item:last-child .page-link svg {
+  font-size: 14px;
 }
 .previtem a i,
 .nextlink a i {
@@ -19306,7 +19314,7 @@ background: #fff;
     height: 100%;
   }
   .dashboard-content {
-    padding: 60px 0;
+    padding: 60px 0 0;
   }
   .menu-opened .sidebar-overlay {
     display: block;
@@ -20366,7 +20374,7 @@ margin-bottom: 20px;
     margin-bottom: 20px;
   }
   .dashboard-content {
-    padding: 40px 0;
+    padding: 40px 0 0;
   }
   .messages-form .card {
     padding: 15px;
