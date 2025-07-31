@@ -2987,7 +2987,7 @@ const ElectronicComp = () => {
                           <Row>
                             <Col>
                               <Form.Control
-                                type="number"
+                                type="text"
                                 placeholder="From"
                                 value={fromValue}
                                 onChange={handleFromChange}
@@ -2995,7 +2995,7 @@ const ElectronicComp = () => {
                             </Col>
                             <Col>
                               <Form.Control
-                                type="number"
+                                type="text"
                                 placeholder="To"
                                 value={toValue}
                                 onChange={handleToChange}

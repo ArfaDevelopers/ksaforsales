@@ -1393,7 +1393,7 @@ const Education = () => {
 
         if (searchText) params.append("searchText", searchText);
 
-        // ✅ Pass multiple regionId values
+        // Pass multiple regionId values
         if (selectedRegion.length) {
           selectedRegion.forEach((id) => params.append("regionId", id));
         }
@@ -1401,8 +1401,13 @@ const Education = () => {
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
+        // ✅ Add selectedSubCategory
+        if (selectedSubCategory) {
+          params.append("SubCategory", selectedSubCategory);
+        }
+
         const response = await fetch(
-          `http://168.231.80.24:9002/route/PETANIMALCOMP?${params.toString()}`
+          `http://168.231.80.24:9002/route/Education?${params.toString()}`
         );
 
         const carsData = await response.json();
@@ -1418,7 +1423,15 @@ const Education = () => {
     };
 
     fetchCars();
-  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+  }, [
+    searchText,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+    refresh,
+    selectedSubCategory, // ✅ Add here too
+  ]);
+
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
   //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
@@ -3126,7 +3139,7 @@ const Education = () => {
                           <Row>
                             <Col>
                               <Form.Control
-                                type="number"
+                                type="text"
                                 placeholder="From"
                                 value={fromValue}
                                 onChange={handleFromChange}
@@ -3135,7 +3148,7 @@ const Education = () => {
                             </Col>
                             <Col>
                               <Form.Control
-                                type="number"
+                                type="text"
                                 placeholder="To"
                                 value={toValue}
                                 onChange={handleToChange}
