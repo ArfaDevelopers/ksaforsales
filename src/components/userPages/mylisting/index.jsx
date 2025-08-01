@@ -709,9 +709,9 @@ const MyListe = () => {
       : []),
     {
       title: "Views",
-      dataIndex: "numbers",
-      render: (text) => <span>{text}</span>,
-      sorter: (a, b) => (a.numbers || 0) - (b.numbers || 0),
+      dataIndex: "views", // ✅ correct field
+      render: (text, record) => <span>{record.views ?? 0}</span>,
+      sorter: (a, b) => (a.views || 0) - (b.views || 0),
     },
     {
       title: "Action",
@@ -1280,7 +1280,10 @@ const MyListe = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      <div className="flex justify-center items-center h-screen">
+                        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -1288,7 +1291,7 @@ const MyListe = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite",
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                           @keyframes spin {

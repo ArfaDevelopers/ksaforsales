@@ -380,13 +380,18 @@ const CommercialAdscom = () => {
   //   alert("Link copied to clipboard!");
   // };
   const handleCopyLink = () => {
-    const fullUrl = window.location.href;
-    const hashIndex = fullUrl.indexOf("#");
-    const urlWithHashOnly =
-      hashIndex !== -1 ? fullUrl.substring(0, hashIndex + 1) : fullUrl;
-    navigator.clipboard.writeText(urlWithHashOnly);
-    alert("Link copied to clipboard!\n" + urlWithHashOnly);
+    const currentUrl = window.location.href; // Gets the full URL
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        alert("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        alert("Failed to copy the link.");
+        console.error(err);
+      });
   };
+
   // const handleCopyLink = () => {
   //   const fullUrl = window.location.href;
   //   const hashIndex = fullUrl.indexOf("#");

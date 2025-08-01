@@ -304,6 +304,45 @@ const AddLisiting = () => {
   const [Make, setSelectedCityMake] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
   console.log(subcategories, "subcategories____");
+
+  useEffect(() => {
+    const fetchUserData = async (uid) => {
+      try {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          console.log("User data:", userData);
+
+          // ✅ Set phone number and photoURL into state
+          setFormData((prev) => ({
+            ...prev,
+            Phone: userData.phoneNumber || "",
+          }));
+          // setphotoURL(userData.photoURL || "");
+        } else {
+          console.log("No such user document!");
+          setError("No such user!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError("Error fetching user data.");
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchUserData(user.uid);
+      } else {
+        setError("User is not authenticated.");
+        navigate("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
   const carBrands = [
     "Toyota",
     "Ford",
@@ -1806,7 +1845,19 @@ const AddLisiting = () => {
           });
 
           setGalleryImages(data.galleryImages || []);
-
+          setSelectedRegionName(data.RegionName || "");
+          setSelectedRegionId(data.regionId || "");
+          setSelectedCityData({
+            cityId: data.CITY_ID || null,
+            regionId: data.regionId || null,
+            label: data.City || null,
+          });
+          setSelectedDistrict({
+            districtId: data.District_ID || null,
+            cityId: data.CITY_ID || null,
+            regionId: data.regionId || null,
+            label: data.District || null,
+          });
           const selectedCategory = subcategoriesMapping.categories.find(
             (category) => category.name === data.category
           );
@@ -2784,12 +2835,12 @@ const AddLisiting = () => {
     const { name, value } = e.target;
 
     if (name === "title") {
-      // Allow letters and spaces, limit to 25 characters
-      const cleanedValue = value.replace(/[^a-zA-Z ]/g, "").slice(0, 200000);
+      // Allow letters, numbers, and spaces, limit to 200 characters
+      const cleanedValue = value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 200);
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "kmDriven" || name === "mileage") {
       // Only allow digits, limit to 10 characters
-      const numericValue = value.replace(/\D/g, "").slice(0, 1000);
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
       setFormData((prev) => ({ ...prev, [name]: numericValue }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -13499,7 +13550,8 @@ const AddLisiting = () => {
                                   }}
                                 >
                                   <input
-                                    type={showPhone ? "password" : "text"} // Toggle type based on showPhone
+                                    // type={showPhone ? "password" : "text"} // Toggle type based on showPhone
+                                    type={"text"} // Toggle type based on showPhone
                                     name="Phone"
                                     value={formData.Phone}
                                     onChange={handleChangePhone}

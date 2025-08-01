@@ -2013,7 +2013,7 @@ const Bikes = () => {
                                 }}
                               >
                                 {car.price
-                                  ? `$${car.price}`
+                                  ? `SAR ${car.Price}`
                                   : "Price not available"}
                               </p>
 
@@ -2065,7 +2065,7 @@ const Bikes = () => {
                                   }}
                                 >
                                   {car.price
-                                    ? `$${car.price}`
+                                    ? `SAR ${car.Price}`
                                     : "Price not available"}
                                 </p>
 

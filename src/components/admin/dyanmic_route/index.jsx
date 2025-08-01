@@ -709,36 +709,39 @@ const Dynamic_Route = () => {
   }, [_Id, callingFrom, refresh]); // Re-run if `_Id` or `callingFrom` changes
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <img
-          src={Loading1}
-          alt="Loading..."
-          style={{
-            width: "200px",
-            height: "200px",
-            animation: "spin 1s linear infinite", // Apply the spin animation
-          }}
-        />
-        <style>
-          {`
-          @keyframes spin {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}
-        </style>
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
+      // <div
+      //   style={{
+      //     display: "flex",
+      //     justifyContent: "center",
+      //     alignItems: "center",
+      //     height: "100vh",
+      //   }}
+      // >
+      //   <img
+      //     src={Loading1}
+      //     alt="Loading..."
+      //     style={{
+      //       width: "200px",
+      //       height: "200px",
+      //       animation: "spin 1s linear infinite", // Apply the spin animation
+      //     }}
+      //   />
+      //   <style>
+      //     {`
+      //     @keyframes spin {
+      //       from {
+      //         transform: rotate(0deg);
+      //       }
+      //       to {
+      //         transform: rotate(360deg);
+      //       }
+      //     }
+      //   `}
+      //   </style>
+      // </div>
     ); // Display loading state
   }
 
@@ -5786,7 +5789,10 @@ const Dynamic_Route = () => {
                             to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                           >
                             <img
-                              src={itemData.photoURL}
+                              src={
+                                itemData.photoURL ||
+                                "/blank-profile-picture.webp"
+                              }
                               alt="Profile"
                               className="img-fluid rounded-circle"
                               style={{

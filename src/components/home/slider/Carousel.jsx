@@ -158,7 +158,10 @@ export default function Carousel() {
                   height: "100vh",
                 }}
               >
-                <img
+                <div className="flex justify-center items-center h-screen">
+                  <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                {/* <img
                   src={Loading1}
                   alt="Loading..."
                   style={{
@@ -166,7 +169,7 @@ export default function Carousel() {
                     height: "200px",
                     animation: "spin 1s linear infinite", // Apply the spin animation
                   }}
-                />
+                /> */}
                 <style>
                   {`
                   @keyframes spin {

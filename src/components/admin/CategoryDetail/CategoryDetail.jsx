@@ -114,12 +114,16 @@ const CategoryDetail = () => {
   //   alert("Link copied to clipboard!");
   // };
   const handleCopyLink = () => {
-    if (page) {
-      navigator.clipboard.writeText(page);
-      alert("Link copied to clipboard!");
-    } else {
-      alert("No link to copy!");
-    }
+    const currentUrl = window.location.href; // Gets the full URL
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        alert("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        alert("Failed to copy the link.");
+        console.error(err);
+      });
   };
 
   console.log(categories, "categories_");
@@ -841,7 +845,7 @@ const CategoryDetail = () => {
             </Modal.Header>
             <Modal.Body className="p-4">
               <div className="mb-3">
-                <label className="text-secondary mb-2 fw-bold">Image URL</label>
+                <label className="text-secondary mb-2 fw-bold">Link</label>
                 <div
                   className="border rounded p-3"
                   style={{
@@ -854,7 +858,7 @@ const CategoryDetail = () => {
                     boxShadow: "inset 0 1px 3px rgba(0,0,0,0.1)",
                   }}
                 >
-                  {categories.image}
+                  {window.location.href}
                 </div>
               </div>
 

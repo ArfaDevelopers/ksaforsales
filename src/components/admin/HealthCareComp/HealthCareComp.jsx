@@ -3591,7 +3591,7 @@ const HealthCareComp = () => {
                                   }}
                                 >
                                   {car.Price
-                                    ? `$${car.Price}`
+                                    ? `SAR ${car.Price}`
                                     : "Price not available"}
                                 </p>
                               </Card.Title>
