@@ -17037,7 +17037,11 @@ section.advertisement {
   padding: 40px 0 0;
 }
 .footer-logo {
-  margin-bottom: 20px;
+  margin-bottom:0px;
+}
+.footer-logo img{
+width: 100%;
+max-width: 110px;
 }
 .footer-title {
   color: black;

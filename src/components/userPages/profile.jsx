@@ -97,9 +97,29 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   console.log(photoURL, "photoURL______");
-  const handleDeleteImage = () => {
+  const handleDeleteImage = async () => {
     console.log("Delete image clicked");
-    // Clear photo, or make an API call here
+
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("No authenticated user.");
+        return;
+      }
+
+      const userDocRef = doc(db, "users", user.uid); // Update the `photoURL` field to an empty string or null
+
+      await updateDoc(userDocRef, {
+        photoURL: "", // or use `null` if you prefer
+      }); // Also update UI state to reflect change
+
+      setphotoURL("");
+
+      Swal.fire("Deleted!", "Your profile image has been removed.", "success");
+    } catch (error) {
+      console.error("Error deleting photoURL:", error);
+      Swal.fire("Error", "Failed to delete photo.", "error");
+    }
   };
 
   useEffect(() => {
@@ -114,6 +134,7 @@ const Profile = () => {
 
           // Set the phoneNumber state
           setPhoneNumber(userData.phoneNumber || "");
+          setphotoURL(userData.photoURL || "");
         } else {
           console.log("No such user document!");
           setError("No such user!");

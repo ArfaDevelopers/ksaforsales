@@ -2155,7 +2155,7 @@ const Header = ({ parms }) => {
                       alt="Logo"
                       className="img-fluid"
                       style={{
-                        width: window.innerWidth <= 575 ? "82px" : "100px",
+                        width: window.innerWidth <= 575 ? "82px" : "110px",
                         height: "auto",
                       }} // 👈 adjust as needed
                     />

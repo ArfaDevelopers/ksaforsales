@@ -22,7 +22,8 @@ import mobileimage from "./mobileimg.png";
 import appstore from "./Appstore.png";
 import arrowimage from "./arrow.png";
 import scanner from "./scanner.png";
-import KSA from "./Logo ksa.svg";
+// import KSA from "./Logo ksa.svg";
+import imag from "../../../../public/NewLogo.png";
 import QRcode from "../../../../public/frames.png";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -184,7 +185,7 @@ const Footer = () => {
                   <div className="footer-widget containerParaInfo ">
                     <div className="footer-logo">
                       <Link to="#">
-                        <img src={KSA} alt="logo" />
+                        <img src={imag} alt="logo" />
                       </Link>
                     </div>
 
