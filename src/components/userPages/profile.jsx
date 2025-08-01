@@ -4,6 +4,7 @@ import { profile_img } from "../imagepath";
 import Header from "../home/header";
 import Footer from "../home/footer/Footer";
 import UserHeader from "./Userheader";
+
 import {
   onAuthStateChanged,
   reauthenticateWithCredential,
@@ -51,6 +52,7 @@ const Profile = () => {
       console.error("Logout failed:", error.message);
     }
   };
+
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -89,31 +91,56 @@ const Profile = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [photoURL, setphotoURL] = useState("");
   const [creationTime, setcreationTime] = useState("");
-  const [error, setError] = useState("");
-  // useEffect(() => {
-  //   if (auth.currentUser) {
-  //     const uid = auth.currentUser.uid;
-  //     const fetchData = async () => {
-  //       const userDoc = await getDoc(doc(db, "users", uid));
-  //       if (userDoc.exists()) {
-  //         const data = userDoc.data();
+  // const [error, setError] = useState("");
+  // const [userData, setUserData] = useState(null);
+  const userId1 = "xuo3iX8sQye2TT09WbW9OwnG0dB2"; // Your Firestore document ID
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
+  console.log(photoURL, "photoURL______");
+  const handleDeleteImage = () => {
+    console.log("Delete image clicked");
+    // Clear photo, or make an API call here
+  };
 
-  //         // ✅ Log the user data to console
-  //         console.log("User Data:__________", data);
+  useEffect(() => {
+    const fetchUserData = async (uid) => {
+      try {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
 
-  //         setdisplayName(data.displayName || "");
-  //         setEmail(data.email || "");
-  //         setPhoneNumber(data.phoneNumber || "");
-  //         setphotoURL(data.photoURL || "");
-  //       } else {
-  //         console.log("No user document found for UID:", uid);
-  //       }
-  //     };
-  //     fetchData();
-  //   } else {
-  //     console.log("No authenticated user.");
-  //   }
-  // }, []);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          console.log("User data:", userData);
+
+          // Set the phoneNumber state
+          setPhoneNumber(userData.phoneNumber || "");
+        } else {
+          console.log("No such user document!");
+          setError("No such user!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError("Error fetching user data.");
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, get their Firestore data
+        fetchUserData(user.uid);
+      } else {
+        // User is signed out
+        setUserData(null);
+        setError("User is not authenticated.");
+        console.log("No user is signed in.");
+        navigate("/login"); // Optional: redirect to login if no user
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [navigate]);
+
   useEffect(() => {
     if (auth.currentUser) {
       const uid = auth.currentUser.uid;
@@ -387,59 +414,26 @@ const Profile = () => {
                     <h4>Profile Details</h4>
                   </div>
                   <div className="card-body">
-                    <div
-                      className="profile-photo"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: isSmallScreen
-                          ? "center"
-                          : "space-between",
-                        flexDirection: isSmallScreen ? "column" : "row",
-                        textAlign: isSmallScreen ? "center" : "left",
-                      }}
-                    >
-                      <div
-                        className="profile-img"
+                    <div className="settings-upload-img position-relative">
+                      <img
+                        src={photoURL}
+                        alt="profile"
+                        className="rounded-circle"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          margin: isSmallScreen ? "10px 0" : "0",
-                          gap: "10px",
+                          width: "120px",
+                          height: "120px",
+                          objectFit: "cover",
                         }}
+                      />
+
+                      <span
+                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleDeleteImage} // You define this function
+                        title="Delete Photo"
                       >
-                        <div className="settings-upload-img">
-                          <img src={photoURL} alt="profile" />
-                        </div>
-                        <div
-                          className="settings-upload-btn"
-                          style={{ margin: "px 0" }}
-                        >
-                          <input
-                            type="file"
-                            accept="image/*"
-                            name="image"
-                            className="hide-input image-upload"
-                            id="file"
-                            onChange={handleImageChange}
-                          />
-                          <label htmlFor="file" className="blue_btn">
-                            Upload New Photo
-                          </label>
-                        </div>
-                        <span>Max file size: 10 MB</span>
-                      </div>
-                      {/* <Link
-                        to="#"
-                        className="profile-img-del"
-                        onClick={handleDeleteUser}
-                        style={{
-                          marginTop:
-                            window.innerWidth <= 576 ? "-1rem" : "0rem",
-                        }}>
-                        <i className="feather-trash-2" />
-                      </Link> */}
+                        <FaRegTrashAlt color="white" />
+                      </span>
                     </div>
                     <div className="profile-form">
                       <form onSubmit={handleUpdate}>

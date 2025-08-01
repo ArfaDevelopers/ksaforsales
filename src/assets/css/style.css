@@ -23504,3 +23504,8 @@ height: 400px;
   margin-top: 0px;
   font-size: 28px;
 }
+.settings-upload-img {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
