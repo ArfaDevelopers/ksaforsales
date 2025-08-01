@@ -399,12 +399,12 @@ const Footer = () => {
                     <h2 className="footer-title">Useful Links</h2>
                     <ul>
                       <li>
-                        <Link to="https://ksa4sale.net/directory/">
+                        <Link to="https://blogs.ksa4sale.net/directory/">
                           Directory
                         </Link>
                       </li>
                       <li>
-                        <Link to="#">Blog</Link>
+                        <Link to="https://blogs.ksa4sale.net/">Blog</Link>
                       </li>
                     </ul>
                   </div>
