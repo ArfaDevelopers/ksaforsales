@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { profile_img } from "../imagepath";
+// import blankProfilePicture from "../../../../public/blank-profile-picture.webp";
+
 import Header from "../home/header";
 import Footer from "../home/footer/Footer";
 import UserHeader from "./Userheader";
@@ -97,6 +99,50 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   console.log(photoURL, "photoURL______");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setSelectedFile(file);
+    setPreviewImage(URL.createObjectURL(file)); // preview while uploading
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+    formData.append("cloud_name", "dv26wjoay");
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
+        formData
+      );
+
+      const imageURL = response.data.secure_url;
+      setphotoURL(imageURL);
+      setPreviewImage("");
+
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, { photoURL: imageURL });
+
+        Swal.fire({
+          title: "Success",
+          text: "Profile image updated!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      Swal.fire("Error", "Failed to upload image.", "error");
+    }
+  };
+
   const handleDeleteImage = async () => {
     console.log("Delete image clicked");
 
@@ -107,15 +153,20 @@ const Profile = () => {
         return;
       }
 
-      const userDocRef = doc(db, "users", user.uid); // Update the `photoURL` field to an empty string or null
-
+      const userDocRef = doc(db, "users", user.uid);
       await updateDoc(userDocRef, {
-        photoURL: "", // or use `null` if you prefer
-      }); // Also update UI state to reflect change
+        photoURL: "",
+      });
 
       setphotoURL("");
 
-      Swal.fire("Deleted!", "Your profile image has been removed.", "success");
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your profile image has been removed.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1000, // 1 second
+      });
     } catch (error) {
       console.error("Error deleting photoURL:", error);
       Swal.fire("Error", "Failed to delete photo.", "error");
@@ -287,12 +338,12 @@ const Profile = () => {
     setPasswordType("password");
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      handleImageUpload(file);
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     handleImageUpload(file);
+  //   }
+  // };
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
@@ -436,8 +487,13 @@ const Profile = () => {
                   </div>
                   <div className="card-body">
                     <div className="settings-upload-img position-relative">
+                       {" "}
                       <img
-                        src={photoURL}
+                        src={
+                          previewImage ||
+                          photoURL ||
+                          "/blank-profile-picture.webp"
+                        }
                         alt="profile"
                         className="rounded-circle"
                         style={{
@@ -446,16 +502,33 @@ const Profile = () => {
                           objectFit: "cover",
                         }}
                       />
-
+                        {/* Delete Photo */} {" "}
                       <span
                         className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                         style={{ cursor: "pointer" }}
-                        onClick={handleDeleteImage} // You define this function
+                        onClick={handleDeleteImage}
                         title="Delete Photo"
                       >
-                        <FaRegTrashAlt color="white" />
+                            <FaRegTrashAlt color="white" /> {" "}
                       </span>
+                        {/* Hidden File Input for Upload */} {" "}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          opacity: 0,
+                          cursor: "pointer",
+                        }}
+                        title="Upload Photo"
+                      />
                     </div>
+
                     <div className="profile-form">
                       <form onSubmit={handleUpdate}>
                         {error && <p className="text-red-500">{error}</p>}

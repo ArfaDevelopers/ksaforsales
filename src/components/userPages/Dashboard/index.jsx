@@ -439,7 +439,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://ksaforsaleapis.vercel.app/api/total-data-count"
+          "http://168.231.80.24:9002/api/total-data-count"
         );
         const data = await response.json();
         setActivelisting(data.totalCount);
@@ -456,7 +456,7 @@ const Dashboard = () => {
     const fetchMessages = async () => {
       try {
         const response = await fetch(
-          "https://ksaforsaleapis.vercel.app/api/total-messages"
+          "http://168.231.80.24:9002/api/total-messages"
         );
         const data = await response.json();
         console.log("Total Messages:", data);
