@@ -2047,8 +2047,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -2068,36 +2068,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -2496,8 +2499,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -2517,36 +2520,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -2942,8 +2948,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -2963,36 +2969,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -3391,8 +3400,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -3412,36 +3421,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -3840,8 +3852,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_inner">
+                          <ul className="info_body">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -3861,36 +3873,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -4289,8 +4304,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_inner">
+                          <ul className="info_body">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -4310,36 +4325,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -4738,8 +4756,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -4759,36 +4777,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -5187,8 +5208,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_inner">
+                          <ul className="info_body">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -5208,36 +5229,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>
@@ -5636,8 +5660,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <table className="table">
-                          <tbody className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
@@ -5657,36 +5681,39 @@ const Dynamic_Route = () => {
                             })
                               .filter(([_, value]) => value)
                               .map(([label, value], index) => (
-                                <tr key={index} className="border-bottom">
-                                  <th className="table_text">{label}:</th>
-                                  <td className="table_text">{value}</td>
-                                </tr>
+                                <li
+                                  key={index}
+                                  className="product_Detail_block"
+                                >
+                                  <span className="detail_text">{label}:</span>
+                                  <span className="detail_text">{value}</span>
+                                </li>
                               ))}
-                          </tbody>
-                        </table>
+                          </ul>
+                        </div>
                       </div>
 
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title">Features</h1>
-                          <div className="descriptions-wrapper">
+                          <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
-                                  <div key={index} className="feature-item">
+                                  <li key={index} className="feature-item">
                                     {feature}
-                                  </div>
+                                  </li>
                                 )
                               )
                             ) : (
-                              <div className="no-data">N/A</div>
+                              <li className="no-data">N/A</li>
                             )}
-                          </div>
+                          </ul>
                         </div>
 
                         {/* Description Section */}
-                        <div className="section">
+                        <div className="section m-0">
                           <h1 className="section-title section-title-description">
                             Description
                           </h1>

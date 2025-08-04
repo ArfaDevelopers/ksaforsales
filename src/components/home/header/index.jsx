@@ -7,6 +7,8 @@ import {
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
+import { FiBell } from "react-icons/fi"; // or FaBell from 'react-icons/fa'
+
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
 import imag from "../../../../public/NewLogo.png";
@@ -44,7 +46,17 @@ const Header = ({ parms }) => {
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
   // var token = localStorage.getItem("user");
   const token = auth.currentUser;
+  const [isOpen, setIsOpen] = useState(false);
 
+  // Function to toggle the modal's visibility.
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const notifications = [
+    "Your ad has been approved",
+    "New message from buyer",
+    "System maintenance on Sunday",
+  ];
   console.log(token, "-------Token---------");
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
@@ -2296,6 +2308,44 @@ const Header = ({ parms }) => {
                     flexShrink: 0,
                   }}
                 >
+                  {" "}
+                  <FiBell
+                    onClick={toggleModal}
+                    className="text-xl text-blue-600"
+                  />{" "}
+                  {isOpen && (
+                    <div className="notification_css inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                      <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6">
+                        <div className="flex justify-between items-center mb-4">
+                          <h2 className="text-lg font-semibold">
+                            Notifications
+                          </h2>
+                          <button
+                            onClick={() => setIsOpen(false)}
+                            className="text-gray-500 hover:text-red-500 text-xl"
+                          >
+                            &times;
+                          </button>
+                        </div>
+
+                        {notifications.length === 0 ? (
+                          <p className="text-gray-500">No notifications.</p>
+                        ) : (
+                          <ul className="space-y-2">
+                            {notifications.map((note, index) => (
+                              <li
+                                key={index}
+                                className="p-3 bg-gray-100 rounded hover:bg-gray-200 transition"
+                              >
+                                {note}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {/* Adjust styling as needed */}
                   {auth.currentUser ? (
                     <ul
                       className="nav header-navbar-rht"
