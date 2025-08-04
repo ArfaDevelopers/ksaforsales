@@ -822,11 +822,7 @@ const Dynamic_Route = () => {
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "2px",
-            paddingRight: "2px",
             color: "black",
-            maxWidth: "1430",
-            margin: "0 auto",
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
         >
@@ -836,7 +832,6 @@ const Dynamic_Route = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -873,16 +868,14 @@ const Dynamic_Route = () => {
               color: "#000000",
               marginTop: "14.83px",
               marginBottom: "14.3px",
-              width: window.innerWidth <= 576 ? "95%" : "99%",
-              marginLeft: "auto", // Center the line
-              marginRight: "auto",
+              width: "100%",
             }}
           />
           <div>
             <div
               style={{
-                marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
                 fontSize: "40px",
                 fontWeight: "bold",
               }}
@@ -896,7 +889,6 @@ const Dynamic_Route = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
             }}
@@ -1225,7 +1217,7 @@ const Dynamic_Route = () => {
               style={{
                 color: "black",
                 fontWeight: "400",
-                // marginBottom: "24.5px",
+                marginBottom: "10px",
               }}
             >
               Posted {itemData?.timeAgo || "Loading..."}
@@ -1544,7 +1536,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -1998,7 +1990,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -2447,7 +2439,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -2893,7 +2885,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -3342,7 +3334,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -3791,7 +3783,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -4240,7 +4232,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -4689,7 +4681,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -5138,7 +5130,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -5587,7 +5579,7 @@ const Dynamic_Route = () => {
                       className="multiplesimage-wrapper"
                       style={{
                         gap: "10px",
-                        marginTop: "1rem",
+                        marginTop: "0rem",
                         // flexWrap: "nowrap",
                         overflow: "hidden",
                       }}
@@ -5726,7 +5718,7 @@ const Dynamic_Route = () => {
                 />
               </div> */}
             </Col>
-            <Col xl={4} className="p-3">
+            <Col xl={4}>
               <Col xs={12}>
                 <Card
                   style={{
@@ -5734,16 +5726,14 @@ const Dynamic_Route = () => {
                     minHeight: "100px",
                     borderRadius: "12px",
                     width: window.innerWidth <= 576 ? "100%" : "100%",
-                    marginTop: window.innerWidth <= 576 ? -10 : 10,
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   {/* Card body to hold the price and heart button */}
                   <Card.Body
+                    className="p-0"
                     style={{
                       position: "relative",
-                      marginLeft: -15,
-                      marginBottom: -30,
                     }}
                   >
                     <div
@@ -5782,7 +5772,7 @@ const Dynamic_Route = () => {
                     />
 
                     <div className="col-md">
-                      {/* <h1 className="sallerinfo_para">Seller Information</h1> */}
+                      <h1 className="sallerinfo_para">Seller Information</h1>
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link

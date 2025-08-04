@@ -795,11 +795,7 @@ const Dynamic_Routes = () => {
         <Container
           className="parent-main"
           style={{
-            paddingLeft: "2px", // Padding on the left side
-            paddingRight: "2px", // Padding on the right side
             color: "black", // Text color
-            maxWidth: "1430", // Optional: Add max-width to ensure padding is visible
-            margin: "0 auto", // Optional: Center the container if desired
             marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
           }}
         >
@@ -809,7 +805,6 @@ const Dynamic_Routes = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginTop: "40px",
               alignItems: "center",
             }}
@@ -846,7 +841,7 @@ const Dynamic_Routes = () => {
               color: "#000000",
               marginTop: "14.83px",
               marginBottom: "14.3px",
-              width: window.innerWidth <= 576 ? "95%" : "99%",
+              width: "100%",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -854,8 +849,8 @@ const Dynamic_Routes = () => {
           <div>
             <div
               style={{
-                marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
+                marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
                 fontSize: "40px",
                 fontWeight: "bold",
               }}
@@ -869,7 +864,6 @@ const Dynamic_Routes = () => {
               display: "flex",
               flexWrap: "wrap",
               gap: "10px",
-              marginLeft: window.innerWidth <= 576 ? "0.7rem" : "0.7%",
               marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
             }}
@@ -1198,7 +1192,7 @@ const Dynamic_Routes = () => {
               style={{
                 color: "black",
                 fontWeight: "400",
-                marginBottom: "24.5px",
+                marginBottom: "10px",
               }}
             >
               Posted {itemData?.timeAgo || "Loading..."}
@@ -1429,8 +1423,7 @@ const Dynamic_Routes = () => {
                   className="multiplesimage-wrapper"
                   style={{
                     gap: "10px",
-                    marginTop: "1rem",
-                    // flexWrap: "nowrap",
+                    marginTop: "0rem",
                     overflow: "hidden",
                   }}
                 >
@@ -1612,7 +1605,7 @@ const Dynamic_Routes = () => {
               </div> */}
             </Col>
 
-            <Col xl={4} className="p-3">
+            <Col xl={4}>
               <Col xs={12}>
                 <Card
                   style={{
@@ -1620,15 +1613,13 @@ const Dynamic_Routes = () => {
                     minHeight: "100px",
                     borderRadius: "12px",
                     width: window.innerWidth <= 576 ? "100%" : "100%",
-                    marginLeft: window.innerWidth <= 576 ? "0rem" : "0rem",
                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   <Card.Body
+                    className="p-0"
                     style={{
                       position: "relative",
-                      marginLeft: -15,
-                      marginBottom: -30,
                     }}
                   >
                     <div

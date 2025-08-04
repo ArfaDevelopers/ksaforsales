@@ -13852,7 +13852,7 @@ const AddLisiting = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={uploading || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked
-                  className="blue_btn"
+                  className="blue_btn mb-4"
                   style={{
                     marginTop:
                       formData.FeaturedAds === "Featured Ads" ? "20px" : "20px",

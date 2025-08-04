@@ -487,7 +487,6 @@ const Profile = () => {
                   </div>
                   <div className="card-body">
                     <div className="settings-upload-img position-relative">
-                       {" "}
                       <img
                         src={
                           previewImage ||
@@ -500,18 +499,31 @@ const Profile = () => {
                           width: "120px",
                           height: "120px",
                           objectFit: "cover",
+                          objectPosition: "top",
                         }}
                       />
-                        {/* Delete Photo */} {" "}
+                      {/* Delete Photo */}
                       <span
-                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        style={{ cursor: "pointer" }}
+                        className="rounded-pill bg-danger"
+                        style={{
+                          cursor: "pointer",
+                          position: "absolute",
+                          top: "0",
+                          right: "0",
+                          zIndex: 1,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: "30px",
+                          width: "30px",
+                        }}
                         onClick={handleDeleteImage}
                         title="Delete Photo"
                       >
-                            <FaRegTrashAlt color="white" /> {" "}
-                      </span>
-                        {/* Hidden File Input for Upload */} {" "}
+                        {" "}
+                        <FaRegTrashAlt color="white" />
+                      </span>{" "}
+                      {/* Hidden File Input for Upload */}
                       <input
                         type="file"
                         accept="image/*"
@@ -615,7 +627,7 @@ const Profile = () => {
               <div className="col-lg-3">
                 <div className="profile-sidebar">
                   <div className="card">
-                    <div className="card-header">
+                    <div className="card-hseader">
                       <h4>Change Password</h4>
                     </div>
                     <div className="card-body">

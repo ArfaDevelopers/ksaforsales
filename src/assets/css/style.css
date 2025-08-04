@@ -3596,14 +3596,9 @@ a:focus {
 .head2btflex {
   display: flex !important;
   flex-direction: row !important;
+flex-wrap: wrap;
 }
 /* Filter css starts */
-.filter_main_wrap {
-  /* background-color: #ffffff;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
-  border-radius: 12px; */
-  /* padding: 0; */
-}
 form.filter_innerwrap {
   padding: 0 14px 20px;
 }
@@ -3768,7 +3763,7 @@ button.unhover:hover {
 }
 .info_wrapper {
   margin: 20px 0 !important;
-  padding: 20px;
+  padding: 24px;
   border-radius: 10px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
 }
@@ -3868,9 +3863,6 @@ h2.trendingproduct_heading {
   font-weight: 400;
 }
 /* related able css starts */
-.relative_swiper {
-  margin-bottom: 20px;
-}
 .relateable_card_wrap_main {
   background-color: #fff;
   /* box-shadow:0 0 4px 4px rgba(0,0,0,0.6) */
@@ -6969,6 +6961,8 @@ margin-bottom: 26px;
   width: 40px;
   height: 40px;
   border-radius: 50px;
+  object-fit: cover;
+  object-position: top;
 }
 .profile-userlink {
   font-size: 16px;
@@ -22818,7 +22812,6 @@ margin-top: 30px !important;
   border-radius: 12px;
   width: 100%;
   padding: 5px 15px;
-  margin-bottom: 23.9px;
 }
 
 /* .profileInfo_div {
@@ -22890,7 +22883,7 @@ box-shadow: 0px 0px 4px #000000;
 }
 
 .info_table {
-  margin-top: 24px;
+margin-bottom: 20px;
 }
 
 .info_tr {
@@ -23276,13 +23269,6 @@ height: 400px;
     padding: 6px 10px;
   }
 }
-
-.dynamic-route-container {
-  padding: 10px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .section {
   margin-bottom: 30px;
 }
@@ -23353,9 +23339,6 @@ height: 400px;
   }
 }
 @media (max-width: 767.98px) {
-  .dynamic-route-container {
-    padding: 10px;
-  }
 
   .section-title {
     font-size: 20px;
