@@ -8,6 +8,13 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { FiBell } from "react-icons/fi"; // or FaBell from 'react-icons/fa'
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
@@ -42,6 +49,8 @@ import Flag from "react-world-flags";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import fallbackImage from "../../../../public/7309681.jpg";
 const Header = ({ parms }) => {
+  const db = getFirestore();
+
   const [menu, setMenu] = useState(false);
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
   // var token = localStorage.getItem("user");
@@ -52,11 +61,71 @@ const Header = ({ parms }) => {
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
-  const notifications = [
-    "Your ad has been approved",
-    "New message from buyer",
-    "System maintenance on Sunday",
-  ];
+  const [notifications, setNotifications] = useState([]);
+
+  const formatDate = (createdAt) => {
+    if (!createdAt || !createdAt._seconds) return "";
+    const date = new Date(createdAt._seconds * 1000);
+    return date.toLocaleString(); // e.g. "8/4/2025, 10:24 AM"
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(
+          "http://168.231.80.24:9002/currentUserData/receivedMessages",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: "xuo3iX8sQye2TT09WbW9OwnG0dB2",
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data?.messages?.length > 0) {
+          setNotifications(data.messages); // now storing full objects
+        } else {
+          setNotifications([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+        setNotifications([]);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const q = query(
+          collection(db, "messages"),
+          where("recieverId", "==", user.uid)
+        );
+
+        const unsubscribeMessages = onSnapshot(q, (querySnapshot) => {
+          const receivedMessages = [];
+          querySnapshot.forEach((doc) => {
+            receivedMessages.push({ id: doc.id, ...doc.data() });
+          });
+          console.log("Received messages:", receivedMessages);
+        });
+
+        // Clean up Firestore listener
+        return () => unsubscribeMessages();
+      }
+    });
+
+    // Clean up auth listener
+    return () => unsubscribe();
+  }, []);
+
   console.log(token, "-------Token---------");
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
@@ -2311,37 +2380,58 @@ const Header = ({ parms }) => {
                   {" "}
                   <FiBell
                     onClick={toggleModal}
-                    className="text-xl text-blue-600"
-                  />{" "}
+                    className="fs-4 text-primary cursor-pointer position-relative"
+                  />
                   {isOpen && (
-                    <div className="notification_css inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                      <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6">
-                        <div className="flex justify-between items-center mb-4">
-                          <h2 className="text-lg font-semibold">
+                    <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3">
+                      <div
+                        className="bg-white rounded-3 shadow-lg w-100 mx-3"
+                        style={{
+                          maxWidth: "480px",
+                          animation: "fadeIn 0.3s ease-in-out",
+                        }}
+                      >
+                        <div className="border-bottom d-flex justify-content-between align-items-center px-4 py-3">
+                          <h5 className="mb-0 fw-semibold text-dark">
                             Notifications
-                          </h2>
+                          </h5>
                           <button
                             onClick={() => setIsOpen(false)}
-                            className="text-gray-500 hover:text-red-500 text-xl"
-                          >
-                            &times;
-                          </button>
+                            className="btn-close"
+                          ></button>
                         </div>
 
-                        {notifications.length === 0 ? (
-                          <p className="text-gray-500">No notifications.</p>
-                        ) : (
-                          <ul className="space-y-2">
-                            {notifications.map((note, index) => (
-                              <li
-                                key={index}
-                                className="p-3 bg-gray-100 rounded hover:bg-gray-200 transition"
-                              >
-                                {note}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                        <div className="px-4 py-3">
+                          {notifications.length === 0 ? (
+                            <p className="text-secondary text-center">
+                              No notifications to show.
+                            </p>
+                          ) : (
+                            <ul
+                              className="list-unstyled overflow-auto"
+                              style={{ maxHeight: "400px" }}
+                            >
+                              {notifications.map((note, index) => (
+                                <li
+                                  key={note.id || index}
+                                  className="mb-3 p-3 bg-light border rounded shadow-sm"
+                                >
+                                  <div className="d-flex justify-content-between mb-1">
+                                    <span className="fw-medium text-dark">
+                                      {note.name}
+                                    </span>
+                                    <small className="text-muted">
+                                      {formatDate(note.createdAt)}
+                                    </small>
+                                  </div>
+                                  <p className="mb-0 text-secondary">
+                                    {note.text}
+                                  </p>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}
