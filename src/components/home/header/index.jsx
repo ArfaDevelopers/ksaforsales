@@ -66,7 +66,7 @@ const Header = ({ parms }) => {
   const formatDate = (createdAt) => {
     if (!createdAt || !createdAt._seconds) return "";
     const date = new Date(createdAt._seconds * 1000);
-    return date.toLocaleString(); // e.g. "8/4/2025, 10:24 AM"
+    return date.toLocaleString(); // e.g., "8/4/2025, 10:24 AM"
   };
 
   useEffect(() => {
@@ -86,9 +86,8 @@ const Header = ({ parms }) => {
         );
 
         const data = await response.json();
-
         if (data?.messages?.length > 0) {
-          setNotifications(data.messages); // now storing full objects
+          setNotifications(data.messages);
         } else {
           setNotifications([]);
         }
@@ -100,6 +99,10 @@ const Header = ({ parms }) => {
 
     fetchNotifications();
   }, []);
+
+  // Filter for unseen messages
+  const unseenNotifications = notifications.filter((note) => !note.seen);
+  const unseenCount = unseenNotifications.length;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -2378,63 +2381,81 @@ const Header = ({ parms }) => {
                   }}
                 >
                   {" "}
-                  <FiBell
-                    onClick={toggleModal}
-                    className="fs-4 text-primary cursor-pointer position-relative"
-                  />
-                  {isOpen && (
-                    <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3">
-                      <div
-                        className="bg-white rounded-3 shadow-lg w-100 mx-3"
-                        style={{
-                          maxWidth: "480px",
-                          animation: "fadeIn 0.3s ease-in-out",
-                        }}
-                      >
-                        <div className="border-bottom d-flex justify-content-between align-items-center px-4 py-3">
-                          <h5 className="mb-0 fw-semibold text-dark">
-                            Notifications
-                          </h5>
-                          <button
-                            onClick={() => setIsOpen(false)}
-                            className="btn-close"
-                          ></button>
-                        </div>
+                  <>
+                    <div className="position-relative d-inline-block">
+                      <FiBell
+                        onClick={toggleModal}
+                        className="fs-4 text-primary cursor-pointer"
+                      />
+                      {/* Display the unseen count badge */}
+                      {unseenCount > 0 && (
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {unseenCount}
+                          <span className="visually-hidden">
+                            unread messages
+                          </span>
+                        </span>
+                      )}
+                    </div>
 
-                        <div className="px-4 py-3">
-                          {notifications.length === 0 ? (
-                            <p className="text-secondary text-center">
-                              No notifications to show.
-                            </p>
-                          ) : (
-                            <ul
-                              className="list-unstyled overflow-auto"
-                              style={{ maxHeight: "400px" }}
-                            >
-                              {notifications.map((note, index) => (
-                                <li
-                                  key={note.id || index}
-                                  className="mb-3 p-3 bg-light border rounded shadow-sm"
-                                >
-                                  <div className="d-flex justify-content-between mb-1">
-                                    <span className="fw-medium text-dark">
-                                      {note.name}
-                                    </span>
-                                    <small className="text-muted">
-                                      {formatDate(note.createdAt)}
-                                    </small>
-                                  </div>
-                                  <p className="mb-0 text-secondary">
-                                    {note.text}
-                                  </p>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
+                    {isOpen && (
+                      <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3">
+                        <div
+                          className="bg-white rounded-3 shadow-lg w-100 mx-3"
+                          style={{
+                            maxWidth: "480px",
+                            animation: "fadeIn 0.3s ease-in-out",
+                          }}
+                        >
+                          <div className="border-bottom d-flex justify-content-between align-items-center px-4 py-3">
+                            <h5 className="mb-0 fw-semibold text-dark">
+                              Notifications
+                            </h5>
+                            <button
+                              onClick={() => setIsOpen(false)}
+                              className="btn-close"
+                            ></button>
+                          </div>
+
+                          <div className="px-4 py-3">
+                            {notifications.length === 0 ? (
+                              <p className="text-secondary text-center">
+                                No notifications to show.
+                              </p>
+                            ) : (
+                              <ul
+                                className="list-unstyled overflow-auto"
+                                style={{ maxHeight: "400px" }}
+                              >
+                                {notifications.map((note, index) => (
+                                  <li
+                                    key={note.id || index}
+                                    className={`mb-3 p-3 border rounded shadow-sm ${
+                                      note.seen
+                                        ? "bg-light"
+                                        : "bg-warning-subtle" // Highlight unseen messages
+                                    }`}
+                                  >
+                                    <div className="d-flex justify-content-between mb-1">
+                                      <span className="fw-medium text-dark">
+                                        {note.name}
+                                      </span>
+                                      <small className="text-muted">
+                                        {formatDate(note.createdAt)}
+                                      </small>
+                                    </div>
+                                    <p className="mb-0 text-secondary">
+                                      {note.text}
+                                    </p>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </>
                   {/* Adjust styling as needed */}
                   {auth.currentUser ? (
                     <ul

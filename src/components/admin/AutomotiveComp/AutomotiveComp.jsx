@@ -4320,42 +4320,44 @@ const AutomotiveComp = () => {
                                             );
 
                                           return (
-                                            <div
-                                              className="form-check"
-                                              key={region.regionId}
-                                            >
-                                              <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id={`region-${region.regionId}`}
-                                                checked={isChecked}
-                                                onChange={() => {
-                                                  if (isChecked) {
-                                                    setSelectedRegionId(
-                                                      (prev) =>
-                                                        prev.filter(
-                                                          (id) =>
-                                                            id !==
-                                                            region.regionId
-                                                        )
-                                                    );
-                                                  } else {
-                                                    setSelectedRegionId(
-                                                      (prev) => [
-                                                        ...prev,
-                                                        region.regionId,
-                                                      ]
-                                                    );
-                                                  }
-                                                }}
-                                              />
+                                            <li>
                                               <label
-                                                className="form-check-label"
-                                                htmlFor={`region-${region.regionId}`}
+                                                className="d-flex align-items-center gap-2"
+                                                key={region.regionId}
                                               >
-                                                {region.label}
+                                                <input
+                                                  className="form-check-input"
+                                                  type="checkbox"
+                                                  id={`region-${region.regionId}`}
+                                                  checked={isChecked}
+                                                  onChange={() => {
+                                                    if (isChecked) {
+                                                      setSelectedRegionId(
+                                                        (prev) =>
+                                                          prev.filter(
+                                                            (id) =>
+                                                              id !==
+                                                              region.regionId
+                                                          )
+                                                      );
+                                                    } else {
+                                                      setSelectedRegionId(
+                                                        (prev) => [
+                                                          ...prev,
+                                                          region.regionId,
+                                                        ]
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                <span
+                                                  className="form-check-label"
+                                                  htmlFor={`region-${region.regionId}`}
+                                                >
+                                                  {region.label}
+                                                </span>
                                               </label>
-                                            </div>
+                                            </li>
                                           );
                                         })}
                                       </ul>
@@ -4444,11 +4446,9 @@ const AutomotiveComp = () => {
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
                               {cityOptions.slice(0, 6).map((option) => (
-                                <label
-                                  key={option.value}
-                                  className="d-flex align-items-center gap-2"
-                                >
+                                <div key={option.value} className="form-check">
                                   <input
+                                    className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
                                       (city) => city.CITY_ID === option.cityId
@@ -4457,8 +4457,10 @@ const AutomotiveComp = () => {
                                       handleCheckboxChange1(option)
                                     }
                                   />
-                                  <span>{option.label}</span>
-                                </label>
+                                  <label className="form-check-label">
+                                    {option.label}
+                                  </label>
+                                </div>
                               ))}
                             </div>
 
@@ -4513,22 +4515,25 @@ const AutomotiveComp = () => {
                                     <div className="row">
                                       <ul className="more_choice_main_list">
                                         {filteredCities.map((option) => (
-                                          <label
-                                            key={option.value}
-                                            className="d-flex align-items-center gap-2"
-                                          >
-                                            <input
-                                              type="checkbox"
-                                              checked={selectedCities.some(
-                                                (city) =>
-                                                  city.CITY_ID === option.cityId
-                                              )}
-                                              onChange={() =>
-                                                handleCheckboxChange1(option)
-                                              }
-                                            />
-                                            <span>{option.label}</span>
-                                          </label>
+                                          <li>
+                                            <label
+                                              key={option.value}
+                                              className="d-flex align-items-center gap-2"
+                                            >
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedCities.some(
+                                                  (city) =>
+                                                    city.CITY_ID ===
+                                                    option.cityId
+                                                )}
+                                                onChange={() =>
+                                                  handleCheckboxChange1(option)
+                                                }
+                                              />
+                                              <span>{option.label}</span>
+                                            </label>
+                                          </li>
                                         ))}
                                       </ul>
                                     </div>
@@ -4671,7 +4676,7 @@ const AutomotiveComp = () => {
                                   {/* Body */}
                                   <div className="modal-body">
                                     {/* Search Input */}
-                                    <div className="mb-3 mx-3">
+                                    <div className="mb-3">
                                       <input
                                         type="text"
                                         className="form-control"
