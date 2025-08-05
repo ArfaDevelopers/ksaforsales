@@ -171,6 +171,7 @@ const AutomotiveComp = () => {
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   console.log(selectedDistricts, "selectedDistricts___________");
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
+
   const cityModalRef = useRef(null);
   useEffect(() => {
     const modalEl = cityModalRef.current;
@@ -420,6 +421,14 @@ const AutomotiveComp = () => {
         : [], // Store array of city values
     }));
   };
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filtered cities based on search
+  const filteredCities = cityOptions
+    .slice(6)
+    .filter((option) =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   console.log("Selected City:", selectedCity);
 
   const handleDistrictSelect = (selectedOption1) => {
@@ -769,6 +778,15 @@ const AutomotiveComp = () => {
   const closeToyotaModal = () => {
     toyotaModalInstanceRef.current?.hide();
   };
+  const [searchTermDistrict, setSearchTermDistrict] = useState("");
+
+  // Filter district options based on search term
+  const filteredDistricts = districtOptions
+    .slice(4)
+    .filter((option) =>
+      option.label.toLowerCase().includes(searchTermDistrict.toLowerCase())
+    );
+
   const carBrands = [
     "Toyota",
     "Ford",
@@ -4479,9 +4497,22 @@ const AutomotiveComp = () => {
                                   </div>
 
                                   <div className="modal-body">
+                                    {/* Search Input Field */}
+                                    <div className="mb-3">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search cities..."
+                                        value={searchTerm}
+                                        onChange={(e) =>
+                                          setSearchTerm(e.target.value)
+                                        }
+                                      />
+                                    </div>
+
                                     <div className="row">
                                       <ul className="more_choice_main_list">
-                                        {cityOptions.map((option) => (
+                                        {filteredCities.map((option) => (
                                           <label
                                             key={option.value}
                                             className="d-flex align-items-center gap-2"
@@ -4637,69 +4668,74 @@ const AutomotiveComp = () => {
                                     ></button>
                                   </div>
 
-                                  {/* Compact Body */}
+                                  {/* Body */}
                                   <div className="modal-body">
+                                    {/* Search Input */}
+                                    <div className="mb-3 mx-3">
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Search districts..."
+                                        value={searchTermDistrict}
+                                        onChange={(e) =>
+                                          setSearchTermDistrict(e.target.value)
+                                        }
+                                      />
+                                    </div>
+
+                                    {/* List */}
                                     <div className="row g-1 ml-4">
                                       <ul className="more_choice_main_list">
-                                        {districtOptions
-                                          .slice(4)
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
-
-                                            return (
-                                              <li
-                                                key={option.value}
-                                                className=""
-                                              >
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    className=""
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    className=""
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
+                                        {filteredDistricts.map((option) => {
+                                          const isChecked =
+                                            selectedDistricts.some(
+                                              (district) =>
+                                                district.DISTRICT_ID ===
+                                                option.value
                                             );
-                                          })}
+
+                                          return (
+                                            <li key={option.value}>
+                                              <label className="d-flex align-items-center gap-2">
+                                                <input
+                                                  type="checkbox"
+                                                  checked={isChecked}
+                                                  onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                      setSelectedDistricts(
+                                                        (prev) => [
+                                                          ...prev,
+                                                          {
+                                                            REGION_ID:
+                                                              option.regionId,
+                                                            CITY_ID:
+                                                              option.cityId,
+                                                            DISTRICT_ID:
+                                                              option.value,
+                                                          },
+                                                        ]
+                                                      );
+                                                    } else {
+                                                      setSelectedDistricts(
+                                                        (prev) =>
+                                                          prev.filter(
+                                                            (district) =>
+                                                              district.DISTRICT_ID !==
+                                                              option.value
+                                                          )
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                <span
+                                                  style={{ cursor: "pointer" }}
+                                                >
+                                                  {option.label}
+                                                </span>
+                                              </label>
+                                            </li>
+                                          );
+                                        })}
                                       </ul>
                                     </div>
 

@@ -8,6 +8,8 @@ import {
   getDocs,
   query,
   orderBy,
+  updateDoc,
+  doc,
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/FirebaseConfig";
 import {
@@ -35,59 +37,50 @@ export default function Message() {
   const [selected, setSelected] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [unreadCounts, setUnreadCounts] = useState({});
   const dummy = useRef();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Logs out the user
+      await signOut(auth);
       console.log("User logged out successfully!");
-      navigate("/login"); // Redirect to login page after logout
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
   };
+
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(setUser);
     return () => unsub();
   }, []);
 
-  useEffect(() => {
-    if (!user) return;
-    const unsub = onSnapshot(collection(db, "messages"), async (snap) => {
-      const allMessages = snap.docs.map((doc) => doc.data());
-      const userInvolvedMessages = allMessages.filter(
-        (msg) => msg.uid === user.uid || msg.recieverId === user.uid
-      );
-
-      const chatUserIds = [
-        ...new Set(
-          userInvolvedMessages.map((msg) =>
-            msg.uid === user.uid ? msg.recieverId : msg.uid
-          )
-        ),
-      ];
-
-      const userDocs = await getDocs(collection(db, "users"));
-      const usersMap = {};
-      userDocs.forEach((doc) => {
-        const u = doc.data();
-        usersMap[u.uid] = u.fullName || u.name || "Unknown";
-      });
-
-      const userList = chatUserIds.map((uid) => ({
-        id: uid,
-        name: usersMap[uid] || "Unknown",
-      }));
-
-      setChatUsers(userList);
-    });
-
-    return () => unsub();
-  }, [user]);
-
+  // Track which messages have been seen by the current user
   useEffect(() => {
     if (!user || !selected) return;
+
+    // Mark messages as seen when opening a chat
+    const updateSeenStatus = async () => {
+      const messagesToUpdate = messages.filter(
+        (msg) => msg.recieverId === user.uid && !msg.seen
+      );
+
+      const batch = messagesToUpdate.map((msg) =>
+        updateDoc(doc(db, "messages", msg.id), { seen: true })
+      );
+
+      await Promise.all(batch);
+    };
+
+    updateSeenStatus();
+  }, [selected, messages, user]);
+
+  // Fetch and track unread counts for each conversation
+  useEffect(() => {
+    if (!user) return;
+
     const unsub = onSnapshot(
       query(collection(db, "messages"), orderBy("createdAt")),
       (snap) => {
@@ -95,18 +88,65 @@ export default function Message() {
           id: doc.id,
           ...doc.data(),
         }));
-        const filtered = allMessages.filter(
-          (msg) =>
-            (msg.uid === user.uid && msg.recieverId === selected.id) ||
-            (msg.uid === selected.id && msg.recieverId === user.uid)
+
+        // Filter messages that belong to current user
+        const userMessages = allMessages.filter(
+          (msg) => msg.uid === user.uid || msg.recieverId === user.uid
         );
-        setMessages(filtered);
-        setTimeout(
-          () => dummy.current?.scrollIntoView({ behavior: "smooth" }),
-          100
-        );
+
+        // Calculate unread counts per conversation
+        const counts = {};
+        userMessages.forEach((msg) => {
+          const otherUserId = msg.uid === user.uid ? msg.recieverId : msg.uid;
+
+          if (msg.recieverId === user.uid && !msg.seen) {
+            counts[otherUserId] = (counts[otherUserId] || 0) + 1;
+          }
+        });
+
+        setUnreadCounts(counts);
+
+        // Get unique chat partners
+        const chatPartners = [
+          ...new Set(
+            userMessages.map((msg) =>
+              msg.uid === user.uid ? msg.recieverId : msg.uid
+            )
+          ),
+        ];
+
+        // Fetch user data
+        const fetchUsers = async () => {
+          const usersSnapshot = await getDocs(collection(db, "users"));
+          const usersMap = {};
+          usersSnapshot.forEach((doc) => {
+            const u = doc.data();
+            usersMap[u.uid] = u.fullName || u.name || "Unknown";
+          });
+
+          const userList = chatPartners.map((uid) => ({
+            id: uid,
+            name: usersMap[uid] || "Unknown",
+            unread: counts[uid] || 0,
+          }));
+
+          setChatUsers(userList);
+        };
+
+        fetchUsers();
+
+        // Update current chat messages if needed
+        if (selected) {
+          const filtered = allMessages.filter(
+            (msg) =>
+              (msg.uid === user.uid && msg.recieverId === selected.id) ||
+              (msg.uid === selected.id && msg.recieverId === user.uid)
+          );
+          setMessages(filtered);
+        }
       }
     );
+
     return () => unsub();
   }, [user, selected]);
 
@@ -120,6 +160,7 @@ export default function Message() {
       text: input.trim(),
       name: user.fullName || user.displayName || "Anonymous",
       createdAt: serverTimestamp(),
+      seen: false, // New messages are unread by default
     });
     setInput("");
   };
@@ -133,10 +174,7 @@ export default function Message() {
 
       <div
         className="dashboard-content"
-        style={{
-          marginTop: "5rem",
-          paddingBottom: "0px",
-        }}
+        style={{ marginTop: "5rem", paddingBottom: "0px" }}
       >
         <div className="container">
           <div className="">
@@ -166,11 +204,6 @@ export default function Message() {
                   <TiMessages /> <span>Messages</span>
                 </Link>
               </li>
-              {/* <li>
-                            <Link to="/reviews">
-                              <i className="fas fa-solid fa-star" /> <span>Reviews</span>
-                            </Link>
-                          </li> */}
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
@@ -197,10 +230,15 @@ export default function Message() {
                       variant={
                         selected?.id === u.id ? "primary" : "outline-primary"
                       }
-                      className="w-100 text-start mb-2"
+                      className="w-100 text-start mb-2 d-flex justify-content-between align-items-center"
                       onClick={() => setSelected(u)}
                     >
-                      {u.name}
+                      <span>{u.name}</span>
+                      {u.unread > 0 && (
+                        <span className="badge bg-danger rounded-pill">
+                          {u.unread}
+                        </span>
+                      )}
                     </Button>
                   ))
                 )}
@@ -215,9 +253,7 @@ export default function Message() {
               </div>
               <div
                 className="flex-grow-1 p-3 bg-light overflow-auto"
-                style={{
-                  height: "600px",
-                }}
+                style={{ height: "600px" }}
               >
                 {!selected ? (
                   <Alert>Select a chat.</Alert>
@@ -242,7 +278,12 @@ export default function Message() {
                       >
                         <div>
                           <small className="fw-bold">{msg.name}</small>{" "}
-                          <small>{formatTime(msg.createdAt)}</small>
+                          <small className="ms-2">
+                            {formatTime(msg.createdAt)}
+                            {msg.uid !== user.uid && msg.seen && (
+                              <span className="ms-2">✓✓</span>
+                            )}
+                          </small>
                         </div>
                         <div>{msg.text}</div>
                       </div>
