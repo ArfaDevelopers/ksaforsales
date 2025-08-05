@@ -287,7 +287,7 @@ export default function AutomativeCarousel() {
                                       fontSize: "0.9rem",
                                     }}
                                   >
-                                    ${item.Price}
+                                    SAR {item.Price}
                                   </span>
                                 </div>
                                 <div

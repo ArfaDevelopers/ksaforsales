@@ -309,7 +309,7 @@ export default function Carousel() {
                                       fontSize: "0.9rem",
                                     }}
                                   >
-                                    ${item.Price}
+                                    SAR {item.Price}
                                   </span>
                                 </div>
                                 <div
