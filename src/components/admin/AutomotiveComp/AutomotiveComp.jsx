@@ -1880,6 +1880,9 @@ const AutomotiveComp = () => {
     const endIndex = startIndex + carsPerPage;
     return filteredCars.slice(startIndex, endIndex);
   };
+  console.log(getPaginatedCars, "messages_____getPaginatedCars");
+  console.log(filteredCars, "messages_____getPaginatedCarsfilteredCars");
+
   const handleCheckboxChangeisFeatured = (event) => {
     const isChecked = event.target.checked;
     const value = isChecked ? "Featured Ad" : "Not Featured Ad";
@@ -14364,6 +14367,7 @@ const AutomotiveComp = () => {
                                       </div>
                                       {userId && receiverId ? (
                                         <Mesagedeals
+                                          productId={car.id}
                                           userId={userId}
                                           recieverId={receiverId}
                                           fullWidth={true} // :point_left: Add this prop

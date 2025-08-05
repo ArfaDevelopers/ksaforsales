@@ -2669,55 +2669,51 @@ const PetAnimalsComp = () => {
                                         </small>
                                       </div>
 
-                                      <div className="row g-2">
-                                        <ul className="more_choice_main_list list-unstyled">
-                                          {regionOptions
-                                            .slice(6)
-                                            .map((region) => {
-                                              const isChecked =
-                                                selectedRegion.includes(
-                                                  region.regionId
-                                                );
-                                              return (
-                                                <li key={region.regionId}>
-                                                  <div className="form-check">
-                                                    <input
-                                                      className="form-check-input"
-                                                      type="checkbox"
-                                                      id={`region-${region.regionId}`}
-                                                      checked={isChecked}
-                                                      onChange={() => {
-                                                        if (isChecked) {
-                                                          setSelectedRegionId(
-                                                            (prev) =>
-                                                              prev.filter(
-                                                                (id) =>
-                                                                  id !==
-                                                                  region.regionId
-                                                              )
-                                                          );
-                                                        } else {
-                                                          setSelectedRegionId(
-                                                            (prev) => [
-                                                              ...prev,
-                                                              region.regionId,
-                                                            ]
-                                                          );
-                                                        }
-                                                      }}
-                                                    />
-                                                    <label
-                                                      className="form-check-label"
-                                                      htmlFor={`region-${region.regionId}`}
-                                                    >
-                                                      {region.label}
-                                                    </label>
-                                                  </div>
-                                                </li>
+                                      <ul className="more_choice_main_list">
+                                        {regionOptions
+                                          .slice(6)
+                                          .map((region) => {
+                                            const isChecked =
+                                              selectedRegion.includes(
+                                                region.regionId
                                               );
-                                            })}
-                                        </ul>
-                                      </div>
+                                            return (
+                                              <li key={region.regionId}>
+                                                <label className="d-flex align-items-center gap-2">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`region-${region.regionId}`}
+                                                    checked={isChecked}
+                                                    onChange={() => {
+                                                      if (isChecked) {
+                                                        setSelectedRegionId(
+                                                          (prev) =>
+                                                            prev.filter(
+                                                              (id) =>
+                                                                id !==
+                                                                region.regionId
+                                                            )
+                                                        );
+                                                      } else {
+                                                        setSelectedRegionId(
+                                                          (prev) => [
+                                                            ...prev,
+                                                            region.regionId,
+                                                          ]
+                                                        );
+                                                      }
+                                                    }}
+                                                  />
+                                                  <span
+                                                    htmlFor={`region-${region.regionId}`}
+                                                  >
+                                                    {region.label}
+                                                  </span>
+                                                </label>
+                                              </li>
+                                            );
+                                          })}
+                                      </ul>
                                     </div>
 
                                     <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
@@ -2804,11 +2800,9 @@ const PetAnimalsComp = () => {
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
                               {cityOptions.slice(0, 6).map((option) => (
-                                <label
-                                  key={option.value}
-                                  className="d-flex align-items-center gap-2"
-                                >
+                                <div key={option.value} className="form-check">
                                   <input
+                                    className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
                                       (city) => city.CITY_ID === option.cityId
@@ -2817,8 +2811,10 @@ const PetAnimalsComp = () => {
                                       handleCheckboxChange1(option)
                                     }
                                   />
-                                  <span>{option.label}</span>
-                                </label>
+                                  <label className="form-check-label">
+                                    {option.label}
+                                  </label>
+                                </div>
                               ))}
                             </div>
 
@@ -2868,39 +2864,33 @@ const PetAnimalsComp = () => {
                                         }
                                       />
                                     </div>
-                                    <div className="row">
-                                      <ul className="more_choice_main_list">
-                                        {cityOptions
-                                          .slice(4)
-                                          .filter((option) =>
-                                            option.label
-                                              ?.toLowerCase()
-                                              .includes(
-                                                searchCity?.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => (
-                                            <li key={option.value}>
-                                              <label className="d-flex align-items-center gap-2">
-                                                <input
-                                                  type="checkbox"
-                                                  checked={selectedCities.some(
-                                                    (city) =>
-                                                      city.CITY_ID ===
-                                                      option.cityId
-                                                  )}
-                                                  onChange={() =>
-                                                    handleCheckboxChange1(
-                                                      option
-                                                    )
-                                                  }
-                                                />
-                                                <span>{option.label}</span>
-                                              </label>
-                                            </li>
-                                          ))}
-                                      </ul>
-                                    </div>
+                                    <ul className="more_choice_main_list">
+                                      {cityOptions
+                                        .slice(4)
+                                        .filter((option) =>
+                                          option.label
+                                            ?.toLowerCase()
+                                            .includes(searchCity?.toLowerCase())
+                                        )
+                                        .map((option) => (
+                                          <li key={option.value}>
+                                            <label className="d-flex align-items-center gap-2">
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedCities.some(
+                                                  (city) =>
+                                                    city.CITY_ID ===
+                                                    option.cityId
+                                                )}
+                                                onChange={() =>
+                                                  handleCheckboxChange1(option)
+                                                }
+                                              />
+                                              <span>{option.label}</span>
+                                            </label>
+                                          </li>
+                                        ))}
+                                    </ul>
                                   </div>
 
                                   <div className="modal-footer">
@@ -3049,63 +3039,54 @@ const PetAnimalsComp = () => {
                                       }
                                     />
 
-                                    <div className="row g-1 ml-4">
-                                      <ul className="more_choice_main_list">
-                                        {filteredDistrictOptions.map(
-                                          (option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
+                                    <ul className="more_choice_main_list">
+                                      {filteredDistrictOptions.map((option) => {
+                                        const isChecked =
+                                          selectedDistricts.some(
+                                            (district) =>
+                                              district.DISTRICT_ID ===
+                                              option.value
+                                          );
 
-                                            return (
-                                              <label
-                                                key={option.value}
-                                                className="form-check d-flex align-items-center gap-2"
-                                                style={{ display: "flex" }}
-                                              >
-                                                <input
-                                                  type="checkbox"
-                                                  className="form-check-input"
-                                                  checked={isChecked}
-                                                  onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                      setSelectedDistricts(
-                                                        (prev) => [
-                                                          ...prev,
-                                                          {
-                                                            REGION_ID:
-                                                              option.regionId,
-                                                            CITY_ID:
-                                                              option.cityId,
-                                                            DISTRICT_ID:
-                                                              option.value,
-                                                          },
-                                                        ]
-                                                      );
-                                                    } else {
-                                                      setSelectedDistricts(
-                                                        (prev) =>
-                                                          prev.filter(
-                                                            (district) =>
-                                                              district.DISTRICT_ID !==
-                                                              option.value
-                                                          )
-                                                      );
-                                                    }
-                                                  }}
-                                                />
-                                                <span className="form-check-label">
-                                                  {option.label}
-                                                </span>
-                                              </label>
-                                            );
-                                          }
-                                        )}
-                                      </ul>
-                                    </div>
+                                        return (
+                                          <label
+                                            key={option.value}
+                                            className="d-flex align-items-center gap-2"
+                                            style={{ display: "flex" }}
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              checked={isChecked}
+                                              onChange={(e) => {
+                                                if (e.target.checked) {
+                                                  setSelectedDistricts(
+                                                    (prev) => [
+                                                      ...prev,
+                                                      {
+                                                        REGION_ID:
+                                                          option.regionId,
+                                                        CITY_ID: option.cityId,
+                                                        DISTRICT_ID:
+                                                          option.value,
+                                                      },
+                                                    ]
+                                                  );
+                                                } else {
+                                                  setSelectedDistricts((prev) =>
+                                                    prev.filter(
+                                                      (district) =>
+                                                        district.DISTRICT_ID !==
+                                                        option.value
+                                                    )
+                                                  );
+                                                }
+                                              }}
+                                            />
+                                            <span>{option.label}</span>
+                                          </label>
+                                        );
+                                      })}
+                                    </ul>
 
                                     {/* Selection Count */}
                                     {selectedDistricts.length > 0 && (

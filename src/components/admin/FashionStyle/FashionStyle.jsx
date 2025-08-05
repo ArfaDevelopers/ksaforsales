@@ -2732,7 +2732,7 @@ const FashionStyle = () => {
                                           Select a Region
                                         </h5>
                                       </div>
-                                      <input
+                                      {/* <input
                                         type="text"
                                         className="form-control"
                                         placeholder="Search regions..."
@@ -2741,7 +2741,7 @@ const FashionStyle = () => {
                                         onChange={(e) =>
                                           setSearchRegionText(e.target.value)
                                         }
-                                      />
+                                      /> */}
                                       <button
                                         type="button"
                                         className="btn-close"
@@ -2775,42 +2775,42 @@ const FashionStyle = () => {
                                                 );
 
                                               return (
-                                                <div
-                                                  className="form-check"
-                                                  key={region.regionId}
-                                                >
-                                                  <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id={`region-${region.regionId}`}
-                                                    checked={isChecked}
-                                                    onChange={() => {
-                                                      if (isChecked) {
-                                                        setSelectedRegionId(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (id) =>
-                                                                id !==
-                                                                region.regionId
-                                                            )
-                                                        );
-                                                      } else {
-                                                        setSelectedRegionId(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            region.regionId,
-                                                          ]
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
+                                                <li>
                                                   <label
-                                                    className="form-check-label"
-                                                    htmlFor={`region-${region.regionId}`}
+                                                    className="d-flex align-items-center gap-2"
+                                                    key={region.regionId}
                                                   >
-                                                    {region.label}
+                                                    <input
+                                                      type="checkbox"
+                                                      id={`region-${region.regionId}`}
+                                                      checked={isChecked}
+                                                      onChange={() => {
+                                                        if (isChecked) {
+                                                          setSelectedRegionId(
+                                                            (prev) =>
+                                                              prev.filter(
+                                                                (id) =>
+                                                                  id !==
+                                                                  region.regionId
+                                                              )
+                                                          );
+                                                        } else {
+                                                          setSelectedRegionId(
+                                                            (prev) => [
+                                                              ...prev,
+                                                              region.regionId,
+                                                            ]
+                                                          );
+                                                        }
+                                                      }}
+                                                    />
+                                                    <span
+                                                      htmlFor={`region-${region.regionId}`}
+                                                    >
+                                                      {region.label}
+                                                    </span>
                                                   </label>
-                                                </div>
+                                                </li>
                                               );
                                             })}
                                         </ul>
@@ -2895,17 +2895,13 @@ const FashionStyle = () => {
                       <Accordion.Header>Select City</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          {/* <Form.Label>Select a City</Form.Label> */}
-
                           <>
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
                               {cityOptions.slice(0, 4).map((option) => (
-                                <label
-                                  key={option.value}
-                                  className="d-flex align-items-center gap-2"
-                                >
+                                <div key={option.value} className="form-check">
                                   <input
+                                    className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
                                       (city) => city.CITY_ID === option.cityId
@@ -2914,8 +2910,10 @@ const FashionStyle = () => {
                                       handleCheckboxChange1(option)
                                     }
                                   />
-                                  <span>{option.label}</span>
-                                </label>
+                                  <label className="form-check-label">
+                                    {option.label}
+                                  </label>
+                                </div>
                               ))}
                             </div>
 

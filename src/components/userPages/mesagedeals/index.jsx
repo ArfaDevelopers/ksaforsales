@@ -7,6 +7,8 @@ import {
   orderBy,
   serverTimestamp,
   onSnapshot,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/FirebaseConfig";
 import {
@@ -31,12 +33,44 @@ function Mesagedeals(props) {
   const [formValue, setFormValue] = useState("");
   const [sending, setSending] = useState(false);
   const dummy = useRef();
-
+  console.log(messages, "No such __messages");
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(setUser);
     return () => unsub();
   }, []);
+  const [targetUser, setTargetUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [userError, setUserError] = useState(null);
 
+  // ... (your existing useEffect hooks)
+
+  useEffect(() => {
+    const fetchTargetUser = async () => {
+      setLoadingUser(true);
+      setUserError(null);
+      const userId = props.recieverId; // The specific user ID
+      const userDocRef = doc(db, "users", userId);
+
+      try {
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          setTargetUser(userDocSnap.data());
+          console.log("No such __Fetched user data:", userDocSnap.data());
+        } else {
+          console.log("No such __No such user found!");
+          setUserError("User not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setUserError("Failed to fetch user data.");
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    fetchTargetUser();
+  }, []);
   useEffect(() => {
     if (!user || !props.recieverId) return;
 
@@ -97,7 +131,7 @@ function Mesagedeals(props) {
             <Card.Header className="bg-primary text-white">
               <div className="d-flex align-items-center">
                 <FaComments className="me-2" />
-                <h5 className="mb-0">Chat with {props.recieverId}</h5>
+                <h5 className="mb-0">Chat with {targetUser?.displayName}</h5>
                 <Badge bg="light" text="dark" className="ms-auto">
                   {messages.length} messages
                 </Badge>

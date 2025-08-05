@@ -901,10 +901,10 @@ const CategoryDetail = () => {
 
           <div>
             <div>
-              <div className="d-flex justify-content-center gap-3 mt-3">
+              <div className="d-flex justify-content-center gap-1 mt-3">
                 <button
                   variant="primary"
-                  className="d-flex align-items-center blue_btn list_btn"
+                  className="d-flex align-items-center blue_btn list_btn categories"
                   onClick={handleOpenCall}
                   onMouseEnter={handleCallMouseEnter}
                   onMouseLeave={handleCallMouseLeave}
@@ -921,7 +921,7 @@ const CategoryDetail = () => {
                   <span style={{ color: "white" }}>Call</span>
                 </button>
                 <button
-                  className="d-flex align-items-center blue_btn list_btn"
+                  className="d-flex align-items-center blue_btn list_btn categories"
                   onClick={handleOpenWhatsapp}
                   // onMouseEnter={handleWhatsappMouseEnter}
                   // onMouseLeave={handleWhatsappMouseLeave}

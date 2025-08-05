@@ -3636,11 +3636,17 @@ form.filter_innerwrap .accordion-item {
 .filter_main_wrap .form-check {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.5rem !important;
   margin-bottom: 0.5rem !important;
+}
+.filter_main_wrap .form-check input{
+  margin-top: 0 !important;
 }
 .filter_main_wrap label.form-check-label {
   margin-bottom: 0;
+}
+.more_choice_main_list li{
+  margin-bottom: 5px !important;
 }
 .filter_card_main .title_head {
   display: flex;

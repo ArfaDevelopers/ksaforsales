@@ -3082,47 +3082,42 @@ const RealEstateComp = () => {
                                           options below
                                         </small>
                                       </div>
-                                      <div className="row g-2">
-                                        <ul className="more_choice_main_list">
-                                          {regionOptions
-                                            .filter((region) =>
-                                              region.regionEn
-                                                .toLowerCase()
-                                                .includes(
-                                                  searchTerm.toLowerCase()
-                                                )
-                                            )
-                                            .map((region) => (
-                                              <li key={region.regionId}>
-                                                <label
-                                                  className="form-check-label"
-                                                  htmlFor={`modal-region-${region.regionId}`}
-                                                >
-                                                  <input
-                                                    className="form-check-input me-2 mt-1"
-                                                    type="checkbox"
-                                                    id={`modal-region-${region.regionId}`}
-                                                    checked={
+                                      <ul className="more_choice_main_list">
+                                        {regionOptions
+                                          .filter((region) =>
+                                            region.regionEn
+                                              .toLowerCase()
+                                              .includes(
+                                                searchTerm.toLowerCase()
+                                              )
+                                          )
+                                          .map((region) => (
+                                            <li key={region.regionId}>
+                                              <label
+                                                className="d-flex align-items-center gap-2"
+                                                htmlFor={`modal-region-${region.regionId}`}
+                                              >
+                                                <input
+                                                  type="checkbox"
+                                                  id={`modal-region-${region.regionId}`}
+                                                  checked={
+                                                    selectedRegion ===
+                                                    region.regionId
+                                                  }
+                                                  onChange={() =>
+                                                    setSelectedRegionId(
                                                       selectedRegion ===
-                                                      region.regionId
-                                                    }
-                                                    onChange={() =>
-                                                      setSelectedRegionId(
-                                                        selectedRegion ===
-                                                          region.regionId
-                                                          ? ""
-                                                          : region.regionId
-                                                      )
-                                                    }
-                                                  />
-                                                  <span className="fw-medium text-dark">
-                                                    {region.regionEn}
-                                                  </span>
-                                                </label>
-                                              </li>
-                                            ))}
-                                        </ul>
-                                      </div>
+                                                        region.regionId
+                                                        ? ""
+                                                        : region.regionId
+                                                    )
+                                                  }
+                                                />
+                                                <span>{region.regionEn}</span>
+                                              </label>
+                                            </li>
+                                          ))}
+                                      </ul>
                                     </div>
                                     <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                                       <div className="text-muted small">
@@ -3207,12 +3202,10 @@ const RealEstateComp = () => {
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
                               {cityOptions.slice(0, 6).map((option) => (
-                                <label
-                                  key={option.value}
-                                  className="d-flex align-items-center gap-2"
-                                >
+                                <div className="form-check" key={option.value}>
                                   <input
                                     type="checkbox"
+                                    className="form-check-input"
                                     checked={selectedCities.some(
                                       (city) => city.CITY_ID === option.cityId
                                     )}
@@ -3220,8 +3213,10 @@ const RealEstateComp = () => {
                                       handleCheckboxChange1(option)
                                     }
                                   />
-                                  <span>{option.label}</span>
-                                </label>
+                                  <label className="form-check-label">
+                                    {option.label}
+                                  </label>
+                                </div>
                               ))}
                             </div>
 
@@ -3251,16 +3246,6 @@ const RealEstateComp = () => {
                                       >
                                         Select More Cities
                                       </h5>
-                                      <input
-                                        type="text"
-                                        className="form-control form-control-sm"
-                                        placeholder="Search..."
-                                        value={searchTerm}
-                                        onChange={(e) =>
-                                          setSearchTerm(e.target.value)
-                                        }
-                                        style={{ maxWidth: "200px" }}
-                                      />
                                     </div>
                                     <button
                                       type="button"
@@ -3273,39 +3258,43 @@ const RealEstateComp = () => {
 
                                   {/* Body with Filtered City List */}
                                   <div className="modal-body">
-                                    <div className="row">
-                                      <ul className="more_choice_main_list">
-                                        {cityOptions
-                                          .slice(6)
-                                          .filter((option) =>
-                                            option.label
-                                              ?.toLowerCase()
-                                              .includes(
-                                                searchTerm?.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => (
-                                            <li key={option.value}>
-                                              <label className="d-flex align-items-center gap-2">
-                                                <input
-                                                  type="checkbox"
-                                                  checked={selectedCities.some(
-                                                    (city) =>
-                                                      city.CITY_ID ===
-                                                      option.cityId
-                                                  )}
-                                                  onChange={() =>
-                                                    handleCheckboxChange1(
-                                                      option
-                                                    )
-                                                  }
-                                                />
-                                                <span>{option.label}</span>
-                                              </label>
-                                            </li>
-                                          ))}
-                                      </ul>
-                                    </div>
+                                    <input
+                                      type="text"
+                                      className="form-control mb-3"
+                                      placeholder="Search..."
+                                      value={searchTerm}
+                                      onChange={(e) =>
+                                        setSearchTerm(e.target.value)
+                                      }
+                                      style={{ maxWidth: "100%" }}
+                                    />
+                                    <ul className="more_choice_main_list">
+                                      {cityOptions
+                                        .slice(6)
+                                        .filter((option) =>
+                                          option.label
+                                            ?.toLowerCase()
+                                            .includes(searchTerm?.toLowerCase())
+                                        )
+                                        .map((option) => (
+                                          <li key={option.value}>
+                                            <label className="d-flex align-items-center gap-2">
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedCities.some(
+                                                  (city) =>
+                                                    city.CITY_ID ===
+                                                    option.cityId
+                                                )}
+                                                onChange={() =>
+                                                  handleCheckboxChange1(option)
+                                                }
+                                              />
+                                              <span>{option.label}</span>
+                                            </label>
+                                          </li>
+                                        ))}
+                                    </ul>
                                   </div>
 
                                   {/* Footer */}
@@ -3446,16 +3435,6 @@ const RealEstateComp = () => {
                                       <h5 className="modal-title mb-0 me-3">
                                         Select More Districts
                                       </h5>
-                                      <input
-                                        type="text"
-                                        className="form-control form-control-sm"
-                                        placeholder="Search..."
-                                        value={searchTerm1}
-                                        onChange={(e) =>
-                                          setSearchTerm1(e.target.value)
-                                        }
-                                        style={{ maxWidth: "200px" }}
-                                      />
                                     </div>
                                     <button
                                       type="button"
@@ -3468,71 +3447,79 @@ const RealEstateComp = () => {
 
                                   {/* Body */}
                                   <div className="modal-body">
-                                    <div className="row g-1 ml-4">
-                                      <ul className="more_choice_main_list">
-                                        {districtOptions
-                                          .slice(6)
-                                          .filter((option) =>
-                                            option.label
-                                              ?.toLowerCase()
-                                              .includes(
-                                                searchTerm1?.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
-
-                                            return (
-                                              <li key={option.value}>
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
+                                    <input
+                                      type="text"
+                                      className="form-control mb-3"
+                                      placeholder="Search..."
+                                      value={searchTerm1}
+                                      onChange={(e) =>
+                                        setSearchTerm1(e.target.value)
+                                      }
+                                      style={{ maxWidth: "100%" }}
+                                    />
+                                    <ul className="more_choice_main_list">
+                                      {districtOptions
+                                        .slice(6)
+                                        .filter((option) =>
+                                          option.label
+                                            ?.toLowerCase()
+                                            .includes(
+                                              searchTerm1?.toLowerCase()
+                                            )
+                                        )
+                                        .map((option) => {
+                                          const isChecked =
+                                            selectedDistricts.some(
+                                              (district) =>
+                                                district.DISTRICT_ID ===
+                                                option.value
                                             );
-                                          })}
-                                      </ul>
-                                    </div>
+
+                                          return (
+                                            <li key={option.value}>
+                                              <label className="d-flex align-items-center gap-2">
+                                                <input
+                                                  type="checkbox"
+                                                  checked={isChecked}
+                                                  onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                      setSelectedDistricts(
+                                                        (prev) => [
+                                                          ...prev,
+                                                          {
+                                                            REGION_ID:
+                                                              option.regionId,
+                                                            CITY_ID:
+                                                              option.cityId,
+                                                            DISTRICT_ID:
+                                                              option.value,
+                                                          },
+                                                        ]
+                                                      );
+                                                    } else {
+                                                      setSelectedDistricts(
+                                                        (prev) =>
+                                                          prev.filter(
+                                                            (district) =>
+                                                              district.DISTRICT_ID !==
+                                                              option.value
+                                                          )
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                <span
+                                                  style={{
+                                                    cursor: "pointer",
+                                                  }}
+                                                >
+                                                  {option.label}
+                                                </span>
+                                              </label>
+                                            </li>
+                                          );
+                                        })}
+                                    </ul>
 
                                     {/* Selection Count */}
                                     {selectedDistricts.length > 0 && (
