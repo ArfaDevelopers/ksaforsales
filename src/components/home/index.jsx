@@ -953,23 +953,23 @@ const Home = () => {
                     index === currentImageIndex ? "active" : ""
                   }`}
                 >
-                  <Link to="/login">
-                    <img
-                      src={img}
-                      className="d-block"
-                      alt={`Slide ${index + 1}`}
-                      style={{
-                        width: "100%",
-                        height: isMobile ? "auto" : isTablet ? "300px" : "auto",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                        // marginTop: isMobile ? "120px" : "200px",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        maxWidth: "100%",
-                      }}
-                    />
-                  </Link>
+                  {/* <Link to="/login"> */}
+                  <img
+                    src={img}
+                    className="d-block"
+                    alt={`Slide ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: isMobile ? "auto" : isTablet ? "300px" : "auto",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                      // marginTop: isMobile ? "120px" : "200px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      maxWidth: "100%",
+                    }}
+                  />
+                  {/* </Link> */}
                 </div>
               );
             })}
