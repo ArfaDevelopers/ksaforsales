@@ -177,6 +177,9 @@ const Header = ({ parms }) => {
   }, []);
 
   const navigate = useNavigate();
+  const handleNotificationClick = () => {
+    navigate("/messages");
+  };
   const [userId, setUserId] = useState("");
   const [drops, setDrops] = useState(false);
   const [divideName, setDivideName] = useState(null);
@@ -2431,6 +2434,7 @@ const Header = ({ parms }) => {
                           >
                             {notifications.map((note, index) => (
                               <li
+                                onClick={handleNotificationClick}
                                 key={note.id || index}
                                 className={`mb-3 p-3 border rounded shadow-sm ${
                                   note.seen ? "bg-light" : "bg-warning-subtle"
