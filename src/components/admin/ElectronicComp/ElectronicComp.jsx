@@ -3642,10 +3642,7 @@ const ElectronicComp = () => {
                                   }`}
                                   tabIndex="-1"
                                   role="dialog"
-                                  style={{
-                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                    marginTop: 100,
-                                  }} // Backdrop effect
+                                  style={{ marginTop: 100 }} // Removed backgroundColor
                                 >
                                   <div
                                     className="modal-dialog modal-dialog-centered"
@@ -3666,7 +3663,7 @@ const ElectronicComp = () => {
                                         <Mesagedeals
                                           userId={userId}
                                           recieverId={receiverId}
-                                          fullWidth={true} // :point_left: Add this prop
+                                          fullWidth={true}
                                         />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
@@ -3675,33 +3672,9 @@ const ElectronicComp = () => {
                                           </p>
                                         </div>
                                       )}
-                                      {/* <div className="modal-body">
-                                                  <div className="p-4 w-full max-w-lg mx-auto">
-                                                    {currentUserId && receiverId ? (
-                                                      <Chat
-                                                        userId={currentUserId}
-                                                        recieverId={receiverId}
-                                                      />
-                                                    ) : (
-                                                      <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                                        <p className="text-lg font-semibold text-gray-600">
-                                                          Please log in to start
-                                                          messaging.
-                                                        </p>
-                                                      </div>
-                                                    )}
-                                                  </div>
-                                                </div> */}
                                     </div>
                                   </div>
                                 </div>
-
-                                {showModal && (
-                                  <div
-                                    className="modal-backdrop fade show"
-                                    onClick={() => setShowModal(false)}
-                                  ></div>
-                                )}
                               </div>
                             </Card.Body>
                           </Col>
