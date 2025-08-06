@@ -58,7 +58,7 @@ const Listing = () => {
         <div
           className="dashboard-content"
           style={{
-            marginTop: "8rem",
+            marginTop: "5rem",
           }}
         >
           <div className="container">

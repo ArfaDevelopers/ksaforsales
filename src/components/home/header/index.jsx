@@ -62,7 +62,7 @@ const Header = ({ parms }) => {
     setIsOpen(!isOpen);
   };
   const [notifications, setNotifications] = useState([]);
-
+  console.log(notifications, "notifications______");
   const formatDate = (createdAt) => {
     if (!createdAt || !createdAt._seconds) return "";
     const date = new Date(createdAt._seconds * 1000);

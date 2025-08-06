@@ -73,6 +73,13 @@
   /* bottom: 0; */
   z-index: 2;
 }
+.messages-form .select__value-container {
+  padding: 0 15px;
+}
+.messages-form .select__input-container {
+  padding: 0;
+  margin: 0;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;
