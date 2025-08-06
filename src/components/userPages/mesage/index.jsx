@@ -41,6 +41,31 @@ export default function Message() {
   const dummy = useRef();
   const navigate = useNavigate();
   const location = useLocation();
+  const [productData, setProductData] = useState(null); // 🔹 Step 1: State for product data
+
+  console.log(productData, "No such __messagesmessages");
+  useEffect(() => {
+    const messageWithProductId = messages.find((msg) => msg.productIds);
+    if (messageWithProductId) {
+      console.log("Product ID:", messageWithProductId.productIds);
+
+      fetch("http://168.231.80.24:9002/api/dataofmessager", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: messageWithProductId.productIds }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setProductData(data); // 🔹 Step 2: Set product data in state
+          console.log("Filtered product data:", data);
+        })
+        .catch((error) => {
+          console.error("Error fetching product data:", error);
+        });
+    }
+  }, [messages]);
 
   const handleLogout = async () => {
     try {
@@ -214,9 +239,9 @@ export default function Message() {
           </div>
         </div>
       </div>
-
       <Container className="mb-3">
         <Row className="gap-3 gap-lg-0">
+          {/* Sidebar */}
           <Col lg={3}>
             <div className="chats_btn_wrap_main">
               <h5 className="chat_heading">Chats</h5>
@@ -246,11 +271,13 @@ export default function Message() {
             </div>
           </Col>
 
+          {/* Main Chat Area */}
           <Col lg={9} className="d-flex flex-column">
             <div className="chat_messages_main_wrap">
               <div className="title_wrap">
                 <h5>Chat with {selected ? selected.name : "..."}</h5>
               </div>
+
               <div
                 className="flex-grow-1 p-3 bg-light overflow-auto"
                 style={{ height: "600px" }}
@@ -260,38 +287,74 @@ export default function Message() {
                 ) : messages.length === 0 ? (
                   <Alert>No messages yet.</Alert>
                 ) : (
-                  messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className={`d-flex mb-2 ${
-                        msg.uid === user.uid
-                          ? "justify-content-end"
-                          : "justify-content-start"
-                      }`}
-                    >
+                  <>
+                    {/* 🔹 Product Data Display (only once) */}
+                    {productData && (
+                      <div className="mb-3 p-3 border bg-white rounded shadow-sm">
+                        <h6 className="mb-2 text-primary">
+                          📦 Linked Product Info
+                        </h6>
+                        <div>
+                          <strong>Title:</strong> {productData.title}
+                        </div>
+                        <div>
+                          <strong>Category:</strong> {productData.category}
+                        </div>
+                        <div>
+                          <strong>Price:</strong> {productData.Price}
+                        </div>
+                        {productData.galleryImages?.length > 0 && (
+                          <img
+                            src={productData.galleryImages[0]}
+                            alt="Product"
+                            style={{
+                              width: "120px",
+                              height: "auto",
+                              marginTop: "10px",
+                              borderRadius: "6px",
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
+
+                    {/* 🔹 Chat Messages */}
+                    {messages.map((msg) => (
                       <div
-                        className={`p-2 rounded ${
+                        key={msg.id}
+                        className={`d-flex mb-2 ${
                           msg.uid === user.uid
-                            ? "bg-primary text-white"
-                            : "bg-white border"
+                            ? "justify-content-end"
+                            : "justify-content-start"
                         }`}
                       >
-                        <div>
-                          <small className="fw-bold">{msg.name}</small>{" "}
-                          <small className="ms-2">
-                            {formatTime(msg.createdAt)}
-                            {msg.uid !== user.uid && msg.seen && (
-                              <span className="ms-2">✓✓</span>
-                            )}
-                          </small>
+                        <div
+                          className={`p-2 rounded ${
+                            msg.uid === user.uid
+                              ? "bg-primary text-white"
+                              : "bg-white border"
+                          }`}
+                        >
+                          <div>
+                            <small className="fw-bold">{msg.name}</small>{" "}
+                            <small className="ms-2">
+                              {formatTime(msg.createdAt)}
+                              {msg.uid !== user.uid && msg.seen && (
+                                <span className="ms-2">✓✓</span>
+                              )}
+                            </small>
+                          </div>
+                          <div>{msg.text}</div>
                         </div>
-                        <div>{msg.text}</div>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                  </>
                 )}
+
                 <div ref={dummy} />
               </div>
+
+              {/* Input Field */}
               <div className="p-3 border-top bg-white">
                 <Form onSubmit={handleSend}>
                   <InputGroup>

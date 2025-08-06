@@ -566,6 +566,8 @@ const AutomotiveComp = () => {
   const [showModalCarBrand, setShowModalCarBrand] = useState(false);
 
   const [receiverId, setReceiverId] = useState(null);
+  const [productIds, setproductIds] = useState(null);
+
   // useEffect(() => {
   //   setSearchQuery(searchText); // Update searchQuery from searchText
   // }, [searchText]);
@@ -2262,10 +2264,12 @@ const AutomotiveComp = () => {
   //   selectedDistricts,
   //   refresh,
   // ]);
-  const handleShowModal = (userId) => {
+  const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
+    setproductIds(productIds);
+
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
@@ -14214,7 +14218,9 @@ const AutomotiveComp = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => handleShowModal(car.userId)}
+                                  onClick={() =>
+                                    handleShowModal(car.userId, car.id)
+                                  }
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -14369,6 +14375,7 @@ const AutomotiveComp = () => {
                                       {userId && receiverId ? (
                                         <Mesagedeals
                                           productId={car.id}
+                                          productIds={productIds}
                                           userId={userId}
                                           recieverId={receiverId}
                                           fullWidth={true}

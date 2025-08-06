@@ -33,7 +33,9 @@ function Mesagedeals(props) {
   const [formValue, setFormValue] = useState("");
   const [sending, setSending] = useState(false);
   const dummy = useRef();
-  console.log(messages, "No such __messages");
+  console.log(props.productIds, "No such __messages");
+  console.log(messages, "No such __messagesmessages");
+
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(setUser);
     return () => unsub();
@@ -106,6 +108,8 @@ function Mesagedeals(props) {
         text: formValue.trim(),
         createdAt: serverTimestamp(),
         uid: user.uid,
+        productIds: props.productIds,
+
         recieverId: props.recieverId,
         name: user.displayName || user.fullName || "Anonymous",
         photoURL: user.photoURL || "",
