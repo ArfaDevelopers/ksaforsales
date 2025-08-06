@@ -53,7 +53,7 @@ const Header = ({ parms }) => {
 
   const [menu, setMenu] = useState(false);
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
-  // var token = localStorage.getItem("user");
+  var useraa = localStorage.getItem("user");
   const token = auth.currentUser;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,43 +66,51 @@ const Header = ({ parms }) => {
   const formatDate = (createdAt) => {
     if (!createdAt || !createdAt._seconds) return "";
     const date = new Date(createdAt._seconds * 1000);
-    return date.toLocaleString(); // e.g., "8/4/2025, 10:24 AM"
+    return date.toLocaleString();
+  };
+  const unseenCount = notifications.filter(
+    (note) => note.seen === false
+  ).length;
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch(
+        "http://168.231.80.24:9002/currentUserData/receivedMessages",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: useraa,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      setNotifications(data?.messages || []);
+    } catch (error) {
+      console.error("Failed to fetch notifications:", error);
+      setNotifications([]);
+    }
   };
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/currentUserData/receivedMessages",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId: "xuo3iX8sQye2TT09WbW9OwnG0dB2",
-            }),
-          }
-        );
-
-        const data = await response.json();
-        if (data?.messages?.length > 0) {
-          setNotifications(data.messages);
-        } else {
-          setNotifications([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch notifications:", error);
-        setNotifications([]);
-      }
-    };
-
+    // Fetch once on load
     fetchNotifications();
+
+    // Set up polling every 5 seconds
+    const intervalId = setInterval(() => {
+      fetchNotifications();
+    }, 5000); // 5000ms = 5 seconds
+
+    // Cleanup when component unmounts
+    return () => clearInterval(intervalId);
   }, []);
 
   // Filter for unseen messages
   const unseenNotifications = notifications.filter((note) => !note.seen);
-  const unseenCount = unseenNotifications.length;
+  // const unseenCount = unseenNotifications.length;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -2417,41 +2425,41 @@ const Header = ({ parms }) => {
                             ></button>
                           </div>
 
-                          <div className="px-4 py-3">
-                            {notifications.length === 0 ? (
-                              <p className="text-secondary text-center">
-                                No notifications to show.
-                              </p>
-                            ) : (
-                              <ul
-                                className="list-unstyled overflow-auto"
-                                style={{ maxHeight: "400px" }}
+                          <ul
+                            className="list-unstyled overflow-auto"
+                            style={{ maxHeight: "400px" }}
+                          >
+                            {notifications.map((note, index) => (
+                              <li
+                                key={note.id || index}
+                                className={`mb-3 p-3 border rounded shadow-sm ${
+                                  note.seen ? "bg-light" : "bg-warning-subtle"
+                                }`}
                               >
-                                {notifications.map((note, index) => (
-                                  <li
-                                    key={note.id || index}
-                                    className={`mb-3 p-3 border rounded shadow-sm ${
-                                      note.seen
-                                        ? "bg-light"
-                                        : "bg-warning-subtle" // Highlight unseen messages
-                                    }`}
-                                  >
-                                    <div className="d-flex justify-content-between mb-1">
-                                      <span className="fw-medium text-dark">
-                                        {note.name}
+                                <div className="d-flex justify-content-between mb-1 align-items-center">
+                                  <span className="fw-medium text-dark">
+                                    {note.name}
+                                  </span>
+
+                                  <div className="d-flex gap-2 align-items-center">
+                                    {/* ✅ Show "Unseen" badge if not seen */}
+                                    {!note.seen && (
+                                      <span className="badge bg-danger text-white">
+                                        1
                                       </span>
-                                      <small className="text-muted">
-                                        {formatDate(note.createdAt)}
-                                      </small>
-                                    </div>
-                                    <p className="mb-0 text-secondary">
-                                      {note.text}
-                                    </p>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
+                                    )}
+                                    <small className="text-muted">
+                                      {formatDate(note.createdAt)}
+                                    </small>
+                                  </div>
+                                </div>
+
+                                <p className="mb-0 text-secondary">
+                                  {note.text}
+                                </p>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
                     )}
