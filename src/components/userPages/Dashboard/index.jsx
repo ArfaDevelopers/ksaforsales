@@ -460,7 +460,7 @@ const Dashboard = () => {
         );
         const data = await response.json();
         console.log("Total Messages:", data);
-        setMessage(data.totalMessages);
+        setMessage(data.unseenMessagesCount);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
