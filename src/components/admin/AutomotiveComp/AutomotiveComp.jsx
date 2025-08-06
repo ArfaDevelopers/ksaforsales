@@ -14339,6 +14339,7 @@ const AutomotiveComp = () => {
                                 `}</style>
                               </div>
                               <div>
+                                {/* Modal */}
                                 <div
                                   className={`modal fade ${
                                     showModal ? "show d-block" : "d-none"
@@ -14346,9 +14347,8 @@ const AutomotiveComp = () => {
                                   tabIndex="-1"
                                   role="dialog"
                                   style={{
-                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                    marginTop: 100,
-                                  }} // Backdrop effect
+                                    pointerEvents: showModal ? "auto" : "none", // allows interaction only when shown
+                                  }}
                                 >
                                   <div
                                     className="modal-dialog modal-dialog-centered"
@@ -14365,12 +14365,13 @@ const AutomotiveComp = () => {
                                           onClick={() => setShowModal(false)}
                                         ></button>
                                       </div>
+
                                       {userId && receiverId ? (
                                         <Mesagedeals
                                           productId={car.id}
                                           userId={userId}
                                           recieverId={receiverId}
-                                          fullWidth={true} // :point_left: Add this prop
+                                          fullWidth={true}
                                         />
                                       ) : (
                                         <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
@@ -14379,33 +14380,17 @@ const AutomotiveComp = () => {
                                           </p>
                                         </div>
                                       )}
-                                      {/* <div className="modal-body">
-                                        <div className="p-4 w-full max-w-lg mx-auto">
-                                          {currentUserId && receiverId ? (
-                                            <Chat
-                                              userId={currentUserId}
-                                              recieverId={receiverId}
-                                            />
-                                          ) : (
-                                            <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                              <p className="text-lg font-semibold text-gray-600">
-                                                Please log in to start
-                                                messaging.
-                                              </p>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div> */}
                                     </div>
                                   </div>
                                 </div>
 
-                                {showModal && (
-                                  <div
-                                    className="modal-backdrop fade show"
-                                    onClick={() => setShowModal(false)}
-                                  ></div>
-                                )}
+                                {/* ✅ Remove this manual backdrop */}
+                                {/* {showModal && (
+    <div
+      className="modal-backdrop fade show"
+      onClick={() => setShowModal(false)}
+    ></div>
+  )} */}
                               </div>
                             </Card.Body>
                           </Col>
