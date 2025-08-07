@@ -242,6 +242,7 @@ const ElectronicComp = () => {
   const [CityList, setCityList] = useState([]);
   const [cities, setCities] = useState([]);
   const [searchCityText, setSearchCityText] = useState("");
+  const [productIds, setproductIds] = useState(null);
 
   console.log(selectedCities, "Fetched cities:1");
   console.log(cities, "Fetched cities:1cities");
@@ -1432,10 +1433,12 @@ const ElectronicComp = () => {
   //   fetchElectronics();
   // }, [searchText, refresh]);
 
-  const handleShowModal = (userId) => {
+  const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
+    setproductIds(productIds);
+
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
@@ -3511,7 +3514,9 @@ const ElectronicComp = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => handleShowModal(car.userId)}
+                                  onClick={() =>
+                                    handleShowModal(car.userId, car.id)
+                                  }
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -3662,6 +3667,7 @@ const ElectronicComp = () => {
                                       {userId && receiverId ? (
                                         <Mesagedeals
                                           userId={userId}
+                                          productIds={productIds}
                                           recieverId={receiverId}
                                           fullWidth={true}
                                         />

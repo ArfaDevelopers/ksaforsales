@@ -290,7 +290,41 @@ export default function Message() {
                   <>
                     {/* 🔹 Product Data Display (only once) */}
                     {productData && (
-                      <div className="mb-3 p-3 border bg-white rounded shadow-sm">
+                      <div
+                        // onClick={() => navigate("/AutomotiveComp")}
+                        onClick={() => {
+                          navigate(
+                            `/Dynamic_Route?id=${productData.id}&callingFrom=${
+                              productData.category === "Motors"
+                                ? "AutomotiveComp"
+                                : productData.category === "Electronics"
+                                ? "ElectronicComp"
+                                : productData.category === "Fashion Style"
+                                ? "FashionStyle"
+                                : productData.category === "Home & Furnituer"
+                                ? "HealthCareComp"
+                                : productData.category === "Job Board"
+                                ? "JobBoard"
+                                : productData.category === "Real Estate"
+                                ? "RealEstateComp"
+                                : productData.category === "Services"
+                                ? "TravelComp"
+                                : productData.category === "Sports & Game"
+                                ? "SportGamesComp"
+                                : productData.category === "Pet & Animals"
+                                ? "PetAnimalsComp"
+                                : productData.category === "Other"
+                                ? "Education"
+                                : ""
+                            }`
+                          );
+                          console.log(
+                            "Product clickedcategory",
+                            productData.category
+                          );
+                        }}
+                        className="mb-3 p-3 border bg-white rounded shadow-sm"
+                      >
                         <h6 className="mb-2 text-primary">
                           📦 Linked Product Info
                         </h6>

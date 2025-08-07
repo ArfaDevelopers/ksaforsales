@@ -3665,6 +3665,8 @@ form.filter_innerwrap .accordion-item {
   width: 124px !important;
   height: 69px !important;
   border-radius: 8px !important;
+  object-fit: cover;
+  object-position: top;
 }
 .filter_card_main .card-body .user_profile_block p {
   margin-top: 49px;

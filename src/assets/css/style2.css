@@ -80,6 +80,9 @@
   padding: 0;
   margin: 0;
 }
+.profileinner_container img {
+  object-position: top;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;

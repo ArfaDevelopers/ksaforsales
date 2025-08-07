@@ -5935,7 +5935,6 @@ const Dynamic_Route = () => {
                               role="dialog"
                               style={{
                                 backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                marginTop: 100,
                               }} // Backdrop effect
                             >
                               <div

@@ -132,6 +132,7 @@ const Education = () => {
   const [selectedToyotaLocations, setSelectedToyotaLocations] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
   const [receiverId, setReceiverId] = useState(null);
+  const [productIds, setproductIds] = useState(null);
 
   const user = auth.currentUser;
   const currentUserId = user?.uid;
@@ -1465,10 +1466,12 @@ const Education = () => {
   //   fetchCars();
   // }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
 
-  const handleShowModal = (userId) => {
+  const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
+    setproductIds(productIds);
+
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
@@ -3513,7 +3516,9 @@ const Education = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => handleShowModal(car.userId)}
+                                  onClick={() =>
+                                    handleShowModal(car.userId, car.id)
+                                  }
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -3667,6 +3672,7 @@ const Education = () => {
                                       {userId && receiverId ? (
                                         <Mesagedeals
                                           userId={userId}
+                                          productIds={productIds}
                                           recieverId={receiverId}
                                           fullWidth={true} // :point_left: Add this prop
                                         />

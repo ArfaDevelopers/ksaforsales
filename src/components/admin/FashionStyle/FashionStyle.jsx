@@ -558,6 +558,7 @@ const FashionStyle = () => {
   const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
   const { id } = useParams();
   const [receiverId, setReceiverId] = useState(null);
+  const [productIds, setproductIds] = useState(null);
 
   const user = auth.currentUser;
   const currentUserId = user?.uid;
@@ -1542,10 +1543,12 @@ const FashionStyle = () => {
 
     fetchCars();
   }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
-  const handleShowModal = (userId) => {
+  const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
+    setproductIds(productIds);
+
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
@@ -3919,7 +3922,9 @@ const FashionStyle = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => handleShowModal(car.userId)}
+                                  onClick={() =>
+                                    handleShowModal(car.userId, car.id)
+                                  }
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -4073,6 +4078,7 @@ const FashionStyle = () => {
                                       {userId && receiverId ? (
                                         <Mesagedeals
                                           userId={userId}
+                                          productIds={productIds}
                                           recieverId={receiverId}
                                           fullWidth={true} // :point_left: Add this prop
                                         />

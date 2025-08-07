@@ -102,6 +102,7 @@ const SPORTSGAMESComp = () => {
   const [activePhoneIndex, setActivePhoneIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
+  const [productIds, setproductIds] = useState(null);
 
   const user = auth.currentUser;
   const currentUserId = user?.uid;
@@ -1475,10 +1476,12 @@ const SPORTSGAMESComp = () => {
   //   fetchCars();
   // }, [searchText, refresh, selectedRegion, selectedCities, selectedDistricts]);
 
-  const handleShowModal = (userId) => {
+  const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
     console.log("Opening modal for Current User ID:", currentUserId); // Debug
     setReceiverId(userId);
+    setproductIds(productIds);
+
     setShowModal(true);
     // You can store the userId in state if needed, e.g., setSelectedUserId(userId);
   };
@@ -3533,7 +3536,9 @@ const SPORTSGAMESComp = () => {
                                         ? "150px"
                                         : "auto",
                                   }}
-                                  onClick={() => handleShowModal(car.userId)}
+                                  onClick={() =>
+                                    handleShowModal(car.userId, car.id)
+                                  }
                                 >
                                   <MdMessage />
                                   <span className="button-text">Message</span>
@@ -3686,6 +3691,7 @@ const SPORTSGAMESComp = () => {
                                       </div>
                                       {userId && receiverId ? (
                                         <Mesagedeals
+                                          productIds={productIds}
                                           userId={userId}
                                           recieverId={receiverId}
                                           fullWidth={true} // :point_left: Add this prop
