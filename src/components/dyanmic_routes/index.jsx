@@ -405,6 +405,7 @@ const Dynamic_Routes = () => {
     };
   }, []);
   const [adsDetailImagesContent, setAdsdetailImagesContent] = useState([]);
+  console.log(adsDetailImagesContent, "adsDetailImagesContent_____________");
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, "AdsdetailImages"), // Fetch data from the "AdsdetailImages" table/collection
@@ -1863,23 +1864,37 @@ const Dynamic_Routes = () => {
                       padding: "0",
                     }}
                   >
-                    <div className="d-flex flex-column gap-3 mt-0 ms-0">
+                    <div className="d-flex flex-column gap-3 ms-0">
                       {adsDetailImagesContent.length > 0 &&
                         adsDetailImagesContent[0].imageUrls.map(
-                          (imageUrl, index) => (
-                            <img
-                              key={index}
-                              src={imageUrl}
-                              alt={`Image ${index + 1}`}
-                              className="rounded shadow"
-                              style={{
-                                width:
-                                  window.innerWidth <= 576 ? "100%" : "100%",
-                                height: "300px",
-                                objectFit: "cover",
-                              }}
-                            />
-                          )
+                          (imageUrl, index) => {
+                            const link =
+                              adsDetailImagesContent[0].links[index]?.trim(); // remove any extra spaces
+                            return (
+                              <a
+                                key={index}
+                                href={link || "#"}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ textDecoration: "none" }}
+                              >
+                                <img
+                                  src={imageUrl}
+                                  alt={`Image ${index + 1}`}
+                                  className="rounded shadow"
+                                  style={{
+                                    width:
+                                      window.innerWidth <= 576
+                                        ? "100%"
+                                        : "100%",
+                                    height: "300px",
+                                    objectFit: "cover",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              </a>
+                            );
+                          }
                         )}
                     </div>
                   </Card.Body>
