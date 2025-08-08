@@ -141,6 +141,7 @@ const AddLisiting = () => {
     Area: "",
 
     bathrooms: "",
+    brand: "",
 
     Fueltype: [], // now an array
 
@@ -1831,6 +1832,9 @@ const AddLisiting = () => {
             title: data.title || "",
             twitter: data.twitter || "",
             userId: data.userId || "",
+            brand: data.brand || "",
+            Model: data.Model || "",
+
             galleryImages: data.galleryImages || [],
             RegionName: RegionName || "",
 
@@ -1847,6 +1851,7 @@ const AddLisiting = () => {
           setGalleryImages(data.galleryImages || []);
           setSelectedRegionName(data.RegionName || "");
           setSelectedRegionId(data.regionId || "");
+
           setSelectedCityData({
             cityId: data.CITY_ID || null,
             regionId: data.regionId || null,
