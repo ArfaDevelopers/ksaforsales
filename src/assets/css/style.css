@@ -3596,7 +3596,7 @@ a:focus {
 .head2btflex {
   display: flex !important;
   flex-direction: row !important;
-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 /* Filter css starts */
 form.filter_innerwrap {
@@ -3639,18 +3639,19 @@ form.filter_innerwrap .accordion-item {
   gap: 0.5rem !important;
   margin-bottom: 0.5rem !important;
 }
-.filter_main_wrap .form-check input{
+.filter_main_wrap .form-check input {
   margin-top: 0 !important;
 }
 .filter_main_wrap label.form-check-label {
   margin-bottom: 0;
 }
-.more_choice_main_list li{
+.more_choice_main_list li {
   margin-bottom: 5px !important;
 }
 .filter_card_main .title_head {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .filter_card_main .card-body {
   position: relative;
@@ -3681,10 +3682,11 @@ form.filter_innerwrap .accordion-item {
 .filter_card_main p.car_desc {
   text-wrap: trim-end;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   width: 400px;
+  height: 97px;
 }
 .filter_outterwrap .more_optn_modal_main {
   z-index: 99999;
@@ -17039,11 +17041,11 @@ section.advertisement {
   padding: 40px 0 0;
 }
 .footer-logo {
-  margin-bottom:0px;
+  margin-bottom: 0px;
 }
-.footer-logo img{
-width: 100%;
-max-width: 110px;
+.footer-logo img {
+  width: 100%;
+  max-width: 110px;
 }
 .footer-title {
   color: black;
@@ -22891,7 +22893,7 @@ box-shadow: 0px 0px 4px #000000;
 }
 
 .info_table {
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .info_tr {
@@ -23347,7 +23349,6 @@ height: 400px;
   }
 }
 @media (max-width: 767.98px) {
-
   .section-title {
     font-size: 20px;
     margin-bottom: 10px;

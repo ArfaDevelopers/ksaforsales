@@ -83,6 +83,13 @@
 .profileinner_container img {
   object-position: top;
 }
+.filter_card_main .head2btflex {
+  margin-top: 0 !important;
+}
+.filter_card_main .head2btflex .blue_btn,
+.filter_card_main .head2btflex .sign-in-button {
+  margin-top: 0 !important;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;
@@ -95,12 +102,42 @@
   }
 }
 @media screen and (max-width: 1024px) {
+  .filter_card_main p.car_desc {
+    height: 27px;
+  }
   .filter_card_main_wrap .card-img {
-    height: 100% !important;
+    height: 275px !important;
+  }
+  .filter_card_main .head2btflex {
+    margin-top: 10px !important;
+  }
+  .blue_btn.list_btn {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+}
+@media screen and (max-width: 991px) {
+}
+@media screen and (max-width: 767px) {
+  .filter_card_main p.car_desc {
+    width: auto;
+    height: auto;
+  }
+  .filter_card_main .head2btflex {
+    margin-top: 10px !important;
   }
 }
 @media screen and (max-width: 480px) {
   .parent-main.category {
     margin-top: 7rem !important;
+  }
+  .blue_btn.list_btn {
+    width: auto !important;
+  }
+  .blue_btn.list_btn svg {
+    margin: 0 !important;
+  }
+  .blue_btn.list_btn span {
+    display: none !important;
   }
 }
