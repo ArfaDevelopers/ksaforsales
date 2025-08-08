@@ -1317,24 +1317,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -1349,7 +1352,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -1771,24 +1773,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -1803,7 +1808,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -2223,24 +2227,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -2255,7 +2262,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -2675,21 +2681,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a href={`tel:${itemData.Phone}`}>
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -2704,7 +2716,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -3124,24 +3135,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -3156,7 +3170,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -3576,24 +3589,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -3608,7 +3624,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4028,24 +4043,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -4060,7 +4078,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4480,24 +4497,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -4512,7 +4532,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4932,24 +4951,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -4964,7 +4986,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -5384,24 +5405,27 @@ const Dynamic_Route = () => {
                                   window.innerWidth <= 576 ? "70px" : "0px",
                               }}
                             >
-                              <a
-                                disabled={itemData.showNumberChecked}
-                                href={`tel:${itemData.Phone}`}
-                              >
-                                <button
+                              {itemData.showNumberChecked ? (
+                                ""
+                              ) : (
+                                <a
                                   disabled={itemData.showNumberChecked}
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "expanded" : ""
-                                  }`}
-                                  onClick={() => setShowPhone(true)}
+                                  href={`tel:${itemData.Phone}`}
                                 >
-                                  <FaPhoneAlt />
-                                  <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
-                                  </span>
-                                </button>
-                              </a>
-
+                                  <button
+                                    disabled={itemData.showNumberChecked}
+                                    className={`blue_btn list_btn ${
+                                      showPhone ? "expanded" : ""
+                                    }`}
+                                    onClick={() => setShowPhone(true)}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>
+                                      {showPhone ? itemData.Phone : "Call Now"}
+                                    </span>
+                                  </button>
+                                </a>
+                              )}{" "}
                               <a
                                 href={`https://wa.me/${itemData.whatsapp}`}
                                 target="_blank"
@@ -5416,7 +5440,6 @@ const Dynamic_Route = () => {
                                   <span className="button-text">WhatsApp</span>
                                 </button>
                               </a>
-
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -5840,24 +5863,27 @@ const Dynamic_Route = () => {
 
                         <div className="col-12 mt-3 innerContainer2">
                           <div className="d-flex align-items-center gap-2 innerContainer2 head2btflex card_btn_wrap">
-                            <a
-                              disabled={itemData.showNumberChecked}
-                              href={`tel:${itemData.Phone}`}
-                            >
-                              <button
+                            {itemData.showNumberChecked ? (
+                              ""
+                            ) : (
+                              <a
                                 disabled={itemData.showNumberChecked}
-                                className={`blue_btn list_btn ${
-                                  showPhone ? "expanded" : ""
-                                }`}
-                                onClick={() => setShowPhone(true)}
+                                href={`tel:${itemData.Phone}`}
                               >
-                                <FaPhoneAlt />
-                                <span>
-                                  {showPhone ? itemData.Phone : "Call Now"}
-                                </span>
-                              </button>
-                            </a>
-
+                                <button
+                                  disabled={itemData.showNumberChecked}
+                                  className={`blue_btn list_btn ${
+                                    showPhone ? "expanded" : ""
+                                  }`}
+                                  onClick={() => setShowPhone(true)}
+                                >
+                                  <FaPhoneAlt />
+                                  <span>
+                                    {showPhone ? itemData.Phone : "Call Now"}
+                                  </span>
+                                </button>
+                              </a>
+                            )}{" "}
                             <a
                               href={`https://wa.me/${itemData.whatsapp}`}
                               target="_blank"
@@ -5872,7 +5898,6 @@ const Dynamic_Route = () => {
                                 <span className="button-text">WhatsApp</span>
                               </button>
                             </a>
-
                             <button
                               className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""
@@ -5882,7 +5907,6 @@ const Dynamic_Route = () => {
                               <MdMessage />
                               <span className="button-text">Message</span>
                             </button>
-
                             <style jsx>{`
                               .blue_btn list_btn {
                                 background-color: #0055a5; /* Blue background color matching the image */

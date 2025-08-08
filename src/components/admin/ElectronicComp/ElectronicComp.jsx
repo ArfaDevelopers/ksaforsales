@@ -3444,18 +3444,45 @@ const ElectronicComp = () => {
                               </Col>
                               <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
-                                <div className="call-now-wrapper">
-                                  {isActive ? (
-                                    <a
-                                      className="call-now-link"
-                                      href={`tel:${car.Phone}`}
-                                      onClick={(e) => {
-                                        // Allow call to proceed
-                                        setActivePhoneIndex(null); // Close after call
-                                      }}
-                                    >
+                                {car.showNumberChecked ? (
+                                  ""
+                                ) : (
+                                  <div className="call-now-wrapper">
+                                    {isActive ? (
+                                      <a
+                                        className="call-now-link"
+                                        href={`tel:${car.Phone}`}
+                                        onClick={(e) => {
+                                          // Allow call to proceed
+                                          setActivePhoneIndex(null); // Close after call
+                                        }}
+                                      >
+                                        <button
+                                          className={`sign-in-button expanded`}
+                                          style={{
+                                            marginTop:
+                                              window.innerWidth <= 576
+                                                ? "10px"
+                                                : "50px",
+                                            width:
+                                              window.innerWidth <= 576
+                                                ? "150px"
+                                                : "auto",
+                                          }}
+                                          onClick={(e) => {
+                                            // Prevent this click from bubbling to body
+                                            e.stopPropagation();
+                                          }}
+                                        >
+                                          <FaPhoneAlt />
+                                          <span className="fw-semibold">
+                                            {car.Phone}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
                                       <button
-                                        className={`sign-in-button expanded`}
+                                        className={`blue_btn list_btn`}
                                         style={{
                                           marginTop:
                                             window.innerWidth <= 576
@@ -3467,40 +3494,16 @@ const ElectronicComp = () => {
                                               : "auto",
                                         }}
                                         onClick={(e) => {
-                                          // Prevent this click from bubbling to body
-                                          e.stopPropagation();
+                                          e.stopPropagation(); // prevent global listener
+                                          setActivePhoneIndex(index); // show phone
                                         }}
                                       >
                                         <FaPhoneAlt />
-                                        <span className="fw-semibold">
-                                          {car.Phone}
-                                        </span>
+                                        <span>Call Now</span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button
-                                      className={`blue_btn list_btn`}
-                                      style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "10px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
-                                      }}
-                                      onClick={(e) => {
-                                        e.stopPropagation(); // prevent global listener
-                                        setActivePhoneIndex(index); // show phone
-                                      }}
-                                    >
-                                      <FaPhoneAlt />
-                                      <span>Call Now</span>
-                                    </button>
-                                  )}
-                                </div>
-
+                                    )}
+                                  </div>
+                                )}{" "}
                                 {/* Message Button */}
                                 <button
                                   className={`blue_btn list_btn ${
@@ -3548,7 +3551,6 @@ const ElectronicComp = () => {
                                     </span>
                                   </button>
                                 </a>
-
                                 <button
                                   className={`sign-in-button`}
                                   style={{
@@ -3593,7 +3595,6 @@ const ElectronicComp = () => {
                                     }}
                                   />
                                 </button>
-
                                 {/* Consolidated styles for all buttons */}
                                 <style jsx>{`
                                   .sign-in-button {

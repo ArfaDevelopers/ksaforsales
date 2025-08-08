@@ -3855,35 +3855,38 @@ const TravelComp = () => {
                               </Col>
                               <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
                                 {/* Call Now Button */}
-                                <a href={`tel:${car.Phone}`}>
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      isActive ? "expanded" : ""
-                                    }`}
-                                    style={{
-                                      marginTop:
-                                        window.innerWidth <= 576
-                                          ? "10px"
-                                          : "50px",
-                                      width:
-                                        window.innerWidth <= 576
-                                          ? "150px"
-                                          : "auto",
-                                    }}
-                                    onClick={(e) => {
-                                      if (!isActive) {
-                                        e.preventDefault(); // Only prevent if not active
-                                        setActivePhoneIndex(index);
-                                      }
-                                    }}
-                                  >
-                                    <FaPhoneAlt />
-                                    <span>
-                                      {isActive ? car.Phone : "Call Now"}
-                                    </span>
-                                  </button>
-                                </a>
-
+                                {car.showNumberChecked ? (
+                                  ""
+                                ) : (
+                                  <a href={`tel:${car.Phone}`}>
+                                    <button
+                                      className={`blue_btn list_btn ${
+                                        isActive ? "expanded" : ""
+                                      }`}
+                                      style={{
+                                        marginTop:
+                                          window.innerWidth <= 576
+                                            ? "10px"
+                                            : "50px",
+                                        width:
+                                          window.innerWidth <= 576
+                                            ? "150px"
+                                            : "auto",
+                                      }}
+                                      onClick={(e) => {
+                                        if (!isActive) {
+                                          e.preventDefault(); // Only prevent if not active
+                                          setActivePhoneIndex(index);
+                                        }
+                                      }}
+                                    >
+                                      <FaPhoneAlt />
+                                      <span>
+                                        {isActive ? car.Phone : "Call Now"}
+                                      </span>
+                                    </button>
+                                  </a>
+                                )}{" "}
                                 {/* Message Button */}
                                 <button
                                   className={`blue_btn list_btn ${
@@ -3931,7 +3934,6 @@ const TravelComp = () => {
                                     </span>
                                   </button>
                                 </a>
-
                                 <button
                                   className={`sign-in-button`}
                                   style={{
@@ -3976,7 +3978,6 @@ const TravelComp = () => {
                                     }}
                                   />
                                 </button>
-
                                 {/* Consolidated styles for all buttons */}
                                 <style jsx>{`
                                   .sign-in-button {
