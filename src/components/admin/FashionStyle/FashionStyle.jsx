@@ -3572,48 +3572,49 @@ const FashionStyle = () => {
             </Col>
 
             <Col lg={9} className="filter_card_main_wrap">
-              <Row className="mb-3">
-                <Col>
-                  {/* <Form.Check type="checkbox" label="With Photos" /> */}
-                </Col>
-                <Col>
-                  {/* <Form.Check type="checkbox" label="With Price" /> */}
-                </Col>
-                <Col xs={12} sm={6} md={4} className="text-end">
-                  <Form.Select
-                    aria-label="Sort options"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setSortBy(e.target.value);
-                    }}
-                  >
-                    <option>Sort by: Most Relevant</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-              <div>
-                {loading ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100vh",
-                    }}
-                  >
-                    <img
-                      src={Loading1}
-                      alt="Loading..."
-                      style={{
-                        width: "200px",
-                        height: "200px",
-                        animation: "spin 1s linear infinite", // Apply the spin animation
+              <div className="filter_card_inner_wrap_block">
+                <Row className="mb-3">
+                  <Col>
+                    {/* <Form.Check type="checkbox" label="With Photos" /> */}
+                  </Col>
+                  <Col>
+                    {/* <Form.Check type="checkbox" label="With Price" /> */}
+                  </Col>
+                  <Col xs={12} sm={6} md={4} className="text-end">
+                    <Form.Select
+                      aria-label="Sort options"
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setSortBy(e.target.value);
                       }}
-                    />
-                    <style>
-                      {`
+                    >
+                      <option>Sort by: Most Relevant</option>
+                      <option>Price: Low to High</option>
+                      <option>Price: High to Low</option>
+                    </Form.Select>
+                  </Col>
+                </Row>
+                <div>
+                  {loading ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                      }}
+                    >
+                      <img
+                        src={Loading1}
+                        alt="Loading..."
+                        style={{
+                          width: "200px",
+                          height: "200px",
+                          animation: "spin 1s linear infinite", // Apply the spin animation
+                        }}
+                      />
+                      <style>
+                        {`
                       @keyframes spin {
                         from {
                           transform: rotate(0deg);
@@ -3623,198 +3624,201 @@ const FashionStyle = () => {
                         }
                       }
                     `}
-                    </style>
-                  </div>
-                ) : filteredCars.length > 0 ? (
-                  getPaginatedCars().map((car, index) => {
-                    const isActive = activePhoneIndex === index;
+                      </style>
+                    </div>
+                  ) : filteredCars.length > 0 ? (
+                    getPaginatedCars().map((car, index) => {
+                      const isActive = activePhoneIndex === index;
 
-                    return (
-                      <Card
-                        key={index}
-                        className="mt-3"
-                        style={{
-                          padding:
-                            window.innerWidth <= 576
-                              ? "10px 10px"
-                              : "30px 20px",
-                        }}
-                      >
-                        <Row className="g-0">
-                          <Col md={4} style={{ position: "relative" }}>
-                            {/* Featured Label */}
-                            {car.FeaturedAds === "Featured Ads" && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "10px",
-                                  left: "10px",
-                                  backgroundColor: "#36A680",
-                                  color: "white",
-                                  padding: "6px 12px",
-                                  fontWeight: "bold",
-                                  borderRadius: "8px",
-                                  border: "2px solid #2c8e6f",
-                                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
-                                  fontSize: "14px",
-                                  zIndex: 2,
-                                }}
-                              >
-                                Featured
-                              </div>
-                            )}
-                            {/* Heart Icon */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "10%",
-                                left: "90%",
-                                transform: "translate(-50%, -50%)",
-                                borderRadius: "50%",
-                                padding: "10px",
-                                zIndex: 3,
-                                cursor: "pointer",
-                              }}
-                              onClick={() => toggleBookmark(car.id)}
-                            >
-                              <FaHeart
-                                style={{
-                                  color:
-                                    car.bookmarked === true &&
-                                    car.userId === userId
-                                      ? "red"
-                                      : "gray",
-                                  fontSize: "30px",
-                                }}
-                              />{" "}
-                            </div>
-                            {popoverCarId === car.id && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "-30px",
-                                  left: "50%",
-                                  transform: "translateX(-50%)",
-                                  backgroundColor: "#333",
-                                  color: "#fff",
-                                  padding: "8px 12px",
-                                  borderRadius: "5px",
-                                  fontSize: "14px",
-                                  whiteSpace: "nowrap",
-                                  boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-                                }}
-                              >
-                                Please log in to bookmark
-                              </div>
-                            )}
-                            <Link
-                              onClick={() => handleView(car.id)}
-                              //  to={`/car-details/${ad.id}`}
-                              to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
-                            >
-                              {/* Image */}
-                              <Card.Img
-                                src={
-                                  car?.galleryImages[0] ||
-                                  "https://via.placeholder.com/150"
-                                }
-                                alt={car.title || "Car"}
-                                style={{
-                                  width: "100%",
-                                  height: "230px",
-                                  objectFit: "cover",
-                                  borderTopLeftRadius: "20px",
-                                  borderBottomLeftRadius: "20px",
-                                }}
-                              />
-                            </Link>
-                          </Col>
-
-                          <Col md={8} className="filter_card_main">
-                            <Card.Body>
-                              <Card.Title
-                                className="title_head"
-                                style={{
-                                  color: "#2D4495",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-2px" : "0px",
-                                }}
-                              >
-                                <Link
-                                  //  to={`/car-details/${ad.id}`}
-                                  to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
-                                >
-                                  {car.title || "Car"}
-                                </Link>
-                                <p
+                      return (
+                        <Card
+                          key={index}
+                          style={{
+                            padding:
+                              window.innerWidth <= 576
+                                ? "10px 10px"
+                                : "30px 20px",
+                          }}
+                        >
+                          <Row className="g-0">
+                            <Col md={4} style={{ position: "relative" }}>
+                              {/* Featured Label */}
+                              {car.FeaturedAds === "Featured Ads" && (
+                                <div
                                   style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    left: "10px",
+                                    backgroundColor: "#36A680",
+                                    color: "white",
+                                    padding: "6px 12px",
                                     fontWeight: "bold",
-                                    fontSize: "20px",
-                                    color: "#2D4495",
+                                    borderRadius: "8px",
+                                    border: "2px solid #2c8e6f",
+                                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+                                    fontSize: "14px",
+                                    zIndex: 2,
                                   }}
                                 >
-                                  {car.Price
-                                    ? `SAR ${car.Price}`
-                                    : "Price not available"}
-                                </p>
-                              </Card.Title>
-                              <Card.Text style={{ color: "black" }}>
-                                <small className="text-muted">
-                                  <IoLocationOutline
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  />
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
+                                  Featured
+                                </div>
+                              )}
+                              {/* Heart Icon */}
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "10%",
+                                  left: "90%",
+                                  transform: "translate(-50%, -50%)",
+                                  borderRadius: "50%",
+                                  padding: "10px",
+                                  zIndex: 3,
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => toggleBookmark(car.id)}
+                              >
+                                <FaHeart
+                                  style={{
+                                    color:
+                                      car.bookmarked === true &&
+                                      car.userId === userId
+                                        ? "red"
+                                        : "gray",
+                                    fontSize: "30px",
+                                  }}
+                                />{" "}
+                              </div>
+                              {popoverCarId === car.id && (
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "-30px",
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                    backgroundColor: "#333",
+                                    color: "#fff",
+                                    padding: "8px 12px",
+                                    borderRadius: "5px",
+                                    fontSize: "14px",
+                                    whiteSpace: "nowrap",
+                                    boxShadow:
+                                      "0px 2px 10px rgba(0, 0, 0, 0.2)",
+                                  }}
+                                >
+                                  Please log in to bookmark
+                                </div>
+                              )}
+                              <Link
+                                onClick={() => handleView(car.id)}
+                                //  to={`/car-details/${ad.id}`}
+                                to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
+                              >
+                                {/* Image */}
+                                <Card.Img
+                                  src={
+                                    car?.galleryImages[0] ||
+                                    "https://via.placeholder.com/150"
+                                  }
+                                  alt={car.title || "Car"}
+                                  style={{
+                                    width: "100%",
+                                    height: "230px",
+                                    objectFit: "cover",
+                                    borderTopLeftRadius: "20px",
+                                    borderBottomLeftRadius: "20px",
+                                  }}
+                                />
+                              </Link>
+                            </Col>
 
-                                {/* <br /> */}
-                                {/* <small style={{ color: "black" }}>
+                            <Col md={8} className="filter_card_main">
+                              <Card.Body>
+                                <Card.Title
+                                  className="title_head"
+                                  style={{
+                                    color: "#2D4495",
+                                    marginTop:
+                                      window.innerWidth <= 576 ? "-2px" : "0px",
+                                  }}
+                                >
+                                  <Link
+                                    //  to={`/car-details/${ad.id}`}
+                                    to={`/Dynamic_Route?id=${car.id}&callingFrom=FashionStyle`}
+                                  >
+                                    {car.title || "Car"}
+                                  </Link>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: "20px",
+                                      color: "#2D4495",
+                                    }}
+                                  >
+                                    {car.Price
+                                      ? `SAR ${car.Price}`
+                                      : "Price not available"}
+                                  </p>
+                                </Card.Title>
+                                <Card.Text style={{ color: "black" }}>
+                                  <small className="text-muted">
+                                    <IoLocationOutline
+                                      style={{
+                                        marginRight: "5px",
+                                        color: "#6c757d",
+                                      }}
+                                    />
+                                    <span style={{ color: "black" }}>
+                                      {car.City || "Location"}
+                                    </span>
+                                  </small>
+
+                                  {/* <br /> */}
+                                  {/* <small style={{ color: "black" }}>
                                 {car.ManufactureYear || "Year"} |{" "}
                                 {car.DrivenKm || "0"} Km |{" "}
                                 {car.EngineType || "Engine Type"} |{" "}
                                 {car.Transmission || "Transmission"}
                               </small> */}
 
-                                <br />
-                                <p className="car_desc">
-                                  {car.description ||
-                                    "Description not available."}
-                                </p>
-                              </Card.Text>
-                              <Col
-                                className="align-items-center user_profile_block"
-                                style={{
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-10px" : "30px",
-                                }}
-                              >
-                                {/* Price displayed above the image */}
-                                {/* Small Image on the Right with Top Margin */}
-                                <div>
-                                  {loading ? (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        height: "100vh",
-                                      }}
-                                    >
-                                      <img
-                                        src={Loading1}
-                                        alt="Loading..."
+                                  <br />
+                                  <p className="car_desc">
+                                    {car.description ||
+                                      "Description not available."}
+                                  </p>
+                                </Card.Text>
+                                <Col
+                                  className="align-items-center user_profile_block"
+                                  style={{
+                                    marginTop:
+                                      window.innerWidth <= 576
+                                        ? "-10px"
+                                        : "30px",
+                                  }}
+                                >
+                                  {/* Price displayed above the image */}
+                                  {/* Small Image on the Right with Top Margin */}
+                                  <div>
+                                    {loading ? (
+                                      <div
                                         style={{
-                                          width: "200px",
-                                          height: "200px",
-                                          animation: "spin 1s linear infinite", // Apply the spin animation
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          height: "100vh",
                                         }}
-                                      />
-                                      <style>
-                                        {`
+                                      >
+                                        <img
+                                          src={Loading1}
+                                          alt="Loading..."
+                                          style={{
+                                            width: "200px",
+                                            height: "200px",
+                                            animation:
+                                              "spin 1s linear infinite", // Apply the spin animation
+                                          }}
+                                        />
+                                        <style>
+                                          {`
                                           @keyframes spin {
                                             from {
                                               transform: rotate(0deg);
@@ -3824,120 +3828,95 @@ const FashionStyle = () => {
                                             }
                                           }
                                         `}
-                                      </style>
-                                    </div>
-                                  ) : (
-                                    ads.map((cars) => "")
-                                  )}
-                                </div>
-                                <div
-                                  className="profile_image_block"
-                                  style={{
-                                    // position: "absolute",
-                                    // top: "-70px",
-                                    // left: "470px",
-                                    fontWeight: "bold",
-                                    fontSize: "20px",
-                                    zIndex: 2,
-                                    color: "#2D4495",
-                                  }}
-                                >
-                                  <img
-                                    src={car.photoURL || ImageURL}
-                                    alt="User profile"
-                                    onError={(e) => {
-                                      e.target.onerror = null; // prevent infinite loop
-                                      e.target.src = ImageURL;
-                                    }}
+                                        </style>
+                                      </div>
+                                    ) : (
+                                      ads.map((cars) => "")
+                                    )}
+                                  </div>
+                                  <div
+                                    className="profile_image_block"
                                     style={{
-                                      width: "100px",
-                                      height: "100px",
-                                      objectFit: "cover",
-                                      borderRadius: "50%",
-                                      border: "2px solid white",
-                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                      display: "block",
+                                      // position: "absolute",
+                                      // top: "-70px",
+                                      // left: "470px",
+                                      fontWeight: "bold",
+                                      fontSize: "20px",
+                                      zIndex: 2,
+                                      color: "#2D4495",
                                     }}
-                                  />
-                                </div>
-                                {/* Updated text at the bottom-right corner */}
-                                <p
-                                  style={{
-                                    marginTop:
-                                      window.innerWidth <= 1100
-                                        ? "5px"
-                                        : "54px",
-                                    // marginLeft:
-                                    // 	window.innerWidth <= 576
-                                    // 		? "10rem"
-                                    // 		: "0rem",
-                                    color: "black",
-                                  }}
-                                >
-                                  Updated about {timeAgo(car.createdAt)}
-                                </p>
-                                {/* Responsive layout for small screens */}
-                              </Col>
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
-                                {/* Call Now Button */}
-                                {car.showNumberChecked ? (
-                                  ""
-                                ) : (
-                                  <a href={`tel:${car.Phone}`}>
-                                    <button
-                                      className={`blue_btn list_btn ${
-                                        isActive ? "expanded" : ""
-                                      }`}
+                                  >
+                                    <img
+                                      src={car.photoURL || ImageURL}
+                                      alt="User profile"
+                                      onError={(e) => {
+                                        e.target.onerror = null; // prevent infinite loop
+                                        e.target.src = ImageURL;
+                                      }}
                                       style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "10px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
+                                        width: "100px",
+                                        height: "100px",
+                                        objectFit: "cover",
+                                        borderRadius: "50%",
+                                        border: "2px solid white",
+                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                        display: "block",
                                       }}
-                                      onClick={(e) => {
-                                        if (!isActive) {
-                                          e.preventDefault(); // Only prevent if not active
-                                          setActivePhoneIndex(index);
-                                        }
-                                      }}
-                                    >
-                                      <FaPhoneAlt />
-                                      <span>
-                                        {isActive ? car.Phone : "Call Now"}
-                                      </span>
-                                    </button>
-                                  </a>
-                                )}{" "}
-                                {/* Message Button */}
-                                <button
-                                  className={`blue_btn list_btn ${
-                                    isActive ? "icon-only" : ""
-                                  }`}
-                                  style={{
-                                    marginTop:
-                                      window.innerWidth <= 576 ? "5px" : "50px",
-                                    width:
-                                      window.innerWidth <= 576
-                                        ? "150px"
-                                        : "auto",
-                                  }}
-                                  onClick={() =>
-                                    handleShowModal(car.userId, car.id)
-                                  }
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                                {/* WhatsApp Button */}
-                                <a
-                                  href={`https://wa.me/${car.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
+                                    />
+                                  </div>
+                                  {/* Updated text at the bottom-right corner */}
+                                  <p
+                                    style={{
+                                      marginTop:
+                                        window.innerWidth <= 1100
+                                          ? "5px"
+                                          : "54px",
+                                      // marginLeft:
+                                      // 	window.innerWidth <= 576
+                                      // 		? "10rem"
+                                      // 		: "0rem",
+                                      color: "black",
+                                    }}
+                                  >
+                                    Updated about {timeAgo(car.createdAt)}
+                                  </p>
+                                  {/* Responsive layout for small screens */}
+                                </Col>
+                                <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
+                                  {/* Call Now Button */}
+                                  {car.showNumberChecked ? (
+                                    ""
+                                  ) : (
+                                    <a href={`tel:${car.Phone}`}>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "expanded" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "10px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                        onClick={(e) => {
+                                          if (!isActive) {
+                                            e.preventDefault(); // Only prevent if not active
+                                            setActivePhoneIndex(index);
+                                          }
+                                        }}
+                                      >
+                                        <FaPhoneAlt />
+                                        <span>
+                                          {isActive ? car.Phone : "Call Now"}
+                                        </span>
+                                      </button>
+                                    </a>
+                                  )}{" "}
+                                  {/* Message Button */}
                                   <button
                                     className={`blue_btn list_btn ${
                                       isActive ? "icon-only" : ""
@@ -3952,145 +3931,174 @@ const FashionStyle = () => {
                                           ? "150px"
                                           : "auto",
                                     }}
+                                    onClick={() =>
+                                      handleShowModal(car.userId, car.id)
+                                    }
                                   >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
+                                    <MdMessage />
+                                    <span className="button-text">Message</span>
                                   </button>
-                                </a>
-                                <button
-                                  className={`sign-in-button`}
-                                  style={{
-                                    border: "1px solid #2D4495",
-                                    backgroundColor: "white",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    color: "#2D4495",
-                                    width: "fit-content",
-                                    height: "fit-content",
-                                    padding: "9px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    margin: "5px",
-                                    marginBottom: "0px",
+                                  {/* WhatsApp Button */}
+                                  <a
+                                    href={`https://wa.me/${car.whatsapp}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <button
+                                      className={`blue_btn list_btn ${
+                                        isActive ? "icon-only" : ""
+                                      }`}
+                                      style={{
+                                        marginTop:
+                                          window.innerWidth <= 576
+                                            ? "5px"
+                                            : "50px",
+                                        width:
+                                          window.innerWidth <= 576
+                                            ? "150px"
+                                            : "auto",
+                                      }}
+                                    >
+                                      <FaWhatsapp />
+                                      <span className="button-text">
+                                        WhatsApp
+                                      </span>
+                                    </button>
+                                  </a>
+                                  <button
+                                    className={`sign-in-button`}
+                                    style={{
+                                      border: "1px solid #2D4495",
+                                      backgroundColor: "white",
+                                      borderRadius: "5px",
+                                      cursor: "pointer",
+                                      color: "#2D4495",
+                                      width: "fit-content",
+                                      height: "fit-content",
+                                      padding: "9px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      margin: "5px",
+                                      marginBottom: "0px",
 
-                                    // marginRight:
-                                    // 	window.innerWidth <= 576
-                                    // 		? "20px"
-                                    // 		: "60px",
+                                      // marginRight:
+                                      // 	window.innerWidth <= 576
+                                      // 		? "20px"
+                                      // 		: "60px",
 
-                                    marginTop:
-                                      window.innerWidth <= 576 ? "5px" : "50px",
-                                  }}
-                                >
-                                  {/* <FaHeart
+                                      marginTop:
+                                        window.innerWidth <= 576
+                                          ? "5px"
+                                          : "50px",
+                                    }}
+                                  >
+                                    {/* <FaHeart
                                                             style={{
                                                               color:  "white",
                                                               fontSize: "30px",
                                                             }}
                                                           />{" "} */}
-                                  <FaRegHeart
-                                    onClick={() => toggleBookmark(car.id)}
-                                    style={{
-                                      color:
-                                        car.bookmarked === true &&
-                                        car.userId === userId
-                                          ? "red"
-                                          : "#2D4495",
-                                      fontSize: "20px",
-                                    }}
-                                  />
-                                </button>
-                                {/* Consolidated styles for all buttons */}
-                                <style jsx>{`
-                                  .sign-in-button {
-                                    background-color: #0055a5; /* Blue background color matching the image */
-                                    color: white; /* White text color */
-                                    font-size: 12px; /* Approximate font size */
-                                    font-weight: bold; /* Bold text */
-                                    // width: 90px; /* Default fixed width */
-                                    height: 40px; /* Fixed height */
-                                    border: none; /* No border */
-                                    border-radius: 10px; /* Rounded corners */
-                                    cursor: pointer; /* Hand cursor on hover */
-                                    text-transform: capitalize; /* Capitalize the text like in the image */
-                                    display: flex; /* Use flexbox to center icon and text */
-                                    align-items: center; /* Vertically center */
-                                    justify-content: center; /* Horizontally center */
-                                    gap: 8px; /* Space between icon and text */
-                                    transition: width 0.3s ease; /* Smooth transition for width change */
-                                  }
+                                    <FaRegHeart
+                                      onClick={() => toggleBookmark(car.id)}
+                                      style={{
+                                        color:
+                                          car.bookmarked === true &&
+                                          car.userId === userId
+                                            ? "red"
+                                            : "#2D4495",
+                                        fontSize: "20px",
+                                      }}
+                                    />
+                                  </button>
+                                  {/* Consolidated styles for all buttons */}
+                                  <style jsx>{`
+                                    .sign-in-button {
+                                      background-color: #0055a5; /* Blue background color matching the image */
+                                      color: white; /* White text color */
+                                      font-size: 12px; /* Approximate font size */
+                                      font-weight: bold; /* Bold text */
+                                      // width: 90px; /* Default fixed width */
+                                      height: 40px; /* Fixed height */
+                                      border: none; /* No border */
+                                      border-radius: 10px; /* Rounded corners */
+                                      cursor: pointer; /* Hand cursor on hover */
+                                      text-transform: capitalize; /* Capitalize the text like in the image */
+                                      display: flex; /* Use flexbox to center icon and text */
+                                      align-items: center; /* Vertically center */
+                                      justify-content: center; /* Horizontally center */
+                                      gap: 8px; /* Space between icon and text */
+                                      transition: width 0.3s ease; /* Smooth transition for width change */
+                                    }
 
-                                  .sign-in-button:hover {
-                                    background-color: #004080; /* Slightly darker blue on hover for feedback */
-                                  }
+                                    .sign-in-button:hover {
+                                      background-color: #004080; /* Slightly darker blue on hover for feedback */
+                                    }
 
-                                  /* Expanded state for Call Now button */
-                                  .expanded {
-                                    width: 200px; /* Larger width when showing phone number */
-                                    font-size: 16px; /* Slightly smaller font to fit the number */
-                                  }
+                                    /* Expanded state for Call Now button */
+                                    .expanded {
+                                      width: 200px; /* Larger width when showing phone number */
+                                      font-size: 16px; /* Slightly smaller font to fit the number */
+                                    }
 
-                                  /* Icon-only state for WhatsApp and Message buttons */
-                                  .icon-only {
-                                    width: 50px; /* Smaller width to fit just the icon */
-                                  }
+                                    /* Icon-only state for WhatsApp and Message buttons */
+                                    .icon-only {
+                                      width: 50px; /* Smaller width to fit just the icon */
+                                    }
 
-                                  /* Hide text in icon-only state */
-                                  .icon-only .button-text {
-                                    display: none; /* Hide the text */
-                                  }
+                                    /* Hide text in icon-only state */
+                                    .icon-only .button-text {
+                                      display: none; /* Hide the text */
+                                    }
 
-                                  /* Remove underline from <a> tags */
-                                  a {
-                                    text-decoration: none;
-                                  }
-                                `}</style>
-                              </div>
-                              <div>
-                                <div
-                                  className={`modal fade ${
-                                    showModal ? "show d-block" : "d-none"
-                                  }`}
-                                  tabIndex="-1"
-                                  role="dialog"
-                                  style={{
-                                    // backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                    marginTop: 100,
-                                  }} // Backdrop effect
-                                >
+                                    /* Remove underline from <a> tags */
+                                    a {
+                                      text-decoration: none;
+                                    }
+                                  `}</style>
+                                </div>
+                                <div>
                                   <div
-                                    className="modal-dialog modal-dialog-centered"
-                                    role="document"
+                                    className={`modal fade ${
+                                      showModal ? "show d-block" : "d-none"
+                                    }`}
+                                    tabIndex="-1"
+                                    role="dialog"
+                                    style={{
+                                      // backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                      marginTop: 100,
+                                    }} // Backdrop effect
                                   >
-                                    <div className="modal-content">
-                                      <div className="modal-header">
-                                        <h5 className="modal-title">
-                                          Send Message
-                                        </h5>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          onClick={() => setShowModal(false)}
-                                        ></button>
-                                      </div>
-                                      {userId && receiverId ? (
-                                        <Mesagedeals
-                                          userId={userId}
-                                          productIds={productIds}
-                                          recieverId={receiverId}
-                                          fullWidth={true} // :point_left: Add this prop
-                                        />
-                                      ) : (
-                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                          <p className="text-lg font-semibold text-gray-600">
-                                            Please log in to start messaging.
-                                          </p>
+                                    <div
+                                      className="modal-dialog modal-dialog-centered"
+                                      role="document"
+                                    >
+                                      <div className="modal-content">
+                                        <div className="modal-header">
+                                          <h5 className="modal-title">
+                                            Send Message
+                                          </h5>
+                                          <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => setShowModal(false)}
+                                          ></button>
                                         </div>
-                                      )}
-                                      {/* <div className="modal-body">
+                                        {userId && receiverId ? (
+                                          <Mesagedeals
+                                            userId={userId}
+                                            productIds={productIds}
+                                            recieverId={receiverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
+                                        ) : (
+                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                            <p className="text-lg font-semibold text-gray-600">
+                                              Please log in to start messaging.
+                                            </p>
+                                          </div>
+                                        )}
+                                        {/* <div className="modal-body">
                                         <div className="p-4 w-full max-w-lg mx-auto">
                                           {currentUserId && receiverId ? (
                                             <Chat
@@ -4107,59 +4115,60 @@ const FashionStyle = () => {
                                           )}
                                         </div>
                                       </div> */}
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
 
-                                {/* {showModal && (
+                                  {/* {showModal && (
                                   <div
                                     className="modal-backdrop fade show"
                                     onClick={() => setShowModal(false)}
                                   ></div>
                                 )} */}
-                              </div>
-                            </Card.Body>
-                          </Col>
-                        </Row>
-                      </Card>
-                    );
-                  })
-                ) : (
-                  "No Record Found"
-                )}
-              </div>
-              <div className="d-flex align-items-center justify-content-center my-4">
-                <Button
-                  variant="#2d4495"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === 1}
-                  onClick={() => handlePageClick(activePage - 1)}
-                  style={{
-                    backgroundColor: "#2d4495",
-                    color: "white",
-                    border: "none",
-                    transition: "none",
-                  }}
-                >
-                  <FaArrowLeft className="me-1" /> Previous
-                </Button>
+                                </div>
+                              </Card.Body>
+                            </Col>
+                          </Row>
+                        </Card>
+                      );
+                    })
+                  ) : (
+                    "No Record Found"
+                  )}
+                </div>
+                <div className="d-flex align-items-center justify-content-center my-4">
+                  <Button
+                    variant="#2d4495"
+                    className="d-flex align-items-center mx-2"
+                    disabled={activePage === 1}
+                    onClick={() => handlePageClick(activePage - 1)}
+                    style={{
+                      backgroundColor: "#2d4495",
+                      color: "white",
+                      border: "none",
+                      transition: "none",
+                    }}
+                  >
+                    <FaArrowLeft className="me-1" /> Previous
+                  </Button>
 
-                <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
+                  <ButtonGroup>{renderPageNumbers()}</ButtonGroup>
 
-                <Button
-                  variant="#2d4495"
-                  className="d-flex align-items-center mx-2"
-                  disabled={activePage === totalPages}
-                  onClick={() => handlePageClick(activePage + 1)}
-                  style={{
-                    backgroundColor: "#2d4495",
-                    color: "white",
-                    border: "none",
-                    transition: "none",
-                  }}
-                >
-                  Next <FaArrowRight className="ms-1" />
-                </Button>
+                  <Button
+                    variant="#2d4495"
+                    className="d-flex align-items-center mx-2"
+                    disabled={activePage === totalPages}
+                    onClick={() => handlePageClick(activePage + 1)}
+                    style={{
+                      backgroundColor: "#2d4495",
+                      color: "white",
+                      border: "none",
+                      transition: "none",
+                    }}
+                  >
+                    Next <FaArrowRight className="ms-1" />
+                  </Button>
+                </div>
               </div>
             </Col>
           </Row>
