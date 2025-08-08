@@ -427,7 +427,7 @@ const AutomotiveComp = () => {
   const filteredCities = cityOptions
     .slice(6)
     .filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label?.toLowerCase().includes(searchTerm?.toLowerCase())
     );
   console.log("Selected City:", selectedCity);
 
@@ -786,7 +786,7 @@ const AutomotiveComp = () => {
   const filteredDistricts = districtOptions
     .slice(4)
     .filter((option) =>
-      option.label.toLowerCase().includes(searchTermDistrict.toLowerCase())
+      option.label?.toLowerCase().includes(searchTermDistrict?.toLowerCase())
     );
 
   const carBrands = [
@@ -1649,7 +1649,7 @@ const AutomotiveComp = () => {
     query === ""
       ? carBrands
       : carBrands.filter((brand) =>
-          brand.toLowerCase().includes(query.toLowerCase())
+          brand?.toLowerCase().includes(query?.toLowerCase())
         );
   console.log("Selected:______", filteredBrands);
   console.log("Selected:______1", selected);
@@ -4320,16 +4320,17 @@ const AutomotiveComp = () => {
                                       </div>
 
                                       <ul className="more_choice_main_list">
-                                        {regionOptions.map((region) => {
-                                          const isChecked =
-                                            selectedRegion.includes(
-                                              region.regionId
-                                            );
+                                        {regionOptions
+                                          .slice(6)
+                                          .map((region) => {
+                                            const isChecked =
+                                              selectedRegion.includes(
+                                                region.regionId
+                                              );
 
-                                          return (
-                                            <li>
-                                              <label
-                                                className="d-flex align-items-center gap-2"
+                                            return (
+                                              <div
+                                                className="form-check"
                                                 key={region.regionId}
                                               >
                                                 <input
@@ -4357,16 +4358,15 @@ const AutomotiveComp = () => {
                                                     }
                                                   }}
                                                 />
-                                                <span
+                                                <label
                                                   className="form-check-label"
                                                   htmlFor={`region-${region.regionId}`}
                                                 >
                                                   {region.label}
-                                                </span>
-                                              </label>
-                                            </li>
-                                          );
-                                        })}
+                                                </label>
+                                              </div>
+                                            );
+                                          })}
                                       </ul>
                                     </div>
 
