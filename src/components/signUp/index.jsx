@@ -47,7 +47,7 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  const fullPhoneNumber = `+92${phoneNumber}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
@@ -72,9 +72,9 @@ const SignUp = () => {
   }, []);
 
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+966\d{8}$/;
+    const saudiNumberRegex = /^\+92\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
-      setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
+      setSaudinummsg("Please enter valid Saudi like +925XXXXXXXX");
       setPhoneNumber("");
     }
   };
@@ -117,7 +117,6 @@ const SignUp = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
-
   const sendOtp = async () => {
     if (!phoneNumber) {
       await MySwal.fire({
@@ -129,6 +128,24 @@ const SignUp = () => {
     }
 
     try {
+      // ✅ Step 1: Check if phone number already exists
+      const q = query(
+        collection(db, "users"),
+        where("phoneNumber", "==", fullPhoneNumber)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // ✅ If phone exists, show alert and stop here
+        await MySwal.fire({
+          icon: "warning",
+          title: "Phone Number Exists",
+          text: "This mobile number is already associated with an account.",
+        });
+        return;
+      }
+
+      // ✅ Step 2: Send OTP if number doesn't exist
       const response = await fetch(
         "https://ksaforsaleapis.vercel.app/route/send-otp",
         {
@@ -164,6 +181,53 @@ const SignUp = () => {
       });
     }
   };
+
+  // const sendOtp = async () => {
+  //   if (!phoneNumber) {
+  //     await MySwal.fire({
+  //       icon: "warning",
+  //       title: "Missing Number",
+  //       text: "Please enter your mobile number.",
+  //     });
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(
+  //       "https://ksaforsaleapis.vercel.app/route/send-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phone: fullPhoneNumber }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       setOtpSent(true);
+  //       await MySwal.fire({
+  //         icon: "success",
+  //         title: "OTP Sent",
+  //         text: "OTP sent successfully!",
+  //         timer: 2000,
+  //         showConfirmButton: false,
+  //       });
+  //     } else {
+  //       await MySwal.fire({
+  //         icon: "error",
+  //         title: "Sending Failed",
+  //         text: "Error sending OTP.",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     await MySwal.fire({
+  //       icon: "error",
+  //       title: "Network Error",
+  //       text: "Failed to send OTP. Please try again.",
+  //     });
+  //   }
+  // };
 
   // ✅ Updated verifyOtp
   const verifyOtp = async (event) => {
@@ -339,7 +403,7 @@ const SignUp = () => {
                               fontSize: "14px",
                             }}
                           >
-                            +966
+                            +92
                           </span>
                         </span>
                         <input

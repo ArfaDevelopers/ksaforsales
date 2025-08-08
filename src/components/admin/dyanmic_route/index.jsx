@@ -5954,6 +5954,7 @@ const Dynamic_Route = () => {
                                   </div>
                                   {userId && recieverId ? (
                                     <Mesagedeals
+                                      productIds={itemData.id}
                                       userId={userId}
                                       recieverId={recieverId}
                                       fullWidth={true} // :point_left: Add this prop
