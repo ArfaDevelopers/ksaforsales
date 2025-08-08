@@ -2658,7 +2658,7 @@ const MAGAZINESCOMP = () => {
                                   marginTop: "54px",
                                 }}
                               >
-                                Updated about {timeAgo(car.createdAt)}
+                                Updated {timeAgo(car.createdAt)}
                               </p>
 
                               {/* Responsive layout for small screens */}
