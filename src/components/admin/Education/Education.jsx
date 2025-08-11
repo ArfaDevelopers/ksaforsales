@@ -3194,7 +3194,7 @@ const Education = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -3202,7 +3202,7 @@ const Education = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite", // Apply the spin animation
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                     @keyframes spin {
@@ -3401,7 +3401,7 @@ const Education = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        <img
+                                        {/* <img
                                           src={Loading1}
                                           alt="Loading..."
                                           style={{
@@ -3410,7 +3410,7 @@ const Education = () => {
                                             animation:
                                               "spin 1s linear infinite", // Apply the spin animation
                                           }}
-                                        />
+                                        /> */}
                                         <style>
                                           {`
                                           @keyframes spin {

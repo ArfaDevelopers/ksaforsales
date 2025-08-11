@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Button, Modal, Row, Col } from "react-bootstrap";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+
 import {
   FaArrowLeft,
   FaPhone,
@@ -574,70 +576,110 @@ const CategoryDetail = () => {
 
             {/* Modal */}
             {showModal1 && (
-              <>
-                <div
-                  className="modal fade show d-block"
-                  tabIndex="-1"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay
-                    zIndex: 1050,
-                  }}
-                >
-                  <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title">Share</h5>
-                        <button
-                          type="button"
-                          className="btn-close"
-                          onClick={() => setShowModal1(false)}
-                        ></button>
-                      </div>
-                      <div className="modal-body">
-                        <div style={{ wordBreak: "break-all" }}>{link}</div>
-                      </div>
-                      <div className="modal-footer">
-                        <button
-                          type="button"
-                          className="btn"
-                          style={{
-                            backgroundColor: "#2d4495",
-                            color: "#fff",
-                            border: "none",
-                            fontWeight: "bold",
-                            borderRadius: 10,
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 1050,
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Share</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        onClick={() => setShowModal1(false)}
+                      ></button>
+                    </div>
+
+                    <div className="modal-body">
+                      <div style={{ wordBreak: "break-all" }}>{link}</div>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "15px",
+                          marginTop: "15px",
+                        }}
+                      >
+                        {/* Facebook Share */}
+                        <FaFacebook
+                          size={32}
+                          color="#3b5998"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            window.open(
+                              `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                link
+                              )}`,
+                              "_blank"
+                            )
+                          }
+                        />
+                        {/* Instagram - opens Instagram app on mobile */}
+                        <FaInstagram
+                          size={32}
+                          color="#C13584"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                              window.location.href = `instagram://share?text=${encodeURIComponent(
+                                link
+                              )}`;
+                            } else {
+                              alert(
+                                "Instagram sharing is only available on mobile apps. Link copied!"
+                              );
+                              navigator.clipboard.writeText(link);
+                            }
                           }}
-                          onClick={copyToClipboard}
-                        >
-                          Copy
-                        </button>
-                        <button
-                          type="button"
-                          className="btn "
-                          style={{
-                            backgroundColor: "#2d4495",
-                            color: "#fff",
-                            border: "none",
-                            fontWeight: "bold",
-                            borderRadius: 10,
-                          }}
-                          onClick={() => setShowModal1(false)}
-                        >
-                          Close
-                        </button>
+                        />
                       </div>
+                    </div>
+
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn"
+                        style={{
+                          backgroundColor: "#2d4495",
+                          color: "#fff",
+                          border: "none",
+                          fontWeight: "bold",
+                          borderRadius: 10,
+                        }}
+                        onClick={copyToClipboard}
+                      >
+                        Copy
+                      </button>
+                      <button
+                        type="button"
+                        className="btn"
+                        style={{
+                          backgroundColor: "#2d4495",
+                          color: "#fff",
+                          border: "none",
+                          fontWeight: "bold",
+                          borderRadius: 10,
+                        }}
+                        onClick={() => setShowModal1(false)}
+                      >
+                        Close
+                      </button>
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </>
           <button

@@ -3218,7 +3218,7 @@ const SPORTSGAMESComp = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -3226,7 +3226,7 @@ const SPORTSGAMESComp = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite", // Apply the spin animation
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                       @keyframes spin {
@@ -3421,7 +3421,7 @@ const SPORTSGAMESComp = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        <img
+                                        {/* <img
                                           src={Loading1}
                                           alt="Loading..."
                                           style={{
@@ -3430,7 +3430,7 @@ const SPORTSGAMESComp = () => {
                                             animation:
                                               "spin 1s linear infinite", // Apply the spin animation
                                           }}
-                                        />
+                                        /> */}
                                         <style>
                                           {`
                                           @keyframes spin {

@@ -3474,7 +3474,7 @@ const JobBoard = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -3482,7 +3482,7 @@ const JobBoard = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite", // Apply the spin animation
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                       @keyframes spin {
@@ -3677,7 +3677,7 @@ const JobBoard = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        <img
+                                        {/* <img
                                           src={Loading1}
                                           alt="Loading..."
                                           style={{
@@ -3686,7 +3686,7 @@ const JobBoard = () => {
                                             animation:
                                               "spin 1s linear infinite", // Apply the spin animation
                                           }}
-                                        />
+                                        /> */}
                                         <style>
                                           {`
                                           @keyframes spin {

@@ -3579,7 +3579,7 @@ const TravelComp = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -3587,7 +3587,7 @@ const TravelComp = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite", // Apply the spin animation
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                       @keyframes spin {
@@ -3782,7 +3782,7 @@ const TravelComp = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        <img
+                                        {/* <img
                                           src={Loading1}
                                           alt="Loading..."
                                           style={{
@@ -3791,7 +3791,7 @@ const TravelComp = () => {
                                             animation:
                                               "spin 1s linear infinite", // Apply the spin animation
                                           }}
-                                        />
+                                        /> */}
                                         <style>
                                           {`
                                           @keyframes spin {

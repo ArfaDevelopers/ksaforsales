@@ -3448,7 +3448,7 @@ const HealthCareComp = () => {
                         height: "100vh",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={Loading1}
                         alt="Loading..."
                         style={{
@@ -3456,7 +3456,7 @@ const HealthCareComp = () => {
                           height: "200px",
                           animation: "spin 1s linear infinite", // Apply the spin animation
                         }}
-                      />
+                      /> */}
                       <style>
                         {`
                        @keyframes spin {
@@ -3651,7 +3651,7 @@ const HealthCareComp = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        <img
+                                        {/* <img
                                           src={Loading1}
                                           alt="Loading..."
                                           style={{
@@ -3660,7 +3660,7 @@ const HealthCareComp = () => {
                                             animation:
                                               "spin 1s linear infinite", // Apply the spin animation
                                           }}
-                                        />
+                                        /> */}
                                         <style>
                                           {`
                                           @keyframes spin {
