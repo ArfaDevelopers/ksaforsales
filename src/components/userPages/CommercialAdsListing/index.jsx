@@ -21,6 +21,10 @@ import Header from "../../home/header";
 import { loadStripe } from "@stripe/stripe-js";
 import { signOut } from "firebase/auth";
 import PaymentForm from "../AddLisiting/PaymentForm";
+import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { TiMessages } from "react-icons/ti";
+import { TbLogout2 } from "react-icons/tb";
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
@@ -258,39 +262,37 @@ const CommercialAdsListing = () => {
               <ul className="dashborad-menus">
                 <li>
                   <Link to="/dashboard">
-                    <i className="feather-grid" /> <span>Dashboard</span>
+                    <MdDashboard /> <span>Dashboard</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/profile">
-                    <i className="fa-solid fa-user" /> <span>Profile</span>
+                    <FaUserAlt /> <span>Profile</span>
                   </Link>
                 </li>
-                <li>
+                <li className="active">
                   <Link to="/my-listing">
-                    <i className="feather-list" /> <span>My Listing</span>
+                    <FaListUl /> <span>My Listing</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/bookmarks">
-                    <i className="fas fa-solid fa-heart" />{" "}
-                    <span>Favourite</span>
+                    <FaHeart /> <span>Favourite</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/messages">
-                    <i className="fa-solid fa-comment-dots" />{" "}
-                    <span>Messages</span>
+                    <TiMessages /> <span>Messages</span>
                   </Link>
                 </li>
-                <li>
-                  <Link to="/reviews">
-                    <i className="fas fa-solid fa-star" /> <span>Reviews</span>
-                  </Link>
-                </li>
+                {/* <li>
+                             <Link to="/reviews">
+                               <i className="fas fa-solid fa-star" /> <span>Reviews</span>
+                             </Link>
+                           </li> */}
                 <li>
                   <Link className="dropdown-item" to="#" onClick={handleLogout}>
-                    <i className="fas fa-light fa-circle-arrow-left" />{" "}
+                    <TbLogout2 />
                     <span>Logout</span>
                   </Link>
                 </li>
@@ -610,6 +612,7 @@ const CommercialAdsListing = () => {
                   {/* )} */}
                   {/* Submit Button */}
                   <button
+                    className="blue_btn"
                     disabled={
                       !formData.name ||
                       !formData.phone ||
@@ -620,19 +623,8 @@ const CommercialAdsListing = () => {
                       // !paymentSuccess
                     }
                     type="submit"
-                    style={{
-                      width: "150px",
-                      padding: "10px",
-                      backgroundColor: "#2d4495",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "5px",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
                   >
-                    ✅ Add Listing
+                    Add Listing
                   </button>
                 </form>
               </div>

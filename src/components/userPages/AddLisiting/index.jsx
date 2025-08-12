@@ -13535,17 +13535,18 @@ const AddLisiting = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     color: "#374b5c",
+                                    position: "relative",
                                   }}
                                 >
                                   Show Number
                                   <input
-                                    style={{
-                                      marginRight: "20px",
-                                    }}
                                     type="checkbox"
                                     checked={formData.showNumberChecked}
                                     onChange={handleCheckboxChange}
                                   />
+                                  <span className="hint_txt_mbl">
+                                    Check to hide mobile number on Ad page
+                                  </span>
                                 </label>
 
                                 <div

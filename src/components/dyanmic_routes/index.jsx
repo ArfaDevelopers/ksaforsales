@@ -956,28 +956,14 @@ const Dynamic_Routes = () => {
                         <div className="modal-footer">
                           <button
                             type="button"
-                            className="btn"
-                            style={{
-                              backgroundColor: "#2d4495",
-                              color: "#fff",
-                              border: "none",
-                              fontWeight: "bold",
-                              borderRadius: 10,
-                            }}
+                            className="blue_btn"
                             onClick={copyToClipboard}
                           >
                             Copy
                           </button>
                           <button
                             type="button"
-                            className="btn "
-                            style={{
-                              backgroundColor: "#2d4495",
-                              color: "#fff",
-                              border: "none",
-                              fontWeight: "bold",
-                              borderRadius: 10,
-                            }}
+                            className="blue_btn"
                             onClick={() => setShowModal1(false)}
                           >
                             Close

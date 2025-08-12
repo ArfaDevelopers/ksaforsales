@@ -129,6 +129,13 @@
   background-color: royalblue;
   color: #fff;
 }
+.hint_txt_mbl {
+  font-size: 10px;
+  font-weight: 700;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;
