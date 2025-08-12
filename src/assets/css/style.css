@@ -3713,7 +3713,7 @@ form.filter_innerwrap .accordion-item {
   columns: 2;
 }
 .more_optn_modal_main .more_choice_main_list label {
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 .more_optn_modal_main .modal-footer button:hover {
   color: unset;
@@ -23333,7 +23333,7 @@ height: 400px;
   font-size: 16px;
   color: #333;
   word-break: break-all;
-
+  white-space: pre-wrap;
   line-height: 1.6;
   margin: 0;
   padding: 0 5px;

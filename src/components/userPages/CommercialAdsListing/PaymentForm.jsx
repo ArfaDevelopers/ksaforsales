@@ -183,6 +183,7 @@ const PaymentForm = (props) => {
           }
           await updateFeaturedAds();
           await updateDoc(userDocRef, { status: "Success" });
+          setLoading(false);
           MySwal.fire({
             title: "Success!",
             text: "Payment processed successfully!",
@@ -191,6 +192,7 @@ const PaymentForm = (props) => {
           });
         } else {
           setPaymentSuccess(false);
+          setLoading(false);
           setError(paymentResult.error);
           await updateDoc(userDocRef, { status: "Failed" });
           MySwal.fire({
@@ -202,6 +204,7 @@ const PaymentForm = (props) => {
         }
       } else {
         setError("User is not authenticated.");
+
         setLoading(false);
         MySwal.fire({
           title: "Error!",
@@ -224,15 +227,11 @@ const PaymentForm = (props) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-xl mt-3 mb-3">
-      <h2 className="text-2xl font-semibold text-center text-gray-800">
-        Complete Your Payment
-      </h2>
-
-      <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-700 border-2">
+    <div className="">
+      <div className="mt-2">
+        {/* <h3 className="text-lg font-medium text-gray-700 border-2 m-0 mb-3">
           Payment Information
-        </h3>
+        </h3> */}
 
         <form onSubmit={handlePaymentSubmit} className="space-y-6">
           <div>
@@ -245,7 +244,7 @@ const PaymentForm = (props) => {
             <div className="mt-2">
               <CardElement
                 id="card"
-                className="px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
+                className="mb-3 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
               />
             </div>
           </div>
@@ -253,14 +252,30 @@ const PaymentForm = (props) => {
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
           <button
+            disabled={loading || paymentSuccess}
             type="submit"
-            disabled={loading}
-            className={`w-full py-2 mt-1 rounded-lg text-white font-semibold bg-dark ${
+            className={`blue_btn  ${
               loading ? "bg-gray-400" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >
             {loading ? (
-              <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark"></div>
+              <>
+                <div className="animate-spin w-6 h-6 mx-auto border-t-4 border-white border-1 rounded-full bg-dark d-none"></div>
+                <div
+                  class="spinner-border"
+                  style={{ width: "3rem", height: "3rem" }}
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div
+                  class="spinner-grow"
+                  style={{ width: "3rem", height: "3rem" }}
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </>
             ) : (
               "Pay Now"
             )}
@@ -269,7 +284,10 @@ const PaymentForm = (props) => {
 
         {paymentSuccess && (
           <div className="mt-4 text-green-500 text-center border-1">
-            <p>Payment Successful! Thank you for your order.</p>
+            <p>
+              Great! Payment completed. You can now proceed to submit or feature
+              your listing.
+            </p>
           </div>
         )}
       </div>

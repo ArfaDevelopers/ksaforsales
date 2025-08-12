@@ -114,6 +114,21 @@
   overflow: hidden;
   width: 400px;
 }
+.make_dropdown {
+  border: 1px solid #000 !important;
+  overflow: auto;
+  height: 400px;
+}
+.make_dropdown li {
+  padding: 2px 15px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #000;
+}
+.make_dropdown li:hover {
+  background-color: royalblue;
+  color: #fff;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;

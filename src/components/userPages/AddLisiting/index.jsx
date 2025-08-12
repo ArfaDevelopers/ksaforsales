@@ -6246,11 +6246,11 @@ const AddLisiting = () => {
                                     } // slight delay
                                   />
                                   {showList && filteredBrands.length > 0 && (
-                                    <ul className="absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
+                                    <ul className="make_dropdown absolute z-10 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded-b-lg shadow-md">
                                       {filteredBrands.map((brand) => (
                                         <li
                                           key={brand}
-                                          className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                          className=""
                                           onMouseDown={() =>
                                             handleSelect(brand)
                                           }
@@ -13804,13 +13804,13 @@ const AddLisiting = () => {
                       </div>
                     </div>
                   </div>
+                  {showPayment && (
+                    <Elements stripe={stripePromise}>
+                      <PaymentForm getpaymentSuccess={setPaymentSuccess} />
+                    </Elements>
+                  )}
                 </div>
 
-                {showPayment && (
-                  <Elements stripe={stripePromise}>
-                    <PaymentForm getpaymentSuccess={setPaymentSuccess} />
-                  </Elements>
-                )}
                 {/* <div
                   className="settings-upload-btn"
                   style={{

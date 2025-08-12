@@ -1585,9 +1585,9 @@ const Dynamic_Routes = () => {
                       <h1 className="section-title section-title-description dynamic_route">
                         Description
                       </h1>
-                      <p className="descriptions-para">
+                      <pre className="descriptions-para">
                         {itemData?.description?.trim() || "No description"}
-                      </p>
+                      </pre>
                     </div>
                   </div>
                 </div>
