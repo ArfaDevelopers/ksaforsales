@@ -610,14 +610,13 @@ const Profile = () => {
                           <button type="submit" className="blue_btn list_btn">
                             Update Profile
                           </button>
-                          <Link
-                            to="#"
-                            className="blue_btn list_btn d-flex"
-                            onClick={handleDeleteUser}
-                          >
-                            <FaRegTrashAlt />
-                            <span>Delete Profile</span>
-                          </Link>
+                          {/* <Link
+														to="#"
+														className="blue_btn list_btn d-flex"
+														onClick={handleDeleteUser}>
+														<FaRegTrashAlt />
+														<span>Delete Profile</span>
+													</Link> */}
                         </div>
                       </form>
                     </div>
@@ -627,7 +626,7 @@ const Profile = () => {
               <div className="col-lg-3">
                 <div className="profile-sidebar">
                   <div className="card">
-                    <div className="card-hseader">
+                    <div className="card-header">
                       <h4>Change Password</h4>
                     </div>
                     <div className="card-body">
