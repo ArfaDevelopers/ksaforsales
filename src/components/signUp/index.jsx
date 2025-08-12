@@ -17,9 +17,12 @@ import { db, auth, storage } from "../Firebase/FirebaseConfig.jsx";
 import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { apple, facebook, google } from "../imagepath";
+
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import image from "../../../public/Banner1.png";
+// import image from "../../../public/Banner1.png";s
+import image from "../../../public/splash-banner-ksa-english-version.jpg";
+
 import googlebutton from "../../components/home/footer/Google button.png";
 import mobileimage from "../../components/home/footer/mobileimg.png";
 import appstore from "../../components/home/footer/Appstore.png";
