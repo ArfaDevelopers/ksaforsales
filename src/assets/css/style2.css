@@ -136,6 +136,41 @@
   bottom: 0;
   left: 0;
 }
+/* MOBILE NAV BAR CSS STARTS */
+.mobile_header_bottom {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  width: 100%;
+  z-index: 99;
+  padding: 20px;
+}
+.mobile_header_bottom .mobile_nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+.mobile_header_bottom .mobile_nav li svg {
+  font-size: 20px;
+}
+.mobile_header_bottom .mobile_nav ul li a {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.mobile_header_bottom .mobile_nav ul li a span {
+  font-size: 12px;
+}
+.mobile_header_bottom .mobile_nav ul li a {
+  color: #b1bed0;
+}
+.mobile_header_bottom .mobile_nav ul li a.active {
+  color: #2d4495;
+}
+/* MOBILE NAV BAR CSS ENDS */
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;
@@ -163,6 +198,9 @@
   }
 }
 @media screen and (max-width: 991px) {
+  .mobile_header_bottom {
+    display: block;
+  }
 }
 @media screen and (max-width: 767px) {
   .filter_card_main p.car_desc {
@@ -185,5 +223,9 @@
   }
   .blue_btn.list_btn span {
     display: none !important;
+  }
+  .dashcard-img img {
+    width: 100%;
+    max-width: 50px;
   }
 }

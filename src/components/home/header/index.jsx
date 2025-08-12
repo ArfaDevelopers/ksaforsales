@@ -26,6 +26,7 @@ import { Phone, profile_img } from "../../imagepath";
 import { Offcanvas } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ref, getDownloadURL } from "firebase/storage";
+
 // import { storage } from "../../../FirebaseConfig"; // ✅ Correct path
 
 import {
@@ -40,7 +41,11 @@ import {
   FaPaw,
   FaBook,
   FaBullhorn,
+  FaEnvelope,
+  FaBell,
 } from "react-icons/fa";
+import { GoPlus } from "react-icons/go";
+import { IoPersonOutline } from "react-icons/io5";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoIosAddCircle } from "react-icons/io";
 import { BiCategory } from "react-icons/bi";
@@ -332,7 +337,7 @@ const Header = ({ parms }) => {
                   >
                     <Offcanvas.Header className="border-bottom">
                       <Offcanvas.Title className="fs-5 fw-bold">
-                        Contrast Light
+                        Menu
                       </Offcanvas.Title>
                       <FaTimes
                         className="close-icon"
@@ -2808,33 +2813,40 @@ const Header = ({ parms }) => {
       /> */}
         {userId ? <HeaderLower /> : ""}
       </header>
-      <div className="mobile_header_bottom">
+      <div className="mobile_header_bottom shadow-xl">
         <nav className="mobile_nav">
           <ul>
             <li>
-              <Link to="/">
-                <FaHome style={{ color: "#000" }} />
-              </Link>
+              <NavLink to="/messages">
+                <FaEnvelope />
+                <span>Messages</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink onClick={toggleModal} to="#">
+                <FaBell />
+                <span>Notifications</span>
+              </NavLink>
             </li>
             <li>
-              <Link to="/CommercialAdscom">
-                <HiOutlineSpeakerphone style={{ color: "#000" }} />
-              </Link>
+              <NavLink to="/listing">
+                <GoPlus />
+                <span>Add Ads</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/profile">
+                <IoPersonOutline />
+                <span>Profile</span>
+              </NavLink>
             </li>
             <li>
-              <Link to="/listing">
-                <IoIosAddCircle style={{ color: "#2d4495" }} />
-              </Link>
-            </li>
-            <li>
-              <Link to="/#our_category">
-                <BiCategory />
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile">
-                <MdManageAccounts />
-              </Link>
+              <NavLink to="/">
+                <FaHome />
+                <span>Home</span>
+              </NavLink>
             </li>
           </ul>
         </nav>

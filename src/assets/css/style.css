@@ -3848,25 +3848,7 @@ h2.trendingproduct_heading {
 .top_log_header {
   width: 100%;
 }
-/* MOBILE NAV BAR CSS STARTS */
-.mobile_header_bottom {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background-color: #fff;
-  width: 100%;
-  z-index: 99;
-  padding: 20px;
-}
-.mobile_header_bottom .mobile_nav ul {
-  display: flex;
-  justify-content: space-between;
-}
-.mobile_header_bottom .mobile_nav li svg {
-  font-size: 24px;
-}
-/* MOBILE NAV BAR CSS ENDS */
+
 .footermidgmailheading {
   font-size: 18px !important;
   margin-bottom: 6px !important;
@@ -20710,9 +20692,7 @@ font-size: 28px;
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
-  .mobile_header_bottom {
-    display: block;
-  }
+  
   .header {
     position: fixed;
   }
@@ -21646,7 +21626,6 @@ font-size: 28px;
   }
   .section-heading h2 {
     font-size: 25px;
-    justify-content: center;
   }
   .interset-btn {
     justify-content: center;
