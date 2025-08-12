@@ -4131,7 +4131,7 @@ const AutomotiveComp = () => {
                         <input
                           type="search"
                           placeholder="Search here"
-                          className="form-control rounded-pill pe-5 input_feild"
+                          className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
                           value={searchQuery} // Bind value to searchQuery state
                           onChange={handleSearchChange} // Call the handler on input change

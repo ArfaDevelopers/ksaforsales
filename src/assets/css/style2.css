@@ -103,6 +103,17 @@
   border-radius: 0 !important;
   padding: 20px 0 !important;
 }
+.filter_innerwrap .input_feild.search_by_keyword {
+  padding-right: 40px !important;
+}
+.filter_card_main .title_head a {
+  text-wrap: trim-end;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 400px;
+}
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
     margin-top: 10px !important;
