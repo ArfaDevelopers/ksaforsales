@@ -227,11 +227,11 @@ const PaymentForm = (props) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-xl mt-3">
-      <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-700 border-2 m-0 mb-2">
-          Payment Information
-        </h3>
+    <div className="">
+      <div className="mt-2">
+        {/* <h3 className="text-lg font-medium text-gray-700 border-2 m-0 mb-3">
+					Payment Information
+				</h3> */}
 
         <form onSubmit={handlePaymentSubmit} className="space-y-6">
           <div>
@@ -244,7 +244,7 @@ const PaymentForm = (props) => {
             <div className="mt-2">
               <CardElement
                 id="card"
-                className="py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
+                className="mb-3 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
               />
             </div>
           </div>
