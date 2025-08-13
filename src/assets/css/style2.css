@@ -170,6 +170,9 @@
 .mobile_header_bottom .mobile_nav ul li a.active {
   color: #2d4495;
 }
+.navbar-header .lang_dropdown {
+  display: none !important;
+}
 /* MOBILE NAV BAR CSS ENDS */
 @media screen and (max-width: 1366px) {
   .user_profile_block p {
@@ -210,8 +213,98 @@
   .filter_card_main .head2btflex {
     margin-top: 10px !important;
   }
+  /* header settings */
+  .top_log_header {
+    flex-wrap: wrap !important;
+  }
+  .search-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    order: 3;
+    margin: 0 !important;
+  }
+  .navbar-header {
+    width: 60% !important;
+  }
+  .top_log_header > ul.header-navbar-rht {
+    width: 50% !important;
+  }
+  .top_log_header > ul.header-navbar-rht {
+    justify-content: flex-end;
+  }
+  .header-nav {
+    height: auto !important;
+    padding-bottom: 10px;
+  }
+  .navbar-header {
+    order: 1;
+  }
+  .header-navbar-rht {
+    order: 2;
+  }
+  .navbar-header .lang_dropdown {
+    display: flex !important;
+  }
+  /* header settings */
+  .hero_slider {
+    padding-top: 189px;
+  }
+  .dashboard-content {
+    padding: 120px 0 0;
+  }
+  .login-content,
+  .bloglisting,
+  .contactus-info {
+    padding: 200px 0 20px;
+  }
+  .parent-main.container {
+    margin-top: 200px;
+  }
+}
+@media (max-width: 640px) {
+  .trendingproducts_container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .trendingproducts_container::-webkit-scrollbar {
+    display: none;
+  }
+  .trendingProductsallname {
+    flex: 0 0 auto;
+  }
+  .info-list {
+    gap: unset;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  .info-list li {
+    font-size: 14px;
+  }
+  .top_log_header .blue_btn {
+    font-size: 12px;
+    padding: 7px 11px;
+  }
+  .top_log_header > ul.header-navbar-rht .lang_dropdown {
+    display: none !important;
+  }
+  .hero_slider {
+    padding-top: 159px;
+  }
 }
 @media screen and (max-width: 480px) {
+  .dashboard-content {
+    padding: 90px 0 0;
+  }
+  .top_log_header > ul.header-navbar-rht {
+    width: 40% !important;
+  }
+  .login-content {
+    padding: 170px 0 10px;
+  }
   .parent-main.category {
     margin-top: 7rem !important;
   }
@@ -227,5 +320,8 @@
   .dashcard-img img {
     width: 100%;
     max-width: 50px;
+  }
+  .parent-main.container {
+    margin-top: 200px;
   }
 }

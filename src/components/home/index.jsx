@@ -60,7 +60,6 @@ import whatapp from "./whatapp (3).png";
 import popup from "./popup_image.png";
 import banner1 from "../../../public/Banner 1.png";
 import banner2 from "../../../public/Banner 2 (1).png";
-
 import {
   collection,
   getDocs,
@@ -72,10 +71,11 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "./../Firebase/FirebaseConfig.jsx";
-
+import react from "@heroicons/react";
+import { useRef } from "react";
 const Home = () => {
+  const scrollRef = useRef(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -985,11 +985,11 @@ const Home = () => {
             style={{
               position: "absolute",
               top: "60%",
-              marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+              marginTop: window.innerWidth <= 576 ? "40px" : "40px",
               left: "20px",
               transform: "translateY(-50%)",
-              width: "48px",
-              height: "48px",
+              width: window.innerWidth <= 576 ? "35px" : "48px",
+              height: window.innerWidth <= 576 ? "35px" : "48px",
               borderRadius: "50%",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               border: "1px solid rgba(255,255,255,0.2)",
@@ -1038,11 +1038,11 @@ const Home = () => {
             style={{
               position: "absolute",
               top: "60%",
-              marginTop: window.innerWidth <= 576 ? "30px" : "0px",
+              marginTop: window.innerWidth <= 576 ? "40px" : "40px",
               right: "20px",
               transform: "translateY(-50%)",
-              width: "48px",
-              height: "48px",
+              width: window.innerWidth <= 576 ? "35px" : "48px",
+              height: window.innerWidth <= 576 ? "35px" : "48px",
               borderRadius: "50%",
               backgroundColor: "rgba(0, 0, 0, 1)",
               border: "1px solid rgba(255,255,255,0.2)",
@@ -1105,6 +1105,7 @@ const Home = () => {
             Our Trending Product
           </h2>
           <div
+            ref={scrollRef}
             className="trendingproducts_container"
             style={{
               marginTop: 0,
@@ -1130,7 +1131,6 @@ const Home = () => {
             ))}
           </div>
         </div>
-
         {/* Category Section */}
         <section className="category-section" id="our_category">
           <div className="container">
@@ -1202,11 +1202,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryAutomative}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryAutomative}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryAutomative}
                       alt="Automative"
@@ -1271,11 +1271,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={Electronics}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={Electronics}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={Electronics}
                       alt="Electronics"
@@ -1396,11 +1396,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryHealthCare}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryHealthCare}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryHealthCare}
                       alt="HealthCare"
@@ -1462,11 +1462,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryJobBoard}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryJobBoard}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryJobBoard}
                       alt="JobBoard"
@@ -1588,11 +1588,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryTravel}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryTravel}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryTravel}
                       alt="Travel"
@@ -1654,10 +1654,10 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategorySportGames}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					/> */}
+            src={OurCategorySportGames}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+          /> */}
                     <img
                       src={OurCategorySportGames}
                       alt="SportGames"
@@ -1719,11 +1719,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryPetAnimals}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryPetAnimals}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryPetAnimals}
                       alt="PetAnimals"
@@ -1785,11 +1785,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-					  src={OurCategoryEducation}
-					  alt="icon"
-					  className="h-10 w-10 object-contain"
-					  style={{ border: "none" }}
-					/> */}
+            src={OurCategoryEducation}
+            alt="icon"
+            className="h-10 w-10 object-contain"
+            style={{ border: "none" }}
+          /> */}
                     <img
                       src={OurCategoryEducation}
                       alt="OurCategoryEducation"

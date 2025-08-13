@@ -1,6 +1,6 @@
 /*dealer-1
 Author       : Dreamguys
-Template Name: Listee	
+ 	
 Version      : 1.0
 */
 
@@ -2626,9 +2626,7 @@ h2.featuresection_header {
 .category-section a.category-links:hover span {
   color: #fff;
 }
-.section-heading {
-  /* margin: 0 0 24px; */
-}
+
 .featured-section {
   background: white;
   padding: 60px 0;
@@ -3733,9 +3731,7 @@ form.filter_innerwrap .accordion-item {
   transform: translate(0);
   box-shadow: unset;
 }
-.filter_card_main_wrap {
-  /* padding-right: 0 !important; */
-}
+
 .card_btn_wrap .sign-in-button {
   font-size: 14px !important;
 }
@@ -3752,8 +3748,7 @@ button.unhover:hover {
 }
 /* Filter css ends */
 /* PRODUCT DETAIL CSS STARTS */
-.product_Detail_main {
-}
+
 .product_Detail_main .product_Detail_inner {
   columns: 2;
   gap: 30px;
@@ -18128,9 +18123,6 @@ section.advertisement {
   .main-nav > li {
     margin-right: 9px;
   }
-  .header-navbar-rht > li {
-    /* padding-right: 10px; */
-  }
   .header-navbar-rht > li > .add-listing {
     display: none !important;
   }
@@ -20692,7 +20684,7 @@ font-size: 28px;
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
-  
+
   .header {
     position: fixed;
   }
@@ -20858,9 +20850,13 @@ font-size: 28px;
   .header-nav .container-fluid {
     padding: 0 !important;
   }
-  .section-heading h2 {
-    font-size: 28px;
+  .section-heading h2,
+  h2.featuresection_header,
+  .latestblog-wrapper h2 {
+    font-size: 20px !important;
+    font-weight: 600;
   }
+
   .featured-section,
   .cta-section,
   .popular-locations {
@@ -21624,9 +21620,7 @@ font-size: 28px;
     margin-left: 0px;
     min-width: unset;
   }
-  .section-heading h2 {
-    font-size: 25px;
-  }
+
   .interset-btn {
     justify-content: center;
   }
@@ -22447,9 +22441,9 @@ border-radius: 16px !important;
     width: 80%; /* Slightly smaller images */
     /* margin: 0 auto; Centers images horizontally */
   }
-  .search-container {
-    display: none !important; /* Hide search bar on mobile */
-  }
+  /* .search-container {
+    display: none !important; 
+  } */
   .navbar-header {
     flex: 1; /* Allow logo and toggler to take space */
   }

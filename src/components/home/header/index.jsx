@@ -328,7 +328,114 @@ const Header = ({ parms }) => {
                   ) : (
                     ""
                   )}
+                  <div
+                    className="lang_dropdown"
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                    }}
+                  >
+                    <button
+                      className="btn dropdown-toggle"
+                      onClick={toggleDropdown}
+                      aria-expanded={isDropdownVisible ? "true" : "false"}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "5px 10px",
+                        backgroundColor: "#fff",
+                        // border: "1px solid #ddd",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Flag
+                        code={selectedLanguage === "en" ? "GB" : "SA"}
+                        className="flag-icon"
+                        style={{
+                          width: "27px",
+                          marginRight: "5px",
+                          fontFamily: "Inter",
+                        }}
+                      />
+                      {selectedLanguage === "en" ? "EN" : "AR"}
+                    </button>
 
+                    {/* Dropdown Menu */}
+                    {isDropdownVisible && (
+                      <ul
+                        className="dropdown-menu show"
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          left: "0",
+                          zIndex: 1000,
+                          display: "block",
+                          minWidth: "160px",
+                          backgroundColor: "#fff",
+                          border: "1px solid #ddd",
+                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                          listStyle: "none",
+                          padding: "0",
+                          margin: "0",
+                        }}
+                      >
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            style={{
+                              fontFamily: "Inter",
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              padding: "8px 12px",
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              textAlign: "left",
+                            }}
+                            onClick={() => handleLanguageChange("en")}
+                          >
+                            <Flag
+                              code="GB"
+                              className="flag-icon"
+                              style={{
+                                width: "27px",
+                                marginRight: "5px",
+                              }}
+                            />
+                            English
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            style={{
+                              fontFamily: "VIP Rawy",
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              padding: "8px 12px",
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              textAlign: "left",
+                            }}
+                            onClick={() => handleLanguageChange("ar")}
+                          >
+                            <Flag
+                              code="SA"
+                              className="flag-icon"
+                              style={{
+                                width: "27px",
+                                marginRight: "5px",
+                              }}
+                            />
+                            Arabic
+                          </button>
+                        </li>
+                      </ul>
+                    )}
+                  </div>
                   <Offcanvas
                     show={menu}
                     onHide={toggleMobileMenu}
@@ -2261,133 +2368,131 @@ const Header = ({ parms }) => {
                     />
                   </Link>
                 </div>
-                {!isMobile && (
-                  <form
-                    className="d-flex search-container"
-                    style={{
-                      flexGrow: 1,
-                      maxWidth: "700px", // Increased width
-                      margin: "0 20px",
-                      position: "relative",
-                      display: "flex",
+
+                {/* {!isMobile && ( */}
+                <form
+                  className="d-flex search-container"
+                  style={{
+                    flexGrow: 1,
+                    maxWidth: "700px", // Increased width
+                    margin: "0 20px",
+                    position: "relative",
+                    display: "flex",
+                  }}
+                >
+                  <input
+                    className="form-control search-input"
+                    type="search"
+                    placeholder="What are you looking for?"
+                    aria-label="Search"
+                    value={searchText}
+                    onChange={(e) => {
+                      const text = e.target.value;
+                      const onlyAlphabets = text.replace(/[^a-zA-Z]/g, ""); // Remove non-alphabetic chars
+                      if (!isSelecting.current && onlyAlphabets.length <= 10) {
+                        setSearchText(onlyAlphabets);
+                      }
                     }}
-                  >
-                    <input
-                      className="form-control search-input"
-                      type="search"
-                      placeholder="What are you looking for?"
-                      aria-label="Search"
-                      value={searchText}
-                      onChange={(e) => {
-                        const text = e.target.value;
-                        const onlyAlphabets = text.replace(/[^a-zA-Z]/g, ""); // Remove non-alphabetic chars
-                        if (
-                          !isSelecting.current &&
-                          onlyAlphabets.length <= 10
-                        ) {
-                          setSearchText(onlyAlphabets);
-                        }
-                      }}
+                    style={{
+                      paddingRight: "40px",
+                      borderRadius: "12px",
+                      border: "1px solid #ccc",
+                      width: "100%",
+                      backgroundColor: "rgba(241, 241, 241,0.5)",
+                      padding: "15px 15px",
+                    }}
+                  />
+
+                  {results.length > 0 && (
+                    <ul
+                      className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
                       style={{
-                        paddingRight: "40px",
-                        borderRadius: "12px",
-                        border: "1px solid #ccc",
-                        width: "100%",
-                        backgroundColor: "rgba(241, 241, 241,0.5)",
-                        padding: "15px 15px",
-                      }}
-                    />
-
-                    {results.length > 0 && (
-                      <ul
-                        className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
-                        style={{
-                          maxHeight: "240px",
-                          overflowY: "auto",
-                          zIndex: 1050,
-                          top: "100%",
-                          left: 0,
-                          right: 0,
-                          boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
-                          border: "1px solid #dee2e6",
-                        }}
-                      >
-                        {results.map((item) => (
-                          <li
-                            key={item.id}
-                            className="border-bottom"
-                            onClick={() => {
-                              isSelecting.current = true;
-                              useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
-                              setSearchText(item.title);
-                              setSelectedItem(item);
-                              useSearchStore.setState({ results: [] });
-
-                              // Reset flag after short delay
-                              setTimeout(() => {
-                                isSelecting.current = false;
-                              }, 200);
-                            }}
-                            style={{
-                              padding: "12px 16px",
-                              cursor: "pointer",
-                              transition: "background-color 0.2s ease",
-                            }}
-                            onMouseEnter={(e) =>
-                              (e.target.style.backgroundColor = "#f8f9fa")
-                            }
-                            onMouseLeave={(e) =>
-                              (e.target.style.backgroundColor = "transparent")
-                            }
-                          >
-                            <div className="d-flex align-items-center">
-                              {item.image && (
-                                <img
-                                  src={item.image || "/placeholder.svg"}
-                                  alt={item.title}
-                                  className="me-3 rounded"
-                                  style={{
-                                    width: "45px",
-                                    height: "45px",
-                                    objectFit: "cover",
-                                  }}
-                                />
-                              )}
-                              <div>
-                                <div className="fw-bold text-dark mb-1">
-                                  {item.title}
-                                </div>
-                                <small className="text-muted">
-                                  in <em>{item.category}</em>
-                                  {item.subCategory && (
-                                    <span> • {item.subCategory}</span>
-                                  )}
-                                </small>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <button
-                      className="btn search-btn"
-                      type="submit"
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        right: "0px",
-                        transform: "translateY(-50%)",
-                        background: "transparent",
-                        borderRadius: "6px",
-                        padding: "14px 14px",
-                        backgroundColor: "#2d4495",
+                        maxHeight: "240px",
+                        overflowY: "auto",
+                        zIndex: 1050,
+                        top: "100%",
+                        left: 0,
+                        right: 0,
+                        boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
+                        border: "1px solid #dee2e6",
                       }}
                     >
-                      <FaSearch style={{ color: "#fff" }} />
-                    </button>
-                  </form>
-                )}
+                      {results.map((item) => (
+                        <li
+                          key={item.id}
+                          className="border-bottom"
+                          onClick={() => {
+                            isSelecting.current = true;
+                            useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
+                            setSearchText(item.title);
+                            setSelectedItem(item);
+                            useSearchStore.setState({ results: [] });
+
+                            // Reset flag after short delay
+                            setTimeout(() => {
+                              isSelecting.current = false;
+                            }, 200);
+                          }}
+                          style={{
+                            padding: "12px 16px",
+                            cursor: "pointer",
+                            transition: "background-color 0.2s ease",
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.target.style.backgroundColor = "#f8f9fa")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.target.style.backgroundColor = "transparent")
+                          }
+                        >
+                          <div className="d-flex align-items-center">
+                            {item.image && (
+                              <img
+                                src={item.image || "/placeholder.svg"}
+                                alt={item.title}
+                                className="me-3 rounded"
+                                style={{
+                                  width: "45px",
+                                  height: "45px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            )}
+                            <div>
+                              <div className="fw-bold text-dark mb-1">
+                                {item.title}
+                              </div>
+                              <small className="text-muted">
+                                in <em>{item.category}</em>
+                                {item.subCategory && (
+                                  <span> • {item.subCategory}</span>
+                                )}
+                              </small>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <button
+                    className="btn search-btn"
+                    type="submit"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      right: "0px",
+                      transform: "translateY(-50%)",
+                      background: "transparent",
+                      borderRadius: "6px",
+                      padding: "14px 14px",
+                      backgroundColor: "#2d4495",
+                    }}
+                  >
+                    <FaSearch style={{ color: "#fff" }} />
+                  </button>
+                </form>
+                {/* )} */}
                 <ul
                   className="nav header-navbar-rht d-flex align-items-center"
                   style={{
@@ -2590,13 +2695,13 @@ const Header = ({ parms }) => {
                           )}
                         </div>
                       )}
-                      {/* {!isMobile && userId && ( */}
-                      <li>
-                        <Link className="blue_btn" to="/listing">
-                          Post Ad
-                        </Link>
-                      </li>
-                      {/* // )} */}
+                      {!isMobile && userId && (
+                        <li>
+                          <Link className="blue_btn" to="/listing">
+                            Post Ad
+                          </Link>
+                        </li>
+                      )}
                       <li className="nav-item dropdown logged-item">
                         <Link
                           to="#"
