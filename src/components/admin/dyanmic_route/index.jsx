@@ -3855,8 +3855,8 @@ const Dynamic_Route = () => {
                   >
                     <div className="col">
                       <div className="table-responsive info_table">
-                        <div className="product_Detail_inner">
-                          <ul className="info_body">
+                        <div className="product_Detail_main">
+                          <ul className="product_Detail_inner">
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
