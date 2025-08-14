@@ -2380,7 +2380,7 @@ const Header = ({ parms }) => {
                     display: "flex",
                   }}
                 >
-                  <input
+                  {/* <input
                     className="form-control search-input"
                     type="search"
                     placeholder="What are you looking for?"
@@ -2391,6 +2391,32 @@ const Header = ({ parms }) => {
                       const onlyAlphabets = text.replace(/[^a-zA-Z]/g, ""); // Remove non-alphabetic chars
                       if (!isSelecting.current && onlyAlphabets.length <= 10) {
                         setSearchText(onlyAlphabets);
+                      }
+                    }}
+                    style={{
+                      paddingRight: "40px",
+                      borderRadius: "12px",
+                      border: "1px solid #ccc",
+                      width: "100%",
+                      backgroundColor: "rgba(241, 241, 241,0.5)",
+                      padding: "15px 15px",
+                    }}
+                  /> */}
+                  <input
+                    className="form-control search-input"
+                    type="search"
+                    placeholder="What are you looking for?"
+                    aria-label="Search"
+                    value={searchText}
+                    onChange={(e) => {
+                      const text = e.target.value;
+                      const lettersAndSpaces = text.replace(/[^a-zA-Z\s]/g, ""); // Allow letters + spaces
+                      if (
+                        !isSelecting.current &&
+                        lettersAndSpaces.length <= 50
+                      ) {
+                        // maybe increase limit from 10
+                        setSearchText(lettersAndSpaces);
                       }
                     }}
                     style={{
