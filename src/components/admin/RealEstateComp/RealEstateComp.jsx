@@ -254,7 +254,7 @@ const RealEstateComp = () => {
   const [cities, setCities] = useState([]);
   // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
   const [states, setStates] = useState([]);
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]);
   const [ResidenceType, setResidenceType] = useState("");
   const [Bedroom, setBedroom] = useState("");
   const [bathrooms, setbathrooms] = useState("");
@@ -406,6 +406,7 @@ const RealEstateComp = () => {
   const cityModalRef = useRef(null);
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
+
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -632,7 +633,16 @@ const RealEstateComp = () => {
   const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
-
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setToValue("");
+    setFromValue("");
+    setlogSelectedPurpose("");
+  };
   console.log(selectedCity, "selectedSubCategory________");
 
   const handleCategorySelect = (e) => {
@@ -1564,10 +1574,10 @@ const RealEstateComp = () => {
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add if not selected
         return [...prevSelected, label];
       }
     });
@@ -2878,23 +2888,35 @@ const RealEstateComp = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -3670,19 +3692,11 @@ const RealEstateComp = () => {
                                   <Form.Check
                                     type="checkbox"
                                     label={color}
-                                    // defaultChecked={color === "Grey"}
                                     onChange={() =>
                                       handleCheckboxPurpose(color)
                                     }
+                                    checked={logSelectedPurpose.includes(color)} // ✅ controlled
                                   />
-                                  {/* <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  12345
-                                </span> */}
                                 </div>
                               ))}
                             </Form.Group>

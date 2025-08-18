@@ -406,6 +406,7 @@ const ElectronicComp = () => {
   const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
   const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
   const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
+
   console.log(filteredCars, "filteredCars_________");
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -585,7 +586,7 @@ const ElectronicComp = () => {
   const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
     useState("");
   const [pictureAvailability, setPictureAvailability] = useState("");
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]); // use array
 
   const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
     useState("");
@@ -653,6 +654,19 @@ const ElectronicComp = () => {
     setId(ids);
   }, [id, location, getQueryParam]);
   // Format country data for React Select
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedSubCategory1("");
+    setBrands([]);
+    setSelectedRegionId([]);
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setSelectedDistricts([]);
+    setToValue("");
+    setFromValue("");
+    setCondition([]);
+    setlogSelectedPurpose([]);
+  };
   const countryOptions = Country.getAllCountries().map((country) => ({
     value: country.isoCode,
     label: country.name,
@@ -775,15 +789,12 @@ const ElectronicComp = () => {
     return "Just now";
   }
   const handleCheckboxCondition = (label) => {
-    setCondition((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
-      } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
-      }
-    });
+    setCondition(
+      (prevSelected) =>
+        prevSelected.includes(label)
+          ? prevSelected.filter((item) => item !== label) // remove if already selected
+          : [...prevSelected, label] // add if not selected
+    );
   };
   // Search query for title and city
   // Search query for title and city
@@ -1039,10 +1050,10 @@ const ElectronicComp = () => {
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // add if not selected
         return [...prevSelected, label];
       }
     });
@@ -2197,23 +2208,35 @@ const ElectronicComp = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -2222,6 +2245,7 @@ const ElectronicComp = () => {
                       </div>
                     </Col>
                   </Row>
+
                   {/*  -------------  */}
                   <style>{`
     .form-check-input:checked {
@@ -3038,9 +3062,9 @@ const ElectronicComp = () => {
                         <Accordion.Body>
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>
-                              {["New", "Used"].map((color) => (
+                              {["New", "Used"].map((condition) => (
                                 <div
-                                  key={color}
+                                  key={condition}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -3050,10 +3074,10 @@ const ElectronicComp = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    label={condition}
+                                    checked={Condition.includes(condition)} // ✅ controlled checkbox
                                     onChange={() =>
-                                      handleCheckboxCondition(color)
+                                      handleCheckboxCondition(condition)
                                     }
                                   />
                                   <span
@@ -3067,12 +3091,6 @@ const ElectronicComp = () => {
                                 </div>
                               ))}
                             </Form.Group>
-                            {/* <p
-                                            style={{ color: "#2D4495", cursor: "pointer" }}
-                                            onClick={() => handleMoreChoicesToggle()}
-                                          >
-                                            More choices
-                                          </p> */}
                           </div>
                         </Accordion.Body>
                       </Accordion.Item>
@@ -3102,9 +3120,9 @@ const ElectronicComp = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {["Rent", "Sell", "Wanted"].map((color) => (
+                            {["Rent", "Sell", "Wanted"].map((purpose) => (
                               <div
-                                key={color}
+                                key={purpose}
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -3114,9 +3132,11 @@ const ElectronicComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={color}
-                                  // defaultChecked={color === "Grey"}
-                                  onChange={() => handleCheckboxPurpose(color)}
+                                  label={purpose}
+                                  checked={logSelectedPurpose.includes(purpose)} // controlled checkbox
+                                  onChange={() =>
+                                    handleCheckboxPurpose(purpose)
+                                  }
                                 />
                               </div>
                             ))}

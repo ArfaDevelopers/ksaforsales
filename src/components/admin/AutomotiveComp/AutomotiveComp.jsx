@@ -4148,7 +4148,7 @@ const AutomotiveComp = () => {
 
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-secondary rounded-pill"
+                          className="blue_btn "
                           onClick={handleClearSearch}
                         >
                           Clear

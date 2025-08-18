@@ -228,6 +228,7 @@ const JobBoard = () => {
   const [nestedSubCategory, setNestedSubCategory] = useState("");
   console.log(nestedSubCategory, "subCatgory___________2222");
   console.log(subCatgory, "subCatgory___________1111___subCatgory");
+
   const { searchText } = useSearchStore();
   const regionOptions = [
     {
@@ -585,7 +586,13 @@ const JobBoard = () => {
       console.error("Dis JSON data is not in expected format");
     }
   }, []);
-
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+  };
   const DistrictOptions = useMemo(
     () =>
       DistrictList.map((Dis) => ({
@@ -2711,23 +2718,35 @@ const JobBoard = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"

@@ -177,10 +177,10 @@ const FashionStyle = () => {
   const [Connectivity, setConnectivity] = useState(""); // Search query for title and city
   const [SpecialFeatures, setSpecialFeatures] = useState(""); // Search query for title and city
   const [Gender, setGender] = useState("");
-  const [Size, setSize] = useState("");
+  const [Size, setSize] = useState([]);
   const [Fit, setFit] = useState("");
   const [Material, setMaterial] = useState("");
-  const [Color, setColor] = useState("");
+  const [Color, setColor] = useState([]);
   const [StyleDesign, setStyleDesign] = useState("");
   const [ClosureType, setClosureType] = useState("");
   const [CollarType, setCollarType] = useState("");
@@ -191,6 +191,7 @@ const FashionStyle = () => {
   // Search query for title and city
   // Search query for title and city
   // Search query for title and city
+
   const regionOptions = [
     {
       value: 1,
@@ -630,13 +631,12 @@ const FashionStyle = () => {
   console.log("Selected district:", selectedDistrict);
   const [selectedConditions, setSelectedConditions] = useState([]);
 
-  // Handler for Condition checkboxes
   const handleConditionChange = (condition) => (event) => {
     const isChecked = event.target.checked;
     setSelectedConditions((prev) => {
       const newConditions = isChecked
-        ? [...prev, condition]
-        : prev.filter((c) => c !== condition);
+        ? [...prev, condition] // add if checked
+        : prev.filter((c) => c !== condition); // remove if unchecked
       console.log("Selected Conditions:", newConditions);
       return newConditions;
     });
@@ -847,10 +847,10 @@ const FashionStyle = () => {
   const handleCheckboxChangColor = (label) => {
     setColor((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add if not selected
         return [...prevSelected, label];
       }
     });
@@ -880,14 +880,13 @@ const FashionStyle = () => {
   const handleCheckboxChangSize = (label) => {
     setSize((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
         return [...prevSelected, label];
       }
     });
   };
+
   const handleCheckboxChangeGender = (label) => {
     setGender((prevSelected) => {
       if (prevSelected.includes(label)) {
@@ -1120,15 +1119,28 @@ const FashionStyle = () => {
     return filteredCars.slice(startIndex, endIndex);
   };
   console.log(`Selected Option:____ getPaginatedCars`, getPaginatedCars);
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
-
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]); // use array instead of string
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setToValue("");
+    setFromValue("");
+    setlogSelectedPurpose([]);
+    setSize([]);
+    setSelectedConditions([]);
+    setColor([]);
+    setBrand([]);
+  };
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add the label
         return [...prevSelected, label];
       }
     });
@@ -1328,15 +1340,14 @@ const FashionStyle = () => {
   };
 
   const handleCheckboxChangeBrand = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    const carLabel = event.target.name;
     if (event.target.checked) {
-      // Add the label to the state if checked
       setBrand((prev) => [...prev, carLabel]);
     } else {
-      // Remove the label from the state if unchecked
       setBrand((prev) => prev.filter((car) => car !== carLabel));
     }
   };
+
   const handleCheckboxChange = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
@@ -2537,37 +2548,35 @@ const FashionStyle = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      {/* <div className="position-relative">
-                      <input
-                        type="search"
-                        placeholder="Search here"
-                        className="form-control rounded-pill pe-5"
-                        id="example-search-input"
-                        value={searchQuery} // Bind value to searchQuery state
-                        onChange={handleSearchChange} // Call the handler on input change
-                      />
-                      <FaSearch
-                        className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
-                        style={{ pointerEvents: "none" }}
-                      />
-                    </div> */}
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -3327,9 +3336,9 @@ const FashionStyle = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {["Rent", "Sell", "Wanted"].map((color) => (
+                            {["Rent", "Sell", "Wanted"].map((purpose) => (
                               <div
-                                key={color}
+                                key={purpose}
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -3339,13 +3348,16 @@ const FashionStyle = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={color}
-                                  // defaultChecked={color === "Grey"}
-                                  onChange={() => handleCheckboxPurpose(color)}
+                                  label={purpose}
+                                  checked={logSelectedPurpose.includes(purpose)} // ✅ controlled checkbox
+                                  onChange={() =>
+                                    handleCheckboxPurpose(purpose)
+                                  }
                                 />
                               </div>
                             ))}
                           </Form.Group>
+
                           {/* <p
                                        style={{ color: "#2D4495", cursor: "pointer" }}
                                        onClick={() => handleMoreChoicesToggle()}
@@ -3390,6 +3402,7 @@ const FashionStyle = () => {
                                 checked={selectedConditions.includes("New")}
                               />
                             </div>
+
                             <div
                               style={{
                                 display: "flex",
@@ -3428,7 +3441,7 @@ const FashionStyle = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {["XS", "M", "L", "XL"].map((engine, index) => (
+                            {["XS", "M", "L", "XL"].map((engine) => (
                               <div
                                 key={engine}
                                 style={{
@@ -3441,7 +3454,7 @@ const FashionStyle = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={engine}
-                                  // defaultChecked={engine === "V8 Engine"}
+                                  checked={Size.includes(engine)} // ✅ controlled by state
                                   onChange={() =>
                                     handleCheckboxChangSize(engine)
                                   }
@@ -3471,9 +3484,9 @@ const FashionStyle = () => {
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
                             {["Blue", "Black", "Grey", "White"].map(
-                              (engine, index) => (
+                              (color, index) => (
                                 <div
-                                  key={engine}
+                                  key={color}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -3483,10 +3496,10 @@ const FashionStyle = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={engine}
-                                    // defaultChecked={engine === "V8 Engine"}
+                                    label={color}
+                                    checked={Color.includes(color)} // ✅ keep checkbox state in sync
                                     onChange={() =>
-                                      handleCheckboxChangColor(engine)
+                                      handleCheckboxChangColor(color)
                                     }
                                   />
                                 </div>
@@ -3513,7 +3526,6 @@ const FashionStyle = () => {
                       <Accordion.Header>Brand</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          {/* Checkbox Selection */}
                           <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                             {[
                               "Nike",
@@ -3549,9 +3561,9 @@ const FashionStyle = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={car}
-                                  name={car} // Use the name attribute for identification
+                                  name={car}
+                                  checked={Brand.includes(car)}
                                   onChange={handleCheckboxChangeBrand}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
                                 />
                                 <span
                                   style={{ fontWeight: "bold", color: "#333" }}
