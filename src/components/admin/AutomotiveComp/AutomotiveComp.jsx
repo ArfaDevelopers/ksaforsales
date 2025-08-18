@@ -547,7 +547,7 @@ const AutomotiveComp = () => {
   const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
     useState("");
   const [pictureAvailability, setPictureAvailability] = useState("");
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]);
 
   const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
     useState("");
@@ -1938,8 +1938,8 @@ const AutomotiveComp = () => {
     setSelectedNumbersNumberofDoors((prevSelected) => {
       const isChecked = prevSelected.includes(label);
       const updatedSelection = isChecked
-        ? prevSelected.filter((item) => item !== label) // Remove if unchecked
-        : [...prevSelected, label]; // Add if checked
+        ? prevSelected.filter((item) => item !== label) // remove
+        : [...prevSelected, label]; // add
 
       console.log("Selected Numbers:", updatedSelection);
       return updatedSelection;
@@ -1949,8 +1949,8 @@ const AutomotiveComp = () => {
     setSelectedCarsBodyType((prevSelected) => {
       const isChecked = prevSelected.includes(label);
       const updatedSelection = isChecked
-        ? prevSelected.filter((item) => item !== label)
-        : [...prevSelected, label];
+        ? prevSelected.filter((item) => item !== label) // remove
+        : [...prevSelected, label]; // add
 
       console.log("Selected Car Types:", updatedSelection);
       return updatedSelection;
@@ -1996,15 +1996,12 @@ const AutomotiveComp = () => {
   const handleCheckboxChangeColor = (label) => {
     setlogSelectedColor((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
-
   const handleCheckboxAdditionalFeatures = (name) => {
     setAdditionalFeatures((prevSelected) =>
       prevSelected.includes(name)
@@ -2016,11 +2013,9 @@ const AutomotiveComp = () => {
   const handleCheckboxCondition = (label) => {
     setCondition((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
@@ -2028,22 +2023,18 @@ const AutomotiveComp = () => {
   const handleCheckboxInteriorColor = (label) => {
     setInteriorColor((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
   const handleCheckboxChangeRegionalSpec = (label) => {
     setRegionalSpec((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
@@ -2061,14 +2052,13 @@ const AutomotiveComp = () => {
   const handleCheckboxChangeInsurance = (label) => {
     setInsurance((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
+  // handle checkbox toggle
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
@@ -3501,6 +3491,32 @@ const AutomotiveComp = () => {
     selectedCity,
     selectedDistrict,
   ]);
+  // 👉 define this function inside your component
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setselectedSubCategory("");
+    setSelectedRegionId([]);
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setSelected("");
+    setQuery("");
+    setToValue("");
+    setFromValue("");
+    setToDate("");
+    setFromDate("");
+    setMileage("");
+    setlogSelectedPurpose([]);
+    setSelectedOptionTransmission("");
+    setlogSelectedColor([]);
+    setAdditionalFeatures([]);
+    setCondition([]);
+    setRegionalSpec([]);
+    setInsurance([]); // ✅ clear insurance checkboxes
+    setSelectedCarsBodyType([]); // ✅ clear body type checkboxes
+    setSelectedNumbersNumberofDoors([]); // ✅ clear number of doors checkboxes
+    setSelectedOptionisFeatured(""); // ✅ clear featured option
+    setInteriorColor([]); // ✅ clear interior color checkboxes
+  };
 
   // Handle search input change
   const handleSearchChange = (event) => {
@@ -4118,23 +4134,35 @@ const AutomotiveComp = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // keep inline with button
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-secondary rounded-pill"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -4143,6 +4171,7 @@ const AutomotiveComp = () => {
                       </div>
                     </Col>
                   </Row>
+
                   {/*  -------------                          */}
                   <style>{`
     .form-check-input:checked {
@@ -12931,9 +12960,9 @@ const AutomotiveComp = () => {
                         <Accordion.Body>
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>
-                              {["Rent", "Sell", "Wanted"].map((color) => (
+                              {["Rent", "Sell", "Wanted"].map((option) => (
                                 <div
-                                  key={color}
+                                  key={option}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -12943,10 +12972,12 @@ const AutomotiveComp = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    label={option}
+                                    checked={logSelectedPurpose.includes(
+                                      option
+                                    )} // ✅ keep state synced
                                     onChange={() =>
-                                      handleCheckboxPurpose(color)
+                                      handleCheckboxPurpose(option)
                                     }
                                   />
                                   <span
@@ -12960,6 +12991,7 @@ const AutomotiveComp = () => {
                                 </div>
                               ))}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13180,7 +13212,7 @@ const AutomotiveComp = () => {
                                     <Form.Check
                                       type="checkbox"
                                       label={color}
-                                      // defaultChecked={color === "Grey"}
+                                      checked={logSelectedColor.includes(color)} // ✅ sync state
                                       onChange={() =>
                                         handleCheckboxChangeColor(color)
                                       }
@@ -13197,6 +13229,7 @@ const AutomotiveComp = () => {
                                 )
                               )}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13310,9 +13343,9 @@ const AutomotiveComp = () => {
                         <Accordion.Body>
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>
-                              {["New", "Used"].map((color) => (
+                              {["New", "Used"].map((condition) => (
                                 <div
-                                  key={color}
+                                  key={condition}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -13322,10 +13355,10 @@ const AutomotiveComp = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    label={condition}
+                                    checked={Condition.includes(condition)} // ✅ sync with state
                                     onChange={() =>
-                                      handleCheckboxCondition(color)
+                                      handleCheckboxCondition(condition)
                                     }
                                   />
                                   <span
@@ -13339,6 +13372,7 @@ const AutomotiveComp = () => {
                                 </div>
                               ))}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13386,7 +13420,7 @@ const AutomotiveComp = () => {
                                     <Form.Check
                                       type="checkbox"
                                       label={color}
-                                      // defaultChecked={color === "Grey"}
+                                      checked={InteriorColor.includes(color)} // ✅ bind state
                                       onChange={() =>
                                         handleCheckboxInteriorColor(color)
                                       }
@@ -13403,6 +13437,7 @@ const AutomotiveComp = () => {
                                 )
                               )}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13441,9 +13476,9 @@ const AutomotiveComp = () => {
                                 "European",
                                 "Japanese",
                                 "American",
-                              ].map((color) => (
+                              ].map((spec) => (
                                 <div
-                                  key={color}
+                                  key={spec}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -13453,10 +13488,10 @@ const AutomotiveComp = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    label={spec}
+                                    checked={RegionalSpec.includes(spec)} // ✅ controlled state
                                     onChange={() =>
-                                      handleCheckboxChangeRegionalSpec(color)
+                                      handleCheckboxChangeRegionalSpec(spec)
                                     }
                                   />
                                   <span
@@ -13470,6 +13505,7 @@ const AutomotiveComp = () => {
                                 </div>
                               ))}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13562,9 +13598,9 @@ const AutomotiveComp = () => {
                                 "No Insurance",
                                 "ThirdParty",
                                 "Comprehensive",
-                              ].map((color) => (
+                              ].map((insuranceType) => (
                                 <div
-                                  key={color}
+                                  key={insuranceType}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -13574,10 +13610,12 @@ const AutomotiveComp = () => {
                                 >
                                   <Form.Check
                                     type="checkbox"
-                                    label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    label={insuranceType}
+                                    checked={Insurance.includes(insuranceType)} // ✅ controlled state
                                     onChange={() =>
-                                      handleCheckboxChangeInsurance(color)
+                                      handleCheckboxChangeInsurance(
+                                        insuranceType
+                                      )
                                     }
                                   />
                                   <span
@@ -13591,6 +13629,7 @@ const AutomotiveComp = () => {
                                 </div>
                               ))}
                             </Form.Group>
+
                             {/* <p
                             style={{ color: "#2D4495", cursor: "pointer" }}
                             onClick={() => handleMoreChoicesToggle()}
@@ -13639,7 +13678,7 @@ const AutomotiveComp = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={type}
-                                  checked={selectedCarsBodyType.includes(type)}
+                                  checked={selectedCarsBodyType.includes(type)} // ✅ controlled state
                                   onChange={() =>
                                     handleCheckboxChangeBodyType(type)
                                   }
@@ -13699,120 +13738,33 @@ const AutomotiveComp = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {/* Checkbox for 4 */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="4"
-                                onChange={() =>
-                                  handleCheckboxChangeNumberofDoors("4")
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
+                            {["4", "5", "2", "3", "0"].map((num) => (
+                              <div
+                                key={num}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
                               >
-                                12345
-                              </span>
-                            </div>
-
-                            {/* Checkbox for 5 */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="5"
-                                onChange={() =>
-                                  handleCheckboxChangeNumberofDoors("5")
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-
-                            {/* Checkbox for 2 (defaultChecked) */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="2"
-                                onChange={() =>
-                                  handleCheckboxChangeNumberofDoors("2")
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-
-                            {/* Checkbox for 3 */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="3"
-                                onChange={() =>
-                                  handleCheckboxChangeNumberofDoors("3")
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
-
-                            {/* Checkbox for 0 */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="0"
-                                onChange={() =>
-                                  handleCheckboxChangeNumberofDoors("0")
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
+                                <Form.Check
+                                  type="checkbox"
+                                  label={num}
+                                  checked={selectedNumbersNumberofDoors.includes(
+                                    num
+                                  )} // ✅ controlled
+                                  onChange={() =>
+                                    handleCheckboxChangeNumberofDoors(num)
+                                  }
+                                />
+                                <span
+                                  style={{ fontWeight: "bold", color: "#333" }}
+                                >
+                                  12345
+                                </span>
+                              </div>
+                            ))}
                           </Form.Group>
                         </div>
                       </Accordion.Body>
