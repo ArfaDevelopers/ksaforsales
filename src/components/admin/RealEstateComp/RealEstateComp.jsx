@@ -218,8 +218,8 @@ const RealEstateComp = () => {
   const [Features, setFeatures] = useState("");
   const [Season, setSeason] = useState("");
   const [Type, setType] = useState("");
-  const [Furnished, setFurnished] = useState("");
-  const [Facade, setFacade] = useState("");
+  const [Furnished, setFurnished] = useState([]); // ✅ array, not string
+  const [Facade, setFacade] = useState([]); // ✅ use array, not string
   const [licenseNumber, setLicenseNumber] = useState("");
   const [streetWidth, setstreetWidth] = useState("");
   console.log(streetWidth, "subCatgory___________2222streetWidth");
@@ -255,12 +255,12 @@ const RealEstateComp = () => {
   // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
   const [states, setStates] = useState([]);
   const [logSelectedPurpose, setlogSelectedPurpose] = useState([]);
-  const [ResidenceType, setResidenceType] = useState("");
-  const [Bedroom, setBedroom] = useState("");
-  const [bathrooms, setbathrooms] = useState("");
-  const [Area, setArea] = useState("");
+  const [ResidenceType, setResidenceType] = useState([]); // ✅ use array instead of ""
+  const [Bedroom, setBedroom] = useState([]); // ✅ should be an array
+  const [bathrooms, setBathrooms] = useState("");
+  const [Area, setArea] = useState([]); // ✅ array instead of string
 
-  const [Frequency, setFrequency] = useState("");
+  const [Frequency, setFrequency] = useState([]); // ✅ should be an array
 
   const [subCatgory, setsubCatgory] = useState("");
   const [nestedSubCategory, setNestedSubCategory] = useState("");
@@ -641,8 +641,22 @@ const RealEstateComp = () => {
     setSelectedDistricts([]);
     setToValue("");
     setFromValue("");
-    setlogSelectedPurpose("");
+    setlogSelectedPurpose([]);
+    setResidenceType([]); // ✅ clear residence type
+    setBedroom([]); // ✅ clear bedroom selections
+    setBathrooms([]); // ✅ clear bathrooms
+    setArea([]); // ✅ clear Area
+    setFurnished([]); // ✅ clear furnished
+    setFrequency([]); // ✅ clear frequency
+    setFacade([]); // ✅ clear facade
+    setLicenseNumber("");
+    setstreetWidth(""); // ✅ clear streetWidth
+    setFloor([]); // ✅ clear floor selection
+    setCondition([]); // ✅ clear condition filter
+    setAmenities([]); // ✅ clear amenities
+    setPropertyAge([]); // ✅ clear property age
   };
+
   console.log(selectedCity, "selectedSubCategory________");
 
   const handleCategorySelect = (e) => {
@@ -850,19 +864,18 @@ const RealEstateComp = () => {
   const handleCheckboxChangeFloor = (event) => {
     const selected = event.target.name;
     if (event.target.checked) {
-      setFloor([selected]); // Only allow one
+      setFloor([selected]); // ✅ only one selected at a time
     } else {
-      setFloor([]); // Uncheck all
+      setFloor([]); // ✅ uncheck all
     }
   };
+
   const handleCheckboxCondition = (label) => {
     setCondition((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+        return prevSelected.filter((item) => item !== label); // remove
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return [...prevSelected, label]; // add
       }
     });
   };
@@ -1038,14 +1051,15 @@ const RealEstateComp = () => {
   const handleCheckboxChangeFacade = (label) => {
     setFacade((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add to the selected array
         return [...prevSelected, label];
       }
     });
   };
+
   const handleCheckboxChangeSeason = (label) => {
     setSeason((prevSelected) => {
       if (prevSelected.includes(label)) {
@@ -1585,54 +1599,60 @@ const RealEstateComp = () => {
   const handleCheckboxResidenceType = (label) => {
     setResidenceType((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add if not selected
         return [...prevSelected, label];
       }
     });
   };
-  const handleCheckboxChangeNumberofrooms = (label) => {
+  const handleCheckboxChangeNumberofrooms = (event) => {
+    const label = event.target.name; // ✅ use name to identify
+    const isChecked = event.target.checked;
+
     setBedroom((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+      if (isChecked) {
+        return [...prevSelected, label]; // Add if checked
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return prevSelected.filter((item) => item !== label); // Remove if unchecked
       }
     });
   };
-  const handleCheckboxChangebathrooms = (label) => {
-    setbathrooms((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+
+  const handleCheckboxChangebathrooms = (event) => {
+    const label = event.target.name;
+    const isChecked = event.target.checked;
+
+    setBathrooms((prevSelected) => {
+      if (isChecked) {
+        return [...prevSelected, label]; // Add if checked
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return prevSelected.filter((item) => item !== label); // Remove if unchecked
       }
     });
   };
-  const handleCheckboxChangeArea = (label) => {
+
+  const handleCheckboxChangeArea = (event) => {
+    const label = event.target.name;
+    const isChecked = event.target.checked;
+
     setArea((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // Remove the label if already selected
-        return prevSelected.filter((item) => item !== label);
+      if (isChecked) {
+        return [...prevSelected, label]; // add if checked
       } else {
-        // Add the label to the selected array
-        return [...prevSelected, label];
+        return prevSelected.filter((item) => item !== label); // remove if unchecked
       }
     });
   };
+
   const handleCheckboxFrequency = (label) => {
     setFrequency((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add if not selected
         return [...prevSelected, label];
       }
     });
@@ -3747,23 +3767,16 @@ const RealEstateComp = () => {
                                     <Form.Check
                                       type="checkbox"
                                       label={color}
-                                      // defaultChecked={color === "Grey"}
                                       onChange={() =>
                                         handleCheckboxFrequency(color)
                                       }
+                                      checked={Frequency.includes(color)} // ✅ controlled
                                     />
-                                    {/* <span
-                                    style={{
-                                      fontWeight: "bold",
-                                      color: "#333",
-                                    }}
-                                  >
-                                    12345
-                                  </span> */}
                                   </div>
                                 )
                               )}
                             </Form.Group>
+
                             {/* <p
                                        style={{ color: "#2D4495", cursor: "pointer" }}
                                        onClick={() => handleMoreChoicesToggle()}
@@ -3810,22 +3823,15 @@ const RealEstateComp = () => {
                                   <Form.Check
                                     type="checkbox"
                                     label={color}
-                                    // defaultChecked={color === "Grey"}
                                     onChange={() =>
                                       handleCheckboxResidenceType(color)
                                     }
+                                    checked={ResidenceType.includes(color)} // ✅ controlled
                                   />
-                                  {/* <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  12345
-                                </span> */}
                                 </div>
                               ))}
                             </Form.Group>
+
                             {/* <p
                                        style={{ color: "#2D4495", cursor: "pointer" }}
                                        onClick={() => handleMoreChoicesToggle()}
@@ -3856,7 +3862,6 @@ const RealEstateComp = () => {
                       <Accordion.Header>Number of rooms</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          {/* Checkbox Selection */}
                           <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                             {[
                               "1 Bedroom",
@@ -3865,7 +3870,7 @@ const RealEstateComp = () => {
                               "4 Bedroom",
                               "5 Bedroom",
                               "5+ Bedrooms",
-                            ].map((car, index) => (
+                            ].map((room, index) => (
                               <div
                                 key={index}
                                 style={{
@@ -3877,16 +3882,11 @@ const RealEstateComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={car}
-                                  name={car} // Use the name attribute for identification
+                                  label={room}
+                                  name={room}
                                   onChange={handleCheckboxChangeNumberofrooms}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                                  checked={Bedroom.includes(room)} // ✅ controlled
                                 />
-                                {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                               </div>
                             ))}
                           </div>
@@ -3913,16 +3913,15 @@ const RealEstateComp = () => {
                       <Accordion.Header>Number of bathrooms</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          {/* Checkbox Selection */}
                           <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                             {[
-                              "1 bathrooms",
+                              "1 bathroom",
                               "2 bathrooms",
                               "3 bathrooms",
                               "4 bathrooms",
                               "5 bathrooms",
-                              "5+ bathroomss",
-                            ].map((car, index) => (
+                              "5+ bathrooms",
+                            ].map((bath, index) => (
                               <div
                                 key={index}
                                 style={{
@@ -3934,16 +3933,11 @@ const RealEstateComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={car}
-                                  name={car} // Use the name attribute for identification
+                                  label={bath}
+                                  name={bath}
                                   onChange={handleCheckboxChangebathrooms}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                                  checked={bathrooms.includes(bath)} // ✅ controlled state
                                 />
-                                {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                               </div>
                             ))}
                           </div>
@@ -3970,7 +3964,6 @@ const RealEstateComp = () => {
                       <Accordion.Header>Area</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          {/* Checkbox Selection */}
                           <div style={{ maxWidth: "300px", marginTop: "20px" }}>
                             {[
                               "Under 50 sq.m",
@@ -3978,7 +3971,7 @@ const RealEstateComp = () => {
                               "100 - 150 sq.m",
                               "150 - 200 sq.m",
                               "200+ sq.m",
-                            ].map((car, index) => (
+                            ].map((area, index) => (
                               <div
                                 key={index}
                                 style={{
@@ -3990,16 +3983,11 @@ const RealEstateComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={car}
-                                  name={car} // Use the name attribute for identification
+                                  label={area}
+                                  name={area}
                                   onChange={handleCheckboxChangeArea}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
+                                  checked={Area.includes(area)} // ✅ controlled by state
                                 />
-                                {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                               </div>
                             ))}
                           </div>
@@ -4032,7 +4020,7 @@ const RealEstateComp = () => {
                               "Furnished",
                               "Unfurnished",
                               "Partially Furnished",
-                            ].map((engine, index) => (
+                            ].map((engine) => (
                               <div
                                 key={engine}
                                 style={{
@@ -4045,16 +4033,11 @@ const RealEstateComp = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={engine}
-                                  // defaultChecked={engine === "V8 Engine"}
+                                  checked={Furnished.includes(engine)} // ✅ controlled
                                   onChange={() =>
                                     handleCheckboxChangeFurnished(engine)
                                   }
                                 />
-                                {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                               </div>
                             ))}
                           </Form.Group>
@@ -4094,7 +4077,7 @@ const RealEstateComp = () => {
                               "North-West Facing",
                               "South-East Facing",
                               "South-West Facing",
-                            ].map((engine, index) => (
+                            ].map((engine) => (
                               <div
                                 key={engine}
                                 style={{
@@ -4107,16 +4090,11 @@ const RealEstateComp = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={engine}
-                                  // defaultChecked={engine === "V8 Engine"}
+                                  checked={Facade.includes(engine)} // ✅ controlled
                                   onChange={() =>
                                     handleCheckboxChangeFacade(engine)
                                   }
                                 />
-                                {/* <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span> */}
                               </div>
                             ))}
                           </Form.Group>
@@ -4182,13 +4160,8 @@ const RealEstateComp = () => {
                         >
                           <Form.Label>Street Width</Form.Label>
                           <Form.Select
-                            value={formData.streetWidth}
-                            onChange={(e) =>
-                              setstreetWidth((prev) => ({
-                                ...prev,
-                                streetWidth: e.target.value,
-                              }))
-                            }
+                            value={streetWidth} // ✅ bind to streetWidth state directly
+                            onChange={(e) => setstreetWidth(e.target.value)} // ✅ no need for object spread
                           >
                             <option value="">Select Width</option>
                             <option value="Less than 5m">Less than 5m</option>
@@ -4285,19 +4258,11 @@ const RealEstateComp = () => {
                                   <Form.Check
                                     type="checkbox"
                                     label={color}
-                                    // defaultChecked={color === "Grey"}
+                                    checked={Condition.includes(color)} // ✅ controlled checkbox
                                     onChange={() =>
                                       handleCheckboxCondition(color)
                                     }
                                   />
-                                  {/* <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  12345
-                                </span> */}
                                 </div>
                               ))}
                             </Form.Group>
@@ -4407,7 +4372,7 @@ const RealEstateComp = () => {
                                   type="checkbox"
                                   label={label}
                                   name={label}
-                                  checked={PropertyAge.includes(label)}
+                                  checked={PropertyAge.includes(label)} // ✅ controlled by state
                                   onChange={() =>
                                     handleCheckboxChangePropertyAge(label)
                                   }
@@ -4415,7 +4380,7 @@ const RealEstateComp = () => {
                               </div>
                             ))}
                           </Form.Group>
-
+                          ;
                           {propertyAgeList.length > 4 && (
                             <p
                               onClick={() =>

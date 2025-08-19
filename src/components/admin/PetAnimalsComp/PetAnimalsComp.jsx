@@ -187,7 +187,7 @@ const PetAnimalsComp = () => {
   const [ColorOptions, setColorOptions] = useState(""); // Search query for title and city
   const [SellerType, setSellerType] = useState(""); // Search query for title and city
   const [Breed, setBreed] = useState(""); // Search query for title and city
-  const [Age, setAge] = useState(""); // Search query for title and city
+  const [Age, setAge] = useState([]); // should be an array, not a string
   const [Gender, setGender] = useState(""); // Search query for title and city
   const [Color, setColor] = useState(""); // Search query for title and city
   const [Temperament, setTemperament] = useState(""); // Search query for title and city
@@ -761,12 +761,12 @@ const PetAnimalsComp = () => {
     }
   };
   const handleCheckboxChangeAge = (event) => {
-    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    const carLabel = event.target.name;
     if (event.target.checked) {
-      // Add the label to the state if checked
+      // Add if checked
       setAge((prev) => [...prev, carLabel]);
     } else {
-      // Remove the label from the state if unchecked
+      // Remove if unchecked
       setAge((prev) => prev.filter((car) => car !== carLabel));
     }
   };
@@ -1172,8 +1172,18 @@ const PetAnimalsComp = () => {
     return filteredCars.slice(startIndex, endIndex);
   };
 
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
-
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]);
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setToValue("");
+    setFromValue("");
+    setlogSelectedPurpose([]); // ✅ Reset purpose too
+    setAge([]); // ✅ Reset Age filter (unchecks all checkboxes)
+  };
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
@@ -2465,23 +2475,35 @@ const PetAnimalsComp = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -3231,10 +3253,11 @@ const PetAnimalsComp = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={car}
-                                  name={car} // Use the name attribute for identification
+                                  name={car}
+                                  checked={Age.includes(car)} // controlled checkbox
                                   onChange={handleCheckboxChangeAge}
-                                  // defaultChecked={car === "Nissan"} // Pre-check Nissan
                                 />
+
                                 <span
                                   style={{ fontWeight: "bold", color: "#333" }}
                                 >
@@ -3281,7 +3304,7 @@ const PetAnimalsComp = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label={color}
-                                  // defaultChecked={color === "Grey"}
+                                  checked={logSelectedPurpose.includes(color)} // ✅ Control checked state
                                   onChange={() => handleCheckboxPurpose(color)}
                                 />
                               </div>

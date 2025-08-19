@@ -364,8 +364,6 @@ const TravelComp = () => {
   const [showModalDistricts, setShowModalDistricts] = useState(false);
   const [searchText1, setSearchText1] = useState("");
 
-  // Filter district options based on search text
-
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -1322,20 +1320,29 @@ const TravelComp = () => {
     return filteredCars.slice(startIndex, endIndex);
   };
 
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState("");
+  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]);
 
   const handleCheckboxPurpose = (label) => {
     setlogSelectedPurpose((prevSelected) => {
       if (prevSelected.includes(label)) {
-        // Remove the label if already selected
+        // Remove if already selected
         return prevSelected.filter((item) => item !== label);
       } else {
-        // Add the label to the selected array
+        // Add if not selected
         return [...prevSelected, label];
       }
     });
   };
-
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+    setToValue("");
+    setFromValue("");
+    setlogSelectedPurpose([]); // ✅ Reset purpose too
+  };
   const handleCheckboxChangeVideoAvailability = (event) => {
     const isChecked = event.target.checked;
     const value = isChecked ? "With Video" : "";
@@ -2751,23 +2758,35 @@ const TravelComp = () => {
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
-                      <Form.Label
-                        style={{
-                          fontWeight: "bold",
-                          color: "black",
-                          paddingLeft: "8px",
-                        }}
-                      >
-                        Search by Keywords
-                      </Form.Label>
-                      <div className="position-relative">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Form.Label
+                          style={{
+                            fontWeight: "bold",
+                            color: "black",
+                            paddingLeft: "8px",
+                            marginBottom: 0, // Keep aligned vertically
+                          }}
+                        >
+                          Search by Keywords
+                        </Form.Label>
+
+                        <button
+                          type="button"
+                          className="blue_btn"
+                          onClick={handleClearSearch}
+                        >
+                          Clear
+                        </button>
+                      </div>
+
+                      <div className="position-relative mt-2">
                         <input
                           type="search"
                           placeholder="Search here"
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
-                          value={searchQuery} // Bind value to searchQuery state
-                          onChange={handleSearchChange} // Call the handler on input change
+                          value={searchQuery}
+                          onChange={handleSearchChange}
                         />
                         <FaSearch
                           className="position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
@@ -3511,9 +3530,9 @@ const TravelComp = () => {
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            {["Sell", "Wanted"].map((color) => (
+                            {["Sell", "Wanted"].map((purpose) => (
                               <div
-                                key={color}
+                                key={purpose}
                                 style={{
                                   display: "flex",
                                   justifyContent: "space-between",
@@ -3523,9 +3542,11 @@ const TravelComp = () => {
                               >
                                 <Form.Check
                                   type="checkbox"
-                                  label={color}
-                                  // defaultChecked={color === "Grey"}
-                                  onChange={() => handleCheckboxPurpose(color)}
+                                  label={purpose}
+                                  checked={logSelectedPurpose.includes(purpose)} // ✅ controlled checkbox
+                                  onChange={() =>
+                                    handleCheckboxPurpose(purpose)
+                                  }
                                 />
                               </div>
                             ))}
