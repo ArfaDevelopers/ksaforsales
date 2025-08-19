@@ -702,7 +702,7 @@ const Dynamic_Route = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching item:", error);
-        setError("Failed to fetch data");
+        // setError("Failed to fetch data");
         setLoading(false);
       }
     };

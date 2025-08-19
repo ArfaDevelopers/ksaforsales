@@ -567,6 +567,16 @@ const AutomotiveComp = () => {
 
   const [receiverId, setReceiverId] = useState(null);
   const [productIds, setproductIds] = useState(null);
+  const [fromMileage, setFromMileage] = useState("");
+  const [toMileage, setToMileage] = useState("");
+
+  const handleFromMileageChange = (e) => {
+    setFromMileage(e.target.value);
+  };
+
+  const handleToMileageChange = (e) => {
+    setToMileage(e.target.value);
+  };
 
   // useEffect(() => {
   //   setSearchQuery(searchText); // Update searchQuery from searchText
@@ -3436,7 +3446,9 @@ const AutomotiveComp = () => {
       selectedOptionisFeatured,
       SortBy,
       selectedSubCategory,
-      mileage,
+
+      toMileage,
+      fromMileage,
       logSelectedPurpose,
       RegionalSpec,
       Insurance,
@@ -3480,7 +3492,8 @@ const AutomotiveComp = () => {
     selectedOptionisFeatured,
     SortBy,
     selectedSubCategory,
-    mileage,
+    toMileage,
+    fromMileage,
     logSelectedPurpose,
     RegionalSpec,
     Insurance,
@@ -3557,7 +3570,8 @@ const AutomotiveComp = () => {
       selectedOptionisFeatured,
       SortBy,
       selectedSubCategory,
-      mileage,
+      toMileage,
+      fromMileage,
       logSelectedPurpose,
       RegionalSpec,
       Insurance,
@@ -3660,40 +3674,6 @@ const AutomotiveComp = () => {
             field.toLowerCase().includes(lowercasedQuery)
         );
       });
-
-      // filtered = filtered.filter(
-      //   (car) =>
-      //     car.title?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.City?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Emirates?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Make?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Registeredin?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Color?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.SeatingCapacity?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.ModalCategory?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.AdType?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.mileage?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.RegionalSpec?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Insurance?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.InteriorColor?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Make?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Model?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Fueltype?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.Condition?.toLowerCase().includes(lowercasedQuery) ||
-      //     // car.AdditionalFeatures?.toLowerCase().includes(lowercasedQuery) ||
-      //     car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery)
-      // );
     }
     setLoading(false);
     if (searchQuery?.length > 0) {
@@ -3707,6 +3687,28 @@ const AutomotiveComp = () => {
         return car.title.toLowerCase().includes(searchQuery.toLowerCase());
       });
     }
+    if (fromMileage || toMileage) {
+      filtered = filtered.filter((car) => {
+        // Make sure mileage exists and is numeric
+        if (!car.mileage) return false;
+
+        const carMileage = Number(car.mileage);
+        const from = fromMileage ? Number(fromMileage) : null;
+        const to = toMileage ? Number(toMileage) : null;
+
+        if (from !== null && to !== null) {
+          return carMileage >= from && carMileage <= to;
+        }
+        if (from !== null) {
+          return carMileage >= from;
+        }
+        if (to !== null) {
+          return carMileage <= to;
+        }
+        return true;
+      });
+    }
+
     if (searchText?.length > 0) {
       filtered = filtered.filter((car) => {
         // Ensure car.title exists and is a string
@@ -3790,9 +3792,7 @@ const AutomotiveComp = () => {
         logSelectedPurpose.includes(car.Purpose)
       );
     }
-    if (mileage?.length > 0) {
-      filtered = filtered.filter((car) => mileage.includes(car.mileage));
-    }
+
     // Filter by selected cities
     else if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -12752,19 +12752,38 @@ const AutomotiveComp = () => {
                             <Row>
                               <Col className="col-6">
                                 <Form.Control
-                                  type="date"
-                                  placeholder="From"
+                                  as="select"
                                   value={fromDate}
                                   onChange={handleFromDateChange}
-                                />
+                                >
+                                  <option value="">From</option>
+                                  {Array.from({ length: 30 }, (_, i) => {
+                                    const year = 2000 + i; // generate years from 2000 onwards
+                                    return (
+                                      <option key={year} value={year}>
+                                        {year}
+                                      </option>
+                                    );
+                                  })}
+                                </Form.Control>
                               </Col>
+
                               <Col className="col-6">
                                 <Form.Control
-                                  type="date"
-                                  placeholder="To"
+                                  as="select"
                                   value={toDate}
                                   onChange={handleToDateChange}
-                                />
+                                >
+                                  <option value="">To</option>
+                                  {Array.from({ length: 30 }, (_, i) => {
+                                    const year = 2000 + i;
+                                    return (
+                                      <option key={year} value={year}>
+                                        {year}
+                                      </option>
+                                    );
+                                  })}
+                                </Form.Control>
                               </Col>
                             </Row>
                           </Form.Group>
@@ -12922,15 +12941,28 @@ const AutomotiveComp = () => {
                       <Accordion.Header>Mileage</Accordion.Header>
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          <Form.Group>
+                          <Form.Group className="mb-3">
                             <Form.Label>Mileage (in km)</Form.Label>
-                            <Form.Control
-                              type="number"
-                              placeholder="Enter mileage"
-                              value={mileage}
-                              onChange={(e) => setMileage(e.target.value)}
-                              min="0"
-                            />
+                            <Row>
+                              <Col className="col-6">
+                                <Form.Control
+                                  type="text"
+                                  placeholder="From"
+                                  value={fromMileage}
+                                  onChange={handleFromMileageChange}
+                                  min="0"
+                                />
+                              </Col>
+                              <Col className="col-6">
+                                <Form.Control
+                                  type="text"
+                                  placeholder="To"
+                                  value={toMileage}
+                                  onChange={handleToMileageChange}
+                                  min="0"
+                                />
+                              </Col>
+                            </Row>
                           </Form.Group>
                         </div>
                       </Accordion.Body>
