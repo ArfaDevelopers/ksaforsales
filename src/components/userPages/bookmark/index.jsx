@@ -682,7 +682,7 @@ const Bookmarks = () => {
                             <div className="amount-details">
                               <div className="amount">
                                 <span className="validrate">
-                                  ${car.Price || "N/A"}
+                                  SAR {car.Price || "N/A"}
                                 </span>
                               </div>
                               {/* <div className="ratings">
