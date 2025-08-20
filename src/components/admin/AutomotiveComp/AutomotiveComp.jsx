@@ -569,7 +569,7 @@ const AutomotiveComp = () => {
   const [productIds, setproductIds] = useState(null);
   const [fromMileage, setFromMileage] = useState("");
   const [toMileage, setToMileage] = useState("");
-
+  console.log(fromMileage, "__________", toMileage);
   const handleFromMileageChange = (e) => {
     setFromMileage(e.target.value);
   };
@@ -2198,13 +2198,16 @@ const AutomotiveComp = () => {
 
         if (searchText) params.append("searchText", searchText);
 
-        // ✅ Pass multiple regionId values
         if (selectedRegion.length) {
           selectedRegion.forEach((id) => params.append("regionId", id));
         }
 
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+        // ✅ Add mileage filters
+        if (fromMileage) params.append("fromMileage", fromMileage);
+        if (toMileage) params.append("toMileage", toMileage);
 
         const response = await fetch(
           `http://168.231.80.24:9002/route/cars?${params.toString()}`
@@ -2223,7 +2226,15 @@ const AutomotiveComp = () => {
     };
 
     fetchCars();
-  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+  }, [
+    searchText,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+    refresh,
+    fromMileage,
+    toMileage, // 🔹 trigger re-fetch when they change
+  ]);
 
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
