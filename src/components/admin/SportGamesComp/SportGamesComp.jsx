@@ -1420,7 +1420,7 @@ const SPORTSGAMESComp = () => {
     const CITY_ID = selectedCities[0]?.CITY_ID;
     const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
 
-    const fetchCars = async () => {
+    const fetchSportsGames = async () => {
       try {
         setLoading(true);
 
@@ -1428,7 +1428,7 @@ const SPORTSGAMESComp = () => {
 
         if (searchText) params.append("searchText", searchText);
 
-        // ✅ Pass multiple regionId values
+        // ✅ Multi regionId
         if (selectedRegion.length) {
           selectedRegion.forEach((id) => params.append("regionId", id));
         }
@@ -1436,24 +1436,35 @@ const SPORTSGAMESComp = () => {
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
+        // ✅ Sorting
+        if (SortBy) params.append("sortBy", SortBy);
+
         const response = await fetch(
           `http://168.231.80.24:9002/route/SPORTSGAMESComp?${params.toString()}`
         );
 
-        const carsData = await response.json();
-        setCars(carsData);
-        setFilteredCars(carsData);
+        const sportsData = await response.json();
+        setCars(sportsData);
+        setFilteredCars(sportsData);
         setLoading(false);
 
-        console.log(carsData, "carsData_________cars");
+        console.log(sportsData, "sportsData_________SPORTSGAMESComp");
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error getting SPORTSGAMESComp:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+    fetchSportsGames();
+  }, [
+    searchText,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+    SortBy,
+    refresh,
+  ]);
+
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
   //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
@@ -3394,9 +3405,22 @@ const SPORTSGAMESComp = () => {
                                       color: "#2D4495",
                                     }}
                                   >
-                                    {car.Price
-                                      ? `SAR ${car.Price}`
-                                      : "Price not available"}
+                                    {car.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em", // Adjust the size as needed
+                                            verticalAlign: "middle",
+                                            marginRight: "5px", // Add a small space between the symbol and the price
+                                          }}
+                                        />
+                                        {car.Price}
+                                      </>
+                                    ) : (
+                                      "Price not available"
+                                    )}
                                   </p>
                                 </Card.Title>
                                 <Card.Text style={{ color: "black" }}>
@@ -3579,32 +3603,36 @@ const SPORTSGAMESComp = () => {
                                     <span className="button-text">Message</span>
                                   </button>
                                   {/* WhatsApp Button */}
-                                  <a
-                                    href={`https://wa.me/${car.whatsapp}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <button
-                                      className={`blue_btn list_btn ${
-                                        isActive ? "icon-only" : ""
-                                      }`}
-                                      style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "5px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
-                                      }}
+                                  {car.showNumberChecked ? (
+                                    ""
+                                  ) : (
+                                    <a
+                                      href={`https://wa.me/${car.whatsapp}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
                                     >
-                                      <FaWhatsapp />
-                                      <span className="button-text">
-                                        WhatsApp
-                                      </span>
-                                    </button>
-                                  </a>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "icon-only" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "5px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">
+                                          WhatsApp
+                                        </span>
+                                      </button>
+                                    </a>
+                                  )}
                                   <button
                                     className={`sign-in-button`}
                                     style={{

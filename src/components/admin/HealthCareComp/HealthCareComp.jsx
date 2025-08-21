@@ -1593,7 +1593,7 @@ const HealthCareComp = () => {
     const CITY_ID = selectedCities[0]?.CITY_ID;
     const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
 
-    const fetchCars = async () => {
+    const fetchHealthcare = async () => {
       try {
         setLoading(true);
 
@@ -1609,24 +1609,35 @@ const HealthCareComp = () => {
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
+        // ✅ Add SortBy
+        if (SortBy) params.append("sortBy", SortBy);
+
         const response = await fetch(
           `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
         );
 
-        const carsData = await response.json();
-        setCars(carsData);
-        setFilteredCars(carsData);
+        const healthcareData = await response.json();
+        setCars(healthcareData);
+        setFilteredCars(healthcareData);
         setLoading(false);
 
-        console.log(carsData, "carsData_________cars");
+        console.log(healthcareData, "healthcareData_________");
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error getting HEALTHCARE:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
-  }, [searchText, selectedRegion, selectedCities, selectedDistricts, refresh]);
+    fetchHealthcare();
+  }, [
+    searchText,
+    selectedRegion,
+    selectedCities,
+    selectedDistricts,
+    refresh,
+    SortBy, // ✅ re-fetch when SortBy changes
+  ]);
+
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
   //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
@@ -3622,9 +3633,22 @@ const HealthCareComp = () => {
                                       color: "#2D4495",
                                     }}
                                   >
-                                    {car.Price
-                                      ? `SAR ${car.Price}`
-                                      : "Price not available"}
+                                    {car.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em", // Adjust the size as needed
+                                            verticalAlign: "middle",
+                                            marginRight: "5px", // Add a small space between the symbol and the price
+                                          }}
+                                        />
+                                        {car.Price}
+                                      </>
+                                    ) : (
+                                      "Price not available"
+                                    )}
                                   </p>
                                 </Card.Title>
                                 <Card.Text style={{ color: "black" }}>
@@ -3807,32 +3831,36 @@ const HealthCareComp = () => {
                                     <span className="button-text">Message</span>
                                   </button>
                                   {/* WhatsApp Button */}
-                                  <a
-                                    href={`https://wa.me/${car.whatsapp}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <button
-                                      className={`blue_btn list_btn ${
-                                        isActive ? "icon-only" : ""
-                                      }`}
-                                      style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "5px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
-                                      }}
+                                  {car.showNumberChecked ? (
+                                    ""
+                                  ) : (
+                                    <a
+                                      href={`https://wa.me/${car.whatsapp}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
                                     >
-                                      <FaWhatsapp />
-                                      <span className="button-text">
-                                        WhatsApp
-                                      </span>
-                                    </button>
-                                  </a>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "icon-only" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "5px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">
+                                          WhatsApp
+                                        </span>
+                                      </button>
+                                    </a>
+                                  )}
                                   <button
                                     className={`sign-in-button`}
                                     style={{

@@ -4147,9 +4147,22 @@ const Userinfo = () => {
                                     color: "#2D4495",
                                   }}
                                 >
-                                  {car.Price
-                                    ? `SAR ${car.Price}`
-                                    : "Price not available"}
+                                  {car.Price ? (
+                                    <>
+                                      <img
+                                        src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                        alt="Saudi Riyal Symbol"
+                                        style={{
+                                          height: "1em",
+                                          verticalAlign: "middle",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      {car.Price}
+                                    </>
+                                  ) : (
+                                    "Price not available"
+                                  )}
                                 </p>
                               </Card.Title>
                               <Card.Text style={{ color: "black" }}>

@@ -660,7 +660,16 @@ const MyListe = () => {
               {formatCategory(record.category)}
             </Link>{" "}
             <span className="discount-amt" style={{ color: "#2d4495" }}>
-              SAR {record.Price}
+              <img
+                src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                alt="Saudi Riyal Symbol"
+                style={{
+                  height: "1em",
+                  verticalAlign: "middle",
+                  marginRight: "5px",
+                }}
+              />
+              {record.Price}
             </span>
           </div>
           <p>{record.tagline}.</p>

@@ -1621,7 +1621,22 @@ const Dynamic_Routes = () => {
                         marginBottom: 20,
                       }}
                     >
-                      SAR {itemData?.Price || "N/A"}
+                      {itemData?.Price ? (
+                        <>
+                          <img
+                            src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                            alt="Saudi Riyal Symbol"
+                            style={{
+                              height: "1em",
+                              verticalAlign: "middle",
+                              marginRight: "5px",
+                            }}
+                          />
+                          {itemData.Price}
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
                     </div>
                     <h5>Safety Tips</h5>
                     <ul
@@ -1705,20 +1720,24 @@ const Dynamic_Routes = () => {
                                 </button>
                               </a>
                             )}{" "}
-                            <a
-                              href={`https://wa.me/${itemData.whatsapp}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <button
-                                className={`blue_btn list_btn ${
-                                  showPhone ? "icon-only" : ""
-                                }`}
+                            {itemData.showNumberChecked ? (
+                              ""
+                            ) : (
+                              <a
+                                href={`https://wa.me/${itemData.whatsapp}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                               >
-                                <FaWhatsapp />
-                                <span className="button-text">WhatsApp</span>
-                              </button>
-                            </a>
+                                <button
+                                  className={`blue_btn list_btn ${
+                                    showPhone ? "icon-only" : ""
+                                  }`}
+                                >
+                                  <FaWhatsapp />
+                                  <span className="button-text">WhatsApp</span>
+                                </button>
+                              </a>
+                            )}
                             <button
                               className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""

@@ -88,10 +88,10 @@ export default function ElectronicCarousel() {
           <div className="feature-section-info">
             <ul className="info-list">
               <li className="active">Charger</li>
-              <li>Headphoness</li>
+              {/* <li>Headphoness</li>
               <li>Speaker</li>
               <li>Mobile</li>
-              <li>Processor</li>
+              <li>Processor</li> */}
             </ul>
           </div>
 

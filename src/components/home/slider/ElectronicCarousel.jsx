@@ -289,11 +289,25 @@ export default function AutomativeCarousel() {
                                     className="validrate"
                                     style={{
                                       fontWeight: "bold",
-                                      // color: "#27ae60",
                                       fontSize: "0.9rem",
                                     }}
                                   >
-                                    SAR {item.Price}
+                                    {item.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em",
+                                            verticalAlign: "middle",
+                                            marginRight: "5px",
+                                          }}
+                                        />
+                                        {item.Price}
+                                      </>
+                                    ) : (
+                                      "N/A"
+                                    )}
                                   </span>
                                 </div>
                                 <div

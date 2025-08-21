@@ -2205,9 +2205,11 @@ const AutomotiveComp = () => {
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
-        // ✅ Add mileage filters
         if (fromMileage) params.append("fromMileage", fromMileage);
         if (toMileage) params.append("toMileage", toMileage);
+
+        // ✅ Pass SortBy
+        if (SortBy) params.append("sortBy", SortBy);
 
         const response = await fetch(
           `http://168.231.80.24:9002/route/cars?${params.toString()}`
@@ -2233,7 +2235,8 @@ const AutomotiveComp = () => {
     selectedDistricts,
     refresh,
     fromMileage,
-    toMileage, // 🔹 trigger re-fetch when they change
+    toMileage,
+    SortBy, // 🔹 re-fetch on SortBy change
   ]);
 
   // useEffect(() => {
@@ -14033,7 +14036,6 @@ const AutomotiveComp = () => {
                                   }}
                                 >
                                   <Link
-                                    //  to={`/car-details/${ad.id}`}
                                     to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
                                   >
                                     {car.title || "Car"}
@@ -14045,9 +14047,22 @@ const AutomotiveComp = () => {
                                       color: "#2D4495",
                                     }}
                                   >
-                                    {car.Price
-                                      ? `SAR ${car.Price}`
-                                      : "Price not available"}
+                                    {car.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em", // Adjust the size as needed
+                                            verticalAlign: "middle",
+                                            marginRight: "5px", // Add a small space between the symbol and the price
+                                          }}
+                                        />
+                                        {car.Price}
+                                      </>
+                                    ) : (
+                                      "Price not available"
+                                    )}
                                   </p>
                                 </Card.Title>
                                 <Card.Text style={{ color: "black" }}>
@@ -14230,32 +14245,36 @@ const AutomotiveComp = () => {
                                     <span className="button-text">Message</span>
                                   </button>
                                   {/* WhatsApp Button */}
-                                  <a
-                                    href={`https://wa.me/${car.whatsapp}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <button
-                                      className={`blue_btn list_btn ${
-                                        isActive ? "icon-only" : ""
-                                      }`}
-                                      style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "5px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
-                                      }}
+                                  {car.showNumberChecked ? (
+                                    ""
+                                  ) : (
+                                    <a
+                                      href={`https://wa.me/${car.whatsapp}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
                                     >
-                                      <FaWhatsapp />
-                                      <span className="button-text">
-                                        WhatsApp
-                                      </span>
-                                    </button>
-                                  </a>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "icon-only" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "5px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">
+                                          WhatsApp
+                                        </span>
+                                      </button>
+                                    </a>
+                                  )}
                                   <button
                                     className={`sign-in-button`}
                                     style={{

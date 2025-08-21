@@ -1578,7 +1578,7 @@ const JobBoard = () => {
     console.log("Selected Emirates: ", selectedEmirates);
   }, [selectedEmirates]);
   useEffect(() => {
-    const fetchCars = async () => {
+    const fetchJobBoard = async () => {
       try {
         setLoading(true);
 
@@ -1601,29 +1601,33 @@ const JobBoard = () => {
           params.append("SubCategory", selectedSubCategory);
         }
 
+        // ✅ Add SortBy
+        if (SortBy) params.append("sortBy", SortBy);
+
         const response = await fetch(
           `http://168.231.80.24:9002/route/JOBBOARD?${params.toString()}`
         );
 
-        const carsData = await response.json();
-        setCars(carsData);
-        setFilteredCars(carsData);
+        const jobsData = await response.json();
+        setCars(jobsData);
+        setFilteredCars(jobsData);
         setLoading(false);
 
-        console.log(carsData, "carsData_________cars");
+        console.log(jobsData, "jobsData_________jobs");
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error getting JOBBOARD:", error);
         setLoading(false);
       }
     };
 
-    fetchCars();
+    fetchJobBoard();
   }, [
     searchText,
     selectedRegion,
     selectedCities,
     selectedDistricts,
     selectedSubCategory,
+    SortBy, // ✅ re-fetch when sort changes
     refresh,
   ]);
 
@@ -3643,9 +3647,22 @@ const JobBoard = () => {
                                       color: "#2D4495",
                                     }}
                                   >
-                                    {car.Price
-                                      ? `SAR ${car.Price}`
-                                      : "Price not available"}
+                                    {car.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em", // Adjust the size as needed
+                                            verticalAlign: "middle",
+                                            marginRight: "5px", // Add a small space between the symbol and the price
+                                          }}
+                                        />
+                                        {car.Price}
+                                      </>
+                                    ) : (
+                                      "Price not available"
+                                    )}
                                   </p>
                                 </Card.Title>
                                 <Card.Text style={{ color: "black" }}>
@@ -3828,32 +3845,36 @@ const JobBoard = () => {
                                     <span className="button-text">Message</span>
                                   </button>
                                   {/* WhatsApp Button */}
-                                  <a
-                                    href={`https://wa.me/${car.whatsapp}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <button
-                                      className={`blue_btn list_btn ${
-                                        isActive ? "icon-only" : ""
-                                      }`}
-                                      style={{
-                                        marginTop:
-                                          window.innerWidth <= 576
-                                            ? "5px"
-                                            : "50px",
-                                        width:
-                                          window.innerWidth <= 576
-                                            ? "150px"
-                                            : "auto",
-                                      }}
+                                  {car.showNumberChecked ? (
+                                    ""
+                                  ) : (
+                                    <a
+                                      href={`https://wa.me/${car.whatsapp}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
                                     >
-                                      <FaWhatsapp />
-                                      <span className="button-text">
-                                        WhatsApp
-                                      </span>
-                                    </button>
-                                  </a>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "icon-only" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "5px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">
+                                          WhatsApp
+                                        </span>
+                                      </button>
+                                    </a>
+                                  )}
                                   <button
                                     className={`sign-in-button`}
                                     style={{

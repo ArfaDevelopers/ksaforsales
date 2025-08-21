@@ -682,12 +682,24 @@ const Bookmarks = () => {
                             <div className="amount-details">
                               <div className="amount">
                                 <span className="validrate">
-                                  SAR {car.Price || "N/A"}
+                                  {car.Price ? (
+                                    <>
+                                      <img
+                                        src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                        alt="Saudi Riyal Symbol"
+                                        style={{
+                                          height: "1em",
+                                          verticalAlign: "middle",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      {car.Price}
+                                    </>
+                                  ) : (
+                                    "N/A"
+                                  )}
                                 </span>
                               </div>
-                              {/* <div className="ratings">
-                                <span>4.7</span> (5)
-                              </div> */}
                             </div>
                           </div>
                         </div>
