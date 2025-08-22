@@ -5345,6 +5345,8 @@ ul.colu-4 {
   font-size: 20px;
   font-weight: 600;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 .amount-details {
   display: flex;
