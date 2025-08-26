@@ -61,8 +61,12 @@ import {
   addDoc,
   collection,
   getDocs,
+  setDoc,
+  getDoc,
   doc,
   updateDoc,
+  query, // Add this
+  where, // Add this
 } from "firebase/firestore";
 // import { onAuthStateChanged } from "firebase/auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -191,24 +195,65 @@ const AutomotiveComp = () => {
       } catch (e) {}
     };
   }, [isCityModalVisible]);
-
-  const handleCheckboxChange1 = (option) => {
+  const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
       (city) => city.CITY_ID === option.cityId
     );
+
     let updatedCities;
     if (exists) {
+      // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
         (city) => city.CITY_ID !== option.cityId
       );
     } else {
+      // Checked -> add to list
       updatedCities = [
         ...selectedCities,
         { REGION_ID: option.regionId, CITY_ID: option.cityId },
       ];
+
+      // ✅ Update Firestore count in new table
+      try {
+        const cityRef = doc(db, "cityIdSortData", String(option.cityId));
+        const docSnap = await getDoc(cityRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(cityRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(cityRef, {
+            cityId: option.cityId,
+            regionId: option.regionId,
+            count: 1,
+          });
+        }
+      } catch (err) {
+        console.error("❌ Error updating city count:", err);
+      }
     }
+
     setSelectedCities(updatedCities);
   };
+
+  // const handleCheckboxChange1 = (option) => {
+  //   const exists = selectedCities.some(
+  //     (city) => city.CITY_ID === option.cityId
+  //   );
+  //   let updatedCities;
+  //   if (exists) {
+  //     updatedCities = selectedCities.filter(
+  //       (city) => city.CITY_ID !== option.cityId
+  //     );
+  //   } else {
+  //     updatedCities = [
+  //       ...selectedCities,
+  //       { REGION_ID: option.regionId, CITY_ID: option.cityId },
+  //     ];
+  //   }
+  //   setSelectedCities(updatedCities);
+  // };
   useEffect(() => {
     const fetchDistricts = async () => {
       if (!selectedCities.length) return;
@@ -238,8 +283,11 @@ const AutomotiveComp = () => {
     label: district["District En Name"],
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
+    District_ID: district.District_ID,
   }));
   console.log(districtOptions, "cityOptions________1");
+  console.log(districts, "cityOptions________1districts");
+
   // useEffect(() => {
   //   // Assuming Location.json is like { "location": [ ... ] } or is an array itself
   //   if (cityData.City && Array.isArray(cityData.City)) {
@@ -577,6 +625,45 @@ const AutomotiveComp = () => {
   const handleToMileageChange = (e) => {
     setToMileage(e.target.value);
   };
+  const handleDistrictCheckboxChange = async (option, isChecked) => {
+    if (isChecked) {
+      // ✅ Add to local state
+      setSelectedDistricts((prev) => [
+        ...prev,
+        {
+          REGION_ID: option.regionId,
+          CITY_ID: option.cityId,
+          DISTRICT_ID: option.value,
+        },
+      ]);
+
+      // ✅ Firestore: increment district count
+      try {
+        const districtRef = doc(db, "districtIdSortData", String(option.value));
+        const docSnap = await getDoc(districtRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(districtRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(districtRef, {
+            districtId: option.value,
+            cityId: option.cityId,
+            regionId: option.regionId,
+            count: 1,
+          });
+        }
+      } catch (err) {
+        console.error("❌ Error updating district count:", err);
+      }
+    } else {
+      // ❌ Just remove from local state (do not decrement in Firestore)
+      setSelectedDistricts((prev) =>
+        prev.filter((district) => district.DISTRICT_ID !== option.value)
+      );
+    }
+  };
 
   // useEffect(() => {
   //   setSearchQuery(searchText); // Update searchQuery from searchText
@@ -637,6 +724,36 @@ const AutomotiveComp = () => {
   const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [selectedRegion, setSelectedRegionId] = useState([]);
   console.log(selectedRegion, "adsDetailImages________1");
+  const handleRegionClick = async (regionId, isChecked) => {
+    try {
+      const regionRef = doc(db, "regionIdSortData", String(regionId));
+      const docSnap = await getDoc(regionRef);
+
+      if (!isChecked) {
+        // ✅ Region newly selected, increment count
+        if (docSnap.exists()) {
+          await updateDoc(regionRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(regionRef, {
+            regionId,
+            count: 1,
+          });
+        }
+      }
+      // ❌ If unchecked, do nothing (or you could also decrement if needed)
+    } catch (err) {
+      console.error("Error updating region count:", err);
+    }
+  };
+  useEffect(() => {
+    if (selectedRegion.length > 0) {
+      const lastSelected = selectedRegion[selectedRegion.length - 1];
+      handleRegionClick(lastSelected, false); // false means "newly checked"
+    }
+  }, [selectedRegion]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef1 = useRef(null);
   const modalInstanceRef = useRef(null);
@@ -644,6 +761,48 @@ const AutomotiveComp = () => {
   const [mileage, setMileage] = useState("");
   const [adsDetailImages, setAdsDetailImages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [sortedRegions, setSortedRegions] = useState([]);
+
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "regionIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // 🔽 Sort by count DESC
+        const sortedAds = adsList.sort((a, b) => b.count - a.count);
+
+        // 🔽 Merge with regionOptions
+        const mergedRegions = sortedAds
+          .map((ad) => {
+            const region = regionOptions.find(
+              (r) => r.regionId === ad.regionId
+            );
+            return region ? { ...region, count: ad.count } : null;
+          })
+          .filter(Boolean);
+
+        // 🔽 Add remaining regions (not in adsList) at the bottom
+        const remainingRegions = regionOptions.filter(
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+        );
+
+        const finalRegions = [...mergedRegions, ...remainingRegions];
+
+        setSortedRegions(finalRegions); // Store in state for rendering
+        console.log("✅ Final sorted regions:", finalRegions);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedRegion]);
   const modalRef = useRef(null);
   // Group regions into pairs for two-column layout
   const regionPairs = [];
@@ -776,7 +935,44 @@ const AutomotiveComp = () => {
   }, []);
   const toyotaModalRef = useRef(null);
   const toyotaModalInstanceRef = useRef(null);
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "districtIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
 
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("📸 AdsdetailImages fetched11:districtIdSortData", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedCities]);
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "cityIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("📸 AdsdetailImages fetched11:", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedCities]);
   useEffect(() => {
     if (toyotaModalRef.current) {
       toyotaModalInstanceRef.current = new Modal(toyotaModalRef.current);
@@ -4277,7 +4473,7 @@ const AutomotiveComp = () => {
                         <Form.Group className="mb-3">
                           {/* <Form.Label>Select a Region</Form.Label> */}
                           <div className="mb-3">
-                            {regionOptions.slice(0, 6).map((region) => {
+                            {/* {regionOptions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
                                 region.regionId
                               );
@@ -4294,12 +4490,22 @@ const AutomotiveComp = () => {
                                     checked={isChecked}
                                     onChange={() => {
                                       if (isChecked) {
+                                        // If the checkbox is checked, this means the user is un-selecting it.
+                                        // Call handleRegionClick for the specific region being un-selected.
+                                        handleRegionClick(region?.regionId);
+
+                                        // Update the state to remove the regionId.
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
                                             (id) => id !== region.regionId
                                           )
                                         );
                                       } else {
+                                        // If the checkbox is not checked, the user is selecting it.
+                                        // Call handleRegionClick to increment the count.
+                                        handleRegionClick(region?.regionId);
+
+                                        // Update the state to add the new regionId.
                                         setSelectedRegionId((prev) => [
                                           ...prev,
                                           region.regionId,
@@ -4315,6 +4521,48 @@ const AutomotiveComp = () => {
                                   </label>
                                 </div>
                               );
+                            })} */}
+                            {/* // Rendering */}
+                            {sortedRegions.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegion.includes(
+                                region.regionId
+                              );
+
+                              return (
+                                <div
+                                  className="form-check"
+                                  key={region.regionId}
+                                >
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.regionId}`}
+                                    checked={isChecked}
+                                    onChange={() => {
+                                      if (isChecked) {
+                                        handleRegionClick(region?.regionId);
+                                        setSelectedRegionId((prev) =>
+                                          prev.filter(
+                                            (id) => id !== region.regionId
+                                          )
+                                        );
+                                      } else {
+                                        handleRegionClick(region?.regionId);
+                                        setSelectedRegionId((prev) => [
+                                          ...prev,
+                                          region.regionId,
+                                        ]);
+                                      }
+                                    }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.regionId}`}
+                                  >
+                                    {region.label} ({region.count ?? 0})
+                                  </label>
+                                </div>
+                              );
                             })}
                             <button
                               type="button"
@@ -4323,7 +4571,6 @@ const AutomotiveComp = () => {
                             >
                               Show more choices...
                             </button>
-
                             {/* ✅ Modal */}
                             <div>
                               <div
@@ -4363,7 +4610,7 @@ const AutomotiveComp = () => {
                                       </div>
 
                                       <ul className="more_choice_main_list">
-                                        {regionOptions
+                                        {sortedRegions
                                           .slice(6)
                                           .map((region) => {
                                             const isChecked =
@@ -4383,6 +4630,9 @@ const AutomotiveComp = () => {
                                                   checked={isChecked}
                                                   onChange={() => {
                                                     if (isChecked) {
+                                                      handleRegionClick(
+                                                        region?.regionId
+                                                      );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
@@ -4392,6 +4642,9 @@ const AutomotiveComp = () => {
                                                           )
                                                       );
                                                     } else {
+                                                      handleRegionClick(
+                                                        region?.regionId
+                                                      );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
@@ -4405,7 +4658,8 @@ const AutomotiveComp = () => {
                                                   className="form-check-label"
                                                   htmlFor={`region-${region.regionId}`}
                                                 >
-                                                  {region.label}
+                                                  {region.label} (
+                                                  {region.count ?? 0})
                                                 </label>
                                               </div>
                                             );
@@ -4644,7 +4898,7 @@ const AutomotiveComp = () => {
                           }}
                         /> */}
                           <div className="grid grid-cols-1 gap-2">
-                            {districtOptions.slice(0, 6).map((option) => {
+                            {/* {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
                                   district.DISTRICT_ID === option.value
@@ -4680,6 +4934,34 @@ const AutomotiveComp = () => {
                                         );
                                       }
                                     }}
+                                  />
+                                  <span className="form-check-label">
+                                    {option.label}
+                                  </span>
+                                </label>
+                              );
+                            })} */}
+                            {districtOptions.slice(0, 6).map((option) => {
+                              const isChecked = selectedDistricts.some(
+                                (district) =>
+                                  district.DISTRICT_ID === option.value
+                              );
+
+                              return (
+                                <label
+                                  key={option.value}
+                                  className="form-check d-flex align-items-center gap-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={isChecked}
+                                    onChange={(e) =>
+                                      handleDistrictCheckboxChange(
+                                        option,
+                                        e.target.checked
+                                      )
+                                    }
                                   />
                                   <span className="form-check-label">
                                     {option.label}
