@@ -4559,7 +4559,7 @@ const AutomotiveComp = () => {
                                     className="form-check-label"
                                     htmlFor={`region-${region.regionId}`}
                                   >
-                                    {region.label} ({region.count ?? 0})
+                                    {region.label}
                                   </label>
                                 </div>
                               );

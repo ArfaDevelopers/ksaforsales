@@ -58,6 +58,8 @@ import {
   getDocs,
   doc,
   updateDoc,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
@@ -253,7 +255,68 @@ const ElectronicComp = () => {
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
   const [searchDistrictText, setSearchDistrictText] = useState("");
+  const handleDistrictCheckboxChange = async (option, isChecked) => {
+    if (isChecked) {
+      // ✅ Add to local state
+      setSelectedDistricts((prev) => [
+        ...prev,
+        {
+          REGION_ID: option.regionId,
+          CITY_ID: option.cityId,
+          DISTRICT_ID: option.value,
+        },
+      ]);
 
+      // ✅ Firestore: increment district count
+      try {
+        const districtRef = doc(db, "districtIdSortData", String(option.value));
+        const docSnap = await getDoc(districtRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(districtRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(districtRef, {
+            districtId: option.value,
+            cityId: option.cityId,
+            regionId: option.regionId,
+            count: 1,
+          });
+        }
+      } catch (err) {
+        console.error("❌ Error updating district count:", err);
+      }
+    } else {
+      // ❌ Just remove from local state (do not decrement in Firestore)
+      setSelectedDistricts((prev) =>
+        prev.filter((district) => district.DISTRICT_ID !== option.value)
+      );
+    }
+  };
+  const handleRegionClick = async (regionId, isChecked) => {
+    try {
+      const regionRef = doc(db, "regionIdSortData", String(regionId));
+      const docSnap = await getDoc(regionRef);
+
+      if (!isChecked) {
+        // ✅ Region newly selected, increment count
+        if (docSnap.exists()) {
+          await updateDoc(regionRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(regionRef, {
+            regionId,
+            count: 1,
+          });
+        }
+      }
+      // ❌ If unchecked, do nothing (or you could also decrement if needed)
+    } catch (err) {
+      console.error("Error updating region count:", err);
+    }
+  };
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -339,23 +402,65 @@ const ElectronicComp = () => {
 
     fetchCities();
   }, [selectedRegion]);
-  const handleCheckboxChange1 = (option) => {
+  const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
       (city) => city.CITY_ID === option.cityId
     );
+
     let updatedCities;
     if (exists) {
+      // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
         (city) => city.CITY_ID !== option.cityId
       );
     } else {
+      // Checked -> add to list
       updatedCities = [
         ...selectedCities,
         { REGION_ID: option.regionId, CITY_ID: option.cityId },
       ];
+
+      // ✅ Update Firestore count in new table
+      try {
+        const cityRef = doc(db, "cityIdSortData", String(option.cityId));
+        const docSnap = await getDoc(cityRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(cityRef, {
+            count: (docSnap.data().count || 0) + 1,
+          });
+        } else {
+          await setDoc(cityRef, {
+            cityId: option.cityId,
+            regionId: option.regionId,
+            count: 1,
+          });
+        }
+      } catch (err) {
+        console.error("❌ Error updating city count:", err);
+      }
     }
+
     setSelectedCities(updatedCities);
   };
+
+  // const handleCheckboxChange1 = (option) => {
+  //   const exists = selectedCities.some(
+  //     (city) => city.CITY_ID === option.cityId
+  //   );
+  //   let updatedCities;
+  //   if (exists) {
+  //     updatedCities = selectedCities.filter(
+  //       (city) => city.CITY_ID !== option.cityId
+  //     );
+  //   } else {
+  //     updatedCities = [
+  //       ...selectedCities,
+  //       { REGION_ID: option.regionId, CITY_ID: option.cityId },
+  //     ];
+  //   }
+  //   setSelectedCities(updatedCities);
+  // };
   useEffect(() => {
     const fetchDistricts = async () => {
       if (!selectedCities.length) return;
@@ -428,7 +533,45 @@ const ElectronicComp = () => {
 
   const itemsPerPage = 3; // Number of items per page
   const [adsDetailImages, setAdsDetailImages] = useState([]);
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "cityIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("📸 AdsdetailImages fetched11:", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedCities]);
   console.log(adsDetailImages, "adsDetailImages________");
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "districtIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log("📸 AdsdetailImages fetched11:districtIdSortData", adsList);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedCities]);
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
       try {
@@ -653,6 +796,48 @@ const ElectronicComp = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location, getQueryParam]);
+  const [sortedRegions, setSortedRegions] = useState([]);
+
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "regionIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // 🔽 Sort by count DESC
+        const sortedAds = adsList.sort((a, b) => b.count - a.count);
+
+        // 🔽 Merge with regionOptions
+        const mergedRegions = sortedAds
+          .map((ad) => {
+            const region = regionOptions.find(
+              (r) => r.regionId === ad.regionId
+            );
+            return region ? { ...region, count: ad.count } : null;
+          })
+          .filter(Boolean);
+
+        // 🔽 Add remaining regions (not in adsList) at the bottom
+        const remainingRegions = regionOptions.filter(
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+        );
+
+        const finalRegions = [...mergedRegions, ...remainingRegions];
+
+        setSortedRegions(finalRegions); // Store in state for rendering
+        console.log("✅ Final sorted regions:", finalRegions);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedRegion]);
   // Format country data for React Select
   const handleClearSearch = () => {
     setSearchQuery("");
@@ -2406,7 +2591,7 @@ const ElectronicComp = () => {
                         <Form.Group className="mb-3">
                           {/* <Form.Label>Select a Region</Form.Label> */}
                           <div className="mb-3">
-                            {regionOptions.slice(0, 6).map((region) => {
+                            {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
                                 region.regionId
                               );
@@ -2423,12 +2608,14 @@ const ElectronicComp = () => {
                                     checked={isChecked}
                                     onChange={() => {
                                       if (isChecked) {
+                                        handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
                                             (id) => id !== region.regionId
                                           )
                                         );
                                       } else {
+                                        handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) => [
                                           ...prev,
                                           region.regionId,
@@ -2490,7 +2677,7 @@ const ElectronicComp = () => {
                                       </div>
                                       <div className="row g-2">
                                         <ul className="more_choice_main_list">
-                                          {regionOptions.map((region) => {
+                                          {sortedRegions.map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
                                                 region.regionId
@@ -2509,6 +2696,10 @@ const ElectronicComp = () => {
                                                     checked={isChecked}
                                                     onChange={() => {
                                                       if (isChecked) {
+                                                        handleRegionClick(
+                                                          region?.regionId
+                                                        );
+
                                                         setSelectedRegionId(
                                                           (prev) =>
                                                             prev.filter(
@@ -2518,6 +2709,10 @@ const ElectronicComp = () => {
                                                             )
                                                         );
                                                       } else {
+                                                        handleRegionClick(
+                                                          region?.regionId
+                                                        );
+
                                                         setSelectedRegionId(
                                                           (prev) => [
                                                             ...prev,
@@ -2793,7 +2988,7 @@ const ElectronicComp = () => {
                                         }}
                                       /> */}
                           <div className="grid grid-cols-1 gap-2">
-                            {districtOptions.slice(0, 6).map((option) => {
+                            {/* {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
                                   district.DISTRICT_ID === option.value
@@ -2835,8 +3030,35 @@ const ElectronicComp = () => {
                                   </span>
                                 </label>
                               );
-                            })}
+                            })} */}
+                            {districtOptions.slice(0, 6).map((option) => {
+                              const isChecked = selectedDistricts.some(
+                                (district) =>
+                                  district.DISTRICT_ID === option.value
+                              );
 
+                              return (
+                                <label
+                                  key={option.value}
+                                  className="form-check d-flex align-items-center gap-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={isChecked}
+                                    onChange={(e) =>
+                                      handleDistrictCheckboxChange(
+                                        option,
+                                        e.target.checked
+                                      )
+                                    }
+                                  />
+                                  <span className="form-check-label">
+                                    {option.label}
+                                  </span>
+                                </label>
+                              );
+                            })}
                             <button
                               type="button"
                               className="btn btn-link p-0 mt-2"
@@ -2888,6 +3110,38 @@ const ElectronicComp = () => {
                                     <div className="row g-1 ml-4">
                                       <ul className="more_choice_main_list">
                                         {districtOptions
+                                          .slice(6)
+                                          .map((option) => {
+                                            const isChecked =
+                                              selectedDistricts.some(
+                                                (district) =>
+                                                  district.DISTRICT_ID ===
+                                                  option.value
+                                              );
+
+                                            return (
+                                              <label
+                                                key={option.value}
+                                                className="form-check d-flex align-items-center gap-2"
+                                              >
+                                                <input
+                                                  type="checkbox"
+                                                  className="form-check-input"
+                                                  checked={isChecked}
+                                                  onChange={(e) =>
+                                                    handleDistrictCheckboxChange(
+                                                      option,
+                                                      e.target.checked
+                                                    )
+                                                  }
+                                                />
+                                                <span className="form-check-label">
+                                                  {option.label}
+                                                </span>
+                                              </label>
+                                            );
+                                          })}
+                                        {/* {districtOptions
                                           .filter((option) =>
                                             option.label
                                               .toLowerCase()
@@ -2946,7 +3200,7 @@ const ElectronicComp = () => {
                                                 </label>
                                               </li>
                                             );
-                                          })}
+                                          })} */}
                                       </ul>
                                     </div>
 
