@@ -3188,8 +3188,36 @@ const HealthCareComp = () => {
                                       </div>
                                     </div>
 
+                                    <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                      <div className="text-muted small">
+                                        {selectedCities.length > 0
+                                          ? `${selectedCities.length} region(s) selected`
+                                          : "No region selected"}
+                                      </div>
+                                      <div className="d-flex gap-2">
+                                        <button
+                                          type="button"
+                                          className="btn btn-outline-secondary"
+                                          onClick={() => {
+                                            setSelectedCities([]);
+                                          }}
+                                        >
+                                          Clear Selection
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary px-4"
+                                          onClick={() =>
+                                            setIsCityModalVisible(false)
+                                          }
+                                        >
+                                          Done
+                                        </button>
+                                      </div>
+                                    </div>
+
                                     {/* Modal Footer */}
-                                    <div className="modal-footer">
+                                    {/* <div className="modal-footer">
                                       <button
                                         type="button"
                                         className="btn btn-secondary"
@@ -3199,7 +3227,7 @@ const HealthCareComp = () => {
                                       >
                                         Close
                                       </button>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>
@@ -3362,90 +3390,45 @@ const HealthCareComp = () => {
                                               </label>
                                             );
                                           })}
-                                        {/* {districtOptions
-                                          .filter((option) =>
-                                            option.label
-                                              .toLowerCase()
-                                              .includes(
-                                                searchDistrictText.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
-
-                                            return (
-                                              <li key={option.value}>
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
-                                            );
-                                          })} */}
                                       </ul>
                                     </div>
 
                                     {/* Selection Count */}
-                                    {selectedDistricts.length > 0 && (
+                                    {/* {selectedDistricts.length > 0 && (
                                       <div className="mt-2 p-2 bg-light rounded">
                                         <small className="text-muted">
                                           {selectedDistricts.length} selected
                                         </small>
                                       </div>
-                                    )}
+                                    )} */}
                                   </div>
 
-                                  {/* Modal Footer */}
-                                  <div className="modal-footer">
-                                    <button
-                                      type="button"
-                                      className="btn btn-secondary"
-                                      onClick={() =>
-                                        setShowModalDistricts(false)
-                                      }
-                                    >
-                                      Close
-                                    </button>
+                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                    <div className="text-muted small">
+                                      {selectedDistricts.length > 0
+                                        ? `${selectedDistricts.length} region(s) selected`
+                                        : "No region selected"}
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => {
+                                          setSelectedDistricts([]);
+                                        }}
+                                      >
+                                        Clear Selection
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary px-4"
+                                        onClick={() =>
+                                          setShowModalDistricts(false)
+                                        }
+                                      >
+                                        Done
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

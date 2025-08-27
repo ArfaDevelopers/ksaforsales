@@ -5112,13 +5112,8 @@ const AutomotiveComp = () => {
                                     )} */}
 
                                     {/* <div className="modal-footer py-2 sticky-bottom bg-white bg-light bottom-0"> */}
-                                    <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
-                                      {/* <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
-                                        <div className="text-muted small">
-                                          {selectedDistricts
-                                            ? `${selectedDistricts.length} City selected`
-                                            : "No region selected"}
-                                        </div> */}
+                                    {/* <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                              
                                       <div className="d-flex gap-2">
                                         <button
                                           type="button"
@@ -5138,11 +5133,37 @@ const AutomotiveComp = () => {
                                         >
                                           Done
                                         </button>
-                                        {/* </div> */}
-                                      </div>
-                                    </div>
+                                       </div>
+                                    </div> */}
 
                                     {/* Footer */}
+                                  </div>
+                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                    <div className="text-muted small">
+                                      {selectedDistricts
+                                        ? `${selectedDistricts.length} region selected`
+                                        : "No region selected"}
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => {
+                                          setSelectedDistricts([]);
+                                        }}
+                                      >
+                                        Clear Selection
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary px-4"
+                                        onClick={() =>
+                                          setShowModalDistricts(false)
+                                        }
+                                      >
+                                        Done
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
