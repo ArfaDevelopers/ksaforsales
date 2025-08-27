@@ -1851,7 +1851,7 @@ const AddLisiting = () => {
           setGalleryImages(data.galleryImages || []);
           setSelectedRegionName(data.RegionName || "");
           setSelectedRegionId(data.regionId || "");
-
+          setQuery(data.Make || "");
           setSelectedCityData({
             cityId: data.CITY_ID || null,
             regionId: data.regionId || null,
@@ -2044,6 +2044,7 @@ const AddLisiting = () => {
     _Id,
     formData,
     mediaImgLogo,
+
     Category1,
     photoURL,
     creationTime,
@@ -2107,6 +2108,16 @@ const AddLisiting = () => {
             creationTime,
             displayName,
             galleryImages,
+            regionId: selectedRegionId || "",
+            CITY_ID: selectedCityData.cityId || "",
+            CityName: selectedCityData.label || "",
+            City: selectedCityData.label || "",
+            District: selectedDistrict.label || "",
+
+            District_ID: selectedDistrict.districtId || "",
+            DistrictName: selectedDistrict.label || "",
+            RegionName: RegionName || "",
+
             imageUrl,
             // Make: Make?.value,
             userId: user.uid,
