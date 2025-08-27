@@ -4843,7 +4843,33 @@ const AutomotiveComp = () => {
                                     </div>
                                   </div>
 
-                                  <div className="modal-footer">
+                                  <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                    <div className="text-muted small">
+                                      {selectedCities
+                                        ? `${selectedCities.length} City selected`
+                                        : "No region selected"}
+                                    </div>
+                                    <div className="d-flex gap-2">
+                                      <button
+                                        type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => setSelectedCities([])}
+                                      >
+                                        Clear Selection
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-primary px-4"
+                                        onClick={() =>
+                                          setIsCityModalVisible(false)
+                                        }
+                                      >
+                                        Done
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  {/* <div className="modal-footer">
                                     <button
                                       type="button"
                                       className="btn btn-secondary"
@@ -4853,7 +4879,7 @@ const AutomotiveComp = () => {
                                     >
                                       Close
                                     </button>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -5077,35 +5103,46 @@ const AutomotiveComp = () => {
                                     </div>
 
                                     {/* Selection Count */}
-                                    {selectedDistricts.length > 0 && (
+                                    {/* {selectedDistricts.length > 0 && (
                                       <div className="mt-2 p-2 bg-light rounded">
                                         <small className="text-muted">
                                           {selectedDistricts.length} selected
                                         </small>
                                       </div>
-                                    )}
-                                  </div>
+                                    )} */}
 
-                                  {/* Footer */}
-                                  <div className="modal-footer py-2">
-                                    <button
-                                      type="button"
-                                      className="btn btn-outline-secondary"
-                                      onClick={() =>
-                                        setShowModalDistricts(false)
-                                      }
-                                    >
-                                      Close
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn btn-sm btn-primary"
-                                      onClick={() =>
-                                        setShowModalDistricts(false)
-                                      }
-                                    >
-                                      Apply
-                                    </button>
+                                    {/* <div className="modal-footer py-2 sticky-bottom bg-white bg-light bottom-0"> */}
+                                    <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                      {/* <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                        <div className="text-muted small">
+                                          {selectedDistricts
+                                            ? `${selectedDistricts.length} City selected`
+                                            : "No region selected"}
+                                        </div> */}
+                                      <div className="d-flex gap-2">
+                                        <button
+                                          type="button"
+                                          className="btn btn-outline-secondary"
+                                          onClick={() =>
+                                            setSelectedDistricts([])
+                                          }
+                                        >
+                                          Clear Selection
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary px-4"
+                                          onClick={() =>
+                                            setShowModalDistricts(false)
+                                          }
+                                        >
+                                          Done
+                                        </button>
+                                        {/* </div> */}
+                                      </div>
+                                    </div>
+
+                                    {/* Footer */}
                                   </div>
                                 </div>
                               </div>
