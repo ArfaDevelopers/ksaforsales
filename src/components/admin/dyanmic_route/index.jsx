@@ -1597,7 +1597,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -2059,7 +2059,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -2519,7 +2519,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -2979,7 +2979,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -3439,7 +3439,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -3899,7 +3899,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -4359,7 +4359,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -4819,7 +4819,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -5279,7 +5279,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
@@ -5739,7 +5739,7 @@ const Dynamic_Route = () => {
                               City: itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
-                              FeaturedAds: itemData?.FeaturedAds || "N/A",
+                              // // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",

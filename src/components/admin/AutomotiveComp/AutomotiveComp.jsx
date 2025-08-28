@@ -4389,6 +4389,52 @@ const AutomotiveComp = () => {
       border-color: black !important; 
     }
   `}</style>
+
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Featued Ads </Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {/* Local Checkbox */}
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Form.Check
+                                type="checkbox"
+                                label="Featured Ad"
+                                onChange={handleCheckboxChangeisFeatured}
+                                checked={
+                                  selectedOptionisFeatured === "Featured Ad"
+                                }
+                              />
+                              <span
+                                style={{ fontWeight: "bold", color: "#333" }}
+                              >
+                                {/* 12345 */}
+                              </span>
+                            </div>
+                          </Form.Group>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
                   <hr
                     style={{
                       width: "100%",
@@ -14151,52 +14197,6 @@ const AutomotiveComp = () => {
                                 </span>
                               </div>
                             ))}
-                          </Form.Group>
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-
-                  <hr
-                    style={{
-                      width: "100%",
-                      height: "1px",
-                      borderTop: "1px solid #000000",
-                      opacity: "0.5", // Adjust opacity for visibility
-                      margin: "20px 0",
-                      borderColor: "#000000", // Set border color to black
-                    }}
-                  />
-
-                  <Accordion className="mt-3">
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Featued Ads </Accordion.Header>
-                      <Accordion.Body>
-                        <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          <Form.Group>
-                            {/* Local Checkbox */}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "8px 0",
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                label="Featured Ad"
-                                onChange={handleCheckboxChangeisFeatured}
-                                checked={
-                                  selectedOptionisFeatured === "Featured Ad"
-                                }
-                              />
-                              <span
-                                style={{ fontWeight: "bold", color: "#333" }}
-                              >
-                                12345
-                              </span>
-                            </div>
                           </Form.Group>
                         </div>
                       </Accordion.Body>

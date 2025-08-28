@@ -2463,6 +2463,60 @@ const ElectronicComp = () => {
                     }}
                   />
 
+                  {/*-------------------------------------*/}
+                  {/* Accordion with Checkbox Selection for Color */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Ad Type</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {["Rent", "Sell", "Wanted"].map((purpose) => (
+                              <div
+                                key={purpose}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={purpose}
+                                  checked={logSelectedPurpose.includes(purpose)} // controlled checkbox
+                                  onChange={() =>
+                                    handleCheckboxPurpose(purpose)
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </Form.Group>
+                          {/* <p
+                                       style={{ color: "#2D4495", cursor: "pointer" }}
+                                       onClick={() => handleMoreChoicesToggle()}
+                                     >
+                                       More choices
+                                     </p> */}
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Sub Categories</Accordion.Header>
@@ -3414,61 +3468,6 @@ const ElectronicComp = () => {
                       </Accordion.Item>
                     </Accordion>
                   </div>
-
-                  <hr
-                    style={{
-                      width: "100%",
-                      height: "0px",
-                      top: "1310.01px",
-                      left: "239.88px",
-                      gap: "0px",
-                      borderTop: "1px solid #000000",
-                      opacity: "0.5", // Adjust opacity for visibility
-                      transform: "rotate(0deg)",
-                      margin: "20px 0",
-                      borderColor: "#000000", // Set border color to black
-                    }}
-                  />
-
-                  {/*-------------------------------------*/}
-                  {/* Accordion with Checkbox Selection for Color */}
-                  <Accordion className="mt-3">
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Ad Type</Accordion.Header>
-                      <Accordion.Body>
-                        <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          <Form.Group>
-                            {["Rent", "Sell", "Wanted"].map((purpose) => (
-                              <div
-                                key={purpose}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={purpose}
-                                  checked={logSelectedPurpose.includes(purpose)} // controlled checkbox
-                                  onChange={() =>
-                                    handleCheckboxPurpose(purpose)
-                                  }
-                                />
-                              </div>
-                            ))}
-                          </Form.Group>
-                          {/* <p
-                                       style={{ color: "#2D4495", cursor: "pointer" }}
-                                       onClick={() => handleMoreChoicesToggle()}
-                                     >
-                                       More choices
-                                     </p> */}
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
                 </Form>
               </div>
             </Col>
