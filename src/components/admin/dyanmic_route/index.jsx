@@ -61,6 +61,7 @@ import Mesagedeals from "../../../components/userPages/mesagedeals";
 import SwiperSlider from "../SwiperSlider/SwiperSlider";
 import { ref } from "firebase/storage";
 import Relateddata from "./upperHeader/Relateddata";
+import FacebookShareButton from "../../../components/FacebookShareButton";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -965,7 +966,8 @@ const Dynamic_Route = () => {
                       zIndex: 1050,
                     }}
                   >
-                    <div className="modal-dialog modal-dialog-centered">
+                    <FacebookShareButton item={itemData} />
+                    {/* <div className="modal-dialog modal-dialog-centered">
                       <div className="modal-content">
                         <div className="modal-header">
                           <h5 className="modal-title">Share</h5>
@@ -995,7 +997,7 @@ const Dynamic_Route = () => {
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )}
