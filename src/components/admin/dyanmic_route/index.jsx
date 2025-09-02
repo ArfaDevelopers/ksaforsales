@@ -966,8 +966,8 @@ const Dynamic_Route = () => {
                       zIndex: 1050,
                     }}
                   >
-                    <FacebookShareButton item={itemData} />
-                    {/* <div className="modal-dialog modal-dialog-centered">
+                    {/* <FacebookShareButton item={itemData} /> */}
+                    <div className="modal-dialog modal-dialog-centered">
                       <div className="modal-content">
                         <div className="modal-header">
                           <h5 className="modal-title">Share</h5>
@@ -997,7 +997,7 @@ const Dynamic_Route = () => {
                           </button>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </>
               )}
