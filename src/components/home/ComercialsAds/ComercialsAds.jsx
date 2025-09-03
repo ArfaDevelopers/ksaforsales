@@ -37,6 +37,8 @@ export default function AutomativeCarousel() {
           ...doc.data(), // Spread the document data
         }));
         console.log("Ads data_____________CommercialAdscom", adsList);
+        console.log("Ads data_____________CommercialAdscomads", ads);
+
         setAds(adsList); // Set the state with the ads data
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {

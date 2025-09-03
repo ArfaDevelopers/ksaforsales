@@ -4,6 +4,7 @@ import Footer from "../home/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { apple, facebook, google } from "../imagepath";
 // import { signInWithEmailAndPassword } from "firebase/auth";
+import image from "../../../public/splash-banner-ksa-english-version.jpg";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth, db } from "./../Firebase/FirebaseConfig";
 // import { auth } from "./../Firebase/FirebaseConfig"; // Ensure correct Firebase import
@@ -78,7 +79,16 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+    // ✅ Check for empty fields
+    if (!phoneNumber.trim() || !password.trim()) {
+      setLoading(false);
+      MySwal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in both phone number and password before logging in.",
+      });
+      return;
+    }
     try {
       const usersRef = collection(db, "users");
       const q = query(usersRef, where("phoneNumber", "==", phoneNumber));
@@ -212,7 +222,6 @@ const Login = () => {
                           onChange={handlePhoneNumberChange1}
                           placeholder="05XXXXXXXX"
                           className="form-control"
-                          required
                           style={{
                             flex: 1, // Allow the input to grow and fill the space
                             outline: "none", // Remove outline
@@ -299,7 +308,6 @@ const Login = () => {
                         placeholder="Password"
                         value={password}
                         onChange={handlePasswordChange}
-                        required
                         style={{
                           outline: "none",
                           flex: 1,
@@ -409,7 +417,7 @@ const Login = () => {
                 >
                   {/* QR Code Image */}
                   <img
-                    src={QRcode}
+                    src={image}
                     alt="QR Code"
                     style={{
                       width: "100%",

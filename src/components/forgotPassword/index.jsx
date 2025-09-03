@@ -3,6 +3,8 @@ import Header from "../home/header";
 import Footer from "../home/footer/Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
@@ -10,6 +12,7 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
+  const MySwal = withReactContent(Swal);
 
   const sendOtp = async (e) => {
     e.preventDefault();
@@ -23,18 +26,38 @@ const ForgotPassword = () => {
       );
       if (res.data.success) {
         setStep(2);
-        setMessage("OTP sent successfully!");
+        MySwal.fire({
+          icon: "success",
+          title: "OTP Sent",
+          text: "OTP sent successfully!",
+        });
       } else {
-        setMessage(res.data.message || "Failed to send OTP");
+        MySwal.fire({
+          icon: "error",
+          title: "Failed",
+          text: res.data.message || "Failed to send OTP",
+        });
       }
     } catch (err) {
-      setMessage(err.response?.data?.message || "Error sending OTP");
+      MySwal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.message || "Error sending OTP",
+      });
     }
   };
 
   const verifyAndUpdate = async (e) => {
     e.preventDefault();
-    setMessage("");
+    // setMessage("");
+    if (!phoneNumber.trim()) {
+      MySwal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in both phone number and password before updating.",
+      });
+      return;
+    }
     try {
       const res = await axios.post(
         "http://168.231.80.24:9002/route/verifyChangepasswdotp",
@@ -45,16 +68,31 @@ const ForgotPassword = () => {
         }
       );
       if (res.data.success) {
-        setMessage("Password updated successfully!");
+        // setMessage("Password updated successfully!");
+        MySwal.fire({
+          icon: "success",
+          title: "Password Updated",
+          text: "Your password has been updated successfully!",
+        });
         setStep(1);
         setPhoneNumber("");
         setOtp("");
         setNewPassword("");
       } else {
-        setMessage(res.data.message || "Failed to update password");
+        // setMessage(res.data.message || "Failed to update password");
+        MySwal.fire({
+          icon: "error",
+          title: "Failed",
+          text: res.data.message || "Failed to update password",
+        });
       }
     } catch (err) {
-      setMessage(err.response?.data?.message || "Error updating password");
+      // setMessage(err.response?.data?.message || "Error updating password");
+      MySwal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.message || "Error updating password",
+      });
     }
   };
 
@@ -74,7 +112,7 @@ const ForgotPassword = () => {
                   </p>
                 </div>
 
-                {message && <div className="alert alert-info">{message}</div>}
+                {/* {message && <div className="alert alert-info">{message}</div>} */}
 
                 {step === 1 && (
                   <form onSubmit={sendOtp}>
@@ -86,7 +124,6 @@ const ForgotPassword = () => {
                         placeholder="Phone Number (e.g. +9665xxxxxxxx)"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        required
                       />
                     </div>
                     <button
