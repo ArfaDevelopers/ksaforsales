@@ -49,9 +49,10 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/SPORTSGAMESCompCarousal"
         );
         const data = await response.json();
+        if (!response.ok) return;
 
         console.log(data, "adsList___________SPORTSGAMESComp");
-        setAds(data); // Set the state with the ads data
+        setAds(data || []); // Set the state with API data
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
         console.error("Error fetching ads from API:", error);

@@ -49,6 +49,7 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/REALESTATECOMPCarousal"
         );
         const data = await response.json();
+        if (!response.ok) return;
 
         console.log("Ads data fetched from backend:", data);
         setAds(data); // Set the state with the ads data

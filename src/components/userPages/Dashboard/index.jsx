@@ -7,7 +7,7 @@ import Footer from "../../home/footer/Footer";
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
 import { db, auth } from "../../Firebase/FirebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
@@ -190,6 +190,7 @@ const Dashboard = () => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
         setUserId(currentUser.uid);
+        console.log("userId...", userId)
       } else {
         setUserId(null);
       }
@@ -434,6 +435,19 @@ const Dashboard = () => {
       ],
     },
   };
+  const COLLECTIONS = [
+    "SPORTSGAMESComp",
+    "REALESTATECOMP",
+    "Cars",
+    "ELECTRONICS",
+    "Education",
+    "FASHION",
+    "HEALTHCARE",
+    "JOBBOARD",
+    "MAGAZINESCOMP",
+    "PETANIMALCOMP",
+    "TRAVEL",
+  ];
   useEffect(() => {
     // Function to fetch data from the API
     const fetchData = async () => {
@@ -450,11 +464,20 @@ const Dashboard = () => {
 
     // Call the fetch function
     fetchData();
+
+    const totalListings = async () => {
+      const userRef = collection(db, "");
+      const snapshot = query();
+    };
   }, []);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
+        const messagesRef = collection(db, "messages")
+        const q = query(messagesRef, where("seen", "==" , false))
+        const snapshot = await getDocs(q)
+        console.log("snapshot...", userId, snapshot.size)
         const response = await fetch(
           "http://168.231.80.24:9002/api/total-messages"
         );
@@ -466,7 +489,7 @@ const Dashboard = () => {
       }
     };
 
-    fetchMessages();
+    return () => fetchMessages();
   }, []);
   return (
     <div className="main-wrapper">

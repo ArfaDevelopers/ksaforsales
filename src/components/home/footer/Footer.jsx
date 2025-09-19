@@ -309,13 +309,13 @@ const Footer = () => {
                             <Link to="/ElectronicComp">Electronics</Link>
                           </li>
                           <li>
-                            <Link to="/FashionStyle">Fashion</Link>
+                            <Link to="/FashionStyle">Fashion Style</Link>
                           </li>
                           <li>
                             <Link to="/HealthCareComp">Home & Furniture</Link>
                           </li>
                           <li>
-                            <Link to="/JobBoard">Jobs</Link>
+                            <Link to="/JobBoard">Job Board</Link>
                           </li>
                           <li>
                             <Link to="/RealEstateComp">Realestate</Link>
@@ -336,10 +336,10 @@ const Footer = () => {
                             <Link to="/TravelComp">Services</Link>
                           </li>
                           <li>
-                            <Link to="/SportGamesComp">Games & Toys</Link>
+                            <Link to="/SportGamesComp">Sport & Game</Link>
                           </li>
                           <li>
-                            <Link to="/PetAnimalsComp">Pet</Link>
+                            <Link to="/PetAnimalsComp">Pet & Animals</Link>
                           </li>
                           <li>
                             <Link to="/Education">Other</Link>

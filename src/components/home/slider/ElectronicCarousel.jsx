@@ -49,6 +49,7 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/ELECTRONICSCarousal"
         );
         const data = await response.json();
+        if(!response.ok) return
 
         console.log(data, "adsList___________Electronic");
         setAds(data); // Set the state with the ads data

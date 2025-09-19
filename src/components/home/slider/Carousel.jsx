@@ -48,6 +48,7 @@ export default function Carousel() {
           "http://168.231.80.24:9002/route/EducationCarousal"
         );
         const data = await response.json();
+        if (!response.ok) return;
 
         setAds(data.slice(0, 6)); // Limit to 6 items
         setLoading(false);

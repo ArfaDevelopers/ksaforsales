@@ -913,7 +913,6 @@ const HeaderLower = () => {
             },
           ],
         },
-        { name: "Sleepwear", path: "/FashionStyle?subCatgory=Sleepwear" },
         { name: "Gifts", path: "/FashionStyle?subCatgory=Gifts" },
         { name: "Luggage", path: "/FashionStyle?subCatgory=Luggage" },
         {
@@ -1002,7 +1001,7 @@ const HeaderLower = () => {
       path: "/JobBoard",
       subcategories: [
         {
-          name: "Administrative Jobs",
+          name: "Administrativjbe Jobs",
           path: "/JobBoard?subCatgory=Administrative Jobs",
           subSubcategories: [
             {
@@ -1292,7 +1291,6 @@ const HeaderLower = () => {
         },
       ],
     },
-
     {
       name: "Real Estate",
       path: "/RealEstateComp",

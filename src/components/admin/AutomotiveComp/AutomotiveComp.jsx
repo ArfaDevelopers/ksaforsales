@@ -2391,6 +2391,7 @@ const AutomotiveComp = () => {
         setLoading(true);
 
         const params = new URLSearchParams();
+        console.log("Paramassss", params)
 
         if (searchText) params.append("searchText", searchText);
 

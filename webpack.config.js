@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-
 const opn = require("opn"); // Import the 'opn' package
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -23,7 +22,6 @@ module.exports = {
       opn(`http://localhost:${this.port}`);
     },
   },
-
   externals: {
     // global app config object
     config: JSON.stringify({

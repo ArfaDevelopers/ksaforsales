@@ -34,7 +34,6 @@ import withReactContent from "sweetalert2-react-content";
 const SignUp = () => {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
-
   const [passwordType, setPasswordType] = useState("password");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,7 +49,7 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  const fullPhoneNumber = `+92${phoneNumber}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
@@ -64,20 +63,18 @@ const SignUp = () => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+966\d{8}$/;
+    const saudiNumberRegex = /^\+92\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
-      setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
+      setSaudinummsg("Please enter valid Saudi like +925XXXXXXXX");
       setPhoneNumber("");
     }
   };
@@ -120,6 +117,7 @@ const SignUp = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
+
   const sendOtp = async () => {
     if (!phoneNumber) {
       await MySwal.fire({
@@ -281,6 +279,7 @@ const SignUp = () => {
       });
     }
   };
+
   const handleSignup = async (e) => {
     e.preventDefault();
 
@@ -406,7 +405,7 @@ const SignUp = () => {
                               fontSize: "14px",
                             }}
                           >
-                            +966
+                            +92
                           </span>
                         </span>
                         <input

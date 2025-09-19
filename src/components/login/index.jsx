@@ -55,6 +55,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   // Handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -112,7 +113,6 @@ const Login = () => {
         password
       );
       const user = userCredential.user;
-
       localStorage.setItem("user", user.uid); // fixed this line
 
       console.log("User logged in:", user);
@@ -151,7 +151,6 @@ const Login = () => {
     setEmail(e.target.value);
     console.log("Entered Email:", e.target.value);
   };
-
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber(e.target.value);
   };
@@ -210,60 +209,70 @@ const Login = () => {
                         width: "100%",
                       }}
                     >
-                      <div className="group-img">
-                        <i
-                          className="feather-user"
-                          style={{ color: "#2d4495" }}
-                        />
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          border: "1px solid #e0e0e0",
+                          borderRadius: "10px",
+                          padding: "0px 15px",
+                          width: "100%",
+                          boxSizing: "border-box",
+                          backgroundColor: "#e8f0fe",
+                        }}
+                      >
+                        {" "}
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <img
+                            src="https://flagcdn.com/16x12/sa.png"
+                            alt="Saudi Arabia Flag"
+                            style={{
+                              width: "20px",
+                              height: "15px",
+                              marginRight: "5px",
+                            }}
+                          />
+
+                          <span
+                            style={{
+                              color: "#2d4495",
+                              fontWeight: "500",
+                              fontSize: "14px",
+                            }}
+                          >
+                            +92
+                          </span>
+                        </span>
                         <input
                           type="tel"
                           id="phoneNumber"
                           value={phoneNumber}
                           onChange={handlePhoneNumberChange1}
-                          placeholder="05XXXXXXXX"
+                          placeholder="XXXXXXXXXX"
                           className="form-control"
+                          maxLength={15}
                           style={{
-                            flex: 1, // Allow the input to grow and fill the space
-                            outline: "none", // Remove outline
-                            backgroundColor: "transparent", // Match background with container
+                            border: "none",
+                            outline: "none",
+                            flex: 1,
+                            backgroundColor: "transparent",
+                            color: "#666",
+                            fontSize: "14px",
+                            padding: "5px 0",
+                            width: "100%",
                           }}
                         />
                       </div>
                       {error1 && (
                         <p className="text-red-500 text-sm mt-1">{error1}</p>
                       )}
-
-                      {/* <input
-                        type="tel"
-                        id="phoneNumber"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+965"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        required
-                      /> */}
                     </div>
-
-                    <style>
-                      {`
-      /* For Chrome, Edge, and Safari */
-      input[type="number"]::-webkit-inner-spin-button,
-      input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-
-      /* For Firefox */
-      input[type="number"] {
-        -moz-appearance: textfield;
-      }
-
-      /* Placeholder styling */
-      input::placeholder {
-        color: #999;
-      }
-    `}
-                    </style>
                   </div>
                   <div
                     style={{

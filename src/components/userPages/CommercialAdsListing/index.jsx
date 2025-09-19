@@ -40,6 +40,7 @@ const CommercialAdsListing = () => {
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
   const [showPayment, setshowPayment] = useState(true); // Store a single URL, initially null
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const uid = auth.currentUser.uid
 
   const handleLogout = async () => {
     try {
@@ -90,7 +91,21 @@ const CommercialAdsListing = () => {
       }
     };
 
+    const fetchUserPhoneNumber = async () => {
+      try {
+        const docRef = doc(db, "users", uid)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+          const userData = docSnap.data()
+          setFormData((prevData) => ({...prevData, phone: userData.phoneNumber || "", whatsapp:userData.phoneNumber || "" }))
+        }
+      } catch (error) {
+        
+      }
+    }
+
     fetchAds();
+    fetchUserPhoneNumber()
   }, []);
 
   // Handle form input changes
@@ -236,13 +251,13 @@ const CommercialAdsListing = () => {
   const categories = [
     "Motor",
     "Electronics",
-    "Fashion",
+    "Fashion Style",
     "Home & Furniture",
-    "Jobs",
+    "Job Board",
     "Real Estate",
     "Services",
-    "Games & Toys",
-    "Pet",
+    "Sport & Game",
+    "Pet & Animals",
     "Other",
     "Commercial",
   ];

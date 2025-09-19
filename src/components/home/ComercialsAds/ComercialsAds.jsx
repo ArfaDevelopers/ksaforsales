@@ -144,8 +144,8 @@ export default function AutomativeCarousel() {
                 {...settings}
                 className="featured-slider grid-view commercial_slider_wrap"
               >
-                {ads.map((ad) => (
-                  <Link to={`/CategoryDetail/${ad.id}`}>
+                {ads.map((ad, index) => (
+                  <Link to={`/CategoryDetail/${ad.id}`} key={index}>
                     <div key={ad.id} className="card aos" data-aos="fade-up">
                       <div className="blog-widget">
                         <div className="blog-img">

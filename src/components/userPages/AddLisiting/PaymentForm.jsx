@@ -241,10 +241,17 @@ const PaymentForm = (props) => {
             >
               Card Information
             </label>
-            <div className="mt-2">
+            <div
+              style={{
+                border: "1px solid #3b3b3bff",
+                borderRadius: "6px",
+                padding: "10px",
+                marginBottom: "10px"
+              }}
+            >
               <CardElement
                 id="card"
-                className="mb-3 border rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
+                className="border border-black rounded-lg border-gray-300 focus:ring-2 focus:ring-indigo-500 w-full"
               />
             </div>
           </div>

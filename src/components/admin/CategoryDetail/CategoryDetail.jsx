@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Button, Modal, Row, Col } from "react-bootstrap";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-
 import {
   FaArrowLeft,
   FaPhone,
+  FaFacebook,
+  FaInstagram,
   FaWhatsapp,
   FaShareAlt,
   FaCopy,
@@ -64,6 +64,13 @@ const CategoryDetail = () => {
 
   const [categories, setcategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+  const link = getQueryParam("link") || window.location.href;
+  
   const copyToClipboard = () => {
     navigator.clipboard.writeText(link);
     alert("Link copied to clipboard!");
@@ -89,11 +96,6 @@ const CategoryDetail = () => {
     // Cleanup on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const getQueryParam = (param) => {
-    const searchParams = new URLSearchParams(location.search);
-    return searchParams.get(param);
-  };
-  const link = getQueryParam("link") || window.location.href;
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
   //     if (user) {
@@ -151,9 +153,9 @@ const CategoryDetail = () => {
         setLoading(false); // Set loading to false after fetching is done
       }
     };
-
-    fetchCarById(); // Call the fetch function
+    return () => fetchCarById(); // Call the fetch function
   }, [id, refresh]); // Run this effect every time the `id` changes
+
   const MILLISECONDS_IN_24_HOURS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
   useEffect(() => {
@@ -212,7 +214,7 @@ const CategoryDetail = () => {
       }
     };
 
-    incrementAdVisit();
+    return () => incrementAdVisit();
   }, []);
 
   if (!categories) {
@@ -329,7 +331,7 @@ const CategoryDetail = () => {
     }
   };
   const favoritiesadded = async (itemId) => {
-    console.log("favoritiesadded called with itemId:", itemId);
+    // console.log("favoritiesadded called with itemId:", itemId);
     const userClickedId = auth.currentUser?.uid;
     if (!userClickedId) return;
 
@@ -622,6 +624,19 @@ const CategoryDetail = () => {
                               `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                                 link
                               )}`,
+                              "_blank"
+                            )
+                          }
+                        />
+
+                        {/* Facebook Share */}
+                        <FaWhatsapp
+                          size={32}
+                          color="#25D366"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            window.open(
+                              `https://wa.me/?text=${encodeURIComponent(link)}`,
                               "_blank"
                             )
                           }
@@ -967,7 +982,6 @@ const CategoryDetail = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     favoritiesadded(categories.id); // Call your function with the clicked categories's ID
-                    setRefresh((prev) => !prev); // force re-fetch if needed
                   }}
                 >
                   <FaHeart

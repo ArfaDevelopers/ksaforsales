@@ -790,6 +790,7 @@ const Bikes = () => {
     setFilteredCars(filtered);
     setActivePage(1);
   };
+  
 
   const carListings = [
     {

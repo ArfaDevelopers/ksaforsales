@@ -380,7 +380,7 @@ const CommercialAdscom = () => {
   //   alert("Link copied to clipboard!");
   // };
   const handleCopyLink = () => {
-    const currentUrl = window.location.href; // Gets the full URL
+    const currentUrl = paramLink; // Gets the full URL
     navigator.clipboard
       .writeText(currentUrl)
       .then(() => {
@@ -521,8 +521,8 @@ const CommercialAdscom = () => {
                   style={{
                     background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                     fontWeight: "500",
-                    pointerEvents: "none",
                     padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    cursor: "pointer"
                   }}
                   onClick={() => navigate("/")}
                 >
@@ -536,12 +536,12 @@ const CommercialAdscom = () => {
                   style={{
                     background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                     fontWeight: "500",
-                    pointerEvents: "none",
                     padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    cursor: "pointer"
                   }}
-                  onClick={() => navigate("/ElectronicComp")}
+                  onClick={() => navigate("/CommercialAdscom")}
                 >
-                  CommercialAds
+                  Commercial Ads
                 </button>
               </div>
             </div>

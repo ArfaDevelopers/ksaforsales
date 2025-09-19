@@ -8,7 +8,7 @@ const categories = [
   },
   {
     id: 2,
-    title: "Jobs",
+    title: "Job",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP60u2MUASTzHB83NhmYT0-CN_b4aS55fzhw&s",
     phone: "+96552223344",

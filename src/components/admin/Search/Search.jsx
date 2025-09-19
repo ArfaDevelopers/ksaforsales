@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../home/footer/Footer";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IoLocationOutline } from "react-icons/io5";
-import { Modal } from "bootstrap";
-
-import WindowedSelect from "react-windowed-select";
-import cityData from "../../../City.json";
-import locationData from "../../../Location.json";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+// import { formatTimeAgo } from "@/utils/format-time-ago"
 import { FaRegHeart } from "react-icons/fa";
 import profile from "../dyanmic_route/profileimage.png";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
-import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
 import automative from "../../home/automative.png";
 import electronic from "../../home/electronic.png";
@@ -31,6 +32,11 @@ import iron from "../../home/iron.png";
 import image1 from "../../../assets/img/banner/bannerimage1.png";
 import image3 from "../../../assets/img/banner/bannerimage3.png";
 import image4 from "../../../assets/img/banner/bannerimage4.png";
+import Mesagedeals from "../../../components/userPages/mesagedeals";
+import { ref, getDownloadURL } from "firebase/storage";
+import { IoLocationOutline } from "react-icons/io5";
+import { Modal } from "bootstrap";
+
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
@@ -50,6 +56,10 @@ import popup from "../../home/popup_image.png";
 import { Accordion } from "react-bootstrap";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsChat } from "react-icons/bs";
+import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
+import WindowedSelect from "react-windowed-select";
+import cityData from "../../../City.json";
+import locationData from "../../../Location.json";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
 import {
@@ -61,12 +71,8 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import {
   Container,
   Row,
@@ -78,17 +84,17 @@ import {
   Badge,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
-import Mesagedeals from "../../../components/userPages/mesagedeals";
-import { ref, getDownloadURL } from "firebase/storage";
-import axios from "axios";
 
-const ElectronicComp = () => {
+const Search = () => {
+  const [searchParams] = useSearchParams();
+  console.log("params...", searchParams.get("q"));
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
-  const { searchText } = useSearchStore();
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
   const getImageURL = async () => {
@@ -113,6 +119,127 @@ const ElectronicComp = () => {
       }
     });
   }, []);
+  // Handle city selection
+  const [carsData, setCars] = useState([]); // All cars data
+  const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
+  const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
+  const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
+  console.log(filteredCars, "filteredCars_________");
+  const itemsPerPage = 3; // Number of items per page
+
+  const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
+  const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
+  const [Brand, setBrand] = useState([]);
+  const [selectedCarsMake, setSelectedCarsMake] = useState([]);
+
+  console.log(selectedCarsMake, "selectedCarsMake______");
+  const [fromValue, setFromValue] = useState("");
+
+  const [toValueSalaryRange, setToValueSalaryRange] = useState("");
+  const [fromValueSalaryRange, setFromValueSalaryRange] = useState("");
+
+  const [toValue, setToValue] = useState("");
+  console.log(fromValue, "selectedCarsMake______000", toValue);
+
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [ScreenSize, setScreenSize] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [receiverId, setReceiverId] = useState(null);
+  const [productIds, setproductIds] = useState(null);
+
+  const user = auth.currentUser;
+  const currentUserId = user?.uid;
+  const [selectedToyotaLocations, setSelectedToyotaLocations] = useState([]);
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
+    useState([]);
+
+  // Handle checkbox change for Toyota locations
+  const [selectedCars1, setSelectedCars1] = useState([]);
+  const [selectedOptionTransmission, setSelectedOptionTransmission] =
+    useState("");
+  const [logSelectedColor, setlogSelectedColor] = useState([]);
+  const [selectedEngines, setSelectedEngines] = useState([]);
+  const [OperatingSystem, setOperatingSystem] = useState([]);
+
+  const [fromCC, setFromCC] = useState("");
+  const [toCC, setToCC] = useState("");
+  const [selectedAssembly, setSelectedAssembly] = useState([]);
+  const [selectedCarsBodyType, setSelectedCarsBodyType] = useState([]);
+  const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
+    useState([]);
+  const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
+    []
+  );
+  const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
+    useState([]);
+  const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
+    useState("");
+  const [pictureAvailability, setPictureAvailability] = useState("");
+  const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
+    useState("");
+  const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
+  const [storageType, setStorageType] = useState("");
+  const [activePhoneIndex, setActivePhoneIndex] = useState(null);
+
+  const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
+  const [fromValueMileage, setFromCCMileage] = useState("");
+  const [toValueMileage, setToCCMileage] = useState("");
+  const [SortBy, setSortBy] = useState(""); // Search query for title and city
+  const [Processor, setProcessor] = useState(""); // Search query for title and city
+  const [RAM, setRAM] = useState(""); // Search query for title and city
+  const [storagecapacity, setStoragecapacity] = useState(""); // Search query for title and city
+  const [GraphicsCard, setGraphicsCard] = useState("");
+  const [BatteryLife, setBatteryLife] = useState("");
+  const [DisplayQuality, setDisplayQuality] = useState("");
+  const [Connectivity, setConnectivity] = useState(""); // Search query for title and city
+  const [SpecialFeatures, setSpecialFeatures] = useState(""); // Search query for title and city
+  const [Gender, setGender] = useState("");
+  const [Size, setSize] = useState("");
+  const [Fit, setFit] = useState("");
+  const [Material, setMaterial] = useState("");
+  const [Color, setColor] = useState("");
+  const [StyleDesign, setStyleDesign] = useState("");
+  const [ClosureType, setClosureType] = useState("");
+  const [CollarType, setCollarType] = useState("");
+  const [SleeveLength, setSleeveLength] = useState("");
+  const [WashType, setWashType] = useState("");
+  const [Features, setFeatures] = useState("");
+  const [Season, setSeason] = useState("");
+  const [Type, setType] = useState("");
+  const [MeasurementRange, setMeasurementRange] = useState("");
+  const [Accuracy, setAccuracy] = useState("");
+  const [CuffSize, setCuffSize] = useState("");
+  const [DisplayType, setDisplayType] = useState("");
+  const [BatteryType, setBatteryType] = useState("");
+  const [Compatibility, setCompatibility] = useState("");
+  const [StorageCapacity, setStorageCapacity] = useState("");
+  const [MeasurementUnits, setMeasurementUnits] = useState("");
+  const [SpeedofMeasurement, setSpeedofMeasurement] = useState("");
+  const [SellerType, setSellerType] = useState("");
+  const [JobTitle, setJobTitle] = useState("");
+  const [JobType, setJobType] = useState("");
+  const [Company, setCompany] = useState("");
+  const [EmploymentType, setEmploymentType] = useState("");
+  const [ExperienceLevel, setExperienceLevel] = useState("");
+  const [Industry, setIndustry] = useState("");
+  const [RequiredSkills, setRequiredSkills] = useState("");
+  const [ads, setCarsData] = useState([]);
+  const [userId, setUserId] = useState(""); // State for image preview
+  const [error, setError] = useState(""); // ✅ Error state
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
+  const [cities, setCities] = useState([]);
+  // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
+  const [states, setStates] = useState([]);
+  const [subCatgory, setsubCatgory] = useState("");
+  const [nestedSubCategory, setNestedSubCategory] = useState("");
+  console.log(nestedSubCategory, "subCatgory___________2222");
+  console.log(subCatgory, "subCatgory___________1111___subCatgory");
+
+  const { searchText } = useSearchStore();
   const regionOptions = [
     {
       value: 1,
@@ -233,28 +360,28 @@ const ElectronicComp = () => {
     },
   ];
 
+  const [refresh, setRefresh] = useState(false); // Add loading state
+
   const [selectedRegion, setSelectedRegionId] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const modalRef = useRef(null);
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
-  const [selectedCities, setSelectedCities] = useState([]); // Selected cities for filtering
-  const [selectedEmirates, setSelectedEmirates] = useState([]); // Selected Emirates for filtering
   // const [Brand, setBrand] = useState([]);
-  const [selectedSubCategory, setselectedSubCategory] = useState("");
   const [CityList, setCityList] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [searchCityText, setSearchCityText] = useState("");
-  const [productIds, setproductIds] = useState(null);
 
   console.log(selectedCities, "Fetched cities:1");
   console.log(cities, "Fetched cities:1cities");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerms, setSearchTerms] = useState("");
 
   const [districts, setDistricts] = useState([]);
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   const cityModalRef = useRef(null);
+  const [searchTerm1, setSearchTerm1] = useState("");
+
   const regionPairs = [];
   const [showModalDistricts, setShowModalDistricts] = useState(false);
-  const [searchDistrictText, setSearchDistrictText] = useState("");
+  const [sortedRegions, setSortedRegions] = useState([]);
   const handleDistrictCheckboxChange = async (option, isChecked) => {
     if (isChecked) {
       // ✅ Add to local state
@@ -317,6 +444,46 @@ const ElectronicComp = () => {
       console.error("Error updating region count:", err);
     }
   };
+  useEffect(() => {
+    const fetchAdsDetailImages = async () => {
+      try {
+        const adsCollectionRef = collection(db, "regionIdSortData");
+        const adsSnapshot = await getDocs(adsCollectionRef);
+
+        const adsList = adsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // 🔽 Sort by count DESC
+        const sortedAds = adsList.sort((a, b) => b.count - a.count);
+
+        // 🔽 Merge with regionOptions
+        const mergedRegions = sortedAds
+          .map((ad) => {
+            const region = regionOptions.find(
+              (r) => r.regionId === ad.regionId
+            );
+            return region ? { ...region, count: ad.count } : null;
+          })
+          .filter(Boolean);
+
+        // 🔽 Add remaining regions (not in adsList) at the bottom
+        const remainingRegions = regionOptions.filter(
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+        );
+
+        const finalRegions = [...mergedRegions, ...remainingRegions];
+
+        setSortedRegions(finalRegions); // Store in state for rendering
+        console.log("✅ Final sorted regions:", finalRegions);
+      } catch (error) {
+        console.error("❌ Error fetching AdsdetailImages:", error);
+      }
+    };
+
+    fetchAdsDetailImages();
+  }, [selectedRegion]);
   useEffect(() => {
     const modalEl = cityModalRef.current;
     if (!modalEl) return;
@@ -443,24 +610,6 @@ const ElectronicComp = () => {
 
     setSelectedCities(updatedCities);
   };
-
-  // const handleCheckboxChange1 = (option) => {
-  //   const exists = selectedCities.some(
-  //     (city) => city.CITY_ID === option.cityId
-  //   );
-  //   let updatedCities;
-  //   if (exists) {
-  //     updatedCities = selectedCities.filter(
-  //       (city) => city.CITY_ID !== option.cityId
-  //     );
-  //   } else {
-  //     updatedCities = [
-  //       ...selectedCities,
-  //       { REGION_ID: option.regionId, CITY_ID: option.cityId },
-  //     ];
-  //   }
-  //   setSelectedCities(updatedCities);
-  // };
   useEffect(() => {
     const fetchDistricts = async () => {
       if (!selectedCities.length) return;
@@ -491,120 +640,54 @@ const ElectronicComp = () => {
     regionId: district.REGION_ID,
     cityId: district.CITY_ID,
   }));
-  const [categories, setCategories] = useState([]);
-  const [selectedSubCategory1, setSelectedSubCategory1] = useState("");
-  console.log(selectedSubCategory1, "filteredCars_________category");
-
-  useEffect(() => {
-    axios
-      .get("http://168.231.80.24:9002/route/electronicsSubCategories")
-      .then((response) => {
-        setCategories(response.data); // Store all categories with counts
-      })
-      .catch((error) => {
-        console.error("Error fetching electronics categories:", error);
-      });
-  }, []);
-
-  // Handle city selection
-  const [carsData, setCars] = useState([]); // All cars data
-  const [filteredCars, setFilteredCars] = useState([]); // Filtered cars based on search & city
-  const [searchQuery, setSearchQuery] = useState(""); // Search query for title and city
-  const [currentPageCars, setCurrentPageCars] = useState([]); // Cars to display on the current page
-
-  console.log(filteredCars, "filteredCars_________");
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Close if click is outside a phone button
-      if (
-        !event.target.closest(".call-now-wrapper") &&
-        !event.target.closest(".call-now-link")
-      ) {
-        setActivePhoneIndex(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
-  const itemsPerPage = 3; // Number of items per page
-  const [adsDetailImages, setAdsDetailImages] = useState([]);
-  useEffect(() => {
-    const fetchAdsDetailImages = async () => {
-      try {
-        const adsCollectionRef = collection(db, "cityIdSortData");
-        const adsSnapshot = await getDocs(adsCollectionRef);
-
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        console.log("📸 AdsdetailImages fetched11:", adsList);
-      } catch (error) {
-        console.error("❌ Error fetching AdsdetailImages:", error);
-      }
-    };
-
-    fetchAdsDetailImages();
-  }, [selectedCities]);
-  console.log(adsDetailImages, "adsDetailImages________");
-  useEffect(() => {
-    const fetchAdsDetailImages = async () => {
-      try {
-        const adsCollectionRef = collection(db, "districtIdSortData");
-        const adsSnapshot = await getDocs(adsCollectionRef);
-
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        console.log("📸 AdsdetailImages fetched11:districtIdSortData", adsList);
-      } catch (error) {
-        console.error("❌ Error fetching AdsdetailImages:", error);
-      }
-    };
-
-    fetchAdsDetailImages();
-  }, [selectedCities]);
-  useEffect(() => {
-    const fetchAdsDetailImages = async () => {
-      try {
-        const adsCollectionRef = collection(db, "BodyContentElectronic");
-        const adsSnapshot = await getDocs(adsCollectionRef);
-
-        const adsList = adsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setAdsDetailImages(adsList);
-        console.log("📸 AdsdetailImages fetched:", adsList);
-      } catch (error) {
-        console.error("❌ Error fetching AdsdetailImages:", error);
-      }
-    };
-
-    fetchAdsDetailImages();
-  }, []);
-
-  const [showAll, setShowAll] = useState(false);
-
-  const handleCategoryCheck = (category) => {
-    setSelectedSubCategory1((prev) => (prev === category ? "" : category));
-  };
-
-  // Show first 4 or all based on showAll state
-  const visibleCategories = showAll ? categories : categories.slice(0, 4);
-  console.log(visibleCategories, "visibleCategories___");
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
   }, [searchText]);
+  const updateIsMobile = () => {
+    setIsMobile(window.innerWidth <= 767);
+  };
+  const { id } = useParams();
+  const getQueryParam = (param) => {
+    const hash = location.hash;
+    const queryIndex = hash.indexOf("?");
+    if (queryIndex === -1) return null;
+
+    const queryString = hash.substring(queryIndex + 1);
+    const searchParams = new URLSearchParams(queryString);
+    return searchParams.get(param);
+  };
+  const [_Id, setId] = useState(null); // State to store ads data
+  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  const [selectedSubCategory, setselectedSubCategory] = useState("");
+  const [selectedCity, setselectedCity] = useState(null);
+
+  const handleCategorySelect = (e) => {
+    setselectedSubCategory(e.target.value);
+  };
+  const [formData, setFormData] = useState({
+    City: "",
+    District: "",
+  });
+  console.log(
+    selectedSubCategory,
+    "selectedSubCategory________selectedSubCategory"
+  );
+
+  const handleCitySelect = (selectedOptions) => {
+    console.log("Selected Options:", selectedOptions); // Debug
+    setselectedCity(selectedOptions || []); // Update selectedCity state to an array
+    setFormData((prev) => ({
+      ...prev,
+      City: selectedOptions
+        ? selectedOptions.map((option) => option.value)
+        : [], // Store array of city values
+    }));
+  };
+  console.log("Selected City:", selectedCity);
+
   useEffect(() => {
     // Assuming Location.json is like { "location": [ ... ] } or is an array itself
     if (cityData.City && Array.isArray(cityData.City)) {
@@ -640,7 +723,13 @@ const ElectronicComp = () => {
       console.error("Dis JSON data is not in expected format");
     }
   }, []);
-
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setSelectedRegionId([]);
+    setselectedSubCategory("");
+    setSelectedCities([]);
+    setSelectedDistricts([]);
+  };
   const DistrictOptions = useMemo(
     () =>
       DistrictList.map((Dis) => ({
@@ -649,159 +738,64 @@ const ElectronicComp = () => {
       })),
     [DistrictList]
   );
-  const [selectedCity, setselectedCity] = useState(null);
-  const [selectedDistrict, setselectedDistrict] = useState(null);
+  const [showAllJobs, setShowAllJobs] = useState(false);
+  const [jobCategories, setJobCategories] = useState([]);
 
-  console.log(selectedCity, "selectedSubCategory________");
-
-  const [formData, setFormData] = useState({
-    City: "",
-    District: "",
-  });
-  const handleCitySelect = (selectedOptions) => {
-    console.log("Selected Options:", selectedOptions); // Debug
-    setselectedCity(selectedOptions || []); // Update selectedCity state to an array
-    setFormData((prev) => ({
-      ...prev,
-      City: selectedOptions
-        ? selectedOptions.map((option) => option.value)
-        : [], // Store array of city values
-    }));
-  };
-  console.log("Selected City:", selectedCity);
-
-  const handleDistrictSelect = (selectedOption1) => {
-    console.log("Selected Option:", selectedOption1); // Debug
-    setselectedDistrict(selectedOption1); // Update selectedCity state
-    setFormData((prev) => ({
-      ...prev,
-      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
-    }));
-  };
-  console.log("Selected district:", selectedDistrict);
-  const [selectedConditions, setSelectedConditions] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const handleCheckboxBrand = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setBrands((prev) => [...prev, value]);
-    } else {
-      setBrands((prev) => prev.filter((brand) => brand !== value));
-    }
-  };
-
-  const [selectedCarsMake, setSelectedCarsMake] = useState([]);
-
-  console.log(selectedCarsMake, "selectedCarsMake______");
-  const [fromValue, setFromValue] = useState("");
-  const [toValue, setToValue] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [ScreenSize, setScreenSize] = useState("");
-
-  const [selectedToyotaLocations, setSelectedToyotaLocations] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
-
-  const [selectedMercedesBenzLocations, setSelectedMercedesBenzLocations] =
-    useState([]);
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-  // Handle checkbox change for Toyota locations
-  const [selectedCars1, setSelectedCars1] = useState([]);
-  const [selectedOptionTransmission, setSelectedOptionTransmission] =
-    useState("");
-  const [logSelectedColor, setlogSelectedColor] = useState([]);
-  const [selectedEngines, setSelectedEngines] = useState([]);
-  const [OperatingSystem, setOperatingSystem] = useState([]);
+    fetch("http://168.231.80.24:9002/route/jobBoardSubCategories")
+      .then((res) => res.json())
+      .then((data) => setJobCategories(data))
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
 
-  const [fromCC, setFromCC] = useState("");
-  const [toCC, setToCC] = useState("");
-  const [selectedAssembly, setSelectedAssembly] = useState([]);
-  const [selectedCarsBodyType, setSelectedCarsBodyType] = useState([]);
-  const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
-    useState([]);
-  const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
-  );
-  const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
-    useState([]);
-  const [selectedCheckboxSellerType, setSelectedCheckboxSellerType] =
-    useState("");
-  const [pictureAvailability, setPictureAvailability] = useState("");
-  const [logSelectedPurpose, setlogSelectedPurpose] = useState([]); // use array
-
-  const [selectedOptionVideoAvailability, setSelectedOptionVideoAvailability] =
-    useState("");
-  const [selectedOptionisFeatured, setSelectedOptionisFeatured] = useState("");
-  const [storageType, setStorageType] = useState("");
-  const [showModal, setShowModal] = useState(false);
-
-  const [selectedStates1, setSelectedStates1] = useState([]); // Selected states for filtering
-  const [fromValueMileage, setFromCCMileage] = useState("");
-  const [toValueMileage, setToCCMileage] = useState("");
-  const [SortBy, setSortBy] = useState(""); // Search query for title and city
-  const [Processor, setProcessor] = useState(""); // Search query for title and city
-  const [RAM, setRAM] = useState(""); // Search query for title and city
-  const [storagecapacity, setStoragecapacity] = useState(""); // Search query for title and city
-  const [GraphicsCard, setGraphicsCard] = useState("");
-  const [BatteryLife, setBatteryLife] = useState("");
-  const [DisplayQuality, setDisplayQuality] = useState("");
-  const [Connectivity, setConnectivity] = useState(""); // Search query for title and city
-  const [SpecialFeatures, setSpecialFeatures] = useState(""); // Search query for title and city
-  const [ads, setCarsData] = useState([]);
-  const [userId, setUserId] = useState(""); // State for image preview
-  const [error, setError] = useState(""); // ✅ Error state
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  // const [selectedCities, setSelectedCities] = useState([]); // Array of selected cities
-  const [Condition, setCondition] = useState([]);
-
-  const [subCatgory, setsubCatgory] = useState("");
-  const [nestedSubCategory, setNestedSubCategory] = useState("");
-  console.log(nestedSubCategory, "subCatgory___________2233");
-  console.log(subCatgory, "subCatgory___________1133");
-  // const [searchQuery, setSearchQuery] = useState(""); // For search query, if any
-  const [states, setStates] = useState([]);
-  const { id } = useParams();
-  const getQueryParam = (param) => {
-    const hash = location.hash;
-    const queryIndex = hash.indexOf("?");
-    if (queryIndex === -1) return null;
-
-    const queryString = hash.substring(queryIndex + 1);
-    const searchParams = new URLSearchParams(queryString);
-    return searchParams.get(param);
+  const handleFromChange = (e) => {
+    setFromValue(e.target.value);
   };
-  const [_Id, setId] = useState(null); // State to store ads data
-  const [callingFrom, setCallingFrom] = useState(null); // State to store ads data
-  const [receiverId, setReceiverId] = useState(null);
-  const [refresh, setRefresh] = useState(false); // Add loading state
-
-  const user = auth.currentUser;
-  const currentUserId = user?.uid;
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+  const handleToChange = (e) => {
+    setToValue(e.target.value);
+  };
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const subCatgory = getQueryParam("subCatgory");
     const NestedSubCategory = getQueryParam("NestedSubCategory");
+    console.log("_________________1", subCatgory);
+    console.log("_________________2", callingFrom);
+    console.log("_________________3", NestedSubCategory);
+
+    if (subCatgory?.trim() === "Fashion") {
+      setsubCatgory("Fashion & Beauty Jobs");
+    } else if (subCatgory?.trim() === "Security") {
+      setsubCatgory("Security & Safety Jobs");
+    } else if (subCatgory?.trim() === "IT") {
+      setsubCatgory("IT & Design Jobs");
+    } else if (subCatgory?.trim() === "Agriculture") {
+      setsubCatgory("Agriculture & Farming Jobs");
+    } else if (subCatgory?.trim() === "Medical") {
+      setsubCatgory("Medical & Nursing Jobs");
+    } else if (subCatgory?.trim() === "Architecture") {
+      setsubCatgory("Architecture & Construction Jobs");
+    } else {
+      setsubCatgory(subCatgory);
+    }
     setNestedSubCategory(NestedSubCategory);
     const ids = getQueryParam("id");
-    console.log("subCatgory___________9:ids", ids);
-    console.log("subCatgory___________9 From:", callingFrom);
-    console.log(subCatgory, "subCatgory___________933");
-    console.log(NestedSubCategory, "subCatgory___________9122");
-    setsubCatgory(subCatgory);
+    console.log("callingFrom______ID:ids11", ids);
+    console.log("callingFrom______Calling From:11", callingFrom);
+
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location, getQueryParam]);
-  const [sortedRegions, setSortedRegions] = useState([]);
-
+  // Format country data for React Select
+  const countryOptions = Country.getAllCountries().map((country) => ({
+    value: country.isoCode,
+    label: country.name,
+  }));
+  const [adsDetailImages, setAdsDetailImages] = useState([]);
+  console.log(adsDetailImages, "adsDetailImages________");
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
       try {
-        const adsCollectionRef = collection(db, "regionIdSortData");
+        const adsCollectionRef = collection(db, "JobBoardcontent");
         const adsSnapshot = await getDocs(adsCollectionRef);
 
         const adsList = adsSnapshot.docs.map((doc) => ({
@@ -809,104 +803,27 @@ const ElectronicComp = () => {
           ...doc.data(),
         }));
 
-        // 🔽 Sort by count DESC
-        const sortedAds = adsList.sort((a, b) => b.count - a.count);
-
-        // 🔽 Merge with regionOptions
-        const mergedRegions = sortedAds
-          .map((ad) => {
-            const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
-            );
-            return region ? { ...region, count: ad.count } : null;
-          })
-          .filter(Boolean);
-
-        // 🔽 Add remaining regions (not in adsList) at the bottom
-        const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
-        );
-
-        const finalRegions = [...mergedRegions, ...remainingRegions];
-
-        setSortedRegions(finalRegions); // Store in state for rendering
-        console.log("✅ Final sorted regions:", finalRegions);
+        setAdsDetailImages(adsList);
+        console.log("📸 AdsdetailImages fetched:", adsList);
       } catch (error) {
         console.error("❌ Error fetching AdsdetailImages:", error);
       }
     };
 
     fetchAdsDetailImages();
-  }, [selectedRegion]);
-  // Format country data for React Select
-  const handleClearSearch = () => {
-    setSearchQuery("");
-    setSelectedSubCategory1("");
-    setBrands([]);
-    setSelectedRegionId([]);
-    setSelectedCities([]);
-    setSelectedDistricts([]);
-    setSelectedDistricts([]);
-    setToValue("");
-    setFromValue("");
-    setCondition([]);
-    setlogSelectedPurpose([]);
-  };
-  const countryOptions = Country.getAllCountries().map((country) => ({
-    value: country.isoCode,
-    label: country.name,
-  }));
-  const brandOptions = {
-    "Mobile Phones": [
-      "Apple",
-      "iPhone",
-      "iPod",
-      "Apple Watch",
-      "Samsung",
-      "Galaxy S",
-      "Galaxy Note",
-      "Huawei",
-      "Sony",
-      "Xperia",
-      "BlackBerry",
-      "Nokia",
-      "HTC",
-      "Microsoft",
-      "LG",
-      "Hitachi",
-      "Panasonic",
-    ],
-    "Computers & Laptops": [
-      "MacBook",
-      "Surface",
-      "Sony Laptop",
-      "Toshiba",
-      "Dell",
-      "Asus",
-      "Acer",
-    ],
-    Cameras: ["Canon", "Fujifilm", "Olympus", "Samsung", "Nikon", "Sony"],
-  };
+  }, []);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Handle country selection
-  const handleCountryChange = (selected) => {
-    setSelectedCountry(selected);
-    setSelectedCities([]); // Reset cities when country changes
-    setSelectedStates1([]); // Reset states when country changes
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
-    if (selected && selected.value) {
-      // Get states of the selected country
-      const countryStates = State.getStatesOfCountry(selected.value) || [];
-      setStates(countryStates);
+    window.addEventListener("resize", handleResize);
 
-      // Get cities of the selected country
-      const countryCities = City.getCitiesOfCountry(selected.value) || [];
-      setCities(countryCities);
-    } else {
-      setStates([]);
-      setCities([]);
-    }
-  };
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const handleCityChange = (selectedOptions) => {
     const cityNames = selectedOptions
       ? selectedOptions.map((option) => option.label)
@@ -951,35 +868,332 @@ const ElectronicComp = () => {
 
     fetchCars();
   }, []);
-  function timeAgo(timestamp) {
-    let date;
-    if (timestamp instanceof Date) {
-      date = timestamp;
-    } else if (timestamp?._seconds) {
-      date = new Date(timestamp._seconds * 1000);
-    } else if (typeof timestamp === "number") {
-      date = new Date(timestamp);
+  const handleCheckboxChangeRequiredSkills = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setRequiredSkills((prev) => [...prev, carLabel]);
     } else {
-      return "Invalid time";
+      // Remove the label from the state if unchecked
+      setRequiredSkills((prev) => prev.filter((car) => car !== carLabel));
     }
-    const now = new Date();
-    const diff = now - date;
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-    return "Just now";
-  }
-  const handleCheckboxCondition = (label) => {
-    setCondition(
-      (prevSelected) =>
-        prevSelected.includes(label)
-          ? prevSelected.filter((item) => item !== label) // remove if already selected
-          : [...prevSelected, label] // add if not selected
-    );
+  };
+  const handleCheckboxChangeIndustry = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setIndustry((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setIndustry((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeExperienceLevel = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setExperienceLevel((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setExperienceLevel((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeEmploymentType = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setEmploymentType((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setEmploymentType((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeCompany = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setCompany((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setCompany((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeJobType = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setJobType((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setJobType((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeJobTitle = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setJobTitle((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setJobTitle((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
+  const handleCheckboxChangeSellerType = (label) => {
+    setSellerType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeSpeedofMeasurement = (label) => {
+    setSpeedofMeasurement((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+
+  const handleCheckboxChangeMeasurementUnits = (label) => {
+    setMeasurementUnits((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+
+  const handleCheckboxChangeStorageCapacity = (label) => {
+    setStorageCapacity((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+
+  const handleCheckboxChangeCompatibility = (label) => {
+    setCompatibility((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeBatteryType = (label) => {
+    setBatteryType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeDisplayType = (label) => {
+    setDisplayType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeCuffSize = (label) => {
+    setCuffSize((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeFeatures = (label) => {
+    setFeatures((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeAccuracy = (label) => {
+    setAccuracy((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeMeasurementRange = (label) => {
+    setMeasurementRange((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeType = (label) => {
+    setType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeSeason = (label) => {
+    setSeason((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+
+  const handleCheckboxChangeWashType = (label) => {
+    setWashType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeSleeveLength = (label) => {
+    setSleeveLength((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangStyleClosureCollarType = (label) => {
+    setCollarType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangStyleClosureType = (label) => {
+    setClosureType((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangStyleDesign = (label) => {
+    setStyleDesign((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangColor = (label) => {
+    setColor((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangMaterial = (label) => {
+    setMaterial((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangFit = (label) => {
+    setFit((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangSize = (label) => {
+    setSize((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
+  };
+  const handleCheckboxChangeGender = (label) => {
+    setGender((prevSelected) => {
+      if (prevSelected.includes(label)) {
+        // Remove the label if already selected
+        return prevSelected.filter((item) => item !== label);
+      } else {
+        // Add the label to the selected array
+        return [...prevSelected, label];
+      }
+    });
   };
   // Search query for title and city
   // Search query for title and city
@@ -1113,18 +1327,7 @@ const ElectronicComp = () => {
     setSelectedStates1(stateNames);
     filterCars(searchQuery, selectedCities, stateNames); // Apply the filter
   };
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const [activePage, setActivePage] = useState(1);
   console.log(activePage, "activePage_________");
   const handlePageClick = (page) => {
@@ -1205,7 +1408,6 @@ const ElectronicComp = () => {
     }
     return pages;
   };
-  const [activePhoneIndex, setActivePhoneIndex] = useState(null);
 
   const getPaginatedCars = () => {
     const startIndex = (activePage - 1) * carsPerPage;
@@ -1232,24 +1434,7 @@ const ElectronicComp = () => {
     setPictureAvailability(value);
     console.log(`PictureAvailability: ${value}`);
   };
-  const handleCheckboxPurpose = (label) => {
-    setlogSelectedPurpose((prevSelected) => {
-      if (prevSelected.includes(label)) {
-        // remove if already selected
-        return prevSelected.filter((item) => item !== label);
-      } else {
-        // add if not selected
-        return [...prevSelected, label];
-      }
-    });
-  };
 
-  const handleCheckboxChangeSellerType = (event, label) => {
-    const isChecked = event.target.checked;
-    const selectedLabel = isChecked ? label : "";
-    setSelectedCheckboxSellerType(selectedLabel);
-    console.log(`Selected: ${selectedLabel}`);
-  };
   const handleCheckboxChangeModelCategory = (label) => {
     setSelectedClassesModelCategory((prevSelected) => {
       const isChecked = prevSelected.includes(label);
@@ -1415,15 +1600,25 @@ const ElectronicComp = () => {
   console.log("fromDate__Select1111:", toDate);
 
   // Handle change for 'from' input
-  const handleFromChange = (e) => {
-    setFromValue(e.target.value);
+  const handleFromChangeSalaryRange = (e) => {
+    setFromValueSalaryRange(e.target.value);
   };
 
   // Handle change for 'to' input
-  const handleToChange = (e) => {
-    setToValue(e.target.value);
+  const handleToChangeSalaryRange = (e) => {
+    setToValueSalaryRange(e.target.value);
   };
 
+  const handleCheckboxChangeBrand = (event) => {
+    const carLabel = event.target.name; // Use the name attribute to identify the checkbox
+    if (event.target.checked) {
+      // Add the label to the state if checked
+      setBrand((prev) => [...prev, carLabel]);
+    } else {
+      // Remove the label from the state if unchecked
+      setBrand((prev) => prev.filter((car) => car !== carLabel));
+    }
+  };
   const handleCheckboxChange = (event) => {
     const carLabel = event.target.name; // Use the name attribute to identify the checkbox
     if (event.target.checked) {
@@ -1434,28 +1629,9 @@ const ElectronicComp = () => {
       setSelectedCarsMake((prev) => prev.filter((car) => car !== carLabel));
     }
   };
-  const handleEmiratesChange = (e, emirate) => {
-    if (e.target.checked) {
-      setSelectedEmirates((prevEmirates) => {
-        const updatedEmirates = [...prevEmirates, emirate];
-        filterCars(searchQuery, updatedEmirates); // Apply the filter
-        return updatedEmirates;
-      });
-    } else {
-      setSelectedEmirates((prevEmirates) => {
-        const updatedEmirates = prevEmirates.filter((item) => item !== emirate);
-        filterCars(searchQuery, updatedEmirates); // Apply the filter
-        return updatedEmirates;
-      });
-    }
-  };
   useEffect(() => {
     filterCars(searchQuery, selectedEmirates);
   }, [selectedEmirates, searchQuery]);
-  useEffect(() => {
-    console.log("Selected Emirates: ", selectedEmirates);
-  }, [selectedEmirates]);
-  // Fetch cars data
   const [bookmarkedCar, setBookmarkedCar] = useState({
     bookmarked: false,
     id: null,
@@ -1471,7 +1647,7 @@ const ElectronicComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/ELECTRONICS/${carId}/view`, {
+      fetch(`http://168.231.80.24:9002/route/JOBBOARD/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1487,12 +1663,6 @@ const ElectronicComp = () => {
       // Find the selected car
       const selectedCar = carsData.find((car) => car.id === carId);
       if (!selectedCar) return;
-
-      // Toggle bookmark status
-      const newBookmarkedStatus = !(selectedCar.bookmarked || false);
-
-      // Update local state
-      setBookmarkedCar({ bookmarked: newBookmarkedStatus, id: carId });
       const user = auth.currentUser;
       if (!user) {
         setPopoverCarId(carId); // Show popover only for this car
@@ -1500,8 +1670,14 @@ const ElectronicComp = () => {
         return;
       }
       const userId = user.uid;
+      // Toggle bookmark status
+      const newBookmarkedStatus = !(selectedCar.bookmarked || false);
+
+      // Update local state
+      setBookmarkedCar({ bookmarked: newBookmarkedStatus, id: carId });
+
       // Update Firestore
-      const carDocRef = doc(db, "ELECTRONICS", carId);
+      const carDocRef = doc(db, "JOBBOARD", carId);
       await updateDoc(carDocRef, {
         bookmarked: newBookmarkedStatus,
         userId: userId,
@@ -1520,12 +1696,11 @@ const ElectronicComp = () => {
       console.error("Error updating bookmark:", error);
     }
   };
-
   useEffect(() => {
-    const CITY_ID = selectedCities[0]?.CITY_ID;
-    const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
-
-    const fetchElectronics = async () => {
+    console.log("Selected Emirates: ", selectedEmirates);
+  }, [selectedEmirates]);
+  useEffect(() => {
+    const fetchJobBoard = async () => {
       try {
         setLoading(true);
 
@@ -1533,43 +1708,92 @@ const ElectronicComp = () => {
 
         if (searchText) params.append("searchText", searchText);
 
-        // ✅ Pass multiple regionId values
         if (selectedRegion.length) {
           selectedRegion.forEach((id) => params.append("regionId", id));
         }
 
+        const CITY_ID = selectedCities[0]?.CITY_ID;
+        const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+
         if (CITY_ID) params.append("CITY_ID", CITY_ID);
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
-        // ✅ Pass SortBy
+        // ✅ Add SubCategory filter
+        if (selectedSubCategory) {
+          params.append("SubCategory", selectedSubCategory);
+        }
+
+        // ✅ Add SortBy
         if (SortBy) params.append("sortBy", SortBy);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/ELECTRONICS?${params.toString()}`
+          `http://168.231.80.24:9002/search?q=${searchParams.get("q")}`
         );
 
-        const electronicsData = await response.json();
-        if (!response.ok) return;
-        setCars(electronicsData);
-        setFilteredCars(electronicsData);
+        const jobsData = await response.json();
+        setCars(jobsData.results);
+        setFilteredCars(jobsData.results);
         setLoading(false);
 
-        console.log(electronicsData, "electronicsData_________");
+        console.log(jobsData.data.results, "jobsData_________jobs");
       } catch (error) {
-        console.error("Error getting ELECTRONICS:", error);
+        console.error("Error getting JOBBOARD:", error);
         setLoading(false);
       }
     };
 
-    fetchElectronics();
+    fetchJobBoard();
   }, [
     searchText,
     selectedRegion,
     selectedCities,
     selectedDistricts,
+    selectedSubCategory,
+    SortBy, // ✅ re-fetch when sort changes
     refresh,
-    SortBy, // 🔹 re-fetch when SortBy changes
   ]);
+
+  // useEffect(() => {
+  //   const CITY_ID = selectedCities[0]?.CITY_ID;
+  //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+  //   const REGION_ID = selectedRegion;
+
+  //   const fetchJobBoard = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       const params = new URLSearchParams();
+  //       if (searchText) params.append("searchText", searchText);
+  //       if (REGION_ID) params.append("regionId", REGION_ID);
+  //       if (CITY_ID) params.append("CITY_ID", CITY_ID);
+  //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+
+  //       const response = await fetch(
+  //         `http://168.231.80.24:9002/route/JOBBOARD?${params.toString()}`
+  //       );
+
+  //       const data = await response.json();
+
+  //       setCars(data);
+  //       setFilteredCars(data);
+  //       setLoading(false);
+
+  //       console.log(data, "jobBoardData_________");
+  //     } catch (error) {
+  //       console.error("Error getting job board data:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchJobBoard();
+  // }, [
+  //   searchText,
+  //   refresh,
+  //   selectedCities,
+  //   selectedDistricts,
+  //   searchQuery,
+  //   selectedRegion,
+  // ]);
 
   const handleShowModal = (userId, productIds) => {
     console.log("Opening modal for receiverId:", receiverId); // Debug
@@ -1586,22 +1810,60 @@ const ElectronicComp = () => {
     const endIndex = startIndex + carsPerPage;
     setCurrentPageCars(filteredCars.slice(startIndex, endIndex));
   }, [activePage, filteredCars]);
+  function timeAgo(timestamp) {
+    let date;
+    if (timestamp instanceof Date) {
+      date = timestamp;
+    } else if (timestamp?._seconds) {
+      date = new Date(timestamp._seconds * 1000);
+    } else if (typeof timestamp === "number") {
+      date = new Date(timestamp);
+    } else {
+      return "Invalid time";
+    }
+    const now = new Date();
+    const diff = now - date;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    return "Just now";
+  }
+  const [selectedDistrict, setselectedDistrict] = useState(null);
 
+  console.log(selectedDistrict, "selectedSubCategory________1");
+  const handleDistrictSelect = (selectedOption1) => {
+    console.log("Selected Option:", selectedOption1); // Debug
+    setselectedDistrict(selectedOption1); // Update selectedCity state
+    setFormData((prev) => ({
+      ...prev,
+      District: selectedOption1 ? selectedOption1.value : "", // Fallback to empty string
+    }));
+  };
+  console.log("Selected district:", selectedDistrict);
   useEffect(() => {
     console.log("Selected Cities: ", selectedCities);
-  }, [selectedCities]);
+  }, [selectedCities, selectedDistrict]);
 
   useEffect(() => {
     setLoading(true);
 
     filterCars(
-      searchQuery,
+      selectedDistrict,
+      selectedCity,
+      selectedSubCategory,
+      subCatgory,
+      nestedSubCategory,
       selectedCities,
+      searchQuery,
+
       selectedEmirates,
+
       selectedCarsMake,
       fromValue,
-      selectedSubCategory1,
-
       toValue,
       fromDate,
       toDate,
@@ -1625,6 +1887,7 @@ const ElectronicComp = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
+      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -1636,23 +1899,52 @@ const ElectronicComp = () => {
       DisplayQuality,
       Connectivity,
       SpecialFeatures,
-      nestedSubCategory,
-      subCatgory,
-      selectedSubCategory,
-      logSelectedPurpose,
-      Condition,
-      brands,
-      selectedCity,
-      selectedDistrict
+      Gender,
+
+      Fit,
+      Material,
+      Color,
+      StyleDesign,
+      ClosureType,
+      CollarType,
+      SleeveLength,
+      WashType,
+      Features,
+      Season,
+      Type,
+      MeasurementRange,
+      Accuracy,
+      CuffSize,
+      DisplayType,
+      BatteryType,
+      Compatibility,
+      StorageCapacity,
+      MeasurementUnits,
+      SpeedofMeasurement,
+      SellerType,
+      JobTitle,
+      toValueSalaryRange,
+      fromValueSalaryRange,
+      JobType,
+      Company,
+      EmploymentType,
+      ExperienceLevel,
+      Industry,
+      RequiredSkills
+      // subCatgory
     );
   }, [
-    searchQuery,
     selectedCities,
+    selectedDistrict,
+    selectedSubCategory,
 
+    selectedCity,
+    subCatgory,
+    nestedSubCategory,
+    searchQuery,
     selectedEmirates,
     selectedCarsMake,
     fromValue,
-    selectedSubCategory1,
     toValue,
     toDate,
     fromDate,
@@ -1676,6 +1968,7 @@ const ElectronicComp = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
+    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -1687,14 +1980,39 @@ const ElectronicComp = () => {
     DisplayQuality,
     Connectivity,
     SpecialFeatures,
-    nestedSubCategory,
-    subCatgory,
-    selectedSubCategory,
-    logSelectedPurpose,
-    Condition,
-    brands,
-    selectedCity,
-    selectedDistrict,
+    Gender,
+
+    Fit,
+    Material,
+    Color,
+    StyleDesign,
+    ClosureType,
+    CollarType,
+    SleeveLength,
+    WashType,
+    Features,
+    Season,
+    Type,
+    MeasurementRange,
+    Accuracy,
+    CuffSize,
+    DisplayType,
+    BatteryType,
+    Compatibility,
+    StorageCapacity,
+    MeasurementUnits,
+    SpeedofMeasurement,
+    SellerType,
+    JobTitle,
+    toValueSalaryRange,
+    fromValueSalaryRange,
+    JobType,
+    Company,
+    EmploymentType,
+    ExperienceLevel,
+    Industry,
+    RequiredSkills,
+    // subCatgory,
   ]);
 
   // Handle search input change
@@ -1705,12 +2023,16 @@ const ElectronicComp = () => {
     // Filter cars based on the search query and selected cities
     filterCars(
       query,
+      selectedDistrict,
+      selectedSubCategory,
+
+      selectedCity,
+      subCatgory,
+      nestedSubCategory,
       selectedCities,
       selectedEmirates,
       selectedCarsMake,
       fromValue,
-      selectedSubCategory1,
-
       toValue,
       toDate,
       fromDate,
@@ -1734,6 +2056,7 @@ const ElectronicComp = () => {
       fromValueMileage,
       toValueMileage,
       SortBy,
+      Brand,
       OperatingSystem,
       ScreenSize,
       Processor,
@@ -1745,24 +2068,55 @@ const ElectronicComp = () => {
       DisplayQuality,
       Connectivity,
       SpecialFeatures,
-      nestedSubCategory,
-      subCatgory,
-      selectedSubCategory,
-      logSelectedPurpose,
-      Condition,
-      brands,
-      selectedCity,
-      selectedDistrict
+      Gender,
+
+      Fit,
+      Material,
+      Color,
+      StyleDesign,
+      ClosureType,
+      CollarType,
+      SleeveLength,
+      WashType,
+      Features,
+      Season,
+      Type,
+      MeasurementRange,
+      Accuracy,
+      CuffSize,
+      DisplayType,
+      BatteryType,
+      Compatibility,
+      StorageCapacity,
+      MeasurementUnits,
+      SpeedofMeasurement,
+      SellerType,
+      JobTitle,
+      toValueSalaryRange,
+      fromValueSalaryRange,
+      JobType,
+      Company,
+      EmploymentType,
+      ExperienceLevel,
+      Industry,
+      RequiredSkills
+      // subCatgory
     );
   };
   const filterCars = (
     query,
+    selectedDistrict,
+    selectedSubCategory,
+
+    selectedCity,
+    subCatgory,
+    nestedSubCategory,
+    searchQuery,
+
     cities,
     emirates,
     selectedCarsMake,
     fromValue,
-    selectedSubCategory1,
-
     toValue,
     fromDate,
     toDate,
@@ -1786,6 +2140,7 @@ const ElectronicComp = () => {
     fromValueMileage,
     toValueMileage,
     SortBy,
+    Brand,
     OperatingSystem,
     ScreenSize,
     Processor,
@@ -1797,63 +2152,111 @@ const ElectronicComp = () => {
     DisplayQuality,
     Connectivity,
     SpecialFeatures,
-    nestedSubCategory,
-    subCatgory,
-    selectedSubCategory,
-    logSelectedPurpose,
-    Condition,
-    brands,
-    selectedCity,
-    selectedDistrict
+    Gender,
+
+    Fit,
+    Material,
+    Color,
+    StyleDesign,
+    ClosureType,
+    CollarType,
+    SleeveLength,
+    WashType,
+    Features,
+    Season,
+    Type,
+    MeasurementRange,
+    Accuracy,
+    CuffSize,
+    DisplayType,
+    BatteryType,
+    Compatibility,
+    StorageCapacity,
+    MeasurementUnits,
+    SpeedofMeasurement,
+    SellerType,
+    JobTitle,
+    toValueSalaryRange,
+    fromValueSalaryRange,
+    JobType,
+    Company,
+    EmploymentType,
+    Industry,
+    RequiredSkills
   ) => {
-    let filtered = carsData;
+    let filtered = filteredCars;
+    setLoading(true);
 
     // Filter by search query
-    if (query.trim() !== "") {
-      const lowercasedQuery = query?.toLowerCase();
-      filtered = filtered.filter(
-        (car) =>
-          car.title?.toLowerCase().includes(lowercasedQuery) ||
-          car.City?.toLowerCase().includes(lowercasedQuery) ||
-          car.Emirates?.toLowerCase().includes(lowercasedQuery) ||
-          car.make?.toLowerCase().includes(lowercasedQuery) ||
-          car.Registeredin?.toLowerCase().includes(lowercasedQuery) ||
-          car.Color?.toLowerCase().includes(lowercasedQuery) ||
-          car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
-          car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
-          car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
-          car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
-          car.SeatingCapacity?.toLowerCase().includes(lowercasedQuery) ||
-          car.ModalCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
-          car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
-          car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
-          car.AdType?.toLowerCase().includes(lowercasedQuery) ||
-          car.States?.toLowerCase().includes(lowercasedQuery) ||
-          // car.brands?.toLowerCase().includes(lowercasedQuery) ||
-          car.OperatingSystem?.toLowerCase().includes(lowercasedQuery) ||
-          car.ScreenSize?.toLowerCase().includes(lowercasedQuery) ||
-          car.Processor?.toLowerCase().includes(lowercasedQuery) ||
-          car.RAM?.toLowerCase().includes(lowercasedQuery) ||
-          car.StorageType?.toLowerCase().includes(lowercasedQuery) ||
-          car.Storagecapacity?.toLowerCase().includes(lowercasedQuery) ||
-          car.GraphicsCard?.toLowerCase().includes(lowercasedQuery) ||
-          car.BatteryLife?.toLowerCase().includes(lowercasedQuery) ||
-          car.DisplayQuality?.toLowerCase().includes(lowercasedQuery) ||
-          car.Connectivity?.toLowerCase().includes(lowercasedQuery) ||
-          car.SpecialFeatures?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
-          car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.Condition?.toLowerCase().includes(lowercasedQuery) ||
-          car.brands?.toLowerCase().includes(lowercasedQuery) ||
-          car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.District?.toLowerCase().includes(lowercasedQuery)
-      );
-    }
+    // if (query?.trim() !== "") {
+    //   const lowercasedQuery = query?.toLowerCase();
+    //   filtered = filtered.filter(
+    //     (car) =>
+    //       car.title?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.City?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Emirates?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.make?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Registeredin?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Color?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Transmission?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.EngineType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Assembly?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.BodyType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.NumberOfDoors?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SeatingCapacity?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.ModalCategory?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SellerType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.PictureAvailability?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.VideoAvailability?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.AdType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.States?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Brand?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.OperatingSystem?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.ScreenSize?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Processor?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.RAM?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.StorageType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Storagecapacity?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.GraphicsCard?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.BatteryLife?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.DisplayQuality?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Connectivity?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SpecialFeatures?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Gender?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Size?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Fit?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Material?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Color?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.StyleDesign?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.ClosureType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.CollarType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SleeveLength?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.WashType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Features?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Season?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Type?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.MeasurementRange?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Accuracy?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.CuffSize?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.DisplayType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.BatteryType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Compatibility?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.StorageCapacity?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.MeasurementUnits?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SpeedofMeasurement?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.JobTitle?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.JobType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Company?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.EmploymentType?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.ExperienceLevel?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.Industry?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.RequiredSkills?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
+    //       car.District?.toLowerCase().includes(lowercasedQuery)
+    //   );
+    // }
     setLoading(false);
     if (searchQuery?.length > 0) {
       filtered = filtered.filter((car) => {
@@ -1866,54 +2269,152 @@ const ElectronicComp = () => {
         return car.title.toLowerCase().includes(searchQuery.toLowerCase());
       });
     }
-    if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
+    if (selectedSubCategory?.length > 0) {
+      filtered = filtered.filter((car) =>
+        selectedSubCategory.includes(car.SubCategory)
+      );
+    }
+    if (Array.isArray(selectedCity) && selectedCity.length > 0) {
+      const selectedCityValues = selectedCity.map((city) => city.value); // No need for `?` now
       filtered = filtered.filter((car) =>
         selectedCityValues.includes(car.City)
       );
     }
-    if (selectedCity && selectedCity.length > 0) {
-      const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
-      filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
-      );
-    }
-    if (selectedDistrict) {
+
+    console.log(selectedDistrict, "selectedValue___________11");
+
+    if (selectedDistrict?.value) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict?.value
       );
     }
+    if (nestedSubCategory) {
+      filtered = filtered.filter((car) =>
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
+      );
+    }
+    // if (selectedDistrict?.value?.length > 0) {
+    //   filtered = filtered.filter((car) => selectedDistrict?.value.includes(car.District));
+    // }
     if (ScreenSize?.length > 0) {
       filtered = filtered.filter((car) => ScreenSize.includes(car.ScreenSize));
     }
     if (subCatgory?.length > 0) {
       filtered = filtered.filter((car) => subCatgory.includes(car.SubCategory));
     }
-    if (selectedSubCategory?.length > 0) {
+    if (RequiredSkills?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        RequiredSkills.includes(car.RequiredSkills)
       );
     }
-    if (selectedSubCategory1?.length > 0) {
+    if (Industry?.length > 0) {
+      filtered = filtered.filter((car) => Industry.includes(car.Industry));
+    }
+    if (ExperienceLevel?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory1.includes(car.SubCategory)
+        ExperienceLevel.includes(car.ExperienceLevel)
       );
     }
-    if (brands?.length > 0) {
-      filtered = filtered.filter((car) => brands.includes(car.brands));
-    }
-    if (Condition?.length > 0) {
-      filtered = filtered.filter((car) => Condition.includes(car.Condition));
-    }
-    if (logSelectedPurpose?.length > 0) {
+    if (EmploymentType?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        EmploymentType.includes(car.EmploymentType)
       );
     }
-    if (nestedSubCategory?.length > 0) {
+    if (Company?.length > 0) {
+      filtered = filtered.filter((car) => Company.includes(car.Company));
+    }
+    if (JobType?.length > 0) {
+      filtered = filtered.filter((car) => JobType.includes(car.JobType));
+    }
+    if (JobTitle?.length > 0) {
+      filtered = filtered.filter((car) => JobTitle.includes(car.JobTitle));
+    }
+    if (SellerType?.length > 0) {
+      filtered = filtered.filter((car) => SellerType.includes(car.SellerType));
+    }
+    if (SpeedofMeasurement?.length > 0) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.includes(car.NestedSubCategory)
+        SpeedofMeasurement.includes(car.SpeedofMeasurement)
       );
+    }
+    if (MeasurementUnits?.length > 0) {
+      filtered = filtered.filter((car) =>
+        MeasurementUnits.includes(car.MeasurementUnits)
+      );
+    }
+    if (StorageCapacity?.length > 0) {
+      filtered = filtered.filter((car) =>
+        StorageCapacity.includes(car.StorageCapacity)
+      );
+    }
+    if (Compatibility?.length > 0) {
+      filtered = filtered.filter((car) =>
+        Compatibility.includes(car.Compatibility)
+      );
+    }
+    if (BatteryType?.length > 0) {
+      filtered = filtered.filter((car) =>
+        BatteryType.includes(car.BatteryType)
+      );
+    }
+    if (DisplayType?.length > 0) {
+      filtered = filtered.filter((car) =>
+        DisplayType.includes(car.DisplayType)
+      );
+    }
+    if (CuffSize?.length > 0) {
+      filtered = filtered.filter((car) => CuffSize.includes(car.CuffSize));
+    }
+    if (Accuracy?.length > 0) {
+      filtered = filtered.filter((car) => Accuracy.includes(car.Accuracy));
+    }
+    if (MeasurementRange?.length > 0) {
+      filtered = filtered.filter((car) =>
+        MeasurementRange.includes(car.MeasurementRange)
+      );
+    }
+    if (Type?.length > 0) {
+      filtered = filtered.filter((car) => Type.includes(car.Type));
+    }
+    if (Season?.length > 0) {
+      filtered = filtered.filter((car) => Season.includes(car.Season));
+    }
+    if (Features?.length > 0) {
+      filtered = filtered.filter((car) => Features.includes(car.Features));
+    }
+    if (WashType?.length > 0) {
+      filtered = filtered.filter((car) => WashType.includes(car.WashType));
+    }
+    if (SleeveLength?.length > 0) {
+      filtered = filtered.filter((car) =>
+        SleeveLength.includes(car.SleeveLength)
+      );
+    }
+    if (CollarType?.length > 0) {
+      filtered = filtered.filter((car) => CollarType.includes(car.CollarType));
+    }
+    if (ClosureType?.length > 0) {
+      filtered = filtered.filter((car) =>
+        ClosureType.includes(car.ClosureType)
+      );
+    }
+    if (StyleDesign?.length > 0) {
+      filtered = filtered.filter((car) =>
+        StyleDesign.includes(car.StyleDesign)
+      );
+    }
+    if (Color?.length > 0) {
+      filtered = filtered.filter((car) => Color.includes(car.Color));
+    }
+    if (Material?.length > 0) {
+      filtered = filtered.filter((car) => Material.includes(car.Material));
+    }
+    if (Fit?.length > 0) {
+      filtered = filtered.filter((car) => Fit.includes(car.Fit));
+    }
+
+    if (Gender?.length > 0) {
+      filtered = filtered.filter((car) => Gender.includes(car.Gender));
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
@@ -1968,9 +2469,9 @@ const ElectronicComp = () => {
       );
     }
     // Filter by selected cities
-    // if (Brand?.length > 0) {
-    //   filtered = filtered.filter((car) => Brand.includes(car.Brand));
-    // }
+    if (Brand?.length > 0) {
+      filtered = filtered.filter((car) => Brand.includes(car.Brand));
+    }
     if (selectedStates1?.length > 0) {
       filtered = filtered.filter((car) => selectedStates1.includes(car.States));
     }
@@ -2073,6 +2574,20 @@ const ElectronicComp = () => {
         return carPrice >= minPrice && carPrice <= maxPrice;
       });
     }
+    if (fromValueSalaryRange || toValueSalaryRange) {
+      filtered = filtered.filter((car) => {
+        const carPrice = parseFloat(car.SalaryRange); // Assuming price is a number or string
+        const minPrice = fromValueSalaryRange
+          ? parseFloat(fromValueSalaryRange)
+          : 0; // Default to 0 if no fromValue
+        const maxPrice = toValueSalaryRange
+          ? parseFloat(toValueSalaryRange)
+          : Infinity; // Default to Infinity if no toValue
+
+        // Ensure that car's price is between minPrice and maxPrice
+        return carPrice >= minPrice && carPrice <= maxPrice;
+      });
+    }
     if (SortBy === "Price: Low to High") {
       filtered.sort((a, b) => {
         const priceA = parseFloat(a.Price) || 0;
@@ -2150,20 +2665,6 @@ const ElectronicComp = () => {
 
   const [selectedCars, setSelectedCars] = useState(["Mercedes-Benz"]);
 
-  const handleCarSelection = (brand) => {
-    setSelectedCars((prev) =>
-      prev.includes(brand)
-        ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
-    );
-  };
-
-  const handleClose = () => {
-    setIsVisible(false);
-  };
-  const handleDropdownClick = () => {
-    setShowSuggestions(!showSuggestions);
-  };
   const headingStyle = {
     backgroundColor: "#2D4495",
     color: "white",
@@ -2231,7 +2732,7 @@ const ElectronicComp = () => {
 
             <button
               onClick={() => {
-                navigate("/ElectronicComp");
+                navigate("/JobBoard");
               }}
               className="btn"
               style={{
@@ -2241,7 +2742,7 @@ const ElectronicComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Electronics
+              Search
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2299,6 +2800,7 @@ const ElectronicComp = () => {
             )}
           </div>
         </Container>
+        {/*  filters and ads */}
         <Container
           style={{
             color: "black", // Text color
@@ -2308,7 +2810,7 @@ const ElectronicComp = () => {
             {/* Sidebar */}
             <Col
               lg={3}
-              className=" filter_main_wrap style={{ height: '200px' }}"
+              className="filter_main_wrap style={{ height: '200px' }}"
             >
               <div className="side_bar_main_wrap">
                 <h5
@@ -2325,6 +2827,7 @@ const ElectronicComp = () => {
                 >
                   Show Results by:
                 </h5>
+
                 <Form className="filter_innerwrap">
                   <Row className="my-3">
                     <Col>
@@ -2365,8 +2868,7 @@ const ElectronicComp = () => {
                       </div>
                     </Col>
                   </Row>
-
-                  {/*  -------------  */}
+                  {/*  -------------                          */}
                   <style>{`
                     .form-check-input:checked {
                       background-color: #2D4495 !important; 
@@ -2389,157 +2891,58 @@ const ElectronicComp = () => {
                   />
 
                   {/*-------------------------------------*/}
-                  {/* Accordion with Checkbox Selection for Color */}
-                  <Accordion className="mt-3">
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Ad Type</Accordion.Header>
-                      <Accordion.Body>
-                        <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          <Form.Group>
-                            {["Rent", "Sell", "Wanted"].map((purpose) => (
-                              <div
-                                key={purpose}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "8px 0",
-                                }}
-                              >
-                                <Form.Check
-                                  type="checkbox"
-                                  label={purpose}
-                                  checked={logSelectedPurpose.includes(purpose)} // controlled checkbox
-                                  onChange={() =>
-                                    handleCheckboxPurpose(purpose)
-                                  }
-                                />
-                              </div>
-                            ))}
-                          </Form.Group>
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                  <hr
-                    style={{
-                      width: "100%",
-                      height: "0px",
-                      top: "1310.01px",
-                      left: "239.88px",
-                      gap: "0px",
-                      borderTop: "1px solid #000000",
-                      opacity: "0.5", // Adjust opacity for visibility
-                      transform: "rotate(0deg)",
-                      margin: "20px 0",
-                      borderColor: "#000000", // Set border color to black
-                    }}
-                  />
-
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Sub Categories</Accordion.Header>
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
                           <Form.Group>
-                            <Form.Label>Select a Category</Form.Label>
-                            <>
-                              {visibleCategories.map((item, index) => (
-                                <div key={index} className="form-check mb-2">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id={`cat-${index}`}
-                                    value={item.category}
-                                    checked={
-                                      selectedSubCategory1 === item.category
-                                    }
-                                    onChange={() =>
-                                      handleCategoryCheck(item.category)
-                                    }
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`cat-${index}`}
-                                  >
-                                    {item.category} ({item.count})
-                                  </label>
-                                </div>
-                              ))}
+                            {/* <Form.Label>Select a Category</Form.Label> */}
 
-                              {categories.length > 4 && (
-                                <Button
-                                  variant="link"
-                                  onClick={() => setShowAll((prev) => !prev)}
-                                  className="p-0 mt-2"
+                            {(showAllJobs
+                              ? jobCategories
+                              : jobCategories.slice(0, 4)
+                            ).map((item, index) => (
+                              <div key={index} className="form-check mb-2">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={`job-cat-${index}`}
+                                  value={item.category}
+                                  checked={
+                                    selectedSubCategory === item.category
+                                  }
+                                  onChange={() =>
+                                    setselectedSubCategory((prev) =>
+                                      prev === item.category
+                                        ? ""
+                                        : item.category
+                                    )
+                                  }
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor={`job-cat-${index}`}
                                 >
-                                  {showAll ? "Show less..." : "Show more..."}
-                                </Button>
-                              )}
-                            </>
+                                  {item.category} ({item.count})
+                                </label>
+                              </div>
+                            ))}
+
+                            {jobCategories.length > 4 && (
+                              <Button
+                                variant="link"
+                                onClick={() => setShowAllJobs((prev) => !prev)}
+                                className="p-0 mt-2"
+                              >
+                                {showAllJobs ? "Show less..." : "Show more..."}
+                              </Button>
+                            )}
                           </Form.Group>
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                  {brandOptions[selectedSubCategory] && (
-                    <>
-                      <hr
-                        style={{
-                          width: "100%",
-                          height: "0px",
-                          top: "1310.01px",
-                          left: "239.88px",
-                          gap: "0px",
-                          borderTop: "1px solid #000000",
-                          opacity: "0.5", // Adjust opacity for visibility
-                          transform: "rotate(0deg)",
-                          margin: "20px 0",
-                          borderColor: "#000000", // Set border color to black
-                        }}
-                      />
-                      <Accordion className="mt-3">
-                        <Accordion.Item eventKey="0">
-                          <Accordion.Header>Brands</Accordion.Header>
-                          <Accordion.Body>
-                            <div style={{ maxWidth: "300px", margin: "20px" }}>
-                              <Form.Group>
-                                {brandOptions[selectedSubCategory].map(
-                                  (brand) => (
-                                    <div
-                                      key={brand}
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        padding: "8px 0",
-                                      }}
-                                    >
-                                      <Form.Check
-                                        type="checkbox"
-                                        label={brand}
-                                        value={brand}
-                                        checked={brands.includes(brand)}
-                                        onChange={handleCheckboxBrand}
-                                      />
-                                      <span
-                                        style={{
-                                          fontWeight: "bold",
-                                          color: "#333",
-                                        }}
-                                      >
-                                        12345
-                                      </span>
-                                    </div>
-                                  )
-                                )}
-                              </Form.Group>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </>
-                  )}
 
                   <hr
                     style={{
@@ -2555,8 +2958,6 @@ const ElectronicComp = () => {
                       borderColor: "#000000", // Set border color to black
                     }}
                   />
-
-                  {/*--------------------------------------*/}
                   <Accordion>
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Select Region</Accordion.Header>
@@ -2612,7 +3013,7 @@ const ElectronicComp = () => {
                             >
                               Show more choices...
                             </button>
-                            <div className="">
+                            <div>
                               <div
                                 className="modal fade more_optn_modal_main"
                                 id="regionModal11"
@@ -2621,14 +3022,14 @@ const ElectronicComp = () => {
                                 aria-labelledby="regionModalLabel"
                                 aria-hidden="true"
                               >
-                                {/* <div className="modal-dialog modal-dialog-scrollable modal-lg"> */}
                                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                                   <div className="modal-content border-0 shadow-lg">
-                                    <div className="modal-header bg-light border-bottom">
-                                      <div className="d-flex align-items-center">
+                                    {/* Header: Title + Search Input in same line */}
+                                    <div className="modal-header bg-light border-bottom d-flex justify-content-between align-items-center">
+                                      <div className="d-flex align-items-center w-100">
                                         <i className="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
                                         <h5
-                                          className="modal-title fw-semibold mb-0"
+                                          className="modal-title fw-semibold mb-0 me-3"
                                           id="regionModalLabel"
                                         >
                                           Select a Region
@@ -2641,6 +3042,8 @@ const ElectronicComp = () => {
                                         aria-label="Close"
                                       ></button>
                                     </div>
+
+                                    {/* Body */}
                                     <div className="modal-body p-3">
                                       <div className="mb-2">
                                         <small className="text-muted">
@@ -2648,66 +3051,45 @@ const ElectronicComp = () => {
                                           options below
                                         </small>
                                       </div>
-                                      <div className="row g-2">
-                                        <ul className="more_choice_main_list">
-                                          {sortedRegions.map((region) => {
-                                            const isChecked =
-                                              selectedRegion.includes(
-                                                region.regionId
-                                              );
-
-                                            return (
-                                              <li>
-                                                <label
-                                                  className="d-flex align-items-center gap-2"
-                                                  key={region.regionId}
-                                                >
-                                                  <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id={`region-${region.regionId}`}
-                                                    checked={isChecked}
-                                                    onChange={() => {
-                                                      if (isChecked) {
-                                                        handleRegionClick(
-                                                          region?.regionId
-                                                        );
-
-                                                        setSelectedRegionId(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (id) =>
-                                                                id !==
-                                                                region.regionId
-                                                            )
-                                                        );
-                                                      } else {
-                                                        handleRegionClick(
-                                                          region?.regionId
-                                                        );
-
-                                                        setSelectedRegionId(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            region.regionId,
-                                                          ]
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    className="form-check-label"
-                                                    htmlFor={`region-${region.regionId}`}
-                                                  >
-                                                    {region.label}
-                                                  </span>
-                                                </label>
-                                              </li>
-                                            );
-                                          })}
-                                        </ul>
-                                      </div>
+                                      <ul className="more_choice_main_list">
+                                        {regionOptions
+                                          .filter((region) =>
+                                            region.regionEn
+                                              .toLowerCase()
+                                              .includes(
+                                                searchTerm.toLowerCase()
+                                              )
+                                          )
+                                          .map((region) => (
+                                            <li key={region.regionId}>
+                                              <label
+                                                className="d-flex align-items-center gap-2"
+                                                htmlFor={`modal-region-${region.regionId}`}
+                                              >
+                                                <input
+                                                  type="checkbox"
+                                                  id={`modal-region-${region.regionId}`}
+                                                  checked={
+                                                    selectedRegion ===
+                                                    region.regionId
+                                                  }
+                                                  onChange={() =>
+                                                    setSelectedRegionId(
+                                                      selectedRegion ===
+                                                        region.regionId
+                                                        ? ""
+                                                        : region.regionId
+                                                    )
+                                                  }
+                                                />
+                                                <span>{region.regionEn}</span>
+                                              </label>
+                                            </li>
+                                          ))}
+                                      </ul>
                                     </div>
+
+                                    {/* Footer */}
                                     <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                                       <div className="text-muted small">
                                         {selectedRegion
@@ -2718,9 +3100,9 @@ const ElectronicComp = () => {
                                         <button
                                           type="button"
                                           className="btn btn-outline-secondary"
-                                          onClick={() => {
-                                            setSelectedRegionId("");
-                                          }}
+                                          onClick={() =>
+                                            setSelectedRegionId("")
+                                          }
                                         >
                                           Clear Selection
                                         </button>
@@ -2736,6 +3118,7 @@ const ElectronicComp = () => {
                                   </div>
                                 </div>
                               </div>
+
                               <style jsx>{`
                                 .hover-shadow {
                                   transition: all 0.15s ease-in-out;
@@ -2785,6 +3168,8 @@ const ElectronicComp = () => {
                       <Accordion.Header>Select City</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
+                          {/* <Form.Label>Select a City</Form.Label> */}
+
                           <>
                             {/* First 4 Checkboxes */}
                             <div className="grid grid-cols-1 gap-2">
@@ -2805,21 +3190,8 @@ const ElectronicComp = () => {
                                   </label>
                                 </div>
                               ))}
-
-                              {/* Show More Link */}
-                              {/* {cityOptions.length > 4 && (
-                                            <button
-                                              type="button"
-                                              className="btn btn-link p-0"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#moreCitiesModal1"
-                                            >
-                                              Show more choices...
-                                            </button>
-                                          )} */}
                             </div>
 
-                            {/* {cityOptions.length > 4 && ( */}
                             <button
                               type="button"
                               className="btn btn-link p-0"
@@ -2827,7 +3199,6 @@ const ElectronicComp = () => {
                             >
                               Show more choices...
                             </button>
-
                             <div
                               className="modal fade more_optn_modal_main"
                               id="moreCitiesModal1"
@@ -2838,15 +3209,16 @@ const ElectronicComp = () => {
                             >
                               <div className="modal-dialog modal-dialog-scrollable">
                                 <div className="modal-content">
-                                  {/* Header with search */}
-                                  <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    <h5
-                                      className="modal-title mb-0"
-                                      id="moreCitiesModalLabel1"
-                                    >
-                                      Select More Cities
-                                    </h5>
-
+                                  {/* Header with Title + Search Input */}
+                                  <div className="modal-header d-flex justify-content-between align-items-center">
+                                    <div className="d-flex align-items-center w-100">
+                                      <h5
+                                        className="modal-title mb-0 me-3"
+                                        id="moreCitiesModalLabel1"
+                                      >
+                                        Select More Cities
+                                      </h5>
+                                    </div>
                                     <button
                                       type="button"
                                       className="btn-close"
@@ -2856,53 +3228,47 @@ const ElectronicComp = () => {
                                     ></button>
                                   </div>
 
-                                  {/* Body with filtered cities */}
+                                  {/* Body with Filtered Cities */}
                                   <div className="modal-body">
                                     <input
                                       type="text"
                                       className="form-control mb-3"
-                                      placeholder="Search cities..."
-                                      style={{ maxWidth: "100%" }}
-                                      value={searchCityText}
+                                      placeholder="Search..."
+                                      value={searchTerm1}
                                       onChange={(e) =>
-                                        setSearchCityText(e.target.value)
+                                        setSearchTerm1(e.target.value)
                                       }
+                                      style={{ maxWidth: "100%" }}
                                     />
-                                    <div className="row">
-                                      <ul className="more_choice_main_list">
-                                        {cityOptions
-                                          .filter((option) =>
-                                            option.label
-                                              ?.toLowerCase()
-                                              .includes(
-                                                searchCityText.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => (
-                                            <li>
-                                              <label
-                                                key={option.value}
-                                                className="d-flex align-items-center gap-2"
-                                              >
-                                                <input
-                                                  type="checkbox"
-                                                  checked={selectedCities.some(
-                                                    (city) =>
-                                                      city.CITY_ID ===
-                                                      option.cityId
-                                                  )}
-                                                  onChange={() =>
-                                                    handleCheckboxChange1(
-                                                      option
-                                                    )
-                                                  }
-                                                />
-                                                <span>{option.label}</span>
-                                              </label>
-                                            </li>
-                                          ))}
-                                      </ul>
-                                    </div>
+                                    <ul className="more_choice_main_list">
+                                      {cityOptions
+                                        .slice(4)
+                                        .filter((option) =>
+                                          option.label
+                                            ?.toLowerCase()
+                                            .includes(
+                                              searchTerm1?.toLowerCase()
+                                            )
+                                        )
+                                        .map((option) => (
+                                          <li key={option.value}>
+                                            <label className="d-flex align-items-center gap-2">
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedCities.some(
+                                                  (city) =>
+                                                    city.CITY_ID ===
+                                                    option.cityId
+                                                )}
+                                                onChange={() =>
+                                                  handleCheckboxChange1(option)
+                                                }
+                                              />
+                                              <span>{option.label}</span>
+                                            </label>
+                                          </li>
+                                        ))}
+                                    </ul>
                                   </div>
 
                                   <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
@@ -2915,9 +3281,7 @@ const ElectronicComp = () => {
                                       <button
                                         type="button"
                                         className="btn btn-outline-secondary"
-                                        onClick={() => {
-                                          setSelectedCities([]);
-                                        }}
+                                        onClick={() => setSelectedCities([])}
                                       >
                                         Clear Selection
                                       </button>
@@ -2932,21 +3296,19 @@ const ElectronicComp = () => {
                                       </button>
                                     </div>
                                   </div>
-
-                                  {/* Footer */}
-                                  {/* <div className="modal-footer">
-                                    <button
-                                      type="button"
-                                      className="btn btn-secondary"
-                                      onClick={() =>
-                                        setIsCityModalVisible(false)
-                                      }
-                                    >
-                                      Close
-                                    </button>
-                                  </div> */}
                                 </div>
                               </div>
+
+                              <style jsx>{`
+                                .more_choice_main_list {
+                                  list-style: none;
+                                  padding: 0;
+                                  margin: 0;
+                                }
+                                .more_choice_main_list li {
+                                  margin-bottom: 8px;
+                                }
+                              `}</style>
                             </div>
                           </>
                         </Form.Group>
@@ -2972,66 +3334,7 @@ const ElectronicComp = () => {
                       <Accordion.Header>Select District</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
-                          <Form.Label>Select a District</Form.Label>
-                          {/* <WindowedSelect
-                                        options={districtOptions}
-                                        isMulti
-                                        placeholder="Select Districts"
-                                        className="w-100"
-                                        onChange={(selected) => {
-                                          const selectedInfo = selected.map((item) => ({
-                                            REGION_ID: item.regionId,
-                                            CITY_ID: item.cityId,
-                                            DISTRICT_ID: item.value,
-                                          }));
-                                          setSelectedDistricts(selectedInfo);
-                                          console.log("Selected Districts:", selectedInfo);
-                                        }}
-                                      /> */}
                           <div className="grid grid-cols-1 gap-2">
-                            {/* {districtOptions.slice(0, 6).map((option) => {
-                              const isChecked = selectedDistricts.some(
-                                (district) =>
-                                  district.DISTRICT_ID === option.value
-                              );
-
-                              return (
-                                <label
-                                  key={option.value}
-                                  className="form-check d-flex align-items-center gap-2"
-                                  style={{ display: "flex" }}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    checked={isChecked}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        setSelectedDistricts((prev) => [
-                                          ...prev,
-                                          {
-                                            REGION_ID: option.regionId,
-                                            CITY_ID: option.cityId,
-                                            DISTRICT_ID: option.value,
-                                          },
-                                        ]);
-                                      } else {
-                                        setSelectedDistricts((prev) =>
-                                          prev.filter(
-                                            (district) =>
-                                              district.DISTRICT_ID !==
-                                              option.value
-                                          )
-                                        );
-                                      }
-                                    }}
-                                  />
-                                  <span className="form-check-label">
-                                    {option.label}
-                                  </span>
-                                </label>
-                              );
-                            })} */}
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
@@ -3060,6 +3363,7 @@ const ElectronicComp = () => {
                                 </label>
                               );
                             })}
+
                             <button
                               type="button"
                               className="btn btn-link p-0 mt-2"
@@ -3069,7 +3373,7 @@ const ElectronicComp = () => {
                             </button>
                           </div>
 
-                          <div className="container ">
+                          <div className="container">
                             <div
                               className="modal fade show more_optn_modal_main"
                               tabIndex="-1"
@@ -3081,12 +3385,13 @@ const ElectronicComp = () => {
                             >
                               <div className="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div className="modal-content">
-                                  {/* Header with search input */}
-                                  <div className="modal-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    <h5 className="modal-title mb-0">
-                                      Select More Districts
-                                    </h5>
-
+                                  {/* Header with Title + Search */}
+                                  <div className="modal-header d-flex justify-content-between align-items-center">
+                                    <div className="d-flex align-items-center w-100">
+                                      <h5 className="modal-title mb-0 me-3">
+                                        Select More Districts
+                                      </h5>
+                                    </div>
                                     <button
                                       type="button"
                                       className="btn-close"
@@ -3096,124 +3401,54 @@ const ElectronicComp = () => {
                                     ></button>
                                   </div>
 
-                                  {/* Compact Body */}
+                                  {/* Body */}
                                   <div className="modal-body">
                                     <input
                                       type="text"
                                       className="form-control mb-3"
-                                      placeholder="Search districts..."
-                                      style={{ maxWidth: "100%" }}
-                                      value={searchDistrictText}
+                                      placeholder="Search..."
+                                      value={searchTerms}
                                       onChange={(e) =>
-                                        setSearchDistrictText(e.target.value)
+                                        setSearchTerms(e.target.value)
                                       }
+                                      style={{ maxWidth: "100%" }}
                                     />
-                                    <div className="row g-1 ml-4">
-                                      <ul className="more_choice_main_list">
-                                        {districtOptions
-                                          .slice(6)
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
-
-                                            return (
-                                              <label
-                                                key={option.value}
-                                                className="form-check d-flex align-items-center gap-2"
-                                              >
-                                                <input
-                                                  type="checkbox"
-                                                  className="form-check-input"
-                                                  checked={isChecked}
-                                                  onChange={(e) =>
-                                                    handleDistrictCheckboxChange(
-                                                      option,
-                                                      e.target.checked
-                                                    )
-                                                  }
-                                                />
-                                                <span className="form-check-label">
-                                                  {option.label}
-                                                </span>
-                                              </label>
+                                    <ul className="more_choice_main_list">
+                                      {districtOptions
+                                        .slice(6)
+                                        .map((option) => {
+                                          const isChecked =
+                                            selectedDistricts.some(
+                                              (district) =>
+                                                district.DISTRICT_ID ===
+                                                option.value
                                             );
-                                          })}
-                                        {/* {districtOptions
-                                          .filter((option) =>
-                                            option.label
-                                              .toLowerCase()
-                                              .includes(
-                                                searchDistrictText.toLowerCase()
-                                              )
-                                          )
-                                          .map((option) => {
-                                            const isChecked =
-                                              selectedDistricts.some(
-                                                (district) =>
-                                                  district.DISTRICT_ID ===
-                                                  option.value
-                                              );
 
-                                            return (
-                                              <li key={option.value}>
-                                                <label className="d-flex align-items-center gap-2">
-                                                  <input
-                                                    type="checkbox"
-                                                    checked={isChecked}
-                                                    onChange={(e) => {
-                                                      if (e.target.checked) {
-                                                        setSelectedDistricts(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              REGION_ID:
-                                                                option.regionId,
-                                                              CITY_ID:
-                                                                option.cityId,
-                                                              DISTRICT_ID:
-                                                                option.value,
-                                                            },
-                                                          ]
-                                                        );
-                                                      } else {
-                                                        setSelectedDistricts(
-                                                          (prev) =>
-                                                            prev.filter(
-                                                              (district) =>
-                                                                district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
-                                                        );
-                                                      }
-                                                    }}
-                                                  />
-                                                  <span
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                  >
-                                                    {option.label}
-                                                  </span>
-                                                </label>
-                                              </li>
-                                            );
-                                          })} */}
-                                      </ul>
-                                    </div>
-
-                                    {/* Selection Count */}
-                                    {/* {selectedDistricts.length > 0 && (
-                                      <div className="mt-2 p-2 bg-light rounded">
-                                        <small className="text-muted">
-                                          {selectedDistricts.length} selected
-                                        </small>
-                                      </div>
-                                    )} */}
+                                          return (
+                                            <label
+                                              key={option.value}
+                                              className="form-check d-flex align-items-center gap-2"
+                                            >
+                                              <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                checked={isChecked}
+                                                onChange={(e) =>
+                                                  handleDistrictCheckboxChange(
+                                                    option,
+                                                    e.target.checked
+                                                  )
+                                                }
+                                              />
+                                              <span className="form-check-label">
+                                                {option.label}
+                                              </span>
+                                            </label>
+                                          );
+                                        })}
+                                    </ul>
                                   </div>
+
                                   <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                                     <div className="text-muted small">
                                       {selectedDistricts
@@ -3224,9 +3459,7 @@ const ElectronicComp = () => {
                                       <button
                                         type="button"
                                         className="btn btn-outline-secondary"
-                                        onClick={() => {
-                                          setSelectedDistricts([]);
-                                        }}
+                                        onClick={() => setSelectedDistricts([])}
                                       >
                                         Clear Selection
                                       </button>
@@ -3241,29 +3474,21 @@ const ElectronicComp = () => {
                                       </button>
                                     </div>
                                   </div>
+
                                   {/* Footer */}
-                                  {/* <div className="modal-footer py-2">
-                                    <button
-                                      type="button"
-                                      className="btn btn-outline-secondary"
-                                      onClick={() =>
-                                        setShowModalDistricts(false)
-                                      }
-                                    >
-                                      Close
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn btn-sm btn-primary"
-                                      onClick={() =>
-                                        setShowModalDistricts(false)
-                                      }
-                                    >
-                                      Apply
-                                    </button>
-                                  </div> */}
                                 </div>
                               </div>
+
+                              <style jsx>{`
+                                .more_choice_main_list {
+                                  list-style: none;
+                                  padding: 0;
+                                  margin: 0;
+                                }
+                                .more_choice_main_list li {
+                                  margin-bottom: 8px;
+                                }
+                              `}</style>
                             </div>
 
                             {/* Minimal Custom Styles */}
@@ -3287,110 +3512,9 @@ const ElectronicComp = () => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                  <hr
-                    style={{
-                      width: "100%",
-                      height: "0px",
-                      top: "1310.01px",
-                      left: "239.88px",
-                      gap: "0px",
-                      borderTop: "1px solid #000000",
-                      opacity: "0.5", // Adjust opacity for visibility
-                      transform: "rotate(0deg)",
-                      margin: "20px 0",
-                      borderColor: "#000000", // Set border color to black
-                    }}
-                  />
-                  {/*      ----------               */}
-
-                  <Accordion className="mt-3">
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Price</Accordion.Header>
-                      <Accordion.Body>
-                        <Form.Group className="mb-3">
-                          <Row>
-                            <Col>
-                              <Form.Control
-                                type="text"
-                                placeholder="From"
-                                value={fromValue}
-                                onChange={handleFromChange}
-                              />
-                            </Col>
-                            <Col>
-                              <Form.Control
-                                type="text"
-                                placeholder="To"
-                                value={toValue}
-                                onChange={handleToChange}
-                              />
-                            </Col>
-                          </Row>
-                        </Form.Group>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-
-                  <hr
-                    style={{
-                      width: "100%",
-                      height: "0px",
-                      top: "1310.01px",
-                      left: "239.88px",
-                      gap: "0px",
-                      borderTop: "1px solid #000000",
-                      opacity: "0.5", // Adjust opacity for visibility
-                      transform: "rotate(0deg)",
-                      margin: "20px 0",
-                      borderColor: "#000000", // Set border color to black
-                    }}
-                  />
-                  <div>
-                    {/* Accordion with Checkbox Selection for Color */}
-                    <Accordion className="mt-3">
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>Condition</Accordion.Header>
-                        <Accordion.Body>
-                          <div style={{ maxWidth: "300px", margin: "20px" }}>
-                            <Form.Group>
-                              {["New", "Used"].map((condition) => (
-                                <div
-                                  key={condition}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    padding: "8px 0",
-                                  }}
-                                >
-                                  <Form.Check
-                                    type="checkbox"
-                                    label={condition}
-                                    checked={Condition.includes(condition)} // ✅ controlled checkbox
-                                    onChange={() =>
-                                      handleCheckboxCondition(condition)
-                                    }
-                                  />
-                                  <span
-                                    style={{
-                                      fontWeight: "bold",
-                                      color: "#333",
-                                    }}
-                                  >
-                                    12345
-                                  </span>
-                                </div>
-                              ))}
-                            </Form.Group>
-                          </div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </div>
                 </Form>
               </div>
             </Col>
-
             <Col lg={9} className="filter_card_main_wrap">
               <div className="filter_card_inner_wrap_block">
                 <Row className="mb-3">
@@ -3424,26 +3548,17 @@ const ElectronicComp = () => {
                         height: "100vh",
                       }}
                     >
-                      {/* <img
-                        src={Loading1}
-                        alt="Loading..."
-                        style={{
-                          width: "200px",
-                          height: "200px",
-                          animation: "spin 1s linear infinite", // Apply the spin animation
-                        }}
-                      /> */}
                       <style>
                         {`
-                       @keyframes spin {
-                         from {
-                           transform: rotate(0deg);
-                         }
-                         to {
-                           transform: rotate(360deg);
-                         }
-                       }
-                     `}
+                      @keyframes spin {
+                        from {
+                          transform: rotate(0deg);
+                        }
+                        to {
+                          transform: rotate(360deg);
+                        }
+                      }
+                    `}
                       </style>
                     </div>
                   ) : filteredCars.length > 0 ? (
@@ -3463,7 +3578,7 @@ const ElectronicComp = () => {
                           <Row className="g-0">
                             <Col md={4} style={{ position: "relative" }}>
                               {/* Featured Label */}
-                              {car.FeaturedAds === "Featured Ads" && (
+                              {/* {car.FeaturedAds === "Featured Ads" && (
                                 <div
                                   style={{
                                     position: "absolute",
@@ -3483,7 +3598,7 @@ const ElectronicComp = () => {
                                   Featured
                                 </div>
                               )}
-                              {/* Heart Icon */}
+                              Heart Icon
                               <div
                                 style={{
                                   position: "absolute",
@@ -3527,17 +3642,18 @@ const ElectronicComp = () => {
                                 >
                                   Please log in to bookmark
                                 </div>
-                              )}
+                              )} */}
                               <Link
                                 onClick={() => handleView(car.id)}
                                 //  to={`/car-details/${ad.id}`}
-                                to={`/Dynamic_Route?id=${car.id}&callingFrom=ElectronicComp`}
+                                to={`/Dynamic_Route?id=${car.id}&callingFrom=JobBoard`}
                               >
                                 {/* Image */}
                                 <Card.Img
                                   src={
-                                    car?.galleryImages[0] ||
-                                    "https://via.placeholder.com/150"
+                                    // car?.galleryImages[0] ||
+                                    // "https://via.placeholder.com/150"
+                                    car.image
                                   }
                                   alt={car.title || "Car"}
                                   style={{
@@ -3563,7 +3679,7 @@ const ElectronicComp = () => {
                                 >
                                   <Link
                                     //  to={`/car-details/${ad.id}`}
-                                    to={`/Dynamic_Route?id=${car.id}&callingFrom=ElectronicComp`}
+                                    to={`/Dynamic_Route?id=${car.id}&callingFrom=JobBoard`}
                                   >
                                     {car.title || "Car"}
                                   </Link>
@@ -3604,15 +3720,6 @@ const ElectronicComp = () => {
                                       {car.City || "Location"}
                                     </span>
                                   </small>
-
-                                  {/* <br /> */}
-                                  {/* <small style={{ color: "black" }}>
-                                          {car.ManufactureYear || "Year"} |{" "}
-                                          {car.DrivenKm || "0"} Km |{" "}
-                                          {car.EngineType || "Engine Type"} |{" "}
-                                          {car.Transmission || "Transmission"}
-                                        </small> */}
-
                                   <br />
                                   <p className="car_desc">
                                     {car.description ||
@@ -3640,27 +3747,17 @@ const ElectronicComp = () => {
                                           height: "100vh",
                                         }}
                                       >
-                                        {/* <img
-                                          src={Loading1}
-                                          alt="Loading..."
-                                          style={{
-                                            width: "200px",
-                                            height: "200px",
-                                            animation:
-                                              "spin 1s linear infinite", // Apply the spin animation
-                                          }}
-                                        /> */}
                                         <style>
                                           {`
-                                                    @keyframes spin {
-                                                      from {
-                                                        transform: rotate(0deg);
-                                                      }
-                                                      to {
-                                                        transform: rotate(360deg);
-                                                      }
-                                                    }
-                                                  `}
+                                          @keyframes spin {
+                                            from {
+                                              transform: rotate(0deg);
+                                            }
+                                            to {
+                                              transform: rotate(360deg);
+                                            }
+                                          }
+                                        `}
                                         </style>
                                       </div>
                                     ) : (
@@ -3720,62 +3817,34 @@ const ElectronicComp = () => {
                                   {car.showNumberChecked ? (
                                     ""
                                   ) : (
-                                    <div className="call-now-wrapper">
-                                      {isActive ? (
-                                        <a
-                                          className="call-now-link"
-                                          href={`tel:${car.Phone}`}
-                                          onClick={(e) => {
-                                            // Allow call to proceed
-                                            setActivePhoneIndex(null); // Close after call
-                                          }}
-                                        >
-                                          <button
-                                            className={`sign-in-button expanded`}
-                                            style={{
-                                              marginTop:
-                                                window.innerWidth <= 576
-                                                  ? "10px"
-                                                  : "50px",
-                                              width:
-                                                window.innerWidth <= 576
-                                                  ? "150px"
-                                                  : "auto",
-                                            }}
-                                            onClick={(e) => {
-                                              // Prevent this click from bubbling to body
-                                              e.stopPropagation();
-                                            }}
-                                          >
-                                            <FaPhoneAlt />
-                                            <span className="fw-semibold">
-                                              {car.Phone}
-                                            </span>
-                                          </button>
-                                        </a>
-                                      ) : (
-                                        <button
-                                          className={`blue_btn list_btn`}
-                                          style={{
-                                            marginTop:
-                                              window.innerWidth <= 576
-                                                ? "10px"
-                                                : "50px",
-                                            width:
-                                              window.innerWidth <= 576
-                                                ? "150px"
-                                                : "auto",
-                                          }}
-                                          onClick={(e) => {
-                                            e.stopPropagation(); // prevent global listener
-                                            setActivePhoneIndex(index); // show phone
-                                          }}
-                                        >
-                                          <FaPhoneAlt />
-                                          <span>Call Now</span>
-                                        </button>
-                                      )}
-                                    </div>
+                                    <a href={`tel:${car.Phone}`}>
+                                      <button
+                                        className={`blue_btn list_btn ${
+                                          isActive ? "expanded" : ""
+                                        }`}
+                                        style={{
+                                          marginTop:
+                                            window.innerWidth <= 576
+                                              ? "10px"
+                                              : "50px",
+                                          width:
+                                            window.innerWidth <= 576
+                                              ? "150px"
+                                              : "auto",
+                                        }}
+                                        onClick={(e) => {
+                                          if (!isActive) {
+                                            e.preventDefault(); // Only prevent if not active
+                                            setActivePhoneIndex(index);
+                                          }
+                                        }}
+                                      >
+                                        <FaPhoneAlt />
+                                        <span>
+                                          {isActive ? car.Phone : "Call Now"}
+                                        </span>
+                                      </button>
+                                    </a>
                                   )}{" "}
                                   {/* Message Button */}
                                   <button
@@ -3859,11 +3928,11 @@ const ElectronicComp = () => {
                                     }}
                                   >
                                     {/* <FaHeart
-                                        style={{
-                                          color:  "white",
-                                          fontSize: "30px",
-                                        }}
-                                      />{" "} */}
+                                                            style={{
+                                                              color:  "white",
+                                                              fontSize: "30px",
+                                                            }}
+                                                          />{" "} */}
                                     <FaRegHeart
                                       onClick={() => toggleBookmark(car.id)}
                                       style={{
@@ -3929,7 +3998,10 @@ const ElectronicComp = () => {
                                     }`}
                                     tabIndex="-1"
                                     role="dialog"
-                                    style={{ marginTop: 100 }} // Removed backgroundColor
+                                    style={{
+                                      // backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                      marginTop: 100,
+                                    }} // Backdrop effect
                                   >
                                     <div
                                       className="modal-dialog modal-dialog-centered"
@@ -3951,7 +4023,7 @@ const ElectronicComp = () => {
                                             userId={userId}
                                             productIds={productIds}
                                             recieverId={receiverId}
-                                            fullWidth={true}
+                                            fullWidth={true} // :point_left: Add this prop
                                           />
                                         ) : (
                                           <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
@@ -4065,4 +4137,4 @@ const ElectronicComp = () => {
   );
 };
 
-export default ElectronicComp;
+export default Search;

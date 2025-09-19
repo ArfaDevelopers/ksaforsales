@@ -19,7 +19,7 @@ import {
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
 import imag from "../../../../public/NewLogo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { Phone, profile_img } from "../../imagepath";
@@ -283,6 +283,15 @@ const Header = ({ parms }) => {
   const toggleDropdown = () => {
     setIsDropdownVisible((prev) => !prev);
   };
+  const [searchParams, setSearchParams] = useSearchParams();
+  // useEffect(() => {
+  //   setSearchText(searchParams.get("q"))
+  // },[])
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${searchText}`);
+  };
+
   return (
     <>
       <header className="header">
@@ -1036,10 +1045,6 @@ const Header = ({ parms }) => {
                                     path: "/FashionStyle?NestedSubCategory=Boys's Clothing",
                                   },
                                 ],
-                              },
-                              {
-                                name: "Sleepwear",
-                                path: "/FashionStyle?subCatgory=Sleepwear",
                               },
                               {
                                 name: "Gifts",
@@ -2379,6 +2384,7 @@ const Header = ({ parms }) => {
                     position: "relative",
                     display: "flex",
                   }}
+                  onSubmit={handleSearch}
                 >
                   {/* <input
                     className="form-control search-input"
@@ -2452,7 +2458,7 @@ const Header = ({ parms }) => {
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
                             setSearchText(item.title);
                             setSelectedItem(item);
-                            useSearchStore.setState({ results: [] });
+                            // useSearchStore.setState({ results: [] });
 
                             // Reset flag after short delay
                             setTimeout(() => {
@@ -2519,8 +2525,9 @@ const Header = ({ parms }) => {
                   </button>
                 </form>
                 {/* )} */}
+
                 <ul
-                  className="nav header-navbar-rht d-flex align-items-center"
+                  className=" header-navbar-rht d-flex align-items-center"
                   style={{
                     gap: window.innerWidth <= 576 ? "5px" : "15px",
                     marginBottom: 0,

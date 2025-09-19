@@ -84,7 +84,6 @@ const Home = () => {
   const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState(
     []
   );
-
   const [ElectronicsTitle, setElectronicsTitle] = useState([]);
 
   const [Electronics, setElectronics] = useState([]);
@@ -880,6 +879,8 @@ const Home = () => {
           "http://168.231.80.24:9002/route/trendingProducts"
         );
         const data = await response.json();
+        if (!response.ok) return;
+
         setTrendingProducts(data);
       } catch (error) {
         console.error("Error fetching trending products:", error);
@@ -985,11 +986,11 @@ const Home = () => {
             style={{
               position: "absolute",
               top: "60%",
-              marginTop: window.innerWidth <= 576 ? "40px" : "40px",
+              marginTop: window.innerWidth <= 576 ? "60px" : "40px",
               left: "20px",
               transform: "translateY(-50%)",
-              width: window.innerWidth <= 576 ? "35px" : "48px",
-              height: window.innerWidth <= 576 ? "35px" : "48px",
+              width: window.innerWidth <= 576 ? "25px" : "48px",
+              height: window.innerWidth <= 576 ? "25px" : "48px",
               borderRadius: "50%",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               border: "1px solid rgba(255,255,255,0.2)",
@@ -1038,11 +1039,11 @@ const Home = () => {
             style={{
               position: "absolute",
               top: "60%",
-              marginTop: window.innerWidth <= 576 ? "40px" : "40px",
+              marginTop: window.innerWidth <= 576 ? "60px" : "40px",
               right: "20px",
               transform: "translateY(-50%)",
-              width: window.innerWidth <= 576 ? "35px" : "48px",
-              height: window.innerWidth <= 576 ? "35px" : "48px",
+              width: window.innerWidth <= 576 ? "25px" : "48px",
+              height: window.innerWidth <= 576 ? "25px" : "48px",
               borderRadius: "50%",
               backgroundColor: "rgba(0, 0, 0, 1)",
               border: "1px solid rgba(255,255,255,0.2)",
@@ -1271,11 +1272,11 @@ const Home = () => {
                     onMouseLeave={(e) => e.preventDefault()}
                   >
                     {/* <img
-            src={Electronics}
-            alt="icon"
-            className="h-10 w-10 object-contain"
-            style={{ border: "none" }}
-          /> */}
+                      src={Electronics}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                      style={{ border: "none" }}
+                    /> */}
                     <img
                       src={Electronics}
                       alt="Electronics"
@@ -1824,6 +1825,8 @@ const Home = () => {
 
         {/* Featured Ads Section */}
         <Carousel />
+
+        
         {/* Featured Ads Section */}
 
         {/* All carousel */}

@@ -5,14 +5,14 @@ import img from "./home-07.jpg";
 import tick from "./tick.png";
 import bullet from "./bullet.png";
 import profile from "./profileimage.png";
-import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+import { FaWhatsapp, FaPhoneAlt, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useParams, useLocation } from "react-router";
+import { useParams, useLocation, useNavigate } from "react-router";
 import { useMyContext } from "../../store/Contexxt.store";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
@@ -71,6 +71,7 @@ let socket;
 const Dynamic_Route = () => {
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
+  const navigate = useNavigate();
 
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
@@ -91,7 +92,6 @@ const Dynamic_Route = () => {
         Other: "Education",
         "Pet & Animals": "PETANIMALCOMP",
         "Home & Furnituer": "HEALTHCARE",
-
         "Sports & Game": "SPORTSGAMESComp",
         "Fashion Style": "FASHION",
         "Job Board": "JOBBOARD",
@@ -615,68 +615,6 @@ const Dynamic_Route = () => {
       ? _Id
       : id;
 
-  // useEffect(() => {
-  //   const fetchItem = async () => {
-  //     setLoading(true); // Start loading
-  //     try {
-  //       const collectionName =
-  //         callingFrom === "AutomotiveComp"
-  //           ? "Cars"
-  //           : callingFrom === "ElectronicComp"
-  //           ? "ELECTRONICS"
-  //           : callingFrom === "FashionStyle"
-  //           ? "FASHION"
-  //           : callingFrom === "HealthCareComp"
-  //           ? "HEALTHCARE"
-  //           : callingFrom === "JobBoard"
-  //           ? "JOBBOARD"
-  //           : callingFrom === "Education"
-  //           ? "Education"
-  //           : callingFrom === "RealEstateComp"
-  //           ? "REALESTATECOMP"
-  //           : callingFrom === "TravelComp"
-  //           ? "TRAVEL"
-  //           : callingFrom === "SportGamesComp"
-  //           ? "SPORTSGAMESComp"
-  //           : callingFrom === "PetAnimalsComp"
-  //           ? "PETANIMALCOMP"
-  //           : "books";
-  //       // Determine collection based on `callingFrom`
-  //       // const collectionName = callingFrom === "automotive" ? "carData" : "books";
-  //       const adsCollection = collection(db, collectionName); // Reference to dynamic collection
-  //       const adsSnapshot = await getDocs(adsCollection); // Fetch all documents
-  //       const adsList = adsSnapshot.docs.map((doc) => ({
-  //         id: doc.id, // Include document ID
-  //         ...doc.data(), // Spread document data
-  //       }));
-
-  //       console.log(adsList, "Fetched Ads");
-
-  //       // Find the ad that matches the `id` from the URL
-  //       const selectedAd = adsList.find((ad) => ad.id === NewId);
-  //       if (selectedAd) {
-  //         setItemData({
-  //           ...selectedAd,
-  //           timeAgo: selectedAd.createdAt
-  //             ? formatDistanceToNow(selectedAd.createdAt.toDate(), {
-  //                 addSuffix: true,
-  //               })
-  //             : "Unknown time",
-  //         });
-  //       } else {
-  //         setItemData(null);
-  //       }
-
-  //       setLoading(false); // Stop loading
-  //     } catch (error) {
-  //       console.error("Error fetching item:", error);
-  //       setError("Failed to fetch data");
-  //       setLoading(false); // Stop loading on error
-  //     }
-  //   };
-
-  //   fetchItem(); // Call the fetch function
-  // }, [id, callingFrom, db, location, refresh]); // Re-run if `id` changes
   useEffect(() => {
     const fetchItem = async () => {
       setLoading(true);
@@ -696,6 +634,7 @@ const Dynamic_Route = () => {
                 })
               : "Unknown time",
           });
+          console.log("dataaa....", item);
         } else {
           setItemData(null);
         }
@@ -715,36 +654,6 @@ const Dynamic_Route = () => {
       <div className="flex justify-center items-center h-screen">
         <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
-      // <div
-      //   style={{
-      //     display: "flex",
-      //     justifyContent: "center",
-      //     alignItems: "center",
-      //     height: "100vh",
-      //   }}
-      // >
-      //   <img
-      //     src={Loading1}
-      //     alt="Loading..."
-      //     style={{
-      //       width: "200px",
-      //       height: "200px",
-      //       animation: "spin 1s linear infinite", // Apply the spin animation
-      //     }}
-      //   />
-      //   <style>
-      //     {`
-      //     @keyframes spin {
-      //       from {
-      //         transform: rotate(0deg);
-      //       }
-      //       to {
-      //         transform: rotate(360deg);
-      //       }
-      //     }
-      //   `}
-      //   </style>
-      // </div>
     ); // Display loading state
   }
 
@@ -767,11 +676,6 @@ const Dynamic_Route = () => {
     ["Ads", "Normal Condition", "Immobilizer Key", "Power Mirrors"],
   ];
   const visibleImages = images;
-  // useEffect(() => {
-  //   if (images.length > 0) {
-  //     setSelectedImage(images[0]);
-  //   }
-  // }, [images]); // Re-run when images prop changes
 
   // Settings for React Slick
   const settings = {
@@ -826,7 +730,7 @@ const Dynamic_Route = () => {
           className="parent-main"
           style={{
             color: "black",
-            marginTop: window.innerWidth <= 576 ? "7rem" : "11rem",
+            marginTop: window.innerWidth <= 576 ? "7rem" : "12rem",
           }}
         >
           <div
@@ -841,11 +745,12 @@ const Dynamic_Route = () => {
           >
             <button
               className="btn"
+              onClick={() => navigate("/")}
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 // background: "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                cursor: "pointer",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
@@ -856,15 +761,51 @@ const Dynamic_Route = () => {
             </span>
             <button
               className="btn"
+              onClick={() => navigate(`/${callingFrom}`)}
               style={{
                 background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                 fontWeight: "500",
-                pointerEvents: "none",
+                cursor: "pointer",
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {callingFrom}{" "}
+              {itemData.category}{" "}
             </button>
+            <span>
+              <MdKeyboardArrowRight />
+            </span>
+            <button
+              className="btn"
+              onClick={() =>
+                navigate(`/${callingFrom}?subCatgory=${itemData.SubCategory}`)
+              }
+              style={{
+                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                fontWeight: "500",
+                cursor: "pointer",
+                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+              }}
+            >
+              {itemData.SubCategory}{" "}
+            </button>
+            {itemData.NestedSubCategory && (
+              <>
+                <span>
+                  <MdKeyboardArrowRight />
+                </span>
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                >
+                  {itemData.NestedSubCategory}{" "}
+                </button>
+              </>
+            )}
           </div>
           <hr
             style={{
@@ -896,22 +837,6 @@ const Dynamic_Route = () => {
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
             }}
           >
-            {/* <button
-              className="head2btn"
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
-              }}
-              onClick={() => handleFavourite(itemData?.id, itemData?.category)} // ← Add this
-            >
-              <span>
-                <FaRegHeart />
-              </span>{" "}
-              Favourite
-            </button> */}
             <button
               className="head2btn"
               style={{
@@ -979,6 +904,60 @@ const Dynamic_Route = () => {
                         </div>
                         <div className="modal-body">
                           <div style={{ wordBreak: "break-all" }}>{link}</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "15px",
+                              marginTop: "15px",
+                            }}
+                          >
+                            {/* Facebook Share */}
+                            <FaFacebook
+                              size={32}
+                              color="#3b5998"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                window.open(
+                                  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                    link
+                                  )}`,
+                                  "_blank"
+                                )
+                              }
+                            />
+                            {/* Facebook Share */}
+                            <FaWhatsapp
+                              size={32}
+                              color="#25D366"
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                window.open(
+                                  `https://wa.me/?text=${encodeURIComponent(
+                                    link
+                                  )}`,
+                                  "_blank"
+                                )
+                              }
+                            />
+                            {/* Instagram - opens Instagram app on mobile */}
+                            <FaInstagram
+                              size={32}
+                              color="#C13584"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                                  window.location.href = `instagram://share?text=${encodeURIComponent(
+                                    link
+                                  )}`;
+                                } else {
+                                  alert(
+                                    "Instagram sharing is only available on mobile apps. Link copied!"
+                                  );
+                                  navigator.clipboard.writeText(link);
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
                         <div className="modal-footer">
                           <button
@@ -1023,12 +1002,6 @@ const Dynamic_Route = () => {
             ) : (
               ""
             )}
-            {/* <button className="head2btn mt-4" onClick={handleShowReport}>
-                  <span>
-                     <FaBuysellads />
-                  </span>
-                  Promote
-                </button> */}
 
             {/* Modal */}
             {showReport && (
@@ -1059,14 +1032,6 @@ const Dynamic_Route = () => {
                       ></button>
                     </div>
                     <div className="modal-body">
-                      {/* <label>
-                            <input
-                              type="checkbox"
-                              checked={FeaturedAds}
-                              onChange={handleCheckboxChangePromote}
-                            />
-                            Featured Ads
-                          </label> */}
                       <Elements stripe={stripePromise}>
                         <PaymentForm
                           _Id={_Id}
@@ -1540,48 +1505,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -1669,25 +1592,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -2002,48 +1907,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -2129,25 +1992,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -2462,48 +2307,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -2589,25 +2392,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -2922,48 +2707,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -3049,25 +2792,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -3382,48 +3107,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -3509,25 +3192,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -3842,48 +3507,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -3969,25 +3592,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -4302,48 +3907,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -4429,25 +3992,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -4762,48 +4307,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -4889,25 +4392,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -5222,48 +4707,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -5349,25 +4792,7 @@ const Dynamic_Route = () => {
                         position: "relative",
                         textAlign: "center",
                       }}
-                    >
-                      {/* <div
-                        style={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          padding: "5px 10px",
-                          borderRadius: "15px",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {`${
-                          itemData?.galleryImages.indexOf(selectedImage) + 1 ||
-                          1
-                        } of ${itemData?.galleryImages.length} photos`}
-                      </div> */}
-                    </div>
+                    ></div>
 
                     {isFullScreen && (
                       <div
@@ -5682,48 +5107,6 @@ const Dynamic_Route = () => {
                       }}
                     >
                       <SwiperSlider images={images} />
-                      {/* {images.length > 0 ? (
-                        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
-                          {" "}
-                      
-                          <Slider {...settings}>
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                onClick={() => handleImageSelect(image)}
-                                style={{
-                                  padding: "5px", // Add some padding around each slide item
-                                  outline: "none", // Remove focus outline
-                                }}
-                              >
-                                <img
-                                  src={image}
-                                  alt={`Car ${index + 1}`}
-                                  style={{
-                                    width:
-                                      window.innerWidth <= 480
-                                        ? "110px"
-                                        : "110px%",
-
-                                    // "95%", // Occupy most of the slide width
-                                    height: "100px", // Fixed height for thumbnails
-                                    objectFit: "cover", // Crop to cover the area
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    border:
-                                      selectedImage === image
-                                        ? "2px solid blue"
-                                        : "2px solid transparent", // Use transparent border for consistency
-                                    transition: "border 0.2s ease-in-out", // Smooth border transition
-                                  }}
-                                />
-                              </div>
-                            ))}
-                          </Slider>
-                        </div>
-                      ) : (
-                        <p>No images to display.</p>
-                      )} */}
                     </div>
                   </div>
 
@@ -5801,22 +5184,6 @@ const Dynamic_Route = () => {
               ) : (
                 ""
               )}
-
-              {/* <div
-                className="adsCategory_head"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  marginLeft: window.innerWidth <= 576 ? "0px" : "10px",
-                  marginBottom: "30px",
-                  alignItems: "center",
-                }}
-              >
-                <RatingAndReviews
-                  currentAdId={_Id}
-                  listingUserId={itemData?.userId}
-                />
-              </div> */}
             </Col>
             <Col xl={4}>
               <Col xs={12}>

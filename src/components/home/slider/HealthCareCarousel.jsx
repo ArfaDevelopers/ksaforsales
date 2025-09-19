@@ -47,6 +47,7 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/HEALTHCARECarousal"
         );
         const data = await response.json();
+        if(!response.ok) return
 
         console.log(data, "mydata");
         setAds(data); // Set the state with the ads data
@@ -165,7 +166,7 @@ export default function AutomativeCarousel() {
             <div>
               <Slider
                 ref={slider}
-                {...settings}
+                // {...settings}
                 className="featured-slider grid-view"
               >
                 {ads.map((item, index) => (

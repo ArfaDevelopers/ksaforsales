@@ -856,7 +856,7 @@ const Dynamic_Routes = () => {
                 fontWeight: "bold",
               }}
             >
-              {itemData?.title || "Default Title"}{" "}
+              {itemData?.SubCategory || "Default Title"}{" "}
             </div>
           </div>
           <div

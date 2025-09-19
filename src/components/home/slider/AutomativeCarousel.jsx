@@ -54,9 +54,9 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/carsCarousal"
         );
         const data = await response.json();
-
+        if(!response.ok) return
         console.log(data, "data from carsCarousal");
-        setAds(data); // Set the state with API data
+        setAds(data ); // Set the state with API data
         setLoading(false); // Stop loading
       } catch (error) {
         console.error("Error fetching ads from API:", error);

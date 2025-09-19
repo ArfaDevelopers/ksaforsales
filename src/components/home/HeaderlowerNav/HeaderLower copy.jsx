@@ -245,7 +245,6 @@ const HeaderLower = () => {
 
   ],
 },
-{ name: "Sleepwear", path: "/FashionStyle/Sleepwear" },
 { name: "Gifts", path: "/FashionStyle/Gifts" },
 { name: "Luggage", path: "/FashionStyle/Luggage" },
 { name: "Health & Beauty",

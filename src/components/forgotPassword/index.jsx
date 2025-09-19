@@ -116,14 +116,64 @@ const ForgotPassword = () => {
 
                 {step === 1 && (
                   <form onSubmit={sendOtp}>
-                    <div className="form-group group-img">
-                      <i className="feather-phone" />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "10px",
+                        padding: "0px 15px",
+                        width: "100%",
+                        boxSizing: "border-box",
+                        backgroundColor: "#e8f0fe",
+                      }}
+                    >
+                      {" "}
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginRight: "10px",
+                        }}
+                      >
+                        <img
+                          src="https://flagcdn.com/16x12/sa.png"
+                          alt="Saudi Arabia Flag"
+                          style={{
+                            width: "20px",
+                            height: "15px",
+                            marginRight: "5px",
+                          }}
+                        />
+
+                        <span
+                          style={{
+                            color: "#2d4495",
+                            fontWeight: "500",
+                            fontSize: "14px",
+                          }}
+                        >
+                          +92
+                        </span>
+                      </span>
                       <input
                         type="text"
-                        className="form-control"
-                        placeholder="Phone Number (e.g. +9665xxxxxxxx)"
+                        class
+                        placeholder="Phone Number (XXXXXXXXXX)"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="form-control"
+                        maxLength={15}
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          flex: 1,
+                          backgroundColor: "transparent",
+                          color: "#666",
+                          fontSize: "14px",
+                          padding: "5px 0",
+                          width: "100%",
+                        }}
                       />
                     </div>
                     <button
@@ -132,6 +182,7 @@ const ForgotPassword = () => {
                         boxShadow: "unset",
                         color: "#fff",
                         backgroundColor: "#2d4495",
+                        marginTop: "10px"
                       }}
                       type="submit"
                     >
