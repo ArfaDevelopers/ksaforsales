@@ -630,7 +630,6 @@ const Search = () => {
         console.error("Error fetching districts:", error);
       }
     };
-
     fetchDistricts();
   }, [selectedCities]);
 
@@ -1704,28 +1703,28 @@ const Search = () => {
       try {
         setLoading(true);
 
-        const params = new URLSearchParams();
+        // const params = new URLSearchParams();
 
-        if (searchText) params.append("searchText", searchText);
+        // if (searchText) params.append("searchText", searchText);
 
-        if (selectedRegion.length) {
-          selectedRegion.forEach((id) => params.append("regionId", id));
-        }
+        // if (selectedRegion.length) {
+        //   selectedRegion.forEach((id) => params.append("regionId", id));
+        // }
 
-        const CITY_ID = selectedCities[0]?.CITY_ID;
-        const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
+        // const CITY_ID = selectedCities[0]?.CITY_ID;
+        // const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID;
 
-        if (CITY_ID) params.append("CITY_ID", CITY_ID);
-        if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
+        // if (CITY_ID) params.append("CITY_ID", CITY_ID);
+        // if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
-        // ✅ Add SubCategory filter
-        if (selectedSubCategory) {
-          params.append("SubCategory", selectedSubCategory);
-        }
+        // // ✅ Add SubCategory filter
+        // if (selectedSubCategory) {
+        //   params.append("SubCategory", selectedSubCategory);
+        // }
 
-        // ✅ Add SortBy
-        if (SortBy) params.append("sortBy", SortBy);
-
+        // // ✅ Add SortBy
+        // if (SortBy) params.append("sortBy", SortBy);
+        
         const response = await fetch(
           `http://168.231.80.24:9002/search?q=${searchParams.get("q")}`
         );

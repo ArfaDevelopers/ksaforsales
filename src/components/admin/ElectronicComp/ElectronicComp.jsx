@@ -856,39 +856,74 @@ const ElectronicComp = () => {
     value: country.isoCode,
     label: country.name,
   }));
-  const brandOptions = {
-    "Mobile Phones": [
-      "Apple",
-      "iPhone",
-      "iPod",
-      "Apple Watch",
-      "Samsung",
-      "Galaxy S",
-      "Galaxy Note",
-      "Huawei",
-      "Sony",
-      "Xperia",
-      "BlackBerry",
-      "Nokia",
-      "HTC",
-      "Microsoft",
-      "LG",
-      "Hitachi",
-      "Panasonic",
-    ],
-    "Computers & Laptops": [
-      "MacBook",
-      "Surface",
-      "Sony Laptop",
-      "Toshiba",
-      "Dell",
-      "Asus",
-      "Acer",
-    ],
-    Cameras: ["Canon", "Fujifilm", "Olympus", "Samsung", "Nikon", "Sony"],
-  };
+  // const brandOptions = {
+  //   "Mobile Phones": [
+  //     "Apple",
+  //     "iPhone",
+  //     "iPod",
+  //     "Apple Watch",
+  //     "Samsung",
+  //     "Galaxy S",
+  //     "Galaxy Note",
+  //     "Huawei",
+  //     "Sony",
+  //     "Xperia",
+  //     "BlackBerry",
+  //     "Nokia",
+  //     "HTC",
+  //     "Microsoft",
+  //     "LG",
+  //     "Hitachi",
+  //     "Panasonic",
+  //   ],
+  //   "Computers & Laptops": [
+  //     "MacBook",
+  //     "Surface",
+  //     "Sony Laptop",
+  //     "Toshiba",
+  //     "Dell",
+  //     "Asus",
+  //     "Acer",
+  //   ],
+  //   Cameras: ["Canon", "Fujifilm", "Olympus", "Samsung", "Nikon", "Sony"],
+  // };
 
   // Handle country selection
+
+  const brandOptions = [
+    "Apple",
+    "iPhone",
+    "iPod",
+    "Apple Watch",
+    "Samsung",
+    "Galaxy S",
+    "Galaxy Note",
+    "Huawei",
+    "Sony",
+    "Xperia",
+    "BlackBerry",
+    "Nokia",
+    "HTC",
+    "Microsoft",
+    "LG",
+    "Hitachi",
+    "Panasonic",
+    "MacBook",
+    "Surface",
+    "Sony Laptop",
+    "Toshiba",
+    "Dell",
+    "Asus",
+    "Acer",
+
+    "Canon",
+    "Fujifilm",
+    "Olympus",
+    "Samsung",
+    "Nikon",
+    "Sony",
+  ];
+
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
     setSelectedCities([]); // Reset cities when country changes
@@ -2482,64 +2517,51 @@ const ElectronicComp = () => {
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                  {brandOptions[selectedSubCategory] && (
-                    <>
-                      <hr
-                        style={{
-                          width: "100%",
-                          height: "0px",
-                          top: "1310.01px",
-                          left: "239.88px",
-                          gap: "0px",
-                          borderTop: "1px solid #000000",
-                          opacity: "0.5", // Adjust opacity for visibility
-                          transform: "rotate(0deg)",
-                          margin: "20px 0",
-                          borderColor: "#000000", // Set border color to black
-                        }}
-                      />
-                      <Accordion className="mt-3">
-                        <Accordion.Item eventKey="0">
-                          <Accordion.Header>Brands</Accordion.Header>
-                          <Accordion.Body>
-                            <div style={{ maxWidth: "300px", margin: "20px" }}>
-                              <Form.Group>
-                                {brandOptions[selectedSubCategory].map(
-                                  (brand) => (
-                                    <div
-                                      key={brand}
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        padding: "8px 0",
-                                      }}
-                                    >
-                                      <Form.Check
-                                        type="checkbox"
-                                        label={brand}
-                                        value={brand}
-                                        checked={brands.includes(brand)}
-                                        onChange={handleCheckboxBrand}
-                                      />
-                                      <span
-                                        style={{
-                                          fontWeight: "bold",
-                                          color: "#333",
-                                        }}
-                                      >
-                                        12345
-                                      </span>
-                                    </div>
-                                  )
-                                )}
-                              </Form.Group>
-                            </div>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
-                    </>
-                  )}
+
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Brands</Accordion.Header>
+                      <Accordion.Body>
+                        <div style={{ maxWidth: "300px", margin: "20px" }}>
+                          <Form.Group>
+                            {brandOptions.map((brand) => (
+                              <div
+                                key={brand}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Form.Check
+                                  type="checkbox"
+                                  label={brand}
+                                  value={brand}
+                                  checked={brands.includes(brand)}
+                                  onChange={handleCheckboxBrand}
+                                />
+                              </div>
+                            ))}
+                          </Form.Group>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
 
                   <hr
                     style={{
@@ -3350,6 +3372,62 @@ const ElectronicComp = () => {
                     <Accordion className="mt-3">
                       <Accordion.Item eventKey="0">
                         <Accordion.Header>Condition</Accordion.Header>
+                        <Accordion.Body>
+                          <div style={{ maxWidth: "300px", margin: "20px" }}>
+                            <Form.Group>
+                              {["New", "Used"].map((condition) => (
+                                <div
+                                  key={condition}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "8px 0",
+                                  }}
+                                >
+                                  <Form.Check
+                                    type="checkbox"
+                                    label={condition}
+                                    checked={Condition.includes(condition)} // ✅ controlled checkbox
+                                    onChange={() =>
+                                      handleCheckboxCondition(condition)
+                                    }
+                                  />
+                                  <span
+                                    style={{
+                                      fontWeight: "bold",
+                                      color: "#333",
+                                    }}
+                                  >
+                                    12345
+                                  </span>
+                                </div>
+                              ))}
+                            </Form.Group>
+                          </div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </div>
+                  <hr
+                    style={{
+                      width: "100%",
+                      height: "0px",
+                      top: "1310.01px",
+                      left: "239.88px",
+                      gap: "0px",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5", // Adjust opacity for visibility
+                      transform: "rotate(0deg)",
+                      margin: "20px 0",
+                      borderColor: "#000000", // Set border color to black
+                    }}
+                  />
+                  <div>
+                    {/* Accordion with Checkbox Selection for Color */}
+                    <Accordion className="mt-3">
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Brand</Accordion.Header>
                         <Accordion.Body>
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>

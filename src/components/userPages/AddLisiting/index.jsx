@@ -3623,14 +3623,6 @@ const AddLisiting = () => {
             ],
           },
           {
-            name: "Chalets for Sale",
-            subcategories: [
-              { name: "Office Spaces" },
-              { name: "Retail" },
-              { name: "Industrial" },
-            ],
-          },
-          {
             name: "Commercial Lands for Sale",
             subcategories: [
               { name: "Office Spaces" },
@@ -10208,7 +10200,6 @@ const AddLisiting = () => {
                                         name: "Used",
                                         label: "Used",
                                       },
-                                      { name: "Manual", label: "Manual" },
                                     ].map((feature) => (
                                       <li key={feature.name}>
                                         <label className="custom_check">

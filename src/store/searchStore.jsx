@@ -29,7 +29,6 @@ const useSearchStore = create((set, get) => ({
           `http://168.231.80.24:9002/search?q=${text}`
         );
         set({ results: response.data.results });
-        console.log("user1111____94", response.data.results);
       } catch (error) {
         console.error("Search failed", error);
         set({ results: [] });

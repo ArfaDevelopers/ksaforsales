@@ -7,7 +7,14 @@ import Footer from "../../home/footer/Footer";
 import AutomativeCarousel from "./../../../components/home/ComercialsAds/ComercialsAds";
 import LatestBlog from "../../../components/blog/BlogList/LatestBlog/LatestBlog";
 import { db, auth } from "../../Firebase/FirebaseConfig";
-import { collection, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
@@ -20,7 +27,6 @@ const Dashboard = () => {
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [visibleCount, setVisibleCount] = useState(2);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [userId, setUserId] = useState(null);
   const [Activelisting, setActivelisting] = useState(null);
   const [Message, setMessage] = useState(null);
   const navigate = useNavigate();
@@ -31,14 +37,14 @@ const Dashboard = () => {
   console.log(userReviews1, "userReviews1___________");
   const location = useLocation();
   useEffect(() => {
-    if (!userId || !visitorReviews.length) {
+    if (!auth.currentUser.uid || !visitorReviews.length) {
       setChartData([0, 0, 0, 0, 0, 0, 0]); // Default empty data
       return;
     }
 
     // Filter reviews for the current user
     const userReviews = visitorReviews.filter(
-      (review) => review.listingUserId === userId
+      (review) => review.listingUserId === auth.currentUser.uid
     );
 
     // Initialize counts for each day (Sunday to Saturday)
@@ -92,7 +98,7 @@ const Dashboard = () => {
     });
 
     setChartData(weekDays);
-  }, [visitorReviews, userId, chartFilter]);
+  }, [visitorReviews, auth.currentUser.uid, chartFilter]);
 
   const handleLogout = async () => {
     try {
@@ -185,18 +191,6 @@ const Dashboard = () => {
       },
     },
   };
-  // Fetch current user
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        setUserId(currentUser.uid);
-        console.log("userId...", userId)
-      } else {
-        setUserId(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
   const isInitialLoad = useRef(true);
   // Scroll to top on location change
   useEffect(() => {
@@ -245,7 +239,7 @@ const Dashboard = () => {
     const fetchTotalBookmarked = async () => {
       try {
         const response = await fetch(
-          "http://168.231.80.24:9002/api/total-favourite?userId=xuo3iX8sQye2TT09WbW9OwnG0dB2"
+          `http://168.231.80.24:9002/api/total-favourite?userId=${auth.currentUser.uid}`
         );
         const data = await response.json();
         setuserReviews1(data.totalBookmarked);
@@ -279,13 +273,13 @@ const Dashboard = () => {
         setVisitorReviews(reviewsList);
         setFilteredReviews(reviewsList);
 
-        if (userId) {
+        if (auth.currentUser.uid) {
           const userReviews = reviewsList.filter(
-            (review) => review.listingUserId === userId
+            (review) => review.listingUserId === auth.currentUser.uid
           );
           console.log(
             "Total Reviews for User ID",
-            userId,
+            auth.currentUser.uid,
             ":",
             userReviews.length
           );
@@ -317,7 +311,7 @@ const Dashboard = () => {
     );
 
     return () => unsubscribe();
-  }, [userId]);
+  }, [auth.currentUser.uid]);
 
   // Filter reviews based on selected filter
   useEffect(() => {
@@ -448,48 +442,74 @@ const Dashboard = () => {
     "PETANIMALCOMP",
     "TRAVEL",
   ];
+
+  let totalListingsCount = [];
   useEffect(() => {
+    const collectionNames = [
+      "Cars",
+      "PETANIMALCOMP",
+      "SPORTSGAMESComp",
+      "REALESTATECOMP",
+      "TRAVEL",
+      "JOBBOARD",
+      "HEALTHCARE",
+      "FASHION",
+      "Education",
+      "ELECTRONICS",
+    ];
     // Function to fetch data from the API
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://168.231.80.24:9002/api/total-data-count"
+          `http://168.231.80.24:9002/api/total-data-count?userId=${auth.currentUser.uid}`
         );
         const data = await response.json();
-        setActivelisting(data.totalCount);
+        console.log("data..", data);
+        // setActivelisting(data.totalCount);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     // Call the fetch function
-    fetchData();
+    // fetchData();
+    (async () => {
+      const collectionsCount = await Promise.all(
+        collectionNames.map(async (collectionName) => {
+          const collectionRef = collection(db, collectionName);
+          const q = query(
+            collectionRef,
+            where("userId", "==", auth.currentUser.uid),
+            where("isActive", "==", true)
+          );
+          const activeSnapshotCount = (await getDocs(q)).size;
+          console.log("totallistings", activeSnapshotCount);
+          return activeSnapshotCount;
+        })
+      );
 
-    const totalListings = async () => {
-      const userRef = collection(db, "");
-      const snapshot = query();
-    };
+      totalListingsCount = collectionsCount.reduce(
+        (acc, item) => acc + item,
+        0
+      );
+      setActivelisting(totalListingsCount);
+      return () => collectionsCount();
+    })();
   }, []);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const messagesRef = collection(db, "messages")
-        const q = query(messagesRef, where("seen", "==" , false))
-        const snapshot = await getDocs(q)
-        console.log("snapshot...", userId, snapshot.size)
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/total-messages"
-        );
-        const data = await response.json();
-        console.log("Total Messages:", data);
-        setMessage(data.unseenMessagesCount);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      }
+    const unsubscribe = async () => {
+      const messagesRef = collection(db, "messages");
+      const q = query(
+        messagesRef,
+        where("uid", "==", auth.currentUser.uid),
+        where("seen", "==", false)
+      );
+      const snapshot = await getDocs(q);
+      setMessage(snapshot.size);
+      console.log("Message...", snapshot);
     };
-
-    return () => fetchMessages();
+    return () => unsubscribe();
   }, []);
   return (
     <div className="main-wrapper">
@@ -726,10 +746,10 @@ const Dashboard = () => {
                   </div>
                   <div className="card-body" style={{ marginLeft: -30 }}>
                     <ul className="review-list">
-                      {userId ? (
+                      {auth.currentUser.uid ? (
                         (() => {
                           const ownerReviews = filteredReviews.filter(
-                            (review) => userId === review.listingUserId
+                            (review) => auth.currentUser.uid === review.listingauth.currentUser.uid
                           );
                           return ownerReviews.length > 0 ? (
                             ownerReviews
@@ -770,9 +790,9 @@ const Dashboard = () => {
                         </li>
                       )}
                     </ul>
-                    {userId &&
+                    {auth.currentUser.uid &&
                       filteredReviews.filter(
-                        (review) => userId === review.listingUserId
+                        (review) => auth.currentUser.uid === review.listingauth.currentUser.uid
                       ).length > visibleCount && (
                         <div className="text-center mt-3">
                           <button

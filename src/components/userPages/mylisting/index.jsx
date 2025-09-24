@@ -17,6 +17,8 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
@@ -121,7 +123,7 @@ const MyListe = () => {
     setCurrentPage(1);
     setChange(false);
   };
-
+  const [listingData, setListingData] = useState([]);
   useEffect(() => {
     const fetchCarsFromApi = async () => {
       setLoading(true);
@@ -156,6 +158,39 @@ const MyListe = () => {
         setCars(normalizedData);
         setFilteredCars(normalizedData);
         setTotalPages(serverTotalPages);
+
+        const COLLECTIONS = [
+          "SPORTSGAMESComp",
+          "REALESTATECOMP",
+          "Cars",
+          "ELECTRONICS",
+          "Education",
+          "FASHION",
+          "HEALTHCARE",
+          "JOBBOARD",
+          "MAGAZINESCOMP",
+          "PETANIMALCOMP",
+          "TRAVEL",
+        ];
+
+        const listingsData = COLLECTIONS.map(async (collectionName) => {
+          const listingRef = collection(db, collectionName);
+          const q = query(
+            listingRef,
+            where("userId", "==", auth.currentUser.uid)
+          );
+          const listings = await getDocs(q);
+          const totalListings = listings.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          console.log("totallistingss..", totalListings);
+          return totalListings;
+        });
+
+        listingsData();
+        setListingData(listingData());
       } catch (error) {
         console.error("Error fetching cars from API:", error);
         setError("Failed to fetch listings from API");
@@ -166,6 +201,7 @@ const MyListe = () => {
 
     fetchCarsFromApi();
   }, [currentPage, sortOrder]);
+  // console.log("totallistingss..", listingData);
 
   const isMobile = window.innerWidth <= 576;
   useEffect(() => {
@@ -473,9 +509,9 @@ const MyListe = () => {
                   )}`
             }
             style={{
-              pointerEvents: record.isActive ? "none" : "auto",
-              opacity: record.isActive ? 0.5 : 1,
-              cursor: record.isActive ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "auto" : "none",
+              opacity: record.isActive ? 1 : 0.5,
+              cursor: record.isActive ? "pointer" : "not-allowed",
             }}
           >
             <img
@@ -533,9 +569,9 @@ const MyListe = () => {
                     )}`
               }
               style={{
-                pointerEvents: record.isActive ? "none" : "auto",
-                opacity: record.isActive ? 0.5 : 1,
-                cursor: record.isActive ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "auto" : "none",
+                opacity: record.isActive ? 1 : 0.5,
+                cursor: record.isActive ? "pointer" : "not-allowed",
               }}
             >
               {text}
@@ -574,9 +610,9 @@ const MyListe = () => {
               }
               className="cat-icon"
               style={{
-                pointerEvents: record.isActive ? "none" : "auto",
-                opacity: record.isActive ? 0.5 : 1,
-                cursor: record.isActive ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "auto" : "none",
+                opacity: record.isActive ? 1 : 0.5,
+                cursor: record.isActive ? "pointer" : "not-allowed",
               }}
             >
               <FaRegStopCircle />
@@ -603,7 +639,7 @@ const MyListe = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (text, record) => <span className={record.bg}>{"Active"}</span>,
+      render: (text, record) => <span className={record.bg}>{record.isActive? "Acitve": "Not Active"}</span>,
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
     },
     ...(showInvoiceColumn
@@ -621,8 +657,8 @@ const MyListe = () => {
                   }
                 }}
                 style={{
-                  cursor: record.isActive ? "not-allowed" : "pointer",
-                  opacity: record.isActive ? 0.5 : 1,
+                  cursor: record.isActive ? "pointer" : "not-allowed",
+                  opacity: record.isActive ? 1 : 0.5,
                 }}
               >
                 <div>
@@ -651,7 +687,7 @@ const MyListe = () => {
       render: (text, record) => (
         <div
           className={text}
-          title={record.isActive ? "Not Active" : "View Item"}
+          title={record.isActive ? "View Item" : "Not Active"}
           style={{
             display: "flex",
             gap: "10px",
@@ -695,9 +731,9 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isActive ? "none" : "auto",
-              opacity: record.isActive ? 0.5 : 1,
-              cursor: record.isActive ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "auto" : "none",
+              opacity: record.isActive ? 1 : 0.5,
+              cursor: record.isActive ? "pointer" : "not-allowed",
             }}
           >
             <FaRegEye />
@@ -715,16 +751,16 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isActive ? "none" : "auto",
-              opacity: record.isActive ? 0.5 : 1,
-              cursor: record.isActive ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "auto" : "none",
+              opacity: record.isActive ? 1 : 0.5,
+              cursor: record.isActive ? "pointer" : "not-allowed",
             }}
           >
             <i className="feather-edit-3" />
           </Link>
           <button
             className={`action-btn ${
-              record.isActive ? "btn-disabled" : "btn-enabled"
+              record.isActive ? "btn-enabled" : "btn-disabled"
             }`}
             onClick={() => {
               toggleDisable(
@@ -737,7 +773,7 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              backgroundColor: record.isActive ? "#cccccc" : "#2d4495",
+              backgroundColor: record.isActive ? "#2d4495" : "#cccccc",
               color: "#ffffff",
               cursor: "pointer",
               border: "none",
@@ -747,7 +783,7 @@ const MyListe = () => {
             title={record.isActive ? "Enable Item" : "Disable Item"}
           >
             <i
-              className={record.isActive ? "feather-lock" : "feather-unlock"}
+              className={record.isActive ? "feather-unlock" : "feather-lock"}
             />
           </button>
         </div>

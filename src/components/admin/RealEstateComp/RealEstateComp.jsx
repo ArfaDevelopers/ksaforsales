@@ -4322,6 +4322,11 @@ const RealEstateComp = () => {
                               "Swimming pool",
                               "Pet-friendly",
                               "Balcony or terrace",
+                              "Separate Entrances",
+                              "In a Villa",
+                              "With Roof",
+                              "AC",
+                              "Car Parking"
                             ].map((engine) => (
                               <div
                                 key={engine}

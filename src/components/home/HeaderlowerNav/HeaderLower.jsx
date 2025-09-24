@@ -480,7 +480,6 @@ const HeaderLower = () => {
           subSubcategories: [
             {
               name: "Smart Watches",
-              // path: "/ElectronicComp/MobilePhones/SmartWatches",
               path: "/ElectronicComp?subCatgory=Mobile Phones&NestedSubCategory=Smart Watches",
             },
             {
