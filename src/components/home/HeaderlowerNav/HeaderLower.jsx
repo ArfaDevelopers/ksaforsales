@@ -24,7 +24,7 @@ const HeaderLower = () => {
   const [FashionStyleTitle, setFashionStyleTitle] = useState("");
   const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] =
     useState("");
-  console.log("title1111", OurCategoryHealthCareTitle);
+  // console.log("title1111", OurCategoryHealthCareTitle);
 
   const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState("");
   const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] =
@@ -46,7 +46,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -55,10 +55,10 @@ const HeaderLower = () => {
         // setOurCategoryAutomative(imageOnly[0].image);
         setOurCategoryAutomativeTitle(imageOnly[0].Title);
 
-        console.log(imageOnly, "imageOnly________________");
+        // console.log(imageOnly, "imageOnly________________");
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -74,7 +74,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -84,7 +84,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -100,7 +100,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -110,7 +110,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -126,7 +126,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -136,7 +136,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -152,7 +152,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -162,7 +162,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -178,7 +178,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -188,7 +188,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -204,7 +204,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -214,7 +214,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -230,7 +230,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -240,7 +240,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -256,7 +256,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -266,7 +266,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -282,7 +282,7 @@ const HeaderLower = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        console.log(adsList, "adsList___________OurCategoryAutomative");
+        // console.log(adsList, "adsList___________OurCategoryAutomative");
         const imageOnly = adsList.map((item) => ({
           image: item.image,
           Title: item.Title,
@@ -292,7 +292,7 @@ const HeaderLower = () => {
 
         setLoading(false); // Stop loading when data is fetched
       } catch (error) {
-        console.error("Error fetching ads:", error);
+        // console.error("Error fetching ads:", error);
         setLoading(false);
       }
     };
@@ -319,10 +319,10 @@ const HeaderLower = () => {
     const NestedSubCategory = getQueryParam("NestedSubCategory");
 
     const ids = getQueryParam("id");
-    console.log("callingFrom______ID:ids", ids);
-    console.log("callingFrom______Calling From:", callingFrom);
-    console.log(subCatgory, "subCatgory___________");
-    console.log(NestedSubCategory, "subCatgory___________1");
+    // console.log("callingFrom______ID:ids", ids);
+    // console.log("callingFrom______Calling From:", callingFrom);
+    // console.log(subCatgory, "subCatgory___________");
+    // console.log(NestedSubCategory, "subCatgory___________1");
 
     setCallingFrom(callingFrom);
     setId(ids);
@@ -2028,7 +2028,7 @@ const HeaderLower = () => {
     }
   });
 
-  console.log(updatedCategories, "updatedCategories");
+  // console.log(updatedCategories, "updatedCategories");
   if (isMobile) {
     return null;
   }

@@ -62,7 +62,7 @@ import GamesSport from "./components/admin/GamesSport/GamesSport";
 import ComercialsAds from "./components/admin/ComercialsAds/ComercialsAds";
 import AddBooks from "./components/admin/AddBooks/AddBooks";
 import AddCars from "./components/admin/AddCars/AddCars";
-import Search from "./components/admin/Search/Search"
+import Search from "./pages/Search/Search";
 import AutomotiveComp from "./components/admin/AutomotiveComp/AutomotiveComp";
 import ElectronicComp from "./components/admin/ElectronicComp/ElectronicComp";
 import FashionStyle from "./components/admin/FashionStyle/FashionStyle";
@@ -179,14 +179,14 @@ export const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="/RealEstate"
               element={
                 <ProtectedRoute>
                   <RealEstate />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="/Electronic"
               element={
@@ -316,7 +316,7 @@ export const App = () => {
               }
             />
             <Route
-              path="/search"
+              path="/:slug"
               element={
                 <ProtectedRoute>
                   <Search />

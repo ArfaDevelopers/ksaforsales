@@ -1712,21 +1712,15 @@ const AutomotiveComp = () => {
     "Regency",
     "Berlingo",
   ];
-  const cheryModels = [
-    "QQ",
-    "Chery A5",
-    "EASTAR",
-    "Quinn",
-    "Chery A3",
-    "Chery A1",
-    "Arezzo 3",
-    "Arezzo 6",
-    "Tiggo 2",
-    "Tiggo 7",
-    "Tiggo 8",
-    "Tiggo 4",
-    "Arrizo 5",
-    "Arrizo 8",
+  const cheryModels =[
+    "C3",
+    "C4",
+    "C6",
+    "Xara",
+    "C2",
+    "C1",
+    "Regency",
+    "Berlingo",
   ];
   const daewooModels = ["Leganza", "Lanos", "Mats", "Nubira"];
   const sabbModels = [

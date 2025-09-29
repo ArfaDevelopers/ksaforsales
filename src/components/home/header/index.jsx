@@ -67,7 +67,7 @@ const Header = ({ parms }) => {
     setIsOpen(!isOpen);
   };
   const [notifications, setNotifications] = useState([]);
-  console.log(notifications, "notifications______");
+  // console.log(notifications, "notifications______");
   const formatDate = (createdAt) => {
     if (!createdAt || !createdAt._seconds) return "";
     const date = new Date(createdAt._seconds * 1000);
@@ -130,7 +130,7 @@ const Header = ({ parms }) => {
           querySnapshot.forEach((doc) => {
             receivedMessages.push({ id: doc.id, ...doc.data() });
           });
-          console.log("Received messages:", receivedMessages);
+          // console.log("Received messages:", receivedMessages);
         });
 
         // Clean up Firestore listener
@@ -142,7 +142,7 @@ const Header = ({ parms }) => {
     return () => unsubscribe();
   }, []);
 
-  console.log(token, "-------Token---------");
+  // console.log(token, "-------Token---------");
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
   const getImageURL = async () => {
@@ -150,11 +150,11 @@ const Header = ({ parms }) => {
 
     try {
       const url = await getDownloadURL(imageRef);
-      console.log("Image URL:", url);
+      // console.log("Image URL:", url);
 
       return url;
     } catch (error) {
-      console.error("Error fetching image URL:", error);
+      // console.error("Error fetching image URL:", error);
       return null;
     }
   };
@@ -176,7 +176,7 @@ const Header = ({ parms }) => {
       if (url) {
         setImageURL(url);
         // Example usage
-        console.log("Direct public image link:", url);
+        // console.log("Direct public image link:", url);
       }
     });
   }, []);
@@ -199,16 +199,16 @@ const Header = ({ parms }) => {
   const { searchText, setSearchText, results, setSelectedItem } =
     useSearchStore();
 
-  console.log(setSelectedItem, "user1111____911");
+  // console.log(setSelectedItem, "user1111____911");
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log("user1111", user);
+        // console.log("user1111", user);
         setUserId(user.uid);
         setDivideName(user.displayName || "User");
         setDivideImage(user.photoURL || "User");
       } else {
-        console.log("No user is logged in.");
+        // console.log("No user is logged in.");
       }
     });
     return () => unsubscribe();

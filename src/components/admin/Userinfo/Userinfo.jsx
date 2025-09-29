@@ -2312,11 +2312,9 @@ const Userinfo = () => {
         Services: "TRAVEL",
         "Pet & Animals": "PETANIMALCOMP",
         "Home & Furniture": "HEALTHCARE",
-
         "Sports & Game": "SPORTSGAMESComp",
         "Real Estate": "REALESTATECOMP",
         "Home & Furnituer": "HEALTHCARE",
-
         "Fashion Style": "FASHION",
         "Job Board": "JOBBOARD",
         Electronics: "ELECTRONICS",

@@ -246,7 +246,7 @@ const Login = () => {
                               fontSize: "14px",
                             }}
                           >
-                            +92
+                            +966
                           </span>
                         </span>
                         <input
