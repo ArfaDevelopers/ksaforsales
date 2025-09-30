@@ -4,6 +4,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
+  useSearchParams,
 } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../components/home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../components/home/footer/Footer";
@@ -21,6 +22,35 @@ import HorizantalLine from "../../components/HorizantalLine";
 const Search = () => {
   const { slug } = useParams();
   const currentPage = data.find((page) => page.path === `/${slug}`);
+  if (!currentPage) {
+    return <Navigate to={"/"} replace />;
+  }
+
+  const getUrlText = (text) => {
+    return text
+      .trim()
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9\s-]/g, "") // remove special chars
+      .replace(/\s+/g, "-") // replace spaces with hyphen
+      .replace(/-+/g, "-");
+  };
+
+  const getTextFromURL = (text) => {
+    return text
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentParams = Object.fromEntries(searchParams.entries());
+  // console.log("current params..", currentParams);
+
+  const [subcategory, setSubcategory] = useState("");
+  const subCategoryParam = searchParams.get("subcategory")
+    ? searchParams.get("subcategory")
+    : "";
+  console.log("subcategory param..", subCategoryParam);
   const [filterData, setFilterData] = useState({
     subCategory: "",
     nestedSubCategory: "",
@@ -60,47 +90,68 @@ const Search = () => {
     propertyAge: "",
     age: "",
   });
-  if (!currentPage) {
-    return <Navigate to={"/"} replace />;
-  }
+
   const parms = useLocation().pathname;
   const navigate = useNavigate();
-  const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
+  // const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
 
-  const getImageURL = async () => {
-    const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
+  // const getImageURL = async () => {
+  //   const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
 
-    try {
-      const url = await getDownloadURL(imageRef);
-      console.log("Image URL:", url);
+  //   try {
+  //     const url = await getDownloadURL(imageRef);
+  //     console.log("Image URL:", url);
 
-      return url;
-    } catch (error) {
-      console.error("Error fetching image URL:", error);
-      return null;
-    }
+  //     return url;
+  //   } catch (error) {
+  //     console.error("Error fetching image URL:", error);
+  //     return null;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getImageURL().then((url) => {
+  //     if (url) {
+  //       setImageURL(url);
+  //     }
+  //   });
+  // }, []);
+
+  const handleSubcategoryChange = (e) => {
+    const { name, value, checked } = e.target;
+    console.log("subcaegory name...", name);
+    setSubcategory(checked ? value : "");
+    setSearchParams({ ...currentParams, [name]: getUrlText(value) });
   };
-  useEffect(() => {
-    getImageURL().then((url) => {
-      if (url) {
-        setImageURL(url);
-      }
-    });
-  }, []);
+  // console.log(subcategory)
 
   const handleFiltersChange = (e) => {
     const { name, value, checked, type } = e.target;
-    setFilterData((prevData) => ({
-      ...prevData,
-      [name]: type === "checked" ? (checked ? value : "") : value,
-    }));
-    console.log(filterData);
+    const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
+    const lowerCaseValue =
+      typeof value === "string" ? value.toLowerCase() : value;
+    setFilterData((prevData) => {
+      return {
+        ...prevData,
+        [name]:
+          type === "checkbox"
+            ? checked
+              ? lowerCaseValue
+              : ""
+            : lowerCaseValue,
+      };
+    });
+
+    setSearchParams({
+      ...currentParams,
+      [name]: getUrlText(lowerCaseValue),
+    });
   };
-  // Object.entries(filterData).forEach(([key, value]) => {
+
+  // Object.entries(currentPage.filters).forEach(([key, value]) => {
   //   console.log(key, value);
   // });
-
-  console.log(filterData);
+  // console.log('currentparam...', currentParams['brand'])
 
   return (
     <>
@@ -242,35 +293,117 @@ const Search = () => {
                       <Accordion.Header>Sub Categories</Accordion.Header>
                       <Accordion.Body>
                         <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          {currentPage &&
-                            currentPage.subcategories.map((subcategory) => (
-                              <Form.Group>
+                          {currentPage.subcategories.map((subcat) => {
+                            const urlSubCategory = getUrlText(subcat.name);
+                            return (
+                              <Form.Group key={subcat.name}>
                                 {/* <Form.Label>Select a Category</Form.Label> */}
-                                <div
-                                  key={subcategory.name}
-                                  className="form-check mb-2"
-                                >
-                                  <input
-                                    id={
-                                      typeof subcategory.name === "string" &&
-                                      subcategory.name.toLowerCase()
-                                    }
-                                    name="subCategory"
-                                    className="form-check-inputF"
-                                    type="checkbox"
-                                  />
-                                  <label
-                                    htmlFor={
-                                      typeof subcategory.name === "string" &&
-                                      subcategory.name.toLowerCase()
-                                    }
-                                    className="form-check-label"
-                                  >
-                                    {subcategory.name}
-                                  </label>
-                                </div>
+                                {subCategoryParam ? (
+                                  urlSubCategory === subCategoryParam && (
+                                    <>
+                                      <div className="form-check mb-2">
+                                        <input
+                                          id={
+                                            typeof subcat.name === "string" &&
+                                            subcat.name.toLowerCase()
+                                          }
+                                          name="subcategory"
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          value={subcat.name}
+                                          onChange={handleSubcategoryChange}
+                                          checked={
+                                            urlSubCategory === subCategoryParam
+                                          }
+                                        />
+                                        <label
+                                          htmlFor={
+                                            typeof subcat.name === "string" &&
+                                            subcat.name.toLowerCase()
+                                          }
+                                          className="form-check-label"
+                                        >
+                                          {subcat.name}
+                                        </label>
+                                      </div>
+
+                                      {subcat.nestedSubCategories && (
+                                        <Form.Label>
+                                          Nested Categories
+                                        </Form.Label>
+                                      )}
+                                      {subcat.nestedSubCategories &&
+                                        subcat.nestedSubCategories.length > 0 &&
+                                        subcat.nestedSubCategories.map(
+                                          (nestedSubCat) => (
+                                            <div className="form-check mb-2">
+                                              <input
+                                                id={
+                                                  typeof subcat.name ===
+                                                    "string" &&
+                                                  subcat.name.toLowerCase()
+                                                }
+                                                name="nestedSubCategory"
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                value={nestedSubCat.name}
+                                                onChange={
+                                                  handleSubcategoryChange
+                                                }
+                                                checked={
+                                                  getUrlText(
+                                                    nestedSubCat.name
+                                                  ) ===
+                                                  searchParams.get(
+                                                    "nestedSubCategory"
+                                                  )
+                                                }
+                                              />
+                                              <label
+                                                htmlFor={
+                                                  typeof subcat.name ===
+                                                    "string" &&
+                                                  subcat.name.toLowerCase()
+                                                }
+                                                className="form-check-label"
+                                              >
+                                                {nestedSubCat.name}
+                                              </label>
+                                            </div>
+                                          )
+                                        )}
+                                    </>
+                                  )
+                                ) : (
+                                  <div className="form-check mb-2">
+                                    <input
+                                      id={
+                                        typeof subcat.name === "string" &&
+                                        subcat.name.toLowerCase()
+                                      }
+                                      name="subcategory"
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      value={subcat.name}
+                                      onChange={handleSubcategoryChange}
+                                      checked={
+                                        urlSubCategory === subCategoryParam
+                                      }
+                                    />
+                                    <label
+                                      htmlFor={
+                                        typeof subcat.name === "string" &&
+                                        subcat.name.toLowerCase()
+                                      }
+                                      className="form-check-label"
+                                    >
+                                      {subcat.name}
+                                    </label>
+                                  </div>
+                                )}
                               </Form.Group>
-                            ))}
+                            );
+                          })}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
@@ -280,7 +413,7 @@ const Search = () => {
                   {Object.entries(currentPage.filters || {}).map(
                     ([filterKey, filterValue]) => (
                       <>
-                        <Accordion className="mt-3">
+                        <Accordion className="mt-3" key={filterValue.name}>
                           <Accordion.Item eventKey="0">
                             <Accordion.Header>
                               {filterValue.name}
@@ -305,24 +438,25 @@ const Search = () => {
                                     const label = value.name
                                       ? value.name
                                       : value;
-
                                     return (
-                                      <Form.Group>
-                                        <div
-                                          key={label}
-                                          className="form-check mb-2"
-                                        >
+                                      <Form.Group key={id}>
+                                        <div className="form-check mb-2">
                                           <input
-                                            id={id}
-                                            name={String(id)}
+                                            id={label}
+                                            name={String(filterKey)}
                                             className="form-check-input"
                                             type="checkbox"
-                                            checked={filterData[String(id)]}
+                                            checked={
+                                              currentParams[filterKey] &&
+                                              currentParams[filterKey].includes(
+                                                getUrlText(label)
+                                              )
+                                            }
                                             value={label}
                                             onChange={handleFiltersChange}
                                           />
                                           <label
-                                            htmlFor={id}
+                                            htmlFor={label}
                                             className="form-check-label"
                                           >
                                             {label}
@@ -331,6 +465,30 @@ const Search = () => {
                                       </Form.Group>
                                     );
                                   })
+                                ) : filterValue.type === "select" ? (
+                                  <Form.Group
+                                    controlId="formStreetWidth"
+                                    style={{
+                                      maxWidth: "300px",
+                                      marginTop: "20px",
+                                    }}
+                                  >
+                                    {filterValue.label && (
+                                      <Form.Label>
+                                        {filterValue.label}
+                                      </Form.Label>
+                                    )}
+                                    <Form.Select
+                                      name={filterKey}
+                                      onChange={handleFiltersChange}
+                                    >
+                                      {filterValue.options.map((option) => (
+                                        <option key={option} value={option}>
+                                          {option}
+                                        </option>
+                                      ))}
+                                    </Form.Select>
+                                  </Form.Group>
                                 ) : filterValue.type === "oneInput" ? (
                                   <Form.Group className="mb-3">
                                     {filterValue.label && (

@@ -49,50 +49,49 @@ export const data = [
         nestedSubCategories: [
           {
             name: "Trucks",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Trucks",
-            // path: "/AutomotiveComp/TrucksHeavyMachinery/Trucks",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Trucks",
           },
           {
             name: "Dump Truck",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Dump Truck",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Dump Truck",
           },
           {
             name: "Wheel Loader",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Wheel Loader",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Wheel Loader",
           },
           {
             name: "Recovery",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Recovery",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Recovery",
           },
           {
             name: "Agricultural Equipment",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Agricultural Equipment",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Agricultural Equipment",
           },
           {
             name: "Crane",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Crane",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crane",
           },
           {
             name: "Bulldozer",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Bulldozer",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Bulldozer",
           },
           {
             name: "Crusher",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Crusher",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crusher",
           },
           {
             name: "Excavator",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Excavator",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Excavator",
           },
           {
             name: "Heavy Equipment",
-            path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery&nestedsubcategory=Heavy Equipment",
+            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Heavy Equipment",
           },
         ],
       },
       { name: "Tshaleeh", path: "/motors?subcategory=tshaleeh" },
       {
-        name: "Boats & Jet Ski",
+        name: "Boats & JetSki",
         path: "/motors?subcategory=boats-and-jetski",
         nestedSubCategories: [
           {
@@ -134,7 +133,7 @@ export const data = [
       brand: {
         name: "Brand",
         type: "checkbox",
-
+        select: "single",
         options: [
           {
             name: "Toyota",
@@ -1125,7 +1124,6 @@ export const data = [
       insurance: {
         name: "Insurance",
         type: "checkbox",
-
         options: ["No Insurance", "Third Party", "Comprehensive"],
       },
       bodyType: {
@@ -1152,8 +1150,7 @@ export const data = [
       noOfDoors: {
         name: "Number of Doors",
         type: "checkbox",
-
-        options: [5, 4, 3, 2],
+        options: ["5", "4", "3", "2"],
       },
     },
   },
@@ -2196,33 +2193,16 @@ export const data = [
       noOfRooms: {
         name: "Number of Rooms",
         type: "checkbox",
-
-        options: [
-          "1 Bedroom",
-          "2 Bedroom",
-          "3 Bedroom",
-          "4 Bedroom",
-          "5 Bedroom",
-          "5+ Bedrooms",
-        ],
+        options: ["1", "2", "3", "4", "5", "5+"],
       },
       noOfBathrooms: {
         name: "Number of Bathrooms",
         type: "checkbox",
-
-        options: [
-          "1 Bathroom",
-          "2 Bathroom",
-          "3 Bathroom",
-          "4 Bathroom",
-          "5 Bathroom",
-          "5+ Bathrooms",
-        ],
+        options: ["1", "2", "3", "4", "5", "5+"],
       },
       area: {
         name: "Area",
         type: "checkbox",
-
         options: [
           "Under 50 sq.m",
           "50 - 100 sq.m",
@@ -2234,13 +2214,11 @@ export const data = [
       furnished: {
         name: "Furnished",
         type: "checkbox",
-
         options: ["Furnished", "Unfurnished", "Partially Furnished"],
       },
       facade: {
         name: "Facade",
         type: "checkbox",
-
         options: [
           "East Facing",
           "West Facing",
@@ -2259,13 +2237,13 @@ export const data = [
       },
       streetWidth: {
         name: "Street Width",
+        label: "Street Width",
         type: "select",
         options: ["Less than 5m", "5–10m", "10–15m", "15–20m", "20m+"],
       },
       floor: {
         name: "Floor",
         type: "checkbox",
-
         options: [
           "Basement",
           "Ground Floor",
@@ -2285,7 +2263,6 @@ export const data = [
       amenities: {
         name: "Amenities",
         type: "checkbox",
-
         options: [
           "Parking space",
           "Gym",
@@ -2302,7 +2279,6 @@ export const data = [
       propertyAge: {
         name: "Property Age",
         type: "checkbox",
-
         options: [
           "New (0-1 year)",
           "1-5 years",
