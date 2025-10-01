@@ -36,6 +36,7 @@ const Search = () => {
       .replace(/-+/g, "-");
   };
 
+  // function convert the url text to captilize text
   const getTextFromURL = (text) => {
     return text
       .split("-")
@@ -51,44 +52,45 @@ const Search = () => {
     ? searchParams.get("subcategory")
     : "";
   console.log("subcategory param..", subCategoryParam);
+  const [oneInput, setOneInput] = useState("");
   const [filterData, setFilterData] = useState({
     subCategory: "",
-    nestedSubCategory: "",
+    nestedSubCategory: [],
     region: "",
     district: "",
     city: "",
     brand: "",
-    brandModel: "",
+    brandModel: [],
     fromPrice: "",
     toPrice: "",
     fromYear: "",
     toYear: "",
     fromMileage: "",
     toMileage: "",
-    addType: "",
-    transmission: "",
-    exteriorColor: "",
-    interiorColor: "",
-    additionalFeatures: "",
-    condition: "",
-    regionalSpec: "",
-    fuelType: "",
-    insurance: "",
-    bodyType: "",
-    noOfDoors: "",
-    frequency: "",
-    residenceType: "",
-    noOfRooms: "",
-    noOfBathrooms: "",
-    area: "",
-    furnished: "",
-    facade: "",
+    addType: [],
+    transmission: [],
+    exteriorColor: [],
+    interiorColor: [],
+    additionalFeatures: [],
+    condition: [],
+    regionalSpec: [],
+    fuelType: [],
+    insurance: [],
+    bodyType: [],
+    noOfDoors: [],
+    frequency: [],
+    residenceType: [],
+    noOfRooms: [],
+    noOfBathrooms: [],
+    area: [],
+    furnished: [],
+    facade: [],
     licenseNumber: "",
     streetWidth: "",
-    floor: "",
-    amenities: "",
-    propertyAge: "",
-    age: "",
+    floor: [],
+    amenities: [],
+    propertyAge: [],
+    age: [],
   });
 
   const parms = useLocation().pathname;
@@ -125,8 +127,9 @@ const Search = () => {
   };
   // console.log(subcategory)
 
-  const handleFiltersChange = (e) => {
-    const { name, value, checked, type } = e.target;
+  const handleFiltersChange = (e, selectType) => {
+    const { name, value, checked, type } = e.target || e;
+    console.log("Name: ", name, "SelectType", selectType);
     const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
     const lowerCaseValue =
       typeof value === "string" ? value.toLowerCase() : value;
@@ -142,10 +145,49 @@ const Search = () => {
       };
     });
 
-    setSearchParams({
-      ...currentParams,
-      [name]: getUrlText(lowerCaseValue),
+    // setSearchParams({
+    //   ...currentParams,
+    //   [name]: getUrlText(lowerCaseValue),
+    // });
+
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (selectType === "multiple") {
+        const currentValues = newParams.getAll(name);
+        const currentValue = currentValues.find(
+          (val) => val === getUrlText(lowerCaseValue)
+        );
+        if (checked) {
+          if (!currentValue) {
+            newParams.append(name, getUrlText(lowerCaseValue));
+          }
+        } else {
+          newParams.delete(name),
+            currentValues
+              .filter((val) => val !== getUrlText(lowerCaseValue))
+              .forEach((val) => newParams.append(name, val));
+        }
+      } else if (selectType === "single") {
+        if (checked) {
+          newParams.set(name, getUrlText(lowerCaseValue));
+        } else {
+          newParams.delete(name);
+        }
+      } else {
+        if (value) {
+          newParams.set(name, getUrlText(lowerCaseValue));
+        } else {
+          newParams.delete(name);
+        }
+      }
+      return newParams;
     });
+  };
+
+  const handleInputs = (e, name, value, selectType = "") => {
+    e.preventDefault();
+    handleFiltersChange({ name, value }, selectType);
+    setFilterData((prev) => ({ ...prev, [name]: "" }));
   };
 
   // Object.entries(currentPage.filters).forEach(([key, value]) => {
@@ -208,20 +250,25 @@ const Search = () => {
               {currentPage.name}
             </button>
 
-            <span>
-              <MdKeyboardArrowRight />
-            </span>
-            <button
-              className="btn"
-              style={{
-                background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                fontWeight: "500",
-                pointerEvents: "none",
-                padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-              }}
-            >
-              subCatgory
-            </button>
+            {subCategoryParam && (
+              <>
+                {" "}
+                <span>
+                  <MdKeyboardArrowRight />
+                </span>
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    pointerEvents: "none",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                >
+                  {getTextFromURL(subCategoryParam)}
+                </button>{" "}
+              </>
+            )}
           </div>
         </Container>
         {/*  filters and ads */}
@@ -267,7 +314,11 @@ const Search = () => {
                           Search by Keywords
                         </Form.Label>
 
-                        <button type="button" className="blue_btn">
+                        <button
+                          onClick={() => setSearchParams({})}
+                          type="button"
+                          className="blue_btn"
+                        >
                           Clear
                         </button>
                       </div>
@@ -377,10 +428,7 @@ const Search = () => {
                                 ) : (
                                   <div className="form-check mb-2">
                                     <input
-                                      id={
-                                        typeof subcat.name === "string" &&
-                                        subcat.name.toLowerCase()
-                                      }
+                                      id={subcat.name}
                                       name="subcategory"
                                       className="form-check-input"
                                       type="checkbox"
@@ -391,10 +439,7 @@ const Search = () => {
                                       }
                                     />
                                     <label
-                                      htmlFor={
-                                        typeof subcat.name === "string" &&
-                                        subcat.name.toLowerCase()
-                                      }
+                                      htmlFor={subcat.name}
                                       className="form-check-label"
                                     >
                                       {subcat.name}
@@ -438,6 +483,9 @@ const Search = () => {
                                     const label = value.name
                                       ? value.name
                                       : value;
+
+                                    const paramValues =
+                                      searchParams.getAll(filterKey);
                                     return (
                                       <Form.Group key={id}>
                                         <div className="form-check mb-2">
@@ -447,13 +495,21 @@ const Search = () => {
                                             className="form-check-input"
                                             type="checkbox"
                                             checked={
-                                              currentParams[filterKey] &&
-                                              currentParams[filterKey].includes(
-                                                getUrlText(label)
-                                              )
+                                              filterValue.select === "multiple"
+                                                ? paramValues &&
+                                                  paramValues.find(
+                                                    (val) =>
+                                                      val === getUrlText(label)
+                                                  )
+                                                : searchParams.get(filterKey)
                                             }
                                             value={label}
-                                            onChange={handleFiltersChange}
+                                            onChange={(e) =>
+                                              handleFiltersChange(
+                                                e,
+                                                filterValue.select
+                                              )
+                                            }
                                           />
                                           <label
                                             htmlFor={label}
@@ -500,12 +556,36 @@ const Search = () => {
                                       <Col>
                                         <Form.Control
                                           type="text"
-                                          name={String(filterKey)}
+                                          name={filterKey}
                                           placeholder={filterValue.name}
-                                          value={filterData[String(filterKey)]}
-                                          onChange={handleFiltersChange}
+                                          value={filterData[filterKey]}
+                                          onChange={(e) =>
+                                            setFilterData((prev) => ({
+                                              ...prev,
+                                              [e.target.name]: e.target.value,
+                                            }))
+                                          }
                                           min="0" // Prevent negative prices
                                         />
+                                        <button
+                                          onClick={(e) =>
+                                            handleInputs(
+                                              e,
+                                              filterKey,
+                                              filterData[filterKey],
+                                              filterValue.select
+                                            )
+                                          }
+                                          type="button"
+                                          className="blue_btn"
+                                          style={{
+                                            marginTop: "10px",
+                                            width: "100%",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          Apply
+                                        </button>
                                       </Col>
                                     </Row>
                                   </Form.Group>
@@ -518,31 +598,56 @@ const Search = () => {
                                         </Form.Label>
                                       )}
                                       <Row>
-                                        <Col>
+                                        {/* <Col>
                                           <Form.Control
                                             name={`from${filterValue.name}`}
                                             type="text"
                                             placeholder="From"
-                                            value={
-                                              filterData[String(filterKey)]
+                                            value={filterData[filterKey]}
+                                            onChange={(e) =>
+                                              setFilterData((prev) => ({
+                                                ...prev,
+                                                [e.target.name]: e.target.value,
+                                              }))
                                             }
-                                            onChange={handleFiltersChange}
                                             min="0" // Prevent negative prices
                                           />
-                                        </Col>
+                                        </Col> */}
                                         <Col>
                                           <Form.Control
                                             name={`to${filterValue.name}`}
                                             type="text"
                                             placeholder="To"
-                                            value={
-                                              filterData[String(filterKey)]
+                                            value={filterData[filterKey]}
+                                            onChange={(e) =>
+                                              setFilterData((prev) => ({
+                                                ...prev,
+                                                [e.target.name]: e.target.value,
+                                              }))
                                             }
-                                            onChange={handleFiltersChange}
                                             min="0" // Prevent negative prices
                                           />
                                         </Col>
                                       </Row>
+                                      <button
+                                        onClick={(e) =>
+                                          handleInputs(
+                                            e,
+                                            filterKey,
+                                            filterData[filterKey],
+                                            filterValue.select
+                                          )
+                                        }
+                                        type="button"
+                                        className="blue_btn"
+                                        style={{
+                                          marginTop: "10px",
+                                          width: "100%",
+                                          cursor: "pointer",
+                                        }}
+                                      >
+                                        Apply
+                                      </button>
                                     </Form.Group>
                                   )
                                 )}

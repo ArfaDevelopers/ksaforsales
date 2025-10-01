@@ -132,11 +132,14 @@ export const data = [
     filters: {
       brand: {
         name: "Brand",
+        select: "single",
         type: "checkbox",
         select: "single",
         options: [
           {
             name: "Toyota",
+            select: "multiple",
+            select: "multiple",
             models: [
               "Land Cruiser",
               "Camry",
@@ -175,6 +178,7 @@ export const data = [
           },
           {
             name: "Ford",
+            select: "multiple",
             models: [
               "Crown Victoria",
               "Grand Marquis",
@@ -211,6 +215,7 @@ export const data = [
           },
           {
             name: "Chevrolet",
+            select: "multiple",
             models: [
               "Caprice",
               "Tahoe",
@@ -249,6 +254,7 @@ export const data = [
           },
           {
             name: "Nissan",
+            select: "multiple",
             models: [
               "Patrol",
               "DDSEN",
@@ -283,6 +289,7 @@ export const data = [
           },
           {
             name: "Hyundai",
+            select: "multiple",
             models: [
               "Sonata",
               "Elantra",
@@ -311,9 +318,14 @@ export const data = [
               "Stargazer",
             ],
           },
-          { name: "Genesis", models: ["G70", "G80", "G90", "GV80", "GV70"] },
+          {
+            name: "Genesis",
+            select: "multiple",
+            models: ["G70", "G80", "G90", "GV80", "GV70"],
+          },
           {
             name: "Lexus",
+            select: "multiple",
             models: [
               "LS",
               "LX",
@@ -333,6 +345,7 @@ export const data = [
           },
           {
             name: "GMC",
+            select: "multiple",
             models: [
               "Yukon",
               "Superban",
@@ -349,6 +362,7 @@ export const data = [
           },
           {
             name: "Mercedes",
+            select: "multiple",
             models: [
               "S",
               "E",
@@ -389,6 +403,7 @@ export const data = [
           },
           {
             name: "Honda",
+            select: "multiple",
             models: [
               "Accord",
               "Civic",
@@ -405,6 +420,7 @@ export const data = [
           },
           {
             name: "BMW",
+            select: "multiple",
             models: [
               "Series VII",
               "Fifth Series",
@@ -423,6 +439,7 @@ export const data = [
           },
           {
             name: "Motorcycles",
+            select: "multiple",
             models: [
               "Suzuki",
               "Yamaha Motorcycles",
@@ -444,6 +461,7 @@ export const data = [
           },
           {
             name: "Kia",
+            select: "multiple",
             models: [
               "Optima",
               "Cerato",
@@ -472,6 +490,7 @@ export const data = [
           },
           {
             name: "Dodge",
+            select: "multiple",
             models: [
               "Charger",
               "Gallinger",
@@ -489,6 +508,7 @@ export const data = [
           },
           {
             name: "Chrysler",
+            select: "multiple",
             models: [
               "M300",
               "C300",
@@ -504,6 +524,7 @@ export const data = [
           },
           {
             name: "Jeep",
+            select: "multiple",
             models: [
               "Cherokee",
               "Grand Cherokee",
@@ -516,6 +537,7 @@ export const data = [
           },
           {
             name: "Mitsubishi",
+            select: "multiple",
             models: [
               "Pajero",
               "Lancer",
@@ -537,6 +559,7 @@ export const data = [
           },
           {
             name: "Mazda",
+            select: "multiple",
             models: [
               "Mazda 6",
               "CX9",
@@ -560,6 +583,7 @@ export const data = [
           },
           {
             name: "Porsche",
+            select: "multiple",
             models: [
               "Cayenne",
               "Panamera",
@@ -575,6 +599,7 @@ export const data = [
           },
           {
             name: "Audi",
+            select: "multiple",
             models: [
               "A8",
               "A6",
@@ -595,6 +620,7 @@ export const data = [
           },
           {
             name: "Suzuki",
+            select: "multiple",
             models: [
               "Vitara",
               "Samurai",
@@ -616,6 +642,7 @@ export const data = [
           },
           {
             name: "Infinity",
+            select: "multiple",
             models: [
               "FX",
               "QX",
@@ -633,9 +660,10 @@ export const data = [
               "QX56",
             ],
           },
-          { name: "Hummer", models: ["H3", "H2", "H1"] },
+          { name: "Hummer", select: "multiple", models: ["H3", "H2", "H1"] },
           {
             name: "Lincoln",
+            select: "multiple",
             models: [
               "Town Car",
               "Navigator",
@@ -649,6 +677,7 @@ export const data = [
           },
           {
             name: "Volkswagen",
+            select: "multiple",
             models: [
               "Passat",
               "Touareg",
@@ -663,9 +692,14 @@ export const data = [
               "Arteon",
             ],
           },
-          { name: "Daihatsu", models: ["Sirion", "Taurus", "Materia"] },
+          {
+            name: "Daihatsu",
+            select: "multiple",
+            models: ["Sirion", "Taurus", "Materia"],
+          },
           {
             name: "Geely",
+            select: "multiple",
             models: [
               "EC7",
               "EC8",
@@ -684,9 +718,14 @@ export const data = [
               "Starray",
             ],
           },
-          { name: "Mercury", models: ["Mountaineer", "Marauder"] },
+          {
+            name: "Mercury",
+            select: "multiple",
+            models: ["Mountaineer", "Marauder"],
+          },
           {
             name: "Volvo",
+            select: "multiple",
             models: [
               "S 80",
               "850",
@@ -705,6 +744,7 @@ export const data = [
           },
           {
             name: "Peugeot",
+            select: "multiple",
             models: [
               "307",
               "407",
@@ -730,6 +770,7 @@ export const data = [
           },
           {
             name: "Bentley",
+            select: "multiple",
             models: [
               "Continental Flying Spur",
               "Continental GT",
@@ -743,6 +784,7 @@ export const data = [
           },
           {
             name: "Jaguar",
+            select: "multiple",
             models: [
               "XJ",
               "X type",
@@ -759,6 +801,7 @@ export const data = [
           },
           {
             name: "Subaru",
+            select: "multiple",
             models: [
               "Legacy",
               "Impreza",
@@ -771,6 +814,7 @@ export const data = [
           },
           {
             name: "MG",
+            select: "multiple",
             models: [
               "5",
               "6",
@@ -786,9 +830,10 @@ export const data = [
               "WHALE",
             ],
           },
-          { name: "ZXAUTO", models: [] },
+          { name: "ZXAUTO", select: "multiple", models: [] },
           {
             name: "Changan",
+            select: "multiple",
             models: [
               "Eado",
               "CS35",
@@ -807,6 +852,7 @@ export const data = [
           },
           {
             name: "Renault",
+            select: "multiple",
             models: [
               "Megane",
               "Fluence",
@@ -826,6 +872,7 @@ export const data = [
           },
           {
             name: "Buick",
+            select: "multiple",
             models: [
               "Encore",
               "Encore GX",
@@ -844,19 +891,23 @@ export const data = [
           },
           {
             name: "Rolls-Royce",
+            select: "multiple",
             models: ["Phantom", "Quest", "Dawn", "Wraith", "Cullinan"],
           },
           {
             name: "Lamborghini",
+            select: "multiple",
             models: ["Aventador", "Urus", "Huracan", "Gallardo"],
           },
-          { name: "Opel", models: ["Astra", "Rekord"] },
+          { name: "Opel", select: "multiple", models: ["Astra", "Rekord"] },
           {
             name: "Skoda",
+            select: "multiple",
             models: ["Octavia", "Rapid", "Superb", "Fabia", "Karoq", "Kodiaq"],
           },
           {
             name: "Ferrari",
+            select: "multiple",
             models: [
               "488 PISTA",
               "812",
@@ -869,6 +920,7 @@ export const data = [
           },
           {
             name: "Citroen",
+            select: "multiple",
             models: [
               "C3",
               "C4",
@@ -882,6 +934,7 @@ export const data = [
           },
           {
             name: "Chery",
+            select: "multiple",
             models: [
               "QQ",
               "Chery A5",
@@ -899,20 +952,31 @@ export const data = [
               "Arrizo 8",
             ],
           },
-          { name: "Seat", models: [] },
-          { name: "Daewoo", models: ["Leganza", "Lanos", "Mats", "Nubira"] },
-          { name: "SABB", models: [] },
+          { name: "Seat", select: "multiple", models: [] },
+          {
+            name: "Daewoo",
+            select: "multiple",
+            models: ["Leganza", "Lanos", "Mats", "Nubira"],
+          },
+          { name: "SABB", select: "multiple", models: [] },
           {
             name: "SsangYong",
+            select: "multiple",
             models: ["Actyon", "Musso", "Korando", "XLV", "Tivoli", "Rexton"],
           },
           {
             name: "Aston Martin",
+            select: "multiple",
             models: ["DB11", "DBS", "Rapide S", "Vantage"],
           },
-          { name: "Proton", models: ["GEN•2", "Persona", "Waja"] },
+          {
+            name: "Proton",
+            select: "multiple",
+            models: ["GEN•2", "Persona", "Waja"],
+          },
           {
             name: "Haval",
+            select: "multiple",
             models: [
               "Haval H2",
               "Haval H6",
@@ -924,6 +988,7 @@ export const data = [
           },
           {
             name: "GAC",
+            select: "multiple",
             models: [
               "GA3",
               "GA4",
@@ -942,10 +1007,12 @@ export const data = [
           },
           {
             name: "Great Wall",
+            select: "multiple",
             models: ["Wingle 5", "Wingle 6", "Wingle 7", "POER"],
           },
           {
             name: "FAW",
+            select: "multiple",
             models: [
               "T80",
               "V80",
@@ -959,15 +1026,28 @@ export const data = [
               "T99",
             ],
           },
-          { name: "BYD", models: ["F3", "F5", "F7", "S6", "S7"] },
-          { name: "Alfa Romeo", models: ["GIULIA", "GIULIETTA", "STELVIO"] },
-          { name: "TATA", models: ["XENON"] },
-          { name: "JMC", models: [] },
-          { name: "JETOUR", models: ["X70", "X70S", "X90", "Dashing"] },
-          { name: "CMC", models: ["Foton", "Tunland"] },
-          { name: "VICTORY AUTO", models: ["Lifan"] },
+          {
+            name: "BYD",
+            select: "multiple",
+            models: ["F3", "F5", "F7", "S6", "S7"],
+          },
+          {
+            name: "Alfa Romeo",
+            select: "multiple",
+            models: ["GIULIA", "GIULIETTA", "STELVIO"],
+          },
+          { name: "TATA", select: "multiple", models: ["XENON"] },
+          { name: "JMC", select: "multiple", models: [] },
+          {
+            name: "JETOUR",
+            select: "multiple",
+            models: ["X70", "X70S", "X90", "Dashing"],
+          },
+          { name: "CMC", select: "multiple", models: ["Foton", "Tunland"] },
+          { name: "VICTORY AUTO", select: "multiple", models: ["Lifan"] },
           {
             name: "MAXUS",
+            select: "multiple",
             models: [
               "D90",
               "Maxus V80",
@@ -983,10 +1063,11 @@ export const data = [
               "Maxus T90",
             ],
           },
-          { name: "McLaren", models: [] },
-          { name: "JAC", models: [] },
+          { name: "McLaren", select: "multiple", models: [] },
+          { name: "JAC", select: "multiple", models: [] },
           {
             name: "Baic",
+            select: "multiple",
             models: [
               "D50",
               "X35",
@@ -1001,6 +1082,7 @@ export const data = [
           },
           {
             name: "Dongfeng",
+            select: "multiple",
             models: [
               "A30",
               "A60 MAX",
@@ -1013,27 +1095,37 @@ export const data = [
               "T5 Evo",
             ],
           },
-          { name: "EXEED", models: ["txl", "VX", "Exeed LX"] },
-          { name: "Tesla", models: [] },
-          { name: "Soueaste", models: [] },
-          { name: "Mahindra", models: [] },
-          { name: "Zotye", models: [] },
-          { name: "Hongqi", models: [] },
-          { name: "SMART", models: [] },
-          { name: "Tank", models: ["Tank 300", "Tank 500"] },
-          { name: "Lynk & Co", models: ["1", "3", "03 plus", "5", "9"] },
-          { name: "Lucid", models: ["Air", "Gravity"] },
-          { name: "INEOS", models: ["Grenadier"] },
+          {
+            name: "EXEED",
+            select: "multiple",
+            models: ["txl", "VX", "Exeed LX"],
+          },
+          { name: "Tesla", select: "multiple", models: [] },
+          { name: "Soueaste", select: "multiple", models: [] },
+          { name: "Mahindra", select: "multiple", models: [] },
+          { name: "Zotye", select: "multiple", models: [] },
+          { name: "Hongqi", select: "multiple", models: [] },
+          { name: "SMART", select: "multiple", models: [] },
+          {
+            name: "Tank",
+            select: "multiple",
+            models: ["Tank 300", "Tank 500"],
+          },
+          {
+            name: "Lynk & Co",
+            select: "multiple",
+            models: ["1", "3", "03 plus", "5", "9"],
+          },
+          { name: "Lucid", select: "multiple", models: ["Air", "Gravity"] },
+          { name: "INEOS", select: "multiple", models: ["Grenadier"] },
         ],
       },
       price: {
         name: "Price",
-
         type: "twoInput",
       },
       year: {
         name: "Year",
-
         type: "twoInput",
       },
       mileage: {
@@ -1043,26 +1135,26 @@ export const data = [
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Rent", "Sell", "Wanted"],
       },
       transmission: {
         name: "Transmission",
         type: "checkbox",
-
+        select: "multiple",
         options: ["Manual", "Automatic"],
       },
       exteriorColor: {
         name: "Exterior Color",
+        select: "multiple",
         type: "checkbox",
-
         options: ["White", "Black", "Grey", "Red", "Yellow"],
       },
       additionalFeatures: {
         name: "Additional Features",
+        select: "multiple",
         type: "checkbox",
-
         options: [
           "Full option",
           "Insured",
@@ -1099,37 +1191,38 @@ export const data = [
       },
       condition: {
         name: "Condition",
+        select: "multiple",
         type: "checkbox",
-
         options: ["New", "Used"],
       },
       interiorColor: {
         name: "Interior Color",
+        select: "multiple",
         type: "checkbox",
-
         options: ["White", "Black", "Grey", "Red", "Yellow"],
       },
       regionalSpec: {
         name: "Regional Spec",
+        select: "multiple",
         type: "checkbox",
-
         options: ["GCC", "European", "Japanese", "American"],
       },
       fuelType: {
         name: "Fuel Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["petrol", "diesel", "electric", "hybrid", "lpg", "cng"],
       },
       insurance: {
         name: "Insurance",
+        select: "multiple",
         type: "checkbox",
         options: ["No Insurance", "Third Party", "Comprehensive"],
       },
       bodyType: {
         name: "Body Type",
+        select: "multiple",
         type: "checkbox",
-
         options: [
           "Coupe",
           "Sedan (Saloon)",
@@ -1149,6 +1242,7 @@ export const data = [
       },
       noOfDoors: {
         name: "Number of Doors",
+        select: "multiple",
         type: "checkbox",
         options: ["5", "4", "3", "2"],
       },
@@ -1399,6 +1493,7 @@ export const data = [
     filters: {
       brand: {
         name: "Brand",
+        select: "single",
         type: "checkbox",
 
         options: [
@@ -1437,19 +1532,18 @@ export const data = [
       },
       price: {
         name: "Price",
-
         type: "twoInput",
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Rent", "Sell", "Wanted"],
       },
       condition: {
         name: "Condition",
+        select: "multiple",
         type: "checkbox",
-
         options: ["New", "Used"],
       },
     },
@@ -1676,12 +1770,15 @@ export const data = [
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
 
         options: ["Rent", "Sell", "Wanted"],
       },
       condition: {
         name: "Condition",
+        select: "multiple",
+
         type: "checkbox",
 
         options: ["New", "Used"],
@@ -1750,12 +1847,15 @@ export const data = [
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
 
         options: ["Sell", "Wanted"],
       },
       condition: {
         name: "Condition",
+        select: "multiple",
+
         type: "checkbox",
 
         options: ["New", "Used"],
@@ -2163,45 +2263,47 @@ export const data = [
     filters: {
       price: {
         name: "Price",
-
         type: "twoInput",
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Rent", "Sell", "Wanted"],
       },
       condition: {
         name: "Condition",
+        select: "multiple",
         type: "checkbox",
-
         options: ["New", "Used"],
       },
       frequency: {
         name: "Frequency",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Dailly", "Weekly", "Montly", "Yearly"],
       },
       residenceType: {
         name: "Residence Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Single", "Families"],
       },
       noOfRooms: {
         name: "Number of Rooms",
+        select: "multiple",
         type: "checkbox",
         options: ["1", "2", "3", "4", "5", "5+"],
       },
       noOfBathrooms: {
         name: "Number of Bathrooms",
+        select: "multiple",
         type: "checkbox",
         options: ["1", "2", "3", "4", "5", "5+"],
       },
       area: {
         name: "Area",
+        select: "multiple",
         type: "checkbox",
         options: [
           "Under 50 sq.m",
@@ -2213,11 +2315,13 @@ export const data = [
       },
       furnished: {
         name: "Furnished",
+        select: "multiple",
         type: "checkbox",
         options: ["Furnished", "Unfurnished", "Partially Furnished"],
       },
       facade: {
         name: "Facade",
+        select: "multiple",
         type: "checkbox",
         options: [
           "East Facing",
@@ -2243,6 +2347,7 @@ export const data = [
       },
       floor: {
         name: "Floor",
+        select: "multiple",
         type: "checkbox",
         options: [
           "Basement",
@@ -2262,6 +2367,7 @@ export const data = [
       },
       amenities: {
         name: "Amenities",
+        select: "multiple",
         type: "checkbox",
         options: [
           "Parking space",
@@ -2278,6 +2384,7 @@ export const data = [
       },
       propertyAge: {
         name: "Property Age",
+        select: "multiple",
         type: "checkbox",
         options: [
           "New (0-1 year)",
@@ -2341,6 +2448,7 @@ export const data = [
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
 
         options: ["Rent", "Sell", "Wanted"],
@@ -2373,12 +2481,15 @@ export const data = [
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
 
         options: ["Rent", "Sell", "Wanted"],
       },
       condition: {
         name: "Condition",
+        select: "multiple",
+
         type: "checkbox",
 
         options: ["New", "Used"],
@@ -2806,19 +2917,19 @@ export const data = [
     filters: {
       price: {
         name: "Price",
-
         type: "twoInput",
       },
       addType: {
         name: "Ad Type",
+        select: "multiple",
         type: "checkbox",
-
         options: ["Rent", "Sell", "Wanted"],
       },
       age: {
         name: "Age",
-        type: "checkbox",
+        select: "multiple",
 
+        type: "checkbox",
         options: ["Puppy (0–1 year)", "Young (1–3 years)", "Adult (3–6 years)"],
       },
     },
