@@ -2443,14 +2443,12 @@ export const data = [
     filters: {
       price: {
         name: "Price",
-
         type: "twoInput",
       },
       addType: {
         name: "Ad Type",
         select: "multiple",
         type: "checkbox",
-
         options: ["Rent", "Sell", "Wanted"],
       },
     },
@@ -3001,7 +2999,6 @@ export const data = [
     filters: {
       price: {
         name: "Price",
-
         type: "twoInput",
       },
     },

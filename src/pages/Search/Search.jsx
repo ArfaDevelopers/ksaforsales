@@ -123,13 +123,21 @@ const Search = () => {
     const { name, value, checked } = e.target;
     console.log("subcaegory name...", name);
     setSubcategory(checked ? value : "");
-    setSearchParams({ ...currentParams, [name]: getUrlText(value) });
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (checked) {
+        newParams.set(name, getUrlText(value));
+      } else {
+        newParams.delete(name);
+      }
+      return newParams;
+    });
   };
   // console.log(subcategory)
 
   const handleFiltersChange = (e, selectType) => {
     const { name, value, checked, type } = e.target || e;
-    console.log("Name: ", name, "SelectType", selectType);
+    console.log("Name: ", name, "SelectType", selectType, "value: ", value);
     const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
     const lowerCaseValue =
       typeof value === "string" ? value.toLowerCase() : value;
@@ -186,8 +194,30 @@ const Search = () => {
 
   const handleInputs = (e, name, value, selectType = "") => {
     e.preventDefault();
+    console.log("Name: ", name, "SelectType", selectType, "value: ", value);
     handleFiltersChange({ name, value }, selectType);
     setFilterData((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleTwoInputs = (e, names, values, selectType = "") => {
+    e.preventDefault();
+
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (values.from) {
+        newParams.set(names.from, values.from);
+        setFilterData((prev) => ({ ...prev, [names.from]: "" }));
+      } else {
+        newParams.delete(names.from);
+      }
+      if (values.to) {
+        newParams.set(names.to, values.to);
+        setFilterData((prev) => ({ ...prev, [names.to]: "" }));
+      } else {
+        newParams.delete(names.to);
+      }
+      return newParams;
+    });
   };
 
   // Object.entries(currentPage.filters).forEach(([key, value]) => {
@@ -437,10 +467,12 @@ const Search = () => {
                                       checked={
                                         urlSubCategory === subCategoryParam
                                       }
+                                      style={{ cursor: "pointer" }}
                                     />
                                     <label
                                       htmlFor={subcat.name}
                                       className="form-check-label"
+                                      style={{ cursor: "pointer" }}
                                     >
                                       {subcat.name}
                                     </label>
@@ -501,7 +533,9 @@ const Search = () => {
                                                     (val) =>
                                                       val === getUrlText(label)
                                                   )
-                                                : searchParams.get(filterKey)
+                                                : searchParams.get(
+                                                    filterKey
+                                                  ) === getUrlText(label)
                                             }
                                             value={label}
                                             onChange={(e) =>
@@ -510,10 +544,12 @@ const Search = () => {
                                                 filterValue.select
                                               )
                                             }
+                                            style={{ cursor: "pointer" }}
                                           />
                                           <label
                                             htmlFor={label}
                                             className="form-check-label"
+                                            style={{ cursor: "pointer" }}
                                           >
                                             {label}
                                           </label>
@@ -537,9 +573,18 @@ const Search = () => {
                                     <Form.Select
                                       name={filterKey}
                                       onChange={handleFiltersChange}
+                                      style={{ cursor: "pointer" }}
                                     >
                                       {filterValue.options.map((option) => (
-                                        <option key={option} value={option}>
+                                        <option
+                                          selected={
+                                            searchParams.get(filterKey) ===
+                                            getUrlText(option)
+                                          }
+                                          key={option}
+                                          value={option}
+                                          style={{ cursor: "pointer" }}
+                                        >
                                           {option}
                                         </option>
                                       ))}
@@ -598,12 +643,16 @@ const Search = () => {
                                         </Form.Label>
                                       )}
                                       <Row>
-                                        {/* <Col>
+                                        <Col>
                                           <Form.Control
                                             name={`from${filterValue.name}`}
                                             type="text"
                                             placeholder="From"
-                                            value={filterData[filterKey]}
+                                            value={
+                                              filterData[
+                                                `from${filterValue.name}`
+                                              ]
+                                            }
                                             onChange={(e) =>
                                               setFilterData((prev) => ({
                                                 ...prev,
@@ -612,13 +661,17 @@ const Search = () => {
                                             }
                                             min="0" // Prevent negative prices
                                           />
-                                        </Col> */}
+                                        </Col>
                                         <Col>
                                           <Form.Control
                                             name={`to${filterValue.name}`}
                                             type="text"
                                             placeholder="To"
-                                            value={filterData[filterKey]}
+                                            value={
+                                              filterData[
+                                                `to${filterValue.name}`
+                                              ]
+                                            }
                                             onChange={(e) =>
                                               setFilterData((prev) => ({
                                                 ...prev,
@@ -631,10 +684,20 @@ const Search = () => {
                                       </Row>
                                       <button
                                         onClick={(e) =>
-                                          handleInputs(
+                                          handleTwoInputs(
                                             e,
-                                            filterKey,
-                                            filterData[filterKey],
+                                            {
+                                              from: `from${filterValue.name}`,
+                                              to: `to${filterValue.name}`,
+                                            },
+                                            {
+                                              from: filterData[
+                                                `from${filterValue.name}`
+                                              ],
+                                              to: filterData[
+                                                `to${filterValue.name}`
+                                              ],
+                                            },
                                             filterValue.select
                                           )
                                         }
