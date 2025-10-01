@@ -32,7 +32,7 @@ const Login = () => {
 
   // const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [phoneNumber, setPhoneNumber] = useState("3185381186");
+  const [phoneNumber, setPhoneNumber] = useState("XXXXXXXXX");
   const [error1, setError1] = useState("");
 
   const handlePhoneNumberChange1 = (e) => {
