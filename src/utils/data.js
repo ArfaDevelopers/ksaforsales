@@ -139,7 +139,6 @@ export const data = [
           {
             name: "Toyota",
             select: "multiple",
-            select: "multiple",
             models: [
               "Land Cruiser",
               "Camry",
@@ -1495,7 +1494,6 @@ export const data = [
         name: "Brand",
         select: "single",
         type: "checkbox",
-
         options: [
           "Apple",
           "iPhone",

@@ -26,6 +26,7 @@ const Search = () => {
     return <Navigate to={"/"} replace />;
   }
 
+  // function convert text to url
   const getUrlText = (text) => {
     return text
       .trim()
@@ -35,7 +36,6 @@ const Search = () => {
       .replace(/\s+/g, "-") // replace spaces with hyphen
       .replace(/-+/g, "-");
   };
-
   // function convert the url text to captilize text
   const getTextFromURL = (text) => {
     return text
@@ -43,6 +43,7 @@ const Search = () => {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
+
   const [searchParams, setSearchParams] = useSearchParams();
   const currentParams = Object.fromEntries(searchParams.entries());
   // console.log("current params..", currentParams);
@@ -119,22 +120,42 @@ const Search = () => {
   //   });
   // }, []);
 
-  const handleSubcategoryChange = (e) => {
+  const handleSubcategoryChange = (e, selectType = "single") => {
     const { name, value, checked } = e.target;
     console.log("subcaegory name...", name);
     setSubcategory(checked ? value : "");
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
-      if (checked) {
-        newParams.set(name, getUrlText(value));
+      const currentValues = newParams.getAll(name);
+      if (selectType === "multiple") {
+        const currentValue = currentValues.find(
+          (val) => val === getUrlText(value) || ""
+        );
+        if (checked) {
+          if (!currentValue) {
+            newParams.append(name, getUrlText(value));
+          }
+        } else {
+          newParams.delete(name);
+          currentValues
+            .filter((val) => val !== getUrlText(value))
+            .forEach((val) => newParams.append(name, val));
+        }
       } else {
-        newParams.delete(name);
+        if (checked) {
+          newParams.set(name, getUrlText(value));
+        } else {
+          newParams.delete(name);
+          if (name === "subcategory") {
+            newParams.delete("nestedSubCategory");
+          }
+        }
       }
       return newParams;
     });
   };
-  // console.log(subcategory)
 
+  // handle Change for all filters
   const handleFiltersChange = (e, selectType) => {
     const { name, value, checked, type } = e.target || e;
     console.log("Name: ", name, "SelectType", selectType, "value: ", value);
@@ -153,33 +174,31 @@ const Search = () => {
       };
     });
 
-    // setSearchParams({
-    //   ...currentParams,
-    //   [name]: getUrlText(lowerCaseValue),
-    // });
-
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
       if (selectType === "multiple") {
         const currentValues = newParams.getAll(name);
         const currentValue = currentValues.find(
-          (val) => val === getUrlText(lowerCaseValue)
+          (val) => val === getUrlText(value)
         );
         if (checked) {
           if (!currentValue) {
-            newParams.append(name, getUrlText(lowerCaseValue));
+            newParams.append(name, getUrlText(value));
           }
         } else {
-          newParams.delete(name),
-            currentValues
-              .filter((val) => val !== getUrlText(lowerCaseValue))
-              .forEach((val) => newParams.append(name, val));
+          newParams.delete(name);
+          currentValues
+            .filter((val) => val !== getUrlText(value))
+            .forEach((val) => newParams.append(name, val));
         }
       } else if (selectType === "single") {
         if (checked) {
           newParams.set(name, getUrlText(lowerCaseValue));
         } else {
           newParams.delete(name);
+          if (name === "brand") {
+            newParams.delete("brandModel");
+          }
         }
       } else {
         if (value) {
@@ -192,6 +211,7 @@ const Search = () => {
     });
   };
 
+  // handles single input
   const handleInputs = (e, name, value, selectType = "") => {
     e.preventDefault();
     console.log("Name: ", name, "SelectType", selectType, "value: ", value);
@@ -199,6 +219,7 @@ const Search = () => {
     setFilterData((prev) => ({ ...prev, [name]: "" }));
   };
 
+  // handle two inputs
   const handleTwoInputs = (e, names, values, selectType = "") => {
     e.preventDefault();
 
@@ -416,42 +437,46 @@ const Search = () => {
                                       {subcat.nestedSubCategories &&
                                         subcat.nestedSubCategories.length > 0 &&
                                         subcat.nestedSubCategories.map(
-                                          (nestedSubCat) => (
-                                            <div className="form-check mb-2">
-                                              <input
-                                                id={
-                                                  typeof subcat.name ===
-                                                    "string" &&
-                                                  subcat.name.toLowerCase()
-                                                }
-                                                name="nestedSubCategory"
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                value={nestedSubCat.name}
-                                                onChange={
-                                                  handleSubcategoryChange
-                                                }
-                                                checked={
-                                                  getUrlText(
-                                                    nestedSubCat.name
-                                                  ) ===
-                                                  searchParams.get(
-                                                    "nestedSubCategory"
-                                                  )
-                                                }
-                                              />
-                                              <label
-                                                htmlFor={
-                                                  typeof subcat.name ===
-                                                    "string" &&
-                                                  subcat.name.toLowerCase()
-                                                }
-                                                className="form-check-label"
-                                              >
-                                                {nestedSubCat.name}
-                                              </label>
-                                            </div>
-                                          )
+                                          (nestedSubCat) => {
+                                            const params =
+                                              searchParams.getAll(
+                                                "nestedSubCategory"
+                                              );
+                                            return (
+                                              <div className="form-check mb-2">
+                                                <input
+                                                  id={nestedSubCat.name}
+                                                  name="nestedSubCategory"
+                                                  className="form-check-input"
+                                                  type="checkbox"
+                                                  value={nestedSubCat.name}
+                                                  onChange={(e) =>
+                                                    handleSubcategoryChange(
+                                                      e,
+                                                      "multiple"
+                                                    )
+                                                  }
+                                                  checked={
+                                                    params &&
+                                                    params.find(
+                                                      (val) =>
+                                                        val ===
+                                                        getUrlText(
+                                                          nestedSubCat.name
+                                                        )
+                                                    )
+                                                  }
+                                                />
+
+                                                <label
+                                                  htmlFor={nestedSubCat.name}
+                                                  className="form-check-label"
+                                                >
+                                                  {nestedSubCat.name}
+                                                </label>
+                                              </div>
+                                            );
+                                          }
                                         )}
                                     </>
                                   )
@@ -518,42 +543,138 @@ const Search = () => {
 
                                     const paramValues =
                                       searchParams.getAll(filterKey);
+
+                                    const checkedFilter =
+                                      filterValue.select === "multiple"
+                                        ? paramValues &&
+                                          paramValues.find(
+                                            (val) => val === getUrlText(label)
+                                          )
+                                        : searchParams.get(filterKey) ===
+                                          getUrlText(label);
                                     return (
                                       <Form.Group key={id}>
-                                        <div className="form-check mb-2">
-                                          <input
-                                            id={label}
-                                            name={String(filterKey)}
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            checked={
-                                              filterValue.select === "multiple"
-                                                ? paramValues &&
-                                                  paramValues.find(
-                                                    (val) =>
-                                                      val === getUrlText(label)
+                                        {value.models ? (
+                                          <>
+                                            <div className="form-check mb-2">
+                                              <input
+                                                id={label}
+                                                name={String(filterKey)}
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                checked={checkedFilter}
+                                                value={label}
+                                                onChange={(e) =>
+                                                  handleFiltersChange(
+                                                    e,
+                                                    filterValue.select
                                                   )
-                                                : searchParams.get(
-                                                    filterKey
-                                                  ) === getUrlText(label)
-                                            }
-                                            value={label}
-                                            onChange={(e) =>
-                                              handleFiltersChange(
-                                                e,
-                                                filterValue.select
-                                              )
-                                            }
-                                            style={{ cursor: "pointer" }}
-                                          />
-                                          <label
-                                            htmlFor={label}
-                                            className="form-check-label"
-                                            style={{ cursor: "pointer" }}
-                                          >
-                                            {label}
-                                          </label>
-                                        </div>
+                                                }
+                                                style={{ cursor: "pointer" }}
+                                              />
+                                              <label
+                                                htmlFor={label}
+                                                className="form-check-label"
+                                                style={{ cursor: "pointer" }}
+                                              >
+                                                {label}
+                                              </label>
+                                            </div>
+                                            {checkedFilter &&
+                                              value.models.length > 0 && (
+                                                <div
+                                                  style={{
+                                                    border: "1px solid black",
+                                                    borderRadius: "5px",
+                                                    padding: "5px",
+                                                  }}
+                                                >
+                                                  <label htmlFor="">
+                                                    Brand Models
+                                                  </label>
+                                                  {value.models.map((model) => {
+                                                    return (
+                                                      <div className="form-check mb-2">
+                                                        <input
+                                                          id={model}
+                                                          name={"brandModel"}
+                                                          className="form-check-input"
+                                                          type="checkbox"
+                                                          checked={searchParams
+                                                            .getAll(
+                                                              "brandModel"
+                                                            )
+                                                            .find(
+                                                              (val) =>
+                                                                val ===
+                                                                getUrlText(
+                                                                  model
+                                                                )
+                                                            )}
+                                                          value={model}
+                                                          onChange={(e) =>
+                                                            handleFiltersChange(
+                                                              e,
+                                                              "multiple"
+                                                            )
+                                                          }
+                                                          style={{
+                                                            cursor: "pointer",
+                                                          }}
+                                                        />
+                                                        <label
+                                                          htmlFor={model}
+                                                          className="form-check-label"
+                                                          style={{
+                                                            cursor: "pointer",
+                                                          }}
+                                                        >
+                                                          {model}
+                                                        </label>
+                                                      </div>
+                                                    );
+                                                  })}
+                                                </div>
+                                              )}
+                                          </>
+                                        ) : (
+                                          <div className="form-check mb-2">
+                                            <input
+                                              id={label}
+                                              name={String(filterKey)}
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              checked={
+                                                filterValue.select ===
+                                                "multiple"
+                                                  ? paramValues &&
+                                                    paramValues.find(
+                                                      (val) =>
+                                                        val ===
+                                                        getUrlText(label)
+                                                    )
+                                                  : searchParams.get(
+                                                      filterKey
+                                                    ) === getUrlText(label)
+                                              }
+                                              value={label}
+                                              onChange={(e) =>
+                                                handleFiltersChange(
+                                                  e,
+                                                  filterValue.select
+                                                )
+                                              }
+                                              style={{ cursor: "pointer" }}
+                                            />
+                                            <label
+                                              htmlFor={label}
+                                              className="form-check-label"
+                                              style={{ cursor: "pointer" }}
+                                            >
+                                              {label}
+                                            </label>
+                                          </div>
+                                        )}
                                       </Form.Group>
                                     );
                                   })
