@@ -20,10 +20,14 @@ import { data } from "../../utils/data";
 import HorizantalLine from "../../components/HorizantalLine";
 
 const Search = () => {
-  const { slug } = useParams();
-  const currentPage = data.find((page) => page.path === `/${slug}`);
-  if (!currentPage) {
-    return <Navigate to={"/"} replace />;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category")
+    ? searchParams.get("category")
+    : "";
+  let currentCategoryFilters =
+    data.find((page) => page.path === `/${category}`) ?? "";
+  if (!currentCategoryFilters) {
+    currentCategoryFilters = data.find((page) => page.path === `/search`);
   }
 
   // function convert text to url
@@ -36,6 +40,7 @@ const Search = () => {
       .replace(/\s+/g, "-") // replace spaces with hyphen
       .replace(/-+/g, "-");
   };
+
   // function convert the url text to captilize text
   const getTextFromURL = (text) => {
     return text
@@ -44,8 +49,7 @@ const Search = () => {
       .join(" ");
   };
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentParams = Object.fromEntries(searchParams.entries());
+  // const currentParams = Object.fromEntries(searchParams.entries());
   // console.log("current params..", currentParams);
 
   const [subcategory, setSubcategory] = useState("");
@@ -120,6 +124,7 @@ const Search = () => {
   //   });
   // }, []);
 
+  // handle change for subcategory and nested subcategory
   const handleSubcategoryChange = (e, selectType = "single") => {
     const { name, value, checked } = e.target;
     console.log("subcaegory name...", name);
@@ -245,6 +250,24 @@ const Search = () => {
   //   console.log(key, value);
   // });
   // console.log('currentparam...', currentParams['brand'])
+  const categoryData = {
+    name: "Category",
+    type: "checkbox",
+    select: "single",
+    options: [
+      "Motors",
+      "Electronics",
+      "Fashion Style",
+      "Home & Furniture",
+      "Job Board",
+      "Realestate",
+      "Services",
+      "Sport & Game",
+      "Pet & Animals",
+      "Other",
+      "Commercial",
+    ],
+  };
 
   return (
     <>
@@ -289,7 +312,13 @@ const Search = () => {
 
             <button
               onClick={() => {
-                navigate(currentPage.path);
+                navigate(
+                  currentCategoryFilters.name === "Search"
+                    ? `/search`
+                    : `/search?category=${getUrlText(
+                        currentCategoryFilters.name
+                      )}`
+                );
               }}
               className="btn"
               style={{
@@ -298,7 +327,7 @@ const Search = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {currentPage.name}
+              {currentCategoryFilters.name}
             </button>
 
             {subCategoryParam && (
@@ -389,130 +418,208 @@ const Search = () => {
                     </Col>
                   </Row>
                   <HorizantalLine />
-                  {/* subcategories */}{" "}
+                  {/* category */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Sub Categories</Accordion.Header>
+                      <Accordion.Header>Category</Accordion.Header>
                       <Accordion.Body>
-                        <div style={{ maxWidth: "300px", margin: "20px" }}>
-                          {currentPage.subcategories.map((subcat) => {
-                            const urlSubCategory = getUrlText(subcat.name);
-                            return (
-                              <Form.Group key={subcat.name}>
-                                {/* <Form.Label>Select a Category</Form.Label> */}
-                                {subCategoryParam ? (
-                                  urlSubCategory === subCategoryParam && (
-                                    <>
-                                      <div className="form-check mb-2">
-                                        <input
-                                          id={
-                                            typeof subcat.name === "string" &&
-                                            subcat.name.toLowerCase()
-                                          }
-                                          name="subcategory"
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          value={subcat.name}
-                                          onChange={handleSubcategoryChange}
-                                          checked={
-                                            urlSubCategory === subCategoryParam
-                                          }
-                                        />
-                                        <label
-                                          htmlFor={
-                                            typeof subcat.name === "string" &&
-                                            subcat.name.toLowerCase()
-                                          }
-                                          className="form-check-label"
-                                        >
-                                          {subcat.name}
-                                        </label>
-                                      </div>
-
-                                      {subcat.nestedSubCategories && (
-                                        <Form.Label>
-                                          Nested Categories
-                                        </Form.Label>
-                                      )}
-                                      {subcat.nestedSubCategories &&
-                                        subcat.nestedSubCategories.length > 0 &&
-                                        subcat.nestedSubCategories.map(
-                                          (nestedSubCat) => {
-                                            const params =
-                                              searchParams.getAll(
-                                                "nestedSubCategory"
-                                              );
-                                            return (
-                                              <div className="form-check mb-2">
-                                                <input
-                                                  id={nestedSubCat.name}
-                                                  name="nestedSubCategory"
-                                                  className="form-check-input"
-                                                  type="checkbox"
-                                                  value={nestedSubCat.name}
-                                                  onChange={(e) =>
-                                                    handleSubcategoryChange(
-                                                      e,
-                                                      "multiple"
-                                                    )
-                                                  }
-                                                  checked={
-                                                    params &&
-                                                    params.find(
-                                                      (val) =>
-                                                        val ===
-                                                        getUrlText(
-                                                          nestedSubCat.name
-                                                        )
-                                                    )
-                                                  }
-                                                />
-
-                                                <label
-                                                  htmlFor={nestedSubCat.name}
-                                                  className="form-check-label"
-                                                >
-                                                  {nestedSubCat.name}
-                                                </label>
-                                              </div>
-                                            );
-                                          }
-                                        )}
-                                    </>
-                                  )
-                                ) : (
-                                  <div className="form-check mb-2">
-                                    <input
-                                      id={subcat.name}
-                                      name="subcategory"
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      value={subcat.name}
-                                      onChange={handleSubcategoryChange}
-                                      checked={
-                                        urlSubCategory === subCategoryParam
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <label
-                                      htmlFor={subcat.name}
-                                      className="form-check-label"
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      {subcat.name}
-                                    </label>
-                                  </div>
-                                )}
-                              </Form.Group>
-                            );
-                          })}
+                        <div
+                          style={{
+                            maxWidth: "300px",
+                            margin: "20px",
+                          }}
+                        >
+                          {categoryData.options.map((cat) => (
+                            <Form.Group key={cat}>
+                              <div className="form-check mb-2">
+                                <input
+                                  id={cat}
+                                  name={cat}
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                  checked={
+                                    getUrlText(cat) ===
+                                    searchParams.get("category")
+                                  }
+                                  value={cat}
+                                  onChange={(e) => {
+                                    if (e.target.value) {
+                                      setSearchParams({
+                                        category: getUrlText(e.target.value),
+                                      });
+                                    } else {
+                                      setSearchParams({});
+                                    }
+                                  }}
+                                />
+                                <label
+                                  htmlFor={cat}
+                                  className="form-check-label"
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  {cat}
+                                </label>
+                              </div>
+                            </Form.Group>
+                          ))}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                   <HorizantalLine />
+                  {/* subcategories */}{" "}
+                  {currentCategoryFilters.subcategories &&
+                    currentCategoryFilters.subcategories.length > 0 && (
+                      <>
+                        {" "}
+                        <Accordion className="mt-3">
+                          <Accordion.Item eventKey="0">
+                            <Accordion.Header>Sub Categories</Accordion.Header>
+                            <Accordion.Body>
+                              <div
+                                style={{ maxWidth: "300px", margin: "20px" }}
+                              >
+                                {currentCategoryFilters.subcategories.map(
+                                  (subcat) => {
+                                    const urlSubCategory = getUrlText(
+                                      subcat.name
+                                    );
+                                    return (
+                                      <Form.Group key={subcat.name}>
+                                        {/* <Form.Label>Select a Category</Form.Label> */}
+                                        {subCategoryParam ? (
+                                          urlSubCategory ===
+                                            subCategoryParam && (
+                                            <>
+                                              <div className="form-check mb-2">
+                                                <input
+                                                  id={
+                                                    typeof subcat.name ===
+                                                      "string" &&
+                                                    subcat.name.toLowerCase()
+                                                  }
+                                                  name="subcategory"
+                                                  className="form-check-input"
+                                                  type="checkbox"
+                                                  value={subcat.name}
+                                                  onChange={
+                                                    handleSubcategoryChange
+                                                  }
+                                                  checked={
+                                                    urlSubCategory ===
+                                                    subCategoryParam
+                                                  }
+                                                />
+                                                <label
+                                                  htmlFor={
+                                                    typeof subcat.name ===
+                                                      "string" &&
+                                                    subcat.name.toLowerCase()
+                                                  }
+                                                  className="form-check-label"
+                                                >
+                                                  {subcat.name}
+                                                </label>
+                                              </div>
+
+                                              {subcat.nestedSubCategories && (
+                                                <Form.Label>
+                                                  Nested Categories
+                                                </Form.Label>
+                                              )}
+                                              {subcat.nestedSubCategories &&
+                                                subcat.nestedSubCategories
+                                                  .length > 0 &&
+                                                subcat.nestedSubCategories.map(
+                                                  (nestedSubCat) => {
+                                                    const params =
+                                                      searchParams.getAll(
+                                                        "nestedSubCategory"
+                                                      );
+                                                    return (
+                                                      <div className="form-check mb-2">
+                                                        <input
+                                                          id={nestedSubCat.name}
+                                                          name="nestedSubCategory"
+                                                          className="form-check-input"
+                                                          type="checkbox"
+                                                          value={
+                                                            nestedSubCat.name
+                                                          }
+                                                          onChange={(e) =>
+                                                            handleSubcategoryChange(
+                                                              e,
+                                                              "multiple"
+                                                            )
+                                                          }
+                                                          checked={
+                                                            params &&
+                                                            params.find(
+                                                              (val) =>
+                                                                val ===
+                                                                getUrlText(
+                                                                  nestedSubCat.name
+                                                                )
+                                                            )
+                                                          }
+                                                        />
+
+                                                        <label
+                                                          htmlFor={
+                                                            nestedSubCat.name
+                                                          }
+                                                          className="form-check-label"
+                                                        >
+                                                          {nestedSubCat.name}
+                                                        </label>
+                                                      </div>
+                                                    );
+                                                  }
+                                                )}
+                                            </>
+                                          )
+                                        ) : (
+                                          <div className="form-check mb-2">
+                                            <input
+                                              id={subcat.name}
+                                              name="subcategory"
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              value={subcat.name}
+                                              onChange={handleSubcategoryChange}
+                                              checked={
+                                                urlSubCategory ===
+                                                subCategoryParam
+                                              }
+                                              style={{ cursor: "pointer" }}
+                                            />
+                                            <label
+                                              htmlFor={subcat.name}
+                                              className="form-check-label"
+                                              style={{ cursor: "pointer" }}
+                                            >
+                                              {subcat.name}
+                                            </label>
+                                          </div>
+                                        )}
+                                      </Form.Group>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
+                        <HorizantalLine />{" "}
+                      </>
+                    )}
                   {/* filters */}
-                  {Object.entries(currentPage.filters || {}).map(
+                  {Object.entries(currentCategoryFilters.filters || {}).map(
                     ([filterKey, filterValue]) => (
                       <>
                         <Accordion className="mt-3" key={filterValue.name}>

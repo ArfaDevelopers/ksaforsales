@@ -18,24 +18,26 @@ const ProtectedRoute = ({ children }) => {
       >
         {/* <img
           src={loading}
-          alt="Loading..."
+          alt="Loading..."F
           style={{
             width: "200px",
             height: "200px",
             animation: "spin 1s linear infinite", // Apply the spin animation
           }}
         /> */}
+
+        <p>Loading...</p>
         <style>
           {`
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    `}
+            @keyframes spin {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(360deg);
+              }
+            }
+          `}
         </style>
       </div>
     );

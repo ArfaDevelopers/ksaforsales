@@ -86,6 +86,7 @@ import Copyrights from "./components/admin/Copyrights/Copyrights";
 import Userinfo from "./components/admin/Userinfo/Userinfo";
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import NotFound from "./pages/NotFound/NotFound";
 
 export const App = () => {
   return (
@@ -97,6 +98,7 @@ export const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="*" element={<NotFound />} />
 
             <Route
               path="/"
@@ -316,7 +318,7 @@ export const App = () => {
               }
             />
             <Route
-              path="/:slug"
+              path="/search"
               element={
                 <ProtectedRoute>
                   <Search />

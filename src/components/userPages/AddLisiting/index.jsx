@@ -61,8 +61,7 @@ const AddLisiting = () => {
 
   const [galleryselectedCityDataErrMsg, setgalleryselectedCityDataErrMsg] =
     useState(""); // State for image preview
-     const [districtSelectedErrMsg, setDistrictSelectedErrMsg] =
-    useState("");
+  const [districtSelectedErrMsg, setDistrictSelectedErrMsg] = useState("");
 
   const [galleryselectedRegionIdErrMsg, setgalleryselectedRegionIdErrMsg] =
     useState(""); // State for image preview
@@ -119,7 +118,6 @@ const AddLisiting = () => {
 
   const [formData, setFormData] = useState({
     showNumberChecked: false, // default value
-
     title: "",
     description: "",
     category: "",
@@ -127,7 +125,6 @@ const AddLisiting = () => {
     Floor: "",
     PropertyAge: "",
     Featuers: "",
-
     kmDriven: "",
     Transmission: "",
     mileage: "",
@@ -135,20 +132,14 @@ const AddLisiting = () => {
     InteriorColor: "",
     AdditionalFeatures: [],
     licenseNumber: "",
-
     Emirates: "",
     Furnished: "",
     Facade: "",
-
     Area: "",
-
     bathrooms: "",
     brand: "",
-
     Fueltype: [], // now an array
-
     Model: "",
-
     Registeredin: "",
     TrustedCars: "",
     EngineType: "",
@@ -189,11 +180,8 @@ const AddLisiting = () => {
     MAGAZINESCategory: "",
     IssueType: "",
     AgeGroup: "",
-
     SubscriptionType: "",
-
     ColorOptions: "",
-
     Availability: "",
     galleryImages: [],
     NumberofDoors: "",
@@ -212,26 +200,18 @@ const AddLisiting = () => {
     PropertyType: "",
     Amenities: "",
     PropertyFeatures: "",
-
     SkillLevel: "",
     ContentType: "",
-
     SubjectCategories: "",
-
     Company: "",
     JobDescription: "",
-
     RequiredSkills: "",
-
     EmploymentType: "",
     ExperienceLevel: "",
-
     Accuracy: "",
     Industry: "",
-
     CuffSize: "",
     DisplayType: "",
-
     SellerType: "",
     PictureAvailability: "",
     VideoAvailability: "",
@@ -244,7 +224,6 @@ const AddLisiting = () => {
     ExteriorColor: "",
     Purpose: "",
     Price: "",
-
     Gender: "",
     Size: "",
     Fit: "",
@@ -253,9 +232,7 @@ const AddLisiting = () => {
     ClosureType: "",
     CollarType: "",
     WashType: "",
-
     SleeveLength: "",
-
     FeaturedAds: "Not Featured Ads",
     States: "",
     District: "",
@@ -263,7 +240,6 @@ const AddLisiting = () => {
     Condition: "",
     Color: "",
     RegionalSpec: "",
-
     OperatingSystem: "",
     Processor: "",
     RAM: "",
@@ -271,11 +247,9 @@ const AddLisiting = () => {
     Storagecapacity: "",
     GraphicsCard: "",
     // Make: "", // ✅ make sure this exists
-
     // Make: "",
     tagline: "",
     City: "",
-
     priceRange: "",
     priceFrom: "65",
     priceTo: "120",
@@ -1588,7 +1562,6 @@ const AddLisiting = () => {
     Education: "Education",
     Travel: "TRAVEL",
     Pet: "PETANIMALCOMP",
-
     Motors: "Cars",
     Sports: "SPORTSGAMESComp",
     Electronics: "ELECTRONICS",
@@ -1611,57 +1584,6 @@ const AddLisiting = () => {
     },
     {}
   );
-
-  // useEffect(() => {
-  //   const fetchItem = async () => {
-  //     setLoading(true);
-  //     setError("");
-
-  //     try {
-  //       const callingFrom = getQueryParam("callingFrom");
-  //       const itemId = getQueryParam("id") || id;
-
-  //       if (!itemId || !callingFrom) {
-  //         setError("Missing ID or category.");
-  //         setLoading(false);
-  //         return;
-  //       }
-
-  //       // Map formatted category to Firestore collection
-  //       const collectionName = reverseCategoryMapping[callingFrom];
-  //       if (!collectionName) {
-  //         setError("Invalid category.");
-  //         setLoading(false);
-  //         return;
-  //       }
-
-  //       // Fetch document
-  //       const docRef = doc(db, collectionName, itemId);
-  //       const docSnap = await getDoc(docRef);
-
-  //       if (docSnap.exists()) {
-  //         const data = docSnap.data();
-  //         // Filter out empty, null, or undefined fields
-  //         const filteredData = Object.fromEntries(
-  //           Object.entries(data).filter(
-  //             ([_, value]) =>
-  //               value !== "" && value !== null && value !== undefined
-  //           )
-  //         );
-  //         setItemData(filteredData);
-  //       } else {
-  //         setError("No item found with this ID.");
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching item:", err);
-  //       setError("Failed to load item details.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchItem();
-  // }, [id, location.search]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -1930,12 +1852,15 @@ const AddLisiting = () => {
         setgalleryselectedCityDataErrMsg("City is required!"); // Set error message if no category is selected
         return;
       }
-       if (!selectedDistrict.districtId||selectedDistrict.districtId.length === 0) {
+      if (
+        !selectedDistrict.districtId ||
+        selectedDistrict.districtId.length === 0
+      ) {
         setDistrictSelectedErrMsg("District is required!"); // Set error message if no category is selected
         return;
       }
       setgalleryselectedCityDataErrMsg("");
-      setDistrictSelectedErrMsg("")
+      setDistrictSelectedErrMsg("");
 
       if (!formData.title || formData.title.length === 0) {
         setgalleryListingTitleErrMsg("Listing Title is required!"); // Set error message if no category is selected
@@ -2219,39 +2144,6 @@ const AddLisiting = () => {
       prevImages.filter((_, index) => index !== indexToDelete)
     );
   };
-  // Handle file change for multiple images
-  // const handleGalleryChange = async (e) => {
-  //   const files = e.target.files;
-
-  //   if (files.length > 0 && !uploading) {
-  //     setUploading(true); // Lock uploading until uploads finish
-  //     let uploadedImages = [...galleryImages]; // Store uploaded image URLs
-
-  //     for (let i = 0; i < files.length; i++) {
-  //       const file = files[i];
-  //       const formData = new FormData();
-  //       formData.append("file", file);
-  //       formData.append("upload_preset", "dlfdvlmse"); // Your Cloudinary preset
-  //       formData.append("cloud_name", "dlfdvlmse"); // Replace with actual cloud name
-
-  //       try {
-  //         const response = await axios.post(
-  //           "https://api.cloudinary.com/v1_1/dlfdvlmse/image/upload",
-  //           formData
-  //         );
-
-  //         if (response.data.secure_url) {
-  //           uploadedImages.push(response.data.secure_url); // Add image URL to array
-  //           setGalleryImages([...uploadedImages]); // Update state with new image URLs
-  //         }
-  //       } catch (error) {
-  //         console.error("Error uploading to Cloudinary", error);
-  //       }
-  //     }
-
-  //     setUploading(false); // Reset the uploading state
-  //   }
-  // };
   const ALLOWED_IMAGE_TYPES = [
     "image/jpeg",
     "image/png",
@@ -2953,16 +2845,6 @@ const AddLisiting = () => {
     value: category,
     label: category,
   }));
-  // const optionsSubCategory = [
-  //   { value: "Cars", label: "Cars" },
-  //   { value: "ELECTRONICS", label: "ELECTRONICS" },
-  //   { value: "Education", label: "Education" },
-  //   { value: "FASHION", label: "FASHION" },
-  //   { value: "HEALTHCARE", label: "HEALTHCARE" },
-  //   { value: "JOBBOARD", label: "JOBBOARD" },
-  //   { value: "REALESTATECOMP", label: "REALESTATECOMP" },
-  //   { value: "SPORTSGAMESComp", label: "SPORTSGAMESComp" },
-  // ];
   const subcategoriesMapping = {
     categories: [
       {
@@ -4580,28 +4462,7 @@ const AddLisiting = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  //   const collectionName1 =
-  // callingFrom === "AutomotiveComp"
-  //   ? "Cars"
-  //   : callingFrom === "ElectronicComp"
-  //   ? "ELECTRONICS"
-  //   : callingFrom === "FashionStyle"
-  //   ? "FASHION"
-  //   : callingFrom === "HealthCareComp"
-  //   ? "HEALTHCARE"
-  //   : callingFrom === "JobBoard"
-  //   ? "JOBBOARD"
-  //   : callingFrom === "Education"
-  //   ? "Education"
-  //   : callingFrom === "RealEstateComp"
-  //   ? "REALESTATECOMP"
-  //   : callingFrom === "TravelComp"
-  //   ? "TRAVEL"
-  //   : callingFrom === "SportGamesComp"
-  //   ? "SPORTSGAMESComp"
-  //   : callingFrom === "PetAnimalsComp"
-  //   ? "PETANIMALCOMP"
-  //   : "books";
+
   return (
     <>
       <div className="main-wrapper">
@@ -4894,7 +4755,8 @@ const AddLisiting = () => {
                                   d.District_ID === selectedDistrict.districtId
                               ) || null
                             }
-                          /> {districtSelectedErrMsg && (
+                          />{" "}
+                          {districtSelectedErrMsg && (
                             <div
                               className="text-danger mt-1"
                               style={{ fontSize: "14px" }}
@@ -8842,7 +8704,7 @@ const AddLisiting = () => {
                                 </div>
                               </div>
                             </div>
-                           </>
+                          </>
                         ) : [
                             "Administrative Jobs",
                             "Fashion & Beauty Jobs",
@@ -12207,132 +12069,10 @@ const AddLisiting = () => {
                                 </div>
                               </div>
                             </div>
-                            {/* <div className="card">
-                            <div className="card-header">
-                              <h4>Seller Type </h4>
-                            </div>
-                            <div className="card-body">
-                              <div className="form-group featuresform-list mb-0">
-                                <ul>
-                                  {[
-                                    {
-                                      name: "Direct owner",
-                                      label: "Direct owner",
-                                    },
-                                    {
-                                      name: "Individuals",
-                                      label: "Individuals",
-                                    },
-                                    { name: "Brand", label: "Brand" },
-                                  ].map((area) => (
-                                    <li key={area.name}>
-                                      <label className="custom_check">
-                                        <input
-                                          type="checkbox"
-                                          name={area.name}
-                                          checked={
-                                            formData.SellerType === area.name
-                                          }
-                                          onChange={handleSellerTypeChange}
-                                        />
-                                        <span className="checkmark" />{" "}
-                                        {area.label}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="clearfix" />
-                              </div>
-                            </div>
-                          </div> */}
                           </>
                         ) : (
                           ""
                         )}
-                        {/* <div
-                        className="form-group formlast-input w-50 d-flex align-items-center"
-                        style={{
-                          padding: "20px 0 10px 0",
-                        }}
-                      >
-                        <span className="me-auto">
-                          {"Phone "}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                        </span>
-                        <div className="mx-auto d-flex align-items-center">
-                          <label
-                            style={{
-                              position: "relative",
-                              display: "inline-block",
-                              width: "40px",
-                              height: "23px",
-                              marginRight: "10px",
-                              width: "3rem",
-                              marginBottom: "0", // Space between switch and text
-                            }}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={!showPhone}
-                              onChange={() => setShowPhone(!showPhone)}
-                              style={{
-                                opacity: 0,
-                                width: 0,
-                                height: 0,
-                              }}
-                            />
-                            <span
-                              style={{
-                                position: "absolute",
-                                cursor: "pointer",
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                backgroundColor: !showPhone
-                                  ? "#ccc"
-                                  : "#2d4495",
-                                transition: ".4s",
-                                borderRadius: "34px",
-                                height: "24px",
-                              }}
-                            >
-                              <span
-                                style={{
-                                  position: "absolute",
-                                  height: "16px",
-                                  width: "16px",
-                                  left: !showPhone ? "30px" : "4px",
-                                  bottom: "4px",
-                                  backgroundColor: "white",
-                                  transition: ".4s",
-                                  borderRadius: "50%",
-                                }}
-                              />
-                            </span>
-                          </label>
-                          <span>
-                            {showPhone ? "Check to hide" : "Check to show"}
-                          </span>
-                        </div>
-                      </div> */}
-
-                        {/* {showPhone && ( */}
-                        {/* <>
-                        <input
-                          type={showPhone ? "text" : "password"} // Change type based on showPhone
-                          name="Phone"
-                          value={formData.Phone}
-                          onChange={handleChangePhone}
-                          onBlur={validatePhone} // Validate when user leaves input
-                          className="form-control"
-                          style={{ width: "50%" }}
-                          placeholder="+9665XXXXXXXX"
-                          required
-                        />
-                        <p style={{ color: "red", fontSize: "12px" }}>
-                          {Saudinummsg}
-                        </p>
-                      </> */}
 
                         <div className="card-body">
                           <div className="row align-items-end">
@@ -12541,41 +12281,6 @@ const AddLisiting = () => {
                           </div>
                         )}
                       </div>
-
-                      {/* <div className="row">
-                    <div className="p-4" style={{ marginTop: "-1rem" }}>
-                      <h4 className="text-lg font-bold mb-2">
-                        Select a Country
-                      </h4>
-                       <Select
-                        options={countryOptions}
-                        value={selectedCountry}
-                        onChange={handleCountryChange}
-                        placeholder="Select a country..."
-                        isClearable
-                        className="w-full mb-4"
-                      />
-
-                       {selectedCountry && cities.length > 0 && (
-                        <div className="mt-4 mb-4">
-                          <h5 className="text-md font-semibold mb-2">
-                            Cities in {selectedCountry.label}
-                          </h5>
-                          <Select
-                            options={cities.map((city) => ({
-                              value: city.name,
-                              label: city.name,
-                            }))}
-                            value={selectedCity}
-                            onChange={handleCityChange}
-                            placeholder="Select a city..."
-                            isClearable
-                            className="w-full"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div> */}
                     </div>
                   </div>
                   <div className="" style={{ borderRadius: "0 0 6px 6px" }}>
@@ -12623,50 +12328,6 @@ const AddLisiting = () => {
                     </Elements>
                   )}
                 </div>
-
-                {/* <div
-                  className="settings-upload-btn"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => setIsChecked((prev) => !prev)}
-                    style={{
-                      marginTop: "15px",
-                      width: "20px", // Increase the width
-                      height: "20px", // Increase the height
-                    }}
-                  />
-                  <label
-                    style={{
-                      fontSize: "16px",
-                      marginTop: "20px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <Link
-                      to="/TermsAndConditions"
-                      style={{
-                        textDecoration: "underline",
-                        color: "#2d4495", // Blue color to indicate a link
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.target.style.textDecoration = "none")
-                      } // Remove underline on hover
-                      onMouseLeave={(e) =>
-                        (e.target.style.textDecoration = "underline")
-                      } // Restore underline
-                    >
-                      Agree to terms and conditions
-                    </Link>
-                  </label>
-                </div> */}
                 <button
                   onClick={handleSubmit}
                   disabled={uploading || (showPayment && !paymentSuccess)} // Disable if uploading or checkbox is unchecked

@@ -1,5 +1,36 @@
 export const data = [
   {
+    name: "Search",
+    path: "/search",
+    // subcategories: [],
+    filters: {
+      featuredAds: {
+        name: "Featured Ads",
+        select: "single",
+        type: "checkbox",
+        options: ["Featured Ad"],
+      },
+      condition: {
+        name: "Condition",
+        select: "multiple",
+        type: "checkbox",
+        options: ["New", "Used"],
+      },
+      sellerType: {
+        name: "Seller Type",
+        select: "single",
+        type: "checkbox",
+        options: ["Dealers", "Individuals"],
+      },
+      paymentMethod: {
+        name: "Payment Method",
+        select: "single",
+        type: "checkbox",
+        options: ["Cash", "Mortgage", "Installments without banks"],
+      },
+    },
+  },
+  {
     name: "Motors",
     path: "/motors",
     subcategories: [
@@ -1241,6 +1272,12 @@ export const data = [
       },
       noOfDoors: {
         name: "Number of Doors",
+        select: "multiple",
+        type: "checkbox",
+        options: ["5", "4", "3", "2"],
+      },
+      seatingCapacity: {
+        name: "Seating Capacity",
         select: "multiple",
         type: "checkbox",
         options: ["5", "4", "3", "2"],
@@ -2931,8 +2968,8 @@ export const data = [
     },
   },
   {
-    name: "Others",
-    path: "/others",
+    name: "Other",
+    path: "/other",
     subcategories: [
       {
         name: "Hunting & Trips",
