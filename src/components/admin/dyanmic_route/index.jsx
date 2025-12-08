@@ -5,7 +5,12 @@ import img from "./home-07.jpg";
 import tick from "./tick.png";
 import bullet from "./bullet.png";
 import profile from "./profileimage.png";
-import { FaWhatsapp, FaPhoneAlt, FaFacebook, FaInstagram } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaPhoneAlt,
+  FaFacebook,
+  FaInstagram,
+} from "react-icons/fa";
 import { FaMobile } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -143,7 +148,9 @@ const Dynamic_Route = () => {
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${id} in ${firestoreCollection}`
+        `✅ User ${
+          alreadyHearted ? "removed from" : "added to"
+        } heartedby for ${id} in ${firestoreCollection}`
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -5316,8 +5323,16 @@ const Dynamic_Route = () => {
                             {itemData.displayName}
                           </p>
                           <p className="sallerInfo_para">
-                            {itemData.creationTime}
+                            {new Date(itemData.creationTime).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
                           </p>
+
                           <p className="s allerInfo_para">
                             <Link
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}

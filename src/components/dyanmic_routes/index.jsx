@@ -1686,8 +1686,16 @@ const Dynamic_Routes = () => {
                             {itemData.displayName}
                           </p>
                           <p className="sallerInfo_para">
-                            {itemData.creationTime}
+                            {new Date(itemData.creationTime).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
                           </p>
+
                           <p className="s allerInfo_para">
                             <Link
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
