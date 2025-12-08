@@ -67,6 +67,8 @@ import {
   updateDoc,
   query, // Add this
   where, // Add this
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 // import { onAuthStateChanged } from "firebase/auth";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -3565,9 +3567,10 @@ const AutomotiveComp = () => {
   console.log(Model, "Model___________");
   const toggleBookmark = async (carId) => {
     try {
-      // Find the selected car
-      const selectedCar = carsData.find((car) => car.id === carId);
+      const selectedCar = ads.find((car) => car.id === carId) ||
+        carsData.find((car) => car.id === carId);
       if (!selectedCar) return;
+
       const user = auth.currentUser;
       if (!user) {
         setPopoverCarId(carId); // Show popover only for this car
@@ -3575,31 +3578,58 @@ const AutomotiveComp = () => {
         return;
       }
 
-      const userId = user.uid; // Replace with the actual userId you want to filter by
+      const uid = user.uid;
 
-      // Toggle bookmark status
-      const newBookmarkedStatus = !(selectedCar.bookmarked || false);
-
-      // Update local state
-      setBookmarkedCar({ bookmarked: newBookmarkedStatus, id: carId });
-
-      // Update Firestore
       const carDocRef = doc(db, "Cars", carId);
-      await updateDoc(carDocRef, {
-        bookmarked: newBookmarkedStatus,
-        userId: userId,
-      });
+      const docSnap = await getDoc(carDocRef);
 
-      // Update local cars state
-      setCars((prevCars) =>
-        prevCars.map((car) =>
-          car.id === carId ? { ...car, bookmarked: newBookmarkedStatus } : car
-        )
-      );
-      setRefresh(!refresh);
-      console.log(`Car ${carId} bookmarked: ${newBookmarkedStatus}`);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const currentHearted = data.heartedby || [];
+        const alreadyHearted = currentHearted.includes(uid);
+
+        // Update Firestore using array helpers
+        await updateDoc(carDocRef, {
+          heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        });
+
+        // Optimistically update local state so UI is immediate
+        setCars((prevCars) =>
+          prevCars.map((car) =>
+            car.id === carId
+              ? {
+                  ...car,
+                  heartedby: alreadyHearted
+                    ? (car.heartedby || []).filter((id) => id !== uid)
+                    : [...(car.heartedby || []), uid],
+                }
+              : car
+          )
+        );
+        // Also update filteredCars which is used by the rendered list
+        setFilteredCars((prev) =>
+          prev.map((car) =>
+            car.id === carId
+              ? {
+                  ...car,
+                  heartedby: alreadyHearted
+                    ? (car.heartedby || []).filter((id) => id !== uid)
+                    : [...(car.heartedby || []), uid],
+                }
+              : car
+          )
+        );
+
+        // Keep the `refresh` toggle like CommercialAdscom to trigger any
+        // dependent re-fetches elsewhere.
+        
+
+        console.log(
+          `User ${alreadyHearted ? "removed from" : "added to"} heartedby for car ${carId}`
+        );
+      }
     } catch (error) {
-      console.error("Error updating bookmark:", error);
+      console.error("Error updating heartedby for car:", error);
     }
   };
   // const handleCityChange = (selectedOptions) => {
@@ -14261,7 +14291,7 @@ const AutomotiveComp = () => {
 
                       return (
                         <Card
-                          key={index}
+                          key={car.id}
                           style={{
                             padding:
                               window.innerWidth <= 576
@@ -14304,15 +14334,16 @@ const AutomotiveComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={() => toggleBookmark(car.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color:
-                                      car.bookmarked === true &&
-                                      car.userId === userId
-                                        ? "red"
-                                        : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -14644,17 +14675,18 @@ const AutomotiveComp = () => {
                                 fontSize: "30px",
                               }}
                             />{" "} */}
-                                    <FaRegHeart
-                                      onClick={() => toggleBookmark(car.id)}
-                                      style={{
-                                        color:
-                                          car.bookmarked === true &&
-                                          car.userId === userId
+                                      <FaRegHeart
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleBookmark(car.id);
+                                        }}
+                                        style={{
+                                          color: car.heartedby?.includes(userId)
                                             ? "red"
                                             : "#2D4495",
-                                        fontSize: "20px",
-                                      }}
-                                    />
+                                          fontSize: "20px",
+                                        }}
+                                      />
                                   </button>
                                   {/* Consolidated styles for all buttons */}
                                   <style jsx>{`

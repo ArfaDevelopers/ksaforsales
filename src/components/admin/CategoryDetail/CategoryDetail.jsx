@@ -70,7 +70,7 @@ const CategoryDetail = () => {
     return searchParams.get(param);
   };
   const link = getQueryParam("link") || window.location.href;
-  
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(link);
     alert("Link copied to clipboard!");
@@ -330,11 +330,20 @@ const CategoryDetail = () => {
       console.error("Error updating document:", error);
     }
   };
+const [isHeartedUI, setIsHeartedUI] = useState(false);
+
+useEffect(() => {
+  setIsHeartedUI(categories?.heartedby?.includes(userClickedId));
+}, [categories, userClickedId]);
+
   const favoritiesadded = async (itemId) => {
-    // console.log("favoritiesadded called with itemId:", itemId);
     const userClickedId = auth.currentUser?.uid;
     if (!userClickedId) return;
 
+    // 🔥 1. INSTANT UI update (no wait)
+    setIsHeartedUI((prev) => !prev);
+
+    // 🔥 2. Firestore update in background
     try {
       const docRef = doc(db, "CommercialAdscom", id);
       const docSnap = await getDoc(docRef);
@@ -350,18 +359,17 @@ const CategoryDetail = () => {
             ? arrayRemove(userClickedId)
             : arrayUnion(userClickedId),
         });
-        setRefresh(!refresh); // force re-fetch if needed
-
-        console.log(
-          `User ${
-            isAlreadyHearted ? "removed from" : "added to"
-          } heartedby for item ${itemId}`
-        );
       }
     } catch (error) {
-      console.error("Error updating heartedby field:", error);
+      console.error("Error updating heart:", error);
+
+      // ❗ If failed, revert the UI
+      setIsHeartedUI((prev) => !prev);
     }
   };
+
+
+
   useEffect(() => {
     const trackUserVisit = async () => {
       const user = auth.currentUser?.uid;
@@ -509,7 +517,7 @@ const CategoryDetail = () => {
         </Container>
         <div
           className="report_main_btn_wrap"
-          // to="/bookmarks"
+        // to="/bookmarks"
         >
           <button
             className="head2btn"
@@ -522,12 +530,11 @@ const CategoryDetail = () => {
             }}
             onClick={(e) => {
               e.stopPropagation();
-              favoritiesadded(categories.id); // Call your function with the clicked categories's ID
+              favoritiesadded(categories.id);
             }}
           >
             <span>
-              {/* <img src={left} alt="leftarrow" /> */}
-              {categories.heartedby?.includes(userClickedId) ? (
+              {isHeartedUI ? (
                 <FaHeart
                   style={{
                     fontSize: "20px",
@@ -547,6 +554,7 @@ const CategoryDetail = () => {
             </span>{" "}
             Favourite
           </button>
+
           <>
             {/* Button to open modal */}
             <button
@@ -790,8 +798,8 @@ const CategoryDetail = () => {
                   e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
                   e.currentTarget.style.color = "#fff"; // Restore same text color
                 }}
-                // disabled={!reportText || selectedReports.length === 0}
-                // disabled={selectedReports.length === 0}
+              // disabled={!reportText || selectedReports.length === 0}
+              // disabled={selectedReports.length === 0}
               >
                 Submit Report
               </Button>
@@ -856,17 +864,17 @@ const CategoryDetail = () => {
                     fontSize: "1.4rem",
                     color: "black",
                   }}
-                  // width="24px"
+                // width="24px"
 
-                  // style={{ marginTop: "-1.5rem" }}
-                  //   height="24px"
-                  //   viewBox="0 0 24 24"
-                  //   fill="none"
-                  //   xmlns="http://www.w3.org/2000/svg"
-                  // >
-                  //   <path
-                  //     d="M11.293 2.293a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.414L13 5.414V15a1 1 0 1 1-2 0V5.414L9.707 6.707a1 1 0 0 1-1.414-1.414l3-3zM4 11a2 2 0 0 1 2-2h2a1 1 0 0 1 0 2H6v9h12v-9h-2a1 1 0 1 1 0-2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9z"
-                  //     fill="#0D0D0D"
+                // style={{ marginTop: "-1.5rem" }}
+                //   height="24px"
+                //   viewBox="0 0 24 24"
+                //   fill="none"
+                //   xmlns="http://www.w3.org/2000/svg"
+                // >
+                //   <path
+                //     d="M11.293 2.293a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.414L13 5.414V15a1 1 0 1 1-2 0V5.414L9.707 6.707a1 1 0 0 1-1.414-1.414l3-3zM4 11a2 2 0 0 1 2-2h2a1 1 0 0 1 0 2H6v9h12v-9h-2a1 1 0 1 1 0-2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9z"
+                //     fill="#0D0D0D"
                 />
                 {/* </svg> */}
               </div>
@@ -966,8 +974,8 @@ const CategoryDetail = () => {
                 <button
                   className="d-flex align-items-center blue_btn list_btn categories"
                   onClick={handleOpenWhatsapp}
-                  // onMouseEnter={handleWhatsappMouseEnter}
-                  // onMouseLeave={handleWhatsappMouseLeave}
+                // onMouseEnter={handleWhatsappMouseEnter}
+                // onMouseLeave={handleWhatsappMouseLeave}
                 >
                   <FaWhatsapp />
                   <span>WhatsApp</span>
@@ -981,19 +989,17 @@ const CategoryDetail = () => {
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    favoritiesadded(categories.id); // Call your function with the clicked categories's ID
+                    favoritiesadded(categories.id);
                   }}
                 >
                   <FaHeart
                     style={{
                       fontSize: "1.5rem",
-                      // color: "#2d4495",
-                      color: categories.heartedby?.includes(userClickedId)
-                        ? "red"
-                        : "#2d4495",
+                      color: isHeartedUI ? "red" : "#2d4495",
                     }}
                   />
                 </Button>
+
               </div>
             </div>
           </div>

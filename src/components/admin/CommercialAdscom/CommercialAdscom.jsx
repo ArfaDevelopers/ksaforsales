@@ -22,8 +22,16 @@ import { FaRegHeart } from "react-icons/fa";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams, useLocation } from "react-router";
-import { FaPhone, FaWhatsapp, FaShareAlt, FaCopy } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaFacebook,
+  FaPhone,
+  FaWhatsapp,
+  FaShareAlt,
+  FaCopy,
+} from "react-icons/fa";
 import { FaLink } from "react-icons/fa";
+import { IoShare } from "react-icons/io5";
 
 import {
   getDocs,
@@ -54,6 +62,9 @@ const CommercialAdscom = () => {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
   const [reportText, setReportText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [uniqueCategories, setUniqueCategories] = useState([]);
+
   const [reportTypes, setReportTypes] = useState([
     "Sexual",
     "Illegal",
@@ -316,21 +327,37 @@ const CommercialAdscom = () => {
       console.error("Error updating document:", error);
     }
   };
+
   useEffect(() => {
     const fetchCars = async () => {
       try {
         const response = await axios.get(
           "http://168.231.80.24:9002/route/commercial-ads"
         );
+
         setCategories(response.data);
-        console.log(response.data, "userClickedId__________contentapi");
+        const categoryCountMap = response.data.reduce((acc, item) => {
+          const category = item.Title;
+          acc[category] = (acc[category] || 0) + 1;
+          return acc;
+        }, {});
+
+        const uniqueSorted = Object.keys(categoryCountMap)
+          .sort()
+          .map((cat) => ({
+            name: cat,
+            count: categoryCountMap[cat],
+          }));
+
+        setUniqueCategories(uniqueSorted);
       } catch (error) {
-        console.error("Error getting cars:", error);
+        console.error("Error fetching ads:", error);
       }
     };
 
     fetchCars();
   }, [refresh]);
+
   // Calculate total pages
   const totalPages = Math.ceil(categories.length / ITEMS_PER_PAGE);
 
@@ -496,6 +523,7 @@ const CommercialAdscom = () => {
       color: "black",
     });
   };
+
   return (
     <>
       <section
@@ -522,7 +550,7 @@ const CommercialAdscom = () => {
                     background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                     fontWeight: "500",
                     padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => navigate("/")}
                 >
@@ -537,7 +565,7 @@ const CommercialAdscom = () => {
                     background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
                     fontWeight: "500",
                     padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => navigate("/CommercialAdscom")}
                 >
@@ -545,6 +573,163 @@ const CommercialAdscom = () => {
                 </button>
               </div>
             </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "15px",
+                justifyContent: "space-between",
+                marginBottom: "1rem",
+                alignItems:"center",
+              }}
+            >
+              {/* Share Button */}
+              <button
+                className="head2btn"
+                onClick={() => setShowModal1(true)}
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #2D4495",
+                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  textAlign: "center",
+                  width: window.innerWidth <= 576 ? "47%" : "auto",
+                }}
+              >
+                <span>
+                  <IoShare
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      marginRight: "5px",
+                      color: "black",
+                    }}
+                  />
+                </span>
+                Share
+              </button>
+
+              {/* Category Dropdown (use Bootstrap Form.Select for consistent style) */}
+              <Form.Select
+                aria-label="Category options"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className=""
+                style={{ width: window.innerWidth <= 576 ? "47%" : "220px" }}
+              >
+                <option value="All">All Categories</option>
+
+                {uniqueCategories.map((catObj, index) => (
+                  <option key={index} value={catObj.name}>
+                    {catObj.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </div>
+
+            {showModal1 && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  zIndex: 1050,
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Share</h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        onClick={() => setShowModal1(false)}
+                      ></button>
+                    </div>
+
+                    <div className="modal-body">
+                      <div style={{ wordBreak: "break-all" }}>{link}</div>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "15px",
+                          marginTop: "15px",
+                        }}
+                      >
+                        {/* Facebook Share */}
+                        <FaFacebook
+                          size={32}
+                          color="#3b5998"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            window.open(
+                              `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                link
+                              )}`,
+                              "_blank"
+                            )
+                          }
+                        />
+
+                        {/* Facebook Share */}
+                        <FaWhatsapp
+                          size={32}
+                          color="#25D366"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            window.open(
+                              `https://wa.me/?text=${encodeURIComponent(link)}`,
+                              "_blank"
+                            )
+                          }
+                        />
+                        {/* Instagram - opens Instagram app on mobile */}
+                        <FaInstagram
+                          size={32}
+                          color="#C13584"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                              window.location.href = `instagram://share?text=${encodeURIComponent(
+                                link
+                              )}`;
+                            } else {
+                              alert(
+                                "Instagram sharing is only available on mobile apps. Link copied!"
+                              );
+                              navigator.clipboard.writeText(link);
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="blue_btn"
+                        onClick={copyToClipboard}
+                      >
+                        Copy
+                      </button>
+                      <button
+                        type="button"
+                        className="blue_btn"
+                        onClick={() => setShowModal1(false)}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* <hr /> */}
@@ -552,6 +737,7 @@ const CommercialAdscom = () => {
           <h1
             style={{
               marginBottom: "20px",
+              marginTop: "5px",
             }}
           >
             Commercial Ads
@@ -647,142 +833,151 @@ const CommercialAdscom = () => {
           </Modal>
           <Container className="p-0">
             <Row className="g-4">
-              {categories.map((item) => (
-                <Col key={item.id} xxl={3} xl={4} md={6} sm={6}>
-                  <Card
-                    className="shadow-lg"
-                    onClick={() => {
-                      navigate(`/CategoryDetail/${item.id}`);
-                    }}
-                    style={{
-                      cursor: "pointer",
-                      padding: "20px",
-                    }}
-                  >
-                    <div
+              {categories
+                .filter((item) =>
+                  selectedCategory === "All"
+                    ? true
+                    : item.Title === selectedCategory
+                )
+
+                .map((item) => (
+                  <Col key={item.id} xxl={3} xl={4} md={6} sm={6}>
+                    <Card
+                      className="shadow-lg"
+                      onClick={() => {
+                        navigate(`/CategoryDetail/${item.id}`);
+                      }}
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%", // Use full width or adjust as needed
-                        marginBottom: "5px",
+                        cursor: "pointer",
+                        padding: "20px",
                       }}
                     >
-                      {/* Left Side - Views */}
-                      <div className="d-flex gap-2 align-items-center">
-                        <FaRegEye />
-                        <span style={{ fontWeight: "bold", fontSize: "15px" }}>
-                          {item?.visitCount}
-                          <span style={{ marginLeft: "3px" }}>Views</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "100%", // Use full width or adjust as needed
+                          marginBottom: "5px",
+                        }}
+                      >
+                        {/* Left Side - Views */}
+                        <div className="d-flex gap-2 align-items-center">
+                          <FaRegEye />
+                          <span
+                            style={{ fontWeight: "bold", fontSize: "15px" }}
+                          >
+                            {item?.visitCount}
+                            <span style={{ marginLeft: "3px" }}>Views</span>
+                          </span>
+                        </div>
+
+                        {/* Right Side - Share Icon */}
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                          }}
+                          onClick={(e) => handleShareClick(e, item.id)}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "40px",
+                              height: "40px",
+                              backgroundColor: "#f7f8fa",
+                              color: "var(--shades_0)",
+                              border: "none",
+                              borderRadius: "50%",
+                            }}
+                          >
+                            <MdIosShare
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "1.4rem",
+                                color: "black",
+                              }}
+                            />
+                          </div>
                         </span>
                       </div>
 
-                      {/* Right Side - Share Icon */}
-                      <span
+                      <Card.Img
+                        variant="top"
+                        src={item.image}
+                        alt={item.title}
                         style={{
-                          fontWeight: "bold",
-                          cursor: "pointer",
+                          height: "350px",
+                          objectFit: "cover",
+                          width: "100%",
                         }}
-                        onClick={(e) => handleShareClick(e, item.id)}
+                      />
+                      <Card.Body
+                        style={{
+                          paddingBottom: "0",
+                          paddingLeft: "0",
+                          paddingRight: "0",
+                        }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: "40px",
-                            height: "40px",
-                            backgroundColor: "#f7f8fa",
-                            color: "var(--shades_0)",
-                            border: "none",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <MdIosShare
-                            style={{
-                              fontWeight: "bold",
-                              fontSize: "1.4rem",
-                              color: "black",
+                        <div className="d-flex justify-content-between gap-1 mt-1">
+                          <button
+                            className="d-flex align-items-center blue_btn list_btn categories"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowselectedPhone(item.phone);
+                              setSelectedPhone(item.phone);
                             }}
-                          />
+                          >
+                            <FaPhoneAlt
+                              style={{
+                                fontSize: "0.8rem",
+                                color: "#fff",
+                              }}
+                              // className="fill-white text-white mt-1"
+                            />
+                            <span>Call</span>
+                          </button>
+
+                          <button
+                            className="d-flex align-items-center blue_btn list_btn categories"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShowWhatsApp(item.phone);
+                              setSelectedPhone(item.phone);
+                            }}
+                          >
+                            <FaWhatsapp />
+                            <span>WhatsApp</span>
+                          </button>
+                          <Button
+                            variant="primary"
+                            className="d-flex align-items-center gap-1 bg-white"
+                            style={{
+                              transition: "all 0.2s ease",
+                              padding: "0.375rem 0.75rem",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              favoritiesadded(item.id); // Call your function with the clicked item's ID
+                            }}
+                          >
+                            <FaHeart
+                              style={{
+                                fontSize: "1.5rem",
+                                // color: "#2d4495",
+                                color: item.heartedby?.includes(userClickedId)
+                                  ? "red"
+                                  : "#2d4495",
+                              }}
+                            />
+                          </Button>
                         </div>
-                      </span>
-                    </div>
-
-                    <Card.Img
-                      variant="top"
-                      src={item.image}
-                      alt={item.title}
-                      style={{
-                        height: "350px",
-                        objectFit: "cover",
-                        width: "100%",
-                      }}
-                    />
-                    <Card.Body
-                      style={{
-                        paddingBottom: "0",
-                        paddingLeft: "0",
-                        paddingRight: "0",
-                      }}
-                    >
-                      <div className="d-flex justify-content-between gap-1 mt-1">
-                        <button
-                          className="d-flex align-items-center blue_btn list_btn categories"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShowselectedPhone(item.phone);
-                            setSelectedPhone(item.phone);
-                          }}
-                        >
-                          <FaPhoneAlt
-                            style={{
-                              fontSize: "0.8rem",
-                              color: "#fff",
-                            }}
-                            // className="fill-white text-white mt-1"
-                          />
-                          <span>Call</span>
-                        </button>
-
-                        <button
-                          className="d-flex align-items-center blue_btn list_btn categories"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShowWhatsApp(item.phone);
-                            setSelectedPhone(item.phone);
-                          }}
-                        >
-                          <FaWhatsapp />
-                          <span>WhatsApp</span>
-                        </button>
-                        <Button
-                          variant="primary"
-                          className="d-flex align-items-center gap-1 bg-white"
-                          style={{
-                            transition: "all 0.2s ease",
-                            padding: "0.375rem 0.75rem",
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            favoritiesadded(item.id); // Call your function with the clicked item's ID
-                          }}
-                        >
-                          <FaHeart
-                            style={{
-                              fontSize: "1.5rem",
-                              // color: "#2d4495",
-                              color: item.heartedby?.includes(userClickedId)
-                                ? "red"
-                                : "#2d4495",
-                            }}
-                          />
-                        </Button>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
             </Row>
           </Container>
 
