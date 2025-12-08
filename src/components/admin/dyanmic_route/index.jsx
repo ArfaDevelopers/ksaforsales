@@ -42,6 +42,8 @@ import {
   doc,
   updateDoc,
   onSnapshot,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
@@ -84,6 +86,14 @@ const Dynamic_Route = () => {
   const link = getQueryParam("link") || window.location.href;
   const handleFavourite = async (id, category) => {
     try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.warn("User not authenticated");
+        return;
+      }
+
+      const uid = user.uid;
+
       // 🔁 Map category to actual Firestore collection name
       const collectionMap = {
         Motors: "Cars",
@@ -112,18 +122,31 @@ const Dynamic_Route = () => {
       }
 
       const currentData = docSnap.data();
-      const currentBookmarkStatus = currentData.bookmarked || false;
+      const currentHeartedBy = currentData.heartedby || [];
+      const alreadyHearted = currentHeartedBy.includes(uid);
 
-      // ✅ Toggle the bookmark field
+      // ✅ Update Firestore with heartedby array
       await updateDoc(docRef, {
-        bookmarked: !currentBookmarkStatus,
+        heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
       });
-      setRefresh(!refresh);
+
+      // 📱 Optimistically update local state
+      setItemData((prev) =>
+        prev
+          ? {
+              ...prev,
+              heartedby: alreadyHearted
+                ? (prev.heartedby || []).filter((id) => id !== uid)
+                : [...(prev.heartedby || []), uid],
+            }
+          : prev
+      );
+
       console.log(
-        `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${id} in ${firestoreCollection}`
       );
     } catch (error) {
-      console.error("❌ Error toggling bookmark:", error);
+      console.error("❌ Error toggling heartedby:", error);
     }
   };
   useEffect(() => {
@@ -421,7 +444,7 @@ const Dynamic_Route = () => {
     };
 
     fetchChatIdAndMessages();
-  }, [refresh, itemData?.userId, refresh, userId]);
+  }, [itemData?.userId, userId]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -846,10 +869,23 @@ const Dynamic_Route = () => {
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
-              onClick={() => handleFavourite(itemData?.id, itemData?.category)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleFavourite(itemData?.id, itemData?.category);
+              }}
             >
-              <span style={{ color: itemData?.bookmarked ? "red" : "gray" }}>
-                {itemData?.bookmarked ? <FaHeart /> : <FaRegHeart />}
+              <span
+                style={{
+                  color: itemData?.heartedby?.includes(auth.currentUser?.uid)
+                    ? "red"
+                    : "gray",
+                }}
+              >
+                {itemData?.heartedby?.includes(auth.currentUser?.uid) ? (
+                  <FaHeart />
+                ) : (
+                  <FaRegHeart />
+                )}
               </span>{" "}
               Favourite
             </button>

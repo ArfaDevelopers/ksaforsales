@@ -58,6 +58,8 @@ import {
   updateDoc,
   getDoc,
   setDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
@@ -1445,40 +1447,59 @@ const Education = () => {
   };
   const toggleBookmark = async (carId) => {
     try {
-      // Find the selected car
+      const user = auth.currentUser;
+      if (!user) {
+        setPopoverCarId(carId);
+        setTimeout(() => setPopoverCarId(null), 3000);
+        return;
+      }
+
+      const uid = user.uid;
       const selectedCar = carsData.find((car) => car.id === carId);
       if (!selectedCar) return;
 
-      // Toggle bookmark status
-      const newBookmarkedStatus = !(selectedCar.bookmarked || false);
+      const currentHeartedBy = selectedCar.heartedby || [];
+      const alreadyHearted = currentHeartedBy.includes(uid);
 
-      // Update local state
-      setBookmarkedCar({ bookmarked: newBookmarkedStatus, id: carId });
-      const user = auth.currentUser;
-      if (!user) {
-        setPopoverCarId(carId); // Show popover only for this car
-        setTimeout(() => setPopoverCarId(null), 3000); // Hide after 3 seconds
-        return;
-      }
-      const userId = user.uid;
-      // Update Firestore
+      // Update Firestore with heartedby array
       const carDocRef = doc(db, "Education", carId);
       await updateDoc(carDocRef, {
-        bookmarked: newBookmarkedStatus,
-        userId: userId,
+        heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
       });
 
-      // Update local cars state
+      // Optimistically update local state
       setCars((prevCars) =>
         prevCars.map((car) =>
-          car.id === carId ? { ...car, bookmarked: newBookmarkedStatus } : car
+          car.id === carId
+            ? {
+                ...car,
+                heartedby: alreadyHearted
+                  ? (car.heartedby || []).filter((id) => id !== uid)
+                  : [...(car.heartedby || []), uid],
+              }
+            : car
         )
       );
-      setRefresh(!refresh);
 
-      console.log(`Car ${carId} bookmarked: ${newBookmarkedStatus}`);
+      // Also update filteredCars which is used by the rendered list
+      setFilteredCars((prev) =>
+        prev.map((car) =>
+          car.id === carId
+            ? {
+                ...car,
+                heartedby: alreadyHearted
+                  ? (car.heartedby || []).filter((id) => id !== uid)
+                  : [...(car.heartedby || []), uid],
+              }
+            : car
+        )
+      );
+
+      console.log(
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+      );
     } catch (error) {
-      console.error("Error updating bookmark:", error);
+      console.error("❌ Error toggling heartedby:", error);
     }
   };
 
@@ -3470,15 +3491,11 @@ const Education = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={() => toggleBookmark(car.id)}
+                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
                               >
                                 <FaHeart
                                   style={{
-                                    color:
-                                      car.bookmarked === true &&
-                                      car.userId === userId
-                                        ? "red"
-                                        : "gray",
+                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -3816,13 +3833,9 @@ const Education = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={() => toggleBookmark(car.id)}
+                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
                                       style={{
-                                        color:
-                                          car.bookmarked === true &&
-                                          car.userId === userId
-                                            ? "red"
-                                            : "#2D4495",
+                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

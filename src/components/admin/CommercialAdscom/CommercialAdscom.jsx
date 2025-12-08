@@ -606,8 +606,7 @@ const CommercialAdscom = () => {
                 </span>
                 Share
               </button>
-
-              {/* Category Dropdown (use Bootstrap Form.Select for consistent style) */}
+              
               <Form.Select
                 aria-label="Category options"
                 value={selectedCategory}
