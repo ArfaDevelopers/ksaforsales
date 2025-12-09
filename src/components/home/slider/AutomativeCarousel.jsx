@@ -2,11 +2,12 @@ import React, { useRef, useState, useEffect } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { getSubcategoriesByName } from "../../../utils/categoriesData";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -42,11 +43,20 @@ function timeAgo(timestamp) {
   return "Just now";
 }
 export default function AutomativeCarousel() {
+  const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [subcategories, setSubcategories] = useState([]);
+  const [activeSubcategory, setActiveSubcategory] = useState("Cars For Sale");
 
-  // Fetch ads from Firestore
+  // Fetch subcategories
+  useEffect(() => {
+    const cats = getSubcategoriesByName("Automotive");
+    setSubcategories(cats);
+  }, []);
+
+  // Fetch ads from API
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -184,13 +194,66 @@ export default function AutomativeCarousel() {
             className="feature-section-info"
             // style={{ marginTop: "-0.5rem" }}
           >
-            <ul className="info-list">
-              <li className="active">Car For Sales</li>
-              <li>Car For Sales</li>
-              <li>Car For Sales</li>
-              {/* <li>Car For Sales</li> */}
-              {/* <li>Car For Sales</li> */}
+            <ul className="info-list" style={{
+              display: "flex",
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              scrollBehavior: "smooth",
+              paddingBottom: "8px",
+              gap: "10px",
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "thin",
+              scrollbarColor: "#ddd #f5f5f5"
+            }}>
+              {subcategories.map((sub, index) => (
+                <li
+                  key={index}
+                  className={activeSubcategory === sub.name ? "active" : ""}
+                  onClick={() => {
+                    setActiveSubcategory(sub.name);
+                    navigate(sub.path);
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    padding: "8px 16px",
+                    borderBottom: activeSubcategory === sub.name ? "3px solid #2563eb" : "3px solid transparent",
+                    flexShrink: 0,
+                    transition: "all 0.3s ease",
+                    fontSize: "14px",
+                    color: activeSubcategory === sub.name ? "#2563eb" : "#666",
+                    fontWeight: activeSubcategory === sub.name ? "600" : "500"
+                  }}
+                  onMouseEnter={(e) => {
+                    if (activeSubcategory !== sub.name) {
+                      e.target.style.color = "#2563eb";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeSubcategory !== sub.name) {
+                      e.target.style.color = "#666";
+                    }
+                  }}
+                >
+                  {sub.name}
+                </li>
+              ))}
             </ul>
+            <style>{`
+              .info-list::-webkit-scrollbar {
+                height: 4px;
+              }
+              .info-list::-webkit-scrollbar-track {
+                background: #f5f5f5;
+                borderRadius: 10px;
+              }
+              .info-list::-webkit-scrollbar-thumb {
+                background: #ddd;
+                borderRadius: 10px;
+              }
+              .info-list::-webkit-scrollbar-thumb:hover {
+                background: #999;
+              }
+            `}</style>
           </div>
 
           {/* <div className="featureline">
