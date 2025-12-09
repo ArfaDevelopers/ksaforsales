@@ -232,6 +232,17 @@ const ServiceDetails = () => {
     return value || "N/A";
   };
 
+  // Compute a valid WhatsApp URL (clean digits, remove plus/signs). Returns null if not available.
+  const getWhatsappUrl = () => {
+    const raw = itemData?.whatsapp || itemData?.Phone;
+    if (!raw) return null;
+    // Keep only digits
+    const digits = raw.toString().replace(/\D/g, "");
+    if (!digits) return null;
+    return `https://wa.me/${digits}`;
+  };
+  const whatsappUrl = getWhatsappUrl();
+
   // Handle loading and error states
   if (loading) {
     return (
@@ -371,20 +382,24 @@ const ServiceDetails = () => {
                     </button>
                   </a>
 
-                  <a
-                    href={`https://wa.me/${itemData.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  {whatsappUrl ? (
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                      <button
+                        className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
+                      >
+                        <FaWhatsapp />
+                        <span className="button-text">WhatsApp</span>
+                      </button>
+                    </a>
+                  ) : (
                     <button
-                      className={`sign-in-button ${
-                        showPhone ? "icon-only" : ""
-                      }`}
+                      className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
+                      onClick={() => alert("WhatsApp number not available")}
                     >
                       <FaWhatsapp />
                       <span className="button-text">WhatsApp</span>
                     </button>
-                  </a>
+                  )}
 
                   <button
                     className={`sign-in-button ${showPhone ? "icon-only" : ""}`}

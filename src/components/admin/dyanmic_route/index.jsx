@@ -89,6 +89,14 @@ const Dynamic_Route = () => {
   const [refresh, setRefresh] = useState(false);
 
   const link = getQueryParam("link") || window.location.href;
+  // Compute a valid WhatsApp URL from itemData (clean digits). Returns null if not available.
+  const getWhatsappUrl = (data) => {
+    const raw = data?.whatsapp || data?.Phone;
+    if (!raw) return null;
+    const digits = raw.toString().replace(/\D/g, "");
+    if (!digits) return null;
+    return `https://wa.me/${digits}`;
+  };
   const handleFavourite = async (id, category) => {
     try {
       const user = auth.currentUser;
@@ -256,10 +264,38 @@ const Dynamic_Route = () => {
   const [chatId, setChatId] = useState("");
   //  const [userId, setUserId] = useState(null);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(link);
-    alert("Link copied to clipboard!");
-  };
+const copyToClipboard = () => {
+  if (navigator.clipboard && window.isSecureContext) {
+    // Secure context (HTTPS or localhost)
+    navigator.clipboard.writeText(link)
+      .then(() => alert("Link copied to clipboard!"))
+      .catch((err) => console.error("Failed to copy: ", err));
+  } else {
+    // Fallback for insecure context (HTTP)
+    const textArea = document.createElement("textarea");
+    textArea.value = link;
+    textArea.style.position = "fixed";  // prevent scrolling
+    textArea.style.left = "-99999px";   // hide it off-screen
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        alert("Link copied to clipboard!");
+      } else {
+        alert("Failed to copy link");
+      }
+    } catch (err) {
+      console.error("Fallback copy failed: ", err);
+    }
+
+    document.body.removeChild(textArea);
+  }
+};
+
+
   const user1 = auth.currentUser;
   const userId = user1?.uid;
   const collectionName1 =
@@ -1020,6 +1056,7 @@ const Dynamic_Route = () => {
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </>
               )}
@@ -1337,22 +1374,27 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button
+                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      onClick={() => alert("WhatsApp number not available")}
+                                    >
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -1739,22 +1781,27 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button
+                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      onClick={() => alert("WhatsApp number not available")}
+                                    >
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -2139,22 +2186,27 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button
+                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      onClick={() => alert("WhatsApp number not available")}
+                                    >
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -2539,22 +2591,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -2939,22 +2991,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -3339,22 +3391,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -3739,22 +3791,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -4139,22 +4191,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -4539,22 +4591,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -4939,22 +4991,22 @@ const Dynamic_Route = () => {
                               {itemData.showNumberChecked ? (
                                 ""
                               ) : (
-                                <a
-                                  href={`https://wa.me/${itemData.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      showPhone ? "icon-only" : ""
-                                    }`}
-                                  >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      WhatsApp
-                                    </span>
-                                  </button>
-                                </a>
+                                (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                        <FaWhatsapp />
+                                        <span className="button-text">WhatsApp</span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  );
+                                })()
                               )}
                               <button
                                 className={`blue_btn list_btn ${
@@ -5335,9 +5387,10 @@ const Dynamic_Route = () => {
 
                           <p className="s allerInfo_para">
                             <Link
+                              className="view-all-ads-link"
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                             >
-                              View all Ads
+                              View All Ads
                             </Link>
                           </p>
                         </div>
@@ -5368,20 +5421,22 @@ const Dynamic_Route = () => {
                             {itemData.showNumberChecked ? (
                               ""
                             ) : (
-                              <a
-                                href={`https://wa.me/${itemData.whatsapp}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <button
-                                  className={`blue_btn list_btn ${
-                                    showPhone ? "icon-only" : ""
-                                  }`}
-                                >
-                                  <FaWhatsapp />
-                                  <span className="button-text">WhatsApp</span>
-                                </button>
-                              </a>
+                              (() => {
+                                const whatsappUrl = getWhatsappUrl(itemData);
+                                return whatsappUrl ? (
+                                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                                      <FaWhatsapp />
+                                      <span className="button-text">WhatsApp</span>
+                                    </button>
+                                  </a>
+                                ) : (
+                                  <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
+                                    <FaWhatsapp />
+                                    <span className="button-text">WhatsApp</span>
+                                  </button>
+                                );
+                              })()
                             )}
                             <button
                               className={`blue_btn list_btn ${

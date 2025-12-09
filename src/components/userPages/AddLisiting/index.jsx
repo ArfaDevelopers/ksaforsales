@@ -292,12 +292,22 @@ const AddLisiting = () => {
           const userData = docSnap.data();
           console.log("User data:", userData);
 
-          // ✅ Set phone number and photoURL into state
+          // Populate common seller fields from user profile (use fallbacks)
           setFormData((prev) => ({
             ...prev,
-            Phone: userData.phoneNumber || "",
+            Phone: userData.phoneNumber || userData.phone || prev.Phone || "",
+            Email: userData.email || prev.Email || "",
+            City: userData.city || userData.City || prev.City || "",
+            location: userData.location || prev.location || "",
+            address: userData.address || prev.address || prev.mapAddress || "",
+            mapAddress: userData.mapAddress || prev.mapAddress || userData.address || "",
+            latitude: userData.latitude || prev.latitude || "",
+            longitude: userData.longitude || prev.longitude || "",
+            whatsapp: userData.whatsapp || userData.phoneNumber || prev.whatsapp || "",
           }));
-          // setphotoURL(userData.photoURL || "");
+          // Update display fields too
+          setphotoURL(userData.photoURL || userData.photoURL || "");
+          setdisplayName(userData.displayName || userData.name || displayName);
         } else {
           console.log("No such user document!");
           setError("No such user!");

@@ -1698,6 +1698,7 @@ const Dynamic_Routes = () => {
 
                           <p className="s allerInfo_para">
                             <Link
+                             className="view-all-ads-link"
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                             >
                               View all Ads
