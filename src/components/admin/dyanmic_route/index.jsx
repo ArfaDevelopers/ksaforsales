@@ -58,6 +58,100 @@ import { Container, Row, Col, Card, ButtonGroup, Badge } from "react-bootstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { io } from "socket.io-client";
 import axios from "axios";
+
+// City coordinates mapping for Saudi Arabia cities
+const cityCoordinates = {
+  "Riyadh": { lat: 24.7136, lng: 46.6753 },
+  "Jeddah": { lat: 21.5433, lng: 39.1727 },
+  "Mecca": { lat: 21.4225, lng: 39.8261 },
+  "Medina": { lat: 24.4673, lng: 39.6061 },
+  "Dammam": { lat: 26.4124, lng: 50.1971 },
+  "Khobar": { lat: 26.2167, lng: 50.2 },
+  "Dhahran": { lat: 26.2833, lng: 50.1833 },
+  "Abha": { lat: 18.2155, lng: 42.5054 },
+  "Taif": { lat: 21.2716, lng: 40.4129 },
+  "Tabuk": { lat: 28.3896, lng: 36.5624 },
+  "Hail": { lat: 27.5373, lng: 41.7208 },
+  "Sakaka": { lat: 29.9697, lng: 40.2064 },
+  "Buraydah": { lat: 26.3263, lng: 43.975 },
+  "Yanbu": { lat: 24.0889, lng: 38.0711 },
+  "Gizan": { lat: 16.8988, lng: 42.5805 },
+  "Najran": { lat: 17.4931, lng: 44.1260 },
+};
+
+// LocationMap Component using Dynamic Map Image
+const LocationMap = ({ city, district }) => {
+  console.log("LocationMap Rendered - City:", city, "District:", district);
+  
+  if (!city) {
+    return (
+      <div style={{
+        width: "100%",
+        height: "300px",
+        borderRadius: "10px",
+        backgroundColor: "#f0f0f0",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "1px solid #e9ecef",
+        flexDirection: "column",
+      }}>
+        <p>No location data available</p>
+      </div>
+    );
+  }
+
+  const coords = cityCoordinates[city] || { lat: 24.7136, lng: 46.6753 };
+  console.log("Using coordinates for", city, ":", coords);
+  const padding = 0.05;
+  const bbox = `${coords.lng - padding},${coords.lat - padding},${coords.lng + padding},${coords.lat + padding}`;
+  
+  // Dynamic URL for each city
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${coords.lat},${coords.lng}`;
+  console.log("Map URL:", mapUrl);
+  
+  return (
+    <div style={{
+      width: "100%",
+      borderRadius: "10px",
+      overflow: "hidden",
+      border: "1px solid #e9ecef",
+      backgroundColor: "#e9ecef",
+      position: "relative",
+    }}>
+      <div style={{ position: "relative", paddingBottom: "66.67%", height: 0, overflow: "hidden" }}>
+        <iframe
+          key={`map-${city}`}
+          width="100%"
+          height="300"
+          frameBorder="0"
+          title={`Map of ${city}, ${district || ""}`}
+          src={mapUrl}
+          style={{ 
+            border: "none",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
+      <div style={{
+        padding: "10px",
+        backgroundColor: "#f8f9fa",
+        fontSize: "14px",
+        fontWeight: "500",
+        borderTop: "1px solid #e9ecef",
+      }}>
+        {city}{district ? `, ${district}` : ""}
+      </div>
+    </div>
+  );
+};
 import Chat from "./upperHeader/Chat";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "../../../components/userPages/AddLisiting/PaymentForm";
@@ -89,6 +183,9 @@ const Dynamic_Route = () => {
   const [refresh, setRefresh] = useState(false);
 
   const link = getQueryParam("link") || window.location.href;
+  
+  // Track the current URL to detect changes
+  const [currentUrl, setCurrentUrl] = useState(location.search);
   // Compute a valid WhatsApp URL from itemData (clean digits). Returns null if not available.
   const getWhatsappUrl = (data) => {
     const raw = data?.whatsapp || data?.Phone;
@@ -166,15 +263,27 @@ const Dynamic_Route = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
+    
+    // Detect URL changes
+    if (location.search !== currentUrl) {
+      console.log("🔄 URL changed from:", currentUrl, "to:", location.search);
+      setCurrentUrl(location.search);
+    }
+  }, [location, currentUrl]);
+  
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
-    console.log("callingFrom______ID:ids", ids);
-    console.log("callingFrom______Calling From:", callingFrom);
-    setCallingFrom(callingFrom);
-    setId(ids);
-  }, [id, location]);
+    console.log("🔍 Extracted from URL - ID:", ids, "CallingFrom:", callingFrom);
+    
+    // Only update if values actually changed
+    if (ids !== _Id || callingFrom !== callingFrom) {
+      console.log("📌 IDs or callingFrom changed, updating state");
+      setItemData(null); // Clear old data
+      setId(ids);
+      setCallingFrom(callingFrom);
+    }
+  }, [currentUrl]); // Depend on currentUrl instead of location.search
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
@@ -294,6 +403,15 @@ const copyToClipboard = () => {
     document.body.removeChild(textArea);
   }
 };
+console.log(
+  "Map Debug →",
+  {
+    id: itemData?.id,
+    latitude: itemData?.latitude,
+    longitude: itemData?.longitude,
+    city: itemData?.City
+  }
+);
 
 
   const user1 = auth.currentUser;
@@ -684,12 +802,15 @@ const copyToClipboard = () => {
   useEffect(() => {
     const fetchItem = async () => {
       setLoading(true);
+      console.log("🚀 Fetching item with ID:", _Id, "Category:", callingFrom);
       try {
         const res = await fetch(
           `http://168.231.80.24:9002/route/getItemById?callingFrom=${callingFrom}&id=${_Id}`
         );
 
         const item = await res.json();
+        console.log("✅ Fetched item:", item);
+        console.log("📍 Item City:", item?.City, "District:", item?.District);
 
         if (item?.id) {
           setItemData({
@@ -700,21 +821,24 @@ const copyToClipboard = () => {
                 })
               : "Unknown time",
           });
-          console.log("dataaa....", item);
+          console.log("✅ ItemData updated with City:", item?.City);
         } else {
+          console.log("❌ No item data returned");
           setItemData(null);
         }
 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching item:", error);
-        // setError("Failed to fetch data");
         setLoading(false);
       }
     };
 
-    if (_Id && callingFrom) fetchItem();
-  }, [_Id, callingFrom, refresh]); // Re-run if `_Id` or `callingFrom` changes
+    if (_Id && callingFrom) {
+      console.log("📌 Effect triggered - _Id:", _Id, "callingFrom:", callingFrom);
+      fetchItem();
+    }
+  }, [_Id, callingFrom]);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -5552,8 +5676,22 @@ const copyToClipboard = () => {
                       </div>
                     </div>
 
-                    <h4 className="mt-2 mb-2">Location </h4>
-                    <button className="location_btn ">{itemData.City} </button>
+<h4 className="mt-2 mb-2">Location</h4>
+
+{!loading && itemData ? (
+  <LocationMap city={itemData?.City} district={itemData?.District} />
+) : loading ? (
+  <div style={{ textAlign: "center", color: "#999", padding: "2rem 0" }}>
+    Loading location...
+  </div>
+) : (
+  <div style={{ textAlign: "center", color: "#888", padding: "2rem 0" }}>
+    No data available
+  </div>
+)}
+
+
+
                   </Card.Body>
                 </Card>
                 <Card
