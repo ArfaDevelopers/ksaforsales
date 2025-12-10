@@ -80,43 +80,43 @@ export const data = [
         nestedSubCategories: [
           {
             name: "Trucks",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Trucks",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Trucks",
           },
           {
             name: "Dump Truck",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Dump Truck",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Dump Truck",
           },
           {
             name: "Wheel Loader",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Wheel Loader",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Wheel Loader",
           },
           {
             name: "Recovery",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Recovery",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Recovery",
           },
           {
             name: "Agricultural Equipment",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Agricultural Equipment",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Agricultural Equipment",
           },
           {
             name: "Crane",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crane",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crane",
           },
           {
             name: "Bulldozer",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Bulldozer",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Bulldozer",
           },
           {
             name: "Crusher",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crusher",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Crusher",
           },
           {
             name: "Excavator",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Excavator",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Excavator",
           },
           {
             name: "Heavy Equipment",
-            path: "/AutomotiveComp?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Heavy Equipment",
+            path: "/motors?subcategory=trucks-and-heavy-machinery&nestedsubcategory=Heavy Equipment",
           },
         ],
       },
