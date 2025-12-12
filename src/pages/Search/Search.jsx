@@ -30,6 +30,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { saudiRegions, fetchCities, fetchDistricts } from "../../utils/locationApi";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,8 +45,6 @@ const Search = () => {
     electronics: "Electronics",
     "fashion-style": "Fashion Style",
     "home-and-furniture": "Home & Furniture",
-    "home-&-furniture": "Home & Furniture",
-    "home-furniture": "Home & Furniture",
     "job-board": "Job Board",
     realestate: "Real Estate",
     "real-estate": "Real Estate",
@@ -154,8 +153,100 @@ const Search = () => {
     age: [],
   });
 
+  // Location filter states
+  const [selectedRegions, setSelectedRegions] = useState([]);
+  const [selectedCities, setSelectedCities] = useState([]);
+  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [loadingDistricts, setLoadingDistricts] = useState(false);
+
+  // Modal states
+  const [showRegionModal, setShowRegionModal] = useState(false);
+  const [showCityModal, setShowCityModal] = useState(false);
+  const [showDistrictModal, setShowDistrictModal] = useState(false);
+  const [searchTermRegion, setSearchTermRegion] = useState("");
+  const [searchTermCity, setSearchTermCity] = useState("");
+  const [searchTermDistrict, setSearchTermDistrict] = useState("");
+
   const parms = useLocation().pathname;
   const navigate = useNavigate();
+
+  // Fetch cities when regions are selected
+  useEffect(() => {
+    const loadCities = async () => {
+      if (selectedRegions.length > 0) {
+        setLoadingCities(true);
+        try {
+          const allCities = await Promise.all(
+            selectedRegions.map(regionId => fetchCities(regionId))
+          );
+          const flattenedCities = allCities.flat();
+          setCities(flattenedCities);
+        } catch (error) {
+          console.error("Error loading cities:", error);
+          setCities([]);
+        } finally {
+          setLoadingCities(false);
+        }
+      } else {
+        setCities([]);
+      }
+    };
+
+    loadCities();
+  }, [selectedRegions]);
+
+  // Fetch districts when cities are selected
+  useEffect(() => {
+    const loadDistricts = async () => {
+      if (selectedCities.length > 0) {
+        setLoadingDistricts(true);
+        try {
+          const allDistricts = await Promise.all(
+            selectedCities.map(city =>
+              fetchDistricts({
+                REGION_ID: city.REGION_ID,
+                CITY_ID: city.CITY_ID,
+              })
+            )
+          );
+          const flattenedDistricts = allDistricts.flat();
+          setDistricts(flattenedDistricts);
+        } catch (error) {
+          console.error("Error loading districts:", error);
+          setDistricts([]);
+        } finally {
+          setLoadingDistricts(false);
+        }
+      } else {
+        setDistricts([]);
+      }
+    };
+
+    loadDistricts();
+  }, [selectedCities]);
+
+  // Initialize location filters from URL parameters
+  useEffect(() => {
+    const regionParams = searchParams.getAll("region");
+    const cityParams = searchParams.getAll("city");
+    const districtParams = searchParams.getAll("district");
+
+    if (regionParams.length > 0) setSelectedRegions(regionParams);
+    if (cityParams.length > 0) {
+      // Parse city params to include REGION_ID
+      const cityObjs = cityParams.map(cityId => ({ CITY_ID: cityId, REGION_ID: "" }));
+      setSelectedCities(cityObjs);
+    }
+    if (districtParams.length > 0) {
+      // Parse district params
+      const districtObjs = districtParams.map(districtId => ({ District_ID: districtId }));
+      setSelectedDistricts(districtObjs);
+    }
+  }, []);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -473,6 +564,41 @@ const Search = () => {
       console.log("After mileage filter:", filtered.length);
     }
 
+    // Location filters
+    const regionParams = searchParams.getAll("region");
+    const cityParams = searchParams.getAll("city");
+    const districtParams = searchParams.getAll("district");
+
+    if (regionParams.length > 0) {
+      filtered = filtered.filter((ad) => {
+        return regionParams.some(regionId =>
+          String(ad.regionId) === String(regionId) ||
+          String(ad.REGION_ID) === String(regionId)
+        );
+      });
+      console.log("After region filter:", filtered.length);
+    }
+
+    if (cityParams.length > 0) {
+      filtered = filtered.filter((ad) => {
+        return cityParams.some(cityId =>
+          String(ad.CITY_ID) === String(cityId) ||
+          String(ad.cityId) === String(cityId)
+        );
+      });
+      console.log("After city filter:", filtered.length);
+    }
+
+    if (districtParams.length > 0) {
+      filtered = filtered.filter((ad) => {
+        return districtParams.some(districtId =>
+          String(ad.District_ID) === String(districtId) ||
+          String(ad.districtId) === String(districtId)
+        );
+      });
+      console.log("After district filter:", filtered.length);
+    }
+
     console.log("Final filtered count:", filtered.length);
     setCurrentPage(1);
     setFilteredAds(filtered);
@@ -734,6 +860,64 @@ const Search = () => {
       return newParams;
     });
   };
+
+  // Location filter handlers
+  const handleRegionChange = (regionId) => {
+    setSelectedRegions((prev) => {
+      const isSelected = prev.includes(regionId);
+      const newRegions = isSelected
+        ? prev.filter((id) => id !== regionId)
+        : [...prev, regionId];
+
+      // Update URL params
+      setSearchParams((params) => {
+        const newParams = new URLSearchParams(params);
+        newParams.delete("region");
+        newRegions.forEach((id) => newParams.append("region", id));
+        return newParams;
+      });
+
+      return newRegions;
+    });
+  };
+
+  const handleCityChange = (cityOption) => {
+    setSelectedCities((prev) => {
+      const isSelected = prev.some((city) => city.CITY_ID === cityOption.CITY_ID);
+      const newCities = isSelected
+        ? prev.filter((city) => city.CITY_ID !== cityOption.CITY_ID)
+        : [...prev, { CITY_ID: cityOption.CITY_ID, REGION_ID: cityOption.REGION_ID }];
+
+      // Update URL params
+      setSearchParams((params) => {
+        const newParams = new URLSearchParams(params);
+        newParams.delete("city");
+        newCities.forEach((city) => newParams.append("city", city.CITY_ID));
+        return newParams;
+      });
+
+      return newCities;
+    });
+  };
+
+  const handleDistrictChange = (districtOption) => {
+    setSelectedDistricts((prev) => {
+      const isSelected = prev.some((district) => district.District_ID === districtOption.District_ID);
+      const newDistricts = isSelected
+        ? prev.filter((district) => district.District_ID !== districtOption.District_ID)
+        : [...prev, { District_ID: districtOption.District_ID, CITY_ID: districtOption.CITY_ID, REGION_ID: districtOption.REGION_ID }];
+
+      // Update URL params
+      setSearchParams((params) => {
+        const newParams = new URLSearchParams(params);
+        newParams.delete("district");
+        newDistricts.forEach((district) => newParams.append("district", district.District_ID));
+        return newParams;
+      });
+
+      return newDistricts;
+    });
+  };
   const categoryData = {
     name: "Category",
     type: "checkbox",
@@ -877,7 +1061,12 @@ const Search = () => {
                         </Form.Label>
 
                         <button
-                          onClick={() => setSearchParams({})}
+                          onClick={() => {
+                            setSearchParams({});
+                            setSelectedRegions([]);
+                            setSelectedCities([]);
+                            setSelectedDistricts([]);
+                          }}
                           type="button"
                           className="blue_btn"
                         >
@@ -963,6 +1152,480 @@ const Search = () => {
                     </Accordion.Item>
                   </Accordion>
                   <HorizantalLine />
+
+                  {/* Region Filter */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select Region</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <div className="mb-3">
+                            {saudiRegions.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegions.includes(region.id);
+                              return (
+                                <div className="form-check" key={region.id}>
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.id}`}
+                                    checked={isChecked}
+                                    onChange={() => handleRegionChange(region.id)}
+                                    style={{ cursor: "pointer" }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.id}`}
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    {region.nameEn}
+                                  </label>
+                                </div>
+                              );
+                            })}
+                            <button
+                              type="button"
+                              className="btn btn-link p-0"
+                              onClick={() => setShowRegionModal(true)}
+                            >
+                              Show more choices...
+                            </button>
+
+                            {/* Region Modal */}
+                            {showRegionModal && (
+                              <div
+                                className="modal fade show"
+                                style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                tabIndex="-1"
+                              >
+                                <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                                  <div className="modal-content border-0 shadow-lg">
+                                    <div className="modal-header bg-light border-bottom">
+                                      <h5 className="modal-title">Select a Region</h5>
+                                      <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={() => setShowRegionModal(false)}
+                                      ></button>
+                                    </div>
+                                    <div className="modal-body p-3">
+                                      <div className="mb-2">
+                                        <input
+                                          type="text"
+                                          className="form-control mb-3"
+                                          placeholder="Search regions..."
+                                          value={searchTermRegion}
+                                          onChange={(e) => setSearchTermRegion(e.target.value)}
+                                        />
+                                      </div>
+                                      {saudiRegions
+                                        .filter((region) =>
+                                          region.nameEn.toLowerCase().includes(searchTermRegion.toLowerCase()) ||
+                                          region.nameAr.includes(searchTermRegion)
+                                        )
+                                        .map((region) => {
+                                          const isChecked = selectedRegions.includes(region.id);
+                                          return (
+                                            <div className="form-check" key={region.id}>
+                                              <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id={`region-modal-${region.id}`}
+                                                checked={isChecked}
+                                                onChange={() => handleRegionChange(region.id)}
+                                              />
+                                              <label
+                                                className="form-check-label"
+                                                htmlFor={`region-modal-${region.id}`}
+                                              >
+                                                {region.nameEn} ({region.nameAr})
+                                              </label>
+                                            </div>
+                                          );
+                                        })}
+                                    </div>
+                                    <div className="modal-footer bg-light border-top">
+                                      <div className="text-muted small">
+                                        {selectedRegions.length} region(s) selected
+                                      </div>
+                                      <div className="d-flex gap-2">
+                                        <button
+                                          type="button"
+                                          className="btn btn-outline-secondary"
+                                          onClick={() => {
+                                            setSelectedRegions([]);
+                                            setSearchParams((params) => {
+                                              const newParams = new URLSearchParams(params);
+                                              newParams.delete("region");
+                                              return newParams;
+                                            });
+                                            setShowRegionModal(false);
+                                          }}
+                                        >
+                                          Clear Selection
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary px-4"
+                                          onClick={() => setShowRegionModal(false)}
+                                        >
+                                          Done
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5",
+                      margin: "20px 0",
+                    }}
+                  />
+
+                  {/* City Filter */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select City</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <div className="grid grid-cols-1 gap-2">
+                            {loadingCities ? (
+                              <p style={{ textAlign: "center", color: "#666" }}>
+                                Loading cities...
+                              </p>
+                            ) : (
+                              <>
+                                {cities.slice(0, 6).map((city) => {
+                                  const isChecked = selectedCities.some(
+                                    (c) => c.CITY_ID === city.CITY_ID
+                                  );
+                                  return (
+                                    <div key={city.CITY_ID} className="form-check">
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id={`city-${city.CITY_ID}`}
+                                        checked={isChecked}
+                                        onChange={() =>
+                                          handleCityChange({
+                                            CITY_ID: city.CITY_ID,
+                                            REGION_ID: city.REGION_ID,
+                                          })
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`city-${city.CITY_ID}`}
+                                        style={{ cursor: "pointer" }}
+                                      >
+                                        {city["City En Name"]} ({city["City Ar Name"]})
+                                      </label>
+                                    </div>
+                                  );
+                                })}
+                                {cities.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0"
+                                    onClick={() => setShowCityModal(true)}
+                                  >
+                                    Show more choices...
+                                  </button>
+                                )}
+                              </>
+                            )}
+
+                            {/* City Modal */}
+                            {showCityModal && (
+                              <div
+                                className="modal fade show more_optn_modal_main"
+                                style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                tabIndex="-1"
+                              >
+                                <div className="modal-dialog modal-dialog-scrollable">
+                                  <div className="modal-content">
+                                    <div className="modal-header">
+                                      <h5 className="modal-title">Select More Cities</h5>
+                                      <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={() => setShowCityModal(false)}
+                                      ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                      <div className="mb-3">
+                                        <input
+                                          type="text"
+                                          className="form-control"
+                                          placeholder="Search cities..."
+                                          value={searchTermCity}
+                                          onChange={(e) => setSearchTermCity(e.target.value)}
+                                        />
+                                      </div>
+                                      <div className="row">
+                                        <ul className="more_choice_main_list">
+                                          {cities
+                                            .filter((city) =>
+                                              city["City En Name"]
+                                                .toLowerCase()
+                                                .includes(searchTermCity.toLowerCase()) ||
+                                              city["City Ar Name"]
+                                                .toLowerCase()
+                                                .includes(searchTermCity.toLowerCase())
+                                            )
+                                            .map((city) => {
+                                              const isChecked = selectedCities.some(
+                                                (c) => c.CITY_ID === city.CITY_ID
+                                              );
+                                              return (
+                                                <li key={city.CITY_ID}>
+                                                  <label className="d-flex align-items-center gap-2">
+                                                    <input
+                                                      type="checkbox"
+                                                      checked={isChecked}
+                                                      onChange={() =>
+                                                        handleCityChange({
+                                                          CITY_ID: city.CITY_ID,
+                                                          REGION_ID: city.REGION_ID,
+                                                        })
+                                                      }
+                                                    />
+                                                    <span>
+                                                      {city["City En Name"]} ({city["City Ar Name"]})
+                                                    </span>
+                                                  </label>
+                                                </li>
+                                              );
+                                            })}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                      <div className="text-muted small">
+                                        {selectedCities.length} City selected
+                                      </div>
+                                      <div className="d-flex gap-2">
+                                        <button
+                                          type="button"
+                                          className="btn btn-outline-secondary"
+                                          onClick={() => {
+                                            setSelectedCities([]);
+                                            setSearchParams((params) => {
+                                              const newParams = new URLSearchParams(params);
+                                              newParams.delete("city");
+                                              return newParams;
+                                            });
+                                            setShowCityModal(false);
+                                          }}
+                                        >
+                                          Clear Selection
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary px-4"
+                                          onClick={() => setShowCityModal(false)}
+                                        >
+                                          Done
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5",
+                      margin: "20px 0",
+                    }}
+                  />
+
+                  {/* District Filter */}
+                  <Accordion className="mt-3">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Select District</Accordion.Header>
+                      <Accordion.Body>
+                        <Form.Group className="mb-3">
+                          <div className="grid grid-cols-1 gap-2">
+                            {loadingDistricts ? (
+                              <p style={{ textAlign: "center", color: "#666" }}>
+                                Loading districts...
+                              </p>
+                            ) : (
+                              <>
+                                {districts.slice(0, 6).map((district) => {
+                                  const isChecked = selectedDistricts.some(
+                                    (d) => d.District_ID === district.District_ID
+                                  );
+                                  return (
+                                    <label
+                                      key={district.District_ID}
+                                      className="form-check d-flex align-items-center gap-2"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        checked={isChecked}
+                                        onChange={() =>
+                                          handleDistrictChange({
+                                            District_ID: district.District_ID,
+                                            CITY_ID: district.CITY_ID,
+                                            REGION_ID: district.REGION_ID,
+                                          })
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <span className="form-check-label" style={{ cursor: "pointer" }}>
+                                        {district["District En Name"]} ({district["District Ar Name"]})
+                                      </span>
+                                    </label>
+                                  );
+                                })}
+                                {districts.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-link p-0 mt-2"
+                                    onClick={() => setShowDistrictModal(true)}
+                                  >
+                                    More choices...
+                                  </button>
+                                )}
+                              </>
+                            )}
+
+                            {/* District Modal */}
+                            <div className="container">
+                              {showDistrictModal && (
+                                <div
+                                  className="modal fade show more_optn_modal_main"
+                                  tabIndex="-1"
+                                  style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                  role="dialog"
+                                >
+                                  <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">Select More Districts</h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          onClick={() => setShowDistrictModal(false)}
+                                        ></button>
+                                      </div>
+                                      <div className="modal-body">
+                                        <div className="mb-3">
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Search districts..."
+                                            value={searchTermDistrict}
+                                            onChange={(e) => setSearchTermDistrict(e.target.value)}
+                                          />
+                                        </div>
+                                        <div className="row g-1 ml-4">
+                                          <ul className="more_choice_main_list">
+                                            {districts
+                                              .filter(
+                                                (district) =>
+                                                  district["District En Name"]
+                                                    .toLowerCase()
+                                                    .includes(searchTermDistrict.toLowerCase()) ||
+                                                  district["District Ar Name"]
+                                                    .toLowerCase()
+                                                    .includes(searchTermDistrict.toLowerCase())
+                                              )
+                                              .map((district) => {
+                                                const isChecked = selectedDistricts.some(
+                                                  (d) => d.District_ID === district.District_ID
+                                                );
+                                                return (
+                                                  <li key={district.District_ID}>
+                                                    <label className="d-flex align-items-center gap-2">
+                                                      <input
+                                                        type="checkbox"
+                                                        checked={isChecked}
+                                                        onChange={() =>
+                                                          handleDistrictChange({
+                                                            District_ID: district.District_ID,
+                                                            CITY_ID: district.CITY_ID,
+                                                            REGION_ID: district.REGION_ID,
+                                                          })
+                                                        }
+                                                      />
+                                                      <span style={{ cursor: "pointer" }}>
+                                                        {district["District En Name"]} ({district["District Ar Name"]})
+                                                      </span>
+                                                    </label>
+                                                  </li>
+                                                );
+                                              })}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                                        <div className="text-muted small">
+                                          {selectedDistricts.length} district(s) selected
+                                        </div>
+                                        <div className="d-flex gap-2">
+                                          <button
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            onClick={() => {
+                                              setSelectedDistricts([]);
+                                              setSearchParams((params) => {
+                                                const newParams = new URLSearchParams(params);
+                                                newParams.delete("district");
+                                                return newParams;
+                                              });
+                                              setShowDistrictModal(false);
+                                            }}
+                                          >
+                                            Clear Selection
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary px-4"
+                                            onClick={() => setShowDistrictModal(false)}
+                                          >
+                                            Done
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </Form.Group>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  <hr
+                    style={{
+                      width: "100%",
+                      borderTop: "1px solid #000000",
+                      opacity: "0.5",
+                      margin: "20px 0",
+                    }}
+                  />
+
                   {/* subcategories */}{" "}
                   {currentCategoryFilters.subcategories &&
                     currentCategoryFilters.subcategories.length > 0 && (

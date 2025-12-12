@@ -113,7 +113,7 @@ const Footer = () => {
                         r="31.4963"
                         fill="#2D4495"
                       />
-                      <g clip-path="url(#clip0_189_2544)">
+                      <g clipPath="url(#clip0_189_2544)">
                         <path
                           d="M20.2343 30.8182C20.2337 32.8505 20.7647 34.8348 21.7744 36.5838L20.1377 42.5596L26.2532 40.9561C27.9447 41.8769 29.8398 42.3594 31.7657 42.3595H31.7708C38.1284 42.3595 43.3037 37.1861 43.3064 30.8273C43.3076 27.7461 42.1088 24.8486 39.9306 22.6687C37.7528 20.4891 34.8564 19.288 31.7703 19.2866C25.4119 19.2866 20.237 24.4597 20.2344 30.8182"
                           fill="url(#paint0_linear_189_2544)"
@@ -136,8 +136,8 @@ const Footer = () => {
                           y2="19.2866"
                           gradientUnits="userSpaceOnUse"
                         >
-                          <stop stop-color="#1FAF38" />
-                          <stop offset="1" stop-color="#60D669" />
+                          <stop stopColor="#1FAF38" />
+                          <stop offset="1" stopColor="#60D669" />
                         </linearGradient>
                         <linearGradient
                           id="paint1_linear_189_2544"
@@ -147,8 +147,8 @@ const Footer = () => {
                           y2="18.8691"
                           gradientUnits="userSpaceOnUse"
                         >
-                          <stop stop-color="#F9F9F9" />
-                          <stop offset="1" stop-color="white" />
+                          <stop stopColor="#F9F9F9" />
+                          <stop offset="1" stopColor="white" />
                         </linearGradient>
                         <clipPath id="clip0_189_2544">
                           <rect
