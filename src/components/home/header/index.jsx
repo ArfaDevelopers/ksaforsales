@@ -2887,12 +2887,12 @@ const Header = ({ parms }) => {
                         )}
                       </div>
                       <li>
-                        <buttton
+                        <button
                           className="blue_btn"
                           onClick={() => navigate("/signup")}
                         >
                           Sign Up
-                        </buttton>
+                        </button>
                       </li>
                       <li>
                         <button

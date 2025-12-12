@@ -3530,7 +3530,7 @@ const Education = () => {
                                 {/* Image */}
                                 <Card.Img
                                   src={
-                                    car?.galleryImages[0] ||
+                                    car?.galleryImages?.[0] ||
                                     "https://via.placeholder.com/150"
                                   }
                                   alt={car.title || "Car"}

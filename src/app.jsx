@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./LanguageContext"; // Import LanguageProvider
 import Home from "./components/home";
 import "./assets/css/bootstrap-datetimepicker.min.css";
@@ -63,16 +63,6 @@ import ComercialsAds from "./components/admin/ComercialsAds/ComercialsAds";
 import AddBooks from "./components/admin/AddBooks/AddBooks";
 import AddCars from "./components/admin/AddCars/AddCars";
 import Search from "./pages/Search/Search";
-import AutomotiveComp from "./components/admin/AutomotiveComp/AutomotiveComp";
-import ElectronicComp from "./components/admin/ElectronicComp/ElectronicComp";
-import FashionStyle from "./components/admin/FashionStyle/FashionStyle";
-import HealthCareComp from "./components/admin/HealthCareComp/HealthCareComp";
-import JobBoard from "./components/admin/JobBoard/JobBoard";
-import Education from "./components/admin/Education/Education";
-import RealEstateComp from "./components/admin/RealEstateComp/RealEstateComp";
-import TravelComp from "./components/admin/TravelComp/TravelComp";
-import SportGamesComp from "./components/admin/SportGamesComp/SportGamesComp";
-import PetAnimalsComp from "./components/admin/PetAnimalsComp/PetAnimalsComp";
 import Cars from "./components/admin/Cars/Cars";
 import Bikes from "./components/home/Bikes/Bikes";
 import MAGAZINESCOMP from "./components/admin/MAGAZINESCOMP/MAGAZINESCOMP";
@@ -177,7 +167,7 @@ export const App = () => {
               path="/HealthCareComp"
               element={
                 <ProtectedRoute>
-                  <HealthCareComp />
+                  <Navigate to="/search?category=home-and-furniture" replace />
                 </ProtectedRoute>
               }
             />
@@ -289,7 +279,7 @@ export const App = () => {
               path="/AutomotiveComp"
               element={
                 <ProtectedRoute>
-                  <AutomotiveComp />
+                  <Navigate to="/search?category=motors" replace />
                 </ProtectedRoute>
               }
             />
@@ -319,18 +309,14 @@ export const App = () => {
             />
             <Route
               path="/search"
-              element={
-                <ProtectedRoute>
-                  <Search />
-                </ProtectedRoute>
-              }
+              element={<Search />}
             />
 
             <Route
               path="/ElectronicComp"
               element={
                 <ProtectedRoute>
-                  <ElectronicComp />
+                  <Navigate to="/search?category=electronics" replace />
                 </ProtectedRoute>
               }
             />
@@ -338,7 +324,7 @@ export const App = () => {
               path="/FashionStyle"
               element={
                 <ProtectedRoute>
-                  <FashionStyle />
+                  <Navigate to="/search?category=fashion-style" replace />
                 </ProtectedRoute>
               }
             />
@@ -354,7 +340,7 @@ export const App = () => {
               path="/JobBoard"
               element={
                 <ProtectedRoute>
-                  <JobBoard />
+                  <Navigate to="/search?category=job-board" replace />
                 </ProtectedRoute>
               }
             />
@@ -362,7 +348,7 @@ export const App = () => {
               path="/Education"
               element={
                 <ProtectedRoute>
-                  <Education />
+                  <Navigate to="/search?category=other" replace />
                 </ProtectedRoute>
               }
             />
@@ -370,7 +356,7 @@ export const App = () => {
               path="/RealEstateComp"
               element={
                 <ProtectedRoute>
-                  <RealEstateComp />
+                  <Navigate to="/search?category=real-estate" replace />
                 </ProtectedRoute>
               }
             />
@@ -378,7 +364,7 @@ export const App = () => {
               path="/TravelComp"
               element={
                 <ProtectedRoute>
-                  <TravelComp />
+                  <Navigate to="/search?category=services" replace />
                 </ProtectedRoute>
               }
             />
@@ -386,7 +372,7 @@ export const App = () => {
               path="/SportGamesComp"
               element={
                 <ProtectedRoute>
-                  <SportGamesComp />
+                  <Navigate to="/search?category=sport-and-game" replace />
                 </ProtectedRoute>
               }
             />
@@ -394,7 +380,7 @@ export const App = () => {
               path="/PetAnimalsComp"
               element={
                 <ProtectedRoute>
-                  <PetAnimalsComp />
+                  <Navigate to="/search?category=pet-and-animals" replace />
                 </ProtectedRoute>
               }
             />

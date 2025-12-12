@@ -2,7 +2,7 @@
 export const categoriesData = [
   {
     name: "Automotive",
-    path: "/AutomotiveComp",
+    path: "/search?category=motors",
     collectionName: "Cars",
     subcategories: [
       {
@@ -49,7 +49,7 @@ export const categoriesData = [
   },
   {
     name: "Real Estate",
-    path: "/RealEstateComp",
+    path: "/search?category=real-estate",
     collectionName: "REALESTATECOMP",
     subcategories: [
       {
@@ -80,7 +80,7 @@ export const categoriesData = [
   },
   {
     name: "Electronics",
-    path: "/ElectronicComp",
+    path: "/search?category=electronics",
     collectionName: "ELECTRONICS",
     subcategories: [
       {
@@ -111,7 +111,7 @@ export const categoriesData = [
   },
   {
     name: "Fashion Style",
-    path: "/FashionStyle",
+    path: "/search?category=fashion-style",
     collectionName: "FASHION",
     subcategories: [
       {
@@ -142,7 +142,7 @@ export const categoriesData = [
   },
   {
     name: "Home & Furniture",
-    path: "/HealthCareComp",
+    path: "/search?category=home-and-furniture",
     collectionName: "HEALTHCARE",
     subcategories: [
       {
@@ -169,7 +169,7 @@ export const categoriesData = [
   },
   {
     name: "Job Board",
-    path: "/JobBoard",
+    path: "/search?category=job-board",
     collectionName: "JOBBOARD",
     subcategories: [
       {
@@ -196,7 +196,7 @@ export const categoriesData = [
   },
   {
     name: "Sport & Game",
-    path: "/SportGamesComp",
+    path: "/search?category=sport-and-game",
     collectionName: "SPORTSGAMESComp",
     subcategories: [
       {
@@ -223,7 +223,7 @@ export const categoriesData = [
   },
   {
     name: "Pet & Animals",
-    path: "/PetAnimalsComp",
+    path: "/search?category=pet-and-animals",
     collectionName: "PETANIMALCOMP",
     subcategories: [
       {
@@ -250,7 +250,7 @@ export const categoriesData = [
   },
   {
     name: "Other",
-    path: "/Education",
+    path: "/search?category=other",
     collectionName: "Education",
     subcategories: [
       {
@@ -273,7 +273,7 @@ export const categoriesData = [
   },
   {
     name: "Services",
-    path: "/TravelComp",
+    path: "/search?category=services",
     collectionName: "TRAVEL",
     subcategories: [
       {

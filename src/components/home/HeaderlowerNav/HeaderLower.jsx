@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams, useSearchParams } from "react-router-dom";
 import {
   collection,
   getDocs,
@@ -16,6 +16,7 @@ const HeaderLower = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [openSubDropdown, setOpenSubDropdown] = useState(null);
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   const [loading, setLoading] = useState(false); // Add loading state
   const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] =
@@ -338,7 +339,7 @@ const HeaderLower = () => {
   const categories = [
     {
       name: "Automotive",
-      path: "/AutomotiveComp",
+      path: "/search?category=motors",
       subcategories: [
         {
           name: "Cars For Sale",
@@ -472,7 +473,7 @@ const HeaderLower = () => {
     },
     {
       name: "Electronics",
-      path: "/ElectronicComp",
+      path: "/search?category=electronics",
       subcategories: [
         {
           name: "Mobile Phones",
@@ -720,7 +721,7 @@ const HeaderLower = () => {
     },
     {
       name: "Fashion Style",
-      path: "/FashionStyle",
+      path: "/search?category=fashion-style",
       subcategories: [
         {
           name: "Watches",
@@ -942,7 +943,7 @@ const HeaderLower = () => {
     },
     {
       name: "Home & Furniture",
-      path: "/HealthCareComp",
+      path: "/search?category=home-and-furniture",
       subcategories: [
         {
           name: "Outdoor Furniture",
@@ -997,7 +998,7 @@ const HeaderLower = () => {
     },
     {
       name: "Job Board",
-      path: "/JobBoard",
+      path: "/search?category=job-board",
       subcategories: [
         {
           name: "Administrativjbe Jobs",
@@ -1292,7 +1293,7 @@ const HeaderLower = () => {
     },
     {
       name: "Real Estate",
-      path: "/RealEstateComp",
+      path: "/search?category=real-estate",
       subcategories: [
         {
           name: "Apartments for Rent",
@@ -1406,7 +1407,7 @@ const HeaderLower = () => {
     },
     {
       name: "Services",
-      path: "/TravelComp",
+      path: "/search?category=services",
       subcategories: [
         {
           name: "Other Services",
@@ -1448,7 +1449,7 @@ const HeaderLower = () => {
     },
     {
       name: "Sport & Games",
-      path: "/SportGamesComp",
+      path: "/search?category=sport-and-game",
       subcategories: [
         {
           name: "Gaming Consoles",
@@ -1467,7 +1468,7 @@ const HeaderLower = () => {
     },
     {
       name: "Pet & Animals",
-      path: "/PetAnimalsComp",
+      path: "/search?category=pet-and-animals",
       subcategories: [
         {
           name: "Sheep",
@@ -1898,7 +1899,7 @@ const HeaderLower = () => {
     },
     {
       name: "Other",
-      path: "/Education",
+      path: "/search?category=other",
       subcategories: [
         {
           name: "Hunting & Trips",
@@ -2048,11 +2049,28 @@ const HeaderLower = () => {
           >
             <NavLink
               to={category.path}
-              className={({ isActive }) =>
-                isActive || location.pathname.includes(category.path)
-                  ? "nav-link active-link"
-                  : "nav-link"
-              }
+              className={() => {
+                // Check if current category matches the URL parameter
+                const currentCategory = searchParams.get("category");
+                const categoryPath = category.path;
+
+                // Extract category from path like "/search?category=motors"
+                const pathMatch = categoryPath.match(/category=([^&]+)/);
+                const pathCategory = pathMatch ? pathMatch[1] : null;
+
+                // Check if this category is active
+                let isActiveCategory = false;
+
+                if (pathCategory) {
+                  // For search query format: /search?category=motors
+                  isActiveCategory = currentCategory && currentCategory === pathCategory;
+                } else {
+                  // For direct paths like /CommercialAdscom
+                  isActiveCategory = location.pathname === categoryPath;
+                }
+
+                return isActiveCategory ? "nav-link active-link" : "nav-link";
+              }}
             >
               {category.name}
             </NavLink>
