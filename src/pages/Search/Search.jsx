@@ -36,9 +36,42 @@ const Search = () => {
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "";
+
+  // Map category parameter to display name
+  const categoryMap = {
+    motors: "Motors",
+    automotive: "Motors",
+    electronics: "Electronics",
+    "fashion-style": "Fashion Style",
+    "home-and-furniture": "Home & Furniture",
+    "home-&-furniture": "Home & Furniture",
+    "home-furniture": "Home & Furniture",
+    "job-board": "Job Board",
+    realestate: "Real Estate",
+    "real-estate": "Real Estate",
+    services: "Services",
+    "sport-&-game": "Sport & Game",
+    "sport-and-game": "Sport & Game",
+    "sport-game": "Sport & Game",
+    "pet-&-animals": "Pet & Animals",
+    "pet-and-animals": "Pet & Animals",
+    "pet-animals": "Pet & Animals",
+    other: "Other",
+    commercial: "Commercial",
+  };
+
+  const categoryDisplayName = category ? categoryMap[category.toLowerCase()] : "";
+
   let currentCategoryFilters =
     data.find((page) => page.path === `/${category}`) ?? "";
-  if (!currentCategoryFilters) {
+  if (!currentCategoryFilters && categoryDisplayName) {
+    // Create a temporary filter object with the category name
+    currentCategoryFilters = {
+      name: categoryDisplayName,
+      path: `/search?category=${category}`,
+      filters: data.find((page) => page.path === `/search`)?.filters || {}
+    };
+  } else if (!currentCategoryFilters) {
     currentCategoryFilters = data.find((page) => page.path === `/search`);
   }
   const [allAds, setAllAds] = useState([]);
@@ -219,25 +252,6 @@ const Search = () => {
     let filtered = [...allAds];
 
     if (category) {
-      const categoryMap = {
-        motors: "Motors",
-        automotive: "Motors",
-        electronics: "Electronics",
-        "fashion-style": "Fashion Style",
-        "home-and-furniture": "Home & Furniture",
-        "home-&-furniture": "Home & Furniture",
-        "job-board": "Job Board",
-        realestate: "Real Estate",
-        "real-estate": "Real Estate",
-        services: "Services",
-        "sport-&-game": "Sport & Game",
-        "sport-and-game": "Sport & Game",
-        "pet-&-animals": "Pet & Animals",
-        "pet-and-animals": "Pet & Animals",
-        other: "Other",
-        commercial: "Commercial",
-      };
-
       const categoryValue = categoryMap[category.toLowerCase()];
       console.log("🔍 Filtering by category:", categoryValue);
 

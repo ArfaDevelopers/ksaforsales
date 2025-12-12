@@ -173,19 +173,19 @@ const Footer = () => {
                     <h2 className="footer-title">Categories</h2>
                     <ul>
                       <li>
-                        <Link to="/PetAnimalsComp">Our product</Link>
+                        <Link to="/search?category=pet-and-animals">Our product</Link>
                       </li>
                       <li>
-                        <Link to="AutomotiveComp">Automative</Link>
+                        <Link to="/search?category=motors">Automative</Link>
                       </li>
                       <li>
-                        <Link to="/ElectronicComp">Electronic</Link>
+                        <Link to="/search?category=electronics">Electronic</Link>
                       </li>
                       <li>
-                        <Link to="/PetAnimalsComp">Animal</Link>
+                        <Link to="/search?category=pet-and-animals">Animal</Link>
                       </li>
                       <li>
-                        <Link to="/FashionStyle">Gift</Link>
+                        <Link to="/search?category=fashion-style">Gift</Link>
                       </li>
                     </ul>
                   </div>
@@ -195,19 +195,19 @@ const Footer = () => {
                     {/* <h2 className="footer-title">Quick links</h2> */}
                     <ul className="col_2">
                       <li>
-                        <Link to="/RealEstateComp">Property</Link>
+                        <Link to="/search?category=real-estate">Property</Link>
                       </li>
                       <li>
-                        <Link to="/RealEstateComp">Contracting</Link>
+                        <Link to="/search?category=real-estate">Contracting</Link>
                       </li>
                       <li>
-                        <Link to="/RealEstateComp">Camping</Link>
+                        <Link to="/search?category=real-estate">Camping</Link>
                       </li>
                       <li>
-                        <Link to="/Education">Family</Link>
+                        <Link to="/search?category=other">Family</Link>
                       </li>
                       <li>
-                        <Link to="/RealEstateComp">Furniture</Link>
+                        <Link to="/search?category=real-estate">Furniture</Link>
                       </li>
                     </ul>
                   </div>

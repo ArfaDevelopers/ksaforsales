@@ -303,22 +303,22 @@ const Footer = () => {
                         <h2 className="footer-title">Categories</h2>
                         <ul>
                           <li>
-                            <Link to="/AutomotiveComp">Motors</Link>
+                            <Link to="/search?category=motors">Motors</Link>
                           </li>
                           <li>
-                            <Link to="/ElectronicComp">Electronics</Link>
+                            <Link to="/search?category=electronics">Electronics</Link>
                           </li>
                           <li>
-                            <Link to="/FashionStyle">Fashion Style</Link>
+                            <Link to="/search?category=fashion-style">Fashion Style</Link>
                           </li>
                           <li>
-                            <Link to="/HealthCareComp">Home & Furniture</Link>
+                            <Link to="/search?category=home-and-furniture">Home & Furniture</Link>
                           </li>
                           <li>
-                            <Link to="/JobBoard">Job Board</Link>
+                            <Link to="/search?category=job-board">Job Board</Link>
                           </li>
                           <li>
-                            <Link to="/RealEstateComp">Realestate</Link>
+                            <Link to="/search?category=real-estate">Realestate</Link>
                           </li>
                         </ul>
                       </div>
@@ -333,16 +333,16 @@ const Footer = () => {
                           }}
                         >
                           <li>
-                            <Link to="/TravelComp">Services</Link>
+                            <Link to="/search?category=services">Services</Link>
                           </li>
                           <li>
-                            <Link to="/SportGamesComp">Sport & Game</Link>
+                            <Link to="/search?category=sport-and-game">Sport & Game</Link>
                           </li>
                           <li>
-                            <Link to="/PetAnimalsComp">Pet & Animals</Link>
+                            <Link to="/search?category=pet-and-animals">Pet & Animals</Link>
                           </li>
                           <li>
-                            <Link to="/Education">Other</Link>
+                            <Link to="/search?category=other">Other</Link>
                           </li>
                           <li>
                             <Link to="/CommercialAdscom">Commercial</Link>

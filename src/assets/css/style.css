@@ -1624,6 +1624,22 @@ table.dataTable thead .sorting_desc_disabled:after {
   text-decoration: none;
   font-family: "ABeeZee";
   font-size: 18px;
+  position: relative;
+}
+
+.header a.nav-link::after {
+  content: none;
+}
+
+.header a.nav-link.active-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background-color: #2d4494;
+  border-radius: 0.5rem;
 }
 .user-menu.nav > li > a {
   color: #fff;
@@ -12814,14 +12830,7 @@ section.home-six-trending-search {
 }
 
 .nav-link:hover::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 0.1rem;
-  width: 100%;
-  background-color: #2d4495;
-  border-radius: 0.5rem;
+  content: none;
 }
 
 .active-link {
@@ -12829,14 +12838,7 @@ section.home-six-trending-search {
 }
 
 .active-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 0.1rem;
-  width: 100%;
-  background-color: #2d4495;
-  border-radius: 0.5rem;
+  content: none;
 }
 /*  */
 
@@ -22553,12 +22555,35 @@ align-items: center;
 .nav-link-wrapper {
   position: relative;
 }
-.nav-link:hover {
-  color: #333;
-}
-.nav-link.active-link {
-  color: #333;
+.nav-link {
+  color: #2d4494;
   font-weight: bold;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #2d4494;
+}
+
+.nav-link::after {
+  content: none;
+}
+
+.nav-link.active-link {
+  color: #2d4494;
+  font-weight: bold;
+}
+
+.nav-link.active-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background-color: #2d4494;
+  border-radius: 0.5rem;
 }
 .mega-menu {
   position: absolute;

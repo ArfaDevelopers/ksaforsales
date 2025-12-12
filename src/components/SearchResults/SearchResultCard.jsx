@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Mesagedeals from "../userPages/mesagedeals";
 import {Divider } from 'antd';
 
-const placeholderImage = "https://via.placeholder.com/150";
+const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
 
 const SearchResultCard = ({
   ad,
