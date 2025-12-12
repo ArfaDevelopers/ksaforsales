@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Navigate,
   useLocation,
@@ -169,6 +169,18 @@ const Search = () => {
   const [searchTermRegion, setSearchTermRegion] = useState("");
   const [searchTermCity, setSearchTermCity] = useState("");
   const [searchTermDistrict, setSearchTermDistrict] = useState("");
+
+  // Brand Model states
+  const [showBrandModelModal, setShowBrandModelModal] = useState(false);
+  const [searchTermBrandModel, setSearchTermBrandModel] = useState("");
+  const [availableBrandModels, setAvailableBrandModels] = useState([]);
+
+  // Brand states
+  const [showBrandModal, setShowBrandModal] = useState(false);
+  const [searchTermBrand, setSearchTermBrand] = useState("");
+
+  // Ref to track scroll position
+  const filterSectionRef = useRef(null);
 
   const parms = useLocation().pathname;
   const navigate = useNavigate();
@@ -365,10 +377,12 @@ const Search = () => {
         });
       }
     }
-    if (subCategoryParam) {
+    // Handle multiple subcategories
+    const subCategoryParams = searchParams.getAll("subcategory");
+    if (subCategoryParams.length > 0) {
       filtered = filtered.filter((ad) => {
         const adSubCategory = getUrlText(ad.SubCategory || "");
-        return adSubCategory === subCategoryParam;
+        return subCategoryParams.includes(adSubCategory);
       });
       console.log("After subcategory filter:", filtered.length);
     }
@@ -744,10 +758,10 @@ const Search = () => {
   // }, []);
 
   // handle change for subcategory and nested subcategory
-  const handleSubcategoryChange = (e, selectType = "single") => {
+  const handleSubcategoryChange = (e, selectType = "multiple") => {
+    e.preventDefault?.(); // Prevent default behavior
     const { name, value, checked } = e.target;
     console.log("subcaegory name...", name);
-    setSubcategory(checked ? value : "");
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
       const currentValues = newParams.getAll(name);
@@ -780,6 +794,7 @@ const Search = () => {
   };
 
   const handleFiltersChange = (e, selectType) => {
+    e.preventDefault?.(); // Prevent default behavior
     const { name, value, checked, type } = e.target || e;
     console.log("Name: ", name, "SelectType", selectType, "value: ", value);
     const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
@@ -918,6 +933,76 @@ const Search = () => {
       return newDistricts;
     });
   };
+
+  // Update available brand models when brand selection changes
+  useEffect(() => {
+    const selectedBrands = searchParams.getAll("brand");
+    if (selectedBrands.length > 0 && currentCategoryFilters.filters?.brand) {
+      const brandFilter = currentCategoryFilters.filters.brand;
+      const allModels = [];
+
+      brandFilter.options.forEach((brandOption) => {
+        if (brandOption.models) {
+          const brandName = brandOption.name || brandOption;
+          const urlBrandName = getUrlText(brandName);
+
+          if (selectedBrands.includes(urlBrandName)) {
+            allModels.push(...brandOption.models);
+          }
+        }
+      });
+
+      setAvailableBrandModels(allModels);
+    } else {
+      setAvailableBrandModels([]);
+    }
+  }, [searchParams, currentCategoryFilters]);
+
+  // Prevent scroll jumping when filters change
+  const scrollPositionRef = useRef(0);
+  const windowScrollRef = useRef(0);
+
+  useEffect(() => {
+    // Track both filter section scroll and window scroll
+    const element = filterSectionRef.current;
+
+    const handleFilterScroll = () => {
+      if (element) {
+        scrollPositionRef.current = element.scrollTop;
+      }
+    };
+
+    const handleWindowScroll = () => {
+      windowScrollRef.current = window.pageYOffset || document.documentElement.scrollTop;
+    };
+
+    if (element) {
+      element.addEventListener('scroll', handleFilterScroll);
+    }
+    window.addEventListener('scroll', handleWindowScroll);
+
+    return () => {
+      if (element) {
+        element.removeEventListener('scroll', handleFilterScroll);
+      }
+      window.removeEventListener('scroll', handleWindowScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Restore scroll positions after state updates
+    requestAnimationFrame(() => {
+      // Restore filter section scroll
+      if (filterSectionRef.current && scrollPositionRef.current > 0) {
+        filterSectionRef.current.scrollTop = scrollPositionRef.current;
+      }
+
+      // Restore window scroll
+      if (windowScrollRef.current > 0) {
+        window.scrollTo(0, windowScrollRef.current);
+      }
+    });
+  }, [searchParams, availableBrandModels]);
   const categoryData = {
     name: "Category",
     type: "checkbox",
@@ -1028,7 +1113,7 @@ const Search = () => {
               lg={3}
               className="filter_main_wrap style={{ height: '200px' }}"
             >
-              <div className="side_bar_main_wrap">
+              <div className="side_bar_main_wrap" ref={filterSectionRef}>
                 <h5
                   style={{
                     borderTopLeftRadius: "5px",
@@ -1152,6 +1237,118 @@ const Search = () => {
                     </Accordion.Item>
                   </Accordion>
                   <HorizantalLine />
+
+                  {/* subcategories */}
+                  {currentCategoryFilters.subcategories &&
+                    currentCategoryFilters.subcategories.length > 0 && (
+                      <>
+                        {" "}
+                        <Accordion className="mt-3">
+                          <Accordion.Item eventKey="0">
+                            <Accordion.Header>Sub Categories</Accordion.Header>
+                            <Accordion.Body>
+                              <div
+                                style={{ maxWidth: "300px", margin: "20px" }}
+                              >
+                                {currentCategoryFilters.subcategories.map(
+                                  (subcat) => {
+                                    const urlSubCategory = getUrlText(
+                                      subcat.name
+                                    );
+                                    const selectedSubCategories = searchParams.getAll("subcategory");
+                                    const isSelected = selectedSubCategories.includes(urlSubCategory);
+                                    return (
+                                      <Form.Group key={subcat.name}>
+                                        <div className="form-check mb-2">
+                                          <input
+                                            id={subcat.name}
+                                            name="subcategory"
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            value={subcat.name}
+                                            onChange={handleSubcategoryChange}
+                                            checked={isSelected}
+                                            style={{ cursor: "pointer" }}
+                                          />
+                                          <label
+                                            htmlFor={subcat.name}
+                                            className="form-check-label"
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {subcat.name}
+                                          </label>
+                                        </div>
+
+                                        {/* Show nested subcategories only when parent is selected */}
+                                        {isSelected && subcat.nestedSubCategories && subcat.nestedSubCategories.length > 0 && (
+                                          <div style={{ marginLeft: "20px", marginTop: "10px" }}>
+                                            <Form.Label>
+                                              Nested Categories
+                                            </Form.Label>
+                                            {subcat.nestedSubCategories.map(
+                                              (nestedSubCat) => {
+                                                const params =
+                                                  searchParams.getAll(
+                                                    "nestedSubCategory"
+                                                  );
+                                                return (
+                                                  <div
+                                                    key={nestedSubCat.name}
+                                                    className="form-check mb-2"
+                                                  >
+                                                    <input
+                                                      id={nestedSubCat.name}
+                                                      name="nestedSubCategory"
+                                                      className="form-check-input"
+                                                      type="checkbox"
+                                                      value={
+                                                        nestedSubCat.name
+                                                      }
+                                                      onChange={(e) =>
+                                                        handleSubcategoryChange(
+                                                          e,
+                                                          "multiple"
+                                                        )
+                                                      }
+                                                      checked={
+                                                        params &&
+                                                        params.find(
+                                                          (val) =>
+                                                            val ===
+                                                            getUrlText(
+                                                              nestedSubCat.name
+                                                            )
+                                                        )
+                                                      }
+                                                      style={{ cursor: "pointer" }}
+                                                    />
+
+                                                    <label
+                                                      htmlFor={
+                                                        nestedSubCat.name
+                                                      }
+                                                      className="form-check-label"
+                                                      style={{ cursor: "pointer" }}
+                                                    >
+                                                      {nestedSubCat.name}
+                                                    </label>
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        )}
+                                      </Form.Group>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
+                        <HorizantalLine />{" "}
+                      </>
+                    )}
 
                   {/* Region Filter */}
                   <Accordion className="mt-3">
@@ -1626,157 +1823,211 @@ const Search = () => {
                     }}
                   />
 
-                  {/* subcategories */}{" "}
-                  {currentCategoryFilters.subcategories &&
-                    currentCategoryFilters.subcategories.length > 0 && (
-                      <>
-                        {" "}
-                        <Accordion className="mt-3">
-                          <Accordion.Item eventKey="0">
-                            <Accordion.Header>Sub Categories</Accordion.Header>
-                            <Accordion.Body>
-                              <div
-                                style={{ maxWidth: "300px", margin: "20px" }}
-                              >
-                                {currentCategoryFilters.subcategories.map(
-                                  (subcat) => {
-                                    const urlSubCategory = getUrlText(
-                                      subcat.name
-                                    );
+                  {/* Brand Modal - Shared modal for all brand selections */}
+                  {showBrandModal && currentCategoryFilters.filters?.brand && (
+                    <div
+                      className="modal fade show more_optn_modal_main"
+                      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                      tabIndex="-1"
+                    >
+                      <div className="modal-dialog modal-dialog-scrollable">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title">Select More Brands</h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              onClick={() => setShowBrandModal(false)}
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <div className="mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search brands..."
+                                value={searchTermBrand}
+                                onChange={(e) => setSearchTermBrand(e.target.value)}
+                              />
+                            </div>
+                            <div className="row">
+                              <ul className="more_choice_main_list">
+                                {currentCategoryFilters.filters.brand.options
+                                  .filter((brandOption) => {
+                                    const label = brandOption.name || brandOption;
+                                    return label.toLowerCase().includes(searchTermBrand.toLowerCase());
+                                  })
+                                  .map((brandOption, index) => {
+                                    const label = brandOption.name || brandOption;
+                                    const isChecked = searchParams.getAll("brand").includes(getUrlText(label));
                                     return (
-                                      <Form.Group key={subcat.name}>
-                                        {subCategoryParam ? (
-                                          urlSubCategory ===
-                                            subCategoryParam && (
-                                            <>
-                                              <div className="form-check mb-2">
-                                                <input
-                                                  id={
-                                                    typeof subcat.name ===
-                                                      "string" &&
-                                                    subcat.name.toLowerCase()
-                                                  }
-                                                  name="subcategory"
-                                                  className="form-check-input"
-                                                  type="checkbox"
-                                                  value={subcat.name}
-                                                  onChange={
-                                                    handleSubcategoryChange
-                                                  }
-                                                  checked={
-                                                    urlSubCategory ===
-                                                    subCategoryParam
-                                                  }
-                                                />
-                                                <label
-                                                  htmlFor={
-                                                    typeof subcat.name ===
-                                                      "string" &&
-                                                    subcat.name.toLowerCase()
-                                                  }
-                                                  className="form-check-label"
-                                                >
-                                                  {subcat.name}
-                                                </label>
-                                              </div>
-
-                                              {subcat.nestedSubCategories && (
-                                                <Form.Label>
-                                                  Nested Categories
-                                                </Form.Label>
-                                              )}
-                                              {subcat.nestedSubCategories &&
-                                                subcat.nestedSubCategories
-                                                  .length > 0 &&
-                                                subcat.nestedSubCategories.map(
-                                                  (nestedSubCat) => {
-                                                    const params =
-                                                      searchParams.getAll(
-                                                        "nestedSubCategory"
-                                                      );
-                                                    return (
-                                                      <div
-                                                        key={nestedSubCat.name}
-                                                        className="form-check mb-2"
-                                                      >
-                                                        <input
-                                                          id={nestedSubCat.name}
-                                                          name="nestedSubCategory"
-                                                          className="form-check-input"
-                                                          type="checkbox"
-                                                          value={
-                                                            nestedSubCat.name
-                                                          }
-                                                          onChange={(e) =>
-                                                            handleSubcategoryChange(
-                                                              e,
-                                                              "multiple"
-                                                            )
-                                                          }
-                                                          checked={
-                                                            params &&
-                                                            params.find(
-                                                              (val) =>
-                                                                val ===
-                                                                getUrlText(
-                                                                  nestedSubCat.name
-                                                                )
-                                                            )
-                                                          }
-                                                        />
-
-                                                        <label
-                                                          htmlFor={
-                                                            nestedSubCat.name
-                                                          }
-                                                          className="form-check-label"
-                                                        >
-                                                          {nestedSubCat.name}
-                                                        </label>
-                                                      </div>
-                                                    );
-                                                  }
-                                                )}
-                                            </>
-                                          )
-                                        ) : (
-                                          <div className="form-check mb-2">
-                                            <input
-                                              id={subcat.name}
-                                              name="subcategory"
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              value={subcat.name}
-                                              onChange={handleSubcategoryChange}
-                                              checked={
-                                                urlSubCategory ===
-                                                subCategoryParam
-                                              }
-                                              style={{ cursor: "pointer" }}
-                                            />
-                                            <label
-                                              htmlFor={subcat.name}
-                                              className="form-check-label"
-                                              style={{ cursor: "pointer" }}
-                                            >
-                                              {subcat.name}
-                                            </label>
-                                          </div>
-                                        )}
-                                      </Form.Group>
+                                      <li key={`${label}-modal-${index}`}>
+                                        <label className="d-flex align-items-center gap-2">
+                                          <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={(e) => {
+                                              handleFiltersChange(
+                                                {
+                                                  target: {
+                                                    name: "brand",
+                                                    value: label,
+                                                    checked: e.target.checked,
+                                                  },
+                                                },
+                                                currentCategoryFilters.filters.brand.select
+                                              );
+                                            }}
+                                          />
+                                          <span>{label}</span>
+                                        </label>
+                                      </li>
                                     );
-                                  }
-                                )}
-                              </div>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        </Accordion>
-                        <HorizantalLine />{" "}
-                      </>
-                    )}
+                                  })}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                            <div className="text-muted small">
+                              {searchParams.getAll("brand").length} brand(s) selected
+                            </div>
+                            <div className="d-flex gap-2">
+                              <button
+                                type="button"
+                                className="btn btn-outline-secondary"
+                                onClick={() => {
+                                  setSearchParams((params) => {
+                                    const newParams = new URLSearchParams(params);
+                                    newParams.delete("brand");
+                                    newParams.delete("brandModel");
+                                    return newParams;
+                                  });
+                                  setShowBrandModal(false);
+                                }}
+                              >
+                                Clear Selection
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-primary px-4"
+                                onClick={() => setShowBrandModal(false)}
+                              >
+                                Done
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Brand Model Modal - Shared modal for all brand model selections */}
+                  {showBrandModelModal && (
+                    <div
+                      className="modal fade show more_optn_modal_main"
+                      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                      tabIndex="-1"
+                    >
+                      <div className="modal-dialog modal-dialog-scrollable">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title">Select More Models</h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              onClick={() => setShowBrandModelModal(false)}
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <div className="mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search models..."
+                                value={searchTermBrandModel}
+                                onChange={(e) => setSearchTermBrandModel(e.target.value)}
+                              />
+                            </div>
+                            <div className="row">
+                              <ul className="more_choice_main_list">
+                                {availableBrandModels
+                                  .filter((model) =>
+                                    model.toLowerCase().includes(searchTermBrandModel.toLowerCase())
+                                  )
+                                  .map((model, index) => {
+                                    const isChecked = searchParams.getAll("brandModel").includes(getUrlText(model));
+                                    return (
+                                      <li key={`${model}-modal-${index}`}>
+                                        <label className="d-flex align-items-center gap-2">
+                                          <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={() => {
+                                              const selectedModels = searchParams.getAll("brandModel");
+                                              const modelUrl = getUrlText(model);
+
+                                              setSearchParams((params) => {
+                                                const newParams = new URLSearchParams(params);
+                                                newParams.delete("brandModel");
+
+                                                if (selectedModels.includes(modelUrl)) {
+                                                  selectedModels
+                                                    .filter((m) => m !== modelUrl)
+                                                    .forEach((m) => newParams.append("brandModel", m));
+                                                } else {
+                                                  [...selectedModels, modelUrl].forEach((m) =>
+                                                    newParams.append("brandModel", m)
+                                                  );
+                                                }
+
+                                                return newParams;
+                                              });
+                                            }}
+                                          />
+                                          <span>{model}</span>
+                                        </label>
+                                      </li>
+                                    );
+                                  })}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
+                            <div className="text-muted small">
+                              {searchParams.getAll("brandModel").length} model(s) selected
+                            </div>
+                            <div className="d-flex gap-2">
+                              <button
+                                type="button"
+                                className="btn btn-outline-secondary"
+                                onClick={() => {
+                                  setSearchParams((params) => {
+                                    const newParams = new URLSearchParams(params);
+                                    newParams.delete("brandModel");
+                                    return newParams;
+                                  });
+                                  setShowBrandModelModal(false);
+                                }}
+                              >
+                                Clear Selection
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-primary px-4"
+                                onClick={() => setShowBrandModelModal(false)}
+                              >
+                                Done
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* filters */}
                   {Object.entries(currentCategoryFilters.filters || {}).map(
-                    ([filterKey, filterValue]) => (
+                    ([filterKey, filterValue], filterIndex) => (
                       <React.Fragment key={filterKey}>
                         <Accordion className="mt-3">
                           <Accordion.Item eventKey="0">
@@ -1791,128 +2042,37 @@ const Search = () => {
                                 }}
                               >
                                 {filterValue.type === "checkbox" ? (
-                                  filterValue.options.map(
-                                    (value, valueIndex) => {
-                                      const id =
-                                        value.name &&
-                                        typeof value.name === "string"
-                                          ? value.name.toLowerCase()
-                                          : typeof value === "string"
-                                          ? value.toLowerCase()
-                                          : "";
+                                  <>
+                                    {filterValue.options
+                                      .slice(0, filterKey === "brand" ? 5 : filterValue.options.length)
+                                      .map((value, valueIndex) => {
+                                        const id =
+                                          value.name &&
+                                          typeof value.name === "string"
+                                            ? value.name.toLowerCase()
+                                            : typeof value === "string"
+                                            ? value.toLowerCase()
+                                            : "";
 
-                                      const label = value.name
-                                        ? value.name
-                                        : value;
+                                        const label = value.name
+                                          ? value.name
+                                          : value;
 
-                                      const paramValues =
-                                        searchParams.getAll(filterKey);
+                                        const paramValues =
+                                          searchParams.getAll(filterKey);
 
-                                      const checkedFilter =
-                                        filterValue.select === "multiple"
-                                          ? paramValues &&
-                                            paramValues.find(
-                                              (val) => val === getUrlText(label)
-                                            )
-                                          : searchParams.get(filterKey) ===
-                                            getUrlText(label);
-                                      return (
-                                        <Form.Group
-                                          key={`${filterKey}-${id}-${valueIndex}`}
-                                        >
-                                          {value.models ? (
-                                            <>
-                                              <div className="form-check mb-2">
-                                                <input
-                                                  id={label}
-                                                  name={String(filterKey)}
-                                                  className="form-check-input"
-                                                  type="checkbox"
-                                                  checked={checkedFilter}
-                                                  value={label}
-                                                  onChange={(e) =>
-                                                    handleFiltersChange(
-                                                      e,
-                                                      filterValue.select
-                                                    )
-                                                  }
-                                                  style={{ cursor: "pointer" }}
-                                                />
-                                                <label
-                                                  htmlFor={label}
-                                                  className="form-check-label"
-                                                  style={{ cursor: "pointer" }}
-                                                >
-                                                  {label}
-                                                </label>
-                                              </div>
-                                              {checkedFilter &&
-                                                value.models.length > 0 && (
-                                                  <div
-                                                    style={{
-                                                      border: "1px solid black",
-                                                      borderRadius: "5px",
-                                                      padding: "5px",
-                                                    }}
-                                                  >
-                                                    <label htmlFor="">
-                                                      Brand Models
-                                                    </label>
-                                                    {value.models.map(
-                                                      (model) => {
-                                                        return (
-                                                          <div
-                                                            key={model}
-                                                            className="form-check mb-2"
-                                                          >
-                                                            <input
-                                                              id={model}
-                                                              name={
-                                                                "brandModel"
-                                                              }
-                                                              className="form-check-input"
-                                                              type="checkbox"
-                                                              checked={searchParams
-                                                                .getAll(
-                                                                  "brandModel"
-                                                                )
-                                                                .find(
-                                                                  (val) =>
-                                                                    val ===
-                                                                    getUrlText(
-                                                                      model
-                                                                    )
-                                                                )}
-                                                              value={model}
-                                                              onChange={(e) =>
-                                                                handleFiltersChange(
-                                                                  e,
-                                                                  "multiple"
-                                                                )
-                                                              }
-                                                              style={{
-                                                                cursor:
-                                                                  "pointer",
-                                                              }}
-                                                            />
-                                                            <label
-                                                              htmlFor={model}
-                                                              className="form-check-label"
-                                                              style={{
-                                                                cursor:
-                                                                  "pointer",
-                                                              }}
-                                                            >
-                                                              {model}
-                                                            </label>
-                                                          </div>
-                                                        );
-                                                      }
-                                                    )}
-                                                  </div>
-                                                )}
-                                            </>
-                                          ) : (
+                                        const checkedFilter =
+                                          filterValue.select === "multiple"
+                                            ? paramValues &&
+                                              paramValues.find(
+                                                (val) => val === getUrlText(label)
+                                              )
+                                            : searchParams.get(filterKey) ===
+                                              getUrlText(label);
+                                        return (
+                                          <Form.Group
+                                            key={`${filterKey}-${id}-${valueIndex}`}
+                                          >
                                             <div className="form-check mb-2">
                                               <input
                                                 id={label}
@@ -1949,11 +2109,19 @@ const Search = () => {
                                                 {label}
                                               </label>
                                             </div>
-                                          )}
-                                        </Form.Group>
-                                      );
-                                    }
-                                  )
+                                          </Form.Group>
+                                        );
+                                      })}
+                                    {filterKey === "brand" && filterValue.options.length > 5 && (
+                                      <button
+                                        type="button"
+                                        className="btn btn-link p-0"
+                                        onClick={() => setShowBrandModal(true)}
+                                      >
+                                        Show more choices...
+                                      </button>
+                                    )}
+                                  </>
                                 ) : filterValue.type === "select" ? (
                                   <Form.Group
                                     controlId="formStreetWidth"
@@ -2116,6 +2284,75 @@ const Search = () => {
                           </Accordion.Item>
                         </Accordion>
                         <HorizantalLine />
+
+                        {/* Show Brand Model filter right after Brand filter */}
+                        {filterKey === "brand" && availableBrandModels.length > 0 && (
+                          <>
+                            <Accordion className="mt-3">
+                              <Accordion.Item eventKey="0">
+                                <Accordion.Header>Select Model</Accordion.Header>
+                                <Accordion.Body>
+                                  <Form.Group className="mb-3">
+                                    <div className="grid grid-cols-1 gap-2">
+                                      {availableBrandModels.slice(0, 5).map((model, index) => {
+                                        const isChecked = searchParams.getAll("brandModel").includes(getUrlText(model));
+                                        return (
+                                          <div key={`${model}-${index}`} className="form-check">
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              id={`model-inline-${model}-${index}`}
+                                              checked={isChecked}
+                                              onChange={() => {
+                                                const selectedModels = searchParams.getAll("brandModel");
+                                                const modelUrl = getUrlText(model);
+
+                                                setSearchParams((params) => {
+                                                  const newParams = new URLSearchParams(params);
+                                                  newParams.delete("brandModel");
+
+                                                  if (selectedModels.includes(modelUrl)) {
+                                                    selectedModels
+                                                      .filter((m) => m !== modelUrl)
+                                                      .forEach((m) => newParams.append("brandModel", m));
+                                                  } else {
+                                                    [...selectedModels, modelUrl].forEach((m) =>
+                                                      newParams.append("brandModel", m)
+                                                    );
+                                                  }
+
+                                                  return newParams;
+                                                });
+                                              }}
+                                              style={{ cursor: "pointer" }}
+                                            />
+                                            <label
+                                              className="form-check-label"
+                                              htmlFor={`model-inline-${model}-${index}`}
+                                              style={{ cursor: "pointer" }}
+                                            >
+                                              {model}
+                                            </label>
+                                          </div>
+                                        );
+                                      })}
+                                      {availableBrandModels.length > 5 && (
+                                        <button
+                                          type="button"
+                                          className="btn btn-link p-0"
+                                          onClick={() => setShowBrandModelModal(true)}
+                                        >
+                                          Show more choices...
+                                        </button>
+                                      )}
+                                    </div>
+                                  </Form.Group>
+                                </Accordion.Body>
+                              </Accordion.Item>
+                            </Accordion>
+                            <HorizantalLine />
+                          </>
+                        )}
                       </React.Fragment>
                     )
                   )}
