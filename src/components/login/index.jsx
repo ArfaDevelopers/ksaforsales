@@ -39,14 +39,14 @@ const Login = () => {
     const value = e.target.value;
     setPhoneNumber(value);
 
-    // This regex only allows valid sequences starting with +9665 followed by up to 8 digits
-    const liveKsaPhoneRegex = /^\+9665\d{0,8}$/;
+    // This regex only allows valid sequences starting with +925 followed by up to 8 digits
+    const liveKsaPhoneRegex = /^\+925\d{0,8}$/;
 
     // Show error if input is not empty and doesn't match the required live pattern
     if (value === "") {
       setError1("");
     } else if (!liveKsaPhoneRegex.test(value)) {
-      setError1("Please enter a valid KSA phone number (+9665xxxxxxxx)");
+      setError1("Please enter a valid KSA phone number (+925xxxxxxxx)");
     } else {
       setError1("");
     }
@@ -154,7 +154,7 @@ const Login = () => {
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber(e.target.value);
   };
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  const fullPhoneNumber = `+92${phoneNumber}`;
   // Handle email & password input changes
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -246,7 +246,7 @@ const Login = () => {
                               fontSize: "14px",
                             }}
                           >
-                            +966
+                            +92
                           </span>
                         </span>
                         <input

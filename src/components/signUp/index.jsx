@@ -49,7 +49,7 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  const fullPhoneNumber = `+92${phoneNumber}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
@@ -72,9 +72,9 @@ const SignUp = () => {
   }, []);
 
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+966\d{8}$/;
+    const saudiNumberRegex = /^\+92\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
-      setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
+      setSaudinummsg("Please enter valid Saudi like +925XXXXXXXX");
       setPhoneNumber("");
     }
   };
@@ -405,7 +405,7 @@ const SignUp = () => {
                               fontSize: "14px",
                             }}
                           >
-                            +966
+                            +92
                           </span>
                         </span>
                         <input
