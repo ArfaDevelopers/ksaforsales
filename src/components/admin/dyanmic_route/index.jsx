@@ -298,7 +298,7 @@ const Dynamic_Route = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [show, setShow] = useState(false);
 
-  const receiverNumber = "+923445101462"; // The number you want to call
+  const receiverNumber = "+9663445101462"; // The number you want to call
   const [calling, setCalling] = useState(false);
   const [showReport, setshowReport] = useState(false);
   const [FeaturedAds, setFeaturedAds] = useState(false);
