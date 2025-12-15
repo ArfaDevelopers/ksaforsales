@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, useSearchParams } from "react-router-dom";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "./../../Firebase/FirebaseConfig";
 import { data as categoriesData } from "./../../../utils/data";
 
@@ -15,16 +12,22 @@ const HeaderLower = () => {
   const [searchParams] = useSearchParams();
 
   // Firebase category title states
-  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState("");
+  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] =
+    useState("");
   const [ElectronicsTitle, setElectronicsTitle] = useState("");
   const [FashionStyleTitle, setFashionStyleTitle] = useState("");
-  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] = useState("");
+  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] =
+    useState("");
   const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState("");
-  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] = useState("");
+  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] =
+    useState("");
   const [OurCategoryTravelTitle, setOurCategoryTravelTitle] = useState("");
-  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] = useState("");
-  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] = useState("");
-  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] = useState("");
+  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] =
+    useState("");
+  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] =
+    useState("");
+  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] =
+    useState("");
 
   // Function to update mobile state
   const updateIsMobile = () => {
@@ -76,30 +79,30 @@ const HeaderLower = () => {
 
   // Create category title map
   const categoryTitleMap = {
-    "Motors": OurCategoryAutomativeTitle,
-    "Electronics": ElectronicsTitle,
+    Motors: OurCategoryAutomativeTitle,
+    Electronics: ElectronicsTitle,
     "Fashion Style": FashionStyleTitle,
     "Home & Furniture": OurCategoryHealthCareTitle,
     "Job Board": OurCategoryJobBoardTitle,
     "Real Estate": OurCategoryRealEstateTitle,
-    "Services": OurCategoryTravelTitle,
+    Services: OurCategoryTravelTitle,
     "Sport & Games": OurCategorySportGamesTitle,
     "Pet & Animals": OurCategoryPetAnimalsTitle,
-    "Other": OurCategoryEducationTitle,
+    Other: OurCategoryEducationTitle,
   };
 
   // Category name to URL slug mapping
   const categorySlugMap = {
-    "Motors": "motors",
-    "Electronics": "electronics",
+    Motors: "motors",
+    Electronics: "electronics",
     "Fashion Style": "fashion-style",
     "Home & Furniture": "home-furniture",
     "Job Board": "job-board",
     "Real Estate": "real-estate",
-    "Services": "services",
+    Services: "services",
     "Sport & Games": "sport-and-game",
     "Pet & Animals": "pet-and-animals",
-    "Other": "other",
+    Other: "other",
   };
 
   // Build categories from data.js
@@ -109,10 +112,11 @@ const HeaderLower = () => {
       ...category,
       displayName: categoryTitleMap[category.name] || category.name,
       slug: categorySlugMap[category.name] || category.name,
-      subcategories: category.subcategories?.map((sub) => ({
-        ...sub,
-        nestedSubcategories: sub.nestedSubCategories || [],
-      })) || [],
+      subcategories:
+        category.subcategories?.map((sub) => ({
+          ...sub,
+          nestedSubcategories: sub.nestedSubCategories || [],
+        })) || [],
     }))
     .concat([
       {
@@ -161,20 +165,30 @@ const HeaderLower = () => {
                 <div className="mega-menu">
                   <ul
                     className={`submenu-list ${
-                      category.name === "Real Estate" ? "real-estate-scroll" : ""
+                      category.name === "Real Estate"
+                        ? "real-estate-scroll"
+                        : ""
                     }`}
                   >
                     {category.subcategories?.map((subcategory) => (
                       <li
                         key={subcategory.name}
                         className="submenu-item"
-                        onMouseEnter={() => setOpenSubDropdown(subcategory.name)}
+                        onMouseEnter={() =>
+                          setOpenSubDropdown(subcategory.name)
+                        }
                         onMouseLeave={() => setOpenSubDropdown(null)}
                       >
                         <NavLink
-                          to={`/search?category=${category.slug}&subcategory=${subcategory.path.split("subcategory=")[1]?.split("&")[0] || ""}`}
+                          to={`/search?category=${category.slug}&subcategory=${
+                            subcategory.path
+                              .split("subcategory=")[1]
+                              ?.split("&")[0] || ""
+                          }`}
                           className={({ isActive }) =>
-                            isActive ? "submenu-link active-link" : "submenu-link"
+                            isActive
+                              ? "submenu-link active-link"
+                              : "submenu-link"
                           }
                         >
                           {subcategory.name}
@@ -196,7 +210,17 @@ const HeaderLower = () => {
                                       className="submenu-item"
                                     >
                                       <NavLink
-                                        to={`/search?category=${category.slug}&subcategory=${subcategory.path.split("subcategory=")[1]?.split("&")[0] || ""}&nestedsubcategory=${nestedSubcategory.path.split("nestedsubcategory=")[1] || ""}`}
+                                        to={`/search?category=${
+                                          category.slug
+                                        }&subcategory=${
+                                          subcategory.path
+                                            .split("subcategory=")[1]
+                                            ?.split("&")[0] || ""
+                                        }&nestedsubcategory=${
+                                          nestedSubcategory.path.split(
+                                            "nestedsubcategory="
+                                          )[1] || ""
+                                        }`}
                                         className={({ isActive }) =>
                                           isActive
                                             ? "submenu-link active-link"
