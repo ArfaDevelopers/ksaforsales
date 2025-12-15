@@ -100,7 +100,7 @@ const HeaderLower = () => {
     "Job Board": "job-board",
     "Real Estate": "real-estate",
     Services: "services",
-    "Sport & Games": "sport-and-game",
+    "Sport & Game": "sport-and-game",
     "Pet & Animals": "pet-and-animals",
     Other: "other",
   };
@@ -153,7 +153,17 @@ const HeaderLower = () => {
               }
               className={() => {
                 const currentCategory = searchParams.get("category");
-                const isActiveCategory = currentCategory === category.slug;
+                let isActiveCategory = false;
+
+                if (category.name === "Commercial") {
+                  // For Commercial, check hash for CommercialAdscom
+                  const currentHash = window.location.hash;
+                  isActiveCategory = currentHash.includes("CommercialAdscom");
+                } else {
+                  // For others, check category query param
+                  isActiveCategory = currentCategory === category.slug;
+                }
+
                 return isActiveCategory ? "nav-link active-link" : "nav-link";
               }}
             >

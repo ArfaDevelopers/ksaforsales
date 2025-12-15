@@ -45,6 +45,14 @@ export default function AutomativeCarousel() {
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState("Furniture");
 
+  // Helper function to extract subcategory slug from path
+  const extractSubcategorySlug = (path) => {
+    if (!path) return "";
+    // Extract the subcategory name from the path (e.g., "Furniture" from "/HealthCareComp?subCatgory=Furniture")
+    const match = path.match(/subCatgory=(.+?)(?:&|$)/);
+    return match ? match[1].toLowerCase().replace(/\s+/g, "-") : "";
+  };
+
   useEffect(() => {
     const cats = getSubcategoriesByName("Home & Furniture");
     setSubcategories(cats);
@@ -57,7 +65,7 @@ export default function AutomativeCarousel() {
           "http://168.231.80.24:9002/route/HEALTHCARECarousal"
         );
         const data = await response.json();
-        if(!response.ok) return
+        if (!response.ok) return;
 
         console.log(data, "mydata");
         setAds(data); // Set the state with the ads data
@@ -160,34 +168,46 @@ export default function AutomativeCarousel() {
           </div>
 
           <div className="feature-section-info">
-            <ul className="info-list" style={{
-              display: "flex",
-              overflowX: "auto",
-              whiteSpace: "nowrap",
-              scrollBehavior: "smooth",
-              paddingBottom: "8px",
-              gap: "10px",
-              WebkitOverflowScrolling: "touch",
-              scrollbarWidth: "thin",
-              scrollbarColor: "#ddd #f5f5f5"
-            }}>
+            <ul
+              className="info-list"
+              style={{
+                display: "flex",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+                scrollBehavior: "smooth",
+                paddingBottom: "8px",
+                gap: "10px",
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#ddd #f5f5f5",
+              }}
+            >
               {subcategories.map((sub, index) => (
                 <li
                   key={index}
                   className={activeSubcategory === sub.name ? "active" : ""}
                   onClick={() => {
                     setActiveSubcategory(sub.name);
-                    navigate(sub.path);
+                    // Use proper /search URL format
+                    const subcategorySlug = extractSubcategorySlug(sub.path);
+                    if (subcategorySlug) {
+                      navigate(
+                        `/search?category=home-furniture&subcategory=${subcategorySlug}`
+                      );
+                    }
                   }}
                   style={{
                     cursor: "pointer",
                     padding: "8px 16px",
-                    borderBottom: activeSubcategory === sub.name ? "3px solid #2563eb" : "3px solid transparent",
+                    borderBottom:
+                      activeSubcategory === sub.name
+                        ? "3px solid #2563eb"
+                        : "3px solid transparent",
                     flexShrink: 0,
                     transition: "all 0.3s ease",
                     fontSize: "14px",
                     color: activeSubcategory === sub.name ? "#2563eb" : "#666",
-                    fontWeight: activeSubcategory === sub.name ? "600" : "500"
+                    fontWeight: activeSubcategory === sub.name ? "600" : "500",
                   }}
                   onMouseEnter={(e) => {
                     if (activeSubcategory !== sub.name) {

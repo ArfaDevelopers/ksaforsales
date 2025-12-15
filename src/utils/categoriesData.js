@@ -142,7 +142,7 @@ export const categoriesData = [
   },
   {
     name: "Home & Furniture",
-    path: "/search?category=home-and-furniture",
+    path: "/search?category=home-furniture",
     collectionName: "HEALTHCARE",
     subcategories: [
       {

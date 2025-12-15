@@ -408,15 +408,41 @@ const CommercialAdscom = () => {
   // };
   const handleCopyLink = () => {
     const currentUrl = paramLink; // Gets the full URL
-    navigator.clipboard
-      .writeText(currentUrl)
-      .then(() => {
-        alert("Link copied to clipboard!");
-      })
-      .catch((err) => {
-        alert("Failed to copy the link.");
-        console.error(err);
-      });
+
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          alert("Link copied to clipboard!");
+        })
+        .catch((err) => {
+          // Fallback to older method if clipboard API fails
+          copyLinkFallback(currentUrl);
+        });
+    } else {
+      // Fallback for browsers without clipboard support
+      copyLinkFallback(currentUrl);
+    }
+  };
+
+  // Fallback method for copying to clipboard
+  const copyLinkFallback = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
+    } catch (err) {
+      alert("Failed to copy the link. Please try again.");
+      console.error("Fallback copy failed:", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   // const handleCopyLink = () => {
@@ -579,7 +605,7 @@ const CommercialAdscom = () => {
                 gap: "15px",
                 justifyContent: "space-between",
                 marginBottom: "1rem",
-                alignItems:"center",
+                alignItems: "center",
               }}
             >
               {/* Share Button */}
@@ -606,7 +632,7 @@ const CommercialAdscom = () => {
                 </span>
                 Share
               </button>
-              
+
               <Form.Select
                 aria-label="Category options"
                 value={selectedCategory}
@@ -702,7 +728,18 @@ const CommercialAdscom = () => {
                               alert(
                                 "Instagram sharing is only available on mobile apps. Link copied!"
                               );
-                              navigator.clipboard.writeText(link);
+                              if (
+                                navigator.clipboard &&
+                                navigator.clipboard.writeText
+                              ) {
+                                navigator.clipboard
+                                  .writeText(link)
+                                  .catch(() => {
+                                    copyLinkFallback(link);
+                                  });
+                              } else {
+                                copyLinkFallback(link);
+                              }
                             }
                           }}
                         />

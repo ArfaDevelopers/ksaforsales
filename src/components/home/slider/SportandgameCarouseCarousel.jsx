@@ -161,34 +161,43 @@ export default function AutomativeCarousel() {
           </div>
 
           <div className="feature-section-info">
-            <ul className="info-list" style={{
-              display: "flex",
-              overflowX: "auto",
-              whiteSpace: "nowrap",
-              scrollBehavior: "smooth",
-              paddingBottom: "8px",
-              gap: "10px",
-              WebkitOverflowScrolling: "touch",
-              scrollbarWidth: "thin",
-              scrollbarColor: "#ddd #f5f5f5"
-            }}>
+            <ul
+              className="info-list"
+              style={{
+                display: "flex",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+                scrollBehavior: "smooth",
+                paddingBottom: "8px",
+                gap: "10px",
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#ddd #f5f5f5",
+              }}
+            >
               {subcategories.map((sub, index) => (
                 <li
                   key={index}
                   className={activeSubcategory === sub.name ? "active" : ""}
                   onClick={() => {
                     setActiveSubcategory(sub.name);
-                    navigate(sub.path);
+                    // Use the path directly from the subcategory data
+                    if (sub.path) {
+                      navigate(sub.path);
+                    }
                   }}
                   style={{
                     cursor: "pointer",
                     padding: "8px 16px",
-                    borderBottom: activeSubcategory === sub.name ? "3px solid #2563eb" : "3px solid transparent",
+                    borderBottom:
+                      activeSubcategory === sub.name
+                        ? "3px solid #2563eb"
+                        : "3px solid transparent",
                     flexShrink: 0,
                     transition: "all 0.3s ease",
                     fontSize: "14px",
                     color: activeSubcategory === sub.name ? "#2563eb" : "#666",
-                    fontWeight: activeSubcategory === sub.name ? "600" : "500"
+                    fontWeight: activeSubcategory === sub.name ? "600" : "500",
                   }}
                   onMouseEnter={(e) => {
                     if (activeSubcategory !== sub.name) {
