@@ -56,7 +56,7 @@ const Search = () => {
     "pet-and-animals": "Pet & Animals",
     "pet-animals": "Pet & Animals",
     other: "Other",
-    commercial: "Commercial",
+    
   };
 
   const categoryDisplayName = category ? categoryMap[category.toLowerCase()] : "";
@@ -302,7 +302,6 @@ const Search = () => {
           { name: "TRAVEL", category: "Services" },
           { name: "SPORTSGAMESComp", category: "Sport & Game" },
           { name: "PETANIMALCOMP", category: "Pet & Animals" },
-          { name: "CommercialAdscom", category: "Commercial" },
           { name: "banneradsimg", category: null },  // General banner ads for all categories
         ];
 
@@ -1018,7 +1017,6 @@ const Search = () => {
       "Sport & Game",
       "Pet & Animals",
       "Other",
-      "Commercial",
     ],
   };
 

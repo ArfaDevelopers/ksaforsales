@@ -3038,8 +3038,4 @@ export const data = [
       },
     },
   },
-  {
-    name: "Commercial",
-    path: "/commercial",
-  },
 ];
