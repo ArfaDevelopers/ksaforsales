@@ -8375,7 +8375,7 @@ const AddLisiting = () => {
                                       { name: "5", label: "5" },
                                       { name: "2", label: "2" },
                                       { name: "3", label: "3" },
-                                      { name: "0", label: "0" },
+                  
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">

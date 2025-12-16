@@ -1280,7 +1280,7 @@ export const data = [
         name: "Seating Capacity",
         select: "multiple",
         type: "checkbox",
-        options: ["4", "5", "2", "3", "0"],
+        options: ["4", "5", "2", "3",],
       },
     },
   },

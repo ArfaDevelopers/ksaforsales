@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import {
   Navigate,
   useLocation,
@@ -103,7 +103,8 @@ const Search = () => {
   }, [searchParams]);
 
   const getUrlText = (text) => {
-    return text
+    if (!text) return "";
+    return String(text)
       .trim()
       .toLowerCase()
       .replace(/&/g, "and")
@@ -113,7 +114,8 @@ const Search = () => {
   };
 
   const getTextFromURL = (text) => {
-    return text
+    if (!text) return "";
+    return String(text)
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
@@ -302,7 +304,6 @@ const Search = () => {
     const fetchAllAds = async () => {
       try {
         setLoading(true);
-        console.log("Starting to fetch ads from Firebase collections...");
 
         const collections = [
           { name: "Cars", category: "Motors" },
@@ -335,18 +336,10 @@ const Search = () => {
                 doc.data().ModalCategory || doc.data().category || col.category,
               collectionSource: col.name,
             }));
-            console.log(`Fetched ${adsList.length} ads from ${col.name}`);
             allAdsArray = [...allAdsArray, ...adsList];
           } catch (error) {
             console.error(`Error fetching from ${col.name}:`, error);
           }
-        }
-
-        if (allAdsArray.length > 0) {
-          const uniqueCategories = [
-            ...new Set(allAdsArray.map((ad) => ad.category)),
-          ];
-          console.log("ALL unique category values:", uniqueCategories);
         }
 
         // Ensure all ads have Purpose field with default value "Sell" if not present
@@ -356,37 +349,6 @@ const Search = () => {
           }
           return ad;
         });
-
-        console.log(`📊 Total ads loaded: ${adsWithPurpose.length}`);
-        console.log(
-          `📊 Ads with Purpose field:`,
-          adsWithPurpose.filter((ad) => ad.Purpose).length
-        );
-        console.log(
-          `📊 Ads with AdType field:`,
-          adsWithPurpose.filter((ad) => ad.AdType).length
-        );
-        console.log(
-          `📊 Sample ads:`,
-          adsWithPurpose
-            .slice(0, 3)
-            .map((ad) => ({
-              id: ad.id,
-              Purpose: ad.Purpose,
-              AdType: ad.AdType,
-              category: ad.category,
-            }))
-        );
-
-        // Log unique Purpose values to see what we're dealing with
-        const uniquePurposes = [
-          ...new Set(adsWithPurpose.map((ad) => ad.Purpose).filter((p) => p)),
-        ];
-        const uniqueAdTypes = [
-          ...new Set(adsWithPurpose.map((ad) => ad.AdType).filter((a) => a)),
-        ];
-        console.log(`📊 Unique Purpose values in database:`, uniquePurposes);
-        console.log(`📊 Unique AdType values in database:`, uniqueAdTypes);
 
         setAllAds(adsWithPurpose);
         setFilteredAds(adsWithPurpose);
@@ -410,7 +372,6 @@ const Search = () => {
 
     if (category) {
       const categoryValue = categoryMap[category.toLowerCase()];
-      console.log("🔍 Filtering by category:", categoryValue);
 
       if (categoryValue) {
         filtered = filtered.filter((ad) => {
@@ -438,7 +399,7 @@ const Search = () => {
         const adSubCategory = getUrlText(ad.SubCategory || "");
         return subCategoryParams.includes(adSubCategory);
       });
-      console.log("After subcategory filter:", filtered.length);
+      
     }
     const nestedSubCategoryParam = searchParams.get("nestedSubCategory");
     if (nestedSubCategoryParam) {
@@ -446,7 +407,7 @@ const Search = () => {
         const adNestedSubCategory = getUrlText(ad.NestedSubCategory || "");
         return adNestedSubCategory === nestedSubCategoryParam;
       });
-      console.log("After nested subcategory filter:", filtered.length);
+      
     }
     if (searchKeyword.trim()) {
       const keyword = searchKeyword.toLowerCase();
@@ -469,7 +430,7 @@ const Search = () => {
     const featuredAdsParam = searchParams.get("featuredAds");
     if (featuredAdsParam) {
       filtered = filtered.filter((ad) => ad.FeaturedAds === "Featured Ads");
-      console.log("After featured ads filter:", filtered.length);
+      
     }
     const filterParams = [
       "condition",
@@ -546,8 +507,6 @@ const Search = () => {
     filterParams.forEach((param) => {
       const paramValues = searchParams.getAll(param);
       if (paramValues.length > 0) {
-        console.log(`🔍 Filtering by ${param}:`, paramValues);
-
         filtered = filtered.filter((ad) => {
           // Get possible field names from the map, or use default case variations
           const possibleFieldNames = fieldNameMap[param] || [
@@ -583,7 +542,7 @@ const Search = () => {
               )
             );
             if (matches) {
-              console.log(`Ad ${ad.id} matches ${param}: ${adValue}`);
+              
             }
             return matches;
           }
@@ -596,12 +555,12 @@ const Search = () => {
           );
 
           if (matches) {
-            console.log(`Ad ${ad.id} matches ${param}: ${adValue}`);
+            
           }
 
           return matches;
         });
-        console.log(`After ${param} filter:`, filtered.length);
+        
       }
     });
     const fromPrice = searchParams.get("fromPrice");
@@ -626,7 +585,7 @@ const Search = () => {
         if (toYear && year > parseInt(toYear)) return false;
         return true;
       });
-      console.log("After year filter:", filtered.length);
+      
     }
     const fromMileage = searchParams.get("fromMileage");
     const toMileage = searchParams.get("toMileage");
@@ -638,7 +597,7 @@ const Search = () => {
         if (toMileage && mileage > parseFloat(toMileage)) return false;
         return true;
       });
-      console.log("After mileage filter:", filtered.length);
+      
     }
 
     // Location filters
@@ -654,7 +613,7 @@ const Search = () => {
             String(ad.REGION_ID) === String(regionId)
         );
       });
-      console.log("After region filter:", filtered.length);
+      
     }
 
     if (cityParams.length > 0) {
@@ -665,7 +624,7 @@ const Search = () => {
             String(ad.cityId) === String(cityId)
         );
       });
-      console.log("After city filter:", filtered.length);
+      
     }
 
     if (districtParams.length > 0) {
@@ -676,10 +635,10 @@ const Search = () => {
             String(ad.districtId) === String(districtId)
         );
       });
-      console.log("After district filter:", filtered.length);
+      
     }
 
-    console.log("Final filtered count:", filtered.length);
+    
     setCurrentPage(1);
     setFilteredAds(filtered);
   }, [allAds, category, subCategoryParam, searchParams, searchKeyword]);
@@ -698,13 +657,13 @@ const Search = () => {
           heartedby: arrayRemove(adId),
         });
         setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
-        console.log("Removed bookmark for ad:", adId);
+        
       } else {
         await updateDoc(userDocRef, {
           heartedby: arrayUnion(adId),
         });
         setBookmarkedAds([...bookmarkedAds, adId]);
-        console.log("Added bookmark for ad:", adId);
+        
       }
       const ad = allAds.find((a) => a.id === adId);
       const collectionName = ad?.collectionSource;
@@ -723,7 +682,7 @@ const Search = () => {
                 heartedby: arrayUnion(currentUser.uid),
               });
             }
-            console.log(`Updated ad document in ${collectionName} collection`);
+            
             setAllAds((prevAds) =>
               prevAds.map((a) =>
                 a.id === adId
@@ -752,13 +711,9 @@ const Search = () => {
                   : a
               )
             );
-          } else {
-            console.log(
-              `Ad document not found in ${collectionName}, skipping ad update`
-            );
           }
         } catch (adError) {
-          console.log("Could not update ad document:", adError.message);
+          
         }
       }
     } catch (error) {
@@ -786,7 +741,7 @@ const Search = () => {
   };
 
   // Function to count occurrences of a value in filtered ads
-  const getCountForOption = (fieldNames, value) => {
+  const getCountForOption = useCallback((fieldNames, value) => {
     if (!Array.isArray(fieldNames)) {
       fieldNames = [fieldNames];
     }
@@ -794,13 +749,55 @@ const Search = () => {
     // Convert value to string for comparison
     const stringValue = String(value).trim();
 
-    console.log(
-      `🔍 getCountForOption called: value="${value}", fieldNames=${JSON.stringify(
-        fieldNames
-      )}, stringValue="${stringValue}"`
-    );
+    // Start with all ads, then apply category/subcategory filters
+    let baseAds = [...allAds];
 
-    const matchingAds = allAds.filter((ad) => {
+    // Filter by category if selected
+    if (category) {
+      const categoryValue = categoryMap[category.toLowerCase()];
+      if (categoryValue) {
+        baseAds = baseAds.filter((ad) => {
+          const categoryVariations = [categoryValue];
+          if (categoryValue === "Sport & Game") {
+            categoryVariations.push("Sports & Game");
+          }
+          if (categoryValue === "Home & Furniture") {
+            categoryVariations.push("Home & Furnituer");
+          }
+          return categoryVariations.some(
+            (variation) =>
+              ad.category === variation || ad.ModalCategory === variation
+          );
+        });
+      }
+    }
+
+    // Don't filter by subcategory for counts - show counts for entire category
+    // This way users can see filter availability across all subcategories in the category
+
+    // Filter by search keyword if present
+    if (searchKeyword && searchKeyword.trim() !== "") {
+      const keyword = searchKeyword.toLowerCase().trim();
+      baseAds = baseAds.filter((ad) => {
+        const searchableText = [
+          ad.Title,
+          ad.title,
+          ad.Description,
+          ad.description,
+          ad.Brand,
+          ad.Make,
+          ad.Model,
+          ad.model,
+        ]
+          .filter((text) => text)
+          .join(" ")
+          .toLowerCase();
+        return searchableText.includes(keyword);
+      });
+    }
+
+    // Now count matches for the specific field value
+    const matchingAds = baseAds.filter((ad) => {
       return fieldNames.some((fieldName) => {
         const adValue = ad[fieldName];
 
@@ -823,45 +820,35 @@ const Search = () => {
         const lowerMatch =
           stringAdValue.toLowerCase() === stringValue.toLowerCase();
 
-        if (urlMatch || lowerMatch) {
-          console.log(
-            `   ✅ Found match: Field="${fieldName}", DBValue="${adValue}", SearchFor="${stringValue}", urlMatch=${urlMatch}, lowerMatch=${lowerMatch}`
-          );
-        }
-
         return urlMatch || lowerMatch;
       });
     });
 
-    console.log(
-      `🔍 Result: Found ${matchingAds.length} matching ads for "${value}"`
-    );
-
     return matchingAds.length;
-  };
+  }, [allAds, category, categoryMap, searchParams, searchKeyword]);
 
-  // Function to count regions with sorting
-  const getRegionsWithCounts = () => {
+  // Memoized function to count regions with sorting
+  const getRegionsWithCounts = useMemo(() => {
     return saudiRegions
       .map((region) => ({
         ...region,
         count: getCountForOption(["REGION_ID", "regionId"], region.id),
       }))
       .sort((a, b) => b.count - a.count);
-  };
+  }, [getCountForOption]);
 
-  // Function to count cities with sorting
-  const getCitiesWithCounts = () => {
+  // Memoized function to count cities with sorting
+  const getCitiesWithCounts = useMemo(() => {
     return cities
       .map((city) => ({
         ...city,
         count: getCountForOption(["CITY_ID", "cityId"], city.CITY_ID),
       }))
       .sort((a, b) => b.count - a.count);
-  };
+  }, [cities, getCountForOption]);
 
-  // Function to count districts with sorting
-  const getDistrictsWithCounts = () => {
+  // Memoized function to count districts with sorting
+  const getDistrictsWithCounts = useMemo(() => {
     return districts
       .map((district) => ({
         ...district,
@@ -871,10 +858,10 @@ const Search = () => {
         ),
       }))
       .sort((a, b) => b.count - a.count);
-  };
+  }, [districts, getCountForOption]);
 
-  // Function to get brands with counts
-  const getBrandsWithCounts = () => {
+  // Memoized function to get brands with counts
+  const getBrandsWithCounts = useMemo(() => {
     if (!currentCategoryFilters.filters?.brand) return [];
 
     const fieldNames = [
@@ -890,17 +877,17 @@ const Search = () => {
         count: getCountForOption(fieldNames, option.name || option),
       }))
       .sort((a, b) => b.count - a.count);
-  };
+  }, [currentCategoryFilters, getCountForOption]);
 
-  // Function to get models with counts
-  const getModelsWithCounts = () => {
+  // Memoized function to get models with counts
+  const getModelsWithCounts = useMemo(() => {
     return availableBrandModels
       .map((model) => ({
         name: model,
         count: getCountForOption(["Model", "model"], model),
       }))
       .sort((a, b) => b.count - a.count);
-  };
+  }, [availableBrandModels, getCountForOption]);
 
   // Pagination logic
   const sortedAds = sortAds(filteredAds, sortBy);
@@ -927,7 +914,7 @@ const Search = () => {
 
   //   try {
   //     const url = await getDownloadURL(imageRef);
-  //     console.log("Image URL:", url);
+  //     
 
   //     return url;
   //   } catch (error) {
@@ -948,7 +935,7 @@ const Search = () => {
   const handleSubcategoryChange = (e, selectType = "multiple") => {
     e.preventDefault?.(); // Prevent default behavior
     const { name, value, checked } = e.target;
-    console.log("subcaegory name...", name);
+    
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
       const currentValues = newParams.getAll(name);
@@ -983,7 +970,7 @@ const Search = () => {
   const handleFiltersChange = (e, selectType) => {
     e.preventDefault?.(); // Prevent default behavior
     const { name, value, checked, type } = e.target || e;
-    console.log("Name: ", name, "SelectType", selectType, "value: ", value);
+    
     const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
     const lowerCaseValue =
       typeof value === "string" ? value.toLowerCase() : value;
@@ -1037,7 +1024,7 @@ const Search = () => {
   };
   const handleInputs = (e, name, value, selectType = "") => {
     e.preventDefault();
-    console.log("Name: ", name, "SelectType", selectType, "value: ", value);
+    
     handleFiltersChange({ name, value }, selectType);
     setFilterData((prev) => ({ ...prev, [name]: "" }));
   };
@@ -1575,7 +1562,7 @@ const Search = () => {
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="mb-3">
-                            {getRegionsWithCounts()
+                            {getRegionsWithCounts
                               .slice(0, 6)
                               .map((region) => {
                                 const isChecked = selectedRegions.includes(
@@ -1656,7 +1643,7 @@ const Search = () => {
                                         />
                                       </div>
                                       <div className="row g-2">
-                                        {getRegionsWithCounts()
+                                        {getRegionsWithCounts
                                           .filter(
                                             (region) =>
                                               region.nameEn
@@ -1775,7 +1762,7 @@ const Search = () => {
                               </p>
                             ) : (
                               <>
-                                {getCitiesWithCounts()
+                                {getCitiesWithCounts
                                   .slice(0, 6)
                                   .map((city) => {
                                     const isChecked = selectedCities.some(
@@ -1866,7 +1853,7 @@ const Search = () => {
                                       </div>
                                       <div className="row">
                                         <ul className="more_choice_main_list">
-                                          {getCitiesWithCounts()
+                                          {getCitiesWithCounts
                                             .filter(
                                               (city) =>
                                                 city["City En Name"]
@@ -1982,7 +1969,7 @@ const Search = () => {
                               </p>
                             ) : (
                               <>
-                                {getDistrictsWithCounts()
+                                {getDistrictsWithCounts
                                   .slice(0, 6)
                                   .map((district) => {
                                     const isChecked = selectedDistricts.some(
@@ -2079,7 +2066,7 @@ const Search = () => {
                                         </div>
                                         <div className="row g-1 ml-4">
                                           <ul className="more_choice_main_list">
-                                            {getDistrictsWithCounts()
+                                            {getDistrictsWithCounts
                                               .filter(
                                                 (district) =>
                                                   district["District En Name"]
@@ -2237,7 +2224,7 @@ const Search = () => {
                               />
                             </div>
                             <div className="row g-2">
-                              {getBrandsWithCounts()
+                              {getBrandsWithCounts
                                 .filter((brandOption) => {
                                   const label = brandOption.name || brandOption;
                                   return label
@@ -2365,7 +2352,7 @@ const Search = () => {
                               />
                             </div>
                             <div className="row g-2">
-                              {getModelsWithCounts()
+                              {getModelsWithCounts
                                 .filter((modelObj) =>
                                   modelObj.name
                                     .toLowerCase()
@@ -2504,8 +2491,48 @@ const Search = () => {
                                 {filterValue.type === "checkbox" ? (
                                   <>
                                     {(filterKey === "brand"
-                                      ? getBrandsWithCounts()
-                                      : filterValue.options
+                                      ? getBrandsWithCounts
+                                      : filterValue.options.map((opt) => {
+                                          const isString = typeof opt === "string";
+                                          const label = isString ? opt : (opt.name || opt);
+                                          const count = getCountForOption(
+                                            filterKey === "condition"
+                                              ? ["Condition"]
+                                              : filterKey === "transmission"
+                                              ? ["Transmission"]
+                                              : filterKey === "fuelType"
+                                              ? ["Fueltype", "FuelType"]
+                                              : filterKey === "bodyType"
+                                              ? ["BodyType"]
+                                              : filterKey === "exteriorColor"
+                                              ? ["Color", "ExteriorColor"]
+                                              : filterKey === "interiorColor"
+                                              ? ["InteriorColor"]
+                                              : filterKey === "sellerType"
+                                              ? ["SellerType"]
+                                              : filterKey === "regionalSpec"
+                                              ? ["RegionalSpec"]
+                                              : filterKey === "insurance"
+                                              ? ["Insurance"]
+                                              : filterKey === "additionalFeatures"
+                                              ? ["AdditionalFeatures"]
+                                              : filterKey === "noOfDoors"
+                                              ? ["NumberofDoors"]
+                                              : filterKey === "seatingCapacity"
+                                              ? ["SeatingCapacity"]
+                                              : filterKey === "age"
+                                              ? ["Age"]
+                                              : filterKey === "paymentMethod"
+                                              ? ["PaymentMethod"]
+                                              : filterKey === "addType"
+                                              ? ["Purpose", "AdType"]
+                                              : [String(label)],
+                                            label
+                                          );
+                                          return isString
+                                            ? { name: opt, count }
+                                            : { ...opt, count };
+                                        }).sort((a, b) => b.count - a.count)
                                     )
                                       .slice(
                                         0,
@@ -2526,55 +2553,7 @@ const Search = () => {
                                           ? value.name
                                           : value;
 
-                                        const count =
-                                          value.count !== undefined
-                                            ? value.count
-                                            : getCountForOption(
-                                                filterKey === "brand"
-                                                  ? ["Brand", "Make"]
-                                                  : filterKey === "condition"
-                                                  ? ["Condition"]
-                                                  : filterKey === "transmission"
-                                                  ? ["Transmission"]
-                                                  : filterKey === "fuelType"
-                                                  ? ["Fueltype", "FuelType"]
-                                                  : filterKey === "bodyType"
-                                                  ? ["BodyType"]
-                                                  : filterKey ===
-                                                    "exteriorColor"
-                                                  ? ["Color", "ExteriorColor"]
-                                                  : filterKey ===
-                                                    "interiorColor"
-                                                  ? ["InteriorColor"]
-                                                  : filterKey === "sellerType"
-                                                  ? ["SellerType"]
-                                                  : filterKey === "regionalSpec"
-                                                  ? ["RegionalSpec"]
-                                                  : filterKey === "insurance"
-                                                  ? ["Insurance"]
-                                                  : filterKey ===
-                                                    "additionalFeatures"
-                                                  ? ["AdditionalFeatures"]
-                                                  : filterKey === "noOfDoors"
-                                                  ? ["NumberofDoors"]
-                                                  : filterKey ===
-                                                    "seatingCapacity"
-                                                  ? ["SeatingCapacity"]
-                                                  : filterKey === "age"
-                                                  ? ["Age"]
-                                                  : filterKey ===
-                                                    "paymentMethod"
-                                                  ? ["PaymentMethod"]
-                                                  : filterKey === "addType"
-                                                  ? ["Purpose", "AdType"]
-                                                  : label
-                                              );
-
-                                        if (filterKey === "addType") {
-                                          console.log(
-                                            `🎯 addType filter: label="${label}", count=${count}, allAds.length=${allAds.length}`
-                                          );
-                                        }
+                                        const count = value.count;
 
                                         const paramValues =
                                           searchParams.getAll(filterKey);
@@ -2922,7 +2901,7 @@ const Search = () => {
                                   <Accordion.Body>
                                     <Form.Group className="mb-3">
                                       <div className="row">
-                                        {getModelsWithCounts()
+                                        {getModelsWithCounts
                                           .slice(0, 5)
                                           .map((modelObj, index) => {
                                             const model = modelObj.name;
