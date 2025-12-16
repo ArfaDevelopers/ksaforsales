@@ -214,9 +214,7 @@ const SearchFilter = ({
                                   </div>
 
                                   {subcat.nestedSubCategories && (
-                                    <Form.Label>
-                                      Nested Categories
-                                    </Form.Label>
+                                    <Form.Label>Nested Categories</Form.Label>
                                   )}
                                   {subcat.nestedSubCategories &&
                                     subcat.nestedSubCategories.length > 0 &&
@@ -493,12 +491,31 @@ const SearchFilter = ({
                                 name={filterKey}
                                 placeholder={filterValue.name}
                                 value={filterData[filterKey]}
-                                onChange={(e) =>
-                                  setFilterData((prev) => ({
-                                    ...prev,
-                                    [e.target.name]: e.target.value,
-                                  }))
-                                }
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  // Only accept numeric values for price and mileage
+                                  if (
+                                    filterKey === "Price" ||
+                                    filterKey === "Mileage" ||
+                                    filterKey.toLowerCase().includes("price") ||
+                                    filterKey.toLowerCase().includes("mileage")
+                                  ) {
+                                    if (
+                                      value === "" ||
+                                      /^\d*\.?\d*$/.test(value)
+                                    ) {
+                                      setFilterData((prev) => ({
+                                        ...prev,
+                                        [e.target.name]: value,
+                                      }));
+                                    }
+                                  } else {
+                                    setFilterData((prev) => ({
+                                      ...prev,
+                                      [e.target.name]: value,
+                                    }));
+                                  }
+                                }}
                                 min="0"
                               />
                               <button
@@ -535,15 +552,30 @@ const SearchFilter = ({
                                   name={`from${filterValue.name}`}
                                   type="text"
                                   placeholder="From"
-                                  value={
-                                    filterData[`from${filterValue.name}`]
-                                  }
-                                  onChange={(e) =>
-                                    setFilterData((prev) => ({
-                                      ...prev,
-                                      [e.target.name]: e.target.value,
-                                    }))
-                                  }
+                                  value={filterData[`from${filterValue.name}`]}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Only accept numeric values for price and mileage
+                                    if (
+                                      filterValue.name === "Price" ||
+                                      filterValue.name === "Mileage"
+                                    ) {
+                                      if (
+                                        value === "" ||
+                                        /^\d*\.?\d*$/.test(value)
+                                      ) {
+                                        setFilterData((prev) => ({
+                                          ...prev,
+                                          [e.target.name]: value,
+                                        }));
+                                      }
+                                    } else {
+                                      setFilterData((prev) => ({
+                                        ...prev,
+                                        [e.target.name]: value,
+                                      }));
+                                    }
+                                  }}
                                   min="0"
                                 />
                               </Col>
@@ -553,12 +585,29 @@ const SearchFilter = ({
                                   type="text"
                                   placeholder="To"
                                   value={filterData[`to${filterValue.name}`]}
-                                  onChange={(e) =>
-                                    setFilterData((prev) => ({
-                                      ...prev,
-                                      [e.target.name]: e.target.value,
-                                    }))
-                                  }
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Only accept numeric values for price and mileage
+                                    if (
+                                      filterValue.name === "Price" ||
+                                      filterValue.name === "Mileage"
+                                    ) {
+                                      if (
+                                        value === "" ||
+                                        /^\d*\.?\d*$/.test(value)
+                                      ) {
+                                        setFilterData((prev) => ({
+                                          ...prev,
+                                          [e.target.name]: value,
+                                        }));
+                                      }
+                                    } else {
+                                      setFilterData((prev) => ({
+                                        ...prev,
+                                        [e.target.name]: value,
+                                      }));
+                                    }
+                                  }}
                                   min="0"
                                 />
                               </Col>

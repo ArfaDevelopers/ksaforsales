@@ -250,6 +250,11 @@ const DetailAds = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/manage-commercial-ads">
+                    <i className="feather-list" /> <span>Commercial Ads</span>
+                  </Link>
+                </li>
+                <li>
                   <Link to="/bookmarks">
                     <i className="fas fa-solid fa-heart" />{" "}
                     <span>Favourite</span>

@@ -72,8 +72,18 @@ const CategoryDetail = () => {
   const link = getQueryParam("link") || window.location.href;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(link);
-    alert("Link copied to clipboard!");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(link)
+        .then(() => {
+          alert("Link copied to clipboard!");
+        })
+        .catch(() => {
+          copyLinkFallback(link);
+        });
+    } else {
+      copyLinkFallback(link);
+    }
   };
   const handleShareClick = () => {
     setShowModal(true);
@@ -113,21 +123,39 @@ const CategoryDetail = () => {
   //   return () => unsubscribe(); // Cleanup on unmount
   // }, []);
 
-  // const handleCopyLink = () => {
-  //   navigator.clipboard.writeText(categories.image);
-  //   alert("Link copied to clipboard!");
-  // };
   const handleCopyLink = () => {
     const currentUrl = window.location.href; // Gets the full URL
-    navigator.clipboard
-      .writeText(currentUrl)
-      .then(() => {
-        alert("Link copied to clipboard!");
-      })
-      .catch((err) => {
-        alert("Failed to copy the link.");
-        console.error(err);
-      });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          alert("Link copied to clipboard!");
+        })
+        .catch((err) => {
+          copyLinkFallback(currentUrl);
+        });
+    } else {
+      copyLinkFallback(currentUrl);
+    }
+  };
+
+  // Fallback method for copying to clipboard
+  const copyLinkFallback = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
+    } catch (err) {
+      alert("Failed to copy the link. Please try again.");
+      console.error("Fallback copy failed:", err);
+    }
+    document.body.removeChild(textArea);
   };
 
   console.log(categories, "categories_");
@@ -330,11 +358,11 @@ const CategoryDetail = () => {
       console.error("Error updating document:", error);
     }
   };
-const [isHeartedUI, setIsHeartedUI] = useState(false);
+  const [isHeartedUI, setIsHeartedUI] = useState(false);
 
-useEffect(() => {
-  setIsHeartedUI(categories?.heartedby?.includes(userClickedId));
-}, [categories, userClickedId]);
+  useEffect(() => {
+    setIsHeartedUI(categories?.heartedby?.includes(userClickedId));
+  }, [categories, userClickedId]);
 
   const favoritiesadded = async (itemId) => {
     const userClickedId = auth.currentUser?.uid;
@@ -367,8 +395,6 @@ useEffect(() => {
       setIsHeartedUI((prev) => !prev);
     }
   };
-
-
 
   useEffect(() => {
     const trackUserVisit = async () => {
@@ -517,7 +543,7 @@ useEffect(() => {
         </Container>
         <div
           className="report_main_btn_wrap"
-        // to="/bookmarks"
+          // to="/bookmarks"
         >
           <button
             className="head2btn"
@@ -798,8 +824,8 @@ useEffect(() => {
                   e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
                   e.currentTarget.style.color = "#fff"; // Restore same text color
                 }}
-              // disabled={!reportText || selectedReports.length === 0}
-              // disabled={selectedReports.length === 0}
+                // disabled={!reportText || selectedReports.length === 0}
+                // disabled={selectedReports.length === 0}
               >
                 Submit Report
               </Button>
@@ -864,17 +890,17 @@ useEffect(() => {
                     fontSize: "1.4rem",
                     color: "black",
                   }}
-                // width="24px"
+                  // width="24px"
 
-                // style={{ marginTop: "-1.5rem" }}
-                //   height="24px"
-                //   viewBox="0 0 24 24"
-                //   fill="none"
-                //   xmlns="http://www.w3.org/2000/svg"
-                // >
-                //   <path
-                //     d="M11.293 2.293a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.414L13 5.414V15a1 1 0 1 1-2 0V5.414L9.707 6.707a1 1 0 0 1-1.414-1.414l3-3zM4 11a2 2 0 0 1 2-2h2a1 1 0 0 1 0 2H6v9h12v-9h-2a1 1 0 1 1 0-2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9z"
-                //     fill="#0D0D0D"
+                  // style={{ marginTop: "-1.5rem" }}
+                  //   height="24px"
+                  //   viewBox="0 0 24 24"
+                  //   fill="none"
+                  //   xmlns="http://www.w3.org/2000/svg"
+                  // >
+                  //   <path
+                  //     d="M11.293 2.293a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.414L13 5.414V15a1 1 0 1 1-2 0V5.414L9.707 6.707a1 1 0 0 1-1.414-1.414l3-3zM4 11a2 2 0 0 1 2-2h2a1 1 0 0 1 0 2H6v9h12v-9h-2a1 1 0 1 1 0-2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9z"
+                  //     fill="#0D0D0D"
                 />
                 {/* </svg> */}
               </div>
@@ -974,8 +1000,8 @@ useEffect(() => {
                 <button
                   className="d-flex align-items-center blue_btn list_btn categories"
                   onClick={handleOpenWhatsapp}
-                // onMouseEnter={handleWhatsappMouseEnter}
-                // onMouseLeave={handleWhatsappMouseLeave}
+                  // onMouseEnter={handleWhatsappMouseEnter}
+                  // onMouseLeave={handleWhatsappMouseLeave}
                 >
                   <FaWhatsapp />
                   <span>WhatsApp</span>
@@ -999,7 +1025,6 @@ useEffect(() => {
                     }}
                   />
                 </Button>
-
               </div>
             </div>
           </div>

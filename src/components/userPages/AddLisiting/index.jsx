@@ -223,6 +223,7 @@ const AddLisiting = () => {
     Season: "",
     ExteriorColor: "",
     Purpose: "",
+    PaymentMethod: "",
     Price: "",
     Gender: "",
     Size: "",
@@ -300,10 +301,12 @@ const AddLisiting = () => {
             City: userData.city || userData.City || prev.City || "",
             location: userData.location || prev.location || "",
             address: userData.address || prev.address || prev.mapAddress || "",
-            mapAddress: userData.mapAddress || prev.mapAddress || userData.address || "",
+            mapAddress:
+              userData.mapAddress || prev.mapAddress || userData.address || "",
             latitude: userData.latitude || prev.latitude || "",
             longitude: userData.longitude || prev.longitude || "",
-            whatsapp: userData.whatsapp || userData.phoneNumber || prev.whatsapp || "",
+            whatsapp:
+              userData.whatsapp || userData.phoneNumber || prev.whatsapp || "",
           }));
           // Update display fields too
           setphotoURL(userData.photoURL || userData.photoURL || "");
@@ -1710,6 +1713,7 @@ const AddLisiting = () => {
             PropertyFeatures: data.PropertyFeatures || "",
             PropertyType: data.PropertyType || "",
             Purpose: data.Purpose || "",
+            PaymentMethod: data.PaymentMethod || "",
             RAM: data.RAM || "",
             Registeredin: data.Registeredin || "",
             RequiredSkills: data.RequiredSkills || "",
@@ -2684,6 +2688,10 @@ const AddLisiting = () => {
   const handleSellerTypeChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, SellerType: name }));
+  };
+  const handlePaymentMethodChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, PaymentMethod: name }));
   };
   const handleAdditionalFeatures = (e) => {
     const { name, checked } = e.target;
@@ -4501,6 +4509,11 @@ const AddLisiting = () => {
                 <li>
                   <Link to="/my-listing">
                     <FaListUl /> <span>My Listing</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/manage-commercial-ads">
+                    <FaListUl /> <span>Commercial Ads</span>
                   </Link>
                 </li>
                 <li>
@@ -7862,8 +7875,8 @@ const AddLisiting = () => {
                                         label: "European Specs",
                                       },
                                       {
-                                        name: "Canadian",
-                                        label: "Canadian Specs",
+                                        name: "GCC",
+                                        label: "GCC Specs",
                                       },
                                     ].map((spec) => (
                                       <li key={spec.name}>
@@ -8275,6 +8288,42 @@ const AddLisiting = () => {
                               </div>
                             </div>
 
+                            <div className="payment_method_block">
+                              <div className="card-header">
+                                <h4>Payment Method</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Cash", label: "Cash" },
+                                      { name: "Mortgage", label: "Mortgage" },
+                                      {
+                                        name: "Installments without bank",
+                                        label: "Installments without bank",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.PaymentMethod === area.name
+                                            }
+                                            onChange={handlePaymentMethodChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
+                              </div>
+                            </div>
+
                             {/* <div className="card">
                             <div className="card-header">
                               <h4>Model Category </h4>
@@ -8333,7 +8382,6 @@ const AddLisiting = () => {
                                       { name: "5", label: "5" },
                                       { name: "2", label: "2" },
                                       { name: "3", label: "3" },
-                                      { name: "0", label: "0" },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8369,7 +8417,7 @@ const AddLisiting = () => {
                                       { name: "5", label: "5" },
                                       { name: "2", label: "2" },
                                       { name: "3", label: "3" },
-                                      { name: "0", label: "0" },
+                  
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">

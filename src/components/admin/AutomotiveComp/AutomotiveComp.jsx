@@ -13929,7 +13929,7 @@ const AutomotiveComp = () => {
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>
                               {[
-                                "Canadian",
+                                "GCC",
                                 "European",
                                 "Japanese",
                                 "American",

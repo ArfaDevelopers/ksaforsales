@@ -366,6 +366,11 @@ const Bookmarks = () => {
                   <FaListUl /> <span>My Listing</span>
                 </Link>
               </li>
+              <li>
+                <Link to="/manage-commercial-ads">
+                  <FaListUl /> <span>Commercial Ads</span>
+                </Link>
+              </li>
               <li className="active">
                 <Link to="/bookmarks">
                   <FaHeart /> <span>Favourite</span>

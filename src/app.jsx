@@ -42,6 +42,7 @@ import Review from "./components/userPages/review";
 import AddLisiting from "./components/userPages/AddLisiting";
 import Listing from "./components/userPages/Listing";
 import CommercialAdsListing from "./components/userPages/CommercialAdsListing";
+import ManageCommercialAds from "./components/userPages/ManageCommercialAds";
 import DetailAds from "./components/userPages/DetailAds";
 
 import BlogList from "./components/blog/BlogList";
@@ -307,10 +308,7 @@ export const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/search"
-              element={<Search />}
-            />
+            <Route path="/search" element={<Search />} />
 
             <Route
               path="/ElectronicComp"
@@ -565,6 +563,14 @@ export const App = () => {
               element={
                 <ProtectedRoute>
                   <CommercialAdsListing />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage-commercial-ads"
+              element={
+                <ProtectedRoute>
+                  <ManageCommercialAds />
                 </ProtectedRoute>
               }
             />
