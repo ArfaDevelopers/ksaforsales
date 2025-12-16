@@ -36,6 +36,7 @@ const AddCars = () => {
   const [color, setColor] = useState("Black");
   const [whatsapp, setWhatsapp] = useState("03189391781");
   const [type, setType] = useState("Sale");
+  const [paymentMethod, setPaymentMethod] = useState("Cash");
 
   // Handle image upload to Cloudinary
   const handleImageUpload = async (file, index) => {
@@ -110,6 +111,7 @@ const AddCars = () => {
         color: color,
         whatsapp: whatsapp,
         type: type,
+        PaymentMethod: paymentMethod,
         isFeatured: true,
       });
 
@@ -135,6 +137,7 @@ const AddCars = () => {
       setColor("Black");
       setWhatsapp("03189391781");
       setType("Sale");
+      setPaymentMethod("Cash");
     } catch (error) {
       console.error("Error adding car: ", error);
       alert("Error adding car.");
@@ -376,6 +379,20 @@ const AddCars = () => {
                   >
                     <option value="Sale">Sale</option>
                     <option value="Lease">Lease</option>
+                  </Form.Control>
+                </Form.Group>
+                {/* Payment Method */}
+                <Form.Group controlId="formPaymentMethod" className="mb-3">
+                  <Form.Label>Payment Method</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    required
+                  >
+                    <option value="Cash">Cash</option>
+                    <option value="Mortgage">Mortgage</option>
+                    <option value="Installments without bank">Installments without bank</option>
                   </Form.Control>
                 </Form.Group>
                 {/* Submit Button */}

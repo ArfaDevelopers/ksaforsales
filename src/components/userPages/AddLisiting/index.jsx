@@ -223,6 +223,7 @@ const AddLisiting = () => {
     Season: "",
     ExteriorColor: "",
     Purpose: "",
+    PaymentMethod: "",
     Price: "",
     Gender: "",
     Size: "",
@@ -1712,6 +1713,7 @@ const AddLisiting = () => {
             PropertyFeatures: data.PropertyFeatures || "",
             PropertyType: data.PropertyType || "",
             Purpose: data.Purpose || "",
+            PaymentMethod: data.PaymentMethod || "",
             RAM: data.RAM || "",
             Registeredin: data.Registeredin || "",
             RequiredSkills: data.RequiredSkills || "",
@@ -2686,6 +2688,10 @@ const AddLisiting = () => {
   const handleSellerTypeChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, SellerType: name }));
+  };
+  const handlePaymentMethodChange = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({ ...prev, PaymentMethod: name }));
   };
   const handleAdditionalFeatures = (e) => {
     const { name, checked } = e.target;
@@ -8270,6 +8276,42 @@ const AddLisiting = () => {
                                               formData.SellerType === area.name
                                             }
                                             onChange={handleSellerTypeChange}
+                                          />
+                                          <span className="checkmark" />{" "}
+                                          {area.label}
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                  <div className="clearfix" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="payment_method_block">
+                              <div className="card-header">
+                                <h4>Payment Method</h4>
+                              </div>
+                              <div className="card-body">
+                                <div className="form-group featuresform-list mb-0">
+                                  <ul className="colu-3">
+                                    {[
+                                      { name: "Cash", label: "Cash" },
+                                      { name: "Mortgage", label: "Mortgage" },
+                                      {
+                                        name: "Installments without bank",
+                                        label: "Installments without bank",
+                                      },
+                                    ].map((area) => (
+                                      <li key={area.name}>
+                                        <label className="custom_check">
+                                          <input
+                                            type="checkbox"
+                                            name={area.name}
+                                            checked={
+                                              formData.PaymentMethod === area.name
+                                            }
+                                            onChange={handlePaymentMethodChange}
                                           />
                                           <span className="checkmark" />{" "}
                                           {area.label}
