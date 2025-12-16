@@ -12,7 +12,13 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { ref, getDownloadURL } from "firebase/storage";
 import ComercialsAds from "../../components/home/ComercialsAds/ComercialsAds.jsx";
 import LatestBlog from "../../components/blog/BlogList/LatestBlog/LatestBlog.jsx";
-import { Accordion, Spinner, Pagination, Button, ButtonGroup } from "react-bootstrap";
+import {
+  Accordion,
+  Spinner,
+  Pagination,
+  Button,
+  ButtonGroup,
+} from "react-bootstrap";
 import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { storage } from "../../components/Firebase/FirebaseConfig";
@@ -30,7 +36,11 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { saudiRegions, fetchCities, fetchDistricts } from "../../utils/locationApi";
+import {
+  saudiRegions,
+  fetchCities,
+  fetchDistricts,
+} from "../../utils/locationApi";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,10 +66,11 @@ const Search = () => {
     "pet-and-animals": "Pet & Animals",
     "pet-animals": "Pet & Animals",
     other: "Other",
-    
   };
 
-  const categoryDisplayName = category ? categoryMap[category.toLowerCase()] : "";
+  const categoryDisplayName = category
+    ? categoryMap[category.toLowerCase()]
+    : "";
 
   let currentCategoryFilters =
     data.find((page) => page.path === `/${category}`) ?? "";
@@ -68,7 +79,7 @@ const Search = () => {
     currentCategoryFilters = {
       name: categoryDisplayName,
       path: `/search?category=${category}`,
-      filters: data.find((page) => page.path === `/search`)?.filters || {}
+      filters: data.find((page) => page.path === `/search`)?.filters || {},
     };
   } else if (!currentCategoryFilters) {
     currentCategoryFilters = data.find((page) => page.path === `/search`);
@@ -192,7 +203,7 @@ const Search = () => {
         setLoadingCities(true);
         try {
           const allCities = await Promise.all(
-            selectedRegions.map(regionId => fetchCities(regionId))
+            selectedRegions.map((regionId) => fetchCities(regionId))
           );
           const flattenedCities = allCities.flat();
           setCities(flattenedCities);
@@ -217,7 +228,7 @@ const Search = () => {
         setLoadingDistricts(true);
         try {
           const allDistricts = await Promise.all(
-            selectedCities.map(city =>
+            selectedCities.map((city) =>
               fetchDistricts({
                 REGION_ID: city.REGION_ID,
                 CITY_ID: city.CITY_ID,
@@ -249,12 +260,17 @@ const Search = () => {
     if (regionParams.length > 0) setSelectedRegions(regionParams);
     if (cityParams.length > 0) {
       // Parse city params to include REGION_ID
-      const cityObjs = cityParams.map(cityId => ({ CITY_ID: cityId, REGION_ID: "" }));
+      const cityObjs = cityParams.map((cityId) => ({
+        CITY_ID: cityId,
+        REGION_ID: "",
+      }));
       setSelectedCities(cityObjs);
     }
     if (districtParams.length > 0) {
       // Parse district params
-      const districtObjs = districtParams.map(districtId => ({ District_ID: districtId }));
+      const districtObjs = districtParams.map((districtId) => ({
+        District_ID: districtId,
+      }));
       setSelectedDistricts(districtObjs);
     }
   }, []);
@@ -302,7 +318,7 @@ const Search = () => {
           { name: "TRAVEL", category: "Services" },
           { name: "SPORTSGAMESComp", category: "Sport & Game" },
           { name: "PETANIMALCOMP", category: "Pet & Animals" },
-          { name: "banneradsimg", category: null },  // General banner ads for all categories
+          { name: "banneradsimg", category: null }, // General banner ads for all categories
         ];
 
         let allAdsArray = [];
@@ -333,8 +349,27 @@ const Search = () => {
           console.log("ALL unique category values:", uniqueCategories);
         }
 
-        setAllAds(allAdsArray);
-        setFilteredAds(allAdsArray);
+        // Ensure all ads have Purpose field with default value "Sell" if not present
+        const adsWithPurpose = allAdsArray.map((ad) => {
+          if (!ad.Purpose && !ad.AdType) {
+            return { ...ad, Purpose: "Sell" };
+          }
+          return ad;
+        });
+
+        console.log(`📊 Total ads loaded: ${adsWithPurpose.length}`);
+        console.log(`📊 Ads with Purpose field:`, adsWithPurpose.filter(ad => ad.Purpose).length);
+        console.log(`📊 Ads with AdType field:`, adsWithPurpose.filter(ad => ad.AdType).length);
+        console.log(`📊 Sample ads:`, adsWithPurpose.slice(0, 3).map(ad => ({ id: ad.id, Purpose: ad.Purpose, AdType: ad.AdType, category: ad.category })));
+        
+        // Log unique Purpose values to see what we're dealing with
+        const uniquePurposes = [...new Set(adsWithPurpose.map(ad => ad.Purpose).filter(p => p))];
+        const uniqueAdTypes = [...new Set(adsWithPurpose.map(ad => ad.AdType).filter(a => a))];
+        console.log(`📊 Unique Purpose values in database:`, uniquePurposes);
+        console.log(`📊 Unique AdType values in database:`, uniqueAdTypes);
+
+        setAllAds(adsWithPurpose);
+        setFilteredAds(adsWithPurpose);
       } catch (error) {
         alert("Failed to load ads: " + error.message);
       } finally {
@@ -365,7 +400,7 @@ const Search = () => {
             categoryVariations.push("Sports & Game");
           }
           if (categoryValue === "Home & Furniture") {
-            categoryVariations.push("Home & Furnituer");  // Handle typo in add-listing form
+            categoryVariations.push("Home & Furnituer"); // Handle typo in add-listing form
           }
 
           const matches = categoryVariations.some(
@@ -437,8 +472,8 @@ const Search = () => {
       // Real Estate filters
       "frequency",
       "residenceType",
-      "noOfRooms",  // data.js uses "noOfRooms" not "numberOfRooms"
-      "noOfBathrooms",  // data.js uses "noOfBathrooms" not "numberOfBathrooms"
+      "noOfRooms", // data.js uses "noOfRooms" not "numberOfRooms"
+      "noOfBathrooms", // data.js uses "noOfBathrooms" not "numberOfBathrooms"
       "area",
       "furnished",
       "licenseNumber",
@@ -451,10 +486,10 @@ const Search = () => {
 
     // Map filter parameter names to actual Firebase field names
     const fieldNameMap = {
-      brand: ["Brand", "Make", "brand", "manufacturer", "Manufacturer"],  // Add-listing uses "Brand", Cars uses "Make"
+      brand: ["Brand", "Make", "brand", "manufacturer", "Manufacturer"], // Add-listing uses "Brand", Cars uses "Make"
       brandModel: ["Model", "model"],
       transmission: ["Transmission"],
-      fuelType: ["Fueltype", "FuelType"],  // Add-listing uses "Fueltype", Cars.jsx uses "FuelType"
+      fuelType: ["Fueltype", "FuelType"], // Add-listing uses "Fueltype", Cars.jsx uses "FuelType"
       bodyType: ["BodyType", "bodyType"],
       exteriorColor: ["Color", "ExteriorColor"],
       interiorColor: ["InteriorColor"],
@@ -462,17 +497,22 @@ const Search = () => {
       paymentMethod: ["PaymentMethod"],
       regionalSpec: ["RegionalSpec"],
       insurance: ["Insurance"],
-      addType: ["Purpose", "AdType", "isFeatured"],  // Add-listing uses "Purpose", Cars.jsx uses "AdType"
+      addType: ["Purpose", "AdType"], // Purpose & AdType field contain "Rent", "Sell", "Wanted"
       additionalFeatures: ["AdditionalFeatures", "Features"],
-      noOfDoors: ["NumberofDoors", "NumberOfDoors", "Doors"],  // Add-listing uses "NumberofDoors", Cars.jsx uses "NumberOfDoors"
+      noOfDoors: ["NumberofDoors", "NumberOfDoors", "Doors"], // Add-listing uses "NumberofDoors", Cars.jsx uses "NumberOfDoors"
       seatingCapacity: ["SeatingCapacity"],
       condition: ["Condition", "condition"],
-      age: ["Age", "age"],  // Pet & Animals age filter
+      age: ["Age", "age"], // Pet & Animals age filter
       // Real Estate field mappings
       frequency: ["Frequency", "frequency"],
       residenceType: ["ResidenceType", "residenceType"],
-      noOfRooms: ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"],  // Real Estate uses "Bedroom" in DB
-      noOfBathrooms: ["bathrooms", "NumberofBathrooms", "NumberOfBathrooms", "noOfBathrooms"],  // Real Estate uses "bathrooms" in DB
+      noOfRooms: ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"], // Real Estate uses "Bedroom" in DB
+      noOfBathrooms: [
+        "bathrooms",
+        "NumberofBathrooms",
+        "NumberOfBathrooms",
+        "noOfBathrooms",
+      ], // Real Estate uses "bathrooms" in DB
       area: ["Area", "area"],
       furnished: ["Furnished", "furnished"],
       licenseNumber: ["LicenseNumber", "licenseNumber", "LicenceNumber"],
@@ -499,7 +539,11 @@ const Search = () => {
           // Try to find the field value using any of the possible field names
           let adValue = null;
           for (const fieldName of possibleFieldNames) {
-            if (ad[fieldName] !== undefined && ad[fieldName] !== null && ad[fieldName] !== "") {
+            if (
+              ad[fieldName] !== undefined &&
+              ad[fieldName] !== null &&
+              ad[fieldName] !== ""
+            ) {
               adValue = ad[fieldName];
               break;
             }
@@ -513,9 +557,9 @@ const Search = () => {
           // Handle array fields (like additionalFeatures)
           if (Array.isArray(adValue)) {
             const matches = paramValues.some((pv) =>
-              adValue.some((av) =>
-                getUrlText(av) === pv ||
-                av.toLowerCase() === pv.toLowerCase()
+              adValue.some(
+                (av) =>
+                  getUrlText(av) === pv || av.toLowerCase() === pv.toLowerCase()
               )
             );
             if (matches) {
@@ -584,9 +628,10 @@ const Search = () => {
 
     if (regionParams.length > 0) {
       filtered = filtered.filter((ad) => {
-        return regionParams.some(regionId =>
-          String(ad.regionId) === String(regionId) ||
-          String(ad.REGION_ID) === String(regionId)
+        return regionParams.some(
+          (regionId) =>
+            String(ad.regionId) === String(regionId) ||
+            String(ad.REGION_ID) === String(regionId)
         );
       });
       console.log("After region filter:", filtered.length);
@@ -594,9 +639,10 @@ const Search = () => {
 
     if (cityParams.length > 0) {
       filtered = filtered.filter((ad) => {
-        return cityParams.some(cityId =>
-          String(ad.CITY_ID) === String(cityId) ||
-          String(ad.cityId) === String(cityId)
+        return cityParams.some(
+          (cityId) =>
+            String(ad.CITY_ID) === String(cityId) ||
+            String(ad.cityId) === String(cityId)
         );
       });
       console.log("After city filter:", filtered.length);
@@ -604,9 +650,10 @@ const Search = () => {
 
     if (districtParams.length > 0) {
       filtered = filtered.filter((ad) => {
-        return districtParams.some(districtId =>
-          String(ad.District_ID) === String(districtId) ||
-          String(ad.districtId) === String(districtId)
+        return districtParams.some(
+          (districtId) =>
+            String(ad.District_ID) === String(districtId) ||
+            String(ad.districtId) === String(districtId)
         );
       });
       console.log("After district filter:", filtered.length);
@@ -705,13 +752,125 @@ const Search = () => {
     const sortedAds = [...ads];
     switch (sortType) {
       case "Price: Low to High":
-        return sortedAds.sort((a, b) => parseFloat(a.Price || 0) - parseFloat(b.Price || 0));
+        return sortedAds.sort(
+          (a, b) => parseFloat(a.Price || 0) - parseFloat(b.Price || 0)
+        );
       case "Price: High to Low":
-        return sortedAds.sort((a, b) => parseFloat(b.Price || 0) - parseFloat(a.Price || 0));
+        return sortedAds.sort(
+          (a, b) => parseFloat(b.Price || 0) - parseFloat(a.Price || 0)
+        );
       case "Sort by: Most Relevant":
       default:
         return sortedAds;
     }
+  };
+
+  // Function to count occurrences of a value in filtered ads
+  const getCountForOption = (fieldNames, value) => {
+    if (!Array.isArray(fieldNames)) {
+      fieldNames = [fieldNames];
+    }
+
+    // Convert value to string for comparison
+    const stringValue = String(value).trim();
+    
+    console.log(`🔍 getCountForOption called: value="${value}", fieldNames=${JSON.stringify(fieldNames)}, stringValue="${stringValue}"`);
+
+    const matchingAds = allAds.filter((ad) => {
+      return fieldNames.some((fieldName) => {
+        const adValue = ad[fieldName];
+        
+        if (!adValue && adValue !== 0) {
+          return false;
+        }
+
+        if (Array.isArray(adValue)) {
+          return adValue.some((av) => {
+            const stringAv = String(av).trim();
+            return (
+              getUrlText(stringAv) === getUrlText(stringValue) ||
+              stringAv.toLowerCase() === stringValue.toLowerCase()
+            );
+          });
+        }
+        
+        const stringAdValue = String(adValue).trim();
+        const urlMatch = getUrlText(stringAdValue) === getUrlText(stringValue);
+        const lowerMatch = stringAdValue.toLowerCase() === stringValue.toLowerCase();
+        
+        if (urlMatch || lowerMatch) {
+          console.log(`   ✅ Found match: Field="${fieldName}", DBValue="${adValue}", SearchFor="${stringValue}", urlMatch=${urlMatch}, lowerMatch=${lowerMatch}`);
+        }
+        
+        return urlMatch || lowerMatch;
+      });
+    });
+    
+    console.log(`🔍 Result: Found ${matchingAds.length} matching ads for "${value}"`);
+    
+    return matchingAds.length;
+  };
+
+  // Function to count regions with sorting
+  const getRegionsWithCounts = () => {
+    return saudiRegions
+      .map((region) => ({
+        ...region,
+        count: getCountForOption(["REGION_ID", "regionId"], region.id),
+      }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  // Function to count cities with sorting
+  const getCitiesWithCounts = () => {
+    return cities
+      .map((city) => ({
+        ...city,
+        count: getCountForOption(["CITY_ID", "cityId"], city.CITY_ID),
+      }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  // Function to count districts with sorting
+  const getDistrictsWithCounts = () => {
+    return districts
+      .map((district) => ({
+        ...district,
+        count: getCountForOption(
+          ["District_ID", "districtId"],
+          district.District_ID
+        ),
+      }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  // Function to get brands with counts
+  const getBrandsWithCounts = () => {
+    if (!currentCategoryFilters.filters?.brand) return [];
+
+    const fieldNames = [
+      "Brand",
+      "Make",
+      "brand",
+      "manufacturer",
+      "Manufacturer",
+    ];
+    return currentCategoryFilters.filters.brand.options
+      .map((option) => ({
+        ...option,
+        count: getCountForOption(fieldNames, option.name || option),
+      }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  // Function to get models with counts
+  const getModelsWithCounts = () => {
+    return availableBrandModels
+      .map((model) => ({
+        name: model,
+        count: getCountForOption(["Model", "model"], model),
+      }))
+      .sort((a, b) => b.count - a.count);
   };
 
   // Pagination logic
@@ -861,13 +1020,11 @@ const Search = () => {
       const newParams = new URLSearchParams(prev);
       if (values.from) {
         newParams.set(names.from, values.from);
-        setFilterData((prev) => ({ ...prev, [names.from]: "" }));
       } else {
         newParams.delete(names.from);
       }
       if (values.to) {
         newParams.set(names.to, values.to);
-        setFilterData((prev) => ({ ...prev, [names.to]: "" }));
       } else {
         newParams.delete(names.to);
       }
@@ -897,10 +1054,15 @@ const Search = () => {
 
   const handleCityChange = (cityOption) => {
     setSelectedCities((prev) => {
-      const isSelected = prev.some((city) => city.CITY_ID === cityOption.CITY_ID);
+      const isSelected = prev.some(
+        (city) => city.CITY_ID === cityOption.CITY_ID
+      );
       const newCities = isSelected
         ? prev.filter((city) => city.CITY_ID !== cityOption.CITY_ID)
-        : [...prev, { CITY_ID: cityOption.CITY_ID, REGION_ID: cityOption.REGION_ID }];
+        : [
+            ...prev,
+            { CITY_ID: cityOption.CITY_ID, REGION_ID: cityOption.REGION_ID },
+          ];
 
       // Update URL params
       setSearchParams((params) => {
@@ -916,16 +1078,29 @@ const Search = () => {
 
   const handleDistrictChange = (districtOption) => {
     setSelectedDistricts((prev) => {
-      const isSelected = prev.some((district) => district.District_ID === districtOption.District_ID);
+      const isSelected = prev.some(
+        (district) => district.District_ID === districtOption.District_ID
+      );
       const newDistricts = isSelected
-        ? prev.filter((district) => district.District_ID !== districtOption.District_ID)
-        : [...prev, { District_ID: districtOption.District_ID, CITY_ID: districtOption.CITY_ID, REGION_ID: districtOption.REGION_ID }];
+        ? prev.filter(
+            (district) => district.District_ID !== districtOption.District_ID
+          )
+        : [
+            ...prev,
+            {
+              District_ID: districtOption.District_ID,
+              CITY_ID: districtOption.CITY_ID,
+              REGION_ID: districtOption.REGION_ID,
+            },
+          ];
 
       // Update URL params
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
         newParams.delete("district");
-        newDistricts.forEach((district) => newParams.append("district", district.District_ID));
+        newDistricts.forEach((district) =>
+          newParams.append("district", district.District_ID)
+        );
         return newParams;
       });
 
@@ -972,19 +1147,20 @@ const Search = () => {
     };
 
     const handleWindowScroll = () => {
-      windowScrollRef.current = window.pageYOffset || document.documentElement.scrollTop;
+      windowScrollRef.current =
+        window.pageYOffset || document.documentElement.scrollTop;
     };
 
     if (element) {
-      element.addEventListener('scroll', handleFilterScroll);
+      element.addEventListener("scroll", handleFilterScroll);
     }
-    window.addEventListener('scroll', handleWindowScroll);
+    window.addEventListener("scroll", handleWindowScroll);
 
     return () => {
       if (element) {
-        element.removeEventListener('scroll', handleFilterScroll);
+        element.removeEventListener("scroll", handleFilterScroll);
       }
-      window.removeEventListener('scroll', handleWindowScroll);
+      window.removeEventListener("scroll", handleWindowScroll);
     };
   }, []);
 
@@ -1125,7 +1301,6 @@ const Search = () => {
                   }}
                 >
                   Show Results by: <strong>{filteredAds.length}</strong>
-
                 </h5>
 
                 <Form className="filter_innerwrap">
@@ -1253,8 +1428,12 @@ const Search = () => {
                                     const urlSubCategory = getUrlText(
                                       subcat.name
                                     );
-                                    const selectedSubCategories = searchParams.getAll("subcategory");
-                                    const isSelected = selectedSubCategories.includes(urlSubCategory);
+                                    const selectedSubCategories =
+                                      searchParams.getAll("subcategory");
+                                    const isSelected =
+                                      selectedSubCategories.includes(
+                                        urlSubCategory
+                                      );
                                     return (
                                       <Form.Group key={subcat.name}>
                                         <div className="form-check mb-2">
@@ -1278,64 +1457,76 @@ const Search = () => {
                                         </div>
 
                                         {/* Show nested subcategories only when parent is selected */}
-                                        {isSelected && subcat.nestedSubCategories && subcat.nestedSubCategories.length > 0 && (
-                                          <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-                                            <Form.Label>
-                                              Nested Categories
-                                            </Form.Label>
-                                            {subcat.nestedSubCategories.map(
-                                              (nestedSubCat) => {
-                                                const params =
-                                                  searchParams.getAll(
-                                                    "nestedSubCategory"
-                                                  );
-                                                return (
-                                                  <div
-                                                    key={nestedSubCat.name}
-                                                    className="form-check mb-2"
-                                                  >
-                                                    <input
-                                                      id={nestedSubCat.name}
-                                                      name="nestedSubCategory"
-                                                      className="form-check-input"
-                                                      type="checkbox"
-                                                      value={
-                                                        nestedSubCat.name
-                                                      }
-                                                      onChange={(e) =>
-                                                        handleSubcategoryChange(
-                                                          e,
-                                                          "multiple"
-                                                        )
-                                                      }
-                                                      checked={
-                                                        params &&
-                                                        params.find(
-                                                          (val) =>
-                                                            val ===
-                                                            getUrlText(
-                                                              nestedSubCat.name
-                                                            )
-                                                        )
-                                                      }
-                                                      style={{ cursor: "pointer" }}
-                                                    />
-
-                                                    <label
-                                                      htmlFor={
-                                                        nestedSubCat.name
-                                                      }
-                                                      className="form-check-label"
-                                                      style={{ cursor: "pointer" }}
+                                        {isSelected &&
+                                          subcat.nestedSubCategories &&
+                                          subcat.nestedSubCategories.length >
+                                            0 && (
+                                            <div
+                                              style={{
+                                                marginLeft: "20px",
+                                                marginTop: "10px",
+                                              }}
+                                            >
+                                              <Form.Label>
+                                                Nested Categories
+                                              </Form.Label>
+                                              {subcat.nestedSubCategories.map(
+                                                (nestedSubCat) => {
+                                                  const params =
+                                                    searchParams.getAll(
+                                                      "nestedSubCategory"
+                                                    );
+                                                  return (
+                                                    <div
+                                                      key={nestedSubCat.name}
+                                                      className="form-check mb-2"
                                                     >
-                                                      {nestedSubCat.name}
-                                                    </label>
-                                                  </div>
-                                                );
-                                              }
-                                            )}
-                                          </div>
-                                        )}
+                                                      <input
+                                                        id={nestedSubCat.name}
+                                                        name="nestedSubCategory"
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        value={
+                                                          nestedSubCat.name
+                                                        }
+                                                        onChange={(e) =>
+                                                          handleSubcategoryChange(
+                                                            e,
+                                                            "multiple"
+                                                          )
+                                                        }
+                                                        checked={
+                                                          params &&
+                                                          params.find(
+                                                            (val) =>
+                                                              val ===
+                                                              getUrlText(
+                                                                nestedSubCat.name
+                                                              )
+                                                          )
+                                                        }
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                      />
+
+                                                      <label
+                                                        htmlFor={
+                                                          nestedSubCat.name
+                                                        }
+                                                        className="form-check-label"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                      >
+                                                        {nestedSubCat.name}
+                                                      </label>
+                                                    </div>
+                                                  );
+                                                }
+                                              )}
+                                            </div>
+                                          )}
                                       </Form.Group>
                                     );
                                   }
@@ -1355,28 +1546,42 @@ const Search = () => {
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="mb-3">
-                            {saudiRegions.slice(0, 6).map((region) => {
-                              const isChecked = selectedRegions.includes(region.id);
-                              return (
-                                <div className="form-check" key={region.id}>
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id={`region-${region.id}`}
-                                    checked={isChecked}
-                                    onChange={() => handleRegionChange(region.id)}
-                                    style={{ cursor: "pointer" }}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`region-${region.id}`}
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    {region.nameEn}
-                                  </label>
-                                </div>
-                              );
-                            })}
+                            {getRegionsWithCounts()
+                              .slice(0, 6)
+                              .map((region) => {
+                                const isChecked = selectedRegions.includes(
+                                  region.id
+                                );
+                                return (
+                                  <div className="form-check" key={region.id}>
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      id={`region-${region.id}`}
+                                      checked={isChecked}
+                                      onChange={() =>
+                                        handleRegionChange(region.id)
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`region-${region.id}`}
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      {region.nameEn}{" "}
+                                      <span
+                                        style={{
+                                          color: "#888",
+                                          fontSize: "0.9em",
+                                        }}
+                                      >
+                                        ({region.count})
+                                      </span>
+                                    </label>
+                                  </div>
+                                );
+                              })}
                             <button
                               type="button"
                               className="btn btn-link p-0"
@@ -1389,17 +1594,24 @@ const Search = () => {
                             {showRegionModal && (
                               <div
                                 className="modal fade show"
-                                style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                style={{
+                                  display: "block",
+                                  backgroundColor: "rgba(0,0,0,0.5)",
+                                }}
                                 tabIndex="-1"
                               >
                                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                                   <div className="modal-content border-0 shadow-lg">
                                     <div className="modal-header bg-light border-bottom">
-                                      <h5 className="modal-title">Select a Region</h5>
+                                      <h5 className="modal-title">
+                                        Select a Region
+                                      </h5>
                                       <button
                                         type="button"
                                         className="btn-close"
-                                        onClick={() => setShowRegionModal(false)}
+                                        onClick={() =>
+                                          setShowRegionModal(false)
+                                        }
                                       ></button>
                                     </div>
                                     <div className="modal-body p-3">
@@ -1409,38 +1621,71 @@ const Search = () => {
                                           className="form-control mb-3"
                                           placeholder="Search regions..."
                                           value={searchTermRegion}
-                                          onChange={(e) => setSearchTermRegion(e.target.value)}
+                                          onChange={(e) =>
+                                            setSearchTermRegion(e.target.value)
+                                          }
                                         />
                                       </div>
-                                      {saudiRegions
-                                        .filter((region) =>
-                                          region.nameEn.toLowerCase().includes(searchTermRegion.toLowerCase()) ||
-                                          region.nameAr.includes(searchTermRegion)
-                                        )
-                                        .map((region) => {
-                                          const isChecked = selectedRegions.includes(region.id);
-                                          return (
-                                            <div className="form-check" key={region.id}>
-                                              <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id={`region-modal-${region.id}`}
-                                                checked={isChecked}
-                                                onChange={() => handleRegionChange(region.id)}
-                                              />
-                                              <label
-                                                className="form-check-label"
-                                                htmlFor={`region-modal-${region.id}`}
+                                      <div className="row g-2">
+                                        {getRegionsWithCounts()
+                                          .filter(
+                                            (region) =>
+                                              region.nameEn
+                                                .toLowerCase()
+                                                .includes(
+                                                  searchTermRegion.toLowerCase()
+                                                ) ||
+                                              region.nameAr.includes(
+                                                searchTermRegion
+                                              )
+                                          )
+                                          .map((region) => {
+                                            const isChecked =
+                                              selectedRegions.includes(
+                                                region.id
+                                              );
+                                            return (
+                                              <div
+                                                className="col-6"
+                                                key={region.id}
                                               >
-                                                {region.nameEn} ({region.nameAr})
-                                              </label>
-                                            </div>
-                                          );
-                                        })}
+                                                <div className="form-check">
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`region-modal-${region.id}`}
+                                                    checked={isChecked}
+                                                    onChange={() =>
+                                                      handleRegionChange(
+                                                        region.id
+                                                      )
+                                                    }
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor={`region-modal-${region.id}`}
+                                                  >
+                                                    {region.nameEn} (
+                                                    {region.nameAr}){" "}
+                                                    <span
+                                                      style={{
+                                                        color: "#888",
+                                                        fontSize: "0.9em",
+                                                      }}
+                                                    >
+                                                      ({region.count})
+                                                    </span>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                      </div>
                                     </div>
                                     <div className="modal-footer bg-light border-top">
                                       <div className="text-muted small">
-                                        {selectedRegions.length} region(s) selected
+                                        {selectedRegions.length} region(s)
+                                        selected
                                       </div>
                                       <div className="d-flex gap-2">
                                         <button
@@ -1449,7 +1694,8 @@ const Search = () => {
                                           onClick={() => {
                                             setSelectedRegions([]);
                                             setSearchParams((params) => {
-                                              const newParams = new URLSearchParams(params);
+                                              const newParams =
+                                                new URLSearchParams(params);
                                               newParams.delete("region");
                                               return newParams;
                                             });
@@ -1461,7 +1707,9 @@ const Search = () => {
                                         <button
                                           type="button"
                                           className="btn btn-primary px-4"
-                                          onClick={() => setShowRegionModal(false)}
+                                          onClick={() =>
+                                            setShowRegionModal(false)
+                                          }
                                         >
                                           Done
                                         </button>
@@ -1498,35 +1746,49 @@ const Search = () => {
                               </p>
                             ) : (
                               <>
-                                {cities.slice(0, 6).map((city) => {
-                                  const isChecked = selectedCities.some(
-                                    (c) => c.CITY_ID === city.CITY_ID
-                                  );
-                                  return (
-                                    <div key={city.CITY_ID} className="form-check">
-                                      <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        id={`city-${city.CITY_ID}`}
-                                        checked={isChecked}
-                                        onChange={() =>
-                                          handleCityChange({
-                                            CITY_ID: city.CITY_ID,
-                                            REGION_ID: city.REGION_ID,
-                                          })
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <label
-                                        className="form-check-label"
-                                        htmlFor={`city-${city.CITY_ID}`}
-                                        style={{ cursor: "pointer" }}
+                                {getCitiesWithCounts()
+                                  .slice(0, 6)
+                                  .map((city) => {
+                                    const isChecked = selectedCities.some(
+                                      (c) => c.CITY_ID === city.CITY_ID
+                                    );
+                                    return (
+                                      <div
+                                        key={city.CITY_ID}
+                                        className="form-check"
                                       >
-                                        {city["City En Name"]} ({city["City Ar Name"]})
-                                      </label>
-                                    </div>
-                                  );
-                                })}
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id={`city-${city.CITY_ID}`}
+                                          checked={isChecked}
+                                          onChange={() =>
+                                            handleCityChange({
+                                              CITY_ID: city.CITY_ID,
+                                              REGION_ID: city.REGION_ID,
+                                            })
+                                          }
+                                          style={{ cursor: "pointer" }}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`city-${city.CITY_ID}`}
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          {city["City En Name"]} (
+                                          {city["City Ar Name"]}){" "}
+                                          <span
+                                            style={{
+                                              color: "#888",
+                                              fontSize: "0.9em",
+                                            }}
+                                          >
+                                            ({city.count})
+                                          </span>
+                                        </label>
+                                      </div>
+                                    );
+                                  })}
                                 {cities.length > 0 && (
                                   <button
                                     type="button"
@@ -1543,13 +1805,18 @@ const Search = () => {
                             {showCityModal && (
                               <div
                                 className="modal fade show more_optn_modal_main"
-                                style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                style={{
+                                  display: "block",
+                                  backgroundColor: "rgba(0,0,0,0.5)",
+                                }}
                                 tabIndex="-1"
                               >
                                 <div className="modal-dialog modal-dialog-scrollable">
                                   <div className="modal-content">
                                     <div className="modal-header">
-                                      <h5 className="modal-title">Select More Cities</h5>
+                                      <h5 className="modal-title">
+                                        Select More Cities
+                                      </h5>
                                       <button
                                         type="button"
                                         className="btn-close"
@@ -1563,24 +1830,33 @@ const Search = () => {
                                           className="form-control"
                                           placeholder="Search cities..."
                                           value={searchTermCity}
-                                          onChange={(e) => setSearchTermCity(e.target.value)}
+                                          onChange={(e) =>
+                                            setSearchTermCity(e.target.value)
+                                          }
                                         />
                                       </div>
                                       <div className="row">
                                         <ul className="more_choice_main_list">
-                                          {cities
-                                            .filter((city) =>
-                                              city["City En Name"]
-                                                .toLowerCase()
-                                                .includes(searchTermCity.toLowerCase()) ||
-                                              city["City Ar Name"]
-                                                .toLowerCase()
-                                                .includes(searchTermCity.toLowerCase())
+                                          {getCitiesWithCounts()
+                                            .filter(
+                                              (city) =>
+                                                city["City En Name"]
+                                                  .toLowerCase()
+                                                  .includes(
+                                                    searchTermCity.toLowerCase()
+                                                  ) ||
+                                                city["City Ar Name"]
+                                                  .toLowerCase()
+                                                  .includes(
+                                                    searchTermCity.toLowerCase()
+                                                  )
                                             )
                                             .map((city) => {
-                                              const isChecked = selectedCities.some(
-                                                (c) => c.CITY_ID === city.CITY_ID
-                                              );
+                                              const isChecked =
+                                                selectedCities.some(
+                                                  (c) =>
+                                                    c.CITY_ID === city.CITY_ID
+                                                );
                                               return (
                                                 <li key={city.CITY_ID}>
                                                   <label className="d-flex align-items-center gap-2">
@@ -1590,12 +1866,22 @@ const Search = () => {
                                                       onChange={() =>
                                                         handleCityChange({
                                                           CITY_ID: city.CITY_ID,
-                                                          REGION_ID: city.REGION_ID,
+                                                          REGION_ID:
+                                                            city.REGION_ID,
                                                         })
                                                       }
                                                     />
                                                     <span>
-                                                      {city["City En Name"]} ({city["City Ar Name"]})
+                                                      {city["City En Name"]} (
+                                                      {city["City Ar Name"]}){" "}
+                                                      <span
+                                                        style={{
+                                                          color: "#888",
+                                                          fontSize: "0.9em",
+                                                        }}
+                                                      >
+                                                        ({city.count})
+                                                      </span>
                                                     </span>
                                                   </label>
                                                 </li>
@@ -1615,7 +1901,8 @@ const Search = () => {
                                           onClick={() => {
                                             setSelectedCities([]);
                                             setSearchParams((params) => {
-                                              const newParams = new URLSearchParams(params);
+                                              const newParams =
+                                                new URLSearchParams(params);
                                               newParams.delete("city");
                                               return newParams;
                                             });
@@ -1627,7 +1914,9 @@ const Search = () => {
                                         <button
                                           type="button"
                                           className="btn btn-primary px-4"
-                                          onClick={() => setShowCityModal(false)}
+                                          onClick={() =>
+                                            setShowCityModal(false)
+                                          }
                                         >
                                           Done
                                         </button>
@@ -1664,34 +1953,49 @@ const Search = () => {
                               </p>
                             ) : (
                               <>
-                                {districts.slice(0, 6).map((district) => {
-                                  const isChecked = selectedDistricts.some(
-                                    (d) => d.District_ID === district.District_ID
-                                  );
-                                  return (
-                                    <label
-                                      key={district.District_ID}
-                                      className="form-check d-flex align-items-center gap-2"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        checked={isChecked}
-                                        onChange={() =>
-                                          handleDistrictChange({
-                                            District_ID: district.District_ID,
-                                            CITY_ID: district.CITY_ID,
-                                            REGION_ID: district.REGION_ID,
-                                          })
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <span className="form-check-label" style={{ cursor: "pointer" }}>
-                                        {district["District En Name"]} ({district["District Ar Name"]})
-                                      </span>
-                                    </label>
-                                  );
-                                })}
+                                {getDistrictsWithCounts()
+                                  .slice(0, 6)
+                                  .map((district) => {
+                                    const isChecked = selectedDistricts.some(
+                                      (d) =>
+                                        d.District_ID === district.District_ID
+                                    );
+                                    return (
+                                      <label
+                                        key={district.District_ID}
+                                        className="form-check d-flex align-items-center gap-2"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          className="form-check-input"
+                                          checked={isChecked}
+                                          onChange={() =>
+                                            handleDistrictChange({
+                                              District_ID: district.District_ID,
+                                              CITY_ID: district.CITY_ID,
+                                              REGION_ID: district.REGION_ID,
+                                            })
+                                          }
+                                          style={{ cursor: "pointer" }}
+                                        />
+                                        <span
+                                          className="form-check-label"
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          {district["District En Name"]} (
+                                          {district["District Ar Name"]}){" "}
+                                          <span
+                                            style={{
+                                              color: "#888",
+                                              fontSize: "0.9em",
+                                            }}
+                                          >
+                                            ({district.count})
+                                          </span>
+                                        </span>
+                                      </label>
+                                    );
+                                  })}
                                 {districts.length > 0 && (
                                   <button
                                     type="button"
@@ -1710,17 +2014,24 @@ const Search = () => {
                                 <div
                                   className="modal fade show more_optn_modal_main"
                                   tabIndex="-1"
-                                  style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                  style={{
+                                    display: "block",
+                                    backgroundColor: "rgba(0,0,0,0.5)",
+                                  }}
                                   role="dialog"
                                 >
                                   <div className="modal-dialog modal-dialog-scrollable modal-lg">
                                     <div className="modal-content">
                                       <div className="modal-header">
-                                        <h5 className="modal-title">Select More Districts</h5>
+                                        <h5 className="modal-title">
+                                          Select More Districts
+                                        </h5>
                                         <button
                                           type="button"
                                           className="btn-close"
-                                          onClick={() => setShowDistrictModal(false)}
+                                          onClick={() =>
+                                            setShowDistrictModal(false)
+                                          }
                                         ></button>
                                       </div>
                                       <div className="modal-body">
@@ -1730,41 +2041,80 @@ const Search = () => {
                                             className="form-control"
                                             placeholder="Search districts..."
                                             value={searchTermDistrict}
-                                            onChange={(e) => setSearchTermDistrict(e.target.value)}
+                                            onChange={(e) =>
+                                              setSearchTermDistrict(
+                                                e.target.value
+                                              )
+                                            }
                                           />
                                         </div>
                                         <div className="row g-1 ml-4">
                                           <ul className="more_choice_main_list">
-                                            {districts
+                                            {getDistrictsWithCounts()
                                               .filter(
                                                 (district) =>
                                                   district["District En Name"]
                                                     .toLowerCase()
-                                                    .includes(searchTermDistrict.toLowerCase()) ||
+                                                    .includes(
+                                                      searchTermDistrict.toLowerCase()
+                                                    ) ||
                                                   district["District Ar Name"]
                                                     .toLowerCase()
-                                                    .includes(searchTermDistrict.toLowerCase())
+                                                    .includes(
+                                                      searchTermDistrict.toLowerCase()
+                                                    )
                                               )
                                               .map((district) => {
-                                                const isChecked = selectedDistricts.some(
-                                                  (d) => d.District_ID === district.District_ID
-                                                );
+                                                const isChecked =
+                                                  selectedDistricts.some(
+                                                    (d) =>
+                                                      d.District_ID ===
+                                                      district.District_ID
+                                                  );
                                                 return (
-                                                  <li key={district.District_ID}>
+                                                  <li
+                                                    key={district.District_ID}
+                                                  >
                                                     <label className="d-flex align-items-center gap-2">
                                                       <input
                                                         type="checkbox"
                                                         checked={isChecked}
                                                         onChange={() =>
                                                           handleDistrictChange({
-                                                            District_ID: district.District_ID,
-                                                            CITY_ID: district.CITY_ID,
-                                                            REGION_ID: district.REGION_ID,
+                                                            District_ID:
+                                                              district.District_ID,
+                                                            CITY_ID:
+                                                              district.CITY_ID,
+                                                            REGION_ID:
+                                                              district.REGION_ID,
                                                           })
                                                         }
                                                       />
-                                                      <span style={{ cursor: "pointer" }}>
-                                                        {district["District En Name"]} ({district["District Ar Name"]})
+                                                      <span
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                      >
+                                                        {
+                                                          district[
+                                                            "District En Name"
+                                                          ]
+                                                        }{" "}
+                                                        (
+                                                        {
+                                                          district[
+                                                            "District Ar Name"
+                                                          ]
+                                                        }
+                                                        ){" "}
+                                                        <span
+                                                          style={{
+                                                            color: "#888",
+                                                            fontSize: "0.9em",
+                                                          }}
+                                                        >
+                                                          ({district.count})
+                                                        </span>
                                                       </span>
                                                     </label>
                                                   </li>
@@ -1775,7 +2125,8 @@ const Search = () => {
                                       </div>
                                       <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                                         <div className="text-muted small">
-                                          {selectedDistricts.length} district(s) selected
+                                          {selectedDistricts.length} district(s)
+                                          selected
                                         </div>
                                         <div className="d-flex gap-2">
                                           <button
@@ -1784,7 +2135,8 @@ const Search = () => {
                                             onClick={() => {
                                               setSelectedDistricts([]);
                                               setSearchParams((params) => {
-                                                const newParams = new URLSearchParams(params);
+                                                const newParams =
+                                                  new URLSearchParams(params);
                                                 newParams.delete("district");
                                                 return newParams;
                                               });
@@ -1796,7 +2148,9 @@ const Search = () => {
                                           <button
                                             type="button"
                                             className="btn btn-primary px-4"
-                                            onClick={() => setShowDistrictModal(false)}
+                                            onClick={() =>
+                                              setShowDistrictModal(false)
+                                            }
                                           >
                                             Done
                                           </button>
@@ -1825,7 +2179,10 @@ const Search = () => {
                   {showBrandModal && currentCategoryFilters.filters?.brand && (
                     <div
                       className="modal fade show more_optn_modal_main"
-                      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                      style={{
+                        display: "block",
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                      }}
                       tabIndex="-1"
                     >
                       <div className="modal-dialog modal-dialog-scrollable">
@@ -1845,49 +2202,74 @@ const Search = () => {
                                 className="form-control"
                                 placeholder="Search brands..."
                                 value={searchTermBrand}
-                                onChange={(e) => setSearchTermBrand(e.target.value)}
+                                onChange={(e) =>
+                                  setSearchTermBrand(e.target.value)
+                                }
                               />
                             </div>
-                            <div className="row">
-                              <ul className="more_choice_main_list">
-                                {currentCategoryFilters.filters.brand.options
-                                  .filter((brandOption) => {
-                                    const label = brandOption.name || brandOption;
-                                    return label.toLowerCase().includes(searchTermBrand.toLowerCase());
-                                  })
-                                  .map((brandOption, index) => {
-                                    const label = brandOption.name || brandOption;
-                                    const isChecked = searchParams.getAll("brand").includes(getUrlText(label));
-                                    return (
-                                      <li key={`${label}-modal-${index}`}>
-                                        <label className="d-flex align-items-center gap-2">
-                                          <input
-                                            type="checkbox"
-                                            checked={isChecked}
-                                            onChange={(e) => {
-                                              handleFiltersChange(
-                                                {
-                                                  target: {
-                                                    name: "brand",
-                                                    value: label,
-                                                    checked: e.target.checked,
-                                                  },
+                            <div className="row g-2">
+                              {getBrandsWithCounts()
+                                .filter((brandOption) => {
+                                  const label = brandOption.name || brandOption;
+                                  return label
+                                    .toLowerCase()
+                                    .includes(searchTermBrand.toLowerCase());
+                                })
+                                .map((brandOption, index) => {
+                                  const label = brandOption.name || brandOption;
+                                  const brandCount = brandOption.count;
+                                  const isChecked = searchParams
+                                    .getAll("brand")
+                                    .includes(getUrlText(label));
+                                  return (
+                                    <div
+                                      key={`${label}-modal-${index}`}
+                                      className="col-6"
+                                    >
+                                      <div className="form-check">
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id={`brand-modal-${label}-${index}`}
+                                          checked={isChecked}
+                                          onChange={(e) => {
+                                            handleFiltersChange(
+                                              {
+                                                target: {
+                                                  name: "brand",
+                                                  value: label,
+                                                  checked: e.target.checked,
                                                 },
-                                                currentCategoryFilters.filters.brand.select
-                                              );
+                                              },
+                                              currentCategoryFilters.filters
+                                                .brand.select
+                                            );
+                                          }}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`brand-modal-${label}-${index}`}
+                                        >
+                                          {label}{" "}
+                                          <span
+                                            style={{
+                                              color: "#888",
+                                              fontSize: "0.9em",
                                             }}
-                                          />
-                                          <span>{label}</span>
+                                          >
+                                            ({brandCount})
+                                          </span>
                                         </label>
-                                      </li>
-                                    );
-                                  })}
-                              </ul>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
                             </div>
                           </div>
                           <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                             <div className="text-muted small">
-                              {searchParams.getAll("brand").length} brand(s) selected
+                              {searchParams.getAll("brand").length} brand(s)
+                              selected
                             </div>
                             <div className="d-flex gap-2">
                               <button
@@ -1895,7 +2277,9 @@ const Search = () => {
                                 className="btn btn-outline-secondary"
                                 onClick={() => {
                                   setSearchParams((params) => {
-                                    const newParams = new URLSearchParams(params);
+                                    const newParams = new URLSearchParams(
+                                      params
+                                    );
                                     newParams.delete("brand");
                                     newParams.delete("brandModel");
                                     return newParams;
@@ -1923,7 +2307,10 @@ const Search = () => {
                   {showBrandModelModal && (
                     <div
                       className="modal fade show more_optn_modal_main"
-                      style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+                      style={{
+                        display: "block",
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                      }}
                       tabIndex="-1"
                     >
                       <div className="modal-dialog modal-dialog-scrollable">
@@ -1943,56 +2330,100 @@ const Search = () => {
                                 className="form-control"
                                 placeholder="Search models..."
                                 value={searchTermBrandModel}
-                                onChange={(e) => setSearchTermBrandModel(e.target.value)}
+                                onChange={(e) =>
+                                  setSearchTermBrandModel(e.target.value)
+                                }
                               />
                             </div>
-                            <div className="row">
-                              <ul className="more_choice_main_list">
-                                {availableBrandModels
-                                  .filter((model) =>
-                                    model.toLowerCase().includes(searchTermBrandModel.toLowerCase())
-                                  )
-                                  .map((model, index) => {
-                                    const isChecked = searchParams.getAll("brandModel").includes(getUrlText(model));
-                                    return (
-                                      <li key={`${model}-modal-${index}`}>
-                                        <label className="d-flex align-items-center gap-2">
-                                          <input
-                                            type="checkbox"
-                                            checked={isChecked}
-                                            onChange={() => {
-                                              const selectedModels = searchParams.getAll("brandModel");
-                                              const modelUrl = getUrlText(model);
+                            <div className="row g-2">
+                              {getModelsWithCounts()
+                                .filter((modelObj) =>
+                                  modelObj.name
+                                    .toLowerCase()
+                                    .includes(
+                                      searchTermBrandModel.toLowerCase()
+                                    )
+                                )
+                                .map((modelObj, index) => {
+                                  const model = modelObj.name;
+                                  const modelCount = modelObj.count;
+                                  const isChecked = searchParams
+                                    .getAll("brandModel")
+                                    .includes(getUrlText(model));
+                                  return (
+                                    <div
+                                      key={`${model}-modal-${index}`}
+                                      className="col-12"
+                                    >
+                                      <div className="form-check">
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id={`model-modal-${model}-${index}`}
+                                          checked={isChecked}
+                                          onChange={() => {
+                                            const selectedModels =
+                                              searchParams.getAll("brandModel");
+                                            const modelUrl = getUrlText(model);
 
-                                              setSearchParams((params) => {
-                                                const newParams = new URLSearchParams(params);
-                                                newParams.delete("brandModel");
+                                            setSearchParams((params) => {
+                                              const newParams =
+                                                new URLSearchParams(params);
+                                              newParams.delete("brandModel");
 
-                                                if (selectedModels.includes(modelUrl)) {
-                                                  selectedModels
-                                                    .filter((m) => m !== modelUrl)
-                                                    .forEach((m) => newParams.append("brandModel", m));
-                                                } else {
-                                                  [...selectedModels, modelUrl].forEach((m) =>
-                                                    newParams.append("brandModel", m)
+                                              if (
+                                                selectedModels.includes(
+                                                  modelUrl
+                                                )
+                                              ) {
+                                                selectedModels
+                                                  .filter((m) => m !== modelUrl)
+                                                  .forEach((m) =>
+                                                    newParams.append(
+                                                      "brandModel",
+                                                      m
+                                                    )
                                                   );
-                                                }
+                                              } else {
+                                                [
+                                                  ...selectedModels,
+                                                  modelUrl,
+                                                ].forEach((m) =>
+                                                  newParams.append(
+                                                    "brandModel",
+                                                    m
+                                                  )
+                                                );
+                                              }
 
-                                                return newParams;
-                                              });
+                                              return newParams;
+                                            });
+                                          }}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`model-modal-${model}-${index}`}
+                                        >
+                                          {model}{" "}
+                                          <span
+                                            style={{
+                                              color: "#888",
+                                              fontSize: "0.9em",
                                             }}
-                                          />
-                                          <span>{model}</span>
+                                          >
+                                            ({modelCount})
+                                          </span>
                                         </label>
-                                      </li>
-                                    );
-                                  })}
-                              </ul>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
                             </div>
                           </div>
                           <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                             <div className="text-muted small">
-                              {searchParams.getAll("brandModel").length} model(s) selected
+                              {searchParams.getAll("brandModel").length}{" "}
+                              model(s) selected
                             </div>
                             <div className="d-flex gap-2">
                               <button
@@ -2000,7 +2431,9 @@ const Search = () => {
                                 className="btn btn-outline-secondary"
                                 onClick={() => {
                                   setSearchParams((params) => {
-                                    const newParams = new URLSearchParams(params);
+                                    const newParams = new URLSearchParams(
+                                      params
+                                    );
                                     newParams.delete("brandModel");
                                     return newParams;
                                   });
@@ -2041,8 +2474,16 @@ const Search = () => {
                               >
                                 {filterValue.type === "checkbox" ? (
                                   <>
-                                    {filterValue.options
-                                      .slice(0, filterKey === "brand" ? 5 : filterValue.options.length)
+                                    {(filterKey === "brand"
+                                      ? getBrandsWithCounts()
+                                      : filterValue.options
+                                    )
+                                      .slice(
+                                        0,
+                                        filterKey === "brand"
+                                          ? 5
+                                          : filterValue.options.length
+                                      )
                                       .map((value, valueIndex) => {
                                         const id =
                                           value.name &&
@@ -2056,6 +2497,54 @@ const Search = () => {
                                           ? value.name
                                           : value;
 
+                                        const count =
+                                          value.count !== undefined
+                                            ? value.count
+                                            : getCountForOption(
+                                                filterKey === "brand"
+                                                  ? ["Brand", "Make"]
+                                                  : filterKey === "condition"
+                                                  ? ["Condition"]
+                                                  : filterKey === "transmission"
+                                                  ? ["Transmission"]
+                                                  : filterKey === "fuelType"
+                                                  ? ["Fueltype", "FuelType"]
+                                                  : filterKey === "bodyType"
+                                                  ? ["BodyType"]
+                                                  : filterKey ===
+                                                    "exteriorColor"
+                                                  ? ["Color", "ExteriorColor"]
+                                                  : filterKey ===
+                                                    "interiorColor"
+                                                  ? ["InteriorColor"]
+                                                  : filterKey === "sellerType"
+                                                  ? ["SellerType"]
+                                                  : filterKey === "regionalSpec"
+                                                  ? ["RegionalSpec"]
+                                                  : filterKey === "insurance"
+                                                  ? ["Insurance"]
+                                                  : filterKey ===
+                                                    "additionalFeatures"
+                                                  ? ["AdditionalFeatures"]
+                                                  : filterKey === "noOfDoors"
+                                                  ? ["NumberofDoors"]
+                                                  : filterKey ===
+                                                    "seatingCapacity"
+                                                  ? ["SeatingCapacity"]
+                                                  : filterKey === "age"
+                                                  ? ["Age"]
+                                                  : filterKey ===
+                                                    "paymentMethod"
+                                                  ? ["PaymentMethod"]
+                                                  : filterKey === "addType"
+                                                  ? ["Purpose", "AdType"]
+                                                  : label
+                                              );
+
+                                        if (filterKey === "addType") {
+                                          console.log(`🎯 addType filter: label="${label}", count=${count}, allAds.length=${allAds.length}`);
+                                        }
+
                                         const paramValues =
                                           searchParams.getAll(filterKey);
 
@@ -2063,7 +2552,8 @@ const Search = () => {
                                           filterValue.select === "multiple"
                                             ? paramValues &&
                                               paramValues.find(
-                                                (val) => val === getUrlText(label)
+                                                (val) =>
+                                                  val === getUrlText(label)
                                               )
                                             : searchParams.get(filterKey) ===
                                               getUrlText(label);
@@ -2104,21 +2594,32 @@ const Search = () => {
                                                 className="form-check-label"
                                                 style={{ cursor: "pointer" }}
                                               >
-                                                {label}
+                                                {label}{" "}
+                                                <span
+                                                  style={{
+                                                    color: "#888",
+                                                    fontSize: "0.9em",
+                                                  }}
+                                                >
+                                                  ({count})
+                                                </span>
                                               </label>
                                             </div>
                                           </Form.Group>
                                         );
                                       })}
-                                    {filterKey === "brand" && filterValue.options.length > 5 && (
-                                      <button
-                                        type="button"
-                                        className="btn btn-link p-0"
-                                        onClick={() => setShowBrandModal(true)}
-                                      >
-                                        Show more choices...
-                                      </button>
-                                    )}
+                                    {filterKey === "brand" &&
+                                      filterValue.options.length > 5 && (
+                                        <button
+                                          type="button"
+                                          className="btn btn-link p-0"
+                                          onClick={() =>
+                                            setShowBrandModal(true)
+                                          }
+                                        >
+                                          Show more choices...
+                                        </button>
+                                      )}
                                   </>
                                 ) : filterValue.type === "select" ? (
                                   <Form.Group
@@ -2216,12 +2717,42 @@ const Search = () => {
                                                 `from${filterValue.name}`
                                               ]
                                             }
-                                            onChange={(e) =>
-                                              setFilterData((prev) => ({
-                                                ...prev,
-                                                [e.target.name]: e.target.value,
-                                              }))
-                                            }
+                                            onChange={(e) => {
+                                              const value = e.target.value;
+                                              // Only accept numeric values for Price, Year, and Mileage
+                                              if (
+                                                filterValue.name === "Price" ||
+                                                filterValue.name === "Mileage"
+                                              ) {
+                                                if (
+                                                  value === "" ||
+                                                  /^\d*\.?\d*$/.test(value)
+                                                ) {
+                                                  setFilterData((prev) => ({
+                                                    ...prev,
+                                                    [e.target.name]: value,
+                                                  }));
+                                                }
+                                              } else if (
+                                                filterValue.name === "Year"
+                                              ) {
+                                                // Year only accepts integers, no decimals
+                                                if (
+                                                  value === "" ||
+                                                  /^\d*$/.test(value)
+                                                ) {
+                                                  setFilterData((prev) => ({
+                                                    ...prev,
+                                                    [e.target.name]: value,
+                                                  }));
+                                                }
+                                              } else {
+                                                setFilterData((prev) => ({
+                                                  ...prev,
+                                                  [e.target.name]: value,
+                                                }));
+                                              }
+                                            }}
                                             min="0"
                                           />
                                         </Col>
@@ -2235,45 +2766,110 @@ const Search = () => {
                                                 `to${filterValue.name}`
                                               ]
                                             }
-                                            onChange={(e) =>
-                                              setFilterData((prev) => ({
-                                                ...prev,
-                                                [e.target.name]: e.target.value,
-                                              }))
-                                            }
+                                            onChange={(e) => {
+                                              const value = e.target.value;
+                                              // Only accept numeric values for Price, Year, and Mileage
+                                              if (
+                                                filterValue.name === "Price" ||
+                                                filterValue.name === "Mileage"
+                                              ) {
+                                                if (
+                                                  value === "" ||
+                                                  /^\d*\.?\d*$/.test(value)
+                                                ) {
+                                                  setFilterData((prev) => ({
+                                                    ...prev,
+                                                    [e.target.name]: value,
+                                                  }));
+                                                }
+                                              } else if (
+                                                filterValue.name === "Year"
+                                              ) {
+                                                // Year only accepts integers, no decimals
+                                                if (
+                                                  value === "" ||
+                                                  /^\d*$/.test(value)
+                                                ) {
+                                                  setFilterData((prev) => ({
+                                                    ...prev,
+                                                    [e.target.name]: value,
+                                                  }));
+                                                }
+                                              } else {
+                                                setFilterData((prev) => ({
+                                                  ...prev,
+                                                  [e.target.name]: value,
+                                                }));
+                                              }
+                                            }}
                                             min="0"
                                           />
                                         </Col>
                                       </Row>
-                                      <button
-                                        onClick={(e) =>
-                                          handleTwoInputs(
-                                            e,
-                                            {
-                                              from: `from${filterValue.name}`,
-                                              to: `to${filterValue.name}`,
-                                            },
-                                            {
-                                              from: filterData[
-                                                `from${filterValue.name}`
-                                              ],
-                                              to: filterData[
-                                                `to${filterValue.name}`
-                                              ],
-                                            },
-                                            filterValue.select
-                                          )
-                                        }
-                                        type="button"
-                                        className="blue_btn"
-                                        style={{
-                                          marginTop: "10px",
-                                          width: "100%",
-                                          cursor: "pointer",
-                                        }}
-                                      >
-                                        Apply
-                                      </button>
+                                      <Row className="g-2">
+                                        <Col>
+                                          <button
+                                            onClick={(e) =>
+                                              handleTwoInputs(
+                                                e,
+                                                {
+                                                  from: `from${filterValue.name}`,
+                                                  to: `to${filterValue.name}`,
+                                                },
+                                                {
+                                                  from: filterData[
+                                                    `from${filterValue.name}`
+                                                  ],
+                                                  to: filterData[
+                                                    `to${filterValue.name}`
+                                                  ],
+                                                },
+                                                filterValue.select
+                                              )
+                                            }
+                                            type="button"
+                                            className="blue_btn"
+                                            style={{
+                                              marginTop: "10px",
+                                              width: "100%",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            Apply
+                                          </button>
+                                        </Col>
+                                        <Col>
+                                          <button
+                                            onClick={() => {
+                                              setFilterData((prev) => ({
+                                                ...prev,
+                                                [`from${filterValue.name}`]: "",
+                                                [`to${filterValue.name}`]: "",
+                                              }));
+                                              setSearchParams((prev) => {
+                                                const newParams =
+                                                  new URLSearchParams(prev);
+                                                newParams.delete(
+                                                  `from${filterValue.name}`
+                                                );
+                                                newParams.delete(
+                                                  `to${filterValue.name}`
+                                                );
+                                                return newParams;
+                                              });
+                                            }}
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            style={{
+                                              marginTop: "10px",
+                                              width: "100%",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            Clear
+                                          </button>
+                                        </Col>
+                                      </Row>
                                     </Form.Group>
                                   )
                                 )}
@@ -2284,73 +2880,132 @@ const Search = () => {
                         <HorizantalLine />
 
                         {/* Show Brand Model filter right after Brand filter */}
-                        {filterKey === "brand" && availableBrandModels.length > 0 && (
-                          <>
-                            <Accordion className="mt-3">
-                              <Accordion.Item eventKey="0">
-                                <Accordion.Header>Select Model</Accordion.Header>
-                                <Accordion.Body>
-                                  <Form.Group className="mb-3">
-                                    <div className="grid grid-cols-1 gap-2">
-                                      {availableBrandModels.slice(0, 5).map((model, index) => {
-                                        const isChecked = searchParams.getAll("brandModel").includes(getUrlText(model));
-                                        return (
-                                          <div key={`${model}-${index}`} className="form-check">
-                                            <input
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              id={`model-inline-${model}-${index}`}
-                                              checked={isChecked}
-                                              onChange={() => {
-                                                const selectedModels = searchParams.getAll("brandModel");
-                                                const modelUrl = getUrlText(model);
+                        {filterKey === "brand" &&
+                          availableBrandModels.length > 0 && (
+                            <>
+                              <Accordion className="mt-3">
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header>
+                                    Select Model
+                                  </Accordion.Header>
+                                  <Accordion.Body>
+                                    <Form.Group className="mb-3">
+                                      <div className="row">
+                                        {getModelsWithCounts()
+                                          .slice(0, 5)
+                                          .map((modelObj, index) => {
+                                            const model = modelObj.name;
+                                            const modelCount = modelObj.count;
+                                            const isChecked = searchParams
+                                              .getAll("brandModel")
+                                              .includes(getUrlText(model));
+                                            return (
+                                              <div
+                                                key={`${model}-${index}`}
+                                                className="col-12"
+                                              >
+                                                <div className="form-check">
+                                                  <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`model-inline-${model}-${index}`}
+                                                    checked={isChecked}
+                                                    onChange={() => {
+                                                      const selectedModels =
+                                                        searchParams.getAll(
+                                                          "brandModel"
+                                                        );
+                                                      const modelUrl =
+                                                        getUrlText(model);
 
-                                                setSearchParams((params) => {
-                                                  const newParams = new URLSearchParams(params);
-                                                  newParams.delete("brandModel");
+                                                      setSearchParams(
+                                                        (params) => {
+                                                          const newParams =
+                                                            new URLSearchParams(
+                                                              params
+                                                            );
+                                                          newParams.delete(
+                                                            "brandModel"
+                                                          );
 
-                                                  if (selectedModels.includes(modelUrl)) {
-                                                    selectedModels
-                                                      .filter((m) => m !== modelUrl)
-                                                      .forEach((m) => newParams.append("brandModel", m));
-                                                  } else {
-                                                    [...selectedModels, modelUrl].forEach((m) =>
-                                                      newParams.append("brandModel", m)
-                                                    );
-                                                  }
+                                                          if (
+                                                            selectedModels.includes(
+                                                              modelUrl
+                                                            )
+                                                          ) {
+                                                            selectedModels
+                                                              .filter(
+                                                                (m) =>
+                                                                  m !== modelUrl
+                                                              )
+                                                              .forEach((m) =>
+                                                                newParams.append(
+                                                                  "brandModel",
+                                                                  m
+                                                                )
+                                                              );
+                                                          } else {
+                                                            [
+                                                              ...selectedModels,
+                                                              modelUrl,
+                                                            ].forEach((m) =>
+                                                              newParams.append(
+                                                                "brandModel",
+                                                                m
+                                                              )
+                                                            );
+                                                          }
 
-                                                  return newParams;
-                                                });
-                                              }}
-                                              style={{ cursor: "pointer" }}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor={`model-inline-${model}-${index}`}
-                                              style={{ cursor: "pointer" }}
+                                                          return newParams;
+                                                        }
+                                                      );
+                                                    }}
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  />
+                                                  <label
+                                                    className="form-check-label"
+                                                    htmlFor={`model-inline-${model}-${index}`}
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    {model}{" "}
+                                                    <span
+                                                      style={{
+                                                        color: "#888",
+                                                        fontSize: "0.9em",
+                                                      }}
+                                                    >
+                                                      ({modelCount})
+                                                    </span>
+                                                  </label>
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                        {availableBrandModels.length > 5 && (
+                                          <div className="col-12">
+                                            <button
+                                              type="button"
+                                              className="btn btn-link p-0"
+                                              onClick={() =>
+                                                setShowBrandModelModal(true)
+                                              }
                                             >
-                                              {model}
-                                            </label>
+                                              Show more choices...
+                                            </button>
                                           </div>
-                                        );
-                                      })}
-                                      {availableBrandModels.length > 5 && (
-                                        <button
-                                          type="button"
-                                          className="btn btn-link p-0"
-                                          onClick={() => setShowBrandModelModal(true)}
-                                        >
-                                          Show more choices...
-                                        </button>
-                                      )}
-                                    </div>
-                                  </Form.Group>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                            </Accordion>
-                            <HorizantalLine />
-                          </>
-                        )}
+                                        )}
+                                      </div>
+                                    </Form.Group>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                              <HorizantalLine />
+                            </>
+                          )}
                       </React.Fragment>
                     )
                   )}
@@ -2423,16 +3078,25 @@ const Search = () => {
                       }}
                     >
                       {/* Sort Dropdown inside cards container */}
-                      <Row className="mb-3" style={{ marginTop: "10px", marginRight: "1px" }}>
+                      <Row
+                        className="mb-3"
+                        style={{ marginTop: "10px", marginRight: "1px" }}
+                      >
                         <Col xs={12} sm={6} md={4} className="ms-auto">
                           <Form.Select
                             aria-label="Sort options"
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
                           >
-                            <option value="Sort by: Most Relevant">Sort by: Most Relevant</option>
-                            <option value="Price: Low to High">Price: Low to High</option>
-                            <option value="Price: High to Low">Price: High to Low</option>
+                            <option value="Sort by: Most Relevant">
+                              Sort by: Most Relevant
+                            </option>
+                            <option value="Price: Low to High">
+                              Price: Low to High
+                            </option>
+                            <option value="Price: High to Low">
+                              Price: High to Low
+                            </option>
                           </Form.Select>
                         </Col>
                       </Row>
@@ -2479,7 +3143,9 @@ const Search = () => {
                                   key={pageNumber}
                                   onClick={() => handlePageChange(pageNumber)}
                                   style={{
-                                    backgroundColor: isActive ? "#2d4495" : "#f8f9fa",
+                                    backgroundColor: isActive
+                                      ? "#2d4495"
+                                      : "#f8f9fa",
                                     color: isActive ? "white" : "#2d4495",
                                     border: "1px solid #2d4495",
                                     padding: "8px 16px",

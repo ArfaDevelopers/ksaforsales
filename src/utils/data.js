@@ -1274,7 +1274,7 @@ export const data = [
         name: "Number of Doors",
         select: "multiple",
         type: "checkbox",
-        options: ["4", "5", "2", "3", "0"],
+        options: ["4", "5", "2", "3"],
       },
       seatingCapacity: {
         name: "Seating Capacity",

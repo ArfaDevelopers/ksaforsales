@@ -253,7 +253,7 @@ const Cars = () => {
         VideoAvailability: selectedVideoAvailability,
         PictureAvailability: selectedPictureAvailability,
         FuelType: selectedFuelType,
-        AdType: selectedAdType,
+        AdType: purpose,
         ModalCategory: selectedModalCategory,
         SellerType: selectedSellerType,
         NumberOfDoors: selectedNumberOfDoors,
