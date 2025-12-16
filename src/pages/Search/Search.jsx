@@ -358,13 +358,33 @@ const Search = () => {
         });
 
         console.log(`📊 Total ads loaded: ${adsWithPurpose.length}`);
-        console.log(`📊 Ads with Purpose field:`, adsWithPurpose.filter(ad => ad.Purpose).length);
-        console.log(`📊 Ads with AdType field:`, adsWithPurpose.filter(ad => ad.AdType).length);
-        console.log(`📊 Sample ads:`, adsWithPurpose.slice(0, 3).map(ad => ({ id: ad.id, Purpose: ad.Purpose, AdType: ad.AdType, category: ad.category })));
-        
+        console.log(
+          `📊 Ads with Purpose field:`,
+          adsWithPurpose.filter((ad) => ad.Purpose).length
+        );
+        console.log(
+          `📊 Ads with AdType field:`,
+          adsWithPurpose.filter((ad) => ad.AdType).length
+        );
+        console.log(
+          `📊 Sample ads:`,
+          adsWithPurpose
+            .slice(0, 3)
+            .map((ad) => ({
+              id: ad.id,
+              Purpose: ad.Purpose,
+              AdType: ad.AdType,
+              category: ad.category,
+            }))
+        );
+
         // Log unique Purpose values to see what we're dealing with
-        const uniquePurposes = [...new Set(adsWithPurpose.map(ad => ad.Purpose).filter(p => p))];
-        const uniqueAdTypes = [...new Set(adsWithPurpose.map(ad => ad.AdType).filter(a => a))];
+        const uniquePurposes = [
+          ...new Set(adsWithPurpose.map((ad) => ad.Purpose).filter((p) => p)),
+        ];
+        const uniqueAdTypes = [
+          ...new Set(adsWithPurpose.map((ad) => ad.AdType).filter((a) => a)),
+        ];
         console.log(`📊 Unique Purpose values in database:`, uniquePurposes);
         console.log(`📊 Unique AdType values in database:`, uniqueAdTypes);
 
@@ -773,13 +793,17 @@ const Search = () => {
 
     // Convert value to string for comparison
     const stringValue = String(value).trim();
-    
-    console.log(`🔍 getCountForOption called: value="${value}", fieldNames=${JSON.stringify(fieldNames)}, stringValue="${stringValue}"`);
+
+    console.log(
+      `🔍 getCountForOption called: value="${value}", fieldNames=${JSON.stringify(
+        fieldNames
+      )}, stringValue="${stringValue}"`
+    );
 
     const matchingAds = allAds.filter((ad) => {
       return fieldNames.some((fieldName) => {
         const adValue = ad[fieldName];
-        
+
         if (!adValue && adValue !== 0) {
           return false;
         }
@@ -793,21 +817,26 @@ const Search = () => {
             );
           });
         }
-        
+
         const stringAdValue = String(adValue).trim();
         const urlMatch = getUrlText(stringAdValue) === getUrlText(stringValue);
-        const lowerMatch = stringAdValue.toLowerCase() === stringValue.toLowerCase();
-        
+        const lowerMatch =
+          stringAdValue.toLowerCase() === stringValue.toLowerCase();
+
         if (urlMatch || lowerMatch) {
-          console.log(`   ✅ Found match: Field="${fieldName}", DBValue="${adValue}", SearchFor="${stringValue}", urlMatch=${urlMatch}, lowerMatch=${lowerMatch}`);
+          console.log(
+            `   ✅ Found match: Field="${fieldName}", DBValue="${adValue}", SearchFor="${stringValue}", urlMatch=${urlMatch}, lowerMatch=${lowerMatch}`
+          );
         }
-        
+
         return urlMatch || lowerMatch;
       });
     });
-    
-    console.log(`🔍 Result: Found ${matchingAds.length} matching ads for "${value}"`);
-    
+
+    console.log(
+      `🔍 Result: Found ${matchingAds.length} matching ads for "${value}"`
+    );
+
     return matchingAds.length;
   };
 
@@ -2542,7 +2571,9 @@ const Search = () => {
                                               );
 
                                         if (filterKey === "addType") {
-                                          console.log(`🎯 addType filter: label="${label}", count=${count}, allAds.length=${allAds.length}`);
+                                          console.log(
+                                            `🎯 addType filter: label="${label}", count=${count}, allAds.length=${allAds.length}`
+                                          );
                                         }
 
                                         const paramValues =
