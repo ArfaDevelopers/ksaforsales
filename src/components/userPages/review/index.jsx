@@ -236,6 +236,11 @@ const Review = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/manage-commercial-ads">
+                  <FaListUl /> <span>Commercial Ads</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/bookmarks">
                   <FaHeart /> <span>Favourite</span>
                 </Link>

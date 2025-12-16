@@ -40,7 +40,7 @@ const CommercialAdsListing = () => {
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
   const [showPayment, setshowPayment] = useState(true); // Store a single URL, initially null
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const uid = auth.currentUser.uid
+  const [uid, setUid] = useState(null);
 
   const handleLogout = async () => {
     try {
@@ -55,9 +55,19 @@ const CommercialAdsListing = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    whatsapp: "", // ➕ Add this line
+    whatsapp: "",
     bannerImage: null,
   });
+
+  // Get current user ID
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUid(user.uid);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,19 +103,21 @@ const CommercialAdsListing = () => {
 
     const fetchUserPhoneNumber = async () => {
       try {
-        const docRef = doc(db, "users", uid)
-        const docSnap = await getDoc(docRef)
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          const userData = docSnap.data()
-          setFormData((prevData) => ({...prevData, phone: userData.phoneNumber || "", whatsapp:userData.phoneNumber || "" }))
+          const userData = docSnap.data();
+          setFormData((prevData) => ({
+            ...prevData,
+            phone: userData.phoneNumber || "",
+            whatsapp: userData.phoneNumber || "",
+          }));
         }
-      } catch (error) {
-        
-      }
-    }
+      } catch (error) {}
+    };
 
     fetchAds();
-    fetchUserPhoneNumber()
+    fetchUserPhoneNumber();
   }, []);
 
   // Handle form input changes
@@ -220,12 +232,15 @@ const CommercialAdsListing = () => {
       const listingData = {
         Title: formData.name,
         phone: formData.phone,
-        whatsapp: formData.whatsapp, // ➕ Add this line
+        whatsapp: formData.whatsapp,
         image: Url || null,
         timeAgo: new Date(),
+        userId: uid,
       };
 
+      console.log("Saving commercial ad with data:", listingData);
       await addDoc(collection(db, "CommercialAdscom"), listingData);
+      console.log("Commercial ad saved successfully!");
 
       // Show success message and reset the form
       MySwal.fire({
@@ -288,6 +303,11 @@ const CommercialAdsListing = () => {
                 <li className="active">
                   <Link to="/my-listing">
                     <FaListUl /> <span>My Listing</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/manage-commercial-ads">
+                    <FaListUl /> <span>Commercial Ads</span>
                   </Link>
                 </li>
                 <li>

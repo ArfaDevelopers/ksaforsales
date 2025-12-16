@@ -639,7 +639,11 @@ const MyListe = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (text, record) => <span className={record.bg}>{record.isActive? "Acitve": "Not Active"}</span>,
+      render: (text, record) => (
+        <span className={record.bg}>
+          {record.isActive ? "Acitve" : "Not Active"}
+        </span>
+      ),
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
     },
     ...(showInvoiceColumn
@@ -1026,6 +1030,11 @@ const MyListe = () => {
               <li className="active">
                 <Link to="/my-listing">
                   <FaListUl /> <span>My Listing</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/manage-commercial-ads">
+                  <FaListUl /> <span>Commercial Ads</span>
                 </Link>
               </li>
               <li>

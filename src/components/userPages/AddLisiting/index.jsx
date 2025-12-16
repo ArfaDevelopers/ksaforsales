@@ -300,10 +300,12 @@ const AddLisiting = () => {
             City: userData.city || userData.City || prev.City || "",
             location: userData.location || prev.location || "",
             address: userData.address || prev.address || prev.mapAddress || "",
-            mapAddress: userData.mapAddress || prev.mapAddress || userData.address || "",
+            mapAddress:
+              userData.mapAddress || prev.mapAddress || userData.address || "",
             latitude: userData.latitude || prev.latitude || "",
             longitude: userData.longitude || prev.longitude || "",
-            whatsapp: userData.whatsapp || userData.phoneNumber || prev.whatsapp || "",
+            whatsapp:
+              userData.whatsapp || userData.phoneNumber || prev.whatsapp || "",
           }));
           // Update display fields too
           setphotoURL(userData.photoURL || userData.photoURL || "");
@@ -4501,6 +4503,11 @@ const AddLisiting = () => {
                 <li>
                   <Link to="/my-listing">
                     <FaListUl /> <span>My Listing</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/manage-commercial-ads">
+                    <FaListUl /> <span>Commercial Ads</span>
                   </Link>
                 </li>
                 <li>
