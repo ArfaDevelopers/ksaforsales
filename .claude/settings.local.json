@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(grep:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(cat:*)",
+      "Bash(netstat:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm start)"
     ]
   }
 }
