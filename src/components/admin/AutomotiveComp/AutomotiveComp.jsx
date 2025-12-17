@@ -280,7 +280,18 @@ const AutomotiveComp = () => {
     fetchDistricts();
   }, [selectedCities]);
 
-  const districtOptions = districts.map((district) => ({
+  // Remove duplicates based on District_ID before mapping
+  const uniqueDistrictsMap = new Map();
+  districts.forEach((district) => {
+    // Create unique key from district name to avoid duplicates with same name
+    const nameKey = `${district["District En Name"]}_${district["District Ar Name"] || ""}`;
+    if (district.District_ID && !uniqueDistrictsMap.has(nameKey)) {
+      uniqueDistrictsMap.set(nameKey, district);
+    }
+  });
+  const uniqueDistricts = Array.from(uniqueDistrictsMap.values());
+
+  const districtOptions = uniqueDistricts.map((district) => ({
     value: district.District_ID,
     label: district["District En Name"],
     regionId: district.REGION_ID,
@@ -992,7 +1003,6 @@ const AutomotiveComp = () => {
 
   // Filter district options based on search term
   const filteredDistricts = districtOptions
-    .slice(4)
     .filter((option) =>
       option.label?.toLowerCase().includes(searchTermDistrict?.toLowerCase())
     );

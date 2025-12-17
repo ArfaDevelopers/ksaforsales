@@ -1248,7 +1248,23 @@ const AddLisiting = () => {
   });
   console.log("Selected CITY_ID:selectedDistrict", selectedDistrict);
 
-  const districtOptions = districts.map((district) => ({
+  // Remove duplicates based on district name (not just ID)
+  // Because API returns multiple entries with same name but different IDs
+  const uniqueDistrictsMap = new Map();
+  districts.forEach((district) => {
+    // Create unique key from district name combination
+    const nameKey = `${district["District En Name"]}_${district["District Ar Name"]}`;
+    if (district.District_ID && !uniqueDistrictsMap.has(nameKey)) {
+      uniqueDistrictsMap.set(nameKey, district);
+    }
+  });
+  const uniqueDistricts = Array.from(uniqueDistrictsMap.values());
+
+  console.log("Total districts from API:", districts.length);
+  console.log("Unique districts after deduplication:", uniqueDistricts.length);
+  console.log("Deduplicated districts:", uniqueDistricts);
+
+  const districtOptions = uniqueDistricts.map((district) => ({
     value: district.District_ID,
     label: `${district["District En Name"]} (${district["District Ar Name"]})`,
     District_ID: district.District_ID,
