@@ -4481,6 +4481,13 @@ const AddLisiting = () => {
     });
     geocodeAddress(address);
   };
+
+  // Helper function to check if subcategory is land/plot type
+  const isLandOrPlotType = () => {
+    const subCat = (Category?.SubCategory || "").toLowerCase();
+    return subCat.includes("land") || subCat.includes("plot") || subCat.includes("farm");
+  };
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
