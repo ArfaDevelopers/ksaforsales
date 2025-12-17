@@ -9652,42 +9652,47 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                            <div className="residence_main_block">
-                              <div className="card-header">
-                                <h4>Residence Type </h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-2">
-                                    {[
-                                      { name: "Single", label: "Single" },
-                                      {
-                                        name: "Families",
-                                        label: "Families",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.ResidenceType ===
-                                              area.name
-                                            }
-                                            onChange={handleResidenceType}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                            {/* Residence Type - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="residence_main_block">
+                                <div className="card-header">
+                                  <h4>Residence Type </h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-2">
+                                      {[
+                                        { name: "Single", label: "Single" },
+                                        {
+                                          name: "Families",
+                                          label: "Families",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.ResidenceType ===
+                                                area.name
+                                              }
+                                              onChange={handleResidenceType}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="numroom_block">
+                            )}
+                            {/* Number of Rooms - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="numroom_block">
                               <div className="card-header">
                                 <h4>Number of rooms </h4>
                               </div>
@@ -9739,11 +9744,14 @@ const AddLisiting = () => {
                                   <div className="clearfix" />
                                 </div>
                               </div>
-                            </div>
-                            <div className="numbthroom_block">
-                              <div className="card-header">
-                                <h4>Number of bathrooms </h4>
                               </div>
+                            )}
+                            {/* Number of Bathrooms - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="numbthroom_block">
+                                <div className="card-header">
+                                  <h4>Number of bathrooms </h4>
+                                </div>
                               <div className="card-body">
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
@@ -9792,7 +9800,8 @@ const AddLisiting = () => {
                                   <div className="clearfix" />
                                 </div>
                               </div>
-                            </div>
+                              </div>
+                            )}
                             <div className="area_block">
                               <div className="card-header">
                                 <h4>Area </h4>
@@ -9843,48 +9852,53 @@ const AddLisiting = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="furnished_block">
-                              <div className="card-header">
-                                <h4>Furnished </h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "Furnished",
-                                        label: "Furnished",
-                                      },
-                                      {
-                                        name: "Unfurnished",
-                                        label: "Unfurnished",
-                                      },
-                                      {
-                                        name: "Partially Furnished",
-                                        label: "Partially Furnished",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.Furnished === area.name
-                                            }
-                                            onChange={handleFurnishedChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                            {/* Furnished - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="furnished_block">
+                                <div className="card-header">
+                                  <h4>Furnished </h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "Furnished",
+                                          label: "Furnished",
+                                        },
+                                        {
+                                          name: "Unfurnished",
+                                          label: "Unfurnished",
+                                        },
+                                        {
+                                          name: "Partially Furnished",
+                                          label: "Partially Furnished",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.Furnished === area.name
+                                              }
+                                              onChange={handleFurnishedChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="facade_block">
+                            )}
+                            {/* Facade - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="facade_block">
                               <div className="card-header">
                                 <h4>Facade </h4>
                               </div>
@@ -9948,7 +9962,8 @@ const AddLisiting = () => {
                                   <div className="clearfix" />
                                 </div>
                               </div>
-                            </div>
+                              </div>
+                            )}
                             {/* <div className="card">
                             <div className="card-header">
                               <h4>Property Features </h4>
@@ -9997,31 +10012,34 @@ const AddLisiting = () => {
                               </div>
                             </div>
                           </div> */}
-                            <div className="liscence_block">
-                              <div className="card-header">
-                                <h4>License Number</h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group">
-                                  <label htmlFor="licenseNumberInput">
-                                    Enter License Number
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    id="licenseNumberInput"
-                                    placeholder="License Number"
-                                    value={formData.licenseNumber}
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        licenseNumber: e.target.value,
-                                      }))
-                                    }
-                                  />
+                            {/* License Number - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="liscence_block">
+                                <div className="card-header">
+                                  <h4>License Number</h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group">
+                                    <label htmlFor="licenseNumberInput">
+                                      Enter License Number
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      id="licenseNumberInput"
+                                      placeholder="License Number"
+                                      value={formData.licenseNumber}
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          licenseNumber: e.target.value,
+                                        }))
+                                      }
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                             {/* <label>Property Age</label>
                           <select
                             value={formData.propertyAge}
@@ -10046,88 +10064,93 @@ const AddLisiting = () => {
                               Under Construction
                             </option>
                           </select> */}
-                            <div className="floor_block">
-                              <div className="card-header">
-                                <h4>Floor </h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "Basement",
-                                        label: "Basement",
-                                      },
-                                      {
-                                        name: "Ground Floor",
-                                        label: "Ground Floor",
-                                      },
-                                      {
-                                        name: "1st Floor",
-                                        label: "1st Floor",
-                                      },
-                                      {
-                                        name: "2nd Floor",
-                                        label: "2nd Floor",
-                                      },
-                                      {
-                                        name: "3rd Floor",
-                                        label: "3rd Floor",
-                                      },
-                                      {
-                                        name: "4th Floor",
-                                        label: "4th Floor",
-                                      },
-                                      {
-                                        name: "5th Floor",
-                                        label: "5th Floor",
-                                      },
-                                      {
-                                        name: "6th Floor",
-                                        label: "6th Floor",
-                                      },
-                                      {
-                                        name: "7th Floor",
-                                        label: "7th Floor",
-                                      },
-                                      {
-                                        name: "8th Floor",
-                                        label: "8th Floor",
-                                      },
-                                      {
-                                        name: "9th Floor",
-                                        label: "9th Floor",
-                                      },
-                                      {
-                                        name: "10th Floor",
-                                        label: "10th Floor",
-                                      },
-                                      {
-                                        name: "10+ Floors",
-                                        label: "10+ Floors",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.Floor === area.name
-                                            }
-                                            onChange={handleFloorChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                            {/* Floor - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="floor_block">
+                                <div className="card-header">
+                                  <h4>Floor </h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "Basement",
+                                          label: "Basement",
+                                        },
+                                        {
+                                          name: "Ground Floor",
+                                          label: "Ground Floor",
+                                        },
+                                        {
+                                          name: "1st Floor",
+                                          label: "1st Floor",
+                                        },
+                                        {
+                                          name: "2nd Floor",
+                                          label: "2nd Floor",
+                                        },
+                                        {
+                                          name: "3rd Floor",
+                                          label: "3rd Floor",
+                                        },
+                                        {
+                                          name: "4th Floor",
+                                          label: "4th Floor",
+                                        },
+                                        {
+                                          name: "5th Floor",
+                                          label: "5th Floor",
+                                        },
+                                        {
+                                          name: "6th Floor",
+                                          label: "6th Floor",
+                                        },
+                                        {
+                                          name: "7th Floor",
+                                          label: "7th Floor",
+                                        },
+                                        {
+                                          name: "8th Floor",
+                                          label: "8th Floor",
+                                        },
+                                        {
+                                          name: "9th Floor",
+                                          label: "9th Floor",
+                                        },
+                                        {
+                                          name: "10th Floor",
+                                          label: "10th Floor",
+                                        },
+                                        {
+                                          name: "10+ Floors",
+                                          label: "10+ Floors",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.Floor === area.name
+                                              }
+                                              onChange={handleFloorChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="condition_block">
+                            )}
+                            {/* Condition - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="condition_block">
                               <div className="card-header">
                                 <h4>Condition</h4>
                               </div>
@@ -10164,68 +10187,72 @@ const AddLisiting = () => {
                                   <div className="clearfix" />
                                 </div>
                               </div>
-                            </div>
-                            <div className="propert_age_block">
-                              <div className="card-header">
-                                <h4>Property Age </h4>
                               </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "New (0-1 year)",
-                                        label: "New (0-1 year)",
-                                      },
-                                      {
-                                        name: "1-5 years",
-                                        label: "1-5 years",
-                                      },
-                                      {
-                                        name: "6-10 years",
-                                        label: "6-10 years",
-                                      },
-                                      {
-                                        name: "11-15 years",
-                                        label: "11-15 years",
-                                      },
-                                      {
-                                        name: "16-20 years",
-                                        label: "16-20 years",
-                                      },
-                                      {
-                                        name: "21-30 years",
-                                        label: "21-30 years",
-                                      },
-                                      {
-                                        name: "31+ years",
-                                        label: "31+ years",
-                                      },
-                                      {
-                                        name: "Under Construction",
-                                        label: "Under Construction",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.PropertyAge === area.name
-                                            }
-                                            onChange={handlePropertyAgeChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                            )}
+                            {/* Property Age - Hide for land/plot properties */}
+                            {!isLandOrPlotType() && (
+                              <div className="propert_age_block">
+                                <div className="card-header">
+                                  <h4>Property Age </h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "New (0-1 year)",
+                                          label: "New (0-1 year)",
+                                        },
+                                        {
+                                          name: "1-5 years",
+                                          label: "1-5 years",
+                                        },
+                                        {
+                                          name: "6-10 years",
+                                          label: "6-10 years",
+                                        },
+                                        {
+                                          name: "11-15 years",
+                                          label: "11-15 years",
+                                        },
+                                        {
+                                          name: "16-20 years",
+                                          label: "16-20 years",
+                                        },
+                                        {
+                                          name: "21-30 years",
+                                          label: "21-30 years",
+                                        },
+                                        {
+                                          name: "31+ years",
+                                          label: "31+ years",
+                                        },
+                                        {
+                                          name: "Under Construction",
+                                          label: "Under Construction",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.PropertyAge === area.name
+                                              }
+                                              onChange={handlePropertyAgeChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                             <div className="feature_block">
                               <div className="card-header">
                                 <h4>Featuers </h4>
