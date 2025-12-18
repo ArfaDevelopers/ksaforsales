@@ -23516,3 +23516,13 @@ height: 400px;
   color: #0a58ca;
   text-decoration: underline;
 }
+.image-price0-filter {
+  padding: 0px 15px 10px 40px !important;
+}
+@media screen and (max-width: 500px) {
+  .image-price0-filter {
+
+    flex-direction: column;
+     padding: 0px 15px 10px 25px !important;
+  }
+}
