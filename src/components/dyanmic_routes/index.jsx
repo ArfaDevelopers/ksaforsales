@@ -47,6 +47,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Modal, Button, Form } from "react-bootstrap";
 import { io } from "socket.io-client";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Chat from "../../components/admin/dyanmic_route/upperHeader/Chat";
 let socket;
 import { Elements } from "@stripe/react-stripe-js";
@@ -195,9 +196,81 @@ const Dynamic_Routes = () => {
   const handleShowReport = () => {
     setshowReport(true);
   };
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(link);
-    alert("Link copied to clipboard!");
+
+  const copyToClipboard = async () => {
+    try {
+      // Try modern clipboard API first (works on HTTPS and localhost)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        // Fallback for browsers without clipboard support
+        copyLinkFallback(link);
+      }
+    } catch (err) {
+      console.error("Clipboard API failed:", err);
+      // If clipboard API fails, use fallback
+      copyLinkFallback(link);
+    }
+  };
+
+  // Fallback method for copying to clipboard
+  const copyLinkFallback = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Failed to copy the link. Please try again.",
+          timer: 3000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      }
+    } catch (err) {
+      console.error("Fallback copy failed:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: "Failed to copy the link. Please try again.",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    }
+
+    document.body.removeChild(textArea);
   };
   const collectionName1 =
     callingFrom === "AutomotiveComp"

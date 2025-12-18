@@ -58,6 +58,7 @@ import { Container, Row, Col, Card, ButtonGroup, Badge } from "react-bootstrap";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { io } from "socket.io-client";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 // City coordinates mapping for Saudi Arabia cities
 const cityCoordinates = {
@@ -373,35 +374,80 @@ const Dynamic_Route = () => {
   const [chatId, setChatId] = useState("");
   //  const [userId, setUserId] = useState(null);
 
-const copyToClipboard = () => {
-  if (navigator.clipboard && window.isSecureContext) {
-    // Secure context (HTTPS or localhost)
-    navigator.clipboard.writeText(link)
-      .then(() => alert("Link copied to clipboard!"))
-      .catch((err) => console.error("Failed to copy: ", err));
-  } else {
-    // Fallback for insecure context (HTTP)
-    const textArea = document.createElement("textarea");
-    textArea.value = link;
-    textArea.style.position = "fixed";  // prevent scrolling
-    textArea.style.left = "-99999px";   // hide it off-screen
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-      const successful = document.execCommand("copy");
-      if (successful) {
-        alert("Link copied to clipboard!");
-      } else {
-        alert("Failed to copy link");
-      }
-    } catch (err) {
-      console.error("Fallback copy failed: ", err);
+const copyToClipboard = async () => {
+  try {
+    // Try modern clipboard API first (works on HTTPS and localhost)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(link);
+      Swal.fire({
+        icon: "success",
+        title: "Copied!",
+        text: "Link copied to clipboard!",
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    } else {
+      // Fallback for browsers without clipboard support
+      copyLinkFallback(link);
     }
-
-    document.body.removeChild(textArea);
+  } catch (err) {
+    console.error("Clipboard API failed:", err);
+    // If clipboard API fails, use fallback
+    copyLinkFallback(link);
   }
+};
+
+// Fallback method for copying to clipboard
+const copyLinkFallback = (text) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  textArea.style.left = "-999999px";
+  textArea.style.top = "-999999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const successful = document.execCommand("copy");
+    if (successful) {
+      Swal.fire({
+        icon: "success",
+        title: "Copied!",
+        text: "Link copied to clipboard!",
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: "Failed to copy the link. Please try again.",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+    }
+  } catch (err) {
+    console.error("Fallback copy failed:", err);
+    Swal.fire({
+      icon: "error",
+      title: "Failed!",
+      text: "Failed to copy the link. Please try again.",
+      timer: 3000,
+      showConfirmButton: false,
+      toast: true,
+      position: "top-end",
+    });
+  }
+
+  document.body.removeChild(textArea);
 };
 console.log(
   "Map Debug →",

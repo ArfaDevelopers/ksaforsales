@@ -49,6 +49,7 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 import { onAuthStateChanged } from "firebase/auth";
 
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
+import Swal from "sweetalert2";
 const CategoryDetail = () => {
   const { id } = useParams(); // Get ID from URL
   const navigate = useNavigate();
@@ -71,17 +72,27 @@ const CategoryDetail = () => {
   };
   const link = getQueryParam("link") || window.location.href;
 
-  const copyToClipboard = () => {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard
-        .writeText(link)
-        .then(() => {
-          alert("Link copied to clipboard!");
-        })
-        .catch(() => {
-          copyLinkFallback(link);
+  const copyToClipboard = async () => {
+    try {
+      // Try modern clipboard API first (works on HTTPS and localhost)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
         });
-    } else {
+      } else {
+        // Fallback for browsers without clipboard support
+        copyLinkFallback(link);
+      }
+    } catch (err) {
+      console.error("Clipboard API failed:", err);
+      // If clipboard API fails, use fallback
       copyLinkFallback(link);
     }
   };
@@ -123,18 +134,29 @@ const CategoryDetail = () => {
   //   return () => unsubscribe(); // Cleanup on unmount
   // }, []);
 
-  const handleCopyLink = () => {
+  const handleCopyLink = async () => {
     const currentUrl = window.location.href; // Gets the full URL
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard
-        .writeText(currentUrl)
-        .then(() => {
-          alert("Link copied to clipboard!");
-        })
-        .catch((err) => {
-          copyLinkFallback(currentUrl);
+
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentUrl);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
         });
-    } else {
+      } else {
+        // Fallback for browsers without clipboard support
+        copyLinkFallback(currentUrl);
+      }
+    } catch (err) {
+      console.error("Clipboard API failed:", err);
+      // Fallback to older method if clipboard API fails
       copyLinkFallback(currentUrl);
     }
   };
@@ -145,16 +167,48 @@ const CategoryDetail = () => {
     textArea.value = text;
     textArea.style.position = "fixed";
     textArea.style.opacity = "0";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
+
     try {
-      document.execCommand("copy");
-      alert("Link copied to clipboard!");
+      const successful = document.execCommand("copy");
+      if (successful) {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Failed to copy the link. Please try again.",
+          timer: 3000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      }
     } catch (err) {
-      alert("Failed to copy the link. Please try again.");
       console.error("Fallback copy failed:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: "Failed to copy the link. Please try again.",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
     }
+
     document.body.removeChild(textArea);
   };
 
