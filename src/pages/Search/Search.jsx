@@ -50,6 +50,7 @@ import {
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCityIds = searchParams.getAll("city");
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "";
@@ -58,7 +59,7 @@ const Search = () => {
     automotive: "Motors",
     electronics: "Electronics",
     "fashion-style": "Fashion Style",
-    "home-and-furniture": "Home & Furniture",
+    "home-furniture": "Home & Furniture",
     "job-board": "Job Board",
     realestate: "Real Estate",
     "real-estate": "Real Estate",
@@ -76,8 +77,13 @@ const Search = () => {
     ? categoryMap[category.toLowerCase()]
     : "";
 
-  let currentCategoryFilters =
-    data.find((page) => page.path === `/${category}`) ?? "";
+let currentCategoryFilters =
+  data.find((page) => page.path === `/${category}`) ||
+  data.find(
+    (page) =>
+      page.name?.toLowerCase() === categoryDisplayName?.toLowerCase()
+  );
+
   if (!currentCategoryFilters && categoryDisplayName) {
     currentCategoryFilters = {
       name: categoryDisplayName,
@@ -1120,6 +1126,26 @@ const Search = () => {
     ],
   };
 
+const selectedCityNames = cities
+  .filter((city) => selectedCityIds.includes(String(city.CITY_ID)))
+  .map((city) => city["City En Name"])
+  .filter(Boolean);
+
+const cityText =
+  selectedCityNames.length > 0
+    ? ` in ${selectedCityNames.join(", ")}`
+    : "";
+
+let h1Title = "All Listings";
+
+if (categoryDisplayName) {
+  h1Title = `${categoryDisplayName} for Sale${cityText}`;
+}
+
+if (searchKeyword) {
+  h1Title = `Search results for "${searchKeyword}"${cityText}`;
+}
+
   return (
     <>
       <div className="main-wrapper">
@@ -1132,6 +1158,22 @@ const Search = () => {
             marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
           }}
         >
+ <h1
+  className="search-page-h1"
+  style={{
+    fontSize: "1.4rem",
+    fontWeight: 700,         
+    marginBottom: "1.25rem",
+    lineHeight: 1.3,
+    color: "#1f2937", 
+    letterSpacing: "0.5px",
+    textShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  }}
+>
+  {h1Title}
+</h1>
+
+
           <div
             className="adsCategory_head"
             style={{
@@ -2971,7 +3013,6 @@ const Search = () => {
                         className="mb-3"
                         style={{ marginTop: "10px", marginRight: "1px" }}
                       >
-                        
                         <div className="image-price0-filter d-flex align-items-center justify-between py-[10px] pr-0 pl-[20px]">
                           <div className="d-flex gap-3 align-items-center pt-3">
                             <Form.Check
@@ -3027,7 +3068,6 @@ const Search = () => {
                             </Form.Select>
                           </Col>
                         </div>
-
                       </Row>
 
                       {currentAds.map((ad) => (
