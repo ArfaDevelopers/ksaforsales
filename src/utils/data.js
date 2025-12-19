@@ -2322,7 +2322,7 @@ export const data = [
         name: "Frequency",
         select: "multiple",
         type: "checkbox",
-        options: ["Dailly", "Weekly", "Montly", "Yearly"],
+        options: ["Daily", "Weekly", "Monthly", "Yearly"],
       },
       residenceType: {
         name: "Residence Type",
@@ -2417,6 +2417,7 @@ export const data = [
           "Pet-friendly",
           "Balcony or terrace",
           "Separate Entrances",
+          "Private Entrance",
           "In a Villa",
           "With Roof",
           "AC",

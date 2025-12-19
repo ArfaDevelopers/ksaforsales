@@ -116,6 +116,7 @@ let currentCategoryFilters =
     return String(text)
       .trim()
       .toLowerCase()
+      .replace(/–/g, "-")
       .replace(/&/g, "and")
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-")
@@ -2399,7 +2400,20 @@ if (searchKeyword) {
                     </div>
                   )}
                   {Object.entries(currentCategoryFilters.filters || {}).map(
-                    ([filterKey, filterValue], filterIndex) => (
+                    ([filterKey, filterValue], filterIndex) => {
+                      const isLandSubcategory = subCategoryParam === "lands-for-sale" || subCategoryParam === "commercial-lands-for-sale";
+                      const isRentSubcategory = subCategoryParam && subCategoryParam.includes("rent");
+                      const filtersToHideForLand = ["residenceType", "noOfRooms", "noOfBathrooms", "furnished", "facade", "licenseNumber", "streetWidth", "floor", "amenities", "condition", "propertyAge"];
+
+                      if (isLandSubcategory && filtersToHideForLand.includes(filterKey)) {
+                        return null;
+                      }
+
+                      if (filterKey === "frequency" && !isRentSubcategory) {
+                        return null;
+                      }
+
+                      return (
                       <React.Fragment key={filterKey}>
                         <Accordion className="mt-3">
                           <Accordion.Item eventKey="0">
@@ -2426,7 +2440,7 @@ if (searchKeyword) {
                                               : opt.name || opt;
                                             const count = getCountForOption(
                                               filterKey === "condition"
-                                                ? ["Condition"]
+                                                ? ["Condition", "condition"]
                                                 : filterKey === "transmission"
                                                 ? ["Transmission"]
                                                 : filterKey === "fuelType"
@@ -2457,6 +2471,30 @@ if (searchKeyword) {
                                                 ? ["PaymentMethod"]
                                                 : filterKey === "addType"
                                                 ? ["Purpose", "AdType"]
+                                                : filterKey === "frequency"
+                                                ? ["Frequency", "frequency"]
+                                                : filterKey === "residenceType"
+                                                ? ["ResidenceType", "residenceType"]
+                                                : filterKey === "noOfRooms"
+                                                ? ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"]
+                                                : filterKey === "noOfBathrooms"
+                                                ? ["bathrooms", "NumberofBathrooms", "NumberOfBathrooms", "noOfBathrooms"]
+                                                : filterKey === "area"
+                                                ? ["Area", "area"]
+                                                : filterKey === "furnished"
+                                                ? ["Furnished", "furnished"]
+                                                : filterKey === "licenseNumber"
+                                                ? ["LicenseNumber", "licenseNumber", "LicenceNumber"]
+                                                : filterKey === "streetWidth"
+                                                ? ["streetWidth", "StreetWidth"]
+                                                : filterKey === "floor"
+                                                ? ["Floor", "floor"]
+                                                : filterKey === "amenities"
+                                                ? ["Amenities", "amenities"]
+                                                : filterKey === "propertyAge"
+                                                ? ["PropertyAge", "propertyAge"]
+                                                : filterKey === "facade"
+                                                ? ["Facade", "facade"]
                                                 : [String(label)],
                                               label
                                             );
@@ -2578,15 +2616,19 @@ if (searchKeyword) {
                                     )}
                                     <Form.Select
                                       name={filterKey}
+                                      value={
+                                        filterValue.options.find(
+                                          (opt) => getUrlText(opt) === searchParams.get(filterKey)
+                                        ) || ""
+                                      }
                                       onChange={handleFiltersChange}
                                       style={{ cursor: "pointer" }}
                                     >
+                                      <option value="">
+                                        All
+                                      </option>
                                       {filterValue.options.map((option) => (
                                         <option
-                                          selected={
-                                            searchParams.get(filterKey) ===
-                                            getUrlText(option)
-                                          }
                                           key={option}
                                           value={option}
                                           style={{ cursor: "pointer" }}
@@ -2945,7 +2987,8 @@ if (searchKeyword) {
                             </>
                           )}
                       </React.Fragment>
-                    )
+                      );
+                    }
                   )}
                 </Form>
               </div>
