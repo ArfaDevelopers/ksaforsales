@@ -230,6 +230,7 @@ const SearchResultCard = ({
             <Card.Img
               src={imageUrl}
               alt={ad.title || "Ad"}
+              loading="lazy"
               style={{
                 width: "100%",
                 height: "230px",
@@ -316,6 +317,7 @@ const SearchResultCard = ({
                 <img
                   src={ad.photoURL || placeholderImage}
                   alt="User profile"
+                  loading="lazy"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = placeholderImage;

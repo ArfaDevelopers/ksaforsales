@@ -298,7 +298,7 @@ let currentCategoryFilters =
       try {
         setLoading(true);
 
-        const collections = [
+        const allCollections = [
           { name: "Cars", category: "Motors" },
           { name: "ELECTRONICS", category: "Electronics" },
           { name: "FASHION", category: "Fashion Style" },
@@ -312,15 +312,37 @@ let currentCategoryFilters =
           { name: "TRAVEL", category: "Services" },
           { name: "SPORTSGAMESComp", category: "Sport & Game" },
           { name: "PETANIMALCOMP", category: "Pet & Animals" },
-          { name: "banneradsimg", category: null },
         ];
 
-        let allAdsArray = [];
-        for (const col of collections) {
+        const currentCategory = categoryDisplayName;
+        const cacheKey = currentCategory ? `ads_${currentCategory}` : "ads_all";
+        const cacheTimestamp = `${cacheKey}_timestamp`;
+        const CACHE_DURATION = 5 * 60 * 1000;
+
+        const cachedData = sessionStorage.getItem(cacheKey);
+        const cachedTime = sessionStorage.getItem(cacheTimestamp);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - parseInt(cachedTime);
+          if (age < CACHE_DURATION) {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            const parsedData = JSON.parse(cachedData);
+            setAllAds(parsedData);
+            setFilteredAds(parsedData);
+            setLoading(false);
+            return;
+          }
+        }
+
+        const collectionsToLoad = currentCategory
+          ? allCollections.filter((col) => col.category === currentCategory)
+          : allCollections;
+
+        const fetchPromises = collectionsToLoad.map(async (col) => {
           try {
             const adsCollection = collection(db, col.name);
             const adsSnapshot = await getDocs(adsCollection);
-            const adsList = adsSnapshot.docs.map((doc) => ({
+            return adsSnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
               category:
@@ -329,17 +351,24 @@ let currentCategoryFilters =
                 doc.data().ModalCategory || doc.data().category || col.category,
               collectionSource: col.name,
             }));
-            allAdsArray = [...allAdsArray, ...adsList];
           } catch (error) {
             console.error(`Error fetching from ${col.name}:`, error);
+            return [];
           }
-        }
+        });
+
+        const results = await Promise.all(fetchPromises);
+        const allAdsArray = results.flat();
+
         const adsWithPurpose = allAdsArray.map((ad) => {
           if (!ad.Purpose && !ad.AdType) {
             return { ...ad, Purpose: "Sell" };
           }
           return ad;
         });
+
+        sessionStorage.setItem(cacheKey, JSON.stringify(adsWithPurpose));
+        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
 
         setAllAds(adsWithPurpose);
         setFilteredAds(adsWithPurpose);
@@ -351,7 +380,7 @@ let currentCategoryFilters =
     };
 
     fetchAllAds();
-  }, []);
+  }, [categoryDisplayName]);
 
   useEffect(() => {
     if (allAds.length === 0) {
@@ -2997,16 +3026,72 @@ if (searchKeyword) {
             <Col lg={9}>
               <div className="results_section">
                 {loading && (
-                  <div
-                    className="text-center"
-                    style={{
-                      padding: "50px 20px",
-                      fontSize: "18px",
-                      color: "#2D4495",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Loading...
+                  <div style={{ padding: "20px 0" }}>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        style={{
+                          backgroundColor: "#fff",
+                          borderRadius: "20px",
+                          padding: "20px",
+                          marginBottom: "20px",
+                          display: "flex",
+                          gap: "20px",
+                          border: "1px solid #e0e0e0",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "250px",
+                            height: "230px",
+                            backgroundColor: "#f0f0f0",
+                            borderRadius: "20px",
+                            animation: "pulse 1.5s ease-in-out infinite",
+                          }}
+                        />
+                        <div style={{ flex: 1 }}>
+                          <div
+                            style={{
+                              height: "30px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "15px",
+                              width: "60%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "20px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "10px",
+                              width: "40%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "15px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "8px",
+                              width: "80%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "15px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              width: "70%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
                 {!loading && filteredAds.length === 0 && (
@@ -3045,6 +3130,7 @@ if (searchKeyword) {
                 {!loading && currentAds.length > 0 && (
                   <>
                     <div
+                      className="fade-in-ads"
                       style={{
                         backgroundColor: "white",
                         borderRadius: "12px",

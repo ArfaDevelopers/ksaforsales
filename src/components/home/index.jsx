@@ -185,6 +185,146 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+  // Optimized combined data fetching with caching
+  useEffect(() => {
+    const fetchAllHomeData = async () => {
+      const cacheKey = "home_page_data";
+      const cacheTimestamp = "home_page_timestamp";
+      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+      try {
+        setLoading(true);
+
+        // Check cache first
+        const cachedData = sessionStorage.getItem(cacheKey);
+        const cachedTime = sessionStorage.getItem(cacheTimestamp);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - parseInt(cachedTime);
+          if (age < CACHE_DURATION) {
+            // Add 400ms delay for smooth transition
+            await new Promise(resolve => setTimeout(resolve, 400));
+            const parsedData = JSON.parse(cachedData);
+
+            // Set all state from cache
+            setOurCategoryAutomative(parsedData.automative.image);
+            setOurCategoryAutomativeTitle(parsedData.automative.title);
+            setElectronics(parsedData.electronics.image);
+            setElectronicsTitle(parsedData.electronics.title);
+            setFashionStyle(parsedData.fashion.image);
+            setFashionStyleTitle(parsedData.fashion.title);
+            setOurCategoryHealthCare(parsedData.healthcare.image);
+            setOurCategoryHealthCareTitle(parsedData.healthcare.title);
+            setOurCategoryJobBoard(parsedData.jobBoard.image);
+            setOurCategoryJobBoardTitle(parsedData.jobBoard.title);
+            setOurCategoryRealEstate(parsedData.realEstate.image);
+            setOurCategoryRealEstateTitle(parsedData.realEstate.title);
+            setOurCategoryTravel(parsedData.travel.image);
+            setOurCategoryTravelTitle(parsedData.travel.title);
+            setOurCategorySportGames(parsedData.sportGames.image);
+            setOurCategorySportGamesTitle(parsedData.sportGames.title);
+            setOurCategoryPetAnimals(parsedData.petAnimals.image);
+            setOurCategoryPetAnimalsTitle(parsedData.petAnimals.title);
+            setOurCategoryEducation(parsedData.education.image);
+            setOurCategoryEducationTitle(parsedData.education.title);
+            setOurCategoryHouseHold(parsedData.houseHold.image);
+            setOurCategoryHouseHoldTitle(parsedData.houseHold.title);
+            setImageUrls(parsedData.sliderImages);
+            setTrendingProducts(parsedData.trendingProducts);
+
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Fetch all data in parallel
+        const [
+          automativeRes,
+          electronicsRes,
+          fashionRes,
+          healthcareRes,
+          jobBoardRes,
+          realEstateRes,
+          travelRes,
+          sportGamesRes,
+          petAnimalsRes,
+          educationRes,
+          houseHoldRes,
+          sliderRes,
+          trendingRes
+        ] = await Promise.all([
+          fetch("http://168.231.80.24:9002/api/our-category-automative1").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryElectronics").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryFashionStyle").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryHealthCare").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryJobBoardAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryRealEstateAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryTravelAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategorySportGamesAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryPetAnimalsAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryEducation").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryHouseHoldAutomative").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/api/slider-images").then(r => r.json()),
+          fetch("http://168.231.80.24:9002/route/trendingProducts").then(r => r.json())
+        ]);
+
+        // Process and set all data
+        const processedData = {
+          automative: automativeRes.items?.[0] || { image: "", title: "" },
+          electronics: electronicsRes.items?.[0] || { image: "", title: "" },
+          fashion: fashionRes.items?.[0] || { image: "", title: "" },
+          healthcare: healthcareRes.items?.[0] || { image: "", title: "" },
+          jobBoard: jobBoardRes.items?.[0] || { image: "", title: "" },
+          realEstate: realEstateRes.items?.[0] || { image: "", title: "" },
+          travel: travelRes.items?.[0] || { image: "", title: "" },
+          sportGames: sportGamesRes.items?.[0] || { image: "", title: "" },
+          petAnimals: petAnimalsRes.items?.[0] || { image: "", title: "" },
+          education: educationRes.items?.[0] || { image: "", title: "" },
+          houseHold: houseHoldRes.items?.[0] || { image: "", title: "" },
+          sliderImages: sliderRes.images || [],
+          trendingProducts: trendingRes || []
+        };
+
+        // Set all state
+        setOurCategoryAutomative(processedData.automative.image);
+        setOurCategoryAutomativeTitle(processedData.automative.title);
+        setElectronics(processedData.electronics.image);
+        setElectronicsTitle(processedData.electronics.title);
+        setFashionStyle(processedData.fashion.image);
+        setFashionStyleTitle(processedData.fashion.title);
+        setOurCategoryHealthCare(processedData.healthcare.image);
+        setOurCategoryHealthCareTitle(processedData.healthcare.title);
+        setOurCategoryJobBoard(processedData.jobBoard.image);
+        setOurCategoryJobBoardTitle(processedData.jobBoard.title);
+        setOurCategoryRealEstate(processedData.realEstate.image);
+        setOurCategoryRealEstateTitle(processedData.realEstate.title);
+        setOurCategoryTravel(processedData.travel.image);
+        setOurCategoryTravelTitle(processedData.travel.title);
+        setOurCategorySportGames(processedData.sportGames.image);
+        setOurCategorySportGamesTitle(processedData.sportGames.title);
+        setOurCategoryPetAnimals(processedData.petAnimals.image);
+        setOurCategoryPetAnimalsTitle(processedData.petAnimals.title);
+        setOurCategoryEducation(processedData.education.image);
+        setOurCategoryEducationTitle(processedData.education.title);
+        setOurCategoryHouseHold(processedData.houseHold.image);
+        setOurCategoryHouseHoldTitle(processedData.houseHold.title);
+        setImageUrls(processedData.sliderImages);
+        setTrendingProducts(processedData.trendingProducts);
+
+        // Cache the results
+        sessionStorage.setItem(cacheKey, JSON.stringify(processedData));
+        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching home page data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAllHomeData();
+  }, []);
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -211,33 +351,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryEducation"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryEducation(firstItem.image);
-          setOurCategoryEducationTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryEducation fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -266,33 +380,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryHouseHoldAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryHouseHold(firstItem.image);
-          setOurCategoryHouseHoldTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryHouseHold fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -319,33 +407,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategorySportGamesAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategorySportGames(firstItem.image);
-          setOurCategorySportGamesTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategorySportGames fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -372,33 +434,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryPetAnimalsAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryPetAnimals(firstItem.image);
-          setOurCategoryPetAnimalsTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryPetAnimals fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -425,33 +461,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryTravelAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryTravel(firstItem.image);
-          setOurCategoryTravelTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryTravel fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -478,33 +488,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryRealEstateAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryRealEstate(firstItem.image);
-          setOurCategoryRealEstateTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryRealEstate fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -531,33 +515,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryJobBoardAutomative"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryJobBoard(firstItem.image);
-          setOurCategoryJobBoardTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryJobBoard fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -584,33 +542,7 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryHealthCare"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryHealthCare(firstItem.image);
-          setOurCategoryHealthCareTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: OurCategoryHealthCare fetch - now handled by fetchAllHomeData (lines 190-327)
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {
@@ -637,87 +569,9 @@ const Home = () => {
 
   //   fetchAds();
   // }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryFashionStyle"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setFashionStyle(firstItem.image);
-          setFashionStyleTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-OurCategoryElectronics"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setElectronics(firstItem.image);
-          setElectronicsTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/our-category-automative1"
-        );
-        const data = await response.json();
-
-        if (data.items && data.items.length > 0) {
-          const firstItem = data.items[0];
-          setOurCategoryAutomative(firstItem.image);
-          setOurCategoryAutomativeTitle(firstItem.title);
-          console.log("Image:", firstItem.image);
-          console.log("Title:", firstItem.title);
-        } else {
-          console.warn("No data returned in items array.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching OurCategoryAutomative:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchAds();
-  }, []);
+  // Removed: FashionStyle fetch - now handled by fetchAllHomeData (lines 190-327)
+  // Removed: Electronics fetch - now handled by fetchAllHomeData (lines 190-327)
+  // Removed: OurCategoryAutomative fetch - now handled by fetchAllHomeData (lines 190-327)
   useEffect(() => {
     const handleSwitchClick = () => {
       if ($("body").hasClass("light")) {
@@ -829,27 +683,7 @@ const Home = () => {
   //   };
   //   fetchSliderImages();
   // }, []);
-  useEffect(() => {
-    const fetchSliderImages = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/api/slider-images"
-        );
-        const data = await response.json();
-
-        if (data.images && Array.isArray(data.images)) {
-          setImageUrls(data.images);
-          console.log("Fetched image URLs:", data.images);
-        } else {
-          console.log("No images found in API response");
-        }
-      } catch (error) {
-        console.error("Error fetching slider images:", error);
-      }
-    };
-
-    fetchSliderImages();
-  }, []);
+  // Removed: Slider images fetch - now handled by fetchAllHomeData (lines 190-327)
   useEffect(() => {
     if (imageUrls.length === 0) return;
 
@@ -872,23 +706,7 @@ const Home = () => {
   }, []);
   const [trendingProducts, setTrendingProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchTrendingProducts = async () => {
-      try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/trendingProducts"
-        );
-        const data = await response.json();
-        if (!response.ok) return;
-
-        setTrendingProducts(data);
-      } catch (error) {
-        console.error("Error fetching trending products:", error);
-      }
-    };
-
-    fetchTrendingProducts();
-  }, []);
+  // Removed: Trending products fetch - now handled by fetchAllHomeData (lines 190-327)
 
   // Map category to navigation route
   const getCallingFrom = (category) => {
@@ -919,7 +737,7 @@ const Home = () => {
   };
   return (
     <>
-      <div className="main-wrapper">
+      <div className={`main-wrapper ${!loading ? 'fade-in-ads' : ''}`}>
         <Header />
         <div
           id="carouselExampleIndicators"
