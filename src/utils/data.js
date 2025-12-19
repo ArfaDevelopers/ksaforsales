@@ -2334,13 +2334,13 @@ export const data = [
         name: "Number of Rooms",
         select: "multiple",
         type: "checkbox",
-        options: ["1", "2", "3", "4", "5", "5+"],
+        options: ["1 Bedroom", "2 Bedroom", "3 Bedroom", "4 Bedroom", "5 Bedroom", "5+ Bedrooms"],
       },
       noOfBathrooms: {
         name: "Number of Bathrooms",
         select: "multiple",
         type: "checkbox",
-        options: ["1", "2", "3", "4", "5", "5+"],
+        options: ["1 bathrooms", "2 bathrooms", "3 bathrooms", "4 bathrooms", "5 bathrooms", "5+ bathrooms"],
       },
       area: {
         name: "Area",
