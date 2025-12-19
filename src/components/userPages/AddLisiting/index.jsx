@@ -10291,15 +10291,35 @@ const AddLisiting = () => {
                             )}
                             <div className="feature_block">
                               <div className="card-header">
-                                <h4>Featuers </h4>
+                                <h4>Amenities</h4>
                               </div>
                               <div className="card-body">
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
                                       {
-                                        name: "Seprate  Entrances",
-                                        label: "Seprate  Entrances",
+                                        name: "Parking space",
+                                        label: "Parking space",
+                                      },
+                                      {
+                                        name: "Gym",
+                                        label: "Gym",
+                                      },
+                                      {
+                                        name: "Swimming pool",
+                                        label: "Swimming pool",
+                                      },
+                                      {
+                                        name: "Pet-friendly",
+                                        label: "Pet-friendly",
+                                      },
+                                      {
+                                        name: "Balcony or terrace",
+                                        label: "Balcony or terrace",
+                                      },
+                                      {
+                                        name: "Separate Entrances",
+                                        label: "Separate Entrances",
                                       },
                                       {
                                         name: "Private Entrance",
@@ -10310,8 +10330,8 @@ const AddLisiting = () => {
                                         label: "In a Villa",
                                       },
                                       {
-                                        name: "With roof",
-                                        label: "With roof",
+                                        name: "With Roof",
+                                        label: "With Roof",
                                       },
                                       {
                                         name: "AC",
@@ -10328,9 +10348,9 @@ const AddLisiting = () => {
                                             type="checkbox"
                                             name={area.name}
                                             checked={
-                                              formData.Featuers === area.name
+                                              formData.Amenities === area.name
                                             }
-                                            onChange={handleFeatuersChange}
+                                            onChange={handleAmenitiesChange}
                                           />
                                           <span className="checkmark" />{" "}
                                           {area.label}
