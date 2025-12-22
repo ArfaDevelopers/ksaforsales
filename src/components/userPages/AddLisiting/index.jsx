@@ -1654,6 +1654,7 @@ const AddLisiting = () => {
             Condition: data.Condition || "",
             Floor: data.Floor || "",
             PropertyAge: data.PropertyAge || "",
+            streetWidth: data.streetWidth || "",
 
             Facade: data.Facade || "",
             Featuers: data.Featuers || "",
@@ -9465,6 +9466,17 @@ const AddLisiting = () => {
                             "Hall for Rent",
                             "Houses for Rent",
                             "Houses for Sale",
+                            "Lands for Sale",
+                            "Offices for Rent",
+                            "Rest Houses for Rent",
+                            "Rest Houses for Sale",
+                            "Rooms for Rent",
+                            "Shops for Rent",
+                            "Shops for Transfer",
+                            "Villas for Rent",
+                            "Villas for Sale",
+                            "Warehouse for Sale",
+                            "Warehouse for Rent",
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
@@ -9551,14 +9563,14 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-2">
                                     {[
-                                      { name: "Dailly", label: "Dailly" },
+                                      { name: "Daily", label: "Daily" },
                                       {
                                         name: "Weekly",
                                         label: "Weekly",
                                       },
                                       {
-                                        name: "Montly",
-                                        label: "Montly",
+                                        name: "Monthly",
+                                        label: "Monthly",
                                       },
                                       { name: "Yearly", label: "Yearly" },
                                     ].map((area) => (
@@ -9938,10 +9950,6 @@ const AddLisiting = () => {
                                         name: "South-West Facing",
                                         label: "South-West Facing",
                                       },
-                                      {
-                                        name: "Partially Furnished",
-                                        label: "Partially Furnished",
-                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -9962,6 +9970,34 @@ const AddLisiting = () => {
                                   <div className="clearfix" />
                                 </div>
                               </div>
+                              </div>
+                            )}
+                            {!isLandOrPlotType() && (
+                              <div className="streetwidth_block">
+                                <div className="card-header">
+                                  <h4>Street Width</h4>
+                                </div>
+                                <div className="card-body">
+                                  <div className="form-group">
+                                    <select
+                                      className="form-control pass-input"
+                                      value={formData.streetWidth}
+                                      onChange={(e) =>
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          streetWidth: e.target.value,
+                                        }))
+                                      }
+                                    >
+                                      <option value="">Select Street Width</option>
+                                      <option value="Less than 5m">Less than 5m</option>
+                                      <option value="5–10m">5–10m</option>
+                                      <option value="10–15m">10–15m</option>
+                                      <option value="15–20m">15–20m</option>
+                                      <option value="20m+">20m+</option>
+                                    </select>
+                                  </div>
+                                </div>
                               </div>
                             )}
                             {/* <div className="card">
@@ -10255,15 +10291,35 @@ const AddLisiting = () => {
                             )}
                             <div className="feature_block">
                               <div className="card-header">
-                                <h4>Featuers </h4>
+                                <h4>Amenities</h4>
                               </div>
                               <div className="card-body">
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
                                       {
-                                        name: "Seprate  Entrances",
-                                        label: "Seprate  Entrances",
+                                        name: "Parking space",
+                                        label: "Parking space",
+                                      },
+                                      {
+                                        name: "Gym",
+                                        label: "Gym",
+                                      },
+                                      {
+                                        name: "Swimming pool",
+                                        label: "Swimming pool",
+                                      },
+                                      {
+                                        name: "Pet-friendly",
+                                        label: "Pet-friendly",
+                                      },
+                                      {
+                                        name: "Balcony or terrace",
+                                        label: "Balcony or terrace",
+                                      },
+                                      {
+                                        name: "Separate Entrances",
+                                        label: "Separate Entrances",
                                       },
                                       {
                                         name: "Private Entrance",
@@ -10274,8 +10330,8 @@ const AddLisiting = () => {
                                         label: "In a Villa",
                                       },
                                       {
-                                        name: "With roof",
-                                        label: "With roof",
+                                        name: "With Roof",
+                                        label: "With Roof",
                                       },
                                       {
                                         name: "AC",
@@ -10292,9 +10348,9 @@ const AddLisiting = () => {
                                             type="checkbox"
                                             name={area.name}
                                             checked={
-                                              formData.Featuers === area.name
+                                              formData.Amenities === area.name
                                             }
-                                            onChange={handleFeatuersChange}
+                                            onChange={handleAmenitiesChange}
                                           />
                                           <span className="checkmark" />{" "}
                                           {area.label}

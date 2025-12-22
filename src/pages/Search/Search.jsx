@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import {
   Navigate,
   useLocation,
@@ -44,17 +50,16 @@ import {
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCityIds = searchParams.getAll("city");
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "";
-
-  // Map category parameter to display name
   const categoryMap = {
     motors: "Motors",
     automotive: "Motors",
     electronics: "Electronics",
     "fashion-style": "Fashion Style",
-    "home-and-furniture": "Home & Furniture",
+    "home-furniture": "Home & Furniture",
     "job-board": "Job Board",
     realestate: "Real Estate",
     "real-estate": "Real Estate",
@@ -72,10 +77,14 @@ const Search = () => {
     ? categoryMap[category.toLowerCase()]
     : "";
 
-  let currentCategoryFilters =
-    data.find((page) => page.path === `/${category}`) ?? "";
+let currentCategoryFilters =
+  data.find((page) => page.path === `/${category}`) ||
+  data.find(
+    (page) =>
+      page.name?.toLowerCase() === categoryDisplayName?.toLowerCase()
+  );
+
   if (!currentCategoryFilters && categoryDisplayName) {
-    // Create a temporary filter object with the category name
     currentCategoryFilters = {
       name: categoryDisplayName,
       path: `/search?category=${category}`,
@@ -107,6 +116,7 @@ const Search = () => {
     return String(text)
       .trim()
       .toLowerCase()
+      .replace(/–/g, "-")
       .replace(/&/g, "and")
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-")
@@ -165,8 +175,6 @@ const Search = () => {
     propertyAge: [],
     age: [],
   });
-
-  // Location filter states
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedDistricts, setSelectedDistricts] = useState([]);
@@ -174,31 +182,21 @@ const Search = () => {
   const [districts, setDistricts] = useState([]);
   const [loadingCities, setLoadingCities] = useState(false);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
-
-  // Modal states
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showCityModal, setShowCityModal] = useState(false);
   const [showDistrictModal, setShowDistrictModal] = useState(false);
   const [searchTermRegion, setSearchTermRegion] = useState("");
   const [searchTermCity, setSearchTermCity] = useState("");
   const [searchTermDistrict, setSearchTermDistrict] = useState("");
-
-  // Brand Model states
   const [showBrandModelModal, setShowBrandModelModal] = useState(false);
   const [searchTermBrandModel, setSearchTermBrandModel] = useState("");
   const [availableBrandModels, setAvailableBrandModels] = useState([]);
-
-  // Brand states
   const [showBrandModal, setShowBrandModal] = useState(false);
   const [searchTermBrand, setSearchTermBrand] = useState("");
-
-  // Ref to track scroll position
   const filterSectionRef = useRef(null);
 
   const parms = useLocation().pathname;
   const navigate = useNavigate();
-
-  // Fetch cities when regions are selected
   useEffect(() => {
     const loadCities = async () => {
       if (selectedRegions.length > 0) {
@@ -222,8 +220,6 @@ const Search = () => {
 
     loadCities();
   }, [selectedRegions]);
-
-  // Fetch districts when cities are selected
   useEffect(() => {
     const loadDistricts = async () => {
       if (selectedCities.length > 0) {
@@ -253,7 +249,6 @@ const Search = () => {
     loadDistricts();
   }, [selectedCities]);
 
-  // Initialize location filters from URL parameters
   useEffect(() => {
     const regionParams = searchParams.getAll("region");
     const cityParams = searchParams.getAll("city");
@@ -261,7 +256,6 @@ const Search = () => {
 
     if (regionParams.length > 0) setSelectedRegions(regionParams);
     if (cityParams.length > 0) {
-      // Parse city params to include REGION_ID
       const cityObjs = cityParams.map((cityId) => ({
         CITY_ID: cityId,
         REGION_ID: "",
@@ -269,7 +263,6 @@ const Search = () => {
       setSelectedCities(cityObjs);
     }
     if (districtParams.length > 0) {
-      // Parse district params
       const districtObjs = districtParams.map((districtId) => ({
         District_ID: districtId,
       }));
@@ -305,7 +298,7 @@ const Search = () => {
       try {
         setLoading(true);
 
-        const collections = [
+        const allCollections = [
           { name: "Cars", category: "Motors" },
           { name: "ELECTRONICS", category: "Electronics" },
           { name: "FASHION", category: "Fashion Style" },
@@ -319,15 +312,37 @@ const Search = () => {
           { name: "TRAVEL", category: "Services" },
           { name: "SPORTSGAMESComp", category: "Sport & Game" },
           { name: "PETANIMALCOMP", category: "Pet & Animals" },
-          { name: "banneradsimg", category: null }, // General banner ads for all categories
         ];
 
-        let allAdsArray = [];
-        for (const col of collections) {
+        const currentCategory = categoryDisplayName;
+        const cacheKey = currentCategory ? `ads_${currentCategory}` : "ads_all";
+        const cacheTimestamp = `${cacheKey}_timestamp`;
+        const CACHE_DURATION = 5 * 60 * 1000;
+
+        const cachedData = sessionStorage.getItem(cacheKey);
+        const cachedTime = sessionStorage.getItem(cacheTimestamp);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - parseInt(cachedTime);
+          if (age < CACHE_DURATION) {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            const parsedData = JSON.parse(cachedData);
+            setAllAds(parsedData);
+            setFilteredAds(parsedData);
+            setLoading(false);
+            return;
+          }
+        }
+
+        const collectionsToLoad = currentCategory
+          ? allCollections.filter((col) => col.category === currentCategory)
+          : allCollections;
+
+        const fetchPromises = collectionsToLoad.map(async (col) => {
           try {
             const adsCollection = collection(db, col.name);
             const adsSnapshot = await getDocs(adsCollection);
-            const adsList = adsSnapshot.docs.map((doc) => ({
+            return adsSnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
               category:
@@ -336,19 +351,24 @@ const Search = () => {
                 doc.data().ModalCategory || doc.data().category || col.category,
               collectionSource: col.name,
             }));
-            allAdsArray = [...allAdsArray, ...adsList];
           } catch (error) {
             console.error(`Error fetching from ${col.name}:`, error);
+            return [];
           }
-        }
+        });
 
-        // Ensure all ads have Purpose field with default value "Sell" if not present
+        const results = await Promise.all(fetchPromises);
+        const allAdsArray = results.flat();
+
         const adsWithPurpose = allAdsArray.map((ad) => {
           if (!ad.Purpose && !ad.AdType) {
             return { ...ad, Purpose: "Sell" };
           }
           return ad;
         });
+
+        sessionStorage.setItem(cacheKey, JSON.stringify(adsWithPurpose));
+        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
 
         setAllAds(adsWithPurpose);
         setFilteredAds(adsWithPurpose);
@@ -360,7 +380,7 @@ const Search = () => {
     };
 
     fetchAllAds();
-  }, []);
+  }, [categoryDisplayName]);
 
   useEffect(() => {
     if (allAds.length === 0) {
@@ -375,13 +395,12 @@ const Search = () => {
 
       if (categoryValue) {
         filtered = filtered.filter((ad) => {
-          // Handle category name variations and typos
           const categoryVariations = [categoryValue];
           if (categoryValue === "Sport & Game") {
             categoryVariations.push("Sports & Game");
           }
           if (categoryValue === "Home & Furniture") {
-            categoryVariations.push("Home & Furnituer"); // Handle typo in add-listing form
+            categoryVariations.push("Home & Furnituer");
           }
 
           const matches = categoryVariations.some(
@@ -392,14 +411,12 @@ const Search = () => {
         });
       }
     }
-    // Handle multiple subcategories
     const subCategoryParams = searchParams.getAll("subcategory");
     if (subCategoryParams.length > 0) {
       filtered = filtered.filter((ad) => {
         const adSubCategory = getUrlText(ad.SubCategory || "");
         return subCategoryParams.includes(adSubCategory);
       });
-      
     }
     const nestedSubCategoryParam = searchParams.get("nestedSubCategory");
     if (nestedSubCategoryParam) {
@@ -407,7 +424,6 @@ const Search = () => {
         const adNestedSubCategory = getUrlText(ad.NestedSubCategory || "");
         return adNestedSubCategory === nestedSubCategoryParam;
       });
-      
     }
     if (searchKeyword.trim()) {
       const keyword = searchKeyword.toLowerCase();
@@ -430,7 +446,20 @@ const Search = () => {
     const featuredAdsParam = searchParams.get("featuredAds");
     if (featuredAdsParam) {
       filtered = filtered.filter((ad) => ad.FeaturedAds === "Featured Ads");
-      
+    }
+
+    if (searchParams.get("withPhotos") === "true") {
+      filtered = filtered.filter((ad) => {
+        if (Array.isArray(ad.galleryImages) && ad.galleryImages.length > 0)
+          return true;
+        if (ad.imageUrl && ad.imageUrl.trim() !== "") return true;
+        if (ad.photoURL && ad.photoURL.trim() !== "") return true;
+        return false;
+      });
+    }
+
+    if (searchParams.get("withPrice") === "true") {
+      filtered = filtered.filter((ad) => ad.Price && Number(ad.Price) > 0);
     }
     const filterParams = [
       "condition",
@@ -450,11 +479,10 @@ const Search = () => {
       "noOfDoors",
       "seatingCapacity",
       "age",
-      // Real Estate filters
       "frequency",
       "residenceType",
-      "noOfRooms", // data.js uses "noOfRooms" not "numberOfRooms"
-      "noOfBathrooms", // data.js uses "noOfBathrooms" not "numberOfBathrooms"
+      "noOfRooms",
+      "noOfBathrooms",
       "area",
       "furnished",
       "licenseNumber",
@@ -464,13 +492,11 @@ const Search = () => {
       "propertyAge",
       "facade",
     ];
-
-    // Map filter parameter names to actual Firebase field names
     const fieldNameMap = {
-      brand: ["Brand", "Make", "brand", "manufacturer", "Manufacturer"], // Add-listing uses "Brand", Cars uses "Make"
+      brand: ["Brand", "Make", "brand", "manufacturer", "Manufacturer"],
       brandModel: ["Model", "model"],
       transmission: ["Transmission"],
-      fuelType: ["Fueltype", "FuelType"], // Add-listing uses "Fueltype", Cars.jsx uses "FuelType"
+      fuelType: ["Fueltype", "FuelType"],
       bodyType: ["BodyType", "bodyType"],
       exteriorColor: ["Color", "ExteriorColor"],
       interiorColor: ["InteriorColor"],
@@ -478,22 +504,21 @@ const Search = () => {
       paymentMethod: ["PaymentMethod"],
       regionalSpec: ["RegionalSpec"],
       insurance: ["Insurance"],
-      addType: ["Purpose", "AdType"], // Purpose & AdType field contain "Rent", "Sell", "Wanted"
+      addType: ["Purpose", "AdType"],
       additionalFeatures: ["AdditionalFeatures", "Features"],
-      noOfDoors: ["NumberofDoors", "NumberOfDoors", "Doors"], // Add-listing uses "NumberofDoors", Cars.jsx uses "NumberOfDoors"
+      noOfDoors: ["NumberofDoors", "NumberOfDoors", "Doors"],
       seatingCapacity: ["SeatingCapacity"],
       condition: ["Condition", "condition"],
-      age: ["Age", "age"], // Pet & Animals age filter
-      // Real Estate field mappings
+      age: ["Age", "age"],
       frequency: ["Frequency", "frequency"],
       residenceType: ["ResidenceType", "residenceType"],
-      noOfRooms: ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"], // Real Estate uses "Bedroom" in DB
+      noOfRooms: ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"],
       noOfBathrooms: [
         "bathrooms",
         "NumberofBathrooms",
         "NumberOfBathrooms",
         "noOfBathrooms",
-      ], // Real Estate uses "bathrooms" in DB
+      ],
       area: ["Area", "area"],
       furnished: ["Furnished", "furnished"],
       licenseNumber: ["LicenseNumber", "licenseNumber", "LicenceNumber"],
@@ -508,14 +533,11 @@ const Search = () => {
       const paramValues = searchParams.getAll(param);
       if (paramValues.length > 0) {
         filtered = filtered.filter((ad) => {
-          // Get possible field names from the map, or use default case variations
           const possibleFieldNames = fieldNameMap[param] || [
             param.charAt(0).toUpperCase() + param.slice(1),
             param,
             param.toUpperCase(),
           ];
-
-          // Try to find the field value using any of the possible field names
           let adValue = null;
           for (const fieldName of possibleFieldNames) {
             if (
@@ -527,13 +549,9 @@ const Search = () => {
               break;
             }
           }
-
-          // Check if adValue is falsy or an empty array
           if (!adValue || (Array.isArray(adValue) && adValue.length === 0)) {
             return false;
           }
-
-          // Handle array fields (like additionalFeatures)
           if (Array.isArray(adValue)) {
             const matches = paramValues.some((pv) =>
               adValue.some(
@@ -542,12 +560,9 @@ const Search = () => {
               )
             );
             if (matches) {
-              
             }
             return matches;
           }
-
-          // Handle string/number fields
           const matches = paramValues.some(
             (pv) =>
               getUrlText(adValue) === pv ||
@@ -555,12 +570,10 @@ const Search = () => {
           );
 
           if (matches) {
-            
           }
 
           return matches;
         });
-        
       }
     });
     const fromPrice = searchParams.get("fromPrice");
@@ -585,7 +598,6 @@ const Search = () => {
         if (toYear && year > parseInt(toYear)) return false;
         return true;
       });
-      
     }
     const fromMileage = searchParams.get("fromMileage");
     const toMileage = searchParams.get("toMileage");
@@ -597,10 +609,7 @@ const Search = () => {
         if (toMileage && mileage > parseFloat(toMileage)) return false;
         return true;
       });
-      
     }
-
-    // Location filters
     const regionParams = searchParams.getAll("region");
     const cityParams = searchParams.getAll("city");
     const districtParams = searchParams.getAll("district");
@@ -613,7 +622,6 @@ const Search = () => {
             String(ad.REGION_ID) === String(regionId)
         );
       });
-      
     }
 
     if (cityParams.length > 0) {
@@ -624,7 +632,6 @@ const Search = () => {
             String(ad.cityId) === String(cityId)
         );
       });
-      
     }
 
     if (districtParams.length > 0) {
@@ -635,10 +642,8 @@ const Search = () => {
             String(ad.districtId) === String(districtId)
         );
       });
-      
     }
 
-    
     setCurrentPage(1);
     setFilteredAds(filtered);
   }, [allAds, category, subCategoryParam, searchParams, searchKeyword]);
@@ -657,13 +662,11 @@ const Search = () => {
           heartedby: arrayRemove(adId),
         });
         setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
-        
       } else {
         await updateDoc(userDocRef, {
           heartedby: arrayUnion(adId),
         });
         setBookmarkedAds([...bookmarkedAds, adId]);
-        
       }
       const ad = allAds.find((a) => a.id === adId);
       const collectionName = ad?.collectionSource;
@@ -682,7 +685,7 @@ const Search = () => {
                 heartedby: arrayUnion(currentUser.uid),
               });
             }
-            
+
             setAllAds((prevAds) =>
               prevAds.map((a) =>
                 a.id === adId
@@ -712,9 +715,7 @@ const Search = () => {
               )
             );
           }
-        } catch (adError) {
-          
-        }
+        } catch (adError) {}
       }
     } catch (error) {
       console.error("Error toggling bookmark:", error);
@@ -722,7 +723,6 @@ const Search = () => {
     }
   };
 
-  // Sorting logic
   const sortAds = (ads, sortType) => {
     const sortedAds = [...ads];
     switch (sortType) {
@@ -740,94 +740,83 @@ const Search = () => {
     }
   };
 
-  // Function to count occurrences of a value in filtered ads
-  const getCountForOption = useCallback((fieldNames, value) => {
-    if (!Array.isArray(fieldNames)) {
-      fieldNames = [fieldNames];
-    }
-
-    // Convert value to string for comparison
-    const stringValue = String(value).trim();
-
-    // Start with all ads, then apply category/subcategory filters
-    let baseAds = [...allAds];
-
-    // Filter by category if selected
-    if (category) {
-      const categoryValue = categoryMap[category.toLowerCase()];
-      if (categoryValue) {
-        baseAds = baseAds.filter((ad) => {
-          const categoryVariations = [categoryValue];
-          if (categoryValue === "Sport & Game") {
-            categoryVariations.push("Sports & Game");
-          }
-          if (categoryValue === "Home & Furniture") {
-            categoryVariations.push("Home & Furnituer");
-          }
-          return categoryVariations.some(
-            (variation) =>
-              ad.category === variation || ad.ModalCategory === variation
-          );
-        });
+  const getCountForOption = useCallback(
+    (fieldNames, value) => {
+      if (!Array.isArray(fieldNames)) {
+        fieldNames = [fieldNames];
       }
-    }
-
-    // Don't filter by subcategory for counts - show counts for entire category
-    // This way users can see filter availability across all subcategories in the category
-
-    // Filter by search keyword if present
-    if (searchKeyword && searchKeyword.trim() !== "") {
-      const keyword = searchKeyword.toLowerCase().trim();
-      baseAds = baseAds.filter((ad) => {
-        const searchableText = [
-          ad.Title,
-          ad.title,
-          ad.Description,
-          ad.description,
-          ad.Brand,
-          ad.Make,
-          ad.Model,
-          ad.model,
-        ]
-          .filter((text) => text)
-          .join(" ")
-          .toLowerCase();
-        return searchableText.includes(keyword);
-      });
-    }
-
-    // Now count matches for the specific field value
-    const matchingAds = baseAds.filter((ad) => {
-      return fieldNames.some((fieldName) => {
-        const adValue = ad[fieldName];
-
-        if (!adValue && adValue !== 0) {
-          return false;
-        }
-
-        if (Array.isArray(adValue)) {
-          return adValue.some((av) => {
-            const stringAv = String(av).trim();
-            return (
-              getUrlText(stringAv) === getUrlText(stringValue) ||
-              stringAv.toLowerCase() === stringValue.toLowerCase()
+      const stringValue = String(value).trim();
+      let baseAds = [...allAds];
+      if (category) {
+        const categoryValue = categoryMap[category.toLowerCase()];
+        if (categoryValue) {
+          baseAds = baseAds.filter((ad) => {
+            const categoryVariations = [categoryValue];
+            if (categoryValue === "Sport & Game") {
+              categoryVariations.push("Sports & Game");
+            }
+            if (categoryValue === "Home & Furniture") {
+              categoryVariations.push("Home & Furnituer");
+            }
+            return categoryVariations.some(
+              (variation) =>
+                ad.category === variation || ad.ModalCategory === variation
             );
           });
         }
+      }
+      if (searchKeyword && searchKeyword.trim() !== "") {
+        const keyword = searchKeyword.toLowerCase().trim();
+        baseAds = baseAds.filter((ad) => {
+          const searchableText = [
+            ad.Title,
+            ad.title,
+            ad.Description,
+            ad.description,
+            ad.Brand,
+            ad.Make,
+            ad.Model,
+            ad.model,
+          ]
+            .filter((text) => text)
+            .join(" ")
+            .toLowerCase();
+          return searchableText.includes(keyword);
+        });
+      }
+      const matchingAds = baseAds.filter((ad) => {
+        return fieldNames.some((fieldName) => {
+          const adValue = ad[fieldName];
 
-        const stringAdValue = String(adValue).trim();
-        const urlMatch = getUrlText(stringAdValue) === getUrlText(stringValue);
-        const lowerMatch =
-          stringAdValue.toLowerCase() === stringValue.toLowerCase();
+          if (!adValue && adValue !== 0) {
+            return false;
+          }
 
-        return urlMatch || lowerMatch;
+          if (Array.isArray(adValue)) {
+            return adValue.some((av) => {
+              const stringAv = String(av).trim();
+              return (
+                getUrlText(stringAv) === getUrlText(stringValue) ||
+                stringAv.toLowerCase() === stringValue.toLowerCase()
+              );
+            });
+          }
+
+          const stringAdValue = String(adValue).trim();
+          const urlMatch =
+            getUrlText(stringAdValue) === getUrlText(stringValue);
+          const lowerMatch =
+            stringAdValue.toLowerCase() === stringValue.toLowerCase();
+
+          return urlMatch || lowerMatch;
+        });
       });
-    });
 
-    return matchingAds.length;
-  }, [allAds, category, categoryMap, searchParams, searchKeyword]);
+      return matchingAds.length;
+    },
+    [allAds, category, categoryMap, searchParams, searchKeyword]
+  );
 
-  // Memoized function to count regions with sorting
   const getRegionsWithCounts = useMemo(() => {
     return saudiRegions
       .map((region) => ({
@@ -837,7 +826,6 @@ const Search = () => {
       .sort((a, b) => b.count - a.count);
   }, [getCountForOption]);
 
-  // Memoized function to count cities with sorting
   const getCitiesWithCounts = useMemo(() => {
     return cities
       .map((city) => ({
@@ -847,7 +835,6 @@ const Search = () => {
       .sort((a, b) => b.count - a.count);
   }, [cities, getCountForOption]);
 
-  // Memoized function to count districts with sorting
   const getDistrictsWithCounts = useMemo(() => {
     return districts
       .map((district) => ({
@@ -860,7 +847,6 @@ const Search = () => {
       .sort((a, b) => b.count - a.count);
   }, [districts, getCountForOption]);
 
-  // Memoized function to get brands with counts
   const getBrandsWithCounts = useMemo(() => {
     if (!currentCategoryFilters.filters?.brand) return [];
 
@@ -879,7 +865,6 @@ const Search = () => {
       .sort((a, b) => b.count - a.count);
   }, [currentCategoryFilters, getCountForOption]);
 
-  // Memoized function to get models with counts
   const getModelsWithCounts = useMemo(() => {
     return availableBrandModels
       .map((model) => ({
@@ -889,7 +874,6 @@ const Search = () => {
       .sort((a, b) => b.count - a.count);
   }, [availableBrandModels, getCountForOption]);
 
-  // Pagination logic
   const sortedAds = sortAds(filteredAds, sortBy);
   const indexOfLastAd = currentPage * adsPerPage;
   const indexOfFirstAd = indexOfLastAd - adsPerPage;
@@ -901,41 +885,14 @@ const Search = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Handle search keyword
   const handleSearchKeyword = (e) => {
     e.preventDefault();
-    // Search is already reactive via useEffect
   };
 
-  // const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
-
-  // const getImageURL = async () => {
-  //   const imageRef = ref(storage, "blank-profile-picture.webp"); // image path inside storage
-
-  //   try {
-  //     const url = await getDownloadURL(imageRef);
-  //     
-
-  //     return url;
-  //   } catch (error) {
-  //     console.error("Error fetching image URL:", error);
-  //     return null;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getImageURL().then((url) => {
-  //     if (url) {
-  //       setImageURL(url);
-  //     }
-  //   });
-  // }, []);
-
-  // handle change for subcategory and nested subcategory
   const handleSubcategoryChange = (e, selectType = "multiple") => {
-    e.preventDefault?.(); // Prevent default behavior
+    e.preventDefault?.();
     const { name, value, checked } = e.target;
-    
+
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
       const currentValues = newParams.getAll(name);
@@ -968,9 +925,9 @@ const Search = () => {
   };
 
   const handleFiltersChange = (e, selectType) => {
-    e.preventDefault?.(); // Prevent default behavior
+    e.preventDefault?.();
     const { name, value, checked, type } = e.target || e;
-    
+
     const lowerCaseName = typeof name === "string" ? name.toLowerCase() : name;
     const lowerCaseValue =
       typeof value === "string" ? value.toLowerCase() : value;
@@ -1024,7 +981,7 @@ const Search = () => {
   };
   const handleInputs = (e, name, value, selectType = "") => {
     e.preventDefault();
-    
+
     handleFiltersChange({ name, value }, selectType);
     setFilterData((prev) => ({ ...prev, [name]: "" }));
   };
@@ -1048,7 +1005,6 @@ const Search = () => {
     });
   };
 
-  // Location filter handlers
   const handleRegionChange = (regionId) => {
     setSelectedRegions((prev) => {
       const isSelected = prev.includes(regionId);
@@ -1056,7 +1012,6 @@ const Search = () => {
         ? prev.filter((id) => id !== regionId)
         : [...prev, regionId];
 
-      // Update URL params
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
         newParams.delete("region");
@@ -1079,8 +1034,6 @@ const Search = () => {
             ...prev,
             { CITY_ID: cityOption.CITY_ID, REGION_ID: cityOption.REGION_ID },
           ];
-
-      // Update URL params
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
         newParams.delete("city");
@@ -1110,7 +1063,6 @@ const Search = () => {
             },
           ];
 
-      // Update URL params
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
         newParams.delete("district");
@@ -1124,7 +1076,6 @@ const Search = () => {
     });
   };
 
-  // Update available brand models when brand selection changes
   useEffect(() => {
     const selectedBrands = searchParams.getAll("brand");
     if (selectedBrands.length > 0 && currentCategoryFilters.filters?.brand) {
@@ -1147,13 +1098,10 @@ const Search = () => {
       setAvailableBrandModels([]);
     }
   }, [searchParams, currentCategoryFilters]);
-
-  // Prevent scroll jumping when filters change
   const scrollPositionRef = useRef(0);
   const windowScrollRef = useRef(0);
 
   useEffect(() => {
-    // Track both filter section scroll and window scroll
     const element = filterSectionRef.current;
 
     const handleFilterScroll = () => {
@@ -1181,14 +1129,10 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    // Restore scroll positions after state updates
     requestAnimationFrame(() => {
-      // Restore filter section scroll
       if (filterSectionRef.current && scrollPositionRef.current > 0) {
         filterSectionRef.current.scrollTop = scrollPositionRef.current;
       }
-
-      // Restore window scroll
       if (windowScrollRef.current > 0) {
         window.scrollTo(0, windowScrollRef.current);
       }
@@ -1212,6 +1156,26 @@ const Search = () => {
     ],
   };
 
+const selectedCityNames = cities
+  .filter((city) => selectedCityIds.includes(String(city.CITY_ID)))
+  .map((city) => city["City En Name"])
+  .filter(Boolean);
+
+const cityText =
+  selectedCityNames.length > 0
+    ? ` in ${selectedCityNames.join(", ")}`
+    : "";
+
+let h1Title = "All Listings";
+
+if (categoryDisplayName) {
+  h1Title = `${categoryDisplayName} for Sale${cityText}`;
+}
+
+if (searchKeyword) {
+  h1Title = `Search results for "${searchKeyword}"${cityText}`;
+}
+
   return (
     <>
       <div className="main-wrapper">
@@ -1224,12 +1188,28 @@ const Search = () => {
             marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
           }}
         >
+ <h1
+  className="search-page-h1"
+  style={{
+    fontSize: "1.4rem",
+    fontWeight: 700,         
+    marginBottom: "1.25rem",
+    lineHeight: 1.3,
+    color: "#1f2937", 
+    letterSpacing: "0.5px",
+    textShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  }}
+>
+  {h1Title}
+</h1>
+
+
           <div
             className="adsCategory_head"
             style={{
               display: "flex",
               flexWrap: "wrap",
-              gap: "10px",
+              gap: "15px",
               marginTop: "40px",
               marginBottom: "20px",
               alignItems: "center",
@@ -1427,7 +1407,6 @@ const Search = () => {
                   </Accordion>
                   <HorizantalLine />
 
-                  {/* subcategories */}
                   {currentCategoryFilters.subcategories &&
                     currentCategoryFilters.subcategories.length > 0 && (
                       <>
@@ -1471,8 +1450,6 @@ const Search = () => {
                                             {subcat.name}
                                           </label>
                                         </div>
-
-                                        {/* Show nested subcategories only when parent is selected */}
                                         {isSelected &&
                                           subcat.nestedSubCategories &&
                                           subcat.nestedSubCategories.length >
@@ -1554,50 +1531,46 @@ const Search = () => {
                         <HorizantalLine />{" "}
                       </>
                     )}
-
-                  {/* Region Filter */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Select Region</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="mb-3">
-                            {getRegionsWithCounts
-                              .slice(0, 6)
-                              .map((region) => {
-                                const isChecked = selectedRegions.includes(
-                                  region.id
-                                );
-                                return (
-                                  <div className="form-check" key={region.id}>
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id={`region-${region.id}`}
-                                      checked={isChecked}
-                                      onChange={() =>
-                                        handleRegionChange(region.id)
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor={`region-${region.id}`}
-                                      style={{ cursor: "pointer" }}
+                            {getRegionsWithCounts.slice(0, 6).map((region) => {
+                              const isChecked = selectedRegions.includes(
+                                region.id
+                              );
+                              return (
+                                <div className="form-check" key={region.id}>
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`region-${region.id}`}
+                                    checked={isChecked}
+                                    onChange={() =>
+                                      handleRegionChange(region.id)
+                                    }
+                                    style={{ cursor: "pointer" }}
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`region-${region.id}`}
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    {region.nameEn}{" "}
+                                    <span
+                                      style={{
+                                        color: "#888",
+                                        fontSize: "0.9em",
+                                      }}
                                     >
-                                      {region.nameEn}{" "}
-                                      <span
-                                        style={{
-                                          color: "#888",
-                                          fontSize: "0.9em",
-                                        }}
-                                      >
-                                        ({region.count})
-                                      </span>
-                                    </label>
-                                  </div>
-                                );
-                              })}
+                                      ({region.count})
+                                    </span>
+                                  </label>
+                                </div>
+                              );
+                            })}
                             <button
                               type="button"
                               className="btn btn-link p-0"
@@ -1605,8 +1578,6 @@ const Search = () => {
                             >
                               Show more choices...
                             </button>
-
-                            {/* Region Modal */}
                             {showRegionModal && (
                               <div
                                 className="modal fade show"
@@ -1748,8 +1719,6 @@ const Search = () => {
                       margin: "20px 0",
                     }}
                   />
-
-                  {/* City Filter */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Select City</Accordion.Header>
@@ -1762,49 +1731,47 @@ const Search = () => {
                               </p>
                             ) : (
                               <>
-                                {getCitiesWithCounts
-                                  .slice(0, 6)
-                                  .map((city) => {
-                                    const isChecked = selectedCities.some(
-                                      (c) => c.CITY_ID === city.CITY_ID
-                                    );
-                                    return (
-                                      <div
-                                        key={city.CITY_ID}
-                                        className="form-check"
+                                {getCitiesWithCounts.slice(0, 6).map((city) => {
+                                  const isChecked = selectedCities.some(
+                                    (c) => c.CITY_ID === city.CITY_ID
+                                  );
+                                  return (
+                                    <div
+                                      key={city.CITY_ID}
+                                      className="form-check"
+                                    >
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id={`city-${city.CITY_ID}`}
+                                        checked={isChecked}
+                                        onChange={() =>
+                                          handleCityChange({
+                                            CITY_ID: city.CITY_ID,
+                                            REGION_ID: city.REGION_ID,
+                                          })
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor={`city-${city.CITY_ID}`}
+                                        style={{ cursor: "pointer" }}
                                       >
-                                        <input
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          id={`city-${city.CITY_ID}`}
-                                          checked={isChecked}
-                                          onChange={() =>
-                                            handleCityChange({
-                                              CITY_ID: city.CITY_ID,
-                                              REGION_ID: city.REGION_ID,
-                                            })
-                                          }
-                                          style={{ cursor: "pointer" }}
-                                        />
-                                        <label
-                                          className="form-check-label"
-                                          htmlFor={`city-${city.CITY_ID}`}
-                                          style={{ cursor: "pointer" }}
+                                        {city["City En Name"]} (
+                                        {city["City Ar Name"]}){" "}
+                                        <span
+                                          style={{
+                                            color: "#888",
+                                            fontSize: "0.9em",
+                                          }}
                                         >
-                                          {city["City En Name"]} (
-                                          {city["City Ar Name"]}){" "}
-                                          <span
-                                            style={{
-                                              color: "#888",
-                                              fontSize: "0.9em",
-                                            }}
-                                          >
-                                            ({city.count})
-                                          </span>
-                                        </label>
-                                      </div>
-                                    );
-                                  })}
+                                          ({city.count})
+                                        </span>
+                                      </label>
+                                    </div>
+                                  );
+                                })}
                                 {cities.length > 0 && (
                                   <button
                                     type="button"
@@ -1816,8 +1783,6 @@ const Search = () => {
                                 )}
                               </>
                             )}
-
-                            {/* City Modal */}
                             {showCityModal && (
                               <div
                                 className="modal fade show more_optn_modal_main"
@@ -1955,8 +1920,6 @@ const Search = () => {
                       margin: "20px 0",
                     }}
                   />
-
-                  {/* District Filter */}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Select District</Accordion.Header>
@@ -2023,8 +1986,6 @@ const Search = () => {
                                 )}
                               </>
                             )}
-
-                            {/* District Modal */}
                             <div className="container">
                               {showDistrictModal && (
                                 <div
@@ -2190,8 +2151,6 @@ const Search = () => {
                       margin: "20px 0",
                     }}
                   />
-
-                  {/* Brand Modal - Shared modal for all brand selections */}
                   {showBrandModal && currentCategoryFilters.filters?.brand && (
                     <div
                       className="modal fade show more_optn_modal_main"
@@ -2318,8 +2277,6 @@ const Search = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* Brand Model Modal - Shared modal for all brand model selections */}
                   {showBrandModelModal && (
                     <div
                       className="modal fade show more_optn_modal_main"
@@ -2471,10 +2428,21 @@ const Search = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* filters */}
                   {Object.entries(currentCategoryFilters.filters || {}).map(
-                    ([filterKey, filterValue], filterIndex) => (
+                    ([filterKey, filterValue], filterIndex) => {
+                      const isLandSubcategory = subCategoryParam === "lands-for-sale" || subCategoryParam === "commercial-lands-for-sale";
+                      const isRentSubcategory = subCategoryParam && subCategoryParam.includes("rent");
+                      const filtersToHideForLand = ["residenceType", "noOfRooms", "noOfBathrooms", "furnished", "facade", "licenseNumber", "streetWidth", "floor", "amenities", "condition", "propertyAge"];
+
+                      if (isLandSubcategory && filtersToHideForLand.includes(filterKey)) {
+                        return null;
+                      }
+
+                      if (filterKey === "frequency" && !isRentSubcategory) {
+                        return null;
+                      }
+
+                      return (
                       <React.Fragment key={filterKey}>
                         <Accordion className="mt-3">
                           <Accordion.Item eventKey="0">
@@ -2492,47 +2460,78 @@ const Search = () => {
                                   <>
                                     {(filterKey === "brand"
                                       ? getBrandsWithCounts
-                                      : filterValue.options.map((opt) => {
-                                          const isString = typeof opt === "string";
-                                          const label = isString ? opt : (opt.name || opt);
-                                          const count = getCountForOption(
-                                            filterKey === "condition"
-                                              ? ["Condition"]
-                                              : filterKey === "transmission"
-                                              ? ["Transmission"]
-                                              : filterKey === "fuelType"
-                                              ? ["Fueltype", "FuelType"]
-                                              : filterKey === "bodyType"
-                                              ? ["BodyType"]
-                                              : filterKey === "exteriorColor"
-                                              ? ["Color", "ExteriorColor"]
-                                              : filterKey === "interiorColor"
-                                              ? ["InteriorColor"]
-                                              : filterKey === "sellerType"
-                                              ? ["SellerType"]
-                                              : filterKey === "regionalSpec"
-                                              ? ["RegionalSpec"]
-                                              : filterKey === "insurance"
-                                              ? ["Insurance"]
-                                              : filterKey === "additionalFeatures"
-                                              ? ["AdditionalFeatures"]
-                                              : filterKey === "noOfDoors"
-                                              ? ["NumberofDoors"]
-                                              : filterKey === "seatingCapacity"
-                                              ? ["SeatingCapacity"]
-                                              : filterKey === "age"
-                                              ? ["Age"]
-                                              : filterKey === "paymentMethod"
-                                              ? ["PaymentMethod"]
-                                              : filterKey === "addType"
-                                              ? ["Purpose", "AdType"]
-                                              : [String(label)],
-                                            label
-                                          );
-                                          return isString
-                                            ? { name: opt, count }
-                                            : { ...opt, count };
-                                        }).sort((a, b) => b.count - a.count)
+                                      : filterValue.options
+                                          .map((opt) => {
+                                            const isString =
+                                              typeof opt === "string";
+                                            const label = isString
+                                              ? opt
+                                              : opt.name || opt;
+                                            const count = getCountForOption(
+                                              filterKey === "condition"
+                                                ? ["Condition", "condition"]
+                                                : filterKey === "transmission"
+                                                ? ["Transmission"]
+                                                : filterKey === "fuelType"
+                                                ? ["Fueltype", "FuelType"]
+                                                : filterKey === "bodyType"
+                                                ? ["BodyType"]
+                                                : filterKey === "exteriorColor"
+                                                ? ["Color", "ExteriorColor"]
+                                                : filterKey === "interiorColor"
+                                                ? ["InteriorColor"]
+                                                : filterKey === "sellerType"
+                                                ? ["SellerType"]
+                                                : filterKey === "regionalSpec"
+                                                ? ["RegionalSpec"]
+                                                : filterKey === "insurance"
+                                                ? ["Insurance"]
+                                                : filterKey ===
+                                                  "additionalFeatures"
+                                                ? ["AdditionalFeatures"]
+                                                : filterKey === "noOfDoors"
+                                                ? ["NumberofDoors"]
+                                                : filterKey ===
+                                                  "seatingCapacity"
+                                                ? ["SeatingCapacity"]
+                                                : filterKey === "age"
+                                                ? ["Age"]
+                                                : filterKey === "paymentMethod"
+                                                ? ["PaymentMethod"]
+                                                : filterKey === "addType"
+                                                ? ["Purpose", "AdType"]
+                                                : filterKey === "frequency"
+                                                ? ["Frequency", "frequency"]
+                                                : filterKey === "residenceType"
+                                                ? ["ResidenceType", "residenceType"]
+                                                : filterKey === "noOfRooms"
+                                                ? ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"]
+                                                : filterKey === "noOfBathrooms"
+                                                ? ["bathrooms", "NumberofBathrooms", "NumberOfBathrooms", "noOfBathrooms"]
+                                                : filterKey === "area"
+                                                ? ["Area", "area"]
+                                                : filterKey === "furnished"
+                                                ? ["Furnished", "furnished"]
+                                                : filterKey === "licenseNumber"
+                                                ? ["LicenseNumber", "licenseNumber", "LicenceNumber"]
+                                                : filterKey === "streetWidth"
+                                                ? ["streetWidth", "StreetWidth"]
+                                                : filterKey === "floor"
+                                                ? ["Floor", "floor"]
+                                                : filterKey === "amenities"
+                                                ? ["Amenities", "amenities"]
+                                                : filterKey === "propertyAge"
+                                                ? ["PropertyAge", "propertyAge"]
+                                                : filterKey === "facade"
+                                                ? ["Facade", "facade"]
+                                                : [String(label)],
+                                              label
+                                            );
+                                            return isString
+                                              ? { name: opt, count }
+                                              : { ...opt, count };
+                                          })
+                                          .sort((a, b) => b.count - a.count)
                                     )
                                       .slice(
                                         0,
@@ -2646,15 +2645,19 @@ const Search = () => {
                                     )}
                                     <Form.Select
                                       name={filterKey}
+                                      value={
+                                        filterValue.options.find(
+                                          (opt) => getUrlText(opt) === searchParams.get(filterKey)
+                                        ) || ""
+                                      }
                                       onChange={handleFiltersChange}
                                       style={{ cursor: "pointer" }}
                                     >
+                                      <option value="">
+                                        All
+                                      </option>
                                       {filterValue.options.map((option) => (
                                         <option
-                                          selected={
-                                            searchParams.get(filterKey) ===
-                                            getUrlText(option)
-                                          }
                                           key={option}
                                           value={option}
                                           style={{ cursor: "pointer" }}
@@ -2729,7 +2732,7 @@ const Search = () => {
                                             }
                                             onChange={(e) => {
                                               const value = e.target.value;
-                                              // Only accept numeric values for Price, Year, and Mileage
+
                                               if (
                                                 filterValue.name === "Price" ||
                                                 filterValue.name === "Mileage"
@@ -2746,7 +2749,6 @@ const Search = () => {
                                               } else if (
                                                 filterValue.name === "Year"
                                               ) {
-                                                // Year only accepts integers, no decimals
                                                 if (
                                                   value === "" ||
                                                   /^\d*$/.test(value)
@@ -2778,7 +2780,7 @@ const Search = () => {
                                             }
                                             onChange={(e) => {
                                               const value = e.target.value;
-                                              // Only accept numeric values for Price, Year, and Mileage
+
                                               if (
                                                 filterValue.name === "Price" ||
                                                 filterValue.name === "Mileage"
@@ -2795,7 +2797,6 @@ const Search = () => {
                                               } else if (
                                                 filterValue.name === "Year"
                                               ) {
-                                                // Year only accepts integers, no decimals
                                                 if (
                                                   value === "" ||
                                                   /^\d*$/.test(value)
@@ -2888,8 +2889,6 @@ const Search = () => {
                           </Accordion.Item>
                         </Accordion>
                         <HorizantalLine />
-
-                        {/* Show Brand Model filter right after Brand filter */}
                         {filterKey === "brand" &&
                           availableBrandModels.length > 0 && (
                             <>
@@ -3017,31 +3016,84 @@ const Search = () => {
                             </>
                           )}
                       </React.Fragment>
-                    )
+                      );
+                    }
                   )}
                 </Form>
               </div>
             </Col>
 
-            {/* Results Section */}
             <Col lg={9}>
               <div className="results_section">
-                {/* Loading State */}
                 {loading && (
-                  <div
-                    className="text-center"
-                    style={{
-                      padding: "50px 20px",
-                      fontSize: "18px",
-                      color: "#2D4495",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Loading...
+                  <div style={{ padding: "20px 0" }}>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        style={{
+                          backgroundColor: "#fff",
+                          borderRadius: "20px",
+                          padding: "20px",
+                          marginBottom: "20px",
+                          display: "flex",
+                          gap: "20px",
+                          border: "1px solid #e0e0e0",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "250px",
+                            height: "230px",
+                            backgroundColor: "#f0f0f0",
+                            borderRadius: "20px",
+                            animation: "pulse 1.5s ease-in-out infinite",
+                          }}
+                        />
+                        <div style={{ flex: 1 }}>
+                          <div
+                            style={{
+                              height: "30px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "15px",
+                              width: "60%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "20px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "10px",
+                              width: "40%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "15px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "8px",
+                              width: "80%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          <div
+                            style={{
+                              height: "15px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              width: "70%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
-
-                {/* No Results */}
                 {!loading && filteredAds.length === 0 && (
                   <div
                     className="text-center"
@@ -3075,11 +3127,10 @@ const Search = () => {
                     </button>
                   </div>
                 )}
-
-                {/* Results */}
                 {!loading && currentAds.length > 0 && (
                   <>
                     <div
+                      className="fade-in-ads"
                       style={{
                         backgroundColor: "white",
                         borderRadius: "12px",
@@ -3087,28 +3138,65 @@ const Search = () => {
                         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
                       }}
                     >
-                      {/* Sort Dropdown inside cards container */}
                       <Row
                         className="mb-3"
                         style={{ marginTop: "10px", marginRight: "1px" }}
                       >
-                        <Col xs={12} sm={6} md={4} className="ms-auto">
-                          <Form.Select
-                            aria-label="Sort options"
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                          >
-                            <option value="Sort by: Most Relevant">
-                              Sort by: Most Relevant
-                            </option>
-                            <option value="Price: Low to High">
-                              Price: Low to High
-                            </option>
-                            <option value="Price: High to Low">
-                              Price: High to Low
-                            </option>
-                          </Form.Select>
-                        </Col>
+                        <div className="image-price0-filter d-flex align-items-center justify-between py-[10px] pr-0 pl-[20px]">
+                          <div className="d-flex gap-3 align-items-center pt-3">
+                            <Form.Check
+                              type="checkbox"
+                              id="withPhotos"
+                              label="With Photos"
+                              checked={
+                                searchParams.get("withPhotos") === "true"
+                              }
+                              onChange={(e) => {
+                                const params = new URLSearchParams(
+                                  searchParams
+                                );
+                                e.target.checked
+                                  ? params.set("withPhotos", "true")
+                                  : params.delete("withPhotos");
+                                setSearchParams(params);
+                              }}
+                            />
+
+                            <Form.Check
+                              type="checkbox"
+                              id="withPrice"
+                              label="With Price"
+                              checked={searchParams.get("withPrice") === "true"}
+                              onChange={(e) => {
+                                const params = new URLSearchParams(
+                                  searchParams
+                                );
+                                e.target.checked
+                                  ? params.set("withPrice", "true")
+                                  : params.delete("withPrice");
+                                setSearchParams(params);
+                              }}
+                            />
+                          </div>
+
+                          <Col xs={12} sm={6} md={4} className="ms-auto">
+                            <Form.Select
+                              aria-label="Sort options"
+                              value={sortBy}
+                              onChange={(e) => setSortBy(e.target.value)}
+                            >
+                              <option value="Sort by: Most Relevant">
+                                Sort by: Most Relevant
+                              </option>
+                              <option value="Price: Low to High">
+                                Price: Low to High
+                              </option>
+                              <option value="Price: High to Low">
+                                Price: High to Low
+                              </option>
+                            </Form.Select>
+                          </Col>
+                        </div>
                       </Row>
 
                       {currentAds.map((ad) => (

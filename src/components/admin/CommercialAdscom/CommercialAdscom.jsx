@@ -46,6 +46,7 @@ import {
 import { auth, db } from "./../../Firebase/FirebaseConfig.jsx";
 import Footer from "../../home/footer/Footer";
 import axios from "axios";
+import Swal from "sweetalert2";
 const ITEMS_PER_PAGE = 4; // Set number of items per page
 
 const CommercialAdscom = () => {
@@ -251,9 +252,29 @@ const CommercialAdscom = () => {
   };
   const link = getQueryParam("link") || window.location.href;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(link);
-    alert("Link copied to clipboard!");
+  const copyToClipboard = async () => {
+    try {
+      // Try modern clipboard API first (works on HTTPS and localhost)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        copyLinkFallback(link);
+      }
+    } catch (err) {
+      console.error("Clipboard copy failed:", err);
+      // If clipboard API fails, use fallback
+      copyLinkFallback(link);
+    }
   };
   const handleSubmit = async () => {
     console.log("Report Submitted:", { reportText, selectedReports });
@@ -330,7 +351,32 @@ const CommercialAdscom = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
+      const cacheKey = "commercial_ads_data";
+      const cacheTimestamp = "commercial_ads_timestamp";
+      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
       try {
+        setLoading(true);
+
+        // Check cache first
+        const cachedData = sessionStorage.getItem(cacheKey);
+        const cachedTime = sessionStorage.getItem(cacheTimestamp);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - parseInt(cachedTime);
+          if (age < CACHE_DURATION) {
+            // Add 400ms delay for smooth transition
+            await new Promise(resolve => setTimeout(resolve, 400));
+            const parsedData = JSON.parse(cachedData);
+
+            setCategories(parsedData.categories);
+            setUniqueCategories(parsedData.uniqueCategories);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Fetch fresh data
         const response = await axios.get(
           "http://168.231.80.24:9002/route/commercial-ads"
         );
@@ -350,8 +396,18 @@ const CommercialAdscom = () => {
           }));
 
         setUniqueCategories(uniqueSorted);
+
+        // Cache the results
+        sessionStorage.setItem(cacheKey, JSON.stringify({
+          categories: response.data,
+          uniqueCategories: uniqueSorted
+        }));
+        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
+
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching ads:", error);
+        setLoading(false);
       }
     };
 
@@ -406,22 +462,29 @@ const CommercialAdscom = () => {
   //   navigator.clipboard.writeText(categories.image);
   //   alert("Link copied to clipboard!");
   // };
-  const handleCopyLink = () => {
+  const handleCopyLink = async () => {
     const currentUrl = paramLink; // Gets the full URL
 
-    // Try modern clipboard API first
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard
-        .writeText(currentUrl)
-        .then(() => {
-          alert("Link copied to clipboard!");
-        })
-        .catch((err) => {
-          // Fallback to older method if clipboard API fails
-          copyLinkFallback(currentUrl);
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentUrl);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
         });
-    } else {
-      // Fallback for browsers without clipboard support
+      } else {
+        // Fallback for browsers without clipboard support
+        copyLinkFallback(currentUrl);
+      }
+    } catch (err) {
+      console.error("Clipboard API failed:", err);
+      // Fallback to older method if clipboard API fails
       copyLinkFallback(currentUrl);
     }
   };
@@ -432,16 +495,48 @@ const CommercialAdscom = () => {
     textArea.value = text;
     textArea.style.position = "fixed";
     textArea.style.opacity = "0";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
+
     try {
-      document.execCommand("copy");
-      alert("Link copied to clipboard!");
+      const successful = document.execCommand("copy");
+      if (successful) {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Failed to copy the link. Please try again.",
+          timer: 3000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      }
     } catch (err) {
-      alert("Failed to copy the link. Please try again.");
       console.error("Fallback copy failed:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: "Failed to copy the link. Please try again.",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
     }
+
     document.body.removeChild(textArea);
   };
 
@@ -719,25 +814,40 @@ const CommercialAdscom = () => {
                           size={32}
                           color="#C13584"
                           style={{ cursor: "pointer" }}
-                          onClick={() => {
+                          onClick={async () => {
                             if (/Mobi|Android/i.test(navigator.userAgent)) {
                               window.location.href = `instagram://share?text=${encodeURIComponent(
                                 link
                               )}`;
                             } else {
-                              alert(
-                                "Instagram sharing is only available on mobile apps. Link copied!"
-                              );
-                              if (
-                                navigator.clipboard &&
-                                navigator.clipboard.writeText
-                              ) {
-                                navigator.clipboard
-                                  .writeText(link)
-                                  .catch(() => {
-                                    copyLinkFallback(link);
+                              try {
+                                if (
+                                  navigator.clipboard &&
+                                  navigator.clipboard.writeText
+                                ) {
+                                  await navigator.clipboard.writeText(link);
+                                  Swal.fire({
+                                    icon: "info",
+                                    title: "Instagram Sharing",
+                                    text: "Instagram sharing is only available on mobile apps. Link copied to clipboard!",
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    toast: true,
+                                    position: "top-end",
                                   });
-                              } else {
+                                } else {
+                                  copyLinkFallback(link);
+                                  Swal.fire({
+                                    icon: "info",
+                                    title: "Instagram Sharing",
+                                    text: "Instagram sharing is only available on mobile apps.",
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    toast: true,
+                                    position: "top-end",
+                                  });
+                                }
+                              } catch (err) {
                                 copyLinkFallback(link);
                               }
                             }
@@ -868,15 +978,61 @@ const CommercialAdscom = () => {
             </Modal.Body>
           </Modal>
           <Container className="p-0">
-            <Row className="g-4">
-              {categories
-                .filter((item) =>
-                  selectedCategory === "All"
-                    ? true
-                    : item.Title === selectedCategory
-                )
+            {/* Loading Skeleton */}
+            {loading && (
+              <Row className="g-4">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <Col key={i} xxl={3} xl={4} md={6} sm={6}>
+                    <Card
+                      className="shadow-lg"
+                      style={{
+                        padding: "20px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "350px",
+                          backgroundColor: "#f0f0f0",
+                          borderRadius: "8px",
+                          animation: "pulse 1.5s ease-in-out infinite",
+                          marginBottom: "15px",
+                        }}
+                      />
+                      <div
+                        style={{
+                          height: "20px",
+                          backgroundColor: "#f0f0f0",
+                          borderRadius: "4px",
+                          animation: "pulse 1.5s ease-in-out infinite",
+                          marginBottom: "10px",
+                        }}
+                      />
+                      <div
+                        style={{
+                          height: "40px",
+                          backgroundColor: "#f0f0f0",
+                          borderRadius: "4px",
+                          animation: "pulse 1.5s ease-in-out infinite",
+                        }}
+                      />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
 
-                .map((item) => (
+            {/* Actual Content with Fade-in */}
+            {!loading && (
+              <Row className="g-4 fade-in-ads">
+                {categories
+                  .filter((item) =>
+                    selectedCategory === "All"
+                      ? true
+                      : item.Title === selectedCategory
+                  )
+
+                  .map((item) => (
                   <Col key={item.id} xxl={3} xl={4} md={6} sm={6}>
                     <Card
                       className="shadow-lg"
@@ -944,6 +1100,7 @@ const CommercialAdscom = () => {
                         variant="top"
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         style={{
                           height: "350px",
                           objectFit: "cover",
@@ -1014,7 +1171,8 @@ const CommercialAdscom = () => {
                     </Card>
                   </Col>
                 ))}
-            </Row>
+              </Row>
+            )}
           </Container>
 
           {/* Call Modal */}
