@@ -673,32 +673,3 @@ export const App = () => {
 };
 
 export default App;
-// export const App = () => {
-//   return (
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "column",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         minHeight: "100vh",
-//         backgroundColor: "#f9fafb",
-//         color: "#333",
-//         fontFamily: "Arial, sans-serif",
-//         textAlign: "center",
-//         padding: "20px",
-//       }}
-//     >
-//       <h1 style={{ fontSize: "2.5rem", marginBottom: "10px" }}>
-//         🚧 Scheduled Maintenance 🚧
-//       </h1>
-//       <p style={{ fontSize: "1.2rem", maxWidth: "600px" }}>
-//         Our website is currently undergoing essential upgrades to improve your
-//         experience. We’ll be back online shortly. Thank you for your patience
-//         and understanding.
-//       </p>
-//     </div>
-//   );
-// };
-
-// export default App;

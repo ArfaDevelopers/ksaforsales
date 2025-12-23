@@ -23551,3 +23551,126 @@ height: 400px;
     transform: translateY(0);
   }
 }
+
+/* AI Description Generator Spinner Animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* AI Write Button - Gradient Border Design */
+.ai-write-button {
+  position: relative;
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-radius: 50px;
+  color: rgb(55, 75, 92);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* Gradient Border Effect */
+.ai-write-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  padding: 2.5px;
+  background: linear-gradient(90deg,
+    #06b6d4 0%,
+    #3b82f6 25%,
+    #8b5cf6 50%,
+    #ec4899 75%,
+    #f59e0b 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.ai-write-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.ai-write-button:active {
+  transform: translateY(0);
+}
+
+.ai-write-button:disabled {
+  background: #4b5563;
+  cursor: not-allowed;
+}
+
+.ai-write-button:disabled::before {
+  background: #6b7280;
+}
+
+.ai-write-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Sparkle Icon - Subtle Animation */
+.ai-write-button .sparkle-icon {
+  display: inline-flex;
+  animation: sparkle-subtle 3s ease-in-out infinite;
+}
+
+@keyframes sparkle-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Loading Dots Animation */
+.ai-write-button .loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.ai-write-button .loading-dot {
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+  animation: ai-dot-bounce 1.4s ease-in-out infinite;
+}
+
+.ai-write-button .loading-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.ai-write-button .loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ai-write-button .loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes ai-dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

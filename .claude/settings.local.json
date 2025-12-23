@@ -8,7 +8,10 @@
       "Bash(tasklist:*)",
       "Bash(findstr:*)",
       "Bash(taskkill:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "Bash(npm install:*)",
+      "Bash(if exist .env del /F .env)",
+      "Bash(if exist .env.example del /F .env.example)"
     ]
   }
 }
