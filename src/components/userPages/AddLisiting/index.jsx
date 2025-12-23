@@ -12459,13 +12459,20 @@ const AddLisiting = () => {
                                   <span className="loading-dot"></span>
                                   <span className="loading-dot"></span>
                                 </div>
-                                <span>Generating...</span>
+                                <span>Generating</span>
                               </>
                             ) : (
                               <>
                                 <svg className="sparkle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="currentColor"/>
-                                  <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="currentColor"/>
+                                  <defs>
+                                    <linearGradient id="sparkleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" style={{stopColor: '#06b6d4', stopOpacity: 1}} />
+                                      <stop offset="50%" style={{stopColor: '#8b5cf6', stopOpacity: 1}} />
+                                      <stop offset="100%" style={{stopColor: '#ec4899', stopOpacity: 1}} />
+                                    </linearGradient>
+                                  </defs>
+                                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#sparkleGradient)"/>
+                                  <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="url(#sparkleGradient)"/>
                                 </svg>
                                 <span>Write with AI</span>
                               </>
