@@ -35,6 +35,7 @@ import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { generateListingDescription } from "../../../utils/openaiService";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
@@ -55,6 +56,7 @@ const AddLisiting = () => {
   const [galleryPriceErrMsg, setgalleryPriceErrMsg] = useState(""); // State for image preview
   const [gallerydescriptionErrMsg, setgallerydescriptionErrMsg] = useState(""); // State for image preview
   const [FeaturedAdsErrMsg, setFeaturedAdsErrMsg] = useState(""); // State for image preview
+  const [isGeneratingDescription, setIsGeneratingDescription] = useState(false); // State for AI generation
 
   const [galleryListingTitleErrMsg, setgalleryListingTitleErrMsg] =
     useState(""); // State for image preview
@@ -2339,6 +2341,46 @@ const AddLisiting = () => {
   const handleCapacityChange = (e) => {
     const { name } = e.target;
     setFormData((prev) => ({ ...prev, Capacity: name }));
+  };
+
+  const handleGenerateDescription = async () => {
+    try {
+      setIsGeneratingDescription(true);
+      setgallerydescriptionErrMsg("");
+
+      // Validate that user has filled some basic information
+      if (!formData.title && !formData.category && !formData.SubCategory) {
+        MySwal.fire({
+          icon: "warning",
+          title: "Missing Information",
+          text: "Please fill in at least the title, category, or some details before generating a description.",
+        });
+        return;
+      }
+
+      // Generate description using OpenAI
+      const generatedDescription = await generateListingDescription(formData);
+
+      // Update the description field
+      setFormData((prev) => ({ ...prev, description: generatedDescription }));
+
+      MySwal.fire({
+        icon: "success",
+        title: "Description Generated!",
+        text: "AI has created a description based on your listing details.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error generating description:", error);
+      MySwal.fire({
+        icon: "error",
+        title: "Generation Failed",
+        text: error.message || "Failed to generate description. Please try again.",
+      });
+    } finally {
+      setIsGeneratingDescription(false);
+    }
   };
   const handleShoeCategoryChange = (e) => {
     const { name } = e.target;
@@ -12391,17 +12433,52 @@ const AddLisiting = () => {
 
                     <div className="card-body">
                       <div className="form-group mt-3">
-                        <label
-                          className="col-form-label"
-                          style={{
-                            padding: "10px 0 0 0",
-                            fontWeight: "bold",
-                            fontSize: "20px",
-                            color: "#374b5c",
-                          }}
-                        >
-                          Listing Description :
-                        </label>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                          <label
+                            className="col-form-label"
+                            style={{
+                              padding: "0",
+                              fontWeight: "bold",
+                              fontSize: "20px",
+                              color: "#374b5c",
+                              margin: "0",
+                            }}
+                          >
+                            Listing Description :
+                          </label>
+                          <button
+                            type="button"
+                            onClick={handleGenerateDescription}
+                            disabled={isGeneratingDescription}
+                            className="ai-write-button"
+                          >
+                            {isGeneratingDescription ? (
+                              <>
+                                <div className="loading-dots">
+                                  <span className="loading-dot"></span>
+                                  <span className="loading-dot"></span>
+                                  <span className="loading-dot"></span>
+                                </div>
+                                <span>Generating</span>
+                              </>
+                            ) : (
+                              <>
+                                <svg className="sparkle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <defs>
+                                    <linearGradient id="sparkleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" style={{stopColor: '#06b6d4', stopOpacity: 1}} />
+                                      <stop offset="50%" style={{stopColor: '#8b5cf6', stopOpacity: 1}} />
+                                      <stop offset="100%" style={{stopColor: '#ec4899', stopOpacity: 1}} />
+                                    </linearGradient>
+                                  </defs>
+                                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#sparkleGradient)"/>
+                                  <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="url(#sparkleGradient)"/>
+                                </svg>
+                                <span>Write with AI</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                         <textarea
                           rows={6}
                           name="description"
@@ -12446,6 +12523,7 @@ const AddLisiting = () => {
                         )}
                       </div>
                     </div>
+                    
                   </div>
                   <div className="" style={{ borderRadius: "0 0 6px 6px" }}>
                     <div className="card-header">
