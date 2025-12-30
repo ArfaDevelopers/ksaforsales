@@ -9,6 +9,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { auth } from "../../Firebase/FirebaseConfig";
+import { useTranslation } from "react-i18next";
 import Chat from "../../../components/admin/dyanmic_route/upperHeader/Chat";
 import Loading1 from "../../../../public/Progress circle.png";
 
@@ -26,6 +27,7 @@ import { Link } from "react-router-dom";
 import RatingAndReviews from "../../../components/admin/RatingSection/RatingSection";
 
 const ServiceDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const location = useLocation();
   const [itemData, setItemData] = useState(null);
@@ -61,14 +63,14 @@ const ServiceDetails = () => {
     setCallingFrom(callingFrom);
     setId(ids);
   }, [id, location]);
-  const [reportTypes] = useState([
-    "Sexual",
-    "Illegal",
-    "Abusive",
-    "Harassment",
-    "Fraud",
-    "Spam",
-  ]);
+  const reportTypes = [
+    t("listing.reportTypes.sexual"),
+    t("listing.reportTypes.illegal"),
+    t("listing.reportTypes.abusive"),
+    t("listing.reportTypes.harassment"),
+    t("listing.reportTypes.fraud"),
+    t("listing.reportTypes.spam"),
+  ];
 
   // Category mapping aligned with MyListe
   const categoryMapping = {
@@ -169,8 +171,17 @@ const ServiceDetails = () => {
     // Cleanup on unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  // Handle report submission
 
+  // Handle checkbox change for report types
+  const handleCheckboxChange = (type) => {
+    setSelectedReports((prev) =>
+      prev.includes(type)
+        ? prev.filter((item) => item !== type)
+        : [...prev, type]
+    );
+  };
+
+  // Handle report submission
   const handleSubmitReport = async () => {
     const callingFrom = getQueryParam("callingFrom");
     const itemId = getQueryParam("id") || id;
@@ -377,7 +388,7 @@ const ServiceDetails = () => {
                     >
                       <FaPhoneAlt />
                       <span className="fw-semibold">
-                        {showPhone ? itemData.Phone : "Call Now"}
+                        {showPhone ? itemData.Phone : t("listing.callNow")}
                       </span>
                     </button>
                   </a>
@@ -388,7 +399,7 @@ const ServiceDetails = () => {
                         className={`sign-in-button ${showPhone ? "icon-only" : ""}`}
                       >
                         <FaWhatsapp />
-                        <span className="button-text">WhatsApp</span>
+                        <span className="button-text">{t("listing.whatsapp")}</span>
                       </button>
                     </a>
                   ) : (
@@ -397,7 +408,7 @@ const ServiceDetails = () => {
                       onClick={() => alert("WhatsApp number not available")}
                     >
                       <FaWhatsapp />
-                      <span className="button-text">WhatsApp</span>
+                      <span className="button-text">{t("listing.whatsapp")}</span>
                     </button>
                   )}
 
@@ -406,7 +417,7 @@ const ServiceDetails = () => {
                     onClick={() => setShowModal(true)}
                   >
                     <MdMessage />
-                    <span className="button-text">Message</span>
+                    <span className="button-text">{t("listing.message")}</span>
                   </button>
 
                   <style jsx>{`
@@ -471,7 +482,7 @@ const ServiceDetails = () => {
                     >
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h5 className="modal-title">Send Message</h5>
+                          <h5 className="modal-title">{t("listing.sendMessage")}</h5>
                           <button
                             type="button"
                             className="btn-close"
@@ -545,7 +556,7 @@ const ServiceDetails = () => {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Share</h5>
+                <h5 className="modal-title">{t("listing.share")}</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -570,7 +581,7 @@ const ServiceDetails = () => {
                   }}
                   onClick={copyToClipboard}
                 >
-                  Copy
+                  {t("listing.copy")}
                 </button>
                 <button
                   type="button"
@@ -584,7 +595,7 @@ const ServiceDetails = () => {
                   }}
                   onClick={() => setShowModal1(false)}
                 >
-                  Close
+                  {t("listing.close")}
                 </button>
               </div>
             </div>
@@ -598,10 +609,10 @@ const ServiceDetails = () => {
             <div className="col-lg-9">
               <div className="card">
                 <div className="card-header">
-                  <h4>Description</h4>
+                  <h4>{t("listing.description")}</h4>
                 </div>
                 <div className="card-body">
-                  <p>{itemData.description || "No description available."}</p>
+                  <p>{itemData.description || t("listing.noDescription")}</p>
                 </div>
               </div>
 
@@ -615,7 +626,7 @@ const ServiceDetails = () => {
                         "invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)",
                     }}
                   />
-                  <h4>Gallery</h4>
+                  <h4>{t("listing.gallery")}</h4>
                 </div>
                 <div className="card-body">
                   <div className="gallery-content">
@@ -650,7 +661,7 @@ const ServiceDetails = () => {
                             "invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)",
                         }}
                       />{" "}
-                      Details
+                      {t("listing.details")}
                     </h4>
                     <ul>
                       {[
@@ -709,7 +720,7 @@ const ServiceDetails = () => {
                             "invert(20%) sepia(70%) saturate(1500%) hue-rotate(210deg) brightness(90%) contrast(90%)",
                         }}
                       />{" "}
-                      Statistics
+                      {t("listing.statistics")}
                     </h4>
                     <ul className="statistics-list">
                       <li>
@@ -720,7 +731,7 @@ const ServiceDetails = () => {
                               style={{ color: "#2d4495" }}
                             />
                           </span>
-                          Views
+                          {t("listing.views")}
                         </div>
                         <span className="text-end">453563</span>
                       </li>
@@ -732,7 +743,7 @@ const ServiceDetails = () => {
                               style={{ color: "#2d4495" }}
                             />
                           </span>
-                          Ratings
+                          {t("listing.ratings")}
                         </div>
                         <span className="text-end">153</span>
                       </li>
@@ -744,7 +755,7 @@ const ServiceDetails = () => {
                               style={{ color: "#2d4495" }}
                             />
                           </span>
-                          Favorites
+                          {t("listing.favorites")}
                         </div>
                         <span className="text-end">123</span>
                       </li>
@@ -756,7 +767,7 @@ const ServiceDetails = () => {
                               style={{ color: "#2d4495" }}
                             />
                           </span>
-                          Shares
+                          {t("listing.shares")}
                         </div>
                         <span className="text-end">{copyCount}</span>
                       </li>
@@ -769,7 +780,7 @@ const ServiceDetails = () => {
                         style={{ color: "#2d4495" }}
                       />{" "}
                       {/* {itemData.title || "N/A"} */}
-                      Profile
+                      {t("listing.profile")}
                     </h4>
                     <div className="sidebarauthor-details align-items-center">
                       <div className="sideauthor-img">

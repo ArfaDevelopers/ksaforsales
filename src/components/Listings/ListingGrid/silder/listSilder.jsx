@@ -1,12 +1,14 @@
 import React from "react";
 import { ProfileAvatar02, ProfileAvatar03, ProfileAvatar04, ProfileAvatar05, ProfileAvatar06, ProfileAvatar07, listgrid_1, listgrid_2, listgrid_3, listgrid_4, listgrid_5, listgrid_6, listgrid_7, listgrid_8 } from "../../../imagepath";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 
 
 
 const ListSilder=()=>{
+    const { t } = useTranslation();
     return(
         <>
         <div className="bookmarks-content grid-view featured-slider">
@@ -23,7 +25,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -93,7 +95,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -162,7 +164,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -232,7 +234,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -301,7 +303,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -371,7 +373,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -440,7 +442,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -510,7 +512,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>
@@ -579,7 +581,7 @@ const ListSilder=()=>{
                     />
                   </Link>
                   <div className="fav-item">
-                    <span className="Featured-text">Featured</span>
+                    <span className="Featured-text">{t("common.featured")}</span>
                     <Link to="#" className="fav-icon">
                       <i className="feather-heart" />
                     </Link>

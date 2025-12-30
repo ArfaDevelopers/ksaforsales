@@ -3,52 +3,57 @@ import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./../../Firebase/FirebaseConfig";
 import { data as categoriesData } from "./../../../utils/data";
+import { useTranslation } from "react-i18next";
+import { useLocalizedText } from "../../../utils/getLocalizedText";
+import { getTranslatedData } from "../../../utils/translateData";
 
 const HeaderLower = () => {
+  const { t } = useTranslation();
+  const { getText } = useLocalizedText();
   const [isMobile, setIsMobile] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [openSubDropdown, setOpenSubDropdown] = useState(null);
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  // Firebase category title states
-  const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] =
-    useState("");
-  const [ElectronicsTitle, setElectronicsTitle] = useState("");
-  const [FashionStyleTitle, setFashionStyleTitle] = useState("");
-  const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] =
-    useState("");
-  const [OurCategoryJobBoardTitle, setOurCategoryJobBoardTitle] = useState("");
-  const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] =
-    useState("");
-  const [OurCategoryTravelTitle, setOurCategoryTravelTitle] = useState("");
-  const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] =
-    useState("");
-  const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] =
-    useState("");
-  const [OurCategoryEducationTitle, setOurCategoryEducationTitle] =
-    useState("");
+  // Firebase category data states (now storing full objects with name_en and name_ar)
+  const [OurCategoryAutomativeData, setOurCategoryAutomativeData] =
+    useState(null);
+  const [ElectronicsData, setElectronicsData] = useState(null);
+  const [FashionStyleData, setFashionStyleData] = useState(null);
+  const [OurCategoryHealthCareData, setOurCategoryHealthCareData] =
+    useState(null);
+  const [OurCategoryJobBoardData, setOurCategoryJobBoardData] = useState(null);
+  const [OurCategoryRealEstateData, setOurCategoryRealEstateData] =
+    useState(null);
+  const [OurCategoryTravelData, setOurCategoryTravelData] = useState(null);
+  const [OurCategorySportGamesData, setOurCategorySportGamesData] =
+    useState(null);
+  const [OurCategoryPetAnimalsData, setOurCategoryPetAnimalsData] =
+    useState(null);
+  const [OurCategoryEducationData, setOurCategoryEducationData] =
+    useState(null);
 
   // Function to update mobile state
   const updateIsMobile = () => {
     setIsMobile(window.innerWidth <= 767);
   };
 
-  // Fetch category titles from Firebase
+  // Fetch category data from Firebase (with bilingual support)
   useEffect(() => {
-    const fetchCategoryTitles = async () => {
+    const fetchCategoryData = async () => {
       try {
         const collections = [
-          ["OurCategoryAutomativeTitle", setOurCategoryAutomativeTitle],
-          ["ElectronicsTitle", setElectronicsTitle],
-          ["FashionStyleTitle", setFashionStyleTitle],
-          ["OurCategoryHealthCareTitle", setOurCategoryHealthCareTitle],
-          ["OurCategoryJobBoardTitle", setOurCategoryJobBoardTitle],
-          ["OurCategoryRealEstateTitle", setOurCategoryRealEstateTitle],
-          ["OurCategoryTravelTitle", setOurCategoryTravelTitle],
-          ["OurCategorySportGamesTitle", setOurCategorySportGamesTitle],
-          ["OurCategoryPetAnimalsTitle", setOurCategoryPetAnimalsTitle],
-          ["OurCategoryEducationTitle", setOurCategoryEducationTitle],
+          ["OurCategoryAutomativeTitle", setOurCategoryAutomativeData],
+          ["ElectronicsTitle", setElectronicsData],
+          ["FashionStyleTitle", setFashionStyleData],
+          ["OurCategoryHealthCareTitle", setOurCategoryHealthCareData],
+          ["OurCategoryJobBoardTitle", setOurCategoryJobBoardData],
+          ["OurCategoryRealEstateTitle", setOurCategoryRealEstateData],
+          ["OurCategoryTravelTitle", setOurCategoryTravelData],
+          ["OurCategorySportGamesTitle", setOurCategorySportGamesData],
+          ["OurCategoryPetAnimalsTitle", setOurCategoryPetAnimalsData],
+          ["OurCategoryEducationTitle", setOurCategoryEducationData],
         ];
 
         for (const [collName, setterFunc] of collections) {
@@ -56,7 +61,8 @@ const HeaderLower = () => {
             const snapshot = await getDocs(collection(db, collName));
             const docs = snapshot.docs.map((doc) => doc.data());
             if (docs.length > 0) {
-              setterFunc(docs[0].name || "");
+              // Store the full document object (which should contain name_en and name_ar)
+              setterFunc(docs[0]);
             }
           } catch (error) {
             console.log(`Error fetching ${collName}:`, error);
@@ -67,7 +73,7 @@ const HeaderLower = () => {
       }
     };
 
-    fetchCategoryTitles();
+    fetchCategoryData();
   }, []);
 
   // Handle resize
@@ -77,18 +83,35 @@ const HeaderLower = () => {
     return () => window.removeEventListener("resize", updateIsMobile);
   }, []);
 
-  // Create category title map
+  // Translation key map
+  const categoryTranslationMap = {
+    Motors: "categories.motors",
+    Electronics: "categories.electronics",
+    "Fashion Style": "categories.fashionStyle",
+    "Home & Furniture": "categories.homeFurniture",
+    "Job Board": "categories.jobBoard",
+    "Real Estate": "categories.realEstate",
+    Services: "categories.services",
+    "Sport & Game": "categories.sportGame",
+    "Sport & Games": "categories.sportGame",
+    "Pet & Animals": "categories.petAnimals",
+    Other: "categories.other",
+    Commercial: "categories.commercial",
+  };
+
+  // Create category title map (use bilingual Firebase data if exists, otherwise use translation)
   const categoryTitleMap = {
-    Motors: OurCategoryAutomativeTitle,
-    Electronics: ElectronicsTitle,
-    "Fashion Style": FashionStyleTitle,
-    "Home & Furniture": OurCategoryHealthCareTitle,
-    "Job Board": OurCategoryJobBoardTitle,
-    "Real Estate": OurCategoryRealEstateTitle,
-    Services: OurCategoryTravelTitle,
-    "Sport & Games": OurCategorySportGamesTitle,
-    "Pet & Animals": OurCategoryPetAnimalsTitle,
-    Other: OurCategoryEducationTitle,
+    Motors: getText(OurCategoryAutomativeData, "name") || t("categories.motors"),
+    Electronics: getText(ElectronicsData, "name") || t("categories.electronics"),
+    "Fashion Style": getText(FashionStyleData, "name") || t("categories.fashionStyle"),
+    "Home & Furniture": getText(OurCategoryHealthCareData, "name") || t("categories.homeFurniture"),
+    "Job Board": getText(OurCategoryJobBoardData, "name") || t("categories.jobBoard"),
+    "Real Estate": getText(OurCategoryRealEstateData, "name") || t("categories.realEstate"),
+    Services: getText(OurCategoryTravelData, "name") || t("categories.services"),
+    "Sport & Game": getText(OurCategorySportGamesData, "name") || t("categories.sportGame"),
+    "Sport & Games": getText(OurCategorySportGamesData, "name") || t("categories.sportGame"),
+    "Pet & Animals": getText(OurCategoryPetAnimalsData, "name") || t("categories.petAnimals"),
+    Other: getText(OurCategoryEducationData, "name") || t("categories.other"),
   };
 
   // Category name to URL slug mapping
@@ -105,8 +128,11 @@ const HeaderLower = () => {
     Other: "other",
   };
 
-  // Build categories from data.js
-  const categories = categoriesData
+  // Get translated data based on current language
+  const translatedData = getTranslatedData(categoriesData, t);
+
+  // Build categories from translated data
+  const categories = translatedData
     .slice(1) // Skip "Search" category
     .map((category) => ({
       ...category,
@@ -122,7 +148,7 @@ const HeaderLower = () => {
       {
         name: "Commercial",
         path: "/CommercialAdscom",
-        displayName: "Commercial",
+        displayName: t("categories.commercial"),
         slug: "commercial",
         subcategories: [],
       },
@@ -201,7 +227,7 @@ const HeaderLower = () => {
                               : "submenu-link"
                           }
                         >
-                          {subcategory.name}
+                          {subcategory.displayName || subcategory.name}
                           {subcategory.nestedSubcategories &&
                             subcategory.nestedSubcategories.length > 0 && (
                               <span className="arrow"> </span>
@@ -237,7 +263,7 @@ const HeaderLower = () => {
                                             : "submenu-link"
                                         }
                                       >
-                                        {nestedSubcategory.name}
+                                        {nestedSubcategory.displayName || nestedSubcategory.name}
                                       </NavLink>
                                     </li>
                                   )

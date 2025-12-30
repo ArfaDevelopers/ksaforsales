@@ -6,6 +6,7 @@ import { MdMessage } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Mesagedeals from "../userPages/mesagedeals";
 import {Divider } from 'antd';
+import { useTranslation } from "react-i18next";
 
 const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
 
@@ -15,6 +16,7 @@ const SearchResultCard = ({
   isBookmarked,
   currentUserId,
 }) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
   const [productIds, setProductIds] = useState(null);
@@ -366,7 +368,7 @@ const SearchResultCard = ({
                     }}
                   >
                     <FaPhoneAlt />
-                    <span>{isActive ? ad.Phone : "Call Now"}</span>
+                    <span>{isActive ? ad.Phone : t("listing.callNow")}</span>
                   </button>
                 </a>
               )}{" "}
@@ -382,7 +384,7 @@ const SearchResultCard = ({
                 onClick={() => handleShowModal(ad.userId, ad.id)}
               >
                 <MdMessage />
-                <span className="button-text">Message</span>
+                <span className="button-text">{t("listing.message")}</span>
               </button>
               {/* WhatsApp Button */}
               {ad.showNumberChecked ? (
@@ -403,7 +405,7 @@ const SearchResultCard = ({
                     }}
                   >
                     <FaWhatsapp />
-                    <span className="button-text">WhatsApp</span>
+                    <span className="button-text">{t("listing.whatsapp")}</span>
                   </button>
                 </a>
               )}

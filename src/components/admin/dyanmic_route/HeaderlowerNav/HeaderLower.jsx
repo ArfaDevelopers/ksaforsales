@@ -1,7 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const HeaderLower = () => {
+  const { t } = useTranslation();
+
   // Directly check window width on initial render
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 767;
 
@@ -10,16 +13,16 @@ const HeaderLower = () => {
   }
 
   const categories = [
-    { name: "Automotive", path: "/" },
-    { name: "Electronics", path: "/" },
-    { name: "Fashion Style", path: "/" },
-    { name: "Health Care", path: "/" },
-    { name: "Job Board", path: "/JobBoard" },
-    { name: "Education", path: "/" },
-    { name: "Real Estate", path: "/" },
-    { name: "Travel", path: "/" },
-    { name: "Sport & Games", path: "/" },
-    { name: "Pet & Animals", path: "/" },
+    { name: t("categories.motors"), path: "/" },
+    { name: t("categories.electronics"), path: "/" },
+    { name: t("categories.fashionStyle"), path: "/" },
+    { name: t("categories.homeFurniture"), path: "/" },
+    { name: t("categories.jobBoard"), path: "/JobBoard" },
+    { name: t("categories.other"), path: "/" },
+    { name: t("categories.realEstate"), path: "/" },
+    { name: t("categories.services"), path: "/" },
+    { name: t("categories.sportGame"), path: "/" },
+    { name: t("categories.petAnimals"), path: "/" },
   ];
 
   return (

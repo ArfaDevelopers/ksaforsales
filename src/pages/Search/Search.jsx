@@ -12,6 +12,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Header from "../../components/home/header";
 import Footer from "../../components/home/footer/Footer";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -30,6 +31,7 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { storage } from "../../components/Firebase/FirebaseConfig";
 import { db, auth } from "../../components/Firebase/FirebaseConfig";
 import { data } from "../../utils/data";
+import { getTranslatedData } from "../../utils/translateData";
 import HorizantalLine from "../../components/HorizantalLine";
 import SearchResultCard from "../../components/SearchResults/SearchResultCard";
 import {
@@ -49,12 +51,15 @@ import {
 } from "../../utils/locationApi";
 
 const Search = () => {
+  const { t, i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCityIds = searchParams.getAll("city");
   const category = searchParams.get("category")
     ? searchParams.get("category")
     : "";
-  const categoryMap = {
+
+  // Map URL slugs to English category names (for database filtering)
+  const categoryToEnglishMap = {
     motors: "Motors",
     automotive: "Motors",
     electronics: "Electronics",
@@ -73,25 +78,54 @@ const Search = () => {
     other: "Other",
   };
 
-  const categoryDisplayName = category
-    ? categoryMap[category.toLowerCase()]
+  // Map URL slugs to translated display names (for UI)
+  const categoryToDisplayMap = {
+    motors: t("categories.motors"),
+    automotive: t("categories.motors"),
+    electronics: t("categories.electronics"),
+    "fashion-style": t("categories.fashionStyle"),
+    "home-furniture": t("categories.homeFurniture"),
+    "job-board": t("categories.jobBoard"),
+    realestate: t("categories.realEstate"),
+    "real-estate": t("categories.realEstate"),
+    services: t("categories.services"),
+    "sport-&-game": t("categories.sportGame"),
+    "sport-and-game": t("categories.sportGame"),
+    "sport-game": t("categories.sportGame"),
+    "pet-&-animals": t("categories.petAnimals"),
+    "pet-and-animals": t("categories.petAnimals"),
+    "pet-animals": t("categories.petAnimals"),
+    other: t("categories.other"),
+  };
+
+  // English category name for database filtering
+  const categoryEnglishName = category
+    ? categoryToEnglishMap[category.toLowerCase()]
     : "";
 
-let currentCategoryFilters =
-  data.find((page) => page.path === `/${category}`) ||
-  data.find(
-    (page) =>
-      page.name?.toLowerCase() === categoryDisplayName?.toLowerCase()
-  );
+  // Translated display name for UI
+  const categoryDisplayName = category
+    ? categoryToDisplayMap[category.toLowerCase()]
+    : "";
+
+  // Get translated data based on current language
+  const translatedData = getTranslatedData(data, t);
+
+  let currentCategoryFilters =
+    translatedData.find((page) => page.path === `/${category}`) ||
+    translatedData.find(
+      (page) =>
+        page.name?.toLowerCase() === categoryDisplayName?.toLowerCase()
+    );
 
   if (!currentCategoryFilters && categoryDisplayName) {
     currentCategoryFilters = {
       name: categoryDisplayName,
       path: `/search?category=${category}`,
-      filters: data.find((page) => page.path === `/search`)?.filters || {},
+      filters: translatedData.find((page) => page.path === `/search`)?.filters || {},
     };
   } else if (!currentCategoryFilters) {
-    currentCategoryFilters = data.find((page) => page.path === `/search`);
+    currentCategoryFilters = translatedData.find((page) => page.path === `/search`);
   }
   const [allAds, setAllAds] = useState([]);
   const [filteredAds, setFilteredAds] = useState([]);
@@ -314,7 +348,8 @@ let currentCategoryFilters =
           { name: "PETANIMALCOMP", category: "Pet & Animals" },
         ];
 
-        const currentCategory = categoryDisplayName;
+        // Use English category name for database filtering (not translated display name)
+        const currentCategory = categoryEnglishName;
         const cacheKey = currentCategory ? `ads_${currentCategory}` : "ads_all";
         const cacheTimestamp = `${cacheKey}_timestamp`;
         const CACHE_DURATION = 5 * 60 * 1000;
@@ -380,7 +415,7 @@ let currentCategoryFilters =
     };
 
     fetchAllAds();
-  }, [categoryDisplayName]);
+  }, [categoryEnglishName]);
 
   useEffect(() => {
     if (allAds.length === 0) {
@@ -391,7 +426,8 @@ let currentCategoryFilters =
     let filtered = [...allAds];
 
     if (category) {
-      const categoryValue = categoryMap[category.toLowerCase()];
+      // Use English category name for filtering (not translated display name)
+      const categoryValue = categoryToEnglishMap[category.toLowerCase()];
 
       if (categoryValue) {
         filtered = filtered.filter((ad) => {
@@ -748,7 +784,7 @@ let currentCategoryFilters =
       const stringValue = String(value).trim();
       let baseAds = [...allAds];
       if (category) {
-        const categoryValue = categoryMap[category.toLowerCase()];
+        const categoryValue = categoryToEnglishMap[category.toLowerCase()];
         if (categoryValue) {
           baseAds = baseAds.filter((ad) => {
             const categoryVariations = [categoryValue];
@@ -814,7 +850,7 @@ let currentCategoryFilters =
 
       return matchingAds.length;
     },
-    [allAds, category, categoryMap, searchParams, searchKeyword]
+    [allAds, category, categoryToEnglishMap, searchParams, searchKeyword]
   );
 
   const getRegionsWithCounts = useMemo(() => {
@@ -1163,17 +1199,17 @@ const selectedCityNames = cities
 
 const cityText =
   selectedCityNames.length > 0
-    ? ` in ${selectedCityNames.join(", ")}`
+    ? ` ${t("search.in")} ${selectedCityNames.join(", ")}`
     : "";
 
-let h1Title = "All Listings";
+let h1Title = t("search.allListings");
 
 if (categoryDisplayName) {
-  h1Title = `${categoryDisplayName} for Sale${cityText}`;
+  h1Title = `${categoryDisplayName} ${t("listing.forSale")}${cityText}`;
 }
 
 if (searchKeyword) {
-  h1Title = `Search results for "${searchKeyword}"${cityText}`;
+  h1Title = `${t("search.searchResultsFor")} "${searchKeyword}"${cityText}`;
 }
 
   return (
@@ -1226,7 +1262,7 @@ if (searchKeyword) {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("nav.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -1249,7 +1285,24 @@ if (searchKeyword) {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {currentCategoryFilters.name}
+              {(() => {
+                if (currentCategoryFilters.name === "Search") {
+                  return t("search.search");
+                }
+                const categoryMap = {
+                  "Motors": "categories.motors",
+                  "Electronics": "categories.electronics",
+                  "Fashion Style": "categories.fashionStyle",
+                  "Home & Furniture": "categories.homeFurniture",
+                  "Job Board": "categories.jobBoard",
+                  "Real Estate": "categories.realEstate",
+                  "Services": "categories.services",
+                  "Sport & Game": "categories.sportGame",
+                  "Pet & Animals": "categories.petAnimals",
+                  "Other": "categories.other"
+                };
+                return t(categoryMap[currentCategoryFilters.name] || currentCategoryFilters.name);
+              })()}
             </button>
 
             {subCategoryParam && (
@@ -1296,7 +1349,7 @@ if (searchKeyword) {
                     paddingTop: "12px",
                   }}
                 >
-                  Show Results by: <strong>{filteredAds.length}</strong>
+                  {t("search.showResultsBy")} <strong>{filteredAds.length}</strong>
                 </h5>
 
                 <Form className="filter_innerwrap">
@@ -1311,7 +1364,7 @@ if (searchKeyword) {
                             marginBottom: 0,
                           }}
                         >
-                          Search by Keywords
+                          {t("search.searchByKeywords")}
                         </Form.Label>
 
                         <button
@@ -1324,7 +1377,7 @@ if (searchKeyword) {
                           type="button"
                           className="blue_btn"
                         >
-                          Clear
+                          {t("search.clear")}
                         </button>
                       </div>
 
@@ -1332,7 +1385,7 @@ if (searchKeyword) {
                         <div onSubmit={handleSearchKeyword}>
                           <input
                             type="search"
-                            placeholder="Search by title, make, model..."
+                            placeholder={t("search.searchHere")}
                             className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                             id="example-search-input"
                             value={searchKeyword}
@@ -1355,7 +1408,7 @@ if (searchKeyword) {
                   <HorizantalLine />
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Category</Accordion.Header>
+                      <Accordion.Header>{t("filters.labels.category")}</Accordion.Header>
                       <Accordion.Body>
                         <div
                           style={{
@@ -1363,7 +1416,23 @@ if (searchKeyword) {
                             margin: "20px",
                           }}
                         >
-                          {categoryData.options.map((cat) => (
+                          {categoryData.options.map((cat) => {
+                            // Map category names to translation keys
+                            const categoryTranslationMap = {
+                              "Motors": "categories.motors",
+                              "Electronics": "categories.electronics",
+                              "Fashion Style": "categories.fashionStyle",
+                              "Home & Furniture": "categories.homeFurniture",
+                              "Job Board": "categories.jobBoard",
+                              "Real Estate": "categories.realEstate",
+                              "Services": "categories.services",
+                              "Sport & Game": "categories.sportGame",
+                              "Pet & Animals": "categories.petAnimals",
+                              "Other": "categories.other"
+                            };
+                            const translatedCategoryName = t(categoryTranslationMap[cat] || cat);
+
+                            return (
                             <Form.Group key={cat}>
                               <div className="form-check mb-2">
                                 <input
@@ -1396,11 +1465,11 @@ if (searchKeyword) {
                                     cursor: "pointer",
                                   }}
                                 >
-                                  {cat}
+                                  {translatedCategoryName}
                                 </label>
                               </div>
                             </Form.Group>
-                          ))}
+                          )})}
                         </div>
                       </Accordion.Body>
                     </Accordion.Item>
@@ -1413,41 +1482,43 @@ if (searchKeyword) {
                         {" "}
                         <Accordion className="mt-3">
                           <Accordion.Item eventKey="0">
-                            <Accordion.Header>Sub Categories</Accordion.Header>
+                            <Accordion.Header>{t("filters.labels.subCategories")}</Accordion.Header>
                             <Accordion.Body>
                               <div
                                 style={{ maxWidth: "300px", margin: "20px" }}
                               >
                                 {currentCategoryFilters.subcategories.map(
                                   (subcat) => {
-                                    const urlSubCategory = getUrlText(
-                                      subcat.name
-                                    );
+                                    // Use English name for URL slug (language-independent)
+                                    const englishName = subcat.name || subcat.originalName;
+                                    const urlSubCategory = getUrlText(englishName);
                                     const selectedSubCategories =
                                       searchParams.getAll("subcategory");
                                     const isSelected =
                                       selectedSubCategories.includes(
                                         urlSubCategory
                                       );
+                                    // Use displayName for UI, fallback to name if not available
+                                    const displayName = subcat.displayName || subcat.name;
                                     return (
-                                      <Form.Group key={subcat.name}>
+                                      <Form.Group key={englishName}>
                                         <div className="form-check mb-2">
                                           <input
-                                            id={subcat.name}
+                                            id={englishName}
                                             name="subcategory"
                                             className="form-check-input"
                                             type="checkbox"
-                                            value={subcat.name}
+                                            value={englishName}
                                             onChange={handleSubcategoryChange}
                                             checked={isSelected}
                                             style={{ cursor: "pointer" }}
                                           />
                                           <label
-                                            htmlFor={subcat.name}
+                                            htmlFor={englishName}
                                             className="form-check-label"
                                             style={{ cursor: "pointer" }}
                                           >
-                                            {subcat.name}
+                                            {displayName}
                                           </label>
                                         </div>
                                         {isSelected &&
@@ -1461,27 +1532,28 @@ if (searchKeyword) {
                                               }}
                                             >
                                               <Form.Label>
-                                                Nested Categories
+                                                {t("filters.labels.nestedCategories")}
                                               </Form.Label>
                                               {subcat.nestedSubCategories.map(
                                                 (nestedSubCat) => {
+                                                  // Use English name for URL slug (language-independent)
+                                                  const nestedEnglishName = nestedSubCat.name || nestedSubCat.originalName;
+                                                  const nestedDisplayName = nestedSubCat.displayName || nestedSubCat.name;
                                                   const params =
                                                     searchParams.getAll(
                                                       "nestedSubCategory"
                                                     );
                                                   return (
                                                     <div
-                                                      key={nestedSubCat.name}
+                                                      key={nestedEnglishName}
                                                       className="form-check mb-2"
                                                     >
                                                       <input
-                                                        id={nestedSubCat.name}
+                                                        id={nestedEnglishName}
                                                         name="nestedSubCategory"
                                                         className="form-check-input"
                                                         type="checkbox"
-                                                        value={
-                                                          nestedSubCat.name
-                                                        }
+                                                        value={nestedEnglishName}
                                                         onChange={(e) =>
                                                           handleSubcategoryChange(
                                                             e,
@@ -1494,7 +1566,7 @@ if (searchKeyword) {
                                                             (val) =>
                                                               val ===
                                                               getUrlText(
-                                                                nestedSubCat.name
+                                                                nestedEnglishName
                                                               )
                                                           )
                                                         }
@@ -1504,15 +1576,13 @@ if (searchKeyword) {
                                                       />
 
                                                       <label
-                                                        htmlFor={
-                                                          nestedSubCat.name
-                                                        }
+                                                        htmlFor={nestedEnglishName}
                                                         className="form-check-label"
                                                         style={{
                                                           cursor: "pointer",
                                                         }}
                                                       >
-                                                        {nestedSubCat.name}
+                                                        {nestedDisplayName}
                                                       </label>
                                                     </div>
                                                   );
@@ -1533,7 +1603,7 @@ if (searchKeyword) {
                     )}
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Select Region</Accordion.Header>
+                      <Accordion.Header>{t("filters.labels.selectRegion")}</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="mb-3">
@@ -1558,7 +1628,7 @@ if (searchKeyword) {
                                     htmlFor={`region-${region.id}`}
                                     style={{ cursor: "pointer" }}
                                   >
-                                    {region.nameEn}{" "}
+                                    {i18n.language === 'ar' ? region.nameAr : region.nameEn}{" "}
                                     <span
                                       style={{
                                         color: "#888",
@@ -1576,7 +1646,7 @@ if (searchKeyword) {
                               className="btn btn-link p-0"
                               onClick={() => setShowRegionModal(true)}
                             >
-                              Show more choices...
+                              {t("filters.labels.showMoreChoices")}
                             </button>
                             {showRegionModal && (
                               <div
@@ -1652,8 +1722,7 @@ if (searchKeyword) {
                                                     className="form-check-label"
                                                     htmlFor={`region-modal-${region.id}`}
                                                   >
-                                                    {region.nameEn} (
-                                                    {region.nameAr}){" "}
+                                                    {i18n.language === 'ar' ? region.nameAr : region.nameEn}{" "}
                                                     <span
                                                       style={{
                                                         color: "#888",
@@ -1721,7 +1790,7 @@ if (searchKeyword) {
                   />
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Select City</Accordion.Header>
+                      <Accordion.Header>{t("filters.labels.selectCity")}</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="grid grid-cols-1 gap-2">
@@ -1758,8 +1827,7 @@ if (searchKeyword) {
                                         htmlFor={`city-${city.CITY_ID}`}
                                         style={{ cursor: "pointer" }}
                                       >
-                                        {city["City En Name"]} (
-                                        {city["City Ar Name"]}){" "}
+                                        {i18n.language === 'ar' ? city["City Ar Name"] : city["City En Name"]}{" "}
                                         <span
                                           style={{
                                             color: "#888",
@@ -1778,7 +1846,7 @@ if (searchKeyword) {
                                     className="btn btn-link p-0"
                                     onClick={() => setShowCityModal(true)}
                                   >
-                                    Show more choices...
+                                    {t("filters.labels.showMoreChoices")}
                                   </button>
                                 )}
                               </>
@@ -1853,8 +1921,7 @@ if (searchKeyword) {
                                                       }
                                                     />
                                                     <span>
-                                                      {city["City En Name"]} (
-                                                      {city["City Ar Name"]}){" "}
+                                                      {i18n.language === 'ar' ? city["City Ar Name"] : city["City En Name"]}{" "}
                                                       <span
                                                         style={{
                                                           color: "#888",
@@ -1922,7 +1989,7 @@ if (searchKeyword) {
                   />
                   <Accordion className="mt-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Select District</Accordion.Header>
+                      <Accordion.Header>{t("filters.labels.selectDistrict")}</Accordion.Header>
                       <Accordion.Body>
                         <Form.Group className="mb-3">
                           <div className="grid grid-cols-1 gap-2">
@@ -1961,8 +2028,7 @@ if (searchKeyword) {
                                           className="form-check-label"
                                           style={{ cursor: "pointer" }}
                                         >
-                                          {district["District En Name"]} (
-                                          {district["District Ar Name"]}){" "}
+                                          {i18n.language === 'ar' ? district["District Ar Name"] : district["District En Name"]}{" "}
                                           <span
                                             style={{
                                               color: "#888",
@@ -1981,7 +2047,7 @@ if (searchKeyword) {
                                     className="btn btn-link p-0 mt-2"
                                     onClick={() => setShowDistrictModal(true)}
                                   >
-                                    More choices...
+                                    {t("filters.labels.showMoreChoices")}
                                   </button>
                                 )}
                               </>
@@ -2072,18 +2138,7 @@ if (searchKeyword) {
                                                           cursor: "pointer",
                                                         }}
                                                       >
-                                                        {
-                                                          district[
-                                                            "District En Name"
-                                                          ]
-                                                        }{" "}
-                                                        (
-                                                        {
-                                                          district[
-                                                            "District Ar Name"
-                                                          ]
-                                                        }
-                                                        ){" "}
+                                                        {i18n.language === 'ar' ? district["District Ar Name"] : district["District En Name"]}{" "}
                                                         <span
                                                           style={{
                                                             color: "#888",
@@ -2163,7 +2218,7 @@ if (searchKeyword) {
                       <div className="modal-dialog modal-dialog-scrollable">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h5 className="modal-title">Select More Brands</h5>
+                            <h5 className="modal-title">{t("filters.labels.selectMoreBrands")}</h5>
                             <button
                               type="button"
                               className="btn-close"
@@ -2175,7 +2230,7 @@ if (searchKeyword) {
                               <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Search brands..."
+                                placeholder={t("filters.labels.searchBrands")}
                                 value={searchTermBrand}
                                 onChange={(e) =>
                                   setSearchTermBrand(e.target.value)
@@ -2185,13 +2240,15 @@ if (searchKeyword) {
                             <div className="row g-2">
                               {getBrandsWithCounts
                                 .filter((brandOption) => {
-                                  const label = brandOption.name || brandOption;
-                                  return label
+                                  const label = brandOption.originalName || brandOption.name || brandOption;
+                                  const displayLabel = brandOption.displayName || brandOption.name || brandOption;
+                                  return displayLabel
                                     .toLowerCase()
                                     .includes(searchTermBrand.toLowerCase());
                                 })
                                 .map((brandOption, index) => {
-                                  const label = brandOption.name || brandOption;
+                                  const label = brandOption.originalName || brandOption.name || brandOption;
+                                  const displayLabel = brandOption.displayName || brandOption.name || brandOption;
                                   const brandCount = brandOption.count;
                                   const isChecked = searchParams
                                     .getAll("brand")
@@ -2225,7 +2282,7 @@ if (searchKeyword) {
                                           className="form-check-label"
                                           htmlFor={`brand-modal-${label}-${index}`}
                                         >
-                                          {label}{" "}
+                                          {displayLabel}{" "}
                                           <span
                                             style={{
                                               color: "#888",
@@ -2243,8 +2300,7 @@ if (searchKeyword) {
                           </div>
                           <div className="modal-footer bg-light border-top d-flex justify-content-between align-items-center">
                             <div className="text-muted small">
-                              {searchParams.getAll("brand").length} brand(s)
-                              selected
+                              {searchParams.getAll("brand").length} {t("filters.labels.brandsSelected")}
                             </div>
                             <div className="d-flex gap-2">
                               <button
@@ -2262,14 +2318,14 @@ if (searchKeyword) {
                                   setShowBrandModal(false);
                                 }}
                               >
-                                Clear Selection
+                                {t("filters.labels.clearSelection")}
                               </button>
                               <button
                                 type="button"
                                 className="btn btn-primary px-4"
                                 onClick={() => setShowBrandModal(false)}
                               >
-                                Done
+                                {t("filters.labels.done")}
                               </button>
                             </div>
                           </div>
@@ -2464,9 +2520,8 @@ if (searchKeyword) {
                                           .map((opt) => {
                                             const isString =
                                               typeof opt === "string";
-                                            const label = isString
-                                              ? opt
-                                              : opt.name || opt;
+                                            // Use originalValue if available (new format), otherwise use old format
+                                            const englishValue = opt.originalValue || (isString ? opt : opt.name || opt);
                                             const count = getCountForOption(
                                               filterKey === "condition"
                                                 ? ["Condition", "condition"]
@@ -2524,11 +2579,11 @@ if (searchKeyword) {
                                                 ? ["PropertyAge", "propertyAge"]
                                                 : filterKey === "facade"
                                                 ? ["Facade", "facade"]
-                                                : [String(label)],
-                                              label
+                                                : [String(englishValue)],
+                                              englishValue
                                             );
                                             return isString
-                                              ? { name: opt, count }
+                                              ? { ...opt, name: opt.originalValue || opt, count }
                                               : { ...opt, count };
                                           })
                                           .sort((a, b) => b.count - a.count)
@@ -2540,17 +2595,14 @@ if (searchKeyword) {
                                           : filterValue.options.length
                                       )
                                       .map((value, valueIndex) => {
-                                        const id =
-                                          value.name &&
-                                          typeof value.name === "string"
-                                            ? value.name.toLowerCase()
-                                            : typeof value === "string"
-                                            ? value.toLowerCase()
-                                            : "";
+                                        // Handle both old format (string/object with name) and new format (object with originalValue/displayValue/displayName)
+                                        const englishValue = value.originalValue || value.originalName || value.name || value;
+                                        const displayValue = value.displayValue || value.displayName || value.name || value;
 
-                                        const label = value.name
-                                          ? value.name
-                                          : value;
+                                        const id =
+                                          typeof englishValue === "string"
+                                            ? englishValue.toLowerCase()
+                                            : "";
 
                                         const count = value.count;
 
@@ -2562,17 +2614,17 @@ if (searchKeyword) {
                                             ? paramValues &&
                                               paramValues.find(
                                                 (val) =>
-                                                  val === getUrlText(label)
+                                                  val === getUrlText(englishValue)
                                               )
                                             : searchParams.get(filterKey) ===
-                                              getUrlText(label);
+                                              getUrlText(englishValue);
                                         return (
                                           <Form.Group
                                             key={`${filterKey}-${id}-${valueIndex}`}
                                           >
                                             <div className="form-check mb-2">
                                               <input
-                                                id={label}
+                                                id={englishValue}
                                                 name={String(filterKey)}
                                                 className="form-check-input"
                                                 type="checkbox"
@@ -2583,13 +2635,13 @@ if (searchKeyword) {
                                                       paramValues.find(
                                                         (val) =>
                                                           val ===
-                                                          getUrlText(label)
+                                                          getUrlText(englishValue)
                                                       )
                                                     : searchParams.get(
                                                         filterKey
-                                                      ) === getUrlText(label)
+                                                      ) === getUrlText(englishValue)
                                                 }
-                                                value={label}
+                                                value={englishValue}
                                                 onChange={(e) =>
                                                   handleFiltersChange(
                                                     e,
@@ -2599,11 +2651,11 @@ if (searchKeyword) {
                                                 style={{ cursor: "pointer" }}
                                               />
                                               <label
-                                                htmlFor={label}
+                                                htmlFor={englishValue}
                                                 className="form-check-label"
                                                 style={{ cursor: "pointer" }}
                                               >
-                                                {label}{" "}
+                                                {displayValue}{" "}
                                                 <span
                                                   style={{
                                                     color: "#888",
@@ -2626,7 +2678,7 @@ if (searchKeyword) {
                                             setShowBrandModal(true)
                                           }
                                         >
-                                          Show more choices...
+                                          {t("filters.labels.showMoreChoices")}
                                         </button>
                                       )}
                                   </>
@@ -2645,26 +2697,39 @@ if (searchKeyword) {
                                     )}
                                     <Form.Select
                                       name={filterKey}
-                                      value={
-                                        filterValue.options.find(
+                                      value={(() => {
+                                        const found = filterValue.options.find(
                                           (opt) => getUrlText(opt) === searchParams.get(filterKey)
-                                        ) || ""
-                                      }
+                                        );
+                                        if (!found) return "";
+                                        return typeof found === 'object'
+                                          ? (found.originalValue || found.name || found)
+                                          : found;
+                                      })()}
                                       onChange={handleFiltersChange}
                                       style={{ cursor: "pointer" }}
                                     >
                                       <option value="">
                                         All
                                       </option>
-                                      {filterValue.options.map((option) => (
-                                        <option
-                                          key={option}
-                                          value={option}
-                                          style={{ cursor: "pointer" }}
-                                        >
-                                          {option}
-                                        </option>
-                                      ))}
+                                      {filterValue.options.map((option) => {
+                                        const optionValue = typeof option === 'object'
+                                          ? (option.originalValue || option.name || option)
+                                          : option;
+                                        const displayValue = typeof option === 'object'
+                                          ? (option.displayValue || option.name || option)
+                                          : option;
+
+                                        return (
+                                          <option
+                                            key={optionValue}
+                                            value={optionValue}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            {displayValue}
+                                          </option>
+                                        );
+                                      })}
                                     </Form.Select>
                                   </Form.Group>
                                 ) : filterValue.type === "oneInput" ? (
@@ -3147,7 +3212,7 @@ if (searchKeyword) {
                             <Form.Check
                               type="checkbox"
                               id="withPhotos"
-                              label="With Photos"
+                              label={t("search.withPhotos")}
                               checked={
                                 searchParams.get("withPhotos") === "true"
                               }
@@ -3165,7 +3230,7 @@ if (searchKeyword) {
                             <Form.Check
                               type="checkbox"
                               id="withPrice"
-                              label="With Price"
+                              label={t("search.withPrice")}
                               checked={searchParams.get("withPrice") === "true"}
                               onChange={(e) => {
                                 const params = new URLSearchParams(
@@ -3186,13 +3251,13 @@ if (searchKeyword) {
                               onChange={(e) => setSortBy(e.target.value)}
                             >
                               <option value="Sort by: Most Relevant">
-                                Sort by: Most Relevant
+                                {t("search.sortBy")} {t("search.mostRelevant")}
                               </option>
                               <option value="Price: Low to High">
-                                Price: Low to High
+                                {t("search.priceLowToHigh")}
                               </option>
                               <option value="Price: High to Low">
-                                Price: High to Low
+                                {t("search.priceHighToLow")}
                               </option>
                             </Form.Select>
                           </Col>
@@ -3223,7 +3288,7 @@ if (searchKeyword) {
                             transition: "none",
                           }}
                         >
-                          <FaArrowLeft className="me-1" /> Previous
+                          <FaArrowLeft className="me-1" /> {t("pagination.previous")}
                         </Button>
 
                         <ButtonGroup>
@@ -3289,7 +3354,7 @@ if (searchKeyword) {
                             transition: "none",
                           }}
                         >
-                          Next <FaArrowRight className="ms-1" />
+                          {t("pagination.next")} <FaArrowRight className="ms-1" />
                         </Button>
                       </div>
                     )}

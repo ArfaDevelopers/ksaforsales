@@ -12,12 +12,14 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import Header from "../../home/header";
 import { FaPlusCircle, FaBullhorn, FaStar, FaInfoCircle } from "react-icons/fa"; // Added FaInfoCircle
+import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
 
 const Listing = () => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
   const parms = useLocation().pathname;
   const navigate = useNavigate();
@@ -127,7 +129,7 @@ const Listing = () => {
                     letterSpacing: "0.5px",
                   }}
                 >
-                  Add Listing
+                  {t("home.addListing")}
                 </h3>
                 <p
                   style={{
@@ -136,7 +138,7 @@ const Listing = () => {
                     opacity: activeBox === "box1" ? 0.9 : 0.7,
                   }}
                 >
-                  Create a new listing to showcase your content.
+                  {t("home.addListingDescription")}
                 </p>
               </div>
               <div
@@ -194,7 +196,7 @@ const Listing = () => {
                     letterSpacing: "0.5px",
                   }}
                 >
-                  Commercial Ads
+                  {t("home.commercialAds")}
                 </h3>
                 <p
                   style={{
@@ -203,7 +205,7 @@ const Listing = () => {
                     opacity: activeBox === "box2" ? 0.9 : 0.7,
                   }}
                 >
-                  Promote your business with targeted ads.
+                  {t("home.commercialAdsDescription")}
                 </p>
               </div>
               {/* <div

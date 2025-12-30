@@ -29,10 +29,12 @@ import { FaUserAlt, FaListUl } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const MySwal = withReactContent(Swal);
 
 const Bookmarks = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -353,32 +355,32 @@ const Bookmarks = () => {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               {/* <li>
@@ -389,7 +391,7 @@ const Bookmarks = () => {
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -494,7 +496,7 @@ const Bookmarks = () => {
                           </Link>
                           <div className="fav-item">
                             {car.FeaturedAds === "Featured Ads" && (
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                             )}
                             <Link
                               to="#"
@@ -668,7 +670,7 @@ const Bookmarks = () => {
                                       )}`
                                 }
                               >
-                                Product Id : {car.id}
+                                {t("bookmarks.productId")}: {car.id}
                               </Link>
                             </h6>
                             <div className="blog-location-details">
@@ -730,7 +732,7 @@ const Bookmarks = () => {
                         setCurrentPage((prev) => Math.max(prev - 1, 1))
                       }
                     >
-                      <FaArrowLeft /> Prev
+                      <FaArrowLeft /> {t("myListing.prev")}
                     </Link>
                   </li>
                   <li className="justify-content-center pagination-center">
@@ -767,7 +769,7 @@ const Bookmarks = () => {
                         setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                       }
                     >
-                      Next <FaArrowRight />
+                      {t("myListing.next")} <FaArrowRight />
                     </Link>
                   </li>
                 </ul>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Footer from "./../home/footer/Footer";
 import Header from "../home/header";
 import img from "./home-07.jpg";
@@ -64,8 +65,65 @@ const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
 const Dynamic_Routes = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
+
+  // Helper function to translate category names
+  const translateCategory = (category) => {
+    if (!category) return "";
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "automotive": t("categories.motors"),
+      "AutomotiveComp": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "ElectronicComp": t("categories.electronics"),
+      "Electronic": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "FashionStyle": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "JobBoard": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "RealEstate": t("categories.realEstate"),
+      "RealEstateComp": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "TravelComp": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "SportGamesComp": t("categories.sportGame"),
+      "GamesSport": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "PetAnimalsComp": t("categories.petAnimals"),
+      "Other": t("categories.other"),
+      "Education": t("categories.other"),
+      "HealthCare": t("categories.other"),
+      "HealthCareComp": t("categories.other"),
+      "Commercial": t("categories.commercial"),
+      "ComercialsAds": t("categories.commercial")
+    };
+    return categoryMap[category] || category;
+  };
+
+  // Helper function to translate subcategory names
+  const translateSubcategory = (name) => {
+    if (!name) return "";
+    const subcategoryTranslations = {
+      // Motors subcategories
+      "Cars For Sale": t("subcategories.motors.carsForSale"),
+      "Car Rental": t("subcategories.motors.carRental"),
+      "Plates Number": t("subcategories.motors.platesNumber"),
+      "Spare Parts": t("subcategories.motors.spareParts"),
+      "Accessories": t("subcategories.motors.accessories"),
+      "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
+      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
+      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
+      "Classic Cars": t("subcategories.motors.classicCars"),
+      // Add more as needed
+    };
+    return subcategoryTranslations[name] || name;
+  };
 
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
@@ -107,19 +165,63 @@ const Dynamic_Routes = () => {
 
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const handleFavourite = async (id, category) => {
+  const handleFavourite = async (e, id, category) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("🔍 handleFavourite called with:", { id, category });
+
     try {
       // 🔁 Map category to actual Firestore collection name
       const collectionMap = {
         Motors: "Cars",
-        Electronics: "ELECTRONICS",
-        Services: "TRAVEL",
-        Other: "Education",
-        "Pet & Animals": "PETANIMALCOMP",
-        "Sports & Game": "SPORTSGAMESComp",
-        "Fashion Style": "FASHION",
-        "Job Board": "JOBBOARD",
+        motors: "Cars",
         Automotive: "Cars",
+        automotive: "Cars",
+        Electronics: "ELECTRONICS",
+        electronics: "ELECTRONICS",
+        Services: "TRAVEL",
+        services: "TRAVEL",
+        Other: "Education",
+        other: "Education",
+        Education: "Education",
+        education: "Education",
+        "Pet & Animals": "PETANIMALCOMP",
+        "pet & animals": "PETANIMALCOMP",
+        "Sports & Game": "SPORTSGAMESComp",
+        "sports & game": "SPORTSGAMESComp",
+        "Fashion Style": "FASHION",
+        "fashion style": "FASHION",
+        "Job Board": "JOBBOARD",
+        "job board": "JOBBOARD",
+        "Real Estate": "REALESTATECOMP",
+        "real estate": "REALESTATECOMP",
+        RealEstate: "REALESTATECOMP",
+        realestate: "REALESTATECOMP",
+        RealEstateComp: "REALESTATECOMP",
+        HealthCare: "HEALTHCARE",
+        healthcare: "HEALTHCARE",
+        HealthCareComp: "HEALTHCARE",
+        TravelComp: "TRAVEL",
+        travelcomp: "TRAVEL",
+        SportGamesComp: "SPORTSGAMESComp",
+        sportgamescomp: "SPORTSGAMESComp",
+        GamesSport: "SPORTSGAMESComp",
+        gamessport: "SPORTSGAMESComp",
+        PetAnimalsComp: "PETANIMALCOMP",
+        petanimalscomp: "PETANIMALCOMP",
+        ElectronicComp: "ELECTRONICS",
+        electroniccomp: "ELECTRONICS",
+        Electronic: "ELECTRONICS",
+        electronic: "ELECTRONICS",
+        AutomotiveComp: "Cars",
+        automotivecomp: "Cars",
+        FashionStyle: "FASHION",
+        fashionstyle: "FASHION",
+        JobBoard: "JOBBOARD",
+        jobboard: "JOBBOARD",
+        ComercialsAds: "ComercialsAds",
+        comercialsads: "ComercialsAds",
       };
 
       const firestoreCollection = collectionMap[category] || category;
@@ -142,7 +244,13 @@ const Dynamic_Routes = () => {
       await updateDoc(docRef, {
         bookmarked: !currentBookmarkStatus,
       });
-      setRefresh(!refresh);
+
+      // Update itemData state directly without triggering full re-fetch
+      setItemData(prev => ({
+        ...prev,
+        bookmarked: !currentBookmarkStatus
+      }));
+
       console.log(
         `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`
       );
@@ -546,14 +654,14 @@ const Dynamic_Routes = () => {
   const [show, setShow] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selectedReports, setSelectedReports] = useState([]);
-  const [reportTypes, setReportTypes] = useState([
-    "Sexual",
-    "Illegal",
-    "Abusive",
-    "Harassment",
-    "Fraud",
-    "Spam",
-  ]);
+  const reportTypes = [
+    t("listing.reportTypes.sexual"),
+    t("listing.reportTypes.illegal"),
+    t("listing.reportTypes.abusive"),
+    t("listing.reportTypes.harassment"),
+    t("listing.reportTypes.fraud"),
+    t("listing.reportTypes.spam"),
+  ];
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleImageSelect = (image) => setSelectedImage(image);
@@ -893,7 +1001,7 @@ const Dynamic_Routes = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("nav.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -907,7 +1015,7 @@ const Dynamic_Routes = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {callingFrom}{" "}
+              {translateCategory(callingFrom)}{" "}
             </button>
           </div>
           <hr
@@ -929,7 +1037,7 @@ const Dynamic_Routes = () => {
                 fontWeight: "bold",
               }}
             >
-              {itemData?.SubCategory || "Default Title"}{" "}
+              {translateSubcategory(itemData?.SubCategory) || itemData?.SubCategory || "Default Title"}{" "}
             </div>
           </div>
           <div
@@ -943,6 +1051,7 @@ const Dynamic_Routes = () => {
             }}
           >
             <button
+              type="button"
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -951,12 +1060,12 @@ const Dynamic_Routes = () => {
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
-              onClick={() => handleFavourite(itemData?.id, itemData?.category)}
+              onClick={(e) => handleFavourite(e, itemData?.id, callingFrom)}
             >
               <span style={{ color: itemData?.bookmarked ? "red" : "gray" }}>
                 {itemData?.bookmarked ? <FaHeart /> : <FaRegHeart />}
               </span>{" "}
-              Favourite
+              {t("listing.favourite")}
             </button>
             {/* <button
               className="head2btn"
@@ -991,7 +1100,7 @@ const Dynamic_Routes = () => {
                 <span>
                   <img src={share} alt="share" />
                 </span>
-                Share
+                {t("listing.share")}
               </button>
 
               {/* Modal */}
@@ -1016,7 +1125,7 @@ const Dynamic_Routes = () => {
                     <div className="modal-dialog modal-dialog-centered">
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h5 className="modal-title">Share</h5>
+                          <h5 className="modal-title">{t("listing.share")}</h5>
                           <button
                             type="button"
                             className="btn-close"
@@ -1032,14 +1141,14 @@ const Dynamic_Routes = () => {
                             className="blue_btn"
                             onClick={copyToClipboard}
                           >
-                            Copy
+                            {t("listing.copy")}
                           </button>
                           <button
                             type="button"
                             className="blue_btn"
                             onClick={() => setShowModal1(false)}
                           >
-                            Close
+                            {t("listing.close")}
                           </button>
                         </div>
                       </div>
@@ -1064,7 +1173,7 @@ const Dynamic_Routes = () => {
                   {/* <img src="your-report-image-source" alt="promote" /> */}
                   <FaBuysellads />
                 </span>
-                Promote
+                {t("listing.promote")}
               </button>
             ) : (
               ""
@@ -1097,7 +1206,7 @@ const Dynamic_Routes = () => {
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">Share</h5>
+                      <h5 className="modal-title">{t("listing.promote")}</h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -1127,7 +1236,7 @@ const Dynamic_Routes = () => {
                         className="btn btn-primary"
                         onClick={() => setshowReport(false)}
                       >
-                        Close
+                        {t("listing.close")}
                       </button>
                     </div>
                   </div>
@@ -1148,7 +1257,7 @@ const Dynamic_Routes = () => {
               <span>
                 <img src={report} alt="report" />
               </span>
-              Report
+              {t("listing.report")}
             </button>
 
             <Modal
@@ -1158,23 +1267,23 @@ const Dynamic_Routes = () => {
               centered
             >
               <Modal.Header closeButton>
-                <Modal.Title>Submit a Report</Modal.Title>
+                <Modal.Title>{t("listing.submitReport")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
                   <Form.Group controlId="reportText">
-                    <Form.Label>Report Details</Form.Label>
+                    <Form.Label>{t("listing.reportDetails")}</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      placeholder="Describe the issue..."
+                      placeholder={t("listing.describeIssue")}
                       value={reportText}
                       onChange={(e) => setReportText(e.target.value)}
                     />
                   </Form.Group>
 
                   <Form.Group className="mt-3">
-                    <Form.Label>Report Type</Form.Label>
+                    <Form.Label>{t("listing.reportType")}</Form.Label>
                     {reportTypes.map((type, index) => (
                       <Form.Check
                         key={index}
@@ -1210,7 +1319,7 @@ const Dynamic_Routes = () => {
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                 >
-                  Close
+                  {t("listing.close")}
                 </Button>
                 <Button
                   style={{
@@ -1236,7 +1345,7 @@ const Dynamic_Routes = () => {
                   // disabled={!reportText || selectedReports.length === 0}
                   // disabled={selectedReports.length === 0}
                 >
-                  Submit Report
+                  {t("listing.submitReport")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1363,7 +1472,7 @@ const Dynamic_Routes = () => {
                               >
                                 <FaPhoneAlt />
                                 <span>
-                                  {showPhone ? itemData.Phone : "Call Now"}
+                                  {showPhone ? itemData.Phone : t("listing.callNow")}
                                 </span>
                               </button>
                             </a>
@@ -1379,7 +1488,7 @@ const Dynamic_Routes = () => {
                               }`}
                             >
                               <FaWhatsapp />
-                              <span className="button-text">WhatsApp</span>
+                              <span className="button-text">{t("listing.whatsapp")}</span>
                             </button>
                           </a>
                           <button
@@ -1389,7 +1498,7 @@ const Dynamic_Routes = () => {
                             onClick={() => setShowModal(true)}
                           >
                             <MdMessage />
-                            <span className="button-text">Message</span>
+                            <span className="button-text">{t("listing.message")}</span>
                           </button>
                         </div>
                       </div>
@@ -1436,7 +1545,7 @@ const Dynamic_Routes = () => {
                           >
                             <div className="modal-content">
                               <div className="modal-header">
-                                <h5 className="modal-title">Send Message</h5>
+                                <h5 className="modal-title">{t("listing.sendMessage")}</h5>
                                 <button
                                   type="button"
                                   className="btn-close"
@@ -1711,7 +1820,7 @@ const Dynamic_Routes = () => {
                         "N/A"
                       )}
                     </div>
-                    <h5>Safety Tips</h5>
+                    <h5>{t("listing.safetyTips")}</h5>
                     <ul
                       style={{
                         listStyleImage: `url(${bullet})`,
@@ -1719,13 +1828,13 @@ const Dynamic_Routes = () => {
                       }}
                     >
                       <li className="safteytip_para">
-                        Meet seller at a safe place.
+                        {t("listing.safetyTip1")}
                       </li>
                       <li className="safteytip_para">
-                        Check item before you buy
+                        {t("listing.safetyTip2")}
                       </li>
                       <li className="safteytip_para">
-                        Pay only after collecting item.
+                        {t("listing.safetyTip3")}
                       </li>
                     </ul>
                     <hr
@@ -1736,7 +1845,7 @@ const Dynamic_Routes = () => {
                     />
 
                     <div className="col-md">
-                      <h1 className="sallerinfo_para">Seller Information</h1>
+                      <h1 className="sallerinfo_para">{t("listing.sellerInformation")}</h1>
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link
@@ -1774,7 +1883,7 @@ const Dynamic_Routes = () => {
                              className="view-all-ads-link"
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                             >
-                              View all Ads
+                              {t("listing.viewAllAds")}
                             </Link>
                           </p>
                         </div>
@@ -1797,7 +1906,7 @@ const Dynamic_Routes = () => {
                                 >
                                   <FaPhoneAlt />
                                   <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
+                                    {showPhone ? itemData.Phone : t("listing.callNow")}
                                   </span>
                                 </button>
                               </a>
@@ -1816,7 +1925,7 @@ const Dynamic_Routes = () => {
                                   }`}
                                 >
                                   <FaWhatsapp />
-                                  <span className="button-text">WhatsApp</span>
+                                  <span className="button-text">{t("listing.whatsapp")}</span>
                                 </button>
                               </a>
                             )}
@@ -1827,7 +1936,7 @@ const Dynamic_Routes = () => {
                               onClick={() => setShowModal(true)}
                             >
                               <MdMessage />
-                              <span className="button-text">Message</span>
+                              <span className="button-text">{t("listing.message")}</span>
                             </button>
                             <style jsx>{`
                               .sign-in-button {
@@ -1892,7 +2001,7 @@ const Dynamic_Routes = () => {
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -1932,7 +2041,7 @@ const Dynamic_Routes = () => {
                       </div>
                     </div>
 
-                    <h4 className="mt-2 mb-2">Location </h4>
+                    <h4 className="mt-2 mb-2">{t("listing.location")}</h4>
 
                     <button className="location_btn ">{itemData.City} </button>
                   </Card.Body>

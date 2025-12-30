@@ -35,8 +35,10 @@ import { FaUserAlt, FaListUl, FaHeart, FaRegTrashAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
 
@@ -442,32 +444,32 @@ const Profile = () => {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               {/* <li>
@@ -478,7 +480,7 @@ const Profile = () => {
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -488,7 +490,7 @@ const Profile = () => {
               <div className="col-lg-9">
                 <div className="card dash-cards">
                   <div className="card-header">
-                    <h4>Profile Details</h4>
+                    <h4>{t("profile.profileDetails")}</h4>
                   </div>
                   <div className="card-body">
                     <div className="settings-upload-img position-relative">
@@ -551,7 +553,7 @@ const Profile = () => {
                         {error && <p className="text-red-500">{error}</p>}
                         <div className="form-group">
                           <label className="col-form-label">
-                            Your Full Name
+                            {t("profile.yourFullName")}
                           </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
@@ -572,7 +574,7 @@ const Profile = () => {
                           <div className="col-lg-6 col-md-6">
                             <div className="form-group">
                               <label className="col-form-label">
-                                Email Address
+                                {t("profile.emailAddress")}
                               </label>
                               <div className="group-img">
                                 <i
@@ -591,7 +593,7 @@ const Profile = () => {
                           <div className="col-lg-6 col-md-6">
                             <div className="form-group">
                               <label className="col-form-label">
-                                Phone Number
+                                {t("profile.phoneNumber")}
                               </label>
                               <div className="group-img">
                                 <i
@@ -605,7 +607,7 @@ const Profile = () => {
                                   onChange={(e) =>
                                     setPhoneNumber(e.target.value)
                                   }
-                                  placeholder="Enter phone number"
+                                  placeholder={t("profile.enterPhoneNumber")}
                                 />
                               </div>
                             </div>
@@ -613,7 +615,7 @@ const Profile = () => {
                         </div>
                         <div className="updatedel_wrap">
                           <button type="submit" className="blue_btn list_btn">
-                            Update Profile
+                            {t("profile.updateProfile")}
                           </button>
                           {/* <Link
 														to="#"
@@ -632,13 +634,13 @@ const Profile = () => {
                 <div className="profile-sidebar">
                   <div className="card">
                     <div className="card-header">
-                      <h4>Change Password</h4>
+                      <h4>{t("profile.changePassword")}</h4>
                     </div>
                     <div className="card-body">
                       <form onSubmit={handlePasswordChange}>
                         <div className="form-group">
                           <label className="col-form-label">
-                            Current Password
+                            {t("profile.currentPassword")}
                           </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
@@ -650,7 +652,7 @@ const Profile = () => {
                             <input
                               type="password"
                               className="form-control pass-input"
-                              placeholder="Current Password"
+                              placeholder={t("profile.currentPassword")}
                               value={currentPassword}
                               onChange={(e) =>
                                 setCurrentPassword(e.target.value)
@@ -660,7 +662,7 @@ const Profile = () => {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label className="col-form-label">New Password</label>
+                          <label className="col-form-label">{t("profile.newPassword")}</label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
                               <i
@@ -671,7 +673,7 @@ const Profile = () => {
                             <input
                               type={passwordType}
                               className="form-control pass-input"
-                              placeholder="New Password"
+                              placeholder={t("profile.newPassword")}
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
                               required
@@ -688,7 +690,7 @@ const Profile = () => {
                         </div>
                         <div className="form-group">
                           <label className="col-form-label">
-                            Confirm New Password
+                            {t("profile.confirmNewPassword")}
                           </label>
                           <div className="pass-group group-img">
                             <span className="lock-icon">
@@ -700,7 +702,7 @@ const Profile = () => {
                             <input
                               type={passwordType}
                               className="form-control pass-input"
-                              placeholder="Confirm New Password"
+                              placeholder={t("profile.confirmNewPassword")}
                               value={confirmNewPassword}
                               onChange={(e) =>
                                 setConfirmNewPassword(e.target.value)
@@ -725,7 +727,7 @@ const Profile = () => {
                             color: "white",
                           }}
                         >
-                          Change Password
+                          {t("profile.changePassword")}
                         </button>
                       </form>
                     </div>

@@ -25,11 +25,14 @@ import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
+
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
 
 const CommercialAdsListing = () => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
   const parms = useLocation().pathname;
   const navigate = useNavigate();
@@ -139,7 +142,7 @@ const CommercialAdsListing = () => {
     if (name === "phone") {
       if (value && !saudiPhoneRegex.test(value)) {
         setPhoneError(
-          "Please enter a valid Saudi phone number (e.g., +9665XXXXXXXX)"
+          t("commercialAdsForm.phoneError")
         );
       } else {
         setPhoneError("");
@@ -149,7 +152,7 @@ const CommercialAdsListing = () => {
     if (name === "whatsapp") {
       if (value && !saudiPhoneRegex.test(value)) {
         setWhatsappError(
-          "Please enter a valid Saudi WhatsApp number (e.g., +9665XXXXXXXX)"
+          t("commercialAdsForm.whatsappError")
         );
       } else {
         setWhatsappError("");
@@ -164,8 +167,8 @@ const CommercialAdsListing = () => {
     if (!validTypes.includes(file.type)) {
       MySwal.fire({
         icon: "error",
-        title: "Invalid file type",
-        text: "Please upload a PNG, JPG, or JPEG file.",
+        title: t("commercialAdsForm.invalidFileType"),
+        text: t("commercialAdsForm.invalidFileTypeMessage"),
       });
       return;
     }
@@ -173,8 +176,8 @@ const CommercialAdsListing = () => {
     if (file.size > 2 * 1024 * 1024) {
       MySwal.fire({
         icon: "error",
-        title: "File too large",
-        text: "File size must be less than 2MB.",
+        title: t("commercialAdsForm.fileTooLarge"),
+        text: t("commercialAdsForm.fileTooLargeMessage"),
       });
       return;
     }
@@ -214,8 +217,8 @@ const CommercialAdsListing = () => {
       console.error("Cloudinary Upload Error:", error);
       MySwal.fire({
         icon: "error",
-        title: "Upload Failed",
-        text: "Image upload to Cloudinary failed.",
+        title: t("commercialAdsForm.uploadFailed"),
+        text: t("commercialAdsForm.uploadFailedMessage"),
       });
     }
   };
@@ -223,7 +226,7 @@ const CommercialAdsListing = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     if (!imagePreview && imagePreview === null) {
-      setimagePreviewMessage("Please upload an image.");
+      setimagePreviewMessage(t("commercialAdsForm.uploadImageError"));
       return;
     }
     e.preventDefault();
@@ -245,8 +248,8 @@ const CommercialAdsListing = () => {
       // Show success message and reset the form
       MySwal.fire({
         icon: "success",
-        title: "Listing Created",
-        text: "Your commercial ad listing has been successfully created!",
+        title: t("commercialAdsForm.listingCreated"),
+        text: t("commercialAdsForm.listingCreatedMessage"),
       });
 
       setFormData({ name: "", phone: "", whatsapp: "", bannerImage: null });
@@ -256,8 +259,8 @@ const CommercialAdsListing = () => {
       console.error("Error saving listing:", error);
       MySwal.fire({
         icon: "error",
-        title: "Error",
-        text: "Failed to create listing. Please try again.",
+        title: t("commercialAdsForm.error"),
+        text: t("commercialAdsForm.errorMessage"),
       });
     }
   };
@@ -292,32 +295,32 @@ const CommercialAdsListing = () => {
               <ul className="dashborad-menus">
                 <li>
                   <Link to="/dashboard">
-                    <MdDashboard /> <span>Dashboard</span>
+                    <MdDashboard /> <span>{t("common.dashboard")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/profile">
-                    <FaUserAlt /> <span>Profile</span>
+                    <FaUserAlt /> <span>{t("common.profile")}</span>
                   </Link>
                 </li>
                 <li className="active">
                   <Link to="/my-listing">
-                    <FaListUl /> <span>My Listing</span>
+                    <FaListUl /> <span>{t("common.myListing")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/manage-commercial-ads">
-                    <FaListUl /> <span>Commercial Ads</span>
+                    <FaListUl /> <span>{t("messages.commercialAds")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/bookmarks">
-                    <FaHeart /> <span>Favourite</span>
+                    <FaHeart /> <span>{t("common.favourite")}</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/messages">
-                    <TiMessages /> <span>Messages</span>
+                    <TiMessages /> <span>{t("common.messages")}</span>
                   </Link>
                 </li>
                 {/* <li>
@@ -328,7 +331,7 @@ const CommercialAdsListing = () => {
                 <li>
                   <Link className="dropdown-item" to="#" onClick={handleLogout}>
                     <TbLogout2 />
-                    <span>Logout</span>
+                    <span>{t("common.logout")}</span>
                   </Link>
                 </li>
               </ul>
@@ -363,7 +366,7 @@ const CommercialAdsListing = () => {
                     color: "#333",
                   }}
                 >
-                  Fill in the details below to create your commercial ad listing
+                  {t("commercialAdsForm.pageTitle")}
                 </h3>
                 <form onSubmit={handleSubmit}>
                   <div style={{ marginBottom: "20px" }}>
@@ -375,7 +378,7 @@ const CommercialAdsListing = () => {
                         color: "#333",
                       }}
                     >
-                      Basic Information
+                      {t("commercialAdsForm.basicInformation")}
                     </h4>
                     <div
                       style={{
@@ -401,7 +404,7 @@ const CommercialAdsListing = () => {
                           >
                             📋
                           </span>
-                          Category
+                          {t("commercialAdsForm.category")}
                         </label>
                         <select
                           id="name"
@@ -419,11 +422,11 @@ const CommercialAdsListing = () => {
                           required
                         >
                           <option value="" disabled>
-                            Select a category
+                            {t("commercialAdsForm.selectCategory")}
                           </option>
                           {categories.map((category) => (
                             <option key={category} value={category}>
-                              {category}
+                              {t(`categories.${category.toLowerCase().replace(/\s+&\s+/g, '').replace(/\s+/g, '')}`)}
                             </option>
                           ))}
                         </select>
@@ -444,7 +447,7 @@ const CommercialAdsListing = () => {
                           >
                             📞
                           </span>
-                          Phone
+                          {t("commercialAdsForm.phone")}
                         </label>
                         <input
                           type="text"
@@ -452,7 +455,7 @@ const CommercialAdsListing = () => {
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          placeholder="Enter Phone"
+                          placeholder={t("commercialAdsForm.enterPhone")}
                           style={{
                             width: "100%",
                             padding: "10px",
@@ -473,7 +476,7 @@ const CommercialAdsListing = () => {
                               marginTop: "5px",
                             }}
                           >
-                            {phoneError}
+                            {t("commercialAdsForm.phoneError")}
                           </p>
                         )}
                       </div>
@@ -502,7 +505,7 @@ const CommercialAdsListing = () => {
                           >
                             💬
                           </span>
-                          WhatsApp
+                          {t("commercialAdsForm.whatsapp")}
                         </label>
                         <input
                           type="text"
@@ -510,7 +513,7 @@ const CommercialAdsListing = () => {
                           name="whatsapp"
                           value={formData.whatsapp}
                           onChange={handleInputChange}
-                          placeholder="Enter WhatsApp Number"
+                          placeholder={t("commercialAdsForm.enterWhatsApp")}
                           style={{
                             width: "100%",
                             padding: "10px",
@@ -531,7 +534,7 @@ const CommercialAdsListing = () => {
                               marginTop: "5px",
                             }}
                           >
-                            {whatsappError}
+                            {t("commercialAdsForm.whatsappError")}
                           </p>
                         )}
                       </div>
@@ -557,7 +560,7 @@ const CommercialAdsListing = () => {
                         color: "#333",
                       }}
                     >
-                      Upload Banner Image
+                      {t("commercialAdsForm.uploadBannerImage")}
                     </h4>
                     <div
                       style={{
@@ -593,7 +596,7 @@ const CommercialAdsListing = () => {
                               marginBottom: "10px",
                             }}
                           >
-                            Click to upload or drag and drop
+                            {t("commercialAdsForm.clickToUpload")}
                           </p>
                           <p
                             style={{
@@ -602,7 +605,7 @@ const CommercialAdsListing = () => {
                               marginBottom: "10px",
                             }}
                           >
-                            PNG, JPG or JPEG (MAX. 2MB)
+                            {t("commercialAdsForm.fileFormats")}
                           </p>
                         </>
                       )}
@@ -619,7 +622,7 @@ const CommercialAdsListing = () => {
                         }}
                       >
                         <span style={{ marginRight: "5px" }}>📤</span>
-                        Upload Image
+                        {t("commercialAdsForm.uploadImage")}
                       </label>
                       <input
                         type="file"
@@ -638,7 +641,7 @@ const CommercialAdsListing = () => {
                           marginTop: "10px",
                         }}
                       >
-                        {imagePreviewMessage}
+                        {t("commercialAdsForm.uploadImageError")}
                       </p>
                     )}
                   </div>
@@ -659,7 +662,7 @@ const CommercialAdsListing = () => {
                     }
                     type="submit"
                   >
-                    Add Listing
+                    {t("commercialAdsForm.addListing")}
                   </button>
                 </form>
               </div>

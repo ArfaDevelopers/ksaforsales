@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
 // Helper function to calculate time difference and return a human-readable format
 function timeAgo(timestamp) {
@@ -23,6 +24,7 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
+  const { t } = useTranslation();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -121,9 +123,9 @@ export default function AutomativeCarousel() {
               marginBottom: "10px",
             }}
           >
-            <h2 className="featuresection_header">Commercial Ads</h2>
+            <h2 className="featuresection_header">{t("home.commercialAds")}</h2>
             <Link to="/CommercialAdscom">
-              <button className="blue_btn">View All</button>
+              <button className="blue_btn">{t("home.viewAll")}</button>
             </Link>
           </div>
 
@@ -172,7 +174,7 @@ export default function AutomativeCarousel() {
                         </div>
                         {ad.FeaturedAds === "Featured Ads" ? (
                           <div className="fav-item">
-                            <span className="Featured-text">Featured</span>
+                            <span className="Featured-text">{t("common.featured")}</span>
                           </div>
                         ) : (
                           ""

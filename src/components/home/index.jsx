@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ArrowBanner,
   BannerArrow,
@@ -74,8 +75,31 @@ import { db } from "./../Firebase/FirebaseConfig.jsx";
 import react from "@heroicons/react";
 import { useRef } from "react";
 const Home = () => {
+  const { t } = useTranslation();
   const scrollRef = useRef(null);
   const navigate = useNavigate();
+
+  // Helper function to translate category names from backend
+  const translateCategoryTitle = (title) => {
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Motor": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Home and Furniture": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "Realestate": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "Other": t("categories.other")
+    };
+    return categoryMap[title] || title;
+  };
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -921,7 +945,7 @@ const Home = () => {
               marginBottom: "20px",
             }}
           >
-            Our Trending Product
+            {t("home.ourTrendingProduct")}
           </h2>
           <div
             ref={scrollRef}
@@ -963,7 +987,7 @@ const Home = () => {
                     className="our_categoryPara"
                     // style={{ marginTop: "-2.5rem" }}
                   >
-                    Our Category
+                    {t("home.ourCategory")}
                   </h2>
                 </div>
                 <div
@@ -1049,7 +1073,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryAutomativeTitle}
+                  {translateCategoryTitle(OurCategoryAutomativeTitle)}
                 </h5>
               </div>
 
@@ -1118,7 +1142,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {ElectronicsTitle}
+                  {translateCategoryTitle(ElectronicsTitle)}
                 </h5>
               </div>
 
@@ -1177,7 +1201,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {FashionStyleTitle}
+                  {translateCategoryTitle(FashionStyleTitle)}
                 </h5>
               </div>
 
@@ -1243,7 +1267,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryHealthCareTitle}
+                  {translateCategoryTitle(OurCategoryHealthCareTitle)}
                 </h5>
               </div>
 
@@ -1309,7 +1333,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryJobBoardTitle}
+                  {translateCategoryTitle(OurCategoryJobBoardTitle)}
                 </h5>
               </div>
 
@@ -1369,7 +1393,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryRealEstateTitle}
+                  {translateCategoryTitle(OurCategoryRealEstateTitle)}
                 </h5>
               </div>
 
@@ -1435,7 +1459,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryTravelTitle}
+                  {translateCategoryTitle(OurCategoryTravelTitle)}
                 </h5>
               </div>
 
@@ -1500,7 +1524,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategorySportGamesTitle}
+                  {translateCategoryTitle(OurCategorySportGamesTitle)}
                 </h5>
               </div>
 
@@ -1566,7 +1590,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryPetAnimalsTitle}
+                  {translateCategoryTitle(OurCategoryPetAnimalsTitle)}
                 </h5>
               </div>
 
@@ -1632,7 +1656,7 @@ const Home = () => {
                     maxWidth: "100%",
                   }}
                 >
-                  {OurCategoryEducationTitle}
+                  {translateCategoryTitle(OurCategoryEducationTitle)}
                 </h5>
               </div>
             </div>

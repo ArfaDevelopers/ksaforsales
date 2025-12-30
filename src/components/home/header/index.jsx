@@ -15,6 +15,8 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
+import { LanguageContext } from "../../../LanguageContext";
 
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
@@ -53,7 +55,9 @@ import { MdManageAccounts } from "react-icons/md";
 import Flag from "react-world-flags";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import fallbackImage from "../../../../public/7309681.jpg";
+
 const Header = ({ parms }) => {
+  const { t } = useTranslation();
   const db = getFirestore();
 
   const [menu, setMenu] = useState(false);
@@ -273,11 +277,11 @@ const Header = ({ parms }) => {
       [subcategory]: !prev[subcategory],
     }));
   };
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const { language: selectedLanguage, toggleLanguage } = React.useContext(LanguageContext);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleLanguageChange = (lang) => {
-    setSelectedLanguage(lang);
+    toggleLanguage(lang);
     setIsDropdownVisible(false);
   };
   const toggleDropdown = () => {
@@ -2411,7 +2415,7 @@ const Header = ({ parms }) => {
                   <input
                     className="form-control search-input"
                     type="search"
-                    placeholder="What are you looking for?"
+                    placeholder={t("search.placeholder")}
                     aria-label="Search"
                     value={searchText}
                     onChange={(e) => {
@@ -2731,7 +2735,7 @@ const Header = ({ parms }) => {
                       {!isMobile && userId && (
                         <li>
                           <Link className="blue_btn" to="/listing">
-                            Post Ad
+                            {t("header.postAd")}
                           </Link>
                         </li>
                       )}
@@ -2761,17 +2765,17 @@ const Header = ({ parms }) => {
                           }`}
                         >
                           <Link className="dropdown-item" to="/dashboard">
-                            Dashboard
+                            {t("common.dashboard")}
                           </Link>
                           <Link className="dropdown-item" to="/profile">
-                            Profile Settings
+                            {t("header.profileSettings")}
                           </Link>
                           <Link
                             className="dropdown-item"
                             to="#"
                             onClick={handleLogout}
                           >
-                            Logout
+                            {t("common.logout")}
                           </Link>
                         </div>
                       </li>
@@ -2891,7 +2895,7 @@ const Header = ({ parms }) => {
                           className="blue_btn"
                           onClick={() => navigate("/signup")}
                         >
-                          Sign Up
+                          {t("common.signup")}
                         </button>
                       </li>
                       <li>
@@ -2899,8 +2903,7 @@ const Header = ({ parms }) => {
                           className="blue_btn"
                           onClick={() => navigate("/login")}
                         >
-                          {" "}
-                          Sign In
+                          {t("common.login")}
                         </button>
                       </li>
                       {!isMobile && userId && (
@@ -2929,7 +2932,7 @@ const Header = ({ parms }) => {
                               e.currentTarget.style.color = "#fff";
                             }}
                           >
-                            Post Ad
+                            {t("header.postAd")}
                           </Link>
                         </li>
                       )}

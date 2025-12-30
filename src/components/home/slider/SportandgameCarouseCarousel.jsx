@@ -7,6 +7,7 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
+import { useTranslation } from "react-i18next";
 
 // Helper function to calculate time difference and return a human-readable format
 function timeAgo(timestamp) {
@@ -39,12 +40,26 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState("Ball Sports");
+
+  // Helper function to translate subcategory names
+  const translateSubcategory = (name) => {
+    const subcategoryMap = {
+      "Ball Sports": t("subcategories.sportGame.ballSports"),
+      "Football": t("subcategories.sportGame.football"),
+      "Basketball": t("subcategories.sportGame.basketball"),
+      "Tennis": t("subcategories.sportGame.tennis"),
+      "Gaming": t("subcategories.sportGame.gaming"),
+      "Fitness": t("subcategories.sportGame.fitness")
+    };
+    return subcategoryMap[name] || name;
+  };
 
   useEffect(() => {
     const cats = getSubcategoriesByName("Sport & Game");
@@ -154,9 +169,9 @@ export default function AutomativeCarousel() {
       <div className="container">
         <div className="row align-items-center">
           <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
-            <h2 className="featuresection_header">Sports & Game</h2>
+            <h2 className="featuresection_header">{t("categories.sportGame")}</h2>
             <Link to="/SportGamesComp">
-              <button className="blue_btn">View All</button>
+              <button className="blue_btn">{t("home.viewAll")}</button>
             </Link>
           </div>
 
@@ -210,7 +225,7 @@ export default function AutomativeCarousel() {
                     }
                   }}
                 >
-                  {sub.name}
+                  {translateSubcategory(sub.name)}
                 </li>
               ))}
             </ul>
@@ -279,7 +294,7 @@ export default function AutomativeCarousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">Featured</span>
+                                <span className="Featured-text">{t("common.featured")}</span>
                               </div>
                             )}
                           </div>

@@ -21,7 +21,9 @@ import {
 } from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
 
@@ -46,7 +48,7 @@ const Login = () => {
     if (value === "") {
       setError1("");
     } else if (!liveKsaPhoneRegex.test(value)) {
-      setError1("Please enter a valid KSA phone number (+9665xxxxxxxx)");
+      setError1(t("login.phoneError"));
     } else {
       setError1("");
     }
@@ -85,8 +87,8 @@ const Login = () => {
       setLoading(false);
       MySwal.fire({
         icon: "warning",
-        title: "Missing Fields",
-        text: "Please fill in both phone number and password before logging in.",
+        title: t("login.missingFields"),
+        text: t("login.missingFieldsMessage"),
       });
       return;
     }
@@ -118,8 +120,8 @@ const Login = () => {
       console.log("User logged in:", user);
       await MySwal.fire({
         icon: "success",
-        title: "Login Successful",
-        text: `Welcome back!`,
+        title: t("login.loginSuccessful"),
+        text: t("login.welcomeBack"),
         timer: 2000,
         showConfirmButton: false,
       });
@@ -130,8 +132,8 @@ const Login = () => {
 
       await MySwal.fire({
         icon: "error",
-        title: "Login Failed",
-        text: err.message || "An error occurred during login.",
+        title: t("login.loginFailed"),
+        text: err.message || t("login.loginFailedMessage"),
       });
     } finally {
       setLoading(false);
@@ -187,10 +189,9 @@ const Login = () => {
             <div className="col-md-6 col-lg-6 ">
               <div className="login-wrap">
                 <div className="login-header">
-                  <h3>Log in</h3>
+                  <h3>{t("login.title")}</h3>
                   <p>
-                    Welcome Back.Keep using our great features and find what you
-                    need.
+                    {t("login.welcomeMessage")}
                   </p>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
@@ -254,7 +255,7 @@ const Login = () => {
                           id="phoneNumber"
                           value={phoneNumber}
                           onChange={handlePhoneNumberChange1}
-                          placeholder="XXXXXXXXXX"
+                          placeholder={t("login.phonePlaceholder")}
                           className="form-control"
                           maxLength={15}
                           style={{
@@ -314,7 +315,7 @@ const Login = () => {
                       <input
                         className="form-control"
                         type={passwordType}
-                        placeholder="Password"
+                        placeholder={t("login.passwordPlaceholder")}
                         value={password}
                         onChange={handlePasswordChange}
                         style={{
@@ -371,7 +372,7 @@ const Login = () => {
                           fontWeight: "bold",
                         }}
                       >
-                        Forgot your password?
+                        {t("login.forgotPassword")}
                       </Link>
                     </div>
                   </div>
@@ -386,18 +387,18 @@ const Login = () => {
                       borderRadius: "10px",
                     }}
                   >
-                    Sign in
+                    {t("login.signIn")}
                   </button>
 
                   <div className="register-link text-center">
                     <p style={{ fontWeight: "bold" }}>
-                      Don't have an account?{" "}
+                      {t("login.noAccount")}{" "}
                       <Link
                         className="forgot-link"
                         to="/signup"
                         style={{ textDecoration: "none" }}
                       >
-                        Sign Up
+                        {t("login.signUp")}
                       </Link>
                     </p>
                   </div>
@@ -440,7 +441,7 @@ const Login = () => {
                 <div
                   style={{ color: "black", fontWeight: "bold", fontSize: 26 }}
                 >
-                  Visit our site with QR Code
+                  {t("login.qrTitle")}
                 </div>
                 <ol
                   style={{
@@ -477,7 +478,7 @@ const Login = () => {
                     >
                       1
                     </span>
-                    Open KSA4Sale on your phone.
+                    {t("login.qrStep1")}
                   </li>
                   <li
                     style={{
@@ -506,7 +507,7 @@ const Login = () => {
                     >
                       2
                     </span>
-                    Tap Profile and scroll to Settings.
+                    {t("login.qrStep2")}
                   </li>
                   <li
                     style={{
@@ -535,7 +536,7 @@ const Login = () => {
                     >
                       3
                     </span>
-                    Tap Web QR.
+                    {t("login.qrStep3")}
                   </li>
                   <li
                     style={{
@@ -564,7 +565,7 @@ const Login = () => {
                     >
                       4
                     </span>
-                    Scan the QR code above.
+                    {t("login.qrStep4")}
                   </li>
                 </ol>
               </div>

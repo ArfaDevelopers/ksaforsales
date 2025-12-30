@@ -69,20 +69,21 @@
 
 // export default UpperHeader;
 
-import React, { useState } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import Flag from "react-world-flags";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMobileAlt } from "@fortawesome/free-solid-svg-icons";
 import phone from "./fa-solid_mobile.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LanguageContext } from "../../../../LanguageContext";
 
 const UpperHeader = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const { language, toggleLanguage } = useContext(LanguageContext);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleLanguageChange = (lang) => {
-    setSelectedLanguage(lang);
+    toggleLanguage(lang);
     setIsDropdownVisible(false);
   };
 
@@ -140,7 +141,7 @@ const UpperHeader = () => {
                 aria-expanded={isDropdownVisible ? "true" : "false"}
               >
                 <Flag
-                  code={selectedLanguage === "en" ? "GB" : "SA"}
+                  code={language === "en" ? "GB" : "SA"}
                   className="flag-icon"
                   style={{
                     width: "27px",
@@ -148,7 +149,7 @@ const UpperHeader = () => {
                     fontFamily: "Inter",
                   }}
                 />
-                {selectedLanguage === "en" ? "EN" : "AR"}
+                {language === "en" ? "EN" : "AR"}
               </button>
 
               {/* Dropdown Menu */}

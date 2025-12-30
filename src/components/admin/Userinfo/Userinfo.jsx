@@ -34,6 +34,7 @@ import image4 from "../../../assets/img/banner/bannerimage4.png";
 import { FaRegHeart } from "react-icons/fa";
 import Select from "react-select";
 import { Country, City, State } from "country-state-city";
+import { useTranslation } from "react-i18next";
 // import LatestBlog from "../../blog/BlogList/LatestBlog/LatestBlog.jsx";
 import image2 from "../../../assets/img/banner/bannerimage2.png";
 import xIcon from "../../home/x.png";
@@ -87,6 +88,7 @@ import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
 
 const Userinfo = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const navigate = useNavigate();
 
@@ -4320,7 +4322,7 @@ const Userinfo = () => {
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {isActive ? car.Phone : "Call Now"}
+                                      {isActive ? car.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -4366,7 +4368,7 @@ const Userinfo = () => {
                                   >
                                     <FaWhatsapp />
                                     <span className="button-text">
-                                      WhatsApp
+                                      {t("listing.whatsapp")}
                                     </span>
                                   </button>
                                 </a>

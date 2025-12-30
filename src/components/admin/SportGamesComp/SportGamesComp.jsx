@@ -84,8 +84,11 @@ import { auth } from "../../Firebase/FirebaseConfig"; // Ensure the correct Fire
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useRef } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const SPORTSGAMESComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2415,7 +2418,7 @@ const SPORTSGAMESComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2433,7 +2436,7 @@ const SPORTSGAMESComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Games & Toys
+              {t("categories.sportGame")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2451,7 +2454,7 @@ const SPORTSGAMESComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "sportGame", t)}
                   </button>
                 </>
               )}
@@ -2471,7 +2474,7 @@ const SPORTSGAMESComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "sportGame", t)}
                   </button>
                 </>
               )}

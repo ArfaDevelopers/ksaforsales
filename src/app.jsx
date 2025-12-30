@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./LanguageContext"; // Import LanguageProvider
+import "./i18n/i18n"; // Import i18n configuration
 import Home from "./components/home";
 import "./assets/css/bootstrap-datetimepicker.min.css";
 import "./assets/css/bootstrap.min.css";
@@ -10,6 +11,7 @@ import "./assets/css/slick.css";
 import "./assets/css/style.css";
 import "./assets/css/style2.css";
 import "./assets/css/quaries.css";
+import "./assets/css/rtl.css";
 import Home2 from "./components/home2";
 import Home3 from "./components/home3";
 import Home4 from "./components/home4";

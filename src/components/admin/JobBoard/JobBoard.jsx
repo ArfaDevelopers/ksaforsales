@@ -83,8 +83,11 @@ import Spinner from "react-bootstrap/Spinner";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const JobBoard = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2777,7 +2780,7 @@ const JobBoard = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("nav.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2795,7 +2798,7 @@ const JobBoard = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Jobs
+              {t("categories.jobBoard")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2813,7 +2816,7 @@ const JobBoard = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "jobBoard", t)}
                   </button>
                 </>
               )}
@@ -2833,7 +2836,7 @@ const JobBoard = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "jobBoard", t)}
                   </button>
                 </>
               )}
@@ -2848,7 +2851,9 @@ const JobBoard = () => {
                   fontSize: "24px",
                 }}
               >
-                {nestedSubCategory || subCatgory}
+                {nestedSubCategory
+                  ? translateNestedSubcategory(nestedSubCategory, "jobBoard", t)
+                  : translateSubcategory(subCatgory, "jobBoard", t)}
               </h1>
             )}
           </div>
@@ -2877,7 +2882,7 @@ const JobBoard = () => {
                     paddingTop: "12px",
                   }}
                 >
-                  Show Results by:
+                  {t("search.showResultsBy")}
                 </h5>
 
                 <Form className="filter_innerwrap">
@@ -2892,7 +2897,7 @@ const JobBoard = () => {
                             marginBottom: 0, // Keep aligned vertically
                           }}
                         >
-                          Search by Keywords
+                          {t("search.searchByKeywords")}
                         </Form.Label>
 
                         <button
@@ -2900,14 +2905,14 @@ const JobBoard = () => {
                           className="blue_btn"
                           onClick={handleClearSearch}
                         >
-                          Clear
+                          {t("search.clear")}
                         </button>
                       </div>
 
                       <div className="position-relative mt-2">
                         <input
                           type="search"
-                          placeholder="Search here"
+                          placeholder={t("search.searchHere")}
                           className="form-control rounded-pill pe-5 input_feild search_by_keyword"
                           id="example-search-input"
                           value={searchQuery}

@@ -14,8 +14,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Trending5 = () => {
+  const { t } = useTranslation();
   const settings = {
     dots: false,
     arrows: true,
@@ -59,7 +61,7 @@ const Trending5 = () => {
               </div>
               <div className="bloglist-content">
                 <div className="card-body">
-                  <span className="Featured-text">Featured</span>
+                  <span className="Featured-text">{t("common.featured")}</span>
                   <div className="grid-author">
                     <img src={ProfileAvatar03} alt="author" />
                   </div>
@@ -109,7 +111,7 @@ const Trending5 = () => {
               </div>
               <div className="bloglist-content">
                 <div className="card-body">
-                  <span className="Featured-text">Featured</span>
+                  <span className="Featured-text">{t("common.featured")}</span>
                   <div className="grid-author">
                     <img src={ProfileAvatar02} alt="author" />
                   </div>
@@ -158,7 +160,7 @@ const Trending5 = () => {
               </div>
               <div className="bloglist-content">
                 <div className="card-body">
-                  <span className="Featured-text">Featured</span>
+                  <span className="Featured-text">{t("common.featured")}</span>
                   <div className="grid-author">
                     <img src={ProfileAvatar04} alt="author" />
                   </div>
@@ -208,7 +210,7 @@ const Trending5 = () => {
               </div>
               <div className="bloglist-content">
                 <div className="card-body">
-                  <span className="Featured-text">Featured</span>
+                  <span className="Featured-text">{t("common.featured")}</span>
                   <div className="grid-author">
                     <img src={ProfileAvatar05} alt="author" />
                   </div>
@@ -257,7 +259,7 @@ const Trending5 = () => {
               </div>
               <div className="bloglist-content">
                 <div className="card-body">
-                  <span className="Featured-text">Featured</span>
+                  <span className="Featured-text">{t("common.featured")}</span>
                   <div className="grid-author">
                     <img src={ProfileAvatar06} alt="author" />
                   </div>

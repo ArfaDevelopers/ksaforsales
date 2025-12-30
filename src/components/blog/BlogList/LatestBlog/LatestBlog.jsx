@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const LatestBlog = () => {
+  const { t, i18n } = useTranslation();
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     const fetchBlogsWithImages = async () => {
       try {
+        // Get current language
+        const currentLang = i18n.language || 'en';
+        const langParam = currentLang === 'ar' ? 'ar' : 'en';
+
+        // Fetch posts with language parameter
         const res = await fetch(
-          "https://blogs.ksa4sale.net/wp-json/wp/v2/posts?_embed"
+          `https://blogs.ksa4sale.net/wp-json/wp/v2/posts?_embed&lang=${langParam}`
         );
         const posts = await res.json();
 
@@ -39,7 +46,7 @@ const LatestBlog = () => {
     };
 
     fetchBlogsWithImages();
-  }, []);
+  }, [i18n.language]); // Re-fetch when language changes
 
   // useEffect(() => {
   //   const fetchBlogsWithImages = async () => {
@@ -91,13 +98,13 @@ const LatestBlog = () => {
               marginBottom: "0px",
             }}
           >
-            Latest Blog
+            {t("home.latestBlog")}
           </h2>
           <button
             className="blue_btn"
             onClick={() => window.open("https://ksa4sale.net/blogs", "_blank")}
           >
-            Explore Blogs
+            {t("home.exploreBlogs")}
           </button>
         </div>
 

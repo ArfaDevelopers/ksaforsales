@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import img from "./home-07.jpg";
@@ -171,9 +172,65 @@ const stripePromise = loadStripe(
 
 let socket;
 const Dynamic_Route = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
   const navigate = useNavigate();
+
+  // Helper function to translate subcategory names
+  const translateSubcategory = (name) => {
+    if (!name) return "";
+    const subcategoryTranslations = {
+      // Motors subcategories
+      "Cars For Sale": t("subcategories.motors.carsForSale"),
+      "Car Rental": t("subcategories.motors.carRental"),
+      "Plates Number": t("subcategories.motors.platesNumber"),
+      "Spare Parts": t("subcategories.motors.spareParts"),
+      "Accessories": t("subcategories.motors.accessories"),
+      "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
+      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
+      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
+      "Classic Cars": t("subcategories.motors.classicCars"),
+      // Other category subcategories
+      "Hunting & Trips": t("subcategories.other.huntingAndTrips"),
+      "Gardening & Agriculture": t("subcategories.other.gardeningAndAgriculture"),
+      "Parties & Events": t("subcategories.other.partiesAndEvents"),
+      "Travel & Tourism": t("subcategories.other.travelAndTourism"),
+      "Roommate": t("subcategories.other.roommate"),
+      "Books": t("subcategories.other.books"),
+      "Business & Industrial": t("subcategories.other.businessAndIndustrial"),
+      "Music & Musical Instruments": t("subcategories.other.musicAndMusicalInstruments"),
+      "Food & Restaurants": t("subcategories.other.foodAndRestaurants"),
+      "Miscellaneous": t("subcategories.other.miscellaneous"),
+      "Lost & Found": t("subcategories.other.lostAndFound"),
+      "Freebies": t("subcategories.other.freebies"),
+      "Free Stuff": t("subcategories.other.freeStuff"),
+      // Add more as needed
+    };
+    return subcategoryTranslations[name] || name;
+  };
+
+  // Helper function to translate category names
+  const translateCategory = (category) => {
+    if (!category) return "";
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "RealEstate": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "Other": t("categories.other"),
+      "Commercial": t("categories.commercial")
+    };
+    return categoryMap[category] || category;
+  };
 
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
@@ -195,7 +252,12 @@ const Dynamic_Route = () => {
     if (!digits) return null;
     return `https://wa.me/${digits}`;
   };
-  const handleFavourite = async (id, category) => {
+  const handleFavourite = async (e, id, category) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("🔍 handleFavourite called with:", { id, category });
+
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -208,15 +270,55 @@ const Dynamic_Route = () => {
       // 🔁 Map category to actual Firestore collection name
       const collectionMap = {
         Motors: "Cars",
-        Electronics: "ELECTRONICS",
-        Services: "TRAVEL",
-        Other: "Education",
-        "Pet & Animals": "PETANIMALCOMP",
-        "Home & Furnituer": "HEALTHCARE",
-        "Sports & Game": "SPORTSGAMESComp",
-        "Fashion Style": "FASHION",
-        "Job Board": "JOBBOARD",
+        motors: "Cars",
         Automotive: "Cars",
+        automotive: "Cars",
+        Electronics: "ELECTRONICS",
+        electronics: "ELECTRONICS",
+        Services: "TRAVEL",
+        services: "TRAVEL",
+        Other: "Education",
+        other: "Education",
+        Education: "Education",
+        education: "Education",
+        "Pet & Animals": "PETANIMALCOMP",
+        "pet & animals": "PETANIMALCOMP",
+        "Home & Furnituer": "HEALTHCARE",
+        "home & furnituer": "HEALTHCARE",
+        "Sports & Game": "SPORTSGAMESComp",
+        "sports & game": "SPORTSGAMESComp",
+        "Fashion Style": "FASHION",
+        "fashion style": "FASHION",
+        "Job Board": "JOBBOARD",
+        "job board": "JOBBOARD",
+        "Real Estate": "REALESTATECOMP",
+        "real estate": "REALESTATECOMP",
+        RealEstate: "REALESTATECOMP",
+        realestate: "REALESTATECOMP",
+        RealEstateComp: "REALESTATECOMP",
+        HealthCare: "HEALTHCARE",
+        healthcare: "HEALTHCARE",
+        HealthCareComp: "HEALTHCARE",
+        TravelComp: "TRAVEL",
+        travelcomp: "TRAVEL",
+        SportGamesComp: "SPORTSGAMESComp",
+        sportgamescomp: "SPORTSGAMESComp",
+        GamesSport: "SPORTSGAMESComp",
+        gamessport: "SPORTSGAMESComp",
+        PetAnimalsComp: "PETANIMALCOMP",
+        petanimalscomp: "PETANIMALCOMP",
+        ElectronicComp: "ELECTRONICS",
+        electroniccomp: "ELECTRONICS",
+        Electronic: "ELECTRONICS",
+        electronic: "ELECTRONICS",
+        AutomotiveComp: "Cars",
+        automotivecomp: "Cars",
+        FashionStyle: "FASHION",
+        fashionstyle: "FASHION",
+        JobBoard: "JOBBOARD",
+        jobboard: "JOBBOARD",
+        ComercialsAds: "ComercialsAds",
+        comercialsads: "ComercialsAds",
       };
 
       const firestoreCollection = collectionMap[category] || category;
@@ -341,14 +443,14 @@ const Dynamic_Route = () => {
       setCalling(false);
     }
   };
-  const [reportTypes, setReportTypes] = useState([
-    "Sexual",
-    "Illegal",
-    "Abusive",
-    "Harassment",
-    "Fraud",
-    "Spam",
-  ]);
+  const reportTypes = [
+    t("listing.reportTypes.sexual"),
+    t("listing.reportTypes.illegal"),
+    t("listing.reportTypes.abusive"),
+    t("listing.reportTypes.harassment"),
+    t("listing.reportTypes.fraud"),
+    t("listing.reportTypes.spam"),
+  ];
   const [selectedReports, setSelectedReports] = useState([]);
   const [reportText, setReportText] = useState("");
   const [itemData, setItemData] = useState(null); // State to store ads
@@ -990,7 +1092,7 @@ console.log(
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("nav.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -1005,7 +1107,7 @@ console.log(
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {itemData.category}{" "}
+              {translateCategory(itemData.category)}{" "}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -1022,7 +1124,7 @@ console.log(
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              {itemData.SubCategory}{" "}
+              {translateSubcategory(itemData.SubCategory)}{" "}
             </button>
             {itemData.NestedSubCategory && (
               <>
@@ -1074,6 +1176,7 @@ console.log(
             }}
           >
             <button
+              type="button"
               className="head2btn"
               style={{
                 backgroundColor: "white",
@@ -1082,10 +1185,7 @@ console.log(
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFavourite(itemData?.id, itemData?.category);
-              }}
+              onClick={(e) => handleFavourite(e, itemData?.id, callingFrom)}
             >
               <span
                 style={{
@@ -1100,7 +1200,7 @@ console.log(
                   <FaRegHeart />
                 )}
               </span>{" "}
-              Favourite
+              {t("listing.favourite")}
             </button>
             <>
               {/* Button to open modal */}
@@ -1118,7 +1218,7 @@ console.log(
                 <span>
                   <img src={share} alt="share" />
                 </span>
-                Share
+                {t("listing.share")}
               </button>
 
               {/* Modal */}
@@ -1144,7 +1244,7 @@ console.log(
                     <div className="modal-dialog modal-dialog-centered">
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h5 className="modal-title">Share</h5>
+                          <h5 className="modal-title">{t("listing.share")}</h5>
                           <button
                             type="button"
                             className="btn-close"
@@ -1214,14 +1314,14 @@ console.log(
                             className="blue_btn"
                             onClick={copyToClipboard}
                           >
-                            Copy
+                            {t("listing.copy")}
                           </button>
                           <button
                             type="button"
                             className="blue_btn "
                             onClick={() => setShowModal1(false)}
                           >
-                            Close
+                            {t("listing.close")}
                           </button>
                         </div>
                       </div>
@@ -1247,7 +1347,7 @@ console.log(
                   {/* <img src="your-report-image-source" alt="promote" /> */}
                   <FaBuysellads />
                 </span>
-                Promote
+                {t("listing.promote")}
               </button>
             ) : (
               ""
@@ -1296,7 +1396,7 @@ console.log(
                         className="btn btn-primary"
                         onClick={() => setshowReport(false)}
                       >
-                        Close
+                        {t("listing.close")}
                       </button>
                     </div>
                   </div>
@@ -1317,7 +1417,7 @@ console.log(
               <span>
                 <img src={report} alt="report" />
               </span>
-              Report
+              {t("listing.report")}
             </button>
 
             <Modal
@@ -1327,23 +1427,23 @@ console.log(
               centered
             >
               <Modal.Header closeButton>
-                <Modal.Title>Submit a Report</Modal.Title>
+                <Modal.Title>{t("listing.submitReport")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
                   <Form.Group controlId="reportText">
-                    <Form.Label>Report Details</Form.Label>
+                    <Form.Label>{t("listing.reportDetails")}</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      placeholder="Describe the issue..."
+                      placeholder={t("listing.describeIssue")}
                       value={reportText}
                       onChange={(e) => setReportText(e.target.value)}
                     />
                   </Form.Group>
 
                   <Form.Group className="mt-3">
-                    <Form.Label>Report Type</Form.Label>
+                    <Form.Label>{t("listing.reportType")}</Form.Label>
                     {reportTypes.map((type, index) => (
                       <Form.Check
                         key={index}
@@ -1379,7 +1479,7 @@ console.log(
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                 >
-                  Close
+                  {t("listing.close")}
                 </Button>
                 <Button
                   style={{
@@ -1405,7 +1505,7 @@ console.log(
                   // disabled={!reportText || selectedReports.length === 0}
                   // disabled={selectedReports.length === 0}
                 >
-                  Submit Report
+                  {t("listing.submitReport")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1536,7 +1636,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -1552,7 +1652,7 @@ console.log(
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
@@ -1561,7 +1661,7 @@ console.log(
                                       onClick={() => alert("WhatsApp number not available")}
                                     >
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -1573,7 +1673,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -1712,7 +1812,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -1943,7 +2043,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -1959,7 +2059,7 @@ console.log(
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
@@ -1968,7 +2068,7 @@ console.log(
                                       onClick={() => alert("WhatsApp number not available")}
                                     >
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -1980,7 +2080,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -2119,7 +2219,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -2348,7 +2448,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -2364,7 +2464,7 @@ console.log(
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
@@ -2373,7 +2473,7 @@ console.log(
                                       onClick={() => alert("WhatsApp number not available")}
                                     >
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -2385,7 +2485,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -2524,7 +2624,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -2753,7 +2853,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -2767,13 +2867,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -2785,7 +2885,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -2924,7 +3024,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -3153,7 +3253,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -3167,13 +3267,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -3185,7 +3285,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -3324,7 +3424,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -3553,7 +3653,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -3567,13 +3667,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -3585,7 +3685,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -3724,7 +3824,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -3953,7 +4053,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -3967,13 +4067,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -3985,7 +4085,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -4124,7 +4224,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -4353,7 +4453,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -4367,13 +4467,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -4385,7 +4485,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -4524,7 +4624,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -4753,7 +4853,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -4767,13 +4867,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -4785,7 +4885,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -4924,7 +5024,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -5153,7 +5253,7 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : "Call Now"}
+                                      {showPhone ? itemData.Phone : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
@@ -5167,13 +5267,13 @@ console.log(
                                     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                       <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                         <FaWhatsapp />
-                                        <span className="button-text">WhatsApp</span>
+                                        <span className="button-text">{t("listing.whatsapp")}</span>
                                       </button>
                                     </a>
                                   ) : (
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   );
                                 })()
@@ -5185,7 +5285,7 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">Message</span>
+                                <span className="button-text">{t("listing.message")}</span>
                               </button>
                             </div>
                           </div>
@@ -5324,7 +5424,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -5494,7 +5594,7 @@ console.log(
                         "N/A"
                       )}
                     </div>
-                    <h5>Safety Tips</h5>
+                    <h5>{t("listing.safetyTips")}</h5>
                     <ul
                       style={{
                         listStyleImage: `url(${bullet})`,
@@ -5502,13 +5602,13 @@ console.log(
                       }}
                     >
                       <li className="safteytip_para">
-                        Meet seller at a safe place.
+                        {t("listing.safetyTip1")}
                       </li>
                       <li className="safteytip_para">
-                        Check item before you buy
+                        {t("listing.safetyTip2")}
                       </li>
                       <li className="safteytip_para">
-                        Pay only after collecting item.
+                        {t("listing.safetyTip3")}
                       </li>
                     </ul>
                     <hr
@@ -5519,7 +5619,7 @@ console.log(
                     />
 
                     <div className="col-md">
-                      <h1 className="sallerinfo_para">Seller Information</h1>
+                      <h1 className="sallerinfo_para">{t("listing.sellerInformation")}</h1>
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link
@@ -5560,7 +5660,7 @@ console.log(
                               className="view-all-ads-link"
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                             >
-                              View All Ads
+                              {t("listing.viewAllAds")}
                             </Link>
                           </p>
                         </div>
@@ -5583,7 +5683,7 @@ console.log(
                                 >
                                   <FaPhoneAlt />
                                   <span>
-                                    {showPhone ? itemData.Phone : "Call Now"}
+                                    {showPhone ? itemData.Phone : t("listing.callNow")}
                                   </span>
                                 </button>
                               </a>
@@ -5597,13 +5697,13 @@ console.log(
                                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                                     <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
                                       <FaWhatsapp />
-                                      <span className="button-text">WhatsApp</span>
+                                      <span className="button-text">{t("listing.whatsapp")}</span>
                                     </button>
                                   </a>
                                 ) : (
                                   <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
                                     <FaWhatsapp />
-                                    <span className="button-text">WhatsApp</span>
+                                    <span className="button-text">{t("listing.whatsapp")}</span>
                                   </button>
                                 );
                               })()
@@ -5615,7 +5715,7 @@ console.log(
                               onClick={() => setShowModal(true)}
                             >
                               <MdMessage />
-                              <span className="button-text">Message</span>
+                              <span className="button-text">{t("listing.message")}</span>
                             </button>
                             <style jsx>{`
                               .blue_btn list_btn {
@@ -5680,7 +5780,7 @@ console.log(
                                 <div className="modal-content">
                                   <div className="modal-header">
                                     <h5 className="modal-title">
-                                      Send Message
+                                      {t("listing.sendMessage")}
                                     </h5>
                                     <button
                                       type="button"
@@ -5722,7 +5822,7 @@ console.log(
                       </div>
                     </div>
 
-<h4 className="mt-2 mb-2">Location</h4>
+<h4 className="mt-2 mb-2">{t("listing.location")}</h4>
 
 {!loading && itemData ? (
   <LocationMap city={itemData?.City} district={itemData?.District} />

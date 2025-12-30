@@ -81,8 +81,11 @@ import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the cor
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const PetAnimalsComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2544,7 +2547,7 @@ const PetAnimalsComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2562,7 +2565,7 @@ const PetAnimalsComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Pet
+              {t("categories.petAnimals")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2580,7 +2583,7 @@ const PetAnimalsComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "petAnimals", t)}
                   </button>
                 </>
               )}
@@ -2600,7 +2603,7 @@ const PetAnimalsComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "petAnimals", t)}
                   </button>
                 </>
               )}

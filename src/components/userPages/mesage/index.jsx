@@ -30,8 +30,10 @@ import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 export default function Message() {
+  const { t } = useTranslation();
   const [user, setUser] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -206,38 +208,38 @@ export default function Message() {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -249,10 +251,10 @@ export default function Message() {
           {/* Sidebar */}
           <Col lg={3}>
             <div className="chats_btn_wrap_main">
-              <h5 className="chat_heading">Chats</h5>
+              <h5 className="chat_heading">{t("messages.chats")}</h5>
               <div className="chat_btns_wrap">
                 {chatUsers.length === 0 ? (
-                  <Alert>No chats yet.</Alert>
+                  <Alert>{t("messages.noChatsYet")}</Alert>
                 ) : (
                   chatUsers.map((u) => (
                     <Button
@@ -280,7 +282,7 @@ export default function Message() {
           <Col lg={9} className="d-flex flex-column">
             <div className="chat_messages_main_wrap">
               <div className="title_wrap">
-                <h5>Chat with {selected ? selected.name : "..."}</h5>
+                <h5>{t("messages.chatWith")} {selected ? selected.name : "..."}</h5>
               </div>
 
               <div
@@ -288,9 +290,9 @@ export default function Message() {
                 style={{ height: "600px" }}
               >
                 {!selected ? (
-                  <Alert>Select a chat.</Alert>
+                  <Alert>{t("messages.selectChat")}</Alert>
                 ) : messages.length === 0 ? (
-                  <Alert>No messages yet.</Alert>
+                  <Alert>{t("messages.noMessagesYet")}</Alert>
                 ) : (
                   <>
                     {/* 🔹 Product Data Display (only once) */}

@@ -18,8 +18,10 @@ import {
 import Header from "../../home/header";
 import { Link, useLocation } from "react-router-dom";
 import ShowMps from "../listingMap/map";
+import { useTranslation } from "react-i18next";
 
 const GridMap = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   return (
     <>
@@ -79,7 +81,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -148,7 +150,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -218,7 +220,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -287,7 +289,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -356,7 +358,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -425,7 +427,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -494,7 +496,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>
@@ -563,7 +565,7 @@ const GridMap = () => {
                               />
                             </Link>
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                               <Link to="#" className="fav-icon">
                                 <i className="feather-heart" />
                               </Link>

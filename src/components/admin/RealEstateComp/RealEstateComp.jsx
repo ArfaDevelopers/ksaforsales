@@ -80,8 +80,11 @@ import Spinner from "react-bootstrap/Spinner";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const RealEstateComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2846,7 +2849,7 @@ const RealEstateComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2864,7 +2867,7 @@ const RealEstateComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Realestate
+              {t("categories.realEstate")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2882,7 +2885,7 @@ const RealEstateComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "realEstate", t)}
                   </button>
                 </>
               )}
@@ -2902,7 +2905,7 @@ const RealEstateComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "realEstate", t)}
                   </button>
                 </>
               )}

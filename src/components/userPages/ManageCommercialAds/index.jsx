@@ -21,8 +21,10 @@ import {
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const ManageCommercialAds = () => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
   const location = useLocation();
@@ -194,7 +196,7 @@ const ManageCommercialAds = () => {
   // Define columns for the table
   const columns = [
     {
-      title: "Image",
+      title: t("myListing.image"),
       dataIndex: "image",
       render: (image) => (
         <div className="listingtable-img">
@@ -214,7 +216,7 @@ const ManageCommercialAds = () => {
       ),
     },
     {
-      title: "Details",
+      title: t("myListing.details"),
       dataIndex: "Title",
       render: (text, record) => (
         <>
@@ -223,19 +225,19 @@ const ManageCommercialAds = () => {
           </h6>
           <div className="listingtable-rate" style={{ marginBottom: "10px" }}>
             <span style={{ color: "#666", fontSize: "14px" }}>
-              <strong>Phone:</strong> {record.phone || "N/A"}
+              <strong>{t("commercialAds.phone")}:</strong> {record.phone || "N/A"}
             </span>
           </div>
           <div className="listingtable-rate">
             <span style={{ color: "#666", fontSize: "14px" }}>
-              <strong>WhatsApp:</strong> {record.whatsapp || "N/A"}
+              <strong>{t("commercialAds.whatsapp")}:</strong> {record.whatsapp || "N/A"}
             </span>
           </div>
         </>
       ),
     },
     {
-      title: "Date",
+      title: t("commercialAds.date"),
       dataIndex: "timeAgo",
       render: (timeAgo) => (
         <span style={{ color: "#666", fontSize: "14px" }}>
@@ -248,7 +250,7 @@ const ManageCommercialAds = () => {
       ),
     },
     {
-      title: "Action",
+      title: t("myListing.action"),
       dataIndex: "id",
       render: (id) => (
         <div
@@ -325,38 +327,38 @@ const ManageCommercialAds = () => {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -383,7 +385,7 @@ const ManageCommercialAds = () => {
                     fontWeight: "600",
                   }}
                 >
-                  My Commercial Ads
+                  {t("commercialAds.myCommercialAds")}
                 </h4>
                 <Link
                   to="/commercial-ads"
@@ -407,7 +409,7 @@ const ManageCommercialAds = () => {
                     className="fa-solid fa-plus"
                     style={{ fontSize: isMobile ? "12px" : "14px" }}
                   />
-                  Add Commercial Ad
+                  {t("commercialAds.addCommercialAd")}
                 </Link>
               </div>
 
@@ -455,7 +457,7 @@ const ManageCommercialAds = () => {
                     }}
                   >
                     <p style={{ fontSize: "16px", marginBottom: "20px" }}>
-                      You haven't created any commercial ads yet.
+                      {t("commercialAds.noAdsYet")}
                     </p>
                     <Link
                       to="/commercial-ads"
@@ -473,7 +475,7 @@ const ManageCommercialAds = () => {
                       }}
                     >
                       <i className="fa-solid fa-plus" />
-                      Create Your First Ad
+                      {t("commercialAds.createFirstAd")}
                     </Link>
                   </div>
                 ) : (
@@ -504,7 +506,7 @@ const ManageCommercialAds = () => {
                                 setCurrentPage((prev) => Math.max(prev - 1, 1));
                               }}
                             >
-                              <FaArrowLeft /> Prev
+                              <FaArrowLeft /> {t("myListing.prev")}
                             </Link>
                           </li>
                           <li className="justify-content-center pagination-center">
@@ -527,7 +529,7 @@ const ManageCommercialAds = () => {
                                 );
                               }}
                             >
-                              Next <FaArrowRight />
+                              {t("myListing.next")} <FaArrowRight />
                             </Link>
                           </li>
                         </ul>

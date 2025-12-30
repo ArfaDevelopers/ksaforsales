@@ -7,6 +7,7 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
+import { useTranslation } from "react-i18next";
 
 // Function to format the timeAgo in human-readable form
 function timeAgo(timestamp) {
@@ -39,12 +40,26 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState("Mobile Phones");
+
+  // Helper function to translate electronics subcategory names
+  const translateSubcategory = (name) => {
+    const subcategoryMap = {
+      "Mobile Phones": t("subcategories.electronics.mobilePhones"),
+      "Tablets": t("subcategories.electronics.tabletDevices"),
+      "Laptops": t("subcategories.electronics.computersAndLaptops"),
+      "Gaming": t("subcategories.electronics.videoGames"),
+      "Cameras": t("subcategories.electronics.cameras"),
+      "Appliances": t("subcategories.electronics.homeAndKitchenAppliance")
+    };
+    return subcategoryMap[name] || name;
+  };
 
   // Fetch subcategories
   useEffect(() => {
@@ -158,8 +173,10 @@ export default function AutomativeCarousel() {
             className="featuresection_infodev"
             style={{ marginTop: "2.5rem" }}
           >
-            <h2 className="featuresection_header">Electronic</h2>
-            <button className="blue_btn">View All</button>
+            <h2 className="featuresection_header">{t("categories.electronics")}</h2>
+            <Link to="/ElectronicComp">
+              <button className="blue_btn">{t("home.viewAll")}</button>
+            </Link>
           </div>
 
           <div className="feature-section-info">
@@ -212,7 +229,7 @@ export default function AutomativeCarousel() {
                     }
                   }}
                 >
-                  {sub.name}
+                  {translateSubcategory(sub.name)}
                 </li>
               ))}
             </ul>
@@ -285,7 +302,7 @@ export default function AutomativeCarousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">Featured</span>
+                                <span className="Featured-text">{t("common.featured")}</span>
                               </div>
                             )}
                           </div>

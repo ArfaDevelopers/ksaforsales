@@ -84,8 +84,11 @@ import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const HealthCareComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2655,7 +2658,7 @@ const HealthCareComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2673,7 +2676,7 @@ const HealthCareComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home & Furniture
+              {t("categories.homeFurniture")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2691,7 +2694,7 @@ const HealthCareComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "homeFurniture", t)}
                   </button>
                 </>
               )}
@@ -2711,7 +2714,7 @@ const HealthCareComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "homeFurniture", t)}
                   </button>
                 </>
               )}

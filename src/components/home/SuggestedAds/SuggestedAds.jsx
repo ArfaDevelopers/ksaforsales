@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import { db } from "../../Firebase/FirebaseConfig"; // Adjust path as needed
 import { getDocs, collection } from "firebase/firestore";
 import Spinner from "react-bootstrap/Spinner";
+import { useTranslation } from "react-i18next";
 
 const SuggestedAds = ({ callingFrom, currentAdId }) => {
+  const { t } = useTranslation();
   const [suggestedAds, setSuggestedAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const slider = useRef();
@@ -101,7 +103,7 @@ const SuggestedAds = ({ callingFrom, currentAdId }) => {
                   </div>
                   {ad.FeaturedAds === "Featured Ads" && (
                     <div className="fav-item">
-                      <span className="Featured-text">Featured</span>
+                      <span className="Featured-text">{t("common.featured")}</span>
                     </div>
                   )}
                   <div className="bloglist-content">

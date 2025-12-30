@@ -8,6 +8,7 @@ import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
+import { useTranslation } from "react-i18next";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -43,12 +44,31 @@ function timeAgo(timestamp) {
   return "Just now";
 }
 export default function AutomativeCarousel() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState("Cars For Sale");
+
+  // Helper function to translate subcategory names
+  const translateSubcategory = (name) => {
+    const subcategoryMap = {
+      "Cars For Sale": t("subcategories.motors.carsForSale"),
+      "Car Rental": t("subcategories.motors.carRental"),
+      "Plates Number": t("subcategories.motors.platesNumber"),
+      "Spare Parts": t("subcategories.motors.spareParts"),
+      "Accessories": t("subcategories.motors.accessories"),
+      "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
+      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
+      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Boats & JetSki": t("subcategories.motors.boatsAndJetski"),
+      "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
+      "Classic Cars": t("subcategories.motors.classicCars")
+    };
+    return subcategoryMap[name] || name;
+  };
 
   // Fetch subcategories
   useEffect(() => {
@@ -184,9 +204,9 @@ export default function AutomativeCarousel() {
             className="featuresection_infodev"
             style={{ marginTop: "1.5rem" }}
           >
-            <h2 className="featuresection_header">Automotive</h2>
+            <h2 className="featuresection_header">{t("categories.motors")}</h2>
             <Link to="/AutomotiveComp">
-              <button className="blue_btn">View All</button>
+              <button className="blue_btn">{t("home.viewAll")}</button>
             </Link>
           </div>
 
@@ -243,7 +263,7 @@ export default function AutomativeCarousel() {
                     }
                   }}
                 >
-                  {sub.name}
+                  {translateSubcategory(sub.name)}
                 </li>
               ))}
             </ul>
@@ -354,7 +374,7 @@ export default function AutomativeCarousel() {
                               {item.FeaturedAds === "Featured Ads" && (
                                 <div className="fav-item">
                                   <span className="Featured-text">
-                                    Featured
+                                    {t("common.featured")}
                                   </span>
                                 </div>
                               )}
