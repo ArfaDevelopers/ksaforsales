@@ -83,8 +83,11 @@ import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const FashionStyle = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2480,7 +2483,7 @@ const FashionStyle = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("nav.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2498,7 +2501,7 @@ const FashionStyle = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Fashion
+              {t("categories.fashionStyle")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2516,7 +2519,7 @@ const FashionStyle = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "fashionStyle", t)}
                   </button>
                 </>
               )}
@@ -2536,7 +2539,7 @@ const FashionStyle = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "fashionStyle", t)}
                   </button>
                 </>
               )}

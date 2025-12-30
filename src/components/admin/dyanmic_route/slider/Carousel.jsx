@@ -10,8 +10,10 @@ import { useEffect, useState } from "react";
 import image from "./image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export default function Carousel() {
+  const { t } = useTranslation();
   const [slidesToShow, setSlidesToShow] = useState(5);
   // const { cartApi, setCartApi } = useMyContext();
 
@@ -165,7 +167,7 @@ export default function Carousel() {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                         </div>
                       </div>
                       <div className="bloglist-content">

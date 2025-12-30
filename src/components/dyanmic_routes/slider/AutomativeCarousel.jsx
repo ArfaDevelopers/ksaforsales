@@ -7,6 +7,7 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -21,6 +22,7 @@ const formatPostedTime = (timestamp) => {
 };
 
 export default function AutomativeCarousel() {
+  const { t } = useTranslation();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -244,7 +246,7 @@ export default function AutomativeCarousel() {
                               {item.FeaturedAds === "Featured Ads" && (
                                 <div className="fav-item">
                                   <span className="Featured-text">
-                                    Featured
+                                    {t("common.featured")}
                                   </span>
                                 </div>
                               )}

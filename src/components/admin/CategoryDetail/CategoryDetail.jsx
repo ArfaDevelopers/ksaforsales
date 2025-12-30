@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Button, Modal, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import {
   FaArrowLeft,
   FaPhone,
@@ -51,9 +52,54 @@ import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import Swal from "sweetalert2";
 const CategoryDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams(); // Get ID from URL
   const navigate = useNavigate();
   const { page } = useParams(); // This will be "CommercialAdscom"
+
+  // Helper function to translate category names
+  const translateCategory = (category) => {
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "RealEstate": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "Other": t("categories.other"),
+      "Commercial": t("categories.commercial")
+    };
+    return categoryMap[category] || category;
+  };
+
+  // Helper function to translate subcategory names
+  const translateSubcategory = (subcategory, category) => {
+    if (!subcategory) return "";
+
+    // Map for "Other" category subcategories
+    const otherSubcategoryMap = {
+      "Hunting & Trips": t("subcategories.other.huntingAndTrips"),
+      "Gardening & Agriculture": t("subcategories.other.gardeningAndAgriculture"),
+      "Parties & Events": t("subcategories.other.partiesAndEvents"),
+      "Travel & Tourism": t("subcategories.other.travelAndTourism"),
+      "Roommate": t("subcategories.other.roommate"),
+      "Books": t("subcategories.other.books"),
+      "Business & Industrial": t("subcategories.other.businessAndIndustrial"),
+      "Music & Musical Instruments": t("subcategories.other.musicAndMusicalInstruments"),
+      "Food & Restaurants": t("subcategories.other.foodAndRestaurants"),
+      "Miscellaneous": t("subcategories.other.miscellaneous"),
+      "Lost & Found": t("subcategories.other.lostAndFound"),
+      "Freebies": t("subcategories.other.freebies"),
+      "Free Stuff": t("subcategories.other.freeStuff")
+    };
+
+    return otherSubcategoryMap[subcategory] || subcategory;
+  };
 
   // State to manage modals for call and WhatsApp
   const [showCall, setShowCall] = useState(false);
@@ -368,15 +414,25 @@ const CategoryDetail = () => {
 
   const [successShow, setSuccessShow] = useState(false);
   const handleSuccessClose = () => setSuccessShow(false);
-  const [reportTypes, setReportTypes] = useState([
-    "Sexual",
-    "Illegal",
-    "Abusive",
-    "Harassment",
-    "Fraud",
-    "Spam",
-  ]);
+  const reportTypes = [
+    t("listing.reportTypes.sexual"),
+    t("listing.reportTypes.illegal"),
+    t("listing.reportTypes.abusive"),
+    t("listing.reportTypes.harassment"),
+    t("listing.reportTypes.fraud"),
+    t("listing.reportTypes.spam"),
+  ];
   const [selectedReports, setSelectedReports] = useState([]);
+
+  // Handle checkbox change for report types
+  const handleCheckboxChange = (type) => {
+    setSelectedReports((prev) =>
+      prev.includes(type)
+        ? prev.filter((item) => item !== type)
+        : [...prev, type]
+    );
+  };
+
   const handleSubmit = async () => {
     console.log("Report Submitted:", { reportText, selectedReports });
 
@@ -563,36 +619,48 @@ const CategoryDetail = () => {
                 }}
                 onClick={() => navigate("/")}
               >
-                Home
+                {t("nav.home")}
               </button>
               <span>
                 <MdKeyboardArrowRight />
               </span>
-              <button
-                className="btn"
-                style={{
-                  background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                  fontWeight: "500",
-                  padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-                }}
-                onClick={() => navigate("/CommercialAdscom")}
-              >
-                CommercialAds
-              </button>
-              <span>
-                <MdKeyboardArrowRight />
-              </span>
-              <button
-                className="btn"
-                style={{
-                  background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
-                  fontWeight: "500",
-                  padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
-                }}
-              >
-                Commercial ad details
-              </button>
+              {categories?.Category && (
+                <>
+                  <button
+                    className="btn"
+                    style={{
+                      background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                      fontWeight: "500",
+                      padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                    }}
+                  >
+                    {translateCategory(categories.Category)}
+                  </button>
+                  <span>
+                    <MdKeyboardArrowRight />
+                  </span>
+                </>
+              )}
+              {categories?.SubCategory && (
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                >
+                  {translateSubcategory(categories.SubCategory, categories.Category)}
+                </button>
+              )}
             </div>
+            {categories?.title && (
+              <div className="mt-3">
+                <h2 style={{ fontWeight: "bold", fontSize: "28px" }}>
+                  {categories.title}
+                </h2>
+              </div>
+            )}
           </div>
         </Container>
         <div
@@ -632,7 +700,7 @@ const CategoryDetail = () => {
                 />
               )}
             </span>{" "}
-            Favourite
+            {t("detail.favourite")}
           </button>
 
           <>
@@ -661,7 +729,7 @@ const CategoryDetail = () => {
 
                 {/* <img src={share} alt="share" /> */}
               </span>
-              Share
+              {t("common.share")}
             </button>
 
             {/* Modal */}
@@ -685,7 +753,7 @@ const CategoryDetail = () => {
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">Share</h5>
+                      <h5 className="modal-title">{t("common.share")}</h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -756,14 +824,14 @@ const CategoryDetail = () => {
                         className="blue_btn"
                         onClick={copyToClipboard}
                       >
-                        Copy
+                        {t("common.copy")}
                       </button>
                       <button
                         type="button"
                         className="blue_btn"
                         onClick={() => setShowModal1(false)}
                       >
-                        Close
+                        {t("common.close")}
                       </button>
                     </div>
                   </div>
@@ -794,7 +862,7 @@ const CategoryDetail = () => {
                 }}
               />
             </span>
-            Report
+            {t("detail.report")}
           </button>
           <Modal
             style={{ marginTop: window.innerWidth <= 576 ? 60 : 20 }}
@@ -803,23 +871,23 @@ const CategoryDetail = () => {
             centered
           >
             <Modal.Header closeButton>
-              <Modal.Title>Submit a Report</Modal.Title>
+              <Modal.Title>{t("detail.submitReport")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <Form.Group controlId="reportText">
-                  <Form.Label>Report Details</Form.Label>
+                  <Form.Label>{t("detail.reportDetails")}</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    placeholder="Describe the issue..."
+                    placeholder={t("detail.describeIssue")}
                     value={reportText}
                     onChange={(e) => setReportText(e.target.value)}
                   />
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>Report Type</Form.Label>
+                  <Form.Label>{t("detail.reportType")}</Form.Label>
                   {reportTypes.map((type, index) => (
                     <Form.Check
                       key={index}
@@ -855,7 +923,7 @@ const CategoryDetail = () => {
                   e.currentTarget.style.color = "#fff"; // Restore same text color
                 }}
               >
-                Close
+                {t("common.close")}
               </Button>
               <Button
                 style={{
@@ -881,7 +949,7 @@ const CategoryDetail = () => {
                 // disabled={!reportText || selectedReports.length === 0}
                 // disabled={selectedReports.length === 0}
               >
-                Submit Report
+                {t("detail.submitReport")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -910,7 +978,7 @@ const CategoryDetail = () => {
               <FaRegEye />
               <span style={{ fontWeight: "bold" }} className="gap-2">
                 {categories?.visitCount}
-                <span style={{ marginLeft: "3px" }}>Views</span>
+                <span style={{ marginLeft: "3px" }}>{t("common.views")}</span>
               </span>
             </div>
 
@@ -971,12 +1039,12 @@ const CategoryDetail = () => {
             >
               <Modal.Title>
                 <FaShareAlt className="me-2" />
-                Share Image
+                {t("common.shareImage")}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="p-4">
               <div className="mb-3">
-                <label className="text-secondary mb-2 fw-bold">Link</label>
+                <label className="text-secondary mb-2 fw-bold">{t("detail.link")}</label>
                 <div
                   className="border rounded p-3"
                   style={{
@@ -1010,7 +1078,7 @@ const CategoryDetail = () => {
                   >
                     <div className="d-flex align-items-center">
                       <FaCopy size={18} className="me-2" />
-                      <span className="fw-bold">Copy to Clipboard</span>
+                      <span className="fw-bold">{t("detail.copyToClipboard")}</span>
                     </div>
                   </Button>
                 </Col>
@@ -1049,7 +1117,7 @@ const CategoryDetail = () => {
                       fill: "white",
                     }}
                   />
-                  <span style={{ color: "white" }}>Call</span>
+                  <span style={{ color: "white" }}>{t("listing.call")}</span>
                 </button>
                 <button
                   className="d-flex align-items-center blue_btn list_btn categories"
@@ -1058,7 +1126,7 @@ const CategoryDetail = () => {
                   // onMouseLeave={handleWhatsappMouseLeave}
                 >
                   <FaWhatsapp />
-                  <span>WhatsApp</span>
+                  <span>{t("listing.whatsapp")}</span>
                 </button>
                 <Button
                   variant="primary"
@@ -1088,7 +1156,7 @@ const CategoryDetail = () => {
         <Modal show={showCall} onHide={handleCloseCall} centered>
           <Modal.Body className="text-end p-4">
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="fw-bold">Call</h5>
+              <h5 className="fw-bold">{t("listing.call")}</h5>
               <button onClick={handleCloseCall} className="btn btn-light">
                 ✕
               </button>
@@ -1109,7 +1177,7 @@ const CategoryDetail = () => {
         <Modal show={showWhatsapp} onHide={handleCloseWhatsapp} centered>
           <Modal.Body className="text-end p-4">
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="fw-bold">WhatsApp</h5>
+              <h5 className="fw-bold">{t("listing.whatsapp")}</h5>
               <button onClick={handleCloseWhatsapp} className="btn btn-light">
                 ✕
               </button>

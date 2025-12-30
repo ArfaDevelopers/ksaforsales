@@ -30,9 +30,11 @@ import {
 import Header from "../../home/header";
 import { Link, useLocation } from "react-router-dom";
 import ShowMps from "./map";
+import { useTranslation } from "react-i18next";
 // import Apps from "./map";
 
 const ListingMap = () => {
+  const { t } = useTranslation();
   const [offset, setOffset] = useState(false);
   const data = [
     {
@@ -173,7 +175,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -239,7 +241,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -305,7 +307,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -371,7 +373,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -437,7 +439,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -503,7 +505,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -569,7 +571,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>
@@ -635,7 +637,7 @@ const ListingMap = () => {
                           />
                         </Link>
                         <div className="fav-item">
-                          <span className="Featured-text">Featured</span>
+                          <span className="Featured-text">{t("common.featured")}</span>
                           <Link to="#" className="fav-icon">
                             <i className="feather-heart" />
                           </Link>

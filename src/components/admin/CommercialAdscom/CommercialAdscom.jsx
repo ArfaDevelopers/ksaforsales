@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Header from "../../home/header";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Container, Button, Card, Row, Col, Modal } from "react-bootstrap";
@@ -50,6 +51,30 @@ import Swal from "sweetalert2";
 const ITEMS_PER_PAGE = 4; // Set number of items per page
 
 const CommercialAdscom = () => {
+  const { t } = useTranslation();
+
+  // Helper function to translate category names
+  const translateCategoryName = (categoryName) => {
+    const categoryMap = {
+      "Commercial": "categories.commercial",
+      "Electronics": "categories.electronics",
+      "Fashion Style": "categories.fashionStyle",
+      "Home & Furniture": "categories.homeFurniture",
+      "Home and Furniture": "categories.homeFurniture",
+      "Motor": "categories.motors",
+      "Motors": "categories.motors",
+      "Services": "categories.services",
+      "Job Board": "categories.jobBoard",
+      "Real Estate": "categories.realEstate",
+      "RealEstate": "categories.realEstate",
+      "Realestate": "categories.realEstate",
+      "Sport & Game": "categories.sportGame",
+      "Pet & Animals": "categories.petAnimals",
+      "Other": "categories.other"
+    };
+    return t(categoryMap[categoryName] || categoryName);
+  };
+
   // console.log("file is running",categories);
   const navigate = useNavigate();
   const [showCall, setShowCall] = useState(false);
@@ -205,6 +230,24 @@ const CommercialAdscom = () => {
     if (!userClickedId) return;
 
     try {
+      // Update local state immediately for instant feedback
+      setCategories((prevCategories) =>
+        prevCategories.map((item) => {
+          if (item.id === itemId) {
+            const currentHeartedBy = item.heartedby || [];
+            const isAlreadyHearted = currentHeartedBy.includes(userClickedId);
+            return {
+              ...item,
+              heartedby: isAlreadyHearted
+                ? currentHeartedBy.filter((id) => id !== userClickedId)
+                : [...currentHeartedBy, userClickedId],
+            };
+          }
+          return item;
+        })
+      );
+
+      // Update database
       const docRef = doc(db, "CommercialAdscom", itemId);
       const docSnap = await getDoc(docRef);
 
@@ -219,7 +262,6 @@ const CommercialAdscom = () => {
             ? arrayRemove(userClickedId)
             : arrayUnion(userClickedId),
         });
-        setRefresh(!refresh); // force re-fetch if needed
 
         console.log(
           `User ${
@@ -229,6 +271,8 @@ const CommercialAdscom = () => {
       }
     } catch (error) {
       console.error("Error updating heartedby field:", error);
+      // Revert local state on error
+      setRefresh(!refresh);
     }
   };
   const handleShowWhatsApp = (phone) => {
@@ -675,7 +719,7 @@ const CommercialAdscom = () => {
                   }}
                   onClick={() => navigate("/")}
                 >
-                  Home
+                  {t("nav.home")}
                 </button>
                 <span>
                   <MdKeyboardArrowRight />
@@ -690,7 +734,7 @@ const CommercialAdscom = () => {
                   }}
                   onClick={() => navigate("/CommercialAdscom")}
                 >
-                  Commercial Ads
+                  {t("categories.commercial")}
                 </button>
               </div>
             </div>
@@ -725,7 +769,7 @@ const CommercialAdscom = () => {
                     }}
                   />
                 </span>
-                Share
+                {t("common.share")}
               </button>
 
               <Form.Select
@@ -735,11 +779,11 @@ const CommercialAdscom = () => {
                 className=""
                 style={{ width: window.innerWidth <= 576 ? "47%" : "220px" }}
               >
-                <option value="All">All Categories</option>
+                <option value="All">{t("common.allCategories")}</option>
 
                 {uniqueCategories.map((catObj, index) => (
                   <option key={index} value={catObj.name}>
-                    {catObj.name}
+                    {translateCategoryName(catObj.name)}
                   </option>
                 ))}
               </Form.Select>
@@ -765,7 +809,7 @@ const CommercialAdscom = () => {
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">Share</h5>
+                      <h5 className="modal-title">{t("common.share")}</h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -862,14 +906,14 @@ const CommercialAdscom = () => {
                         className="blue_btn"
                         onClick={copyToClipboard}
                       >
-                        Copy
+                        {t("common.copy")}
                       </button>
                       <button
                         type="button"
                         className="blue_btn"
                         onClick={() => setShowModal1(false)}
                       >
-                        Close
+                        {t("common.close")}
                       </button>
                     </div>
                   </div>
@@ -886,7 +930,7 @@ const CommercialAdscom = () => {
               marginTop: "5px",
             }}
           >
-            Commercial Ads
+            {t("categories.commercial")}
           </h1>
 
           <Modal show={showModal} onHide={handleCloseModal} centered>
@@ -917,9 +961,9 @@ const CommercialAdscom = () => {
                 >
                   <FaLink size={24} />
                 </div>
-                <h4 className="fw-bold">Share Image</h4>
+                <h4 className="fw-bold">{t("common.shareImage")}</h4>
                 <div className="text-muted small">
-                  Copy the link to share with others
+                  {t("common.copyLinkToShare")}
                 </div>
               </div>
 
@@ -972,7 +1016,7 @@ const CommercialAdscom = () => {
                     padding: "10px 0",
                   }}
                 >
-                  Done
+                  {t("common.done")}
                 </Button>
               </div>
             </Modal.Body>
@@ -1060,7 +1104,7 @@ const CommercialAdscom = () => {
                             style={{ fontWeight: "bold", fontSize: "15px" }}
                           >
                             {item?.visitCount}
-                            <span style={{ marginLeft: "3px" }}>Views</span>
+                            <span style={{ marginLeft: "3px" }}>{t("common.views")}</span>
                           </span>
                         </div>
 
@@ -1130,7 +1174,7 @@ const CommercialAdscom = () => {
                               }}
                               // className="fill-white text-white mt-1"
                             />
-                            <span>Call</span>
+                            <span>{t("listing.call")}</span>
                           </button>
 
                           <button
@@ -1142,9 +1186,10 @@ const CommercialAdscom = () => {
                             }}
                           >
                             <FaWhatsapp />
-                            <span>WhatsApp</span>
+                            <span>{t("listing.whatsapp")}</span>
                           </button>
                           <Button
+                            type="button"
                             variant="primary"
                             className="d-flex align-items-center gap-1 bg-white"
                             style={{
@@ -1153,6 +1198,7 @@ const CommercialAdscom = () => {
                             }}
                             onClick={(e) => {
                               e.stopPropagation();
+                              e.preventDefault();
                               favoritiesadded(item.id); // Call your function with the clicked item's ID
                             }}
                           >
@@ -1179,7 +1225,7 @@ const CommercialAdscom = () => {
           <Modal show={showCall} onHide={handleCloseCall} centered>
             <div className="p-4">
               <div className="d-flex justify-content-between align-items-center">
-                <h6 className="fw-bold text-dark">Call</h6>
+                <h6 className="fw-bold text-dark">{t("listing.call")}</h6>
                 <button onClick={handleCloseCall} className="btn border-0">
                   ✕
                 </button>
@@ -1210,7 +1256,7 @@ const CommercialAdscom = () => {
           <Modal show={showWhatsApp} onHide={handleCloseWhatsApp} centered>
             <div className="p-4">
               <div className="d-flex justify-content-between align-items-center">
-                <h6 className="fw-bold text-dark">Whatsapp</h6>
+                <h6 className="fw-bold text-dark">{t("listing.whatsapp")}</h6>
                 <button onClick={handleCloseWhatsApp} className="btn border-0">
                   ✕
                 </button>

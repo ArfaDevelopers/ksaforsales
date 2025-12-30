@@ -17,12 +17,14 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 import img1 from "./img1.png";
 import img2 from "./image 39 (2).png";
 import img3 from "./img3.png";
 import img4 from "./image 41 (1).png";
 
 export default function Carousel() {
+  const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [slidesToShow, setSlidesToShow] = useState(4);
 
@@ -62,9 +64,9 @@ export default function Carousel() {
       <div className="container">
         <div className="row align-items-center">
           <div className=" featuresection_infodev1  featuresection_infodev mb-5 ">
-            <h4 className="featuresection_header  ">Commercials Ads</h4>
+            <h4 className="featuresection_header  ">{t("categories.commercial")}</h4>
             <button className="featuresection_btn   featuresection_btn1 ">
-              View All Ads
+              {t("listing.viewAllAds")}
             </button>
           </div>
 

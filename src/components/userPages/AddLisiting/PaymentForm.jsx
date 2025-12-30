@@ -12,8 +12,10 @@ import {
 } from "firebase/firestore";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const PaymentForm = (props) => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
 
   console.log(props, "FeaturedAds__________________props");
@@ -239,7 +241,7 @@ const PaymentForm = (props) => {
               htmlFor="card"
               className="block text-sm font-medium text-gray-600"
             >
-              Card Information
+              {t("payment.cardInformation")}
             </label>
             <div
               style={{
@@ -273,18 +275,18 @@ const PaymentForm = (props) => {
                   style={{ width: "3rem", height: "3rem" }}
                   role="status"
                 >
-                  <span class="visually-hidden">Loading...</span>
+                  <span class="visually-hidden">{t("payment.loading")}</span>
                 </div>
                 <div
                   class="spinner-grow"
                   style={{ width: "3rem", height: "3rem" }}
                   role="status"
                 >
-                  <span class="visually-hidden">Loading...</span>
+                  <span class="visually-hidden">{t("payment.loading")}</span>
                 </div>
               </>
             ) : (
-              "Pay Now"
+              t("payment.payNow")
             )}
           </button>
         </form>

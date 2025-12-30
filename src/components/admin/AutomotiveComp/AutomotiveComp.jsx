@@ -90,8 +90,11 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const AutomotiveComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const navigate = useNavigate();
 
@@ -4278,7 +4281,7 @@ const AutomotiveComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -4296,7 +4299,7 @@ const AutomotiveComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Motors
+              {t("categories.motors")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -4314,7 +4317,7 @@ const AutomotiveComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "motors", t)}
                   </button>
                 </>
               )}
@@ -4334,7 +4337,7 @@ const AutomotiveComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "motors", t)}
                   </button>
                 </>
               )}

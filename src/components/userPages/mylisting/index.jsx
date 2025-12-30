@@ -36,8 +36,10 @@ import {
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const MyListe = () => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
@@ -473,7 +475,7 @@ const MyListe = () => {
 
   const columns = [
     {
-      title: "Image",
+      title: t("myListing.image"),
       dataIndex: "galleryImages",
       render: (images, record) => (
         <div className="listingtable-img">
@@ -533,7 +535,7 @@ const MyListe = () => {
         (b.galleryImages?.[0]?.length || 0),
     },
     {
-      title: "Details",
+      title: t("myListing.details"),
       dataIndex: "title",
       render: (text, record) => (
         <>
@@ -637,11 +639,11 @@ const MyListe = () => {
       sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0),
     },
     {
-      title: "Status",
+      title: t("myListing.status"),
       dataIndex: "status",
       render: (text, record) => (
         <span className={record.bg}>
-          {record.isActive ? "Acitve" : "Not Active"}
+          {record.isActive ? t("myListing.active") : t("myListing.notActive")}
         </span>
       ),
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
@@ -649,7 +651,7 @@ const MyListe = () => {
     ...(showInvoiceColumn
       ? [
           {
-            title: "Invoice",
+            title: t("myListing.invoice"),
             dataIndex: "invoiceNumber",
             render: (text, record) => (
               <div
@@ -680,13 +682,13 @@ const MyListe = () => {
         ]
       : []),
     {
-      title: "Views",
+      title: t("myListing.views"),
       dataIndex: "views", // ✅ correct field
       render: (text, record) => <span>{record.views ?? 0}</span>,
       sorter: (a, b) => (a.views || 0) - (b.views || 0),
     },
     {
-      title: "Action",
+      title: t("myListing.action"),
       dataIndex: "class",
       render: (text, record) => (
         <div
@@ -1019,32 +1021,32 @@ const MyListe = () => {
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li className="active">
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               {/* <li>
@@ -1055,7 +1057,7 @@ const MyListe = () => {
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -1082,7 +1084,7 @@ const MyListe = () => {
                     fontWeight: "600",
                   }}
                 >
-                  My Listings
+                  {t("myListing.myListings")}
                 </h4>
                 <div
                   style={{
@@ -1125,7 +1127,15 @@ const MyListe = () => {
                             textAlign: "center",
                           }}
                         >
-                          <span>{filter}</span>
+                          <span>
+                            {filter === "All Listing"
+                              ? t("myListing.allListing")
+                              : filter === "Featured Ads"
+                              ? t("myListing.featuredAds")
+                              : filter === "Not Featured Ads"
+                              ? t("myListing.notFeaturedAds")
+                              : filter}
+                          </span>
                         </Link>
                         <div
                           className={`dropdown-menu dropdown-menu-end ${
@@ -1155,7 +1165,7 @@ const MyListe = () => {
                               fontSize: isMobile ? "12px" : "14px",
                             }}
                           >
-                            All Listing
+                            {t("myListing.allListing")}
                           </Link>
                           <Link
                             className="dropdown-item"
@@ -1169,7 +1179,7 @@ const MyListe = () => {
                               fontSize: isMobile ? "12px" : "14px",
                             }}
                           >
-                            Featured Ads
+                            {t("myListing.featuredAds")}
                           </Link>
                           <Link
                             className="dropdown-item"
@@ -1185,7 +1195,7 @@ const MyListe = () => {
                               fontSize: isMobile ? "12px" : "14px",
                             }}
                           >
-                            Not Featured Ads
+                            {t("myListing.notFeaturedAds")}
                           </Link>
                         </div>
                       </li>
@@ -1213,7 +1223,7 @@ const MyListe = () => {
                       className="fa-solid fa-plus"
                       style={{ fontSize: isMobile ? "12px" : "14px" }}
                     />
-                    Add Listing
+                    {t("myListing.addListing")}
                   </Link>
                 </div>
               </div>
@@ -1224,7 +1234,7 @@ const MyListe = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Search..."
+                        placeholder={t("myListing.search")}
                         value={searchQuery}
                         onChange={handleSearchChange}
                       />
@@ -1233,15 +1243,15 @@ const MyListe = () => {
                   </div>
                   <div className="sorting-div">
                     <div className="sortbyset">
-                      <span className="sortbytitle">Sort by</span>
+                      <span className="sortbytitle">{t("myListing.sortBy")}</span>
                       <div className="sorting-select">
                         <select
                           value={sortOrder}
                           onChange={handleSortChange}
                           className="form-control"
                         >
-                          <option value="Newest">Newest First</option>
-                          <option value="Oldest">Oldest First</option>
+                          <option value="Newest">{t("myListing.newestFirst")}</option>
+                          <option value="Oldest">{t("myListing.oldestFirst")}</option>
                         </select>
                       </div>
                     </div>
@@ -1307,7 +1317,7 @@ const MyListe = () => {
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                         >
-                          <FaArrowLeft /> Prev
+                          <FaArrowLeft /> {t("myListing.prev")}
                         </Link>
                       </li>
                       <li className="justify-content-center pagination-center">
@@ -1329,7 +1339,7 @@ const MyListe = () => {
                             )
                           }
                         >
-                          Next <FaArrowRight />
+                          {t("myListing.next")} <FaArrowRight />
                         </Link>
                       </li>
                     </ul>

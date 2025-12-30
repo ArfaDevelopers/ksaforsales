@@ -84,8 +84,11 @@ import useSearchStore from "../../../store/searchStore"; // adjust the path
 import Mesagedeals from "../../../components/userPages/mesagedeals";
 import { ref, getDownloadURL } from "firebase/storage";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const ElectronicComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2290,7 +2293,7 @@ const ElectronicComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2308,7 +2311,7 @@ const ElectronicComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Electronics
+              {t("categories.electronics")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2326,7 +2329,7 @@ const ElectronicComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "electronics", t)}
                   </button>
                 </>
               )}
@@ -2346,7 +2349,7 @@ const ElectronicComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "electronics", t)}
                   </button>
                 </>
               )}

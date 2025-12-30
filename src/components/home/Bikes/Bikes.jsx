@@ -54,8 +54,10 @@ import {
   Badge,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import { useTranslation } from "react-i18next";
 
 const Bikes = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2179,7 +2181,7 @@ const Bikes = () => {
                                       className="fab fa-whatsapp"
                                       style={{ color: "#2D4495" }}
                                     ></i>{" "}
-                                    WhatsApp
+                                    {t("listing.whatsapp")}
                                   </button>
                                 </Col>
 

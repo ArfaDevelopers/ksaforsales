@@ -83,8 +83,11 @@ import WindowedSelect from "react-windowed-select";
 import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
+import { useTranslation } from "react-i18next";
+import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
 
 const TravelComp = () => {
+  const { t } = useTranslation();
   const parms = useLocation().pathname;
   const [isVisible, setIsVisible] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -2828,7 +2831,7 @@ const TravelComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Home
+              {t("header.home")}
             </button>
             <span>
               <MdKeyboardArrowRight />
@@ -2846,7 +2849,7 @@ const TravelComp = () => {
                 padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
               }}
             >
-              Services
+              {t("categories.services")}
             </button>
             {subCatgory &&
               typeof subCatgory === "string" &&
@@ -2864,7 +2867,7 @@ const TravelComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {subCatgory}
+                    {translateSubcategory(subCatgory, "services", t)}
                   </button>
                 </>
               )}
@@ -2884,7 +2887,7 @@ const TravelComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {nestedSubCategory}
+                    {translateNestedSubcategory(nestedSubCategory, "services", t)}
                   </button>
                 </>
               )}

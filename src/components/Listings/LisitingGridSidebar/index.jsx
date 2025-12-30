@@ -4,6 +4,7 @@ import { ProfileAvatar02, ProfileAvatar03, ProfileAvatar04, ProfileAvatar05, Pro
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -12,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 
 
 const GridSidebar = () => {
+    const { t } = useTranslation();
     const parms=useLocation().pathname
     return (
         <>
@@ -78,7 +80,7 @@ const GridSidebar = () => {
                                                         />
                                                     </Link>
                                                     <div className="fav-item">
-                                                        <span className="Featured-text">Featured</span>
+                                                        <span className="Featured-text">{t("common.featured")}</span>
                                                         <Link to="#" className="fav-icon">
                                                             <i className="feather-heart" />
                                                         </Link>

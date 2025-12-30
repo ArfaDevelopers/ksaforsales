@@ -1,0 +1,12 @@
+/* RTL (Right-to-Left) styles for Arabic language */
+/* Only translate text, keep layout structure LTR */
+
+/* Apply RTL text direction but keep layout */
+body.rtl {
+  /* Don't change direction - keep layout as LTR */
+}
+
+/* No layout changes - only text translation */
+
+/* Keep all layout exactly as LTR - only translate text */
+/* No directional or positional changes */

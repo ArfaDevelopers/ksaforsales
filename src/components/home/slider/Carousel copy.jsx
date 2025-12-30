@@ -118,7 +118,7 @@ export default function Carousel() {
                           </Link>
                           {item.isFeatured && (
                             <div className="fav-item">
-                              <span className="Featured-text">Featured</span>
+                              <span className="Featured-text">{t("common.featured")}</span>
                             </div>
                           )}
                         </div>

@@ -13,6 +13,7 @@ import {
 } from "../../imagepath";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useTranslation } from "react-i18next";
 // import image from "./Group 164.png";
 // import image2 from "./Help Section.png";
 import gmail from "./gmail.png";
@@ -33,6 +34,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -55,7 +57,7 @@ const Footer = () => {
           {/* footer_top */}
           <div className="footermid-wrapper ">
             <div className="footermid-container container">
-              <h3 className="footermid-heading">We are always here to help</h3>
+              <h3 className="footermid-heading">{t("footer.alwaysHereToHelp")}</h3>
               <div className="footermidinfo-container">
                 <div className="midfooterinfo">
                   <i className="midfooterinfo-icon">
@@ -80,7 +82,7 @@ const Footer = () => {
                     {/* <img src={gmail} alt="" style={{ width: "50px" }} /> */}
                   </i>
                   <div className="footermidgmail">
-                    <h4 className="footermidgmailheading">Email support</h4>
+                    <h4 className="footermidgmailheading">{t("footer.emailSupport")}</h4>
                     <a
                       href="mailto:Info@ksa4sale.com"
                       className="footermid-para"
@@ -162,7 +164,7 @@ const Footer = () => {
                     </svg>
                   </i>
                   <div className="footermidgmail">
-                    <h4 className="footermidgmailheading">Phone Number</h4>
+                    <h4 className="footermidgmailheading">{t("footer.phoneNumber")}</h4>
                     <a
                       href="tel:966 566 323 232"
                       className="footermid-para"
@@ -300,25 +302,25 @@ const Footer = () => {
                   <div className="row">
                     <div className="col-lg-6 col-md-6 footer_link_mbl">
                       <div className="footer-widget footer-menu">
-                        <h2 className="footer-title">Categories</h2>
+                        <h2 className="footer-title">{t("footer.categories")}</h2>
                         <ul>
                           <li>
-                            <Link to="/search?category=motors">Motors</Link>
+                            <Link to="/search?category=motors">{t("categories.motors")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=electronics">Electronics</Link>
+                            <Link to="/search?category=electronics">{t("categories.electronics")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=fashion-style">Fashion Style</Link>
+                            <Link to="/search?category=fashion-style">{t("categories.fashionStyle")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=home-and-furniture">Home & Furniture</Link>
+                            <Link to="/search?category=home-and-furniture">{t("categories.homeFurniture")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=job-board">Job Board</Link>
+                            <Link to="/search?category=job-board">{t("categories.jobBoard")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=real-estate">Realestate</Link>
+                            <Link to="/search?category=real-estate">{t("categories.realEstate")}</Link>
                           </li>
                         </ul>
                       </div>
@@ -333,19 +335,19 @@ const Footer = () => {
                           }}
                         >
                           <li>
-                            <Link to="/search?category=services">Services</Link>
+                            <Link to="/search?category=services">{t("categories.services")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=sport-and-game">Sport & Game</Link>
+                            <Link to="/search?category=sport-and-game">{t("categories.sportGame")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=pet-and-animals">Pet & Animals</Link>
+                            <Link to="/search?category=pet-and-animals">{t("categories.petAnimals")}</Link>
                           </li>
                           <li>
-                            <Link to="/search?category=other">Other</Link>
+                            <Link to="/search?category=other">{t("categories.other")}</Link>
                           </li>
                           <li>
-                            <Link to="/CommercialAdscom">Commercial</Link>
+                            <Link to="/CommercialAdscom">{t("categories.commercial")}</Link>
                           </li>
                         </ul>
                       </div>
@@ -354,57 +356,57 @@ const Footer = () => {
                 </div>
                 <div className="col-lg-2 col-md-6 footer_link_mbl">
                   <div className="footer-widget footer-menu">
-                    <h2 className="footer-title">My Account</h2>
+                    <h2 className="footer-title">{t("footer.myAccount")}</h2>
                     <ul>
                       <li>
-                        <Link to="/dashboard">Dashboard</Link>
+                        <Link to="/dashboard">{t("footer.dashboard")}</Link>
                       </li>
                       <li>
-                        <Link to="/profile">Profile</Link>
+                        <Link to="/profile">{t("footer.profile")}</Link>
                       </li>
                       <li>
-                        <Link to="/my-listing">My Listing</Link>
+                        <Link to="/my-listing">{t("footer.myListing")}</Link>
                       </li>
                       <li>
-                        <Link to="/bookmarks">My Favourtite</Link>
+                        <Link to="/bookmarks">{t("footer.myFavourite")}</Link>
                       </li>
                       <li>
-                        <Link to="/messages">Messages</Link>
+                        <Link to="/messages">{t("footer.messages")}</Link>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div className="col-lg-2 col-md-6 footer_link_mbl">
                   <div className="footer-widget footer-menu">
-                    <div className="footer-title">Ksa4sale</div>
+                    <div className="footer-title">{t("footer.ksa4sale")}</div>
                     <ul>
                       <li>
-                        <Link to="/AboutUs">About Us</Link>
+                        <Link to="/AboutUs">{t("footer.aboutUs")}</Link>
                       </li>
                       <li>
-                        <Link to="/TermsAndConditions">Terms & Conditions</Link>
+                        <Link to="/TermsAndConditions">{t("footer.termsConditions")}</Link>
                       </li>
                       <li>
-                        <Link to="/PrivacyPolicy">Privacy & Policy</Link>
+                        <Link to="/PrivacyPolicy">{t("footer.privacyPolicy")}</Link>
                       </li>
 
                       <li>
-                        <Link to="/Copyrights">CopyRights</Link>
+                        <Link to="/Copyrights">{t("footer.copyRights")}</Link>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div className="col-lg-2 col-md-6 footer_link_mbl">
                   <div className="footer-widget footer-menu">
-                    <h2 className="footer-title">Useful Links</h2>
+                    <h2 className="footer-title">{t("footer.usefulLinks")}</h2>
                     <ul>
                       <li>
                         <Link to="https://blogs.ksa4sale.net/directory/">
-                          Directory
+                          {t("footer.directory")}
                         </Link>
                       </li>
                       <li>
-                        <Link to="https://blogs.ksa4sale.net/">Blog</Link>
+                        <Link to="https://blogs.ksa4sale.net/">{t("footer.blog")}</Link>
                       </li>
                     </ul>
                   </div>
@@ -427,7 +429,7 @@ const Footer = () => {
                   textAlign: "center",
                 }}
               >
-                All CopyRight Reserved © <span>2025</span> - Ksa4sale
+                {t("footer.copyright")} © <span>2025</span> - Ksa4sale
               </div>
 
               {/* Social Media Icons */}

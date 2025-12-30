@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 const HeaderLower = () => {
+  const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
   // Function to update the `isMobile` state based on window width
   const updateIsMobile = () => {
@@ -28,7 +31,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Automotive
+          {t("categories.motors")}
         </NavLink>
         <NavLink
           to="/ElectronicComp"
@@ -36,7 +39,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Electronics
+          {t("categories.electronics")}
         </NavLink>
         <NavLink
           to="/FashionStyle"
@@ -44,7 +47,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Fashion Style
+          {t("categories.fashionStyle")}
         </NavLink>
         <NavLink
           to="/HealthCareComp"
@@ -52,7 +55,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Health Care
+          {t("categories.homeFurniture")}
         </NavLink>
         <NavLink
           to="/JobBoard"
@@ -60,7 +63,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Job Board
+          {t("categories.jobBoard")}
         </NavLink>
         <NavLink
           to="/Education"
@@ -68,7 +71,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Education
+          {t("categories.other")}
         </NavLink>
         <NavLink
           to="/RealEstateComp"
@@ -76,7 +79,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Real Estate
+          {t("categories.realEstate")}
         </NavLink>
         <NavLink
           to="/TravelComp"
@@ -84,7 +87,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Travel
+          {t("categories.services")}
         </NavLink>
         <NavLink
           to="/SportGamesComp"
@@ -92,7 +95,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Sport & Games
+          {t("categories.sportGame")}
         </NavLink>
         <NavLink
           to="/PetAnimalsComp"
@@ -100,7 +103,7 @@ const HeaderLower = () => {
             isActive ? "nav-link active-link" : "nav-link"
           }
         >
-          Pet & Animals
+          {t("categories.petAnimals")}
         </NavLink>
         <NavLink
           to="/CommercialAdscom"
@@ -115,7 +118,7 @@ const HeaderLower = () => {
             whiteSpace: "nowrap",
           }}
         >
-          Commercial{" "}
+          {t("categories.commercial")}{" "}
           <span
             className="badge bg-danger ms-2"
             style={{

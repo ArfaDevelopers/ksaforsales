@@ -20,8 +20,10 @@ import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState("All Listing");
   const [visitorReviews, setVisitorReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -525,32 +527,32 @@ const Dashboard = () => {
             <ul className="dashborad-menus">
               <li className="active">
                 <Link to="/dashboard">
-                  <MdDashboard /> <span>Dashboard</span>
+                  <MdDashboard /> <span>{t("common.dashboard")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile">
-                  <FaUserAlt /> <span>Profile</span>
+                  <FaUserAlt /> <span>{t("common.profile")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/my-listing">
-                  <FaListUl /> <span>My Listing</span>
+                  <FaListUl /> <span>{t("common.myListing")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/bookmarks">
-                  <FaHeart /> <span>Favourite</span>
+                  <FaHeart /> <span>{t("common.favourite")}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/messages">
-                  <TiMessages /> <span>Messages</span>
+                  <TiMessages /> <span>{t("common.messages")}</span>
                 </Link>
               </li>
               {/* <li>
@@ -561,7 +563,7 @@ const Dashboard = () => {
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t("common.logout")}</span>
                 </Link>
               </li>
             </ul>
@@ -581,7 +583,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="dash-widget-info">
-                      <h6>Active Listing</h6>
+                      <h6>{t("dashboard.activeListing")}</h6>
                       <div>{Activelisting ?? 0}</div>
                     </div>
                   </div>
@@ -621,7 +623,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="dash-widget-info">
-                      <h6>Messages</h6>
+                      <h6>{t("dashboard.messages")}</h6>
                       <div>{Message ?? 0}</div>
                     </div>
                   </div>

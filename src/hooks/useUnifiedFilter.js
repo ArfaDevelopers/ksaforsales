@@ -7,6 +7,8 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { data } from "../utils/data";
+import { useTranslation } from "react-i18next";
+import { getTranslatedData } from "../utils/translateData";
 
 /**
  * Custom hook for unified filter functionality across all category pages
@@ -14,6 +16,7 @@ import { data } from "../utils/data";
  * @returns {object} Filter state and handler functions
  */
 export const useUnifiedFilter = (categoryPath) => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filterData, setFilterData] = useState({
@@ -56,10 +59,13 @@ export const useUnifiedFilter = (categoryPath) => {
     age: [],
   });
 
-  // Get current category filters from data.js
-  let currentCategoryFilters = data.find((page) => page.path === categoryPath) ?? "";
+  // Get translated data based on current language
+  const translatedData = getTranslatedData(data, t);
+
+  // Get current category filters from translated data
+  let currentCategoryFilters = translatedData.find((page) => page.path === categoryPath) ?? "";
   if (!currentCategoryFilters) {
-    currentCategoryFilters = data.find((page) => page.path === "/search");
+    currentCategoryFilters = translatedData.find((page) => page.path === "/search");
   }
 
   // Utility function to convert text to URL-friendly format

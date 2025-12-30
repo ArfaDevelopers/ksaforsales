@@ -7,6 +7,7 @@ import { db } from "./../../Firebase/FirebaseConfig.jsx";
 import { getDocs, collection } from "firebase/firestore";
 import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 function timeAgo(timestamp) {
   let seconds;
 
@@ -36,6 +37,7 @@ function timeAgo(timestamp) {
   return "Just now";
 }
 export default function Carousel() {
+  const { t } = useTranslation();
   const [slidesToShow, setSlidesToShow] = useState(1);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,7 +145,7 @@ export default function Carousel() {
             data-aos="fade-up"
           >
             <div className="section-heading">
-              <h2>Feature Ads</h2>
+              <h2>{t("home.featureAds")}</h2>
             </div>
           </div>
         </div>
@@ -229,7 +231,7 @@ export default function Carousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">Featured</span>
+                                <span className="Featured-text">{t("common.featured")}</span>
                               </div>
                             )}
                           </div>
