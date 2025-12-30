@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const opn = require("opn"); // Import the 'opn' package
+require('dotenv').config(); // Load environment variables from .env file
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -106,6 +107,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
+      "process.env.OPENAI_API_KEY": JSON.stringify(process.env.OPENAI_API_KEY || ''),
     }),
     new webpack.HotModuleReplacementPlugin(),
 
