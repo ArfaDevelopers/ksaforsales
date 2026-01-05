@@ -2461,7 +2461,9 @@ const Header = ({ parms }) => {
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
+                        e.preventDefault();
                         useSearchStore.setState({ results: [], showSuggestions: false });
+                        navigate(`/search?q=${searchText}`);
                       }
                     }}
                     style={{
@@ -2495,9 +2497,12 @@ const Header = ({ parms }) => {
                           onClick={() => {
                             isSelecting.current = true;
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
+                            useSearchStore.setState({ results: [], showSuggestions: false });
                             setSearchText(item.title);
                             setSelectedItem(item);
-                            // useSearchStore.setState({ results: [] });
+
+                            // Navigate to search results page
+                            navigate(`/search?q=${item.title}`);
 
                             // Reset flag after short delay
                             setTimeout(() => {
