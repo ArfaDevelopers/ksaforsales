@@ -1856,6 +1856,10 @@ const RealEstateComp = () => {
         // ✅ Add SortBy
         if (SortBy) params.append("sortBy", SortBy);
 
+        // ✅ Pass subCatgory and nestedSubCategory
+        if (subCatgory) params.append("subCatgory", subCatgory);
+        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+
         const response = await fetch(
           `http://168.231.80.24:9002/route/REALESTATECOMP?${params.toString()}`
         );
@@ -1880,6 +1884,8 @@ const RealEstateComp = () => {
     selectedDistricts,
     SortBy, // ✅ trigger re-fetch when SortBy changes
     refresh,
+    subCatgory, // 🔹 re-fetch on subCatgory change
+    nestedSubCategory, // 🔹 re-fetch on nestedSubCategory change
   ]);
 
   const handleShowModal = (userId, productIds) => {

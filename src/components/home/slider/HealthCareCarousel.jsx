@@ -59,14 +59,6 @@ export default function AutomativeCarousel() {
     return subcategoryMap[name] || name;
   };
 
-  // Helper function to extract subcategory slug from path
-  const extractSubcategorySlug = (path) => {
-    if (!path) return "";
-    // Extract the subcategory name from the path (e.g., "Furniture" from "/HealthCareComp?subCatgory=Furniture")
-    const match = path.match(/subCatgory=(.+?)(?:&|$)/);
-    return match ? match[1].toLowerCase().replace(/\s+/g, "-") : "";
-  };
-
   useEffect(() => {
     const cats = getSubcategoriesByName("Home & Furniture");
     setSubcategories(cats);
@@ -202,12 +194,9 @@ export default function AutomativeCarousel() {
                   className={activeSubcategory === sub.name ? "active" : ""}
                   onClick={() => {
                     setActiveSubcategory(sub.name);
-                    // Use proper /search URL format
-                    const subcategorySlug = extractSubcategorySlug(sub.path);
-                    if (subcategorySlug) {
-                      navigate(
-                        `/search?category=home-furniture&subcategory=${subcategorySlug}`
-                      );
+                    // Use the path directly from the subcategory data
+                    if (sub.path) {
+                      navigate(sub.path);
                     }
                   }}
                   style={{
