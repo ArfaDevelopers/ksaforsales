@@ -6,6 +6,7 @@ const useSearchStore = create((set, get) => ({
   results: [],
   selectedItem: null,
   skipNextSearch: false,
+  showSuggestions: true,
 
   setSearchText: async (text) => {
     const { selectedItem, skipNextSearch } = get();
@@ -21,14 +22,18 @@ const useSearchStore = create((set, get) => ({
       return;
     }
 
-    set({ searchText: text });
+    set({ searchText: text, showSuggestions: true });
 
     if (text.trim() !== "") {
       try {
         const response = await axios.get(
           `http://168.231.80.24:9002/search?q=${text}`
         );
-        set({ results: response.data.results });
+        // Only set results if showSuggestions is still true and searchText hasn't changed
+        const currentState = get();
+        if (currentState.showSuggestions && currentState.searchText === text) {
+          set({ results: response.data.results });
+        }
       } catch (error) {
         console.error("Search failed", error);
         set({ results: [] });

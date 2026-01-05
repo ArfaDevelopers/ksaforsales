@@ -4746,7 +4746,7 @@ const AddLisiting = () => {
                 <li>
                   <Link to="/login">
                     <TbLogout2 />
-                    <span>Logout</span>
+                    <span>{t('common.logout')}</span>
                   </Link>
                 </li>
               </ul>

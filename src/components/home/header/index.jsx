@@ -200,7 +200,7 @@ const Header = ({ parms }) => {
   // const { searchText, setSearchText, results } = useSearchStore();
   const dropdownRef = useRef(null);
 
-  const { searchText, setSearchText, results, setSelectedItem } =
+  const { searchText, setSearchText, results, setSelectedItem, showSuggestions } =
     useSearchStore();
 
   // console.log(setSelectedItem, "user1111____911");
@@ -293,6 +293,7 @@ const Header = ({ parms }) => {
   // },[])
   const handleSearch = (e) => {
     e.preventDefault();
+    useSearchStore.setState({ results: [], showSuggestions: false });
     navigate(`/search?q=${searchText}`);
   };
 
@@ -318,6 +319,23 @@ const Header = ({ parms }) => {
                 style={{ flexWrap: "nowrap" }}
               >
                 <div className="navbar-header d-flex align-items-center">
+                  <Link
+                    to="/"
+                    className="navbar-brand logo"
+                    style={{
+                      marginRight: "15px",
+                    }}
+                  >
+                    <img
+                      src={imag}
+                      alt="Logo"
+                      className="img-fluid"
+                      style={{
+                        width: window.innerWidth <= 575 ? "82px" : "110px",
+                        height: "auto",
+                      }}
+                    />
+                  </Link>
                   {/* <Link id="mobile_btn" to="#" onClick={toggleMobileMenu}>
                   <span className="bar-icon">
                     <span></span>
@@ -2358,24 +2376,6 @@ const Header = ({ parms }) => {
                   }
                   `}
                   </style>
-                  <Link
-                    to="/"
-                    className="navbar-brand logo"
-                    style={{
-                      marginLeft: window.innerWidth <= 576 ? "33px" : "-10px",
-                      width: "auto", // Let the image width be handled by the img itself
-                    }}
-                  >
-                    <img
-                      src={imag}
-                      alt="Logo"
-                      className="img-fluid"
-                      style={{
-                        width: window.innerWidth <= 575 ? "82px" : "110px",
-                        height: "auto",
-                      }} // 👈 adjust as needed
-                    />
-                  </Link>
                 </div>
 
                 {/* {!isMobile && ( */}
@@ -2429,6 +2429,11 @@ const Header = ({ parms }) => {
                         setSearchText(lettersAndSpaces);
                       }
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        useSearchStore.setState({ results: [], showSuggestions: false });
+                      }
+                    }}
                     style={{
                       paddingRight: "40px",
                       borderRadius: "12px",
@@ -2439,7 +2444,7 @@ const Header = ({ parms }) => {
                     }}
                   />
 
-                  {results.length > 0 && (
+                  {results.length > 0 && showSuggestions && (
                     <ul
                       className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
                       style={{

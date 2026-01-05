@@ -15,10 +15,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMobileAlt } from "@fortawesome/free-solid-svg-icons";
 import Flag from "react-world-flags";
 import { FaSearch } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 import { useNavigate } from "react-router-dom";
 const UserHeader = ({ parms }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [drops, setDrops] = useState(false);
   const [divideName, setdivideName] = useState(null);
@@ -284,7 +286,7 @@ const UserHeader = ({ parms }) => {
                     Profile Settings
                   </Link>
                   <Link className="dropdown-item" to="#" onClick={handleLogout}>
-                    Logout
+                    {t('common.logout')}
                   </Link>
                 </div>
               </li>
@@ -330,7 +332,7 @@ const UserHeader = ({ parms }) => {
                       to="#"
                       onClick={handleLogout}
                     >
-                      Logout
+                      {t('common.logout')}
                     </Link>
                   </div>
                 </li>

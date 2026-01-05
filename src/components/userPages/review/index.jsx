@@ -20,8 +20,10 @@ import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const Review = () => {
+  const { t } = useTranslation();
   const [change, setChange] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [visitorReviews, setVisitorReviews] = useState([]);
@@ -258,7 +260,7 @@ const Review = () => {
               <li>
                 <Link className="dropdown-item" to="#" onClick={handleLogout}>
                   <TbLogout2 />
-                  <span>Logout</span>
+                  <span>{t('common.logout')}</span>
                 </Link>
               </li>
             </ul>
