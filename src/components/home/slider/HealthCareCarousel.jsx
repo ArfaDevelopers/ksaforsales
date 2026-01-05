@@ -254,7 +254,7 @@ export default function AutomativeCarousel() {
             <div>
               <Slider
                 ref={slider}
-                // {...settings}
+                {...settings}
                 className="featured-slider grid-view"
               >
                 {ads.map((item, index) => (
