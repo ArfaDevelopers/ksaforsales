@@ -1775,6 +1775,10 @@ const HealthCareComp = () => {
         // ✅ Add SortBy
         if (SortBy) params.append("sortBy", SortBy);
 
+        // ✅ Pass subCatgory and nestedSubCategory
+        if (subCatgory) params.append("subCatgory", subCatgory);
+        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+
         const response = await fetch(
           `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
         );
@@ -1799,6 +1803,8 @@ const HealthCareComp = () => {
     selectedDistricts,
     refresh,
     SortBy, // ✅ re-fetch when SortBy changes
+    subCatgory,
+    nestedSubCategory,
   ]);
 
   // useEffect(() => {

@@ -31,7 +31,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { signOut } from "firebase/auth";
-import { FaUserAlt, FaListUl, FaHeart, FaRegTrashAlt } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaRegTrashAlt, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -459,7 +459,7 @@ const Profile = () => {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>

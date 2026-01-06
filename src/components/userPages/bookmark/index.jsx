@@ -25,7 +25,7 @@ import { signOut } from "firebase/auth";
 import Footer from "../../home/footer/Footer";
 import { ProfileAvatar02, eye } from "../../imagepath";
 import axios from "axios";
-import { FaUserAlt, FaListUl } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -370,7 +370,7 @@ const Bookmarks = () => {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li className="active">

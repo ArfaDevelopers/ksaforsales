@@ -21,7 +21,7 @@ import Header from "../../home/header";
 import { loadStripe } from "@stripe/stripe-js";
 import { signOut } from "firebase/auth";
 import PaymentForm from "../AddLisiting/PaymentForm";
-import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -310,7 +310,7 @@ const CommercialAdsListing = () => {
                 </li>
                 <li>
                   <Link to="/manage-commercial-ads">
-                    <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                    <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                   </Link>
                 </li>
                 <li>

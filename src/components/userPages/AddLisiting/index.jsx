@@ -31,7 +31,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CountryList from "../../../CountryList.json"; // Adjust the path as needed
 import Header from "../../home/header";
-import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -4723,7 +4723,7 @@ const AddLisiting = () => {
                 </li>
                 <li>
                   <Link to="/manage-commercial-ads">
-                    <FaListUl /> <span>{t("home.commercialAds")}</span>
+                    <FaBullhorn /> <span>{t("home.commercialAds")}</span>
                   </Link>
                 </li>
                 <li>
@@ -4746,7 +4746,7 @@ const AddLisiting = () => {
                 <li>
                   <Link to="/login">
                     <TbLogout2 />
-                    <span>Logout</span>
+                    <span>{t('common.logout')}</span>
                   </Link>
                 </li>
               </ul>
@@ -8082,10 +8082,6 @@ const AddLisiting = () => {
                                       {
                                         name: "European",
                                         label: translateLabel("European Specs"),
-                                      },
-                                      {
-                                        name: "GCC",
-                                        label: translateLabel("GCC Specs"),
                                       },
                                     ].map((spec) => (
                                       <li key={spec.name}>

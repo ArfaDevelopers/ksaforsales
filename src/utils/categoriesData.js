@@ -7,43 +7,43 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Cars For Sale",
-        path: "/AutomotiveComp?subCatgory=Cars For Sale",
+        path: "/search?category=motors&subcategory=cars-for-sale",
       },
       {
         name: "Car Rental",
-        path: "/AutomotiveComp?subCatgory=Car Rental",
+        path: "/search?category=motors&subcategory=car-rental",
       },
       {
         name: "Plates Number",
-        path: "/AutomotiveComp?subCatgory=Plates Number",
+        path: "/search?category=motors&subcategory=plates-number",
       },
       {
         name: "Spare Parts",
-        path: "/AutomotiveComp?subCatgory=Spare Parts",
+        path: "/search?category=motors&subcategory=spare-parts",
       },
       {
         name: "Accessories",
-        path: "/AutomotiveComp?subCatgory=Accessories",
+        path: "/search?category=motors&subcategory=accessories",
       },
       {
         name: "Wheels & Rims",
-        path: "/AutomotiveComp?subCatgory=Wheels Rims",
+        path: "/search?category=motors&subcategory=wheels-rims",
       },
       {
         name: "Trucks & Heavy Machinery",
-        path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery",
+        path: "/search?category=motors&subcategory=trucks-heavy-machinery",
       },
       {
         name: "Tshaleeh",
-        path: "/AutomotiveComp?subCatgory=Tshaleeh",
+        path: "/search?category=motors&subcategory=tshaleeh",
       },
       {
         name: "Boats & Jet Ski",
-        path: "/AutomotiveComp?subCatgory=Boats & Jet Ski",
+        path: "/search?category=motors&subcategory=boats-jet-ski",
       },
       {
         name: "Classic Cars",
-        path: "/AutomotiveComp?subCatgory=Classic Cars",
+        path: "/search?category=motors&subcategory=classic-cars",
       },
     ],
   },
@@ -54,27 +54,27 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Residential For Sale",
-        path: "/RealEstateComp?subCatgory=Residential For Sale",
+        path: "/search?category=real-estate&subcategory=residential-for-sale",
       },
       {
         name: "Residential For Rent",
-        path: "/RealEstateComp?subCatgory=Residential For Rent",
+        path: "/search?category=real-estate&subcategory=residential-for-rent",
       },
       {
         name: "Commercial For Sale",
-        path: "/RealEstateComp?subCatgory=Commercial For Sale",
+        path: "/search?category=real-estate&subcategory=commercial-for-sale",
       },
       {
         name: "Commercial For Rent",
-        path: "/RealEstateComp?subCatgory=Commercial For Rent",
+        path: "/search?category=real-estate&subcategory=commercial-for-rent",
       },
       {
         name: "Land For Sale",
-        path: "/RealEstateComp?subCatgory=Land For Sale",
+        path: "/search?category=real-estate&subcategory=land-for-sale",
       },
       {
         name: "Land For Rent",
-        path: "/RealEstateComp?subCatgory=Land For Rent",
+        path: "/search?category=real-estate&subcategory=land-for-rent",
       },
     ],
   },
@@ -85,27 +85,27 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Mobile Phones",
-        path: "/ElectronicComp?subCatgory=Mobile Phones",
+        path: "/search?category=electronics&subcategory=mobile-phones",
       },
       {
         name: "Tablets",
-        path: "/ElectronicComp?subCatgory=Tablets",
+        path: "/search?category=electronics&subcategory=tablets",
       },
       {
         name: "Laptops",
-        path: "/ElectronicComp?subCatgory=Laptops",
+        path: "/search?category=electronics&subcategory=laptops",
       },
       {
         name: "Gaming",
-        path: "/ElectronicComp?subCatgory=Gaming",
+        path: "/search?category=electronics&subcategory=gaming",
       },
       {
         name: "Cameras",
-        path: "/ElectronicComp?subCatgory=Cameras",
+        path: "/search?category=electronics&subcategory=cameras",
       },
       {
         name: "Appliances",
-        path: "/ElectronicComp?subCatgory=Appliances",
+        path: "/search?category=electronics&subcategory=appliances",
       },
     ],
   },
@@ -116,27 +116,27 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Men's Clothing",
-        path: "/FashionStyle?subCatgory=Men's Clothing",
+        path: "/search?category=fashion-style&subcategory=mens-clothing",
       },
       {
         name: "Women's Clothing",
-        path: "/FashionStyle?subCatgory=Women's Clothing",
+        path: "/search?category=fashion-style&subcategory=womens-clothing",
       },
       {
         name: "Shoes",
-        path: "/FashionStyle?subCatgory=Shoes",
+        path: "/search?category=fashion-style&subcategory=shoes",
       },
       {
         name: "Accessories",
-        path: "/FashionStyle?subCatgory=Accessories",
+        path: "/search?category=fashion-style&subcategory=accessories",
       },
       {
         name: "Watches",
-        path: "/FashionStyle?subCatgory=Watches",
+        path: "/search?category=fashion-style&subcategory=watches",
       },
       {
         name: "Perfumes",
-        path: "/FashionStyle?subCatgory=Perfumes",
+        path: "/search?category=fashion-style&subcategory=perfumes",
       },
     ],
   },
@@ -147,23 +147,23 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Furniture",
-        path: "/HealthCareComp?subCatgory=Furniture",
+        path: "/search?category=home-furniture&subcategory=furniture",
       },
       {
         name: "Decorations",
-        path: "/HealthCareComp?subCatgory=Decorations",
+        path: "/search?category=home-furniture&subcategory=decorations",
       },
       {
         name: "Bedding",
-        path: "/HealthCareComp?subCatgory=Bedding",
+        path: "/search?category=home-furniture&subcategory=bedding",
       },
       {
         name: "Kitchen",
-        path: "/HealthCareComp?subCatgory=Kitchen",
+        path: "/search?category=home-furniture&subcategory=kitchen",
       },
       {
         name: "Lighting",
-        path: "/HealthCareComp?subCatgory=Lighting",
+        path: "/search?category=home-furniture&subcategory=lighting",
       },
     ],
   },
@@ -174,23 +174,23 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Full Time",
-        path: "/JobBoard?subCatgory=Full Time",
+        path: "/search?category=job-board&subcategory=full-time",
       },
       {
         name: "Part Time",
-        path: "/JobBoard?subCatgory=Part Time",
+        path: "/search?category=job-board&subcategory=part-time",
       },
       {
         name: "Freelance",
-        path: "/JobBoard?subCatgory=Freelance",
+        path: "/search?category=job-board&subcategory=freelance",
       },
       {
         name: "Contract",
-        path: "/JobBoard?subCatgory=Contract",
+        path: "/search?category=job-board&subcategory=contract",
       },
       {
         name: "Internship",
-        path: "/JobBoard?subCatgory=Internship",
+        path: "/search?category=job-board&subcategory=internship",
       },
     ],
   },
@@ -201,23 +201,23 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Football",
-        path: "/SportGamesComp?subCatgory=Football",
+        path: "/search?category=sport-and-game&subcategory=football",
       },
       {
         name: "Basketball",
-        path: "/SportGamesComp?subCatgory=Basketball",
+        path: "/search?category=sport-and-game&subcategory=basketball",
       },
       {
         name: "Tennis",
-        path: "/SportGamesComp?subCatgory=Tennis",
+        path: "/search?category=sport-and-game&subcategory=tennis",
       },
       {
         name: "Gaming",
-        path: "/SportGamesComp?subCatgory=Gaming",
+        path: "/search?category=sport-and-game&subcategory=gaming",
       },
       {
         name: "Fitness",
-        path: "/SportGamesComp?subCatgory=Fitness",
+        path: "/search?category=sport-and-game&subcategory=fitness",
       },
     ],
   },
@@ -228,23 +228,23 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Dogs",
-        path: "/PetAnimalsComp?subCatgory=Dogs",
+        path: "/search?category=pet-and-animals&subcategory=dogs",
       },
       {
         name: "Cats",
-        path: "/PetAnimalsComp?subCatgory=Cats",
+        path: "/search?category=pet-and-animals&subcategory=cats",
       },
       {
         name: "Birds",
-        path: "/PetAnimalsComp?subCatgory=Birds",
+        path: "/search?category=pet-and-animals&subcategory=birds",
       },
       {
         name: "Pet Supplies",
-        path: "/PetAnimalsComp?subCatgory=Pet Supplies",
+        path: "/search?category=pet-and-animals&subcategory=pet-supplies",
       },
       {
         name: "Fish & Aquatic",
-        path: "/PetAnimalsComp?subCatgory=Fish & Aquatic",
+        path: "/search?category=pet-and-animals&subcategory=fish-aquatic",
       },
     ],
   },
@@ -255,19 +255,19 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Online Courses",
-        path: "/Education?subCatgory=Online Courses",
+        path: "/search?category=other&subcategory=online-courses",
       },
       {
         name: "Tutoring",
-        path: "/Education?subCatgory=Tutoring",
+        path: "/search?category=other&subcategory=tutoring",
       },
       {
         name: "Books",
-        path: "/Education?subCatgory=Books",
+        path: "/search?category=other&subcategory=books",
       },
       {
         name: "Training",
-        path: "/Education?subCatgory=Training",
+        path: "/search?category=other&subcategory=training",
       },
     ],
   },
@@ -278,23 +278,23 @@ export const categoriesData = [
     subcategories: [
       {
         name: "Tours",
-        path: "/TravelComp?subCatgory=Tours",
+        path: "/search?category=services&subcategory=tours",
       },
       {
         name: "Hotels",
-        path: "/TravelComp?subCatgory=Hotels",
+        path: "/search?category=services&subcategory=hotels",
       },
       {
         name: "Flight Bookings",
-        path: "/TravelComp?subCatgory=Flight Bookings",
+        path: "/search?category=services&subcategory=flight-bookings",
       },
       {
         name: "Car Rental",
-        path: "/TravelComp?subCatgory=Car Rental",
+        path: "/search?category=services&subcategory=car-rental",
       },
       {
         name: "Travel Guides",
-        path: "/TravelComp?subCatgory=Travel Guides",
+        path: "/search?category=services&subcategory=travel-guides",
       },
     ],
   },

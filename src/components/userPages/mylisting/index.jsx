@@ -28,6 +28,7 @@ import {
   FaUserAlt,
   FaListUl,
   FaHeart,
+  FaBullhorn,
   FaArrowRight,
   FaArrowLeft,
   FaRegStopCircle,
@@ -747,10 +748,10 @@ const MyListe = () => {
           <Link
             to={
               record.isActive
-                ? "#"
-                : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
+                ? `/add-listing?id=${record.id}&callingFrom=${formatCategory(
                     record.category
                   )}`
+                : "#"
             }
             className="action-btn btn-edit"
             title={"Edit Item"}
@@ -1036,7 +1037,7 @@ const MyListe = () => {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>

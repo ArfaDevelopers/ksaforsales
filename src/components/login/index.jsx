@@ -430,14 +430,14 @@ const Login = () => {
                     src={image}
                     alt="QR Code"
                     style={{
-                      width: "100%",
-                      height: "100%",
+                      width: "150%",
+                      height: "150%",
                       borderRadius: "10px",
                     }}
                   />
                 </div>
 
-                {/* Text Section */}
+                {/* Text Section
                 <div
                   style={{ color: "black", fontWeight: "bold", fontSize: 26 }}
                 >
@@ -567,7 +567,7 @@ const Login = () => {
                     </span>
                     {t("login.qrStep4")}
                   </li>
-                </ol>
+                </ol> */}
               </div>
             </div>
           </div>

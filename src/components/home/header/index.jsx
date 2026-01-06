@@ -146,6 +146,36 @@ const Header = ({ parms }) => {
     return () => unsubscribe();
   }, []);
 
+  // Prevent background scroll when notification modal is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save the current scroll position
+      const scrollY = window.scrollY;
+      // Prevent scrolling on body
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scrolling
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      // Restore scroll position
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isOpen]);
+
   // console.log(token, "-------Token---------");
   const menuRef = useRef(null);
   const isSelecting = useRef(false);
@@ -200,7 +230,7 @@ const Header = ({ parms }) => {
   // const { searchText, setSearchText, results } = useSearchStore();
   const dropdownRef = useRef(null);
 
-  const { searchText, setSearchText, results, setSelectedItem } =
+  const { searchText, setSearchText, results, setSelectedItem, showSuggestions } =
     useSearchStore();
 
   // console.log(setSelectedItem, "user1111____911");
@@ -293,6 +323,7 @@ const Header = ({ parms }) => {
   // },[])
   const handleSearch = (e) => {
     e.preventDefault();
+    useSearchStore.setState({ results: [], showSuggestions: false });
     navigate(`/search?q=${searchText}`);
   };
 
@@ -318,6 +349,23 @@ const Header = ({ parms }) => {
                 style={{ flexWrap: "nowrap" }}
               >
                 <div className="navbar-header d-flex align-items-center">
+                  <Link
+                    to="/"
+                    className="navbar-brand logo"
+                    style={{
+                      marginRight: "15px",
+                    }}
+                  >
+                    <img
+                      src={imag}
+                      alt="Logo"
+                      className="img-fluid"
+                      style={{
+                        width: window.innerWidth <= 575 ? "82px" : "110px",
+                        height: "auto",
+                      }}
+                    />
+                  </Link>
                   {/* <Link id="mobile_btn" to="#" onClick={toggleMobileMenu}>
                   <span className="bar-icon">
                     <span></span>
@@ -2358,24 +2406,6 @@ const Header = ({ parms }) => {
                   }
                   `}
                   </style>
-                  <Link
-                    to="/"
-                    className="navbar-brand logo"
-                    style={{
-                      marginLeft: window.innerWidth <= 576 ? "33px" : "-10px",
-                      width: "auto", // Let the image width be handled by the img itself
-                    }}
-                  >
-                    <img
-                      src={imag}
-                      alt="Logo"
-                      className="img-fluid"
-                      style={{
-                        width: window.innerWidth <= 575 ? "82px" : "110px",
-                        height: "auto",
-                      }} // 👈 adjust as needed
-                    />
-                  </Link>
                 </div>
 
                 {/* {!isMobile && ( */}
@@ -2429,6 +2459,13 @@ const Header = ({ parms }) => {
                         setSearchText(lettersAndSpaces);
                       }
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        useSearchStore.setState({ results: [], showSuggestions: false });
+                        navigate(`/search?q=${searchText}`);
+                      }
+                    }}
                     style={{
                       paddingRight: "40px",
                       borderRadius: "12px",
@@ -2439,7 +2476,7 @@ const Header = ({ parms }) => {
                     }}
                   />
 
-                  {results.length > 0 && (
+                  {results.length > 0 && showSuggestions && (
                     <ul
                       className="list-unstyled position-absolute bg-white border rounded shadow-lg mt-1 w-100"
                       style={{
@@ -2460,9 +2497,12 @@ const Header = ({ parms }) => {
                           onClick={() => {
                             isSelecting.current = true;
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
+                            useSearchStore.setState({ results: [], showSuggestions: false });
                             setSearchText(item.title);
                             setSelectedItem(item);
-                            // useSearchStore.setState({ results: [] });
+
+                            // Navigate to search results page
+                            navigate(`/search?q=${item.title}`);
 
                             // Reset flag after short delay
                             setTimeout(() => {

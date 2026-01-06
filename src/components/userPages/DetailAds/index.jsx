@@ -29,12 +29,14 @@ import {
   FiAlertCircle,
   FiLoader,
 } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
 
 const DetailAds = () => {
+  const { t } = useTranslation();
   const MySwal = withReactContent(Swal);
   const parms = useLocation().pathname;
   const navigate = useNavigate();
@@ -251,7 +253,7 @@ const DetailAds = () => {
                 </li>
                 <li>
                   <Link to="/manage-commercial-ads">
-                    <i className="feather-list" /> <span>Commercial Ads</span>
+                    <i className="feather-airplay" /> <span>Commercial Ads</span>
                   </Link>
                 </li>
                 <li>
@@ -274,7 +276,7 @@ const DetailAds = () => {
                 <li>
                   <Link className="dropdown-item" to="#" onClick={handleLogout}>
                     <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                    <span>Logout</span>
+                    <span>{t('common.logout')}</span>
                   </Link>
                 </li>
               </ul>
