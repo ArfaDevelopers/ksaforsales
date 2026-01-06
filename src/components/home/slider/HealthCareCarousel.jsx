@@ -260,7 +260,7 @@ export default function AutomativeCarousel() {
                 {ads.map((item, index) => (
                   <div key={index}>
                     <Link
-                      to={`/car-details?id=${item.id}&callingFrom=HealthCare`}
+                      to={`/Dynamic_Route?id=${item.id}&callingFrom=HealthCareComp`}
                     >
                       <div
                         className="card aos"
