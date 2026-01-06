@@ -689,73 +689,105 @@ const Search = () => {
       return;
     }
 
+    const isBookmarked = bookmarkedAds.includes(adId);
+    const ad = allAds.find((a) => a.id === adId);
+    const collectionName = ad?.collectionSource;
+
+    // 🚀 STEP 1: Optimistically update UI immediately (instant feedback)
+    if (isBookmarked) {
+      setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
+    } else {
+      setBookmarkedAds([...bookmarkedAds, adId]);
+    }
+
+    setAllAds((prevAds) =>
+      prevAds.map((a) =>
+        a.id === adId
+          ? {
+              ...a,
+              heartedby: isBookmarked
+                ? (a.heartedby || []).filter((id) => id !== currentUser.uid)
+                : [...(a.heartedby || []), currentUser.uid],
+            }
+          : a
+      )
+    );
+
+    setFilteredAds((prevAds) =>
+      prevAds.map((a) =>
+        a.id === adId
+          ? {
+              ...a,
+              heartedby: isBookmarked
+                ? (a.heartedby || []).filter((id) => id !== currentUser.uid)
+                : [...(a.heartedby || []), currentUser.uid],
+            }
+          : a
+      )
+    );
+
+    // 🔄 STEP 2: Update Firestore in background (no await blocking UI)
     try {
       const userDocRef = doc(db, "users", currentUser.uid);
-      const isBookmarked = bookmarkedAds.includes(adId);
 
-      if (isBookmarked) {
-        await updateDoc(userDocRef, {
-          heartedby: arrayRemove(adId),
-        });
-        setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
-      } else {
-        await updateDoc(userDocRef, {
-          heartedby: arrayUnion(adId),
-        });
-        setBookmarkedAds([...bookmarkedAds, adId]);
-      }
-      const ad = allAds.find((a) => a.id === adId);
-      const collectionName = ad?.collectionSource;
+      // Update user's favorites
+      updateDoc(userDocRef, {
+        heartedby: isBookmarked ? arrayRemove(adId) : arrayUnion(adId),
+      }).catch((error) => {
+        console.error("Error updating user favorites:", error);
+        // Rollback on error
+        if (isBookmarked) {
+          setBookmarkedAds([...bookmarkedAds, adId]);
+        } else {
+          setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
+        }
+      });
+
+      // Update ad document
       if (collectionName) {
-        try {
-          const adDocRef = doc(db, collectionName, adId);
-          const adDocSnap = await getDoc(adDocRef);
-
-          if (adDocSnap.exists()) {
-            if (isBookmarked) {
-              await updateDoc(adDocRef, {
-                heartedby: arrayRemove(currentUser.uid),
-              });
-            } else {
-              await updateDoc(adDocRef, {
-                heartedby: arrayUnion(currentUser.uid),
-              });
-            }
-
-            setAllAds((prevAds) =>
-              prevAds.map((a) =>
-                a.id === adId
-                  ? {
-                      ...a,
-                      heartedby: isBookmarked
-                        ? (a.heartedby || []).filter(
-                            (id) => id !== currentUser.uid
-                          )
-                        : [...(a.heartedby || []), currentUser.uid],
-                    }
-                  : a
-              )
-            );
-            setFilteredAds((prevAds) =>
-              prevAds.map((a) =>
-                a.id === adId
-                  ? {
-                      ...a,
-                      heartedby: isBookmarked
-                        ? (a.heartedby || []).filter(
-                            (id) => id !== currentUser.uid
-                          )
-                        : [...(a.heartedby || []), currentUser.uid],
-                    }
-                  : a
-              )
-            );
-          }
-        } catch (adError) {}
+        const adDocRef = doc(db, collectionName, adId);
+        updateDoc(adDocRef, {
+          heartedby: isBookmarked
+            ? arrayRemove(currentUser.uid)
+            : arrayUnion(currentUser.uid),
+        }).catch((error) => {
+          console.error("Error updating ad favorites:", error);
+        });
       }
     } catch (error) {
       console.error("Error toggling bookmark:", error);
-      alert("Failed to update bookmark. Please try again.");
+      // Rollback UI on error
+      if (isBookmarked) {
+        setBookmarkedAds([...bookmarkedAds, adId]);
+      } else {
+        setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
+      }
+
+      setAllAds((prevAds) =>
+        prevAds.map((a) =>
+          a.id === adId
+            ? {
+                ...a,
+                heartedby: isBookmarked
+                  ? [...(a.heartedby || []), currentUser.uid]
+                  : (a.heartedby || []).filter((id) => id !== currentUser.uid),
+              }
+            : a
+        )
+      );
+
+      setFilteredAds((prevAds) =>
+        prevAds.map((a) =>
+          a.id === adId
+            ? {
+                ...a,
+                heartedby: isBookmarked
+                  ? [...(a.heartedby || []), currentUser.uid]
+                  : (a.heartedby || []).filter((id) => id !== currentUser.uid),
+              }
+            : a
+        )
+      );
     }
   };
 
