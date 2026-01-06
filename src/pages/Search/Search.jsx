@@ -680,16 +680,19 @@ const Search = () => {
       });
     }
 
-    setCurrentPage(1);
     setFilteredAds(filtered);
   }, [allAds, category, subCategoryParam, searchParams, searchKeyword]);
+
+  // Reset to page 1 only when filter criteria change (not when allAds updates)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [category, subCategoryParam, searchParams, searchKeyword]);
   const toggleBookmark = async (adId) => {
     if (!currentUser) {
       alert("Please login to bookmark ads");
       return;
     }
 
-    const isBookmarked = bookmarkedAds.includes(adId);
     const ad = allAds.find((a) => a.id === adId);
     const collectionName = ad?.collectionSource;
 
