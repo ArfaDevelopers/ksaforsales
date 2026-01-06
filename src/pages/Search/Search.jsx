@@ -693,6 +693,9 @@ const Search = () => {
       return;
     }
 
+    // Capture current state before any updates
+    const isBookmarked = bookmarkedAds.includes(adId);
+    const originalBookmarkedAds = [...bookmarkedAds];
     const ad = allAds.find((a) => a.id === adId);
     const collectionName = ad?.collectionSource;
 
@@ -729,42 +732,30 @@ const Search = () => {
       )
     );
 
-    // 🔄 STEP 2: Update Firestore in background (no await blocking UI)
+    // 🔄 STEP 2: Update Firestore (await to ensure persistence)
     try {
       const userDocRef = doc(db, "users", currentUser.uid);
 
-      // Update user's favorites
-      updateDoc(userDocRef, {
+      // Update user's favorites document
+      await updateDoc(userDocRef, {
         heartedby: isBookmarked ? arrayRemove(adId) : arrayUnion(adId),
-      }).catch((error) => {
-        console.error("Error updating user favorites:", error);
-        // Rollback on error
-        if (isBookmarked) {
-          setBookmarkedAds([...bookmarkedAds, adId]);
-        } else {
-          setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
-        }
       });
 
-      // Update ad document
+      // Update ad document's heartedby array
       if (collectionName) {
         const adDocRef = doc(db, collectionName, adId);
-        updateDoc(adDocRef, {
+        await updateDoc(adDocRef, {
           heartedby: isBookmarked
             ? arrayRemove(currentUser.uid)
             : arrayUnion(currentUser.uid),
-        }).catch((error) => {
-          console.error("Error updating ad favorites:", error);
         });
       }
+
+      console.log("✅ Favorites saved to database");
     } catch (error) {
-      console.error("Error toggling bookmark:", error);
-      // Rollback UI on error
-      if (isBookmarked) {
-        setBookmarkedAds([...bookmarkedAds, adId]);
-      } else {
-        setBookmarkedAds(bookmarkedAds.filter((id) => id !== adId));
-      }
+      console.error("❌ Error updating favorites:", error);
+      // Rollback to original state on error
+      setBookmarkedAds(originalBookmarkedAds);
 
       setAllAds((prevAds) =>
         prevAds.map((a) =>
@@ -791,6 +782,8 @@ const Search = () => {
             : a
         )
       );
+
+      alert("Failed to update favorite. Please try again.");
     }
   };
 

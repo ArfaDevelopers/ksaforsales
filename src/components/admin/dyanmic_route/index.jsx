@@ -345,44 +345,28 @@ const Dynamic_Route = () => {
       } heartedby for ${id}`
     );
 
-    // 🔄 STEP 2: Update Firestore in background (no await blocking UI)
+    // 🔄 STEP 2: Update Firestore (await to ensure persistence)
     try {
       const docRef = doc(db, firestoreCollection, id);
       const userDocRef = doc(db, "users", uid);
 
-      // Update both documents in parallel (no await)
-      Promise.all([
+      // Update both documents and wait for completion
+      await Promise.all([
         updateDoc(userDocRef, {
           heartedby: alreadyHearted ? arrayRemove(id) : arrayUnion(id),
         }),
         updateDoc(docRef, {
           heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
         }),
-      ])
-        .then(() => {
-          console.log(
-            `✅ Firestore updated - User ${
-              alreadyHearted ? "removed from" : "added to"
-            } heartedby for ${id} in ${firestoreCollection}`
-          );
-        })
-        .catch((error) => {
-          console.error("❌ Error updating Firestore:", error);
-          // Rollback UI on error
-          setItemData((prev) =>
-            prev
-              ? {
-                  ...prev,
-                  heartedby: alreadyHearted
-                    ? [...(prev.heartedby || []), uid]
-                    : (prev.heartedby || []).filter((id) => id !== uid),
-                }
-              : prev
-          );
-          alert("Failed to update favorite. Please try again.");
-        });
+      ]);
+
+      console.log(
+        `✅ Favorites saved to database - User ${
+          alreadyHearted ? "removed from" : "added to"
+        } heartedby for ${id} in ${firestoreCollection}`
+      );
     } catch (error) {
-      console.error("❌ Error toggling heartedby:", error);
+      console.error("❌ Error updating favorites:", error);
       // Rollback UI on error
       setItemData((prev) =>
         prev
