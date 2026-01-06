@@ -38,7 +38,7 @@ const SearchResultCard = ({
   function timeAgo(timestamp) {
     if (!timestamp) return "recently";
 
-    console.log("Timestamp received:", timestamp, "Type:", typeof timestamp);
+    // console.log("Timestamp received:", timestamp, "Type:", typeof timestamp);
     let date;
 
     // Handle Firebase Timestamp object

@@ -262,6 +262,7 @@ const Dynamic_Route = () => {
       const user = auth.currentUser;
       if (!user) {
         console.warn("User not authenticated");
+        alert("Please login to bookmark ads");
         return;
       }
 
@@ -338,7 +339,13 @@ const Dynamic_Route = () => {
       const currentHeartedBy = currentData.heartedby || [];
       const alreadyHearted = currentHeartedBy.includes(uid);
 
-      // ✅ Update Firestore with heartedby array
+      // ✅ Step 1: Update user's document (users/{userId})
+      const userDocRef = doc(db, "users", uid);
+      await updateDoc(userDocRef, {
+        heartedby: alreadyHearted ? arrayRemove(id) : arrayUnion(id),
+      });
+
+      // ✅ Step 2: Update ad document's heartedby array
       await updateDoc(docRef, {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
       });
@@ -360,8 +367,14 @@ const Dynamic_Route = () => {
           alreadyHearted ? "removed from" : "added to"
         } heartedby for ${id} in ${firestoreCollection}`
       );
+      console.log(
+        `✅ Ad ${id} ${
+          alreadyHearted ? "removed from" : "added to"
+        } user's favorites`
+      );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
+      alert("Failed to update favorite. Please try again.");
     }
   };
   useEffect(() => {
