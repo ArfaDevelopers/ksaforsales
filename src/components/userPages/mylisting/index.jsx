@@ -748,10 +748,10 @@ const MyListe = () => {
           <Link
             to={
               record.isActive
-                ? "#"
-                : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
+                ? `/add-listing?id=${record.id}&callingFrom=${formatCategory(
                     record.category
                   )}`
+                : "#"
             }
             className="action-btn btn-edit"
             title={"Edit Item"}
