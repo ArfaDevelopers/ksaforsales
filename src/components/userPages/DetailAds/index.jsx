@@ -253,7 +253,7 @@ const DetailAds = () => {
                 </li>
                 <li>
                   <Link to="/manage-commercial-ads">
-                    <i className="feather-list" /> <span>Commercial Ads</span>
+                    <i className="feather-airplay" /> <span>Commercial Ads</span>
                   </Link>
                 </li>
                 <li>

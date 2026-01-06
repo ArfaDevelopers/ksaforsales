@@ -17,6 +17,7 @@ import {
   FaTrash,
   FaArrowLeft,
   FaArrowRight,
+  FaBullhorn,
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
@@ -342,7 +343,7 @@ const ManageCommercialAds = () => {
               </li>
               <li className="active">
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>

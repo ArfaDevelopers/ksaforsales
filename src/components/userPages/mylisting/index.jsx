@@ -28,6 +28,7 @@ import {
   FaUserAlt,
   FaListUl,
   FaHeart,
+  FaBullhorn,
   FaArrowRight,
   FaArrowLeft,
   FaRegStopCircle,
@@ -1036,7 +1037,7 @@ const MyListe = () => {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>

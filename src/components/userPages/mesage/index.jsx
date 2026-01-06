@@ -26,7 +26,7 @@ import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -223,7 +223,7 @@ export default function Message() {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>{t("messages.commercialAds")}</span>
+                  <FaBullhorn /> <span>{t("messages.commercialAds")}</span>
                 </Link>
               </li>
               <li>

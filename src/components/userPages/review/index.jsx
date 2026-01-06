@@ -16,7 +16,7 @@ import Header from "../../home/header";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { Dropdown } from "bootstrap";
-import { FaUserAlt, FaListUl, FaHeart } from "react-icons/fa";
+import { FaUserAlt, FaListUl, FaHeart, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
@@ -239,7 +239,7 @@ const Review = () => {
               </li>
               <li>
                 <Link to="/manage-commercial-ads">
-                  <FaListUl /> <span>Commercial Ads</span>
+                  <FaBullhorn /> <span>Commercial Ads</span>
                 </Link>
               </li>
               <li>
