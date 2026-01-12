@@ -258,110 +258,127 @@ const Dynamic_Route = () => {
 
     console.log("🔍 handleFavourite called with:", { id, category });
 
+    const user = auth.currentUser;
+    if (!user) {
+      console.warn("User not authenticated");
+      alert("Please login to bookmark ads");
+      return;
+    }
+
+    const uid = user.uid;
+
+    // 🔁 Map category to actual Firestore collection name
+    const collectionMap = {
+      Motors: "Cars",
+      motors: "Cars",
+      Automotive: "Cars",
+      automotive: "Cars",
+      Electronics: "ELECTRONICS",
+      electronics: "ELECTRONICS",
+      Services: "TRAVEL",
+      services: "TRAVEL",
+      Other: "Education",
+      other: "Education",
+      Education: "Education",
+      education: "Education",
+      "Pet & Animals": "PETANIMALCOMP",
+      "pet & animals": "PETANIMALCOMP",
+      "Home & Furnituer": "HEALTHCARE",
+      "home & furnituer": "HEALTHCARE",
+      "Sports & Game": "SPORTSGAMESComp",
+      "sports & game": "SPORTSGAMESComp",
+      "Fashion Style": "FASHION",
+      "fashion style": "FASHION",
+      "Job Board": "JOBBOARD",
+      "job board": "JOBBOARD",
+      "Real Estate": "REALESTATECOMP",
+      "real estate": "REALESTATECOMP",
+      RealEstate: "REALESTATECOMP",
+      realestate: "REALESTATECOMP",
+      RealEstateComp: "REALESTATECOMP",
+      HealthCare: "HEALTHCARE",
+      healthcare: "HEALTHCARE",
+      HealthCareComp: "HEALTHCARE",
+      TravelComp: "TRAVEL",
+      travelcomp: "TRAVEL",
+      SportGamesComp: "SPORTSGAMESComp",
+      sportgamescomp: "SPORTSGAMESComp",
+      GamesSport: "SPORTSGAMESComp",
+      gamessport: "SPORTSGAMESComp",
+      PetAnimalsComp: "PETANIMALCOMP",
+      petanimalscomp: "PETANIMALCOMP",
+      ElectronicComp: "ELECTRONICS",
+      electroniccomp: "ELECTRONICS",
+      Electronic: "ELECTRONICS",
+      electronic: "ELECTRONICS",
+      AutomotiveComp: "Cars",
+      automotivecomp: "Cars",
+      FashionStyle: "FASHION",
+      fashionstyle: "FASHION",
+      JobBoard: "JOBBOARD",
+      jobboard: "JOBBOARD",
+      ComercialsAds: "ComercialsAds",
+      comercialsads: "ComercialsAds",
+    };
+
+    const firestoreCollection = collectionMap[category] || category;
+
+    // Get current favorite status from local state
+    const currentHeartedBy = itemData?.heartedby || [];
+    const alreadyHearted = currentHeartedBy.includes(uid);
+
+    // 🚀 STEP 1: Optimistically update UI immediately (instant feedback)
+    setItemData((prev) =>
+      prev
+        ? {
+            ...prev,
+            heartedby: alreadyHearted
+              ? (prev.heartedby || []).filter((id) => id !== uid)
+              : [...(prev.heartedby || []), uid],
+          }
+        : prev
+    );
+
+    console.log(
+      `🚀 UI updated instantly - User ${
+        alreadyHearted ? "removed from" : "added to"
+      } heartedby for ${id}`
+    );
+
+    // 🔄 STEP 2: Update Firestore (await to ensure persistence)
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        console.warn("User not authenticated");
-        return;
-      }
-
-      const uid = user.uid;
-
-      // 🔁 Map category to actual Firestore collection name
-      const collectionMap = {
-        Motors: "Cars",
-        motors: "Cars",
-        Automotive: "Cars",
-        automotive: "Cars",
-        Electronics: "ELECTRONICS",
-        electronics: "ELECTRONICS",
-        Services: "TRAVEL",
-        services: "TRAVEL",
-        Other: "Education",
-        other: "Education",
-        Education: "Education",
-        education: "Education",
-        "Pet & Animals": "PETANIMALCOMP",
-        "pet & animals": "PETANIMALCOMP",
-        "Home & Furnituer": "HEALTHCARE",
-        "home & furnituer": "HEALTHCARE",
-        "Sports & Game": "SPORTSGAMESComp",
-        "sports & game": "SPORTSGAMESComp",
-        "Fashion Style": "FASHION",
-        "fashion style": "FASHION",
-        "Job Board": "JOBBOARD",
-        "job board": "JOBBOARD",
-        "Real Estate": "REALESTATECOMP",
-        "real estate": "REALESTATECOMP",
-        RealEstate: "REALESTATECOMP",
-        realestate: "REALESTATECOMP",
-        RealEstateComp: "REALESTATECOMP",
-        HealthCare: "HEALTHCARE",
-        healthcare: "HEALTHCARE",
-        HealthCareComp: "HEALTHCARE",
-        TravelComp: "TRAVEL",
-        travelcomp: "TRAVEL",
-        SportGamesComp: "SPORTSGAMESComp",
-        sportgamescomp: "SPORTSGAMESComp",
-        GamesSport: "SPORTSGAMESComp",
-        gamessport: "SPORTSGAMESComp",
-        PetAnimalsComp: "PETANIMALCOMP",
-        petanimalscomp: "PETANIMALCOMP",
-        ElectronicComp: "ELECTRONICS",
-        electroniccomp: "ELECTRONICS",
-        Electronic: "ELECTRONICS",
-        electronic: "ELECTRONICS",
-        AutomotiveComp: "Cars",
-        automotivecomp: "Cars",
-        FashionStyle: "FASHION",
-        fashionstyle: "FASHION",
-        JobBoard: "JOBBOARD",
-        jobboard: "JOBBOARD",
-        ComercialsAds: "ComercialsAds",
-        comercialsads: "ComercialsAds",
-      };
-
-      const firestoreCollection = collectionMap[category] || category;
-
-      // 🔍 Get current document
       const docRef = doc(db, firestoreCollection, id);
-      const docSnap = await getDoc(docRef);
+      const userDocRef = doc(db, "users", uid);
 
-      if (!docSnap.exists()) {
-        console.warn(
-          `Document with ID ${id} not found in ${firestoreCollection}`
-        );
-        return;
-      }
+      // Update both documents and wait for completion
+      await Promise.all([
+        updateDoc(userDocRef, {
+          heartedby: alreadyHearted ? arrayRemove(id) : arrayUnion(id),
+        }),
+        updateDoc(docRef, {
+          heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        }),
+      ]);
 
-      const currentData = docSnap.data();
-      const currentHeartedBy = currentData.heartedby || [];
-      const alreadyHearted = currentHeartedBy.includes(uid);
-
-      // ✅ Update Firestore with heartedby array
-      await updateDoc(docRef, {
-        heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
-      });
-
-      // 📱 Optimistically update local state
+      console.log(
+        `✅ Favorites saved to database - User ${
+          alreadyHearted ? "removed from" : "added to"
+        } heartedby for ${id} in ${firestoreCollection}`
+      );
+    } catch (error) {
+      console.error("❌ Error updating favorites:", error);
+      // Rollback UI on error
       setItemData((prev) =>
         prev
           ? {
               ...prev,
               heartedby: alreadyHearted
-                ? (prev.heartedby || []).filter((id) => id !== uid)
-                : [...(prev.heartedby || []), uid],
+                ? [...(prev.heartedby || []), uid]
+                : (prev.heartedby || []).filter((id) => id !== uid),
             }
           : prev
       );
-
-      console.log(
-        `✅ User ${
-          alreadyHearted ? "removed from" : "added to"
-        } heartedby for ${id} in ${firestoreCollection}`
-      );
-    } catch (error) {
-      console.error("❌ Error toggling heartedby:", error);
+      alert("Failed to update favorite. Please try again.");
     }
   };
   useEffect(() => {

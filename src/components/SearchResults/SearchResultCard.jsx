@@ -38,7 +38,7 @@ const SearchResultCard = ({
   function timeAgo(timestamp) {
     if (!timestamp) return "recently";
 
-    console.log("Timestamp received:", timestamp, "Type:", typeof timestamp);
+    // console.log("Timestamp received:", timestamp, "Type:", typeof timestamp);
     let date;
 
     // Handle Firebase Timestamp object
@@ -121,11 +121,17 @@ const SearchResultCard = ({
       Electronics: "ElectronicComp",
       "Fashion Style": "FashionStyle",
       "Home & Furniture": "HealthCareComp",
+      "Home & Furnituer": "HealthCareComp", // Handle typo variation
+      "home & furniture": "HealthCareComp",
+      "home-furniture": "HealthCareComp",
+      HomeFurnitureContent: "HealthCareComp",
+      HEALTHCARE: "HealthCareComp",
       "Job Board": "JobBoard",
       Realestate: "RealEstateComp",
       "Real Estate": "RealEstateComp",
       Services: "TravelComp",
       "Sport & Game": "SportGamesComp",
+      "Sports & Game": "SportGamesComp", // Handle variation
       "Pet & Animals": "PetAnimalsComp",
       Other: "Education",
       Commercial: "Commercial",
