@@ -34,7 +34,7 @@ const Login = () => {
 
   // const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [phoneNumber, setPhoneNumber] = useState("XXXXXXXXX");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [error1, setError1] = useState("");
 
   const handlePhoneNumberChange1 = (e) => {
@@ -54,7 +54,7 @@ const Login = () => {
     }
   };
 
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -254,6 +254,7 @@ const Login = () => {
                           type="tel"
                           id="phoneNumber"
                           value={phoneNumber}
+                          autoComplete="off"  
                           onChange={handlePhoneNumberChange1}
                           placeholder={t("login.phonePlaceholder")}
                           className="form-control"
@@ -317,6 +318,7 @@ const Login = () => {
                         type={passwordType}
                         placeholder={t("login.passwordPlaceholder")}
                         value={password}
+                        autoComplete="new-password"
                         onChange={handlePasswordChange}
                         style={{
                           outline: "none",
