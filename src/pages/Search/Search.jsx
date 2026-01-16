@@ -285,7 +285,30 @@ const Search = () => {
             )
           );
           const flattenedDistricts = allDistricts.flat();
-          setDistricts(flattenedDistricts);
+
+          // Deduplicate districts based on district name but preserve all District_IDs for counting
+          const districtMap = new Map();
+
+          flattenedDistricts.forEach((district) => {
+            const key = `${district["District En Name"]}_${district["District Ar Name"]}`;
+
+            if (!districtMap.has(key)) {
+              // First occurrence - store the district with an array of IDs
+              districtMap.set(key, {
+                ...district,
+                allDistrictIds: [district.District_ID]
+              });
+            } else {
+              // Duplicate name - add the ID to the existing district's ID array
+              const existing = districtMap.get(key);
+              if (!existing.allDistrictIds.includes(district.District_ID)) {
+                existing.allDistrictIds.push(district.District_ID);
+              }
+            }
+          });
+
+          const uniqueDistricts = Array.from(districtMap.values());
+          setDistricts(uniqueDistricts);
         } catch (error) {
           console.error("Error loading districts:", error);
           setDistricts([]);
@@ -922,13 +945,19 @@ const Search = () => {
 
   const getDistrictsWithCounts = useMemo(() => {
     return districts
-      .map((district) => ({
-        ...district,
-        count: getCountForOption(
-          ["District_ID", "districtId"],
-          district.District_ID
-        ),
-      }))
+      .map((district) => {
+        // If the district has multiple IDs (deduplicated), sum up counts for all IDs
+        const count = district.allDistrictIds
+          ? district.allDistrictIds.reduce((total, districtId) => {
+              return total + getCountForOption(["District_ID", "districtId"], districtId);
+            }, 0)
+          : getCountForOption(["District_ID", "districtId"], district.District_ID);
+
+        return {
+          ...district,
+          count: count,
+        };
+      })
       .sort((a, b) => b.count - a.count);
   }, [districts, getCountForOption]);
 
@@ -1141,21 +1170,29 @@ const Search = () => {
 
   const handleDistrictChange = (districtOption) => {
     setSelectedDistricts((prev) => {
-      const isSelected = prev.some(
-        (district) => district.District_ID === districtOption.District_ID
+      // Get all IDs to check/add/remove (either from allDistrictIds or single District_ID)
+      const idsToHandle = districtOption.allDistrictIds || [districtOption.District_ID];
+
+      // Check if any of the IDs are already selected
+      const isSelected = prev.some((district) =>
+        idsToHandle.includes(district.District_ID)
       );
-      const newDistricts = isSelected
-        ? prev.filter(
-            (district) => district.District_ID !== districtOption.District_ID
-          )
-        : [
-            ...prev,
-            {
-              District_ID: districtOption.District_ID,
-              CITY_ID: districtOption.CITY_ID,
-              REGION_ID: districtOption.REGION_ID,
-            },
-          ];
+
+      let newDistricts;
+      if (isSelected) {
+        // Remove all IDs associated with this district
+        newDistricts = prev.filter(
+          (district) => !idsToHandle.includes(district.District_ID)
+        );
+      } else {
+        // Add all IDs associated with this district
+        const districtsToAdd = idsToHandle.map((districtId) => ({
+          District_ID: districtId,
+          CITY_ID: districtOption.CITY_ID,
+          REGION_ID: districtOption.REGION_ID,
+        }));
+        newDistricts = [...prev, ...districtsToAdd];
+      }
 
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
@@ -2062,9 +2099,10 @@ if (displaySearchKeyword) {
                                 {getDistrictsWithCounts
                                   .slice(0, 6)
                                   .map((district) => {
-                                    const isChecked = selectedDistricts.some(
-                                      (d) =>
-                                        d.District_ID === district.District_ID
+                                    // Check if any of the district IDs are selected
+                                    const idsToCheck = district.allDistrictIds || [district.District_ID];
+                                    const isChecked = selectedDistricts.some((d) =>
+                                      idsToCheck.includes(d.District_ID)
                                     );
                                     return (
                                       <label
@@ -2080,6 +2118,7 @@ if (displaySearchKeyword) {
                                               District_ID: district.District_ID,
                                               CITY_ID: district.CITY_ID,
                                               REGION_ID: district.REGION_ID,
+                                              allDistrictIds: district.allDistrictIds,
                                             })
                                           }
                                           style={{ cursor: "pointer" }}
@@ -2168,12 +2207,11 @@ if (displaySearchKeyword) {
                                                     )
                                               )
                                               .map((district) => {
-                                                const isChecked =
-                                                  selectedDistricts.some(
-                                                    (d) =>
-                                                      d.District_ID ===
-                                                      district.District_ID
-                                                  );
+                                                // Check if any of the district IDs are selected
+                                                const idsToCheck = district.allDistrictIds || [district.District_ID];
+                                                const isChecked = selectedDistricts.some((d) =>
+                                                  idsToCheck.includes(d.District_ID)
+                                                );
                                                 return (
                                                   <li
                                                     key={district.District_ID}
@@ -2190,6 +2228,7 @@ if (displaySearchKeyword) {
                                                               district.CITY_ID,
                                                             REGION_ID:
                                                               district.REGION_ID,
+                                                            allDistrictIds: district.allDistrictIds,
                                                           })
                                                         }
                                                       />
