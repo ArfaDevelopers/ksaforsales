@@ -158,6 +158,12 @@ const Search = () => {
 
   const getUrlText = (text) => {
     if (!text) return "";
+
+    // Special case for "Home & Furniture" to convert to "home-furniture"
+    if (text.trim().toLowerCase() === "home & furniture") {
+      return "home-furniture";
+    }
+
     return String(text)
       .trim()
       .toLowerCase()

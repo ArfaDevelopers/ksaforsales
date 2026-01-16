@@ -146,20 +146,20 @@ export const categoriesData = [
     collectionName: "HEALTHCARE",
     subcategories: [
       {
-        name: "Furniture",
-        path: "/search?category=home-furniture&subcategory=furniture",
+        name: "Majlis & Sofas",
+        path: "/search?category=home-furniture&subcategory=majlis-and-sofas",
       },
       {
-        name: "Decorations",
-        path: "/search?category=home-furniture&subcategory=decorations",
+        name: "Decoration & Accessories",
+        path: "/search?category=home-furniture&subcategory=decoration-and-accessories",
       },
       {
-        name: "Bedding",
-        path: "/search?category=home-furniture&subcategory=bedding",
+        name: "Beds & Mattresses",
+        path: "/search?category=home-furniture&subcategory=beds-and-mattresses",
       },
       {
-        name: "Kitchen",
-        path: "/search?category=home-furniture&subcategory=kitchen",
+        name: "Kitchens",
+        path: "/search?category=home-furniture&subcategory=kitchens",
       },
       {
         name: "Lighting",
