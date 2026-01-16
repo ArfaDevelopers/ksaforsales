@@ -138,14 +138,23 @@ const Search = () => {
 
   const qParam = searchParams.get("q") || "";
   const [searchKeyword, setSearchKeyword] = useState(qParam);
+  // Track if we're on initial load to sync URL to state only once
+  const isInitialMount = React.useRef(true);
+
   useEffect(() => {
     const urlSearchQuery = searchParams.get("q") || "";
-    // Only sync from URL to state if searchKeyword is not intentionally empty
-    // This allows the input to stay cleared after search while maintaining URL-based filtering
-    if (urlSearchQuery && urlSearchQuery !== searchKeyword) {
+
+    // Sync URL to state on initial mount
+    if (isInitialMount.current) {
       setSearchKeyword(urlSearchQuery);
+      isInitialMount.current = false;
     }
-  }, [searchParams]);
+    // Also clear searchKeyword state when URL no longer has "q" parameter
+    // This happens when user changes category or clears filters
+    else if (!urlSearchQuery && searchKeyword) {
+      setSearchKeyword("");
+    }
+  }, [searchParams, searchKeyword]);
 
   const getUrlText = (text) => {
     if (!text) return "";
