@@ -737,47 +737,16 @@ const CommercialAdscom = () => {
                   {t("categories.commercial")}
                 </button>
               </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                gap: "15px",
-                justifyContent: "space-between",
-                marginBottom: "1rem",
-                alignItems: "center",
-              }}
-            >
-              {/* Share Button */}
-              <button
-                className="head2btn"
-                onClick={() => setShowModal1(true)}
-                style={{
-                  backgroundColor: "white",
-                  border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
-                  textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
-                }}
-              >
-                <span>
-                  <IoShare
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      marginRight: "5px",
-                      color: "black",
-                    }}
-                  />
-                </span>
-                {t("common.share")}
-              </button>
 
               <Form.Select
                 aria-label="Category options"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className=""
-                style={{ width: window.innerWidth <= 576 ? "47%" : "220px" }}
+                style={{
+                  width: window.innerWidth <= 576 ? "47%" : "220px",
+                  marginTop: window.innerWidth <= 576 ? "15px" : "15px"
+                }}
               >
                 <option value="All">{t("common.allCategories")}</option>
 
@@ -788,6 +757,9 @@ const CommercialAdscom = () => {
                 ))}
               </Form.Select>
             </div>
+
+
+
 
             {showModal1 && (
               <div
