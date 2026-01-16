@@ -239,6 +239,7 @@ const CommercialAdsListing = () => {
         image: Url || null,
         timeAgo: new Date(),
         userId: uid,
+        isActive: true, // Set listing as active by default
       };
 
       console.log("Saving commercial ad with data:", listingData);

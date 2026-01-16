@@ -842,7 +842,24 @@ const Search = () => {
         );
       case "Sort by: Most Relevant":
       default:
-        return sortedAds;
+        // Sort by creation date - newest first (default behavior)
+        return sortedAds.sort((a, b) => {
+          // Try multiple possible timestamp field names
+          const timeA = a.createdAt || a.timestamp || a.dateAdded || a.created || 0;
+          const timeB = b.createdAt || b.timestamp || b.dateAdded || b.created || 0;
+
+          // Handle Firestore Timestamp objects
+          const getTimeValue = (time) => {
+            if (!time) return 0;
+            if (time.toDate) return time.toDate().getTime(); // Firestore Timestamp
+            if (time.seconds) return time.seconds * 1000; // Firestore Timestamp object
+            if (typeof time === 'number') return time;
+            if (time instanceof Date) return time.getTime();
+            return 0;
+          };
+
+          return getTimeValue(timeB) - getTimeValue(timeA); // Descending order (newest first)
+        });
     }
   };
 

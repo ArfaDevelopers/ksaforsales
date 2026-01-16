@@ -1979,6 +1979,7 @@ const AddLisiting = () => {
 
             userId: user.uid,
             createdAt: new Date(),
+            isActive: true, // Set listing as active by default
           });
           console.log("Data added successfully to Firestore!");
           MySwal.fire({
