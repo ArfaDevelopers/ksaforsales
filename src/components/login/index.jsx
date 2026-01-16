@@ -4,13 +4,11 @@ import Footer from "../home/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { apple, facebook, google } from "../imagepath";
 // import { signInWithEmailAndPassword } from "firebase/auth";
-import image from "../../../public/splash-banner-ksa-english-version.jpg";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth, db } from "./../Firebase/FirebaseConfig";
 // import { auth } from "./../Firebase/FirebaseConfig"; // Ensure correct Firebase import
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import QRcode from "../../../public/frames.png";
 import UpperHeader from "../../components/dyanmic_routes/upperHeader/Upper_Header";
 import {
   getFirestore,
@@ -30,7 +28,6 @@ const Login = () => {
   // State for email & password
   const [email, setEmail] = useState("");
   const [passwordType, setPasswordType] = useState("password");
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -139,16 +136,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   const handleChange = (e) => {
     setEmail(e.target.value);
     console.log("Entered Email:", e.target.value);
@@ -183,10 +170,10 @@ const Login = () => {
 
       <div className="login-content">
         <div className="container">
-          <div className="row">
-            {/* Left Column: QR Code Section */}
+          <div className="row justify-content-center">
+            {/* Login Form Section */}
 
-            <div className="col-md-6 col-lg-6 ">
+            <div className="col-md-8 col-lg-6">
               <div className="login-wrap">
                 <div className="login-header">
                   <h3>{t("login.title")}</h3>
@@ -405,171 +392,6 @@ const Login = () => {
                     </p>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div className="col-md-6 d-flex align-items-center justify-content-center">
-              <div className="qr-section " style={{ position: "relative" }}>
-                {/* QR Code with Phone Border */}
-                <div
-                  style={{
-                    position: "relative",
-                    padding: 20,
-                    width: window.innerWidth <= 575 ? "100%" : "300px",
-                    height: window.innerWidth <= 575 ? "100%" : "300px",
-                    margin: "0 auto 20px",
-                    background: "#fff",
-                    borderRadius: "10px",
-                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                    border: "1px solid #e0e0e0", // Simulates the phone border
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: window.innerWidth <= 575 ? "20px" : "0px",
-                  }}
-                >
-                  {/* QR Code Image */}
-                  <img
-                    src={image}
-                    alt="QR Code"
-                    style={{
-                      width: "150%",
-                      height: "150%",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-
-                {/* Text Section
-                <div
-                  style={{ color: "black", fontWeight: "bold", fontSize: 26 }}
-                >
-                  {t("login.qrTitle")}
-                </div>
-                <ol
-                  style={{
-                    listStyle: "none", // Remove default numbering
-                    paddingLeft: "0", // Remove default padding
-                    color: "#666", // Text color
-                    textAlign: "left", // Align text to the left
-                  }}
-                >
-                  <li
-                    style={{
-                      display: "flex", // Use flexbox to align badge and text
-                      alignItems: "center", // Vertically center the badge and text
-                      marginBottom: "10px", // Space between list items
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-flex", // Center the number in the badge
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "24px", // Badge size
-                        height: "24px",
-                        backgroundColor: "#fff", // White background for the badge
-                        border: "1px solid #ccc", // Light gray border
-                        borderRadius: "20%", // Circular shape
-                        marginRight: "10px", // Space between badge and text
-                        fontSize: "14px", // Number size
-                        color: "#666", // Number color
-                        fontWeight: "bold", // Bold number
-                      }}
-                    >
-                      1
-                    </span>
-                    {t("login.qrStep1")}
-                  </li>
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "24px",
-                        height: "24px",
-                        backgroundColor: "#fff",
-                        border: "1px solid #ccc",
-                        borderRadius: "20%",
-                        marginRight: "10px",
-                        fontSize: "14px",
-                        color: "#666",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      2
-                    </span>
-                    {t("login.qrStep2")}
-                  </li>
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "24px",
-                        height: "24px",
-                        backgroundColor: "#fff",
-                        border: "1px solid #ccc",
-                        borderRadius: "20%",
-                        marginRight: "10px",
-                        fontSize: "14px",
-                        color: "#666",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      3
-                    </span>
-                    {t("login.qrStep3")}
-                  </li>
-                  <li
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "24px",
-                        height: "24px",
-                        backgroundColor: "#fff",
-                        border: "1px solid #ccc",
-                        borderRadius: "20%",
-                        marginRight: "10px",
-                        fontSize: "14px",
-                        color: "#666",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      4
-                    </span>
-                    {t("login.qrStep4")}
-                  </li>
-                </ol> */}
               </div>
             </div>
           </div>
