@@ -325,6 +325,8 @@ const Header = ({ parms }) => {
     e.preventDefault();
     useSearchStore.setState({ results: [], showSuggestions: false });
     navigate(`/search?q=${searchText}`);
+    // Clear the search text after navigation
+    setSearchText("");
   };
 
   return (
@@ -2464,6 +2466,8 @@ const Header = ({ parms }) => {
                         e.preventDefault();
                         useSearchStore.setState({ results: [], showSuggestions: false });
                         navigate(`/search?q=${searchText}`);
+                        // Clear the search text after navigation
+                        setSearchText("");
                       }
                     }}
                     style={{
@@ -2498,11 +2502,13 @@ const Header = ({ parms }) => {
                             isSelecting.current = true;
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
                             useSearchStore.setState({ results: [], showSuggestions: false });
-                            setSearchText(item.title);
                             setSelectedItem(item);
 
                             // Navigate to search results page
                             navigate(`/search?q=${item.title}`);
+
+                            // Clear the search text after navigation
+                            setSearchText("");
 
                             // Reset flag after short delay
                             setTimeout(() => {

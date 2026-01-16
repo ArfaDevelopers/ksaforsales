@@ -140,7 +140,9 @@ const Search = () => {
   const [searchKeyword, setSearchKeyword] = useState(qParam);
   useEffect(() => {
     const urlSearchQuery = searchParams.get("q") || "";
-    if (urlSearchQuery !== searchKeyword) {
+    // Only sync from URL to state if searchKeyword is not intentionally empty
+    // This allows the input to stay cleared after search while maintaining URL-based filtering
+    if (urlSearchQuery && urlSearchQuery !== searchKeyword) {
       setSearchKeyword(urlSearchQuery);
     }
   }, [searchParams]);
@@ -461,8 +463,10 @@ const Search = () => {
         return adNestedSubCategory === nestedSubCategoryParam;
       });
     }
-    if (searchKeyword.trim()) {
-      const keyword = searchKeyword.toLowerCase();
+    // Use searchKeyword from state if available, otherwise use URL parameter
+    const activeSearchKeyword = searchKeyword.trim() || searchParams.get("q") || "";
+    if (activeSearchKeyword) {
+      const keyword = activeSearchKeyword.toLowerCase();
       filtered = filtered.filter(
         (ad) =>
           (ad.title && ad.title.toLowerCase().includes(keyword)) ||
@@ -829,8 +833,10 @@ const Search = () => {
           });
         }
       }
-      if (searchKeyword && searchKeyword.trim() !== "") {
-        const keyword = searchKeyword.toLowerCase().trim();
+      // Use searchKeyword from state if available, otherwise use URL parameter
+      const activeSearchKeyword = searchKeyword?.trim() || searchParams.get("q") || "";
+      if (activeSearchKeyword) {
+        const keyword = activeSearchKeyword.toLowerCase().trim();
         baseAds = baseAds.filter((ad) => {
           const searchableText = [
             ad.Title,
@@ -951,6 +957,15 @@ const Search = () => {
 
   const handleSearchKeyword = (e) => {
     e.preventDefault();
+    if (searchKeyword.trim()) {
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set("q", searchKeyword.trim());
+        return newParams;
+      });
+      // Clear the search input after setting the URL parameter
+      setSearchKeyword("");
+    }
   };
 
   const handleSubcategoryChange = (e, selectType = "multiple") => {
@@ -1236,8 +1251,10 @@ if (categoryDisplayName) {
   h1Title = `${categoryDisplayName} ${t("listing.forSale")}${cityText}`;
 }
 
-if (searchKeyword) {
-  h1Title = `${t("search.searchResultsFor")} "${searchKeyword}"${cityText}`;
+// Use searchKeyword from state if available, otherwise use URL parameter for display
+const displaySearchKeyword = searchKeyword || searchParams.get("q") || "";
+if (displaySearchKeyword) {
+  h1Title = `${t("search.searchResultsFor")} "${displaySearchKeyword}"${cityText}`;
 }
 
   return (
