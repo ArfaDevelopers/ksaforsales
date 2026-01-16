@@ -536,7 +536,7 @@ const SearchResultCard = ({
                           productId={ad.id}
                           productIds={productIds}
                           userId={currentUserId}
-                          receiverId={receiverId}
+                          recieverId={receiverId}
                         />
                       ) : (
                         <p>Please log in to send messages.</p>

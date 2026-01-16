@@ -138,15 +138,32 @@ const Search = () => {
 
   const qParam = searchParams.get("q") || "";
   const [searchKeyword, setSearchKeyword] = useState(qParam);
+  // Track if we're on initial load to sync URL to state only once
+  const isInitialMount = React.useRef(true);
+
   useEffect(() => {
     const urlSearchQuery = searchParams.get("q") || "";
-    if (urlSearchQuery !== searchKeyword) {
+
+    // Sync URL to state on initial mount
+    if (isInitialMount.current) {
       setSearchKeyword(urlSearchQuery);
+      isInitialMount.current = false;
     }
-  }, [searchParams]);
+    // Also clear searchKeyword state when URL no longer has "q" parameter
+    // This happens when user changes category or clears filters
+    else if (!urlSearchQuery && searchKeyword) {
+      setSearchKeyword("");
+    }
+  }, [searchParams, searchKeyword]);
 
   const getUrlText = (text) => {
     if (!text) return "";
+
+    // Special case for "Home & Furniture" to convert to "home-furniture"
+    if (text.trim().toLowerCase() === "home & furniture") {
+      return "home-furniture";
+    }
+
     return String(text)
       .trim()
       .toLowerCase()
@@ -268,7 +285,30 @@ const Search = () => {
             )
           );
           const flattenedDistricts = allDistricts.flat();
-          setDistricts(flattenedDistricts);
+
+          // Deduplicate districts based on district name but preserve all District_IDs for counting
+          const districtMap = new Map();
+
+          flattenedDistricts.forEach((district) => {
+            const key = `${district["District En Name"]}_${district["District Ar Name"]}`;
+
+            if (!districtMap.has(key)) {
+              // First occurrence - store the district with an array of IDs
+              districtMap.set(key, {
+                ...district,
+                allDistrictIds: [district.District_ID]
+              });
+            } else {
+              // Duplicate name - add the ID to the existing district's ID array
+              const existing = districtMap.get(key);
+              if (!existing.allDistrictIds.includes(district.District_ID)) {
+                existing.allDistrictIds.push(district.District_ID);
+              }
+            }
+          });
+
+          const uniqueDistricts = Array.from(districtMap.values());
+          setDistricts(uniqueDistricts);
         } catch (error) {
           console.error("Error loading districts:", error);
           setDistricts([]);
@@ -461,8 +501,10 @@ const Search = () => {
         return adNestedSubCategory === nestedSubCategoryParam;
       });
     }
-    if (searchKeyword.trim()) {
-      const keyword = searchKeyword.toLowerCase();
+    // Use searchKeyword from state if available, otherwise use URL parameter
+    const activeSearchKeyword = searchKeyword.trim() || searchParams.get("q") || "";
+    if (activeSearchKeyword) {
+      const keyword = activeSearchKeyword.toLowerCase();
       filtered = filtered.filter(
         (ad) =>
           (ad.title && ad.title.toLowerCase().includes(keyword)) ||
@@ -800,7 +842,24 @@ const Search = () => {
         );
       case "Sort by: Most Relevant":
       default:
-        return sortedAds;
+        // Sort by creation date - newest first (default behavior)
+        return sortedAds.sort((a, b) => {
+          // Try multiple possible timestamp field names
+          const timeA = a.createdAt || a.timestamp || a.dateAdded || a.created || 0;
+          const timeB = b.createdAt || b.timestamp || b.dateAdded || b.created || 0;
+
+          // Handle Firestore Timestamp objects
+          const getTimeValue = (time) => {
+            if (!time) return 0;
+            if (time.toDate) return time.toDate().getTime(); // Firestore Timestamp
+            if (time.seconds) return time.seconds * 1000; // Firestore Timestamp object
+            if (typeof time === 'number') return time;
+            if (time instanceof Date) return time.getTime();
+            return 0;
+          };
+
+          return getTimeValue(timeB) - getTimeValue(timeA); // Descending order (newest first)
+        });
     }
   };
 
@@ -829,8 +888,10 @@ const Search = () => {
           });
         }
       }
-      if (searchKeyword && searchKeyword.trim() !== "") {
-        const keyword = searchKeyword.toLowerCase().trim();
+      // Use searchKeyword from state if available, otherwise use URL parameter
+      const activeSearchKeyword = searchKeyword?.trim() || searchParams.get("q") || "";
+      if (activeSearchKeyword) {
+        const keyword = activeSearchKeyword.toLowerCase().trim();
         baseAds = baseAds.filter((ad) => {
           const searchableText = [
             ad.Title,
@@ -901,13 +962,19 @@ const Search = () => {
 
   const getDistrictsWithCounts = useMemo(() => {
     return districts
-      .map((district) => ({
-        ...district,
-        count: getCountForOption(
-          ["District_ID", "districtId"],
-          district.District_ID
-        ),
-      }))
+      .map((district) => {
+        // If the district has multiple IDs (deduplicated), sum up counts for all IDs
+        const count = district.allDistrictIds
+          ? district.allDistrictIds.reduce((total, districtId) => {
+              return total + getCountForOption(["District_ID", "districtId"], districtId);
+            }, 0)
+          : getCountForOption(["District_ID", "districtId"], district.District_ID);
+
+        return {
+          ...district,
+          count: count,
+        };
+      })
       .sort((a, b) => b.count - a.count);
   }, [districts, getCountForOption]);
 
@@ -951,6 +1018,15 @@ const Search = () => {
 
   const handleSearchKeyword = (e) => {
     e.preventDefault();
+    if (searchKeyword.trim()) {
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set("q", searchKeyword.trim());
+        return newParams;
+      });
+      // Clear the search input after setting the URL parameter
+      setSearchKeyword("");
+    }
   };
 
   const handleSubcategoryChange = (e, selectType = "multiple") => {
@@ -1111,21 +1187,29 @@ const Search = () => {
 
   const handleDistrictChange = (districtOption) => {
     setSelectedDistricts((prev) => {
-      const isSelected = prev.some(
-        (district) => district.District_ID === districtOption.District_ID
+      // Get all IDs to check/add/remove (either from allDistrictIds or single District_ID)
+      const idsToHandle = districtOption.allDistrictIds || [districtOption.District_ID];
+
+      // Check if any of the IDs are already selected
+      const isSelected = prev.some((district) =>
+        idsToHandle.includes(district.District_ID)
       );
-      const newDistricts = isSelected
-        ? prev.filter(
-            (district) => district.District_ID !== districtOption.District_ID
-          )
-        : [
-            ...prev,
-            {
-              District_ID: districtOption.District_ID,
-              CITY_ID: districtOption.CITY_ID,
-              REGION_ID: districtOption.REGION_ID,
-            },
-          ];
+
+      let newDistricts;
+      if (isSelected) {
+        // Remove all IDs associated with this district
+        newDistricts = prev.filter(
+          (district) => !idsToHandle.includes(district.District_ID)
+        );
+      } else {
+        // Add all IDs associated with this district
+        const districtsToAdd = idsToHandle.map((districtId) => ({
+          District_ID: districtId,
+          CITY_ID: districtOption.CITY_ID,
+          REGION_ID: districtOption.REGION_ID,
+        }));
+        newDistricts = [...prev, ...districtsToAdd];
+      }
 
       setSearchParams((params) => {
         const newParams = new URLSearchParams(params);
@@ -1236,8 +1320,10 @@ if (categoryDisplayName) {
   h1Title = `${categoryDisplayName} ${t("listing.forSale")}${cityText}`;
 }
 
-if (searchKeyword) {
-  h1Title = `${t("search.searchResultsFor")} "${searchKeyword}"${cityText}`;
+// Use searchKeyword from state if available, otherwise use URL parameter for display
+const displaySearchKeyword = searchKeyword || searchParams.get("q") || "";
+if (displaySearchKeyword) {
+  h1Title = `${t("search.searchResultsFor")} "${displaySearchKeyword}"${cityText}`;
 }
 
   return (
@@ -2030,9 +2116,10 @@ if (searchKeyword) {
                                 {getDistrictsWithCounts
                                   .slice(0, 6)
                                   .map((district) => {
-                                    const isChecked = selectedDistricts.some(
-                                      (d) =>
-                                        d.District_ID === district.District_ID
+                                    // Check if any of the district IDs are selected
+                                    const idsToCheck = district.allDistrictIds || [district.District_ID];
+                                    const isChecked = selectedDistricts.some((d) =>
+                                      idsToCheck.includes(d.District_ID)
                                     );
                                     return (
                                       <label
@@ -2048,6 +2135,7 @@ if (searchKeyword) {
                                               District_ID: district.District_ID,
                                               CITY_ID: district.CITY_ID,
                                               REGION_ID: district.REGION_ID,
+                                              allDistrictIds: district.allDistrictIds,
                                             })
                                           }
                                           style={{ cursor: "pointer" }}
@@ -2136,12 +2224,11 @@ if (searchKeyword) {
                                                     )
                                               )
                                               .map((district) => {
-                                                const isChecked =
-                                                  selectedDistricts.some(
-                                                    (d) =>
-                                                      d.District_ID ===
-                                                      district.District_ID
-                                                  );
+                                                // Check if any of the district IDs are selected
+                                                const idsToCheck = district.allDistrictIds || [district.District_ID];
+                                                const isChecked = selectedDistricts.some((d) =>
+                                                  idsToCheck.includes(d.District_ID)
+                                                );
                                                 return (
                                                   <li
                                                     key={district.District_ID}
@@ -2158,6 +2245,7 @@ if (searchKeyword) {
                                                               district.CITY_ID,
                                                             REGION_ID:
                                                               district.REGION_ID,
+                                                            allDistrictIds: district.allDistrictIds,
                                                           })
                                                         }
                                                       />

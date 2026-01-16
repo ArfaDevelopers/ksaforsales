@@ -485,7 +485,7 @@ const MyListe = () => {
               console.log(record.category, "record.category_______");
             }}
             to={
-              record.isActive
+              !record.isActive
                 ? "#"
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
@@ -512,9 +512,9 @@ const MyListe = () => {
                   )}`
             }
             style={{
-              pointerEvents: record.isActive ? "auto" : "none",
-              opacity: record.isActive ? 1 : 0.5,
-              cursor: record.isActive ? "pointer" : "not-allowed",
+              pointerEvents: !record.isActive ? "none" : "auto",
+              opacity: !record.isActive ? 0.5 : 1,
+              cursor: !record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <img
@@ -543,7 +543,7 @@ const MyListe = () => {
           <h6>
             <Link
               to={
-                record.isActive
+                !record.isActive
                   ? "#"
                   : `/Dynamic_Route?id=${
                       record.id
@@ -572,9 +572,9 @@ const MyListe = () => {
                     )}`
               }
               style={{
-                pointerEvents: record.isActive ? "auto" : "none",
-                opacity: record.isActive ? 1 : 0.5,
-                cursor: record.isActive ? "pointer" : "not-allowed",
+                pointerEvents: !record.isActive ? "none" : "auto",
+                opacity: !record.isActive ? 0.5 : 1,
+                cursor: !record.isActive ? "not-allowed" : "pointer",
               }}
             >
               {text}
@@ -583,7 +583,7 @@ const MyListe = () => {
           <div className="listingtable-rate">
             <Link
               to={
-                record.isActive
+                !record.isActive
                   ? "#"
                   : `/Dynamic_Route?id=${
                       record.id
@@ -613,9 +613,9 @@ const MyListe = () => {
               }
               className="cat-icon"
               style={{
-                pointerEvents: record.isActive ? "auto" : "none",
-                opacity: record.isActive ? 1 : 0.5,
-                cursor: record.isActive ? "pointer" : "not-allowed",
+                pointerEvents: !record.isActive ? "none" : "auto",
+                opacity: !record.isActive ? 0.5 : 1,
+                cursor: !record.isActive ? "not-allowed" : "pointer",
               }}
             >
               <FaRegStopCircle />
@@ -658,14 +658,14 @@ const MyListe = () => {
               <div
                 className="invoice-cell"
                 onClick={() => {
-                  if (!record.isActive) {
+                  if (record.isActive) {
                     setSelectedInvoice(record);
                     setShowInvoiceModal(true);
                   }
                 }}
                 style={{
-                  cursor: record.isActive ? "pointer" : "not-allowed",
-                  opacity: record.isActive ? 1 : 0.5,
+                  cursor: !record.isActive ? "not-allowed" : "pointer",
+                  opacity: !record.isActive ? 0.5 : 1,
                 }}
               >
                 <div>
@@ -703,7 +703,7 @@ const MyListe = () => {
         >
           <Link
             to={
-              record.isActive
+              !record.isActive
                 ? "#"
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
@@ -731,36 +731,36 @@ const MyListe = () => {
             }
             className="action-btn btn-view"
             onClick={() => {
-              if (!record.isActive) {
+              if (record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
               }
             }}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isActive ? "auto" : "none",
-              opacity: record.isActive ? 1 : 0.5,
-              cursor: record.isActive ? "pointer" : "not-allowed",
+              pointerEvents: !record.isActive ? "none" : "auto",
+              opacity: !record.isActive ? 0.5 : 1,
+              cursor: !record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <FaRegEye />
           </Link>
           <Link
             to={
-              record.isActive
-                ? `/add-listing?id=${record.id}&callingFrom=${formatCategory(
+              !record.isActive
+                ? "#"
+                : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
                     record.category
                   )}`
-                : "#"
             }
             className="action-btn btn-edit"
             title={"Edit Item"}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: record.isActive ? "auto" : "none",
-              opacity: record.isActive ? 1 : 0.5,
-              cursor: record.isActive ? "pointer" : "not-allowed",
+              pointerEvents: !record.isActive ? "none" : "auto",
+              opacity: !record.isActive ? 0.5 : 1,
+              cursor: !record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <i className="feather-edit-3" />
@@ -787,7 +787,7 @@ const MyListe = () => {
               padding: "5px 10px",
               borderRadius: "4px",
             }}
-            title={record.isActive ? "Enable Item" : "Disable Item"}
+            title={record.isActive ? "Disable Item" : "Enable Item"}
           >
             <i
               className={record.isActive ? "feather-unlock" : "feather-lock"}

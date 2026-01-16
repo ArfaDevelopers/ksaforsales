@@ -20,15 +20,6 @@ import { apple, facebook, google } from "../imagepath";
 
 import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-// import image from "../../../public/Banner1.png";s
-import image from "../../../public/splash-banner-ksa-english-version.jpg";
-
-import googlebutton from "../../components/home/footer/Google button.png";
-import mobileimage from "../../components/home/footer/mobileimg.png";
-import appstore from "../../components/home/footer/Appstore.png";
-import arrowimage from "../../components/home/footer/arrow.png";
-import scanner from "../../components/home/footer/scanner.png";
-import KSA from "../../components/home/footer/Logo ksa.svg";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const SignUp = () => {
@@ -57,15 +48,6 @@ const SignUp = () => {
       setPhoneNumber(input);
     }
   };
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -349,8 +331,8 @@ const SignUp = () => {
       <Header />
       <div className="login-content">
         <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-lg-6 ">
+          <div className="row justify-content-center">
+            <div className="col-md-8 col-lg-6">
               <div className="login-wrap register-form">
                 <div className="login-header">
                   <h3>Sign Up</h3>
@@ -570,63 +552,6 @@ const SignUp = () => {
                     </p>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div
-                className="qr-section"
-                style={{ position: "relative", marginTop: -20 }}
-              >
-                {/* QR Code with Phone Border */}
-                <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                  <img
-                    src={image}
-                    alt="QR Code"
-                    style={{
-                      width: "100%",
-                      // maxWidth: '200px', // Adjust size as needed
-                      height: "100%",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </div>
-                <div
-                  className="slogan-section"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    borderRadius: "5px",
-                  }}
-                >
-                  <div className="topfooter_wrapper container d-flex justify-content-center align-items-center">
-                    <div
-                      className="d-flex flex-column"
-                      style={{ textAlign: "center" }}
-                    >
-                      <div>
-                        <h4 style={{ marginBottom: 20, marginTop: -30 }}>
-                          Download the Ksa4sale App
-                        </h4>
-                      </div>
-                      <div>
-                        <i
-                          className="topfooter-socialimg"
-                          style={{
-                            marginRight: "2rem",
-                            width: "148px",
-                            height: "50px",
-                          }}
-                        >
-                          <img src={googlebutton} alt="Google Play Store" />
-                        </i>
-                        <i className="topfooter-socialimg">
-                          <img src={appstore} alt="App Store" />
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Double Arrow Icon (Flipped and Larger) */}
-                </div>
               </div>
             </div>
           </div>

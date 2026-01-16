@@ -325,6 +325,8 @@ const Header = ({ parms }) => {
     e.preventDefault();
     useSearchStore.setState({ results: [], showSuggestions: false });
     navigate(`/search?q=${searchText}`);
+    // Clear search input after navigation
+    setTimeout(() => setSearchText(""), 0);
   };
 
   return (
@@ -2464,6 +2466,8 @@ const Header = ({ parms }) => {
                         e.preventDefault();
                         useSearchStore.setState({ results: [], showSuggestions: false });
                         navigate(`/search?q=${searchText}`);
+                        // Clear search input after navigation
+                        setTimeout(() => setSearchText(""), 0);
                       }
                     }}
                     style={{
@@ -2498,11 +2502,38 @@ const Header = ({ parms }) => {
                             isSelecting.current = true;
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
                             useSearchStore.setState({ results: [], showSuggestions: false });
-                            setSearchText(item.title);
                             setSelectedItem(item);
 
-                            // Navigate to search results page
-                            navigate(`/search?q=${item.title}`);
+                            // Map category to callingFrom parameter
+                            const callingFromMap = {
+                              Motors: "AutomotiveComp",
+                              Automotive: "AutomotiveComp",
+                              Electronics: "ElectronicComp",
+                              "Fashion Style": "FashionStyle",
+                              "Home & Furniture": "HealthCareComp",
+                              "Home & Furnituer": "HealthCareComp",
+                              "home & furniture": "HealthCareComp",
+                              "home-furniture": "HealthCareComp",
+                              HomeFurnitureContent: "HealthCareComp",
+                              HEALTHCARE: "HealthCareComp",
+                              "Job Board": "JobBoard",
+                              Realestate: "RealEstateComp",
+                              "Real Estate": "RealEstateComp",
+                              Services: "TravelComp",
+                              "Sport & Game": "SportGamesComp",
+                              "Sports & Game": "SportGamesComp",
+                              "Pet & Animals": "PetAnimalsComp",
+                              Other: "Education",
+                              Commercial: "Commercial",
+                            };
+
+                            const callingFrom = callingFromMap[item.category] || "AutomotiveComp";
+
+                            // Navigate to item detail page
+                            navigate(`/Dynamic_Route?id=${item.id}&callingFrom=${callingFrom}`);
+
+                            // Clear search input after navigation
+                            setTimeout(() => setSearchText(""), 0);
 
                             // Reset flag after short delay
                             setTimeout(() => {

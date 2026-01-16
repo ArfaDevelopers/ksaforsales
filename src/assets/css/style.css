@@ -3871,21 +3871,37 @@ h2.trendingproduct_heading {
   /* box-shadow:0 0 4px 4px rgba(0,0,0,0.6) */
   border-radius: 10px !important;
   background-color: rgb(240, 240, 240);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
 }
 .relateable_card_wrap_main .relateable_image {
   width: 100%;
   height: 250px;
   object-fit: cover;
   border-radius: 10px 10px 0 0;
+  flex-shrink: 0;
 }
 .relateable_content_wrap_main {
-  padding: 34px 15px 16px 15px;
+  padding: 20px 15px 20px 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 .relateable_content_wrap_main .title {
   font-weight: 400px;
   font-size: 18px;
   text-transform: capitalize;
   margin: 0 0 15px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  min-height: 2.8em;
+  max-height: 2.8em;
 }
 .relateable_content_wrap_main .content_footer {
   display: flex;
@@ -3893,6 +3909,7 @@ h2.trendingproduct_heading {
   gap: 5px;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 }
 .relateable_content_wrap_main .price {
   font-weight: 700;
@@ -3906,13 +3923,21 @@ h2.trendingproduct_heading {
   font-size: 14px;
   text-transform: capitalize;
   margin: 0 0 15px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .relateable_content_wrap_main .date {
   font-weight: 400;
   font-size: 14px;
   text-transform: capitalize;
   margin: 0;
+  white-space: nowrap;
 }
+.relative_swiper {
+  padding-bottom: 30px;
+}
+
 .relative_swiper .swiper_btn_gen {
   position: absolute;
   top: 50%;
@@ -22981,6 +23006,111 @@ box-shadow: 0px 0px 4px #000000;
   cursor: pointer;
 }
 
+/* Suggested Ads Card Consistency Fix */
+.suggested-ads-section {
+  padding: 30px 0 40px 0;
+}
+
+.suggested-ads-section .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.suggested-ads-section .blog-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.suggested-ads-section .bloglist-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.suggested-ads-section .bloglist-content .card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.suggested-ads-section .bloglist-content h6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  min-height: 2.8em;
+  max-height: 2.8em;
+  margin-bottom: 10px;
+}
+
+.suggested-ads-section .bloglist-content p {
+  margin-top: auto;
+}
+
+/* Swiper Slide Equal Height Fix */
+.mySwiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.mySwiper .swiper-slide > a {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Global Card Height Consistency - Apply to all detail page cards */
+.card.aos {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.card.aos .blog-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card.aos .bloglist-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card.aos .card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 15px;
+}
+
+.card.aos h6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  min-height: 2.8em;
+  max-height: 2.8em;
+  margin-bottom: 10px;
+}
+
+.card.aos .card-body p {
+  margin-top: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .popup_cnt {
   background: rgba(0, 0, 0, 0.3);
   opacity: 3;
@@ -23496,9 +23626,10 @@ height: 400px;
 }
 .similarads {
   color: #434343;
-  margin-bottom: 20px;
-  margin-top: 0px;
+  margin-bottom: 30px;
+  margin-top: 40px;
   font-size: 28px;
+  padding-top: 20px;
 }
 .settings-upload-img {
   width: 120px;
