@@ -101,9 +101,10 @@ body.rtl .accordion-collapse {
 }
 
 /* Fix SearchFilter sidebar positioning in RTL */
+/* Remove row-reverse to keep sidebar on the right in RTL */
 [dir="rtl"] .filter_outterwrap,
 body.rtl .filter_outterwrap {
-  flex-direction: row-reverse !important;
+  direction: rtl;
 }
 
 [dir="rtl"] .filter_main_wrap,
