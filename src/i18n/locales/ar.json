@@ -1241,5 +1241,20 @@
     "welcomeBack": "مرحبًا بعودتك!",
     "loginFailed": "فشل تسجيل الدخول",
     "loginFailedMessage": "حدث خطأ أثناء تسجيل الدخول."
+  },
+  "signup": {
+    "title": "إنشاء حساب",
+    "welcomeMessage": "استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
+    "phonePlaceholder": "xxxxxxxxx",
+    "fullNamePlaceholder": "الاسم الكامل",
+    "emailPlaceholder": "البريد الإلكتروني",
+    "passwordPlaceholder": "كلمة المرور",
+    "otpPlaceholder": "أدخل رمز التحقق",
+    "sendOTP": "إرسال رمز التحقق",
+    "verifyAndCreate": "التحقق وإنشاء الحساب",
+    "haveAccount": "هل لديك حساب بالفعل؟",
+    "signIn": "تسجيل الدخول",
+    "agreeToTerms": "باستخدام تطبيق ksa4sale فإنك توافق على",
+    "termsAndConditions": "الشروط والأحكام"
   }
 }

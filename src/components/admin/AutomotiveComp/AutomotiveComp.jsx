@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
@@ -2451,6 +2451,101 @@ const AutomotiveComp = () => {
     nestedSubCategory, // 🔹 re-fetch on nestedSubCategory change
   ]);
 
+  // Track last processed bookmark change to prevent duplicate processing
+  const lastProcessedTimestampRef = useRef(0);
+
+  // Check for pending bookmark changes and apply them
+  const applyPendingBookmarkChange = useCallback(() => {
+    const bookmarkChangeStr = sessionStorage.getItem("last_bookmark_change");
+    const currentUserId = auth.currentUser?.uid;
+
+    if (!bookmarkChangeStr || !currentUserId) {
+      return false;
+    }
+
+    try {
+      const bookmarkChange = JSON.parse(bookmarkChangeStr);
+
+      // Skip if we already processed this change
+      if (bookmarkChange.timestamp <= lastProcessedTimestampRef.current) {
+        return false;
+      }
+
+      console.log("🔄 Automotive: Applying bookmark change:", bookmarkChange);
+
+      // Mark as processed
+      lastProcessedTimestampRef.current = bookmarkChange.timestamp;
+
+      // Update local state if this item is in our list
+      setCars((prevCars) =>
+        prevCars.map((car) => {
+          if (car.id === bookmarkChange.id) {
+            console.log(`✅ Updating car ${car.id} - removed: ${bookmarkChange.removed}`);
+            return {
+              ...car,
+              heartedby: bookmarkChange.removed
+                ? (car.heartedby || []).filter((id) => id !== currentUserId)
+                : [...(car.heartedby || []), currentUserId],
+            };
+          }
+          return car;
+        })
+      );
+
+      setFilteredCars((prevCars) =>
+        prevCars.map((car) => {
+          if (car.id === bookmarkChange.id) {
+            return {
+              ...car,
+              heartedby: bookmarkChange.removed
+                ? (car.heartedby || []).filter((id) => id !== currentUserId)
+                : [...(car.heartedby || []), currentUserId],
+            };
+          }
+          return car;
+        })
+      );
+
+      // Clear the bookmark change flag
+      sessionStorage.removeItem("last_bookmark_change");
+      console.log("✅ Bookmark synced and cleared");
+      return true;
+    } catch (error) {
+      console.error("Error syncing bookmark:", error);
+      return false;
+    }
+  }, []);
+
+  // Apply bookmark changes AFTER data is loaded
+  useEffect(() => {
+    // Only try to apply if we have data loaded
+    if (cars.length > 0 && auth.currentUser?.uid) {
+      applyPendingBookmarkChange();
+    }
+  }, [cars.length, applyPendingBookmarkChange]);
+
+  // Also listen for navigation events
+  useEffect(() => {
+    const handlePopState = () => {
+      console.log("🔙 Browser back/forward detected");
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden && cars.length > 0 && auth.currentUser?.uid) {
+        console.log("👁️ Page became visible, checking bookmarks...");
+        applyPendingBookmarkChange();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [cars.length, applyPendingBookmarkChange]);
+
   // useEffect(() => {
   //   const CITY_ID = selectedCities[0]?.CITY_ID;
   //   const DISTRICT_ID = selectedDistricts[0]?.DISTRICT_ID; // ✅ Get first DISTRICT_ID
@@ -3610,7 +3705,19 @@ const AutomotiveComp = () => {
         // Update Firestore using array helpers
         await updateDoc(carDocRef, {
           heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+          bookmarked: !alreadyHearted, // Update bookmarked field
+          [`userBookmarks.${uid}`]: !alreadyHearted, // Track per-user bookmark status
         });
+
+        // Store the bookmark change for other pages
+        const bookmarkChange = {
+          id: carId,
+          category: "Automotive",
+          tableName: "Cars",
+          removed: alreadyHearted,
+          timestamp: Date.now(),
+        };
+        sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
 
         // Optimistically update local state so UI is immediate
         setCars((prevCars) =>

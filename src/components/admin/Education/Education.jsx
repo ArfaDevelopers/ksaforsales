@@ -1479,6 +1479,8 @@ const Education = () => {
       const carDocRef = doc(db, "Education", carId);
       await updateDoc(carDocRef, {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        bookmarked: !alreadyHearted,
+        [`userBookmarks.${uid}`]: !alreadyHearted,
       });
 
       // Optimistically update local state

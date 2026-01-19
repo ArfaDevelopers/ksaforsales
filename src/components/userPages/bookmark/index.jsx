@@ -14,6 +14,8 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  arrayRemove,
+  arrayUnion,
 } from "firebase/firestore";
 import Spinner from "react-bootstrap/Spinner";
 import { FaHeart, FaArrowRight, FaArrowLeft } from "react-icons/fa";
@@ -75,6 +77,11 @@ const Bookmarks = () => {
     Travel: "TRAVEL",
     "Pet & Animal": "PETANIMALCOMP",
     "Health Care": "HEALTHCARE",
+    Commercial: "CommercialAdscom",
+    Automotive: "Cars",
+    Other: "Education",
+    Services: "TRAVEL",
+    "Home & Furnituer": "HEALTHCARE",
   };
 
   useEffect(() => {
@@ -100,36 +107,84 @@ const Bookmarks = () => {
           return;
         }
 
-        const userId = user.uid;
+        const currentUserId = user.uid;
+        console.log("🔖 ============ BOOKMARKS PAGE ============");
+        console.log("🔖 Fetching bookmarks for user:", currentUserId);
+        console.log("🔖 Current page:", currentPage, "Sort order:", sortOrder);
 
-        const response = await axios.get(
-          `http://168.231.80.24:9002/currentUserData/bookmarked-listings`,
-          {
-            params: {
-              userId,
-              sortOrder,
-              page: currentPage,
-              limit: pageSize,
-            },
+        // Define all collections to check for bookmarked items
+        const collections = [
+          { name: "Cars", category: "Automotive" },
+          { name: "ELECTRONICS", category: "Electronics" },
+          { name: "FASHIONComp", category: "Fashion Style" },
+          { name: "HEALTHCARE", category: "Home & Furnituer" },
+          { name: "JOBBOARD", category: "Job board" },
+          { name: "Education", category: "Other" },
+          { name: "REALESTATECOMP", category: "Real Estate" },
+          { name: "TRAVEL", category: "Services" },
+          { name: "SPORTSGAMESComp", category: "Sports & Game" },
+          { name: "PETANIMALCOMP", category: "Pet & Animal" },
+          { name: "CommercialAdscom", category: "Commercial" },
+        ];
+
+        let allBookmarkedItems = [];
+
+        // Fetch from all collections
+        for (const { name: collectionName, category } of collections) {
+          try {
+            const collectionRef = collection(db, collectionName);
+            const q = query(collectionRef, where("heartedby", "array-contains", currentUserId));
+            const querySnapshot = await getDocs(q);
+
+            const items = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              category: category,
+              collectionName: collectionName,
+              bookmarked: true, // Mark as bookmarked since we fetched it via heartedby
+            }));
+
+            console.log(`🔖 ${collectionName}: Found ${items.length} bookmarked items`);
+            if (items.length > 0) {
+              console.log(`🔖 ${collectionName} items:`, items.map(i => ({ id: i.id, title: i.title || i.Title })));
+            }
+            allBookmarkedItems = [...allBookmarkedItems, ...items];
+          } catch (error) {
+            console.error(`Error fetching from ${collectionName}:`, error);
+            // Continue with other collections even if one fails
           }
-        );
-        console.log(response, "normalizedData____________1");
+        }
 
-        const { data, totalPages, total } = response.data;
-        const normalizedData = data.map((item) => ({
-          ...item,
-          isActive: item.isActive ?? false,
-        }));
-        console.log(normalizedData, "normalizedData____________");
-        console.log(data, "normalizedData____________data");
+        console.log("🔖 ============================================");
+        console.log("🔖 Total bookmarked items found:", allBookmarkedItems.length);
+        if (allBookmarkedItems.length > 0) {
+          console.log("🔖 All items:", allBookmarkedItems.map(i => ({
+            id: i.id,
+            title: i.title || i.Title,
+            collection: i.collectionName,
+            heartedby: i.heartedby
+          })));
+        }
+        console.log("🔖 ============================================");
 
-        setCars(normalizedData);
-        setFilteredCars(normalizedData);
-        setTotalItems(total);
+        // Sort the items based on sortOrder
+        const sortedItems = allBookmarkedItems.sort((a, b) => {
+          const dateA = a.createdAt?.seconds || 0;
+          const dateB = b.createdAt?.seconds || 0;
+          return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
+        });
 
-        setTotalPages(totalPages);
+        // Implement pagination
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        const paginatedItems = sortedItems.slice(startIndex, endIndex);
+
+        setCars(sortedItems);
+        setFilteredCars(paginatedItems);
+        setTotalItems(sortedItems.length);
+        setTotalPages(Math.ceil(sortedItems.length / pageSize));
       } catch (error) {
-        console.error("Error fetching bookmarked listings from API:", error);
+        console.error("Error fetching bookmarked listings:", error);
         setError("Failed to fetch bookmarked data");
       } finally {
         setLoading(false);
@@ -137,24 +192,31 @@ const Bookmarks = () => {
     };
 
     fetchBookmarkedListings();
-  }, [currentPage, sortOrder]);
+  }, [currentPage, sortOrder, userId]);
 
   useEffect(() => {
-    if (!searchQuery) {
-      setFilteredCars(cars.filter((val) => val.bookmarked === true));
+    if (!userId || !searchQuery) {
+      // No search query, so items are already filtered and paginated in the main fetch
       return;
     }
 
+    // Apply search filter on already bookmarked items
     const lowercasedQuery = searchQuery.toLowerCase();
     const filteredResults = cars.filter(
       (car) =>
-        car.bookmarked === true &&
-        (car.title?.toLowerCase().includes(lowercasedQuery) ||
-          car.description?.toLowerCase().includes(lowercasedQuery))
+        car.title?.toLowerCase().includes(lowercasedQuery) ||
+        car.description?.toLowerCase().includes(lowercasedQuery)
     );
 
-    setFilteredCars(filteredResults);
-  }, [searchQuery, cars]);
+    // Apply pagination to search results
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedResults = filteredResults.slice(startIndex, endIndex);
+
+    setFilteredCars(paginatedResults);
+    setTotalItems(filteredResults.length);
+    setTotalPages(Math.ceil(filteredResults.length / pageSize));
+  }, [searchQuery, cars, userId, currentPage, pageSize]);
 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
@@ -170,28 +232,164 @@ const Bookmarks = () => {
     setSearchQuery(event.target.value);
   };
 
-  const toggleBookmark = async (id, category, currentBookmarkState) => {
-    try {
-      const tableName = categoryMapping[category] || category;
-      const docRef = doc(db, tableName, id);
-      await updateDoc(docRef, { bookmarked: !currentBookmarkState });
+  const toggleBookmark = async (id, category, collectionName) => {
+    // Get current user ID
+    const currentUserId = auth.currentUser?.uid;
+    if (!currentUserId) {
+      setError("User not authenticated");
+      return;
+    }
 
+    // Use the actual collectionName stored on the item (like Search.jsx does)
+    // Fall back to categoryMapping if collectionName is not provided
+    const tableName = collectionName || categoryMapping[category] || category;
+
+    console.log("🔖 Toggle Bookmark Debug:", {
+      id,
+      category,
+      collectionName,
+      tableName,
+      currentUserId,
+    });
+
+    if (!tableName) {
+      console.error("❌ ERROR: tableName is missing!");
+      setError("Error: Cannot update bookmark. Collection name is missing.");
+      return;
+    }
+
+    try {
+      const docRef = doc(db, tableName, id);
+
+      // First, get the current document to check actual heartedby state (like Search.jsx)
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        console.error("❌ Document does not exist:", tableName, id);
+        setError("Error: Item not found in database");
+        return;
+      }
+
+      const currentData = docSnap.data();
+      const currentHeartedBy = currentData.heartedby || [];
+      const isCurrentlyBookmarked = currentHeartedBy.includes(currentUserId);
+
+      console.log("📝 Current state from Firebase:", {
+        heartedby: currentHeartedBy,
+        isCurrentlyBookmarked,
+        willRemove: isCurrentlyBookmarked,
+      });
+
+      // STEP 1: Update the USER document (like Search.jsx does)
+      // This is the source of truth for bookmarkedAds in Search page
+      console.log("📝 Updating user document...");
+      const userDocRef = doc(db, "users", currentUserId);
+      try {
+        await updateDoc(userDocRef, {
+          heartedby: isCurrentlyBookmarked ? arrayRemove(id) : arrayUnion(id),
+        });
+        console.log("✅ User document updated successfully");
+      } catch (userError) {
+        console.error("❌ Error updating user document:", userError);
+        // If user document doesn't exist, we'll skip this but continue with ad update
+      }
+
+      // STEP 2: Update the AD document's heartedby array, bookmarked field, and per-user bookmark
+      await updateDoc(docRef, {
+        bookmarked: !isCurrentlyBookmarked,
+        heartedby: isCurrentlyBookmarked
+          ? arrayRemove(currentUserId)
+          : arrayUnion(currentUserId),
+        [`userBookmarks.${currentUserId}`]: !isCurrentlyBookmarked,
+      });
+
+      // Verify the update by reading back (like Search.jsx does)
+      const verifyDoc = await getDoc(docRef);
+      const verifyData = verifyDoc.data();
+      console.log("✅ Verification - Ad heartedby array:", verifyData.heartedby);
+      console.log("✅ Verification - Ad bookmarked:", verifyData.bookmarked);
+      console.log("✅ User still in ad heartedby:", verifyData.heartedby?.includes(currentUserId));
+
+      // Clear all cached data to force refetch on other pages
+      const cacheKeys = [
+        "commercial_ads_data", "commercial_ads_timestamp",
+        "ads_all", "ads_all_timestamp",
+        "ads_Motors", "ads_Motors_timestamp",
+        "ads_Electronics", "ads_Electronics_timestamp",
+        "ads_Fashion Style", "ads_Fashion Style_timestamp",
+        "ads_Home & Furniture", "ads_Home & Furniture_timestamp",
+        "ads_Job Board", "ads_Job Board_timestamp",
+        "ads_Other", "ads_Other_timestamp",
+        "ads_Real Estate", "ads_Real Estate_timestamp",
+        "ads_Services", "ads_Services_timestamp",
+        "ads_Sport & Game", "ads_Sport & Game_timestamp",
+        "ads_Pet & Animals", "ads_Pet & Animals_timestamp",
+      ];
+      cacheKeys.forEach(key => sessionStorage.removeItem(key));
+      console.log("🧹 All caches cleared");
+
+      // Store the bookmark change in sessionStorage so other pages can detect it
+      const bookmarkChange = {
+        id,
+        category,
+        tableName,
+        removed: isCurrentlyBookmarked,
+        timestamp: Date.now(),
+      };
+      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+
+      // Update local state
       setCars((prevCars) =>
-        prevCars.map((car) =>
-          car.id === id && car.category === category
-            ? { ...car, bookmarked: !currentBookmarkState }
-            : car
-        )
+        prevCars.map((car) => {
+          if (car.id === id && car.category === category) {
+            const updatedHeartedBy = isCurrentlyBookmarked
+              ? (car.heartedby || []).filter((uid) => uid !== currentUserId)
+              : [...(car.heartedby || []), currentUserId];
+
+            return {
+              ...car,
+              bookmarked: !isCurrentlyBookmarked,
+              heartedby: updatedHeartedBy,
+              userBookmarks: {
+                ...car.userBookmarks,
+                [currentUserId]: !isCurrentlyBookmarked,
+              },
+            };
+          }
+          return car;
+        })
       );
-      setFilteredCars((prevCars) =>
-        prevCars.map((car) =>
-          car.id === id && car.category === category
-            ? { ...car, bookmarked: !currentBookmarkState }
-            : car
-        )
-      );
+
+      // Remove from filtered list if unbookmarking
+      if (isCurrentlyBookmarked) {
+        setFilteredCars((prevCars) =>
+          prevCars.filter((car) => !(car.id === id && car.category === category))
+        );
+      } else {
+        setFilteredCars((prevCars) =>
+          prevCars.map((car) => {
+            if (car.id === id && car.category === category) {
+              return {
+                ...car,
+                bookmarked: true,
+                heartedby: [...(car.heartedby || []), currentUserId],
+                userBookmarks: {
+                  ...car.userBookmarks,
+                  [currentUserId]: true,
+                },
+              };
+            }
+            return car;
+          })
+        );
+      }
+
+      console.log("✅ Bookmark toggle completed successfully!");
     } catch (error) {
-      console.error("Error toggling bookmark:", error);
+      console.error("❌ Error toggling bookmark:", error);
+      console.error("Error details:", {
+        code: error.code,
+        message: error.message,
+      });
       setError("Failed to update bookmark");
     }
   };
@@ -331,11 +529,6 @@ const Bookmarks = () => {
       }
     });
   };
-
-  const paginatedData = [...new Set(filteredCars)].slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   const formatCategory = (category) => {
     return category
@@ -505,7 +698,7 @@ const Bookmarks = () => {
                                 toggleBookmark(
                                   car.id,
                                   car.category,
-                                  car.bookmarked
+                                  car.collectionName
                                 )
                               }
                             >

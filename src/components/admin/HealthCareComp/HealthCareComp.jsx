@@ -1715,6 +1715,8 @@ const HealthCareComp = () => {
       const carDocRef = doc(db, "HEALTHCARE", carId);
       await updateDoc(carDocRef, {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        bookmarked: !alreadyHearted,
+        [`userBookmarks.${uid}`]: !alreadyHearted,
       });
 
       // Optimistically update local state

@@ -23,14 +23,19 @@ export const LanguageProvider = ({ children }) => {
     const savedLanguage = localStorage.getItem("language") || "en";
     i18n.changeLanguage(savedLanguage);
 
-    // Set HTML lang attribute only (no direction changes)
+    // Set HTML lang attribute
     document.documentElement.setAttribute("lang", language);
 
-    // Don't change direction - keep layout as LTR always
-    // document.documentElement.setAttribute("dir", "ltr");
-
-    // Don't add RTL class - keep layout the same for both languages
-    // document.body.classList.remove("rtl");
+    // Set direction based on language
+    if (language === "ar") {
+      document.documentElement.setAttribute("dir", "rtl");
+      document.body.classList.add("rtl");
+      console.log("✅ RTL mode enabled for Arabic");
+    } else {
+      document.documentElement.setAttribute("dir", "ltr");
+      document.body.classList.remove("rtl");
+      console.log("✅ LTR mode enabled for", language);
+    }
   }, [language]);
 
   return (

@@ -1598,6 +1598,8 @@ const PetAnimalsComp = () => {
       const carDocRef = doc(db, "PETANIMALCOMP", carId);
       await updateDoc(carDocRef, {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        bookmarked: !alreadyHearted,
+        [`userBookmarks.${uid}`]: !alreadyHearted,
       });
 
       // Optimistically update local state
