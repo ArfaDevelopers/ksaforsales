@@ -260,6 +260,21 @@
     "loginFailed": "Login Failed",
     "loginFailedMessage": "An error occurred during login."
   },
+  "signup": {
+    "title": "Sign Up",
+    "welcomeMessage": "Hurry up! By signing up you get full access to all of our features.",
+    "phonePlaceholder": "xxxxxxxxx",
+    "fullNamePlaceholder": "Full Name",
+    "emailPlaceholder": "Email Address",
+    "passwordPlaceholder": "Password",
+    "otpPlaceholder": "Enter OTP",
+    "sendOTP": "Send OTP",
+    "verifyAndCreate": "Verify OTP and Create Account",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "agreeToTerms": "By using the ksa4sale app.you agree to our",
+    "termsAndConditions": "Terms&conditions"
+  },
   "addListing": {
     "mediaInformation": "Media Information",
     "noImagesSelected": "No images selected",

@@ -22,7 +22,9 @@ import { FaApple } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useTranslation } from "react-i18next";
 const SignUp = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
   const [passwordType, setPasswordType] = useState("password");
@@ -335,10 +337,9 @@ const SignUp = () => {
             <div className="col-md-8 col-lg-6">
               <div className="login-wrap register-form">
                 <div className="login-header">
-                  <h3>Sign Up</h3>
+                  <h3>{t("signup.title")}</h3>
                   <p style={{ fontWeight: "bold" }}>
-                    Hurry up! By signing up you get full access to all of our
-                    features.
+                    {t("signup.welcomeMessage")}
                   </p>
                 </div>
 
@@ -392,7 +393,7 @@ const SignUp = () => {
                         </span>
                         <input
                           type="number"
-                          placeholder="xxxxxxxxx"
+                          placeholder={t("signup.phonePlaceholder")}
                           value={phoneNumber}
                           onChange={(e) => {
                             const value = e.target.value
@@ -441,7 +442,7 @@ const SignUp = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Full Name"
+                        placeholder={t("signup.fullNamePlaceholder")}
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         required
@@ -454,7 +455,7 @@ const SignUp = () => {
                       <input
                         type="email"
                         className="form-control"
-                        placeholder="Email Address"
+                        placeholder={t("signup.emailPlaceholder")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -470,7 +471,7 @@ const SignUp = () => {
                       <input
                         type={passwordType}
                         className="form-control pass-input"
-                        placeholder="Password"
+                        placeholder={t("signup.passwordPlaceholder")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -499,7 +500,7 @@ const SignUp = () => {
                       }}
                       onClick={sendOtp}
                     >
-                      Send OTP
+                      {t("signup.sendOTP")}
                     </button>
                   ) : (
                     <>
@@ -512,7 +513,7 @@ const SignUp = () => {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter OTP"
+                            placeholder={t("signup.otpPlaceholder")}
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             required
@@ -526,28 +527,28 @@ const SignUp = () => {
                         className="w-full bg-gray-600 text-black py-2 px-4 rounded-md border-none hover:bg-gray-600 focus:outline-none focus:ring-0 focus:border-none active:bg-gray-600 transition-none"
                         onClick={verifyOtp}
                       >
-                        Verify OTP and Create Account
+                        {t("signup.verifyAndCreate")}
                       </button>
                     </>
                   )}
 
                   <div className="register-link text-center">
                     <p style={{ fontWeight: "bold", fontSize: 16 }}>
-                      Already have an account?{" "}
+                      {t("signup.haveAccount")}{" "}
                       <Link
                         className="forgot-link"
                         to="/login"
                         style={{ textDecoration: "none" }}
                       >
-                        Sign In
+                        {t("signup.signIn")}
                       </Link>
                     </p>
                   </div>
                   <div className="register-link text-center">
                     <p style={{ fontWeight: "bold", fontSize: 14 }}>
-                      By using the ksa4sale app.you agree to our <br />
+                      {t("signup.agreeToTerms")} <br />
                       <Link className="forgot-link" to="/TermsAndConditions">
-                        Terms&conditions
+                        {t("signup.termsAndConditions")}
                       </Link>
                     </p>
                   </div>

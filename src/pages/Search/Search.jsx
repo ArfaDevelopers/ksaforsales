@@ -161,12 +161,15 @@ const Search = () => {
   const getUrlText = (text) => {
     if (!text) return "";
 
+    // Convert to string first to ensure .trim() works
+    const textStr = String(text);
+
     // Special case for "Home & Furniture" to convert to "home-furniture"
-    if (text.trim().toLowerCase() === "home & furniture") {
+    if (textStr.trim().toLowerCase() === "home & furniture") {
       return "home-furniture";
     }
 
-    return String(text)
+    return textStr
       .trim()
       .toLowerCase()
       .replace(/–/g, "-")
@@ -622,7 +625,7 @@ const Search = () => {
       });
     }
     // Use searchKeyword from state if available, otherwise use URL parameter
-    const activeSearchKeyword = searchKeyword.trim() || searchParams.get("q") || "";
+    const activeSearchKeyword = (typeof searchKeyword === 'string' ? searchKeyword.trim() : '') || searchParams.get("q") || "";
     if (activeSearchKeyword) {
       const keyword = activeSearchKeyword.toLowerCase();
       filtered = filtered.filter(
@@ -650,8 +653,8 @@ const Search = () => {
       filtered = filtered.filter((ad) => {
         if (Array.isArray(ad.galleryImages) && ad.galleryImages.length > 0)
           return true;
-        if (ad.imageUrl && ad.imageUrl.trim() !== "") return true;
-        if (ad.photoURL && ad.photoURL.trim() !== "") return true;
+        if (ad.imageUrl && typeof ad.imageUrl === 'string' && ad.imageUrl.trim() !== "") return true;
+        if (ad.photoURL && typeof ad.photoURL === 'string' && ad.photoURL.trim() !== "") return true;
         return false;
       });
     }
@@ -1111,7 +1114,7 @@ const Search = () => {
       // Use searchKeyword from state if available, otherwise use URL parameter
       const activeSearchKeyword = searchKeyword?.trim() || searchParams.get("q") || "";
       if (activeSearchKeyword) {
-        const keyword = activeSearchKeyword.toLowerCase().trim();
+        const keyword = String(activeSearchKeyword).toLowerCase().trim();
         baseAds = baseAds.filter((ad) => {
           const searchableText = [
             ad.Title,
@@ -1238,10 +1241,11 @@ const Search = () => {
 
   const handleSearchKeyword = (e) => {
     e.preventDefault();
-    if (searchKeyword.trim()) {
+    const keyword = typeof searchKeyword === 'string' ? searchKeyword.trim() : '';
+    if (keyword) {
       setSearchParams((prev) => {
         const newParams = new URLSearchParams(prev);
-        newParams.set("q", searchKeyword.trim());
+        newParams.set("q", keyword);
         return newParams;
       });
       // Clear the search input after setting the URL parameter

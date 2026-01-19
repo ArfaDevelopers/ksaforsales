@@ -1,12 +1,880 @@
 /* RTL (Right-to-Left) styles for Arabic language */
-/* Only translate text, keep layout structure LTR */
+/* Allow natural RTL layout while maintaining design integrity */
 
-/* Apply RTL text direction but keep layout */
+/* Base text alignment */
+[dir="rtl"] body,
 body.rtl {
-  /* Don't change direction - keep layout as LTR */
+  text-align: right;
 }
 
-/* No layout changes - only text translation */
+/* Text content should be RTL */
+[dir="rtl"] p,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+[dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+[dir="rtl"] span,
+[dir="rtl"] a,
+[dir="rtl"] li,
+body.rtl p,
+body.rtl h1, body.rtl h2, body.rtl h3,
+body.rtl h4, body.rtl h5, body.rtl h6,
+body.rtl span,
+body.rtl a,
+body.rtl li {
+  text-align: right;
+}
 
-/* Keep all layout exactly as LTR - only translate text */
-/* No directional or positional changes */
+/* Keep card layout in LTR direction (don't flip structure) */
+/* This keeps image on left, content on right in both LTR and RTL */
+[dir="rtl"] .card,
+body.rtl .card {
+  direction: ltr !important;
+}
+
+/* Keep everything inside card in LTR structure */
+[dir="rtl"] .card *,
+body.rtl .card * {
+  direction: ltr !important;
+}
+
+/* Keep rows inside cards in LTR to prevent column reversal */
+[dir="rtl"] .card .row,
+body.rtl .card .row {
+  direction: ltr !important;
+}
+
+/* Results section should stay LTR to maintain card stacking */
+[dir="rtl"] .results_section,
+body.rtl .results_section {
+  direction: ltr !important;
+}
+
+/* Card body should maintain LTR structure */
+[dir="rtl"] .card-body,
+body.rtl .card-body {
+  direction: ltr !important;
+}
+
+/* Text elements inside cards should align naturally based on content */
+/* Don't force right alignment - let text align based on its language */
+[dir="rtl"] .card-body p,
+[dir="rtl"] .card-body h1,
+[dir="rtl"] .card-body h2,
+[dir="rtl"] .card-body h3,
+[dir="rtl"] .card-body h4,
+[dir="rtl"] .card-body h5,
+[dir="rtl"] .card-body span,
+[dir="rtl"] .card-title,
+[dir="rtl"] .card-title a,
+[dir="rtl"] .card-title p,
+[dir="rtl"] .card-text,
+body.rtl .card-body p,
+body.rtl .card-body h1,
+body.rtl .card-body h2,
+body.rtl .card-body h3,
+body.rtl .card-body h4,
+body.rtl .card-body h5,
+body.rtl .card-body span,
+body.rtl .card-title,
+body.rtl .card-title a,
+body.rtl .card-title p,
+body.rtl .card-text {
+  text-align: left !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Fix accordion components */
+[dir="rtl"] .accordion-button,
+body.rtl .accordion-button {
+  text-align: right;
+}
+
+[dir="rtl"] .accordion-button::after,
+body.rtl .accordion-button::after {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .accordion-collapse,
+body.rtl .accordion-collapse {
+  text-align: right;
+}
+
+/* Fix SearchFilter sidebar positioning in RTL */
+[dir="rtl"] .filter_outterwrap,
+body.rtl .filter_outterwrap {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .filter_main_wrap,
+body.rtl .filter_main_wrap {
+  direction: rtl;
+}
+
+[dir="rtl"] .filter_innerwrap,
+body.rtl .filter_innerwrap {
+  direction: rtl;
+}
+
+/* Fix accordion body overflow in RTL */
+[dir="rtl"] .filter_main_wrap .accordion-body > div,
+body.rtl .filter_main_wrap .accordion-body > div {
+  margin: 20px 20px 20px 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Fix form-check alignment in RTL accordion */
+[dir="rtl"] .filter_main_wrap .form-check,
+body.rtl .filter_main_wrap .form-check {
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+}
+
+[dir="rtl"] .filter_main_wrap .form-check input,
+body.rtl .filter_main_wrap .form-check input {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+/* Ensure accordion content doesn't overflow */
+[dir="rtl"] .side_bar_main_wrap,
+body.rtl .side_bar_main_wrap {
+  overflow: hidden;
+}
+
+/* Fix form checkboxes and radios */
+[dir="rtl"] .form-check,
+body.rtl .form-check {
+  text-align: right;
+  padding-right: 1.5em;
+  padding-left: 0;
+}
+
+[dir="rtl"] .form-check-input,
+body.rtl .form-check-input {
+  float: right;
+  margin-left: 0.5em;
+  margin-right: -1.5em;
+}
+
+[dir="rtl"] .form-check-label,
+body.rtl .form-check-label {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Keep flex containers in LTR to maintain layout structure */
+[dir="rtl"] .d-flex,
+[dir="rtl"] .btn-group,
+body.rtl .d-flex,
+body.rtl .btn-group {
+  direction: ltr !important;
+}
+
+/* Fix button text - keep centered but allow Arabic text */
+[dir="rtl"] .btn,
+[dir="rtl"] button,
+body.rtl .btn,
+body.rtl button {
+  direction: ltr !important;
+  text-align: center;
+}
+
+/* Button text spans should display correctly */
+[dir="rtl"] .btn span,
+[dir="rtl"] button span,
+body.rtl .btn span,
+body.rtl button span {
+  direction: rtl;
+}
+
+/* Fix input text alignment */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+body.rtl input,
+body.rtl textarea,
+body.rtl select {
+  text-align: right;
+}
+
+/* Fix password input field and eye icon container */
+[dir="rtl"] .pass-group,
+body.rtl .pass-group {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Fix password eye icon position in RTL */
+[dir="rtl"] .toggle-password,
+body.rtl .toggle-password {
+  position: absolute !important;
+  left: 10px !important;
+  right: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  cursor: pointer;
+  z-index: 10 !important;
+}
+
+/* Ensure password input has proper padding for icon in RTL */
+[dir="rtl"] .pass-input,
+body.rtl .pass-input {
+  padding-left: 40px !important;
+  padding-right: 50px !important;
+}
+
+/* Fix lock icon position in password field for RTL */
+[dir="rtl"] .pass-group .feather-lock,
+body.rtl .pass-group .feather-lock {
+  position: absolute !important;
+  right: 15px !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+}
+
+/* Override any conflicting styles from .group-img in password fields */
+[dir="rtl"] .pass-group.group-img,
+body.rtl .pass-group.group-img {
+  position: relative !important;
+}
+
+[dir="rtl"] .pass-group.group-img > i,
+body.rtl .pass-group.group-img > i {
+  position: absolute !important;
+}
+
+/* Fix password field icons for Login page (which uses .group-img without .pass-group) */
+/* Target password input in .group-img that has toggle-password sibling */
+[dir="rtl"] .group-img:has(.toggle-password),
+body.rtl .group-img:has(.toggle-password) {
+  position: relative !important;
+}
+
+/* Fix eye icon position in Login page */
+[dir="rtl"] .group-img .toggle-password,
+body.rtl .group-img .toggle-password {
+  position: absolute !important;
+  left: 10px !important;
+  right: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  cursor: pointer;
+  z-index: 10 !important;
+}
+
+/* Fix lock icon position in Login page */
+[dir="rtl"] .group-img .feather-lock,
+body.rtl .group-img .feather-lock {
+  position: absolute !important;
+  right: 15px !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+}
+
+/* Fix password input padding in Login page */
+[dir="rtl"] .group-img input[type="password"],
+[dir="rtl"] .group-img input[type="text"]:not([id="phoneNumber"]),
+body.rtl .group-img input[type="password"],
+body.rtl .group-img input[type="text"]:not([id="phoneNumber"]) {
+  padding-left: 40px !important;
+  padding-right: 50px !important;
+}
+
+/* Fix search input padding in RTL */
+[dir="rtl"] .search-input,
+body.rtl .search-input {
+  padding-right: 15px !important;
+  padding-left: 40px !important;
+}
+
+/* Remove X icon from search input */
+[dir="rtl"] input[type="search"]::-webkit-search-cancel-button,
+body.rtl input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+[dir="rtl"] input[type="search"]::-ms-clear,
+body.rtl input[type="search"]::-ms-clear {
+  display: none;
+}
+
+/* Fix search button position in RTL */
+[dir="rtl"] .search-btn,
+body.rtl .search-btn {
+  right: auto !important;
+  left: 0px !important;
+}
+
+/* Fix search suggestions alignment */
+[dir="rtl"] .search-container ul li,
+[dir="rtl"] .search-container .list-unstyled li,
+body.rtl .search-container ul li,
+body.rtl .search-container .list-unstyled li {
+  text-align: left !important;
+}
+
+[dir="rtl"] .search-container .d-flex,
+body.rtl .search-container .d-flex {
+  direction: ltr !important;
+  justify-content: flex-start !important;
+}
+
+/* Fix form labels */
+[dir="rtl"] label,
+[dir="rtl"] .form-label,
+body.rtl label,
+body.rtl .form-label {
+  text-align: right;
+}
+
+/* Fix list alignment */
+[dir="rtl"] .list-group-item,
+body.rtl .list-group-item {
+  text-align: right;
+}
+
+/* Fix table text alignment */
+[dir="rtl"] table,
+[dir="rtl"] th,
+[dir="rtl"] td,
+body.rtl table,
+body.rtl th,
+body.rtl td {
+  text-align: right;
+}
+
+/* Fix dropdown menu */
+[dir="rtl"] .dropdown-menu,
+body.rtl .dropdown-menu {
+  text-align: right;
+  /* Remove forced positioning - let it position naturally */
+}
+
+/* Fix dropdown menu show state */
+[dir="rtl"] .dropdown-menu.show,
+body.rtl .dropdown-menu.show {
+  text-align: right;
+  /* Allow natural positioning based on available space */
+}
+
+/* Fix dropdown items */
+[dir="rtl"] .dropdown-item,
+body.rtl .dropdown-item {
+  text-align: right;
+}
+
+/* Fix language dropdown specifically - it should open to the left */
+[dir="rtl"] .navbar .dropdown-menu,
+body.rtl .navbar .dropdown-menu {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* Fix category navigation dropdowns - use auto positioning */
+[dir="rtl"] .mobile_nav .dropdown-menu,
+body.rtl .mobile_nav .dropdown-menu {
+  position: absolute;
+  /* Let it position based on parent and available space */
+}
+
+/* Ensure dropdown menus don't overflow viewport */
+[dir="rtl"] .dropdown-menu,
+body.rtl .dropdown-menu {
+  max-width: 100vw;
+  transform: none !important;
+}
+
+/* For dropdowns near the left edge, ensure they open to the right */
+[dir="rtl"] .dropdown:first-child .dropdown-menu,
+body.rtl .dropdown:first-child .dropdown-menu {
+  left: 0 !important;
+  right: auto !important;
+}
+
+/* Fix header-lower navigation in RTL */
+[dir="rtl"] .header-lower,
+body.rtl .header-lower {
+  direction: rtl;
+}
+
+/* Keep nav-links normal flex direction in RTL */
+[dir="rtl"] .nav-links,
+body.rtl .nav-links {
+  text-align: right;
+}
+
+/* Completely override mega-menu positioning in RTL */
+[dir="rtl"] .nav-link-wrapper .mega-menu,
+body.rtl .nav-link-wrapper .mega-menu {
+  position: absolute !important;
+  top: 100% !important;
+  left: auto !important;
+  right: 0 !important;
+  text-align: right !important;
+  min-width: 280px !important;
+  max-width: 350px !important;
+  margin: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* Make sure nav-link-wrapper is positioned */
+[dir="rtl"] .nav-link-wrapper,
+body.rtl .nav-link-wrapper {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Allow header to have visible overflow */
+[dir="rtl"] .header-lower,
+[dir="rtl"] .header-lower .container,
+body.rtl .header-lower,
+body.rtl .header-lower .container {
+  overflow: visible !important;
+}
+
+/* Fix submenu list alignment */
+[dir="rtl"] .submenu-list,
+body.rtl .submenu-list {
+  text-align: right;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Fix submenu items */
+[dir="rtl"] .submenu-item,
+body.rtl .submenu-item {
+  text-align: right;
+}
+
+/* Fix submenu links */
+[dir="rtl"] .submenu-link,
+body.rtl .submenu-link {
+  text-align: right;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Fix nested submenu (sub-submenu) positioning */
+/* In RTL, nested menus should open to the LEFT, not right */
+[dir="rtl"] .sub-submenu,
+body.rtl .sub-submenu {
+  right: 100% !important;
+  left: auto !important;
+  text-align: right;
+}
+
+/* Fix arrow icon in submenu - should appear AFTER text in RTL */
+[dir="rtl"] .submenu-link .arrow,
+body.rtl .submenu-link .arrow {
+  float: left !important;
+  margin-left: 0 !important;
+  margin-right: 8px !important;
+  font-size: 0 !important; /* Hide the original < character */
+}
+
+/* Add arrow AFTER text in RTL using ::after pseudo-element */
+[dir="rtl"] .submenu-link .arrow::after,
+body.rtl .submenu-link .arrow::after {
+  content: "<" !important;
+  font-size: 14px !important; /* Restore font size for the arrow */
+  display: inline-block !important;
+}
+
+/* Fix dropdown toggle */
+[dir="rtl"] .dropdown-toggle::after,
+body.rtl .dropdown-toggle::after {
+  margin-left: 0;
+  margin-right: 0.255em;
+}
+
+/* Fix modal content */
+[dir="rtl"] .modal-body,
+[dir="rtl"] .modal-title,
+[dir="rtl"] .modal-header,
+body.rtl .modal-body,
+body.rtl .modal-title,
+body.rtl .modal-header {
+  text-align: right;
+}
+
+/* Fix modal close button */
+[dir="rtl"] .modal-header .btn-close,
+body.rtl .modal-header .btn-close {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Fix breadcrumb text */
+[dir="rtl"] .breadcrumb-item,
+body.rtl .breadcrumb-item {
+  text-align: right;
+}
+
+/* Fix alert text */
+[dir="rtl"] .alert,
+body.rtl .alert {
+  text-align: right;
+}
+
+/* Fix toast text */
+[dir="rtl"] .toast,
+[dir="rtl"] .toast-body,
+body.rtl .toast,
+body.rtl .toast-body {
+  text-align: right;
+}
+
+/* Fix badge text */
+[dir="rtl"] .badge,
+body.rtl .badge {
+  text-align: center;
+}
+
+/* Prevent text overflow in cards */
+[dir="rtl"] .card-body,
+body.rtl .card-body {
+  overflow: hidden;
+}
+
+/* Fix long text in cards */
+[dir="rtl"] .card-text,
+[dir="rtl"] .card-title,
+body.rtl .card-text,
+body.rtl .card-title {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Fix select dropdown arrow position */
+[dir="rtl"] select,
+body.rtl select {
+  background-position: left 0.75rem center;
+}
+
+/* Keep images from flipping */
+[dir="rtl"] img,
+body.rtl img {
+  transform: none;
+}
+
+/* Fix icon alignment in buttons */
+[dir="rtl"] .btn svg,
+[dir="rtl"] .btn i,
+body.rtl .btn svg,
+body.rtl .btn i {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+/* Fix navigation text */
+[dir="rtl"] .nav-link,
+[dir="rtl"] .navbar-brand,
+body.rtl .nav-link,
+body.rtl .navbar-brand {
+  text-align: right;
+}
+
+/* Fix navbar layout in RTL */
+[dir="rtl"] .navbar,
+body.rtl .navbar {
+  direction: rtl;
+}
+
+/* Reverse the main navbar container that holds all three sections */
+[dir="rtl"] .top_log_header,
+body.rtl .top_log_header {
+  flex-direction: row-reverse !important;
+}
+
+/* Reverse the navbar-header section (logo + language) internally */
+[dir="rtl"] .navbar-header,
+body.rtl .navbar-header {
+  flex-direction: row-reverse !important;
+}
+
+/* Reverse the header-navbar-rht section internally */
+/* This contains: notification + language + post ad + user */
+[dir="rtl"] .header-navbar-rht,
+body.rtl .header-navbar-rht {
+  flex-direction: row-reverse !important;
+}
+
+/* Reverse the nested nav inside header-navbar-rht */
+[dir="rtl"] .header-navbar-rht > .nav,
+body.rtl .header-navbar-rht > .nav {
+  flex-direction: row-reverse !important;
+}
+
+/* Fix search container in navbar */
+[dir="rtl"] .search-container,
+body.rtl .search-container {
+  direction: rtl;
+}
+
+/* Fix navbar button and icon spacing */
+[dir="rtl"] .navbar .btn,
+[dir="rtl"] .navbar button,
+body.rtl .navbar .btn,
+body.rtl .navbar button {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+/* Fix navbar icons */
+[dir="rtl"] .navbar svg,
+[dir="rtl"] .navbar i,
+body.rtl .navbar svg,
+body.rtl .navbar i {
+  margin-left: 0;
+  margin-right: 5px;
+}
+
+/* Fix navbar brand (logo) position */
+[dir="rtl"] .navbar-brand,
+body.rtl .navbar-brand {
+  margin-right: 15px !important;
+  margin-left: 0 !important;
+}
+
+/* Fix language dropdown spacing in navbar */
+[dir="rtl"] .navbar .lang_dropdown,
+body.rtl .navbar .lang_dropdown {
+  margin-left: 0;
+  margin-right: 15px;
+}
+
+/* Fix "Posted X ago" timestamp alignment in details page */
+[dir="rtl"] .justify-content-end,
+body.rtl .justify-content-end {
+  justify-content: flex-start !important;
+}
+
+/* Fix carousel navigation arrows in RTL */
+/* Swap positions and flip arrow directions */
+[dir="rtl"] .carousel-control-prev,
+body.rtl .carousel-control-prev {
+  left: auto !important;
+  right: 20px !important;
+}
+
+[dir="rtl"] .carousel-control-next,
+body.rtl .carousel-control-next {
+  right: auto !important;
+  left: 20px !important;
+}
+
+/* Flip the arrow icons horizontally in RTL */
+[dir="rtl"] .carousel-control-prev svg,
+[dir="rtl"] .carousel-control-next svg,
+body.rtl .carousel-control-prev svg,
+body.rtl .carousel-control-next svg {
+  transform: scaleX(-1);
+}
+
+/* Fix slick carousel arrows in RTL */
+[dir="rtl"] .slick-prev,
+body.rtl .slick-prev {
+  left: auto !important;
+  right: 25px !important;
+}
+
+[dir="rtl"] .slick-next,
+body.rtl .slick-next {
+  right: auto !important;
+  left: 25px !important;
+}
+
+/* Flip slick arrow icons horizontally in RTL */
+[dir="rtl"] .slick-prev:before,
+[dir="rtl"] .slick-next:before,
+body.rtl .slick-prev:before,
+body.rtl .slick-next:before {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+/* Fix Dashboard and Profile Page Layout in RTL */
+
+/* Reverse dashboard content layout */
+[dir="rtl"] .dashboard-content,
+body.rtl .dashboard-content {
+  direction: rtl;
+}
+
+/* Reverse dashboard info row */
+[dir="rtl"] .dashboard-info,
+body.rtl .dashboard-info {
+  direction: rtl;
+}
+
+/* Fix dashboard menu alignment */
+[dir="rtl"] .dashborad-menus,
+body.rtl .dashborad-menus {
+  text-align: right;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+[dir="rtl"] .dashborad-menus li,
+body.rtl .dashborad-menus li {
+  text-align: right;
+}
+
+[dir="rtl"] .dashborad-menus li a,
+body.rtl .dashborad-menus li a {
+  text-align: right;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .dashborad-menus li a i,
+[dir="rtl"] .dashborad-menus li a svg,
+body.rtl .dashborad-menus li a i,
+body.rtl .dashborad-menus li a svg {
+  margin-right: 0 !important;
+  margin-left: 10px !important;
+}
+
+[dir="rtl"] .dashborad-menus li a span,
+body.rtl .dashborad-menus li a span {
+  text-align: right;
+}
+
+/* Fix profile content */
+[dir="rtl"] .profile-content,
+body.rtl .profile-content {
+  direction: rtl;
+}
+
+/* Fix dash cards */
+[dir="rtl"] .dash-cards,
+body.rtl .dash-cards {
+  direction: rtl;
+}
+
+[dir="rtl"] .dash-cards .card-header,
+body.rtl .dash-cards .card-header {
+  text-align: right;
+}
+
+[dir="rtl"] .dash-cards .card-body,
+body.rtl .dash-cards .card-body {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Fix form elements in dash cards and profile */
+[dir="rtl"] .dash-cards .form-control,
+[dir="rtl"] .profile-content .form-control,
+body.rtl .dash-cards .form-control,
+body.rtl .profile-content .form-control {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .dash-cards .form-group,
+[dir="rtl"] .profile-content .form-group,
+body.rtl .dash-cards .form-group,
+body.rtl .profile-content .form-group {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .dash-cards .form-group label,
+[dir="rtl"] .profile-content .form-group label,
+body.rtl .dash-cards .form-group label,
+body.rtl .profile-content .form-group label {
+  text-align: right;
+}
+
+/* Fix settings upload image container */
+[dir="rtl"] .settings-upload-img,
+body.rtl .settings-upload-img {
+  text-align: center;
+  direction: ltr;
+}
+
+/* Fix delete button on profile image */
+[dir="rtl"] .settings-upload-img .position-absolute,
+body.rtl .settings-upload-img .position-absolute {
+  left: 50% !important;
+  right: auto !important;
+}
+
+/* Fix form groups in profile */
+[dir="rtl"] .profile-content .form-group,
+body.rtl .profile-content .form-group {
+  text-align: right;
+}
+
+[dir="rtl"] .profile-content .form-group label,
+body.rtl .profile-content .form-group label {
+  text-align: right;
+  display: block;
+}
+
+/* Fix profile icons position */
+[dir="rtl"] .profile-content .group-img,
+[dir="rtl"] .dash-cards .group-img,
+body.rtl .profile-content .group-img,
+body.rtl .dash-cards .group-img {
+  position: relative;
+  direction: rtl;
+}
+
+[dir="rtl"] .profile-content .group-img i,
+[dir="rtl"] .profile-content .group-img svg,
+[dir="rtl"] .dash-cards .group-img i,
+[dir="rtl"] .dash-cards .group-img svg,
+body.rtl .profile-content .group-img i,
+body.rtl .profile-content .group-img svg,
+body.rtl .dash-cards .group-img i,
+body.rtl .dash-cards .group-img svg {
+  position: absolute !important;
+  right: 15px !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+[dir="rtl"] .profile-content .group-img input,
+[dir="rtl"] .dash-cards .group-img input,
+body.rtl .profile-content .group-img input,
+body.rtl .dash-cards .group-img input {
+  padding-right: 45px !important;
+  padding-left: 15px !important;
+}
+
+/* Fix profile password toggle in profile page */
+[dir="rtl"] .profile-content .pass-input,
+[dir="rtl"] .dash-cards .pass-input,
+body.rtl .profile-content .pass-input,
+body.rtl .dash-cards .pass-input {
+  padding-left: 40px !important;
+  padding-right: 50px !important;
+}
+
+/* Fix password eye icon in profile/dashboard */
+[dir="rtl"] .profile-content .toggle-password,
+[dir="rtl"] .dash-cards .toggle-password,
+body.rtl .profile-content .toggle-password,
+body.rtl .dash-cards .toggle-password {
+  position: absolute !important;
+  left: 10px !important;
+  right: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  cursor: pointer;
+}
