@@ -1569,6 +1569,8 @@ const FashionStyle = () => {
       const carDocRef = doc(db, "FASHION", carId);
       await updateDoc(carDocRef, {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
+        bookmarked: !alreadyHearted,
+        [`userBookmarks.${uid}`]: !alreadyHearted,
       });
 
       // Optimistically update local state

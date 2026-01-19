@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "../../home/header";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -227,7 +227,18 @@ const CommercialAdscom = () => {
   // };
   const favoritiesadded = async (itemId) => {
     const userClickedId = auth.currentUser?.uid;
-    if (!userClickedId) return;
+    if (!userClickedId) {
+      Swal.fire({
+        icon: "warning",
+        title: t("common.loginRequired") || "Login Required",
+        text: t("common.loginToFavorite") || "Please login to add items to favorites",
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
+      return;
+    }
 
     try {
       // Update local state immediately for instant feedback
@@ -254,25 +265,58 @@ const CommercialAdscom = () => {
       if (docSnap.exists()) {
         const currentData = docSnap.data();
         const currentHeartedBy = currentData.heartedby || [];
-
         const isAlreadyHearted = currentHeartedBy.includes(userClickedId);
 
+        // Update both heartedby array and bookmarked status
         await updateDoc(docRef, {
           heartedby: isAlreadyHearted
             ? arrayRemove(userClickedId)
             : arrayUnion(userClickedId),
+          bookmarked: !isAlreadyHearted, // Set bookmarked to true when adding to favorites
+          [`userBookmarks.${userClickedId}`]: !isAlreadyHearted, // Track per-user bookmark status
         });
+
+        // Store the bookmark change for other pages
+        const bookmarkChange = {
+          id: itemId,
+          category: "Commercial",
+          tableName: "CommercialAdscom",
+          removed: isAlreadyHearted,
+          timestamp: Date.now(),
+        };
+        sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
 
         console.log(
           `User ${
             isAlreadyHearted ? "removed from" : "added to"
           } heartedby for item ${itemId}`
         );
+
+        // Show success message
+        Swal.fire({
+          icon: "success",
+          title: isAlreadyHearted ? t("common.removedFromFavorites") || "Removed from favorites" : t("common.addedToFavorites") || "Added to favorites",
+          timer: 1500,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
       }
     } catch (error) {
       console.error("Error updating heartedby field:", error);
       // Revert local state on error
       setRefresh(!refresh);
+
+      // Show error message
+      Swal.fire({
+        icon: "error",
+        title: t("common.error") || "Error",
+        text: t("common.favoriteError") || "Failed to update favorites",
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
     }
   };
   const handleShowWhatsApp = (phone) => {
@@ -393,6 +437,87 @@ const CommercialAdscom = () => {
     }
   };
 
+  // Track last processed bookmark change to prevent duplicate processing
+  const lastProcessedTimestampRef = useRef(0);
+
+  // Check for pending bookmark changes and apply them
+  const applyPendingBookmarkChange = useCallback(() => {
+    const bookmarkChangeStr = sessionStorage.getItem("last_bookmark_change");
+    const currentUserId = auth.currentUser?.uid;
+
+    if (!bookmarkChangeStr || !currentUserId) {
+      return false;
+    }
+
+    try {
+      const bookmarkChange = JSON.parse(bookmarkChangeStr);
+
+      // Skip if we already processed this change
+      if (bookmarkChange.timestamp <= lastProcessedTimestampRef.current) {
+        return false;
+      }
+
+      console.log("🔄 Commercial Ads: Applying bookmark change:", bookmarkChange);
+
+      // Mark as processed
+      lastProcessedTimestampRef.current = bookmarkChange.timestamp;
+
+      // Update local state if this item is in our list
+      setCategories((prevCategories) =>
+        prevCategories.map((item) => {
+          if (item.id === bookmarkChange.id) {
+            console.log(`✅ Updating item ${item.id} - removed: ${bookmarkChange.removed}`);
+            return {
+              ...item,
+              heartedby: bookmarkChange.removed
+                ? (item.heartedby || []).filter((id) => id !== currentUserId)
+                : [...(item.heartedby || []), currentUserId],
+            };
+          }
+          return item;
+        })
+      );
+
+      // Clear the bookmark change flag
+      sessionStorage.removeItem("last_bookmark_change");
+      console.log("✅ Bookmark synced and cleared");
+      return true;
+    } catch (error) {
+      console.error("Error syncing bookmark:", error);
+      return false;
+    }
+  }, []);
+
+  // Apply bookmark changes AFTER data is loaded
+  useEffect(() => {
+    // Only try to apply if we have data loaded
+    if (categories.length > 0 && auth.currentUser?.uid) {
+      applyPendingBookmarkChange();
+    }
+  }, [categories.length, applyPendingBookmarkChange]);
+
+  // Also listen for navigation events
+  useEffect(() => {
+    const handlePopState = () => {
+      console.log("🔙 Browser back/forward detected");
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden && categories.length > 0 && auth.currentUser?.uid) {
+        console.log("👁️ Page became visible, checking bookmarks...");
+        applyPendingBookmarkChange();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [categories.length, applyPendingBookmarkChange]);
+
   useEffect(() => {
     const fetchCars = async () => {
       const cacheKey = "commercial_ads_data";
@@ -406,7 +531,10 @@ const CommercialAdscom = () => {
         const cachedData = sessionStorage.getItem(cacheKey);
         const cachedTime = sessionStorage.getItem(cacheTimestamp);
 
-        if (cachedData && cachedTime) {
+        // Check if there's a pending bookmark change - if so, skip cache
+        const hasPendingBookmarkChange = sessionStorage.getItem("last_bookmark_change") !== null;
+
+        if (cachedData && cachedTime && !hasPendingBookmarkChange) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             // Add 400ms delay for smooth transition
@@ -418,6 +546,8 @@ const CommercialAdscom = () => {
             setLoading(false);
             return;
           }
+        } else if (hasPendingBookmarkChange) {
+          console.log("⚡ Pending bookmark change detected, skipping cache");
         }
 
         // Fetch fresh data
@@ -441,12 +571,17 @@ const CommercialAdscom = () => {
 
         setUniqueCategories(uniqueSorted);
 
-        // Cache the results
-        sessionStorage.setItem(cacheKey, JSON.stringify({
-          categories: response.data,
-          uniqueCategories: uniqueSorted
-        }));
-        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
+        // Only cache if there's no pending bookmark change
+        // This ensures we don't cache potentially stale data
+        if (!hasPendingBookmarkChange) {
+          sessionStorage.setItem(cacheKey, JSON.stringify({
+            categories: response.data,
+            uniqueCategories: uniqueSorted
+          }));
+          sessionStorage.setItem(cacheTimestamp, Date.now().toString());
+        } else {
+          console.log("⚠️ Skipping cache storage due to pending bookmark change");
+        }
 
         setLoading(false);
       } catch (error) {
