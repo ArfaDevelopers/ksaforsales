@@ -114,7 +114,9 @@
   "payment": {
     "cardInformation": "Card Information",
     "payNow": "Pay Now",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "promoteAdTitle": "Promote Your Ad",
+    "promoteAdDescription": "Boost your ad's visibility and reach more potential buyers by promoting it. Your ad will appear at the top of search results."
   },
   "common": {
     "login": "Login",

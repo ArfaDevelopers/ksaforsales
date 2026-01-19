@@ -1417,7 +1417,7 @@ console.log(
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">Share</h5>
+                      <h5 className="modal-title">{t("payment.promoteAdTitle")}</h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -1425,6 +1425,9 @@ console.log(
                       ></button>
                     </div>
                     <div className="modal-body">
+                      <p className="text-muted mb-3" style={{ fontSize: "14px" }}>
+                        {t("payment.promoteAdDescription")}
+                      </p>
                       <Elements stripe={stripePromise}>
                         <PaymentForm
                           _Id={_Id}
