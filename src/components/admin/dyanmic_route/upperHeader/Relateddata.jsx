@@ -183,19 +183,19 @@ export default function Relateddata(props) {
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* Left Arrow */}
-        {relatedCars.length <= 1 ? (
-          ""
-        ) : (
-          <>
-            <div className="swiper-button-prev-custom swiper_btn_gen">
-              <FaChevronLeft className="text-xl" />
-            </div>
-            <div className="swiper-button-next-custom swiper_btn_gen">
-              <FaChevronRight className="text-xl" />
-            </div>
-          </>
-        )}{" "}
+        {/* Navigation Arrows */}
+        <div
+          className="swiper-button-prev-custom swiper_btn_gen"
+          style={{ display: relatedCars.length <= 1 ? 'none' : 'flex' }}
+        >
+          <FaChevronLeft className="text-xl" />
+        </div>
+        <div
+          className="swiper-button-next-custom swiper_btn_gen"
+          style={{ display: relatedCars.length <= 1 ? 'none' : 'flex' }}
+        >
+          <FaChevronRight className="text-xl" />
+        </div>
       </div>
     </>
   );

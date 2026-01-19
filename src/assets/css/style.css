@@ -3950,6 +3950,12 @@ h2.trendingproduct_heading {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.3s ease;
+}
+.relative_swiper .swiper_btn_gen:hover {
+  background: #1e2f6b;
 }
 .relative_swiper .swiper_btn_gen svg {
   fill: #fff;

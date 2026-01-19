@@ -401,6 +401,14 @@ body.rtl .dropdown:first-child .dropdown-menu {
   right: auto !important;
 }
 
+/* Fix logged user dropdown in RTL - open towards center of screen */
+[dir="rtl"] .logged-item .dropdown-menu,
+body.rtl .logged-item .dropdown-menu {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(0) !important;
+}
+
 /* Fix header-lower navigation in RTL */
 [dir="rtl"] .header-lower,
 body.rtl .header-lower {

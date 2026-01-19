@@ -95,84 +95,44 @@ export const App = () => {
 
             <Route
               path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
+              element={<Home />}
             />
             <Route
               path="/index-2"
-              element={
-                <ProtectedRoute>
-                  <Home2 />
-                </ProtectedRoute>
-              }
+              element={<Home2 />}
             />
             <Route
               path="/index-3"
-              element={
-                <ProtectedRoute>
-                  <Home3 />
-                </ProtectedRoute>
-              }
+              element={<Home3 />}
             />
             <Route
               path="/index-4"
-              element={
-                <ProtectedRoute>
-                  <Home4 />
-                </ProtectedRoute>
-              }
+              element={<Home4 />}
             />
             <Route
               path="/index-5"
-              element={
-                <ProtectedRoute>
-                  <Home5 />
-                </ProtectedRoute>
-              }
+              element={<Home5 />}
             />
             <Route
               path="/index-6"
-              element={
-                <ProtectedRoute>
-                  <Home6 />
-                </ProtectedRoute>
-              }
+              element={<Home6 />}
             />
             <Route
               path="/index-7"
-              element={
-                <ProtectedRoute>
-                  <Home7 />
-                </ProtectedRoute>
-              }
+              element={<Home7 />}
             />
             <Route
               path="/index-8"
-              element={
-                <ProtectedRoute>
-                  <Home8 />
-                </ProtectedRoute>
-              }
+              element={<Home8 />}
             />
             <Route
               path="/index-9"
-              element={
-                <ProtectedRoute>
-                  <Home9 />
-                </ProtectedRoute>
-              }
+              element={<Home9 />}
             />
 
             <Route
               path="/HealthCareComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=home-and-furniture" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=home-and-furniture" replace />}
             />
             {/* <Route
               path="/RealEstate"
@@ -184,325 +144,165 @@ export const App = () => {
             /> */}
             <Route
               path="/Electronic"
-              element={
-                <ProtectedRoute>
-                  <Electronic />
-                </ProtectedRoute>
-              }
+              element={<Electronic />}
             />
             <Route
               path="/GamesSport"
-              element={
-                <ProtectedRoute>
-                  <GamesSport />
-                </ProtectedRoute>
-              }
+              element={<GamesSport />}
             />
             <Route
               path="/CommercialAdscom"
-              element={
-                <ProtectedRoute>
-                  <CommercialAdscom />
-                </ProtectedRoute>
-              }
+              element={<CommercialAdscom />}
             />
             <Route
               path="/TermsAndConditions"
-              element={
-                <ProtectedRoute>
-                  <TermsAndConditions />
-                </ProtectedRoute>
-              }
+              element={<TermsAndConditions />}
             />
             <Route
               path="/PrivacyPolicy"
-              element={
-                <ProtectedRoute>
-                  <PrivacyPolicy />
-                </ProtectedRoute>
-              }
+              element={<PrivacyPolicy />}
             />
             <Route
               path="/Cars"
-              element={
-                <ProtectedRoute>
-                  <Cars />
-                </ProtectedRoute>
-              }
+              element={<Cars />}
             />
             <Route
               path="/Bikes"
-              element={
-                <ProtectedRoute>
-                  <Bikes />
-                </ProtectedRoute>
-              }
+              element={<Bikes />}
             />
             <Route
               path="/MAGAZINESCOMP"
-              element={
-                <ProtectedRoute>
-                  <MAGAZINESCOMP />
-                </ProtectedRoute>
-              }
+              element={<MAGAZINESCOMP />}
             />
             <Route
               path="/Dynamic_Route"
-              element={
-                <ProtectedRoute>
-                  <Dynamic_Route />
-                </ProtectedRoute>
-              }
+              element={<Dynamic_Route />}
             />
             <Route
               path="/ComercialsAds"
-              element={
-                <ProtectedRoute>
-                  <ComercialsAds />
-                </ProtectedRoute>
-              }
+              element={<ComercialsAds />}
             />
             <Route
               path="/AddBooks"
-              element={
-                <ProtectedRoute>
-                  <AddBooks />
-                </ProtectedRoute>
-              }
+              element={<AddBooks />}
             />
             <Route
               path="/AddCars"
-              element={
-                <ProtectedRoute>
-                  <AddCars />
-                </ProtectedRoute>
-              }
+              element={<AddCars />}
             />
             <Route
               path="/AutomotiveComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=motors" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=motors" replace />}
             />
             <Route
               path="/UserInfo"
-              element={
-                <ProtectedRoute>
-                  <Userinfo />
-                </ProtectedRoute>
-              }
+              element={<Userinfo />}
             />
             <Route
               path="/AboutUs"
-              element={
-                <ProtectedRoute>
-                  <AboutUs />
-                </ProtectedRoute>
-              }
+              element={<AboutUs />}
             />
             <Route
               path="/Copyrights"
-              element={
-                <ProtectedRoute>
-                  <Copyrights />
-                </ProtectedRoute>
-              }
+              element={<Copyrights />}
             />
             <Route path="/search" element={<Search />} />
 
             <Route
               path="/ElectronicComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=electronics" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=electronics" replace />}
             />
             <Route
               path="/FashionStyle"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=fashion-style" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=fashion-style" replace />}
             />
             <Route
               path="/HealthCare"
-              element={
-                <ProtectedRoute>
-                  <HealthCare />
-                </ProtectedRoute>
-              }
+              element={<HealthCare />}
             />
             <Route
               path="/JobBoard"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=job-board" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=job-board" replace />}
             />
             <Route
               path="/Education"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=other" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=other" replace />}
             />
             <Route
               path="/RealEstateComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=real-estate" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=real-estate" replace />}
             />
             <Route
               path="/TravelComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=services" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=services" replace />}
             />
             <Route
               path="/SportGamesComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=sport-and-game" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=sport-and-game" replace />}
             />
             <Route
               path="/PetAnimalsComp"
-              element={
-                <ProtectedRoute>
-                  <Navigate to="/search?category=pet-and-animals" replace />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/search?category=pet-and-animals" replace />}
             />
             <Route
               path="/listing-grid"
-              element={
-                <ProtectedRoute>
-                  <Listing_Grid />
-                </ProtectedRoute>
-              }
+              element={<Listing_Grid />}
             />
             <Route
               path="/service-details"
-              element={
-                <ProtectedRoute>
-                  <ServiceDetails />
-                </ProtectedRoute>
-              }
+              element={<ServiceDetails />}
             />
             <Route
               path="/listingmap-list"
-              element={
-                <ProtectedRoute>
-                  <ListingMap />
-                </ProtectedRoute>
-              }
+              element={<ListingMap />}
             />
             <Route
               path="/listing-grid-sidebar"
-              element={
-                <ProtectedRoute>
-                  <GridSidebar />
-                </ProtectedRoute>
-              }
+              element={<GridSidebar />}
             />
             <Route
               path="/listing-list-sidebar"
-              element={
-                <ProtectedRoute>
-                  <ListSidebar />
-                </ProtectedRoute>
-              }
+              element={<ListSidebar />}
             />
             <Route
               path="/listingmap-grid"
-              element={
-                <ProtectedRoute>
-                  <GridMap />
-                </ProtectedRoute>
-              }
+              element={<GridMap />}
             />
             <Route
               path="/about"
-              element={
-                <ProtectedRoute>
-                  <About />
-                </ProtectedRoute>
-              }
+              element={<About />}
             />
             <Route
               path="/pricing"
-              element={
-                <ProtectedRoute>
-                  <Pricing />
-                </ProtectedRoute>
-              }
+              element={<Pricing />}
             />
             <Route
               path="/faq"
-              element={
-                <ProtectedRoute>
-                  <Faq />
-                </ProtectedRoute>
-              }
+              element={<Faq />}
             />
             <Route
               path="/gallery"
-              element={
-                <ProtectedRoute>
-                  <Gallary />
-                </ProtectedRoute>
-              }
+              element={<Gallary />}
             />
             <Route
               path="/categories"
-              element={
-                <ProtectedRoute>
-                  <Category />
-                </ProtectedRoute>
-              }
+              element={<Category />}
             />
             <Route
               path="/howitworks"
-              element={
-                <ProtectedRoute>
-                  <HowItWork />
-                </ProtectedRoute>
-              }
+              element={<HowItWork />}
             />
             <Route
               path="/terms-condition"
-              element={
-                <ProtectedRoute>
-                  <TermsCondition />
-                </ProtectedRoute>
-              }
+              element={<TermsCondition />}
             />
             <Route
               path="/error-404"
-              element={
-                <ProtectedRoute>
-                  <Error404 />
-                </ProtectedRoute>
-              }
+              element={<Error404 />}
             />
             <Route
               path="/error-500"
-              element={
-                <ProtectedRoute>
-                  <Error504 />
-                </ProtectedRoute>
-              }
+              element={<Error504 />}
             />
             <Route
               path="/dashboard"
@@ -596,76 +396,40 @@ export const App = () => {
 
             <Route
               path="/blog-list"
-              element={
-                <ProtectedRoute>
-                  <BlogList />
-                </ProtectedRoute>
-              }
+              element={<BlogList />}
             />
             <Route
               path="/blog-details"
-              element={
-                <ProtectedRoute>
-                  <BlogDetailsh />
-                </ProtectedRoute>
-              }
+              element={<BlogDetailsh />}
             />
             <Route
               path="/blog-grid"
-              element={
-                <ProtectedRoute>
-                  <BlogGrid />
-                </ProtectedRoute>
-              }
+              element={<BlogGrid />}
             />
             <Route
               path="/blog-list-sidebar"
-              element={
-                <ProtectedRoute>
-                  <BlogListSideBar />
-                </ProtectedRoute>
-              }
+              element={<BlogListSideBar />}
             />
             <Route
               path="/blog-grid-sidebar"
-              element={
-                <ProtectedRoute>
-                  <BlogGridSidebar />
-                </ProtectedRoute>
-              }
+              element={<BlogGridSidebar />}
             />
             <Route
               path="/contact"
-              element={
-                <ProtectedRoute>
-                  <Contract />
-                </ProtectedRoute>
-              }
+              element={<Contract />}
             />
 
             <Route
               path="/routes/:id"
-              element={
-                <ProtectedRoute>
-                  <Dynamic_Routes />
-                </ProtectedRoute>
-              }
+              element={<Dynamic_Routes />}
             />
             <Route
               path="/car-details"
-              element={
-                <ProtectedRoute>
-                  <Dynamic_Routes />
-                </ProtectedRoute>
-              }
+              element={<Dynamic_Routes />}
             />
             <Route
               path="/CategoryDetail/:id"
-              element={
-                <ProtectedRoute>
-                  <CategoryDetail />
-                </ProtectedRoute>
-              }
+              element={<CategoryDetail />}
             />
           </Routes>
         </LanguageProvider>
