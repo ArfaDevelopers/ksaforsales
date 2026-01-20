@@ -21,7 +21,7 @@ import { LanguageContext } from "../../../LanguageContext";
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
 import imag from "../../../../public/NewLogo.png";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { Phone, profile_img } from "../../imagepath";
@@ -57,8 +57,9 @@ import useSearchStore from "../../../store/searchStore"; // adjust the path
 import fallbackImage from "../../../../public/7309681.jpg";
 
 const Header = ({ parms }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const db = getFirestore();
+  const location = useLocation();
 
   const [menu, setMenu] = useState(false);
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
@@ -78,7 +79,7 @@ const Header = ({ parms }) => {
     return date.toLocaleString();
   };
   const unseenCount = notifications.filter(
-    (note) => note.seen === false
+    (note) => note.seen === false,
   ).length;
 
   const fetchNotifications = async () => {
@@ -93,7 +94,7 @@ const Header = ({ parms }) => {
           body: JSON.stringify({
             userId: useraa,
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -126,7 +127,7 @@ const Header = ({ parms }) => {
       if (user) {
         const q = query(
           collection(db, "messages"),
-          where("recieverId", "==", user.uid)
+          where("recieverId", "==", user.uid),
         );
 
         const unsubscribeMessages = onSnapshot(q, (querySnapshot) => {
@@ -152,27 +153,27 @@ const Header = ({ parms }) => {
       // Save the current scroll position
       const scrollY = window.scrollY;
       // Prevent scrolling on body
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+      document.body.style.width = "100%";
     } else {
       // Restore scrolling
       const scrollY = document.body.style.top;
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       // Restore scroll position
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
 
     // Cleanup function
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
     };
   }, [isOpen]);
 
@@ -230,8 +231,13 @@ const Header = ({ parms }) => {
   // const { searchText, setSearchText, results } = useSearchStore();
   const dropdownRef = useRef(null);
 
-  const { searchText, setSearchText, results, setSelectedItem, showSuggestions } =
-    useSearchStore();
+  const {
+    searchText,
+    setSearchText,
+    results,
+    setSelectedItem,
+    showSuggestions,
+  } = useSearchStore();
 
   // console.log(setSelectedItem, "user1111____911");
   useEffect(() => {
@@ -307,7 +313,8 @@ const Header = ({ parms }) => {
       [subcategory]: !prev[subcategory],
     }));
   };
-  const { language: selectedLanguage, toggleLanguage } = React.useContext(LanguageContext);
+  const { language: selectedLanguage, toggleLanguage } =
+    React.useContext(LanguageContext);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleLanguageChange = (lang) => {
@@ -416,11 +423,17 @@ const Header = ({ parms }) => {
                         className="flag-icon"
                         style={{
                           width: "27px",
-                          marginRight: "5px",
+                          marginRight: selectedLanguage === "en" ? "5px" : "0",
+                          marginLeft: selectedLanguage === "ar" ? "8px" : "0",
                           fontFamily: "Inter",
                         }}
                       />
-                      {selectedLanguage === "en" ? "EN" : "AR"}
+                      <span style={{
+                        marginRight: selectedLanguage === "en" ? "10px" : "0",
+                        marginLeft: selectedLanguage === "ar" ? "10px" : "0"
+                      }}>
+                        {selectedLanguage === "en" ? "EN" : "AR"}
+                      </span>
                     </button>
 
                     {/* Dropdown Menu */}
@@ -2276,12 +2289,12 @@ const Header = ({ parms }) => {
                                                     </span>
                                                     <span>{subSub.name}</span>
                                                   </NavLink>
-                                                )
+                                                ),
                                               )}
                                             </div>
                                           )}
                                       </div>
-                                    )
+                                    ),
                                   )}
                                 </div>
                               )}
@@ -2464,7 +2477,10 @@ const Header = ({ parms }) => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        useSearchStore.setState({ results: [], showSuggestions: false });
+                        useSearchStore.setState({
+                          results: [],
+                          showSuggestions: false,
+                        });
                         navigate(`/search?q=${searchText}`);
                         // Clear search input after navigation
                         setTimeout(() => setSearchText(""), 0);
@@ -2501,7 +2517,10 @@ const Header = ({ parms }) => {
                           onClick={() => {
                             isSelecting.current = true;
                             useSearchStore.setState({ skipNextSearch: true }); // 🔥 force skip search
-                            useSearchStore.setState({ results: [], showSuggestions: false });
+                            useSearchStore.setState({
+                              results: [],
+                              showSuggestions: false,
+                            });
                             setSelectedItem(item);
 
                             // Map category to callingFrom parameter
@@ -2527,10 +2546,13 @@ const Header = ({ parms }) => {
                               Commercial: "Commercial",
                             };
 
-                            const callingFrom = callingFromMap[item.category] || "AutomotiveComp";
+                            const callingFrom =
+                              callingFromMap[item.category] || "AutomotiveComp";
 
                             // Navigate to item detail page
-                            navigate(`/Dynamic_Route?id=${item.id}&callingFrom=${callingFrom}`);
+                            navigate(
+                              `/Dynamic_Route?id=${item.id}&callingFrom=${callingFrom}`,
+                            );
 
                             // Clear search input after navigation
                             setTimeout(() => setSearchText(""), 0);
@@ -2565,11 +2587,26 @@ const Header = ({ parms }) => {
                                 }}
                               />
                             )}
-                            <div>
-                              <div className="fw-bold text-dark mb-1">
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div
+                                className="fw-bold text-dark mb-1"
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis"
+                                }}
+                              >
                                 {item.title}
                               </div>
-                              <small className="text-muted">
+                              <small
+                                className="text-muted"
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  display: "block"
+                                }}
+                              >
                                 in <em>{item.category}</em>
                                 {item.subCategory && (
                                   <span> • {item.subCategory}</span>
@@ -2828,12 +2865,19 @@ const Header = ({ parms }) => {
                             }
                             alt=""
                           />
-                          <span>{divideName}</span>
+                          <span style={{ marginRight: "8px" }}>
+                            {divideName}
+                          </span>
                         </Link>
                         <div
-                          className={`dropdown-menu dropdown-menu-end ${
+                          className={`dropdown-menu ${i18n.language === "ar" ? "dropdown-menu-start" : "dropdown-menu-end"} ${
                             drops ? "show" : ""
                           }`}
+                          style={
+                            i18n.language === "ar"
+                              ? { right: "auto", left: "0" }
+                              : {}
+                          }
                         >
                           <Link className="dropdown-item" to="/dashboard">
                             {t("common.dashboard")}
@@ -2852,162 +2896,152 @@ const Header = ({ parms }) => {
                       </li>
                     </ul>
                   ) : (
-                    <>
-                      <div
-                        className="lang_dropdown"
-                        style={{
-                          position: "relative",
-                          display: "flex",
-                        }}
-                      >
-                        <button
-                          className="btn dropdown-toggle"
-                          onClick={toggleDropdown}
-                          aria-expanded={isDropdownVisible ? "true" : "false"}
+                    <ul
+                      className="nav header-navbar-rht"
+                      style={{ display: "flex", gap: "15px" }}
+                    >
+                      {!isMobile && (
+                        <div
+                          ref={menuRef}
+                          className="lang_dropdown"
                           style={{
+                            position: "relative",
                             display: "flex",
-                            alignItems: "center",
-                            padding: "5px 10px",
-                            backgroundColor: "#fff",
-                            // border: "1px solid #ddd",
-                            cursor: "pointer",
                           }}
                         >
-                          <Flag
-                            code={selectedLanguage === "en" ? "GB" : "SA"}
-                            className="flag-icon"
+                          <button
+                            className="btn dropdown-toggle"
+                            onClick={toggleDropdown}
+                            aria-expanded={isDropdownVisible ? "true" : "false"}
                             style={{
-                              width: "27px",
-                              marginRight: "5px",
-                              fontFamily: "Inter",
-                            }}
-                          />
-                          {selectedLanguage === "en" ? "EN" : "AR"}
-                        </button>
-
-                        {/* Dropdown Menu */}
-                        {isDropdownVisible && (
-                          <ul
-                            className="dropdown-menu show"
-                            style={{
-                              position: "absolute",
-                              top: "100%",
-                              left: "0",
-                              zIndex: 1000,
-                              display: "block",
-                              minWidth: "160px",
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "5px 10px",
                               backgroundColor: "#fff",
-                              border: "1px solid #ddd",
-                              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                              listStyle: "none",
-                              padding: "0",
-                              margin: "0",
-                            }}
-                          >
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                style={{
-                                  fontFamily: "Inter",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  width: "100%",
-                                  padding: "8px 12px",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  textAlign: "left",
-                                }}
-                                onClick={() => handleLanguageChange("en")}
-                              >
-                                <Flag
-                                  code="GB"
-                                  className="flag-icon"
-                                  style={{
-                                    width: "27px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                English
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                style={{
-                                  fontFamily: "VIP Rawy",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  width: "100%",
-                                  padding: "8px 12px",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  textAlign: "left",
-                                }}
-                                onClick={() => handleLanguageChange("ar")}
-                              >
-                                <Flag
-                                  code="SA"
-                                  className="flag-icon"
-                                  style={{
-                                    width: "27px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                Arabic
-                              </button>
-                            </li>
-                          </ul>
-                        )}
-                      </div>
-                      <li>
-                        <button
-                          className="blue_btn"
-                          onClick={() => navigate("/signup")}
-                        >
-                          {t("common.signup")}
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="blue_btn"
-                          onClick={() => navigate("/login")}
-                        >
-                          {t("common.login")}
-                        </button>
-                      </li>
-                      {!isMobile && userId && (
-                        <li>
-                          <Link
-                            to="/listing"
-                            style={{
-                              backgroundColor: "#2d4495",
-                              color: "#fff",
-                              border: "none",
-                              fontWeight: "normal",
-                              borderRadius: 10,
-                              transition: "none",
-                              outline: "none",
-                              boxShadow: "none",
                               cursor: "pointer",
-                              padding: "0.5rem 1.5rem", // Increased padding for larger size
-                              fontSize: "16px", // Increased font size
-                            }}
-                            onMouseOver={(e) => {
-                              e.currentTarget.style.backgroundColor = "#2d4495";
-                              e.currentTarget.style.color = "#fff";
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.style.backgroundColor = "#2d4495";
-                              e.currentTarget.style.color = "#fff";
                             }}
                           >
-                            {t("header.postAd")}
-                          </Link>
-                        </li>
+                            <Flag
+                              code={selectedLanguage === "en" ? "GB" : "SA"}
+                              className="flag-icon"
+                              style={{
+                                width: "27px",
+                                marginRight: "15px",
+                                fontFamily: "Inter",
+                              }}
+                            />
+                            {selectedLanguage === "en" ? "EN" : "AR"}
+                          </button>
+
+                          {/* Dropdown Menu */}
+                          {isDropdownVisible && (
+                            <ul
+                              className="dropdown-menu show"
+                              style={{
+                                position: "absolute",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 1000,
+                                display: "block",
+                                minWidth: "160px",
+                                backgroundColor: "#fff",
+                                border: "1px solid #ddd",
+                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                listStyle: "none",
+                                padding: "0",
+                                margin: "0",
+                              }}
+                            >
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  style={{
+                                    fontFamily: "Inter",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    padding: "8px 12px",
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    textAlign: "left",
+                                  }}
+                                  onClick={() => handleLanguageChange("en")}
+                                >
+                                  <Flag
+                                    code="GB"
+                                    className="flag-icon"
+                                    style={{
+                                      width: "27px",
+                                      marginRight: "5px",
+                                    }}
+                                  />
+                                  English
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  style={{
+                                    fontFamily: "VIP Rawy",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    padding: "8px 12px",
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    textAlign: "left",
+                                  }}
+                                  onClick={() => handleLanguageChange("ar")}
+                                >
+                                  <Flag
+                                    code="SA"
+                                    className="flag-icon"
+                                    style={{
+                                      width: "27px",
+                                      marginRight: "5px",
+                                    }}
+                                  />
+                                  Arabic
+                                </button>
+                              </li>
+                            </ul>
+                          )}
+                        </div>
                       )}
-                    </>
+                      <li className="nav-item dropdown logged-item">
+                        <Link
+                          to="#"
+                          className={`dropdown-toggle profile-userlink ${
+                            drops ? "show" : ""
+                          }`}
+                          data-bs-toggle="dropdown"
+                          aria-expanded={drops}
+                          onClick={() => setDrops(!drops)}
+                        >
+                          <img src={fallbackImage} alt="Guest" />
+                          <span style={{
+                            marginRight: i18n.language === "en" ? "8px" : "0",
+                            marginLeft: i18n.language === "ar" ? "8px" : "0"
+                          }}>
+                            {t("common.guest")}
+                          </span>
+                        </Link>
+                        <div
+                          className={`dropdown-menu dropdown-menu-end ${
+                            drops ? "show" : ""
+                          }`}
+                        >
+                          <Link className="dropdown-item" to="/signup">
+                            {t("common.signup")}
+                          </Link>
+                          <Link className="dropdown-item" to="/login">
+                            {t("common.login")}
+                          </Link>
+                        </div>
+                      </li>
+                    </ul>
                   )}
                 </ul>
               </div>
@@ -3023,7 +3057,7 @@ const Header = ({ parms }) => {
           height: "2px",
         }}
       /> */}
-        {userId ? <HeaderLower /> : ""}
+        {!['/login', '/signup', '/forgot-password'].includes(location.pathname) && <HeaderLower />}
       </header>
       <div className="mobile_header_bottom shadow-xl">
         <nav className="mobile_nav">

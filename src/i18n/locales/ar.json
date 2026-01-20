@@ -114,12 +114,19 @@
   "payment": {
     "cardInformation": "معلومات البطاقة",
     "payNow": "ادفع الآن",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "promoteAdTitle": "قم بالترويج لإعلانك",
+    "promoteAdDescription": "عزز ظهور إعلانك وصل إلى المزيد من المشترين المحتملين من خلال الترويج له. سيظهر إعلانك في أعلى نتائج البحث."
   },
   "common": {
     "login": "تسجيل الدخول",
     "signup": "إنشاء حساب",
     "logout": "تسجيل الخروج",
+    "guest": "ضيف",
+    "loginRequired": "تسجيل الدخول مطلوب",
+    "loginToFavorite": "يرجى تسجيل الدخول لإضافة العناصر إلى المفضلة",
+    "addedToFavorites": "تمت الإضافة إلى المفضلة",
+    "removedFromFavorites": "تمت الإزالة من المفضلة",
     "profile": "الملف الشخصي",
     "dashboard": "لوحة التحكم",
     "settings": "الإعدادات",
@@ -266,6 +273,12 @@
     "featuredAds": "إعلانات مميزة",
     "notFeaturedAds": "إعلانات غير مميزة",
     "writeWithAI": "اكتب باستخدام الذكاء الاصطناعي",
+    "missingInformation": "معلومات ناقصة",
+    "missingInformationMessage": "يرجى ملء العنوان أو الفئة أو بعض التفاصيل على الأقل قبل إنشاء الوصف.",
+    "descriptionGenerated": "تم إنشاء الوصف!",
+    "descriptionGeneratedMessage": "قام الذكاء الاصطناعي بإنشاء وصف بناءً على تفاصيل الإعلان.",
+    "generationFailed": "فشل الإنشاء",
+    "generationFailedMessage": "فشل إنشاء الوصف. يرجى المحاولة مرة أخرى.",
     "addType": "نوع الإضافة",
     "condition": "الحالة",
     "brand": "العلامة التجارية",
@@ -1223,7 +1236,7 @@
   "login": {
     "title": "تسجيل الدخول",
     "welcomeMessage": "مرحبًا بعودتك. استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
-    "phonePlaceholder": "XXXXXXXXXX",
+    "phonePlaceholder": "XXXXXXXXX",
     "passwordPlaceholder": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
@@ -1234,7 +1247,7 @@
     "qrStep2": "اضغط على الملف الشخصي وانتقل إلى الإعدادات.",
     "qrStep3": "اضغط على Web QR.",
     "qrStep4": "امسح رمز QR أعلاه.",
-    "phoneError": "يرجى إدخال رقم هاتف سعودي صحيح (+9665xxxxxxxx)",
+   "phoneError": "يرجى إدخال رقم هاتف سعودي صحيح (+9665xxxxxxxx)",
     "missingFields": "حقول مفقودة",
     "missingFieldsMessage": "يرجى ملء رقم الهاتف وكلمة المرور قبل تسجيل الدخول.",
     "loginSuccessful": "تم تسجيل الدخول بنجاح",
@@ -1242,10 +1255,20 @@
     "loginFailed": "فشل تسجيل الدخول",
     "loginFailedMessage": "حدث خطأ أثناء تسجيل الدخول."
   },
+  "forgotPassword": {
+    "title": "نسيت كلمة المرور",
+    "subtitle": "أدخل رقم هاتفك لتلقي رمز التحقق لإعادة تعيين كلمة المرور.",
+    "phonePlaceholder": "5XXXXXXXX",
+    "sendOtp": "إرسال رمز التحقق",
+    "otpPlaceholder": "رمز التحقق",
+    "newPasswordPlaceholder": "كلمة المرور الجديدة",
+    "verifyButton": "التحقق وتحديث كلمة المرور",
+    "backToHome": "العودة إلى الصفحة الرئيسية"
+  },
   "signup": {
     "title": "إنشاء حساب",
     "welcomeMessage": "استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
-    "phonePlaceholder": "xxxxxxxxx",
+    "phonePlaceholder": "5XXXXXXXX",
     "fullNamePlaceholder": "الاسم الكامل",
     "emailPlaceholder": "البريد الإلكتروني",
     "passwordPlaceholder": "كلمة المرور",

@@ -856,9 +856,9 @@ const Search = () => {
     if (!currentUser) {
       Swal.fire({
         icon: "warning",
-        title: "Login Required",
-        text: "Please login to bookmark ads",
-        timer: 2500,
+        title: t("common.loginRequired") || "Login Required",
+        text: t("common.loginToFavorite") || "Please login to add items to favorites",
+        timer: 2000,
         showConfirmButton: false,
         toast: true,
         position: "top-end",
@@ -988,9 +988,8 @@ const Search = () => {
       console.log("✅ All favorites saved to database successfully!");
       Swal.fire({
         icon: "success",
-        title: isBookmarked ? "Removed!" : "Added!",
-        text: isBookmarked ? "Removed from favorites!" : "Added to favorites!",
-        timer: 2000,
+        title: isBookmarked ? t("common.removedFromFavorites") || "Removed from favorites" : t("common.addedToFavorites") || "Added to favorites",
+        timer: 1500,
         showConfirmButton: false,
         toast: true,
         position: "top-end",

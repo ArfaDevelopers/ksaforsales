@@ -114,12 +114,19 @@
   "payment": {
     "cardInformation": "Card Information",
     "payNow": "Pay Now",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "promoteAdTitle": "Promote Your Ad",
+    "promoteAdDescription": "Boost your ad's visibility and reach more potential buyers by promoting it. Your ad will appear at the top of search results."
   },
   "common": {
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",
+    "guest": "Guest",
+    "loginRequired": "Login Required",
+    "loginToFavorite": "Please login to add items to your favorites",
+    "addedToFavorites": "Added to Favorites",
+    "removedFromFavorites": "Removed from Favorites",
     "profile": "Profile",
     "dashboard": "Dashboard",
     "settings": "Settings",
@@ -241,7 +248,7 @@
   "login": {
     "title": "Log in",
     "welcomeMessage": "Welcome Back. Keep using our great features and find what you need.",
-    "phonePlaceholder": "XXXXXXXXXX",
+    "phonePlaceholder": "XXXXXXXXX",
     "passwordPlaceholder": "Password",
     "forgotPassword": "Forgot your password?",
     "signIn": "Sign in",
@@ -252,7 +259,7 @@
     "qrStep2": "Tap Profile and scroll to Settings.",
     "qrStep3": "Tap Web QR.",
     "qrStep4": "Scan the QR code above.",
-    "phoneError": "Please enter a valid KSA phone number (+9665xxxxxxxx)",
+   "phoneError": "Please enter a valid KSA phone number (+9665xxxxxxxx)",
     "missingFields": "Missing Fields",
     "missingFieldsMessage": "Please fill in both phone number and password before logging in.",
     "loginSuccessful": "Login Successful",
@@ -260,10 +267,20 @@
     "loginFailed": "Login Failed",
     "loginFailedMessage": "An error occurred during login."
   },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "subtitle": "Enter your phone number to receive an OTP to reset your password.",
+    "phonePlaceholder": "5XXXXXXXX",
+    "sendOtp": "Send OTP",
+    "otpPlaceholder": "OTP Code",
+    "newPasswordPlaceholder": "New Password",
+    "verifyButton": "Verify & Update Password",
+    "backToHome": "Back to Home"
+  },
   "signup": {
     "title": "Sign Up",
     "welcomeMessage": "Hurry up! By signing up you get full access to all of our features.",
-    "phonePlaceholder": "xxxxxxxxx",
+    "phonePlaceholder": "XXXXXXXXX",
     "fullNamePlaceholder": "Full Name",
     "emailPlaceholder": "Email Address",
     "passwordPlaceholder": "Password",
@@ -303,6 +320,12 @@
     "featuredAds": "Featured Ads",
     "notFeaturedAds": "Not Featured Ads",
     "writeWithAI": "Write with AI",
+    "missingInformation": "Missing Information",
+    "missingInformationMessage": "Please fill in at least the title, category, or some details before generating a description.",
+    "descriptionGenerated": "Description Generated!",
+    "descriptionGeneratedMessage": "AI has created a description based on your listing details.",
+    "generationFailed": "Generation Failed",
+    "generationFailedMessage": "Failed to generate description. Please try again.",
     "addType": "Add Type",
     "condition": "Condition",
     "brand": "Brand",

@@ -261,7 +261,15 @@ const Dynamic_Route = () => {
     const user = auth.currentUser;
     if (!user) {
       console.warn("User not authenticated");
-      alert("Please login to bookmark ads");
+      Swal.fire({
+        icon: "warning",
+        title: t("common.loginRequired") || "Login Required",
+        text: t("common.loginToFavorite") || "Please login to add items to favorites",
+        timer: 2000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
       return;
     }
 
@@ -365,6 +373,16 @@ const Dynamic_Route = () => {
           alreadyHearted ? "removed from" : "added to"
         } heartedby for ${id} in ${firestoreCollection}`
       );
+
+      // Show success message
+      Swal.fire({
+        icon: "success",
+        title: alreadyHearted ? t("common.removedFromFavorites") || "Removed from favorites" : t("common.addedToFavorites") || "Added to favorites",
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
     } catch (error) {
       console.error("❌ Error updating favorites:", error);
       // Rollback UI on error
@@ -378,7 +396,15 @@ const Dynamic_Route = () => {
             }
           : prev
       );
-      alert("Failed to update favorite. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update favorite. Please try again.",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: "top-end",
+      });
     }
   };
   useEffect(() => {
@@ -1391,7 +1417,7 @@ console.log(
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">Share</h5>
+                      <h5 className="modal-title">{t("payment.promoteAdTitle")}</h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -1399,6 +1425,9 @@ console.log(
                       ></button>
                     </div>
                     <div className="modal-body">
+                      <p className="text-muted mb-3" style={{ fontSize: "14px" }}>
+                        {t("payment.promoteAdDescription")}
+                      </p>
                       <Elements stripe={stripePromise}>
                         <PaymentForm
                           _Id={_Id}
