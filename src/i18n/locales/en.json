@@ -267,6 +267,16 @@
     "loginFailed": "Login Failed",
     "loginFailedMessage": "An error occurred during login."
   },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "subtitle": "Enter your phone number to receive an OTP to reset your password.",
+    "phonePlaceholder": "5XXXXXXXX",
+    "sendOtp": "Send OTP",
+    "otpPlaceholder": "OTP Code",
+    "newPasswordPlaceholder": "New Password",
+    "verifyButton": "Verify & Update Password",
+    "backToHome": "Back to Home"
+  },
   "signup": {
     "title": "Sign Up",
     "welcomeMessage": "Hurry up! By signing up you get full access to all of our features.",

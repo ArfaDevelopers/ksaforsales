@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useTranslation } from "react-i18next";
 
 const ForgotPassword = () => {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
@@ -113,10 +115,9 @@ const ForgotPassword = () => {
             <div className="col-md-6 col-lg-5 mx-auto">
               <div className="login-wrap password-form">
                 <div className="login-header">
-                  <h3>Forgot Password</h3>
+                  <h3>{t("forgotPassword.title")}</h3>
                   <p>
-                    Enter your phone number to receive an OTP to reset your
-                    password.
+                    {t("forgotPassword.subtitle")}
                   </p>
                 </div>
 
@@ -167,7 +168,7 @@ const ForgotPassword = () => {
                       <input
                         type="text"
                         class
-                        placeholder="Phone Number (XXXXXXXXX)"
+                        placeholder={t("forgotPassword.phonePlaceholder")}
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         className="form-control"
@@ -194,7 +195,7 @@ const ForgotPassword = () => {
                       }}
                       type="submit"
                     >
-                      Send OTP
+                      {t("forgotPassword.sendOtp")}
                     </button>
                   </form>
                 )}
@@ -206,7 +207,7 @@ const ForgotPassword = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="OTP Code"
+                        placeholder={t("forgotPassword.otpPlaceholder")}
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                         required
@@ -217,7 +218,7 @@ const ForgotPassword = () => {
                       <input
                         type="password"
                         className="form-control"
-                        placeholder="New Password"
+                        placeholder={t("forgotPassword.newPasswordPlaceholder")}
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
@@ -232,13 +233,13 @@ const ForgotPassword = () => {
                         color: "#fff",
                       }}
                     >
-                      Verify & Update Password
+                      {t("forgotPassword.verifyButton")}
                     </button>
                   </form>
                 )}
 
                 <Link to="/" className="back-home mt-3 d-block text-center">
-                  <i className="fas fa-arrow-left me-1" /> Back to Home
+                  <i className="fas fa-arrow-left me-1" /> {t("forgotPassword.backToHome")}
                 </Link>
               </div>
             </div>

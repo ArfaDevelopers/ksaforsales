@@ -1255,6 +1255,16 @@
     "loginFailed": "فشل تسجيل الدخول",
     "loginFailedMessage": "حدث خطأ أثناء تسجيل الدخول."
   },
+  "forgotPassword": {
+    "title": "نسيت كلمة المرور",
+    "subtitle": "أدخل رقم هاتفك لتلقي رمز التحقق لإعادة تعيين كلمة المرور.",
+    "phonePlaceholder": "5XXXXXXXX",
+    "sendOtp": "إرسال رمز التحقق",
+    "otpPlaceholder": "رمز التحقق",
+    "newPasswordPlaceholder": "كلمة المرور الجديدة",
+    "verifyButton": "التحقق وتحديث كلمة المرور",
+    "backToHome": "العودة إلى الصفحة الرئيسية"
+  },
   "signup": {
     "title": "إنشاء حساب",
     "welcomeMessage": "استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
