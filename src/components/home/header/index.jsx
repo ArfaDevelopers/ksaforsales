@@ -21,7 +21,7 @@ import { LanguageContext } from "../../../LanguageContext";
 import UpperHeader from "../upperHeader/Upper_Header";
 import HeaderLower from "../HeaderlowerNav/HeaderLower";
 import imag from "../../../../public/NewLogo.png";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig";
 import { Phone, profile_img } from "../../imagepath";
@@ -59,6 +59,7 @@ import fallbackImage from "../../../../public/7309681.jpg";
 const Header = ({ parms }) => {
   const { t, i18n } = useTranslation();
   const db = getFirestore();
+  const location = useLocation();
 
   const [menu, setMenu] = useState(false);
   const [ImageURL, setImageURL] = useState(""); // ✅ Define the state
@@ -3056,7 +3057,7 @@ const Header = ({ parms }) => {
           height: "2px",
         }}
       /> */}
-        <HeaderLower />
+        {!['/login', '/signup', '/forgot-password'].includes(location.pathname) && <HeaderLower />}
       </header>
       <div className="mobile_header_bottom shadow-xl">
         <nav className="mobile_nav">

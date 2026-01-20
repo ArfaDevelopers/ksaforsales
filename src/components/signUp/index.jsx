@@ -42,7 +42,9 @@ const SignUp = () => {
     setPhoneNumber(e.target.value);
   };
 
-  const fullPhoneNumber = `+966${phoneNumber}`;
+  // Add +966 prefix with normalization for OTP API
+  const normalizedPhone = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+  const fullPhoneNumber = `+966${normalizedPhone}`;
 
   const handleMobileChange = (e) => {
     let input = e.target.value;
@@ -56,9 +58,9 @@ const SignUp = () => {
   }, []);
 
   const validateNumber = () => {
-    const saudiNumberRegex = /^\+966\d{8}$/;
+    const saudiNumberRegex = /^0?5\d{8}$/;
     if (phoneNumber && !saudiNumberRegex.test(phoneNumber)) {
-      setSaudinummsg("Please enter valid Saudi like +9665XXXXXXXX");
+      setSaudinummsg("Please enter valid Saudi number starting with 05 or 5");
       setPhoneNumber("");
     }
   };
@@ -500,34 +502,36 @@ const SignUp = () => {
                       }}
                       onClick={sendOtp}
                     >
-                      {t("signup.sendOTP")}
+                      Send OTP
                     </button>
                   ) : (
                     <>
                       <div className="form-group group-img">
                         <div className="group-img">
-                          <i
-                            className="feather-key"
-                            style={{ color: "#2d4495" }}
-                          />
+                          <i className="feather-lock" style={{ color: "#2d4495" }} />
                           <input
                             type="text"
                             className="form-control"
-                            placeholder={t("signup.otpPlaceholder")}
+                            placeholder="Enter OTP"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             required
                           />
                         </div>
                       </div>
-
                       <button
                         type="submit"
-                        // className="btn btn-secondary w-100"
-                        className="w-full bg-gray-600 text-black py-2 px-4 rounded-md border-none hover:bg-gray-600 focus:outline-none focus:ring-0 focus:border-none active:bg-gray-600 transition-none"
+                        className="btn w-100 login-btn"
+                        style={{
+                          backgroundColor: "#2d4495",
+                          color: "#fff",
+                          border: "none",
+                          fontWeight: "bold",
+                          borderRadius: "10px",
+                        }}
                         onClick={verifyOtp}
                       >
-                        {t("signup.verifyAndCreate")}
+                        Verify OTP & Sign Up
                       </button>
                     </>
                   )}

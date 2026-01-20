@@ -37,18 +37,7 @@ const Login = () => {
   const handlePhoneNumberChange1 = (e) => {
     const value = e.target.value;
     setPhoneNumber(value);
-
-    // This regex only allows valid sequences starting with +9665 followed by up to 8 digits
-    const liveKsaPhoneRegex = /^\+9665\d{0,8}$/;
-
-    // Show error if input is not empty and doesn't match the required live pattern
-    if (value === "") {
-      setError1("");
-    } else if (!liveKsaPhoneRegex.test(value)) {
-      setError1(t("login.phoneError"));
-    } else {
-      setError1("");
-    }
+    setError1("");
   };
 
   const [password, setPassword] = useState("");
@@ -91,20 +80,61 @@ const Login = () => {
     }
     try {
       const usersRef = collection(db, "users");
-      const q = query(usersRef, where("phoneNumber", "==", phoneNumber));
-      const querySnapshot = await getDocs(q);
 
-      if (querySnapshot.empty) {
+      // Normalize phone: remove leading 0 if present
+      const normalized = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+
+      console.log("Input phone number:", phoneNumber);
+      console.log("Normalized phone:", normalized);
+
+      // Try multiple formats (Saudi +966 and Pakistani +92) - most common first
+      const formats = [
+        `+966${normalized}`, // Most common Saudi format: +966512345678
+        `+92${normalized}`, // Most common Pakistani format: +923415477580
+        phoneNumber, // as entered
+        normalized, // without leading 0
+        `+966${phoneNumber}`, // with leading 0: +9660512345678
+        `+92${phoneNumber}`, // with leading 0: +9203415477580
+        `966${normalized}`, // without plus: 966512345678
+        `92${normalized}`, // without plus: 92341547758
+        `966${phoneNumber}`,
+        `92${phoneNumber}`,
+      ];
+
+      console.log("Trying formats:", formats);
+
+      let querySnapshot = null;
+      let foundFormat = null;
+
+      for (const format of formats) {
+        console.log("Trying format:", format);
+        const q = query(usersRef, where("phoneNumber", "==", format));
+        querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          foundFormat = format;
+          console.log("✓ User found with format:", format);
+          break;
+        }
+      }
+
+      if (!querySnapshot || querySnapshot.empty) {
+        console.log("❌ No user found with any format");
         throw new Error("No user found with this phone number.");
       }
 
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
+      console.log("Phone in DB:", userData.phoneNumber);
+      console.log("Full user data:", userData);
       const email = userData.email;
 
       if (!email) {
         throw new Error("User email not found in database.");
       }
+
+      console.log("Attempting to sign in with email:", email);
+      console.log("Password length:", password.length);
 
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -112,9 +142,7 @@ const Login = () => {
         password
       );
       const user = userCredential.user;
-      localStorage.setItem("user", user.uid); // fixed this line
-
-      console.log("User logged in:", user);
+      localStorage.setItem("user", user.uid);
       await MySwal.fire({
         icon: "success",
         title: t("login.loginSuccessful"),
@@ -143,7 +171,6 @@ const Login = () => {
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber(e.target.value);
   };
-  const fullPhoneNumber = `+966${phoneNumber}`;
   // Handle email & password input changes
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -258,9 +285,6 @@ const Login = () => {
                           }}
                         />
                       </div>
-                      {error1 && (
-                        <p className="text-red-500 text-sm mt-1">{error1}</p>
-                      )}
                     </div>
                   </div>
                   <div

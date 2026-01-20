@@ -248,7 +248,7 @@
   "login": {
     "title": "Log in",
     "welcomeMessage": "Welcome Back. Keep using our great features and find what you need.",
-    "phonePlaceholder": "XXXXXXXXXX",
+    "phonePlaceholder": "XXXXXXXXX",
     "passwordPlaceholder": "Password",
     "forgotPassword": "Forgot your password?",
     "signIn": "Sign in",
@@ -259,7 +259,7 @@
     "qrStep2": "Tap Profile and scroll to Settings.",
     "qrStep3": "Tap Web QR.",
     "qrStep4": "Scan the QR code above.",
-    "phoneError": "Please enter a valid KSA phone number (+9665xxxxxxxx)",
+   "phoneError": "Please enter a valid KSA phone number (+9665xxxxxxxx)",
     "missingFields": "Missing Fields",
     "missingFieldsMessage": "Please fill in both phone number and password before logging in.",
     "loginSuccessful": "Login Successful",
@@ -270,7 +270,7 @@
   "signup": {
     "title": "Sign Up",
     "welcomeMessage": "Hurry up! By signing up you get full access to all of our features.",
-    "phonePlaceholder": "xxxxxxxxx",
+    "phonePlaceholder": "XXXXXXXXX",
     "fullNamePlaceholder": "Full Name",
     "emailPlaceholder": "Email Address",
     "passwordPlaceholder": "Password",

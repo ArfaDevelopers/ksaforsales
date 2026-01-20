@@ -18,10 +18,14 @@ const ForgotPassword = () => {
     e.preventDefault();
     setMessage("");
     try {
+      // Normalize phone number: remove leading 0 if present, then add +966
+      const normalizedPhone = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+      const fullPhoneNumber = `+966${normalizedPhone}`;
+
       const res = await axios.post(
         "http://168.231.80.24:9002/route/forgot-password/send-otp",
         {
-          phoneNumber,
+          phoneNumber: fullPhoneNumber,
         }
       );
       if (res.data.success) {
@@ -59,10 +63,14 @@ const ForgotPassword = () => {
       return;
     }
     try {
+      // Normalize phone number: remove leading 0 if present, then add +966
+      const normalizedPhone = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+      const fullPhoneNumber = `+966${normalizedPhone}`;
+
       const res = await axios.post(
         "http://168.231.80.24:9002/route/verifyChangepasswdotp",
         {
-          phoneNumber,
+          phoneNumber: fullPhoneNumber,
           otp,
           newPassword,
         }
@@ -159,7 +167,7 @@ const ForgotPassword = () => {
                       <input
                         type="text"
                         class
-                        placeholder="Phone Number (XXXXXXXXXX)"
+                        placeholder="Phone Number (XXXXXXXXX)"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         className="form-control"

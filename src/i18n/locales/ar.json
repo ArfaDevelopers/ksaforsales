@@ -1236,7 +1236,7 @@
   "login": {
     "title": "تسجيل الدخول",
     "welcomeMessage": "مرحبًا بعودتك. استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
-    "phonePlaceholder": "XXXXXXXXXX",
+    "phonePlaceholder": "XXXXXXXXX",
     "passwordPlaceholder": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
@@ -1247,7 +1247,7 @@
     "qrStep2": "اضغط على الملف الشخصي وانتقل إلى الإعدادات.",
     "qrStep3": "اضغط على Web QR.",
     "qrStep4": "امسح رمز QR أعلاه.",
-    "phoneError": "يرجى إدخال رقم هاتف سعودي صحيح (+9665xxxxxxxx)",
+   "phoneError": "يرجى إدخال رقم هاتف سعودي صحيح (+9665xxxxxxxx)",
     "missingFields": "حقول مفقودة",
     "missingFieldsMessage": "يرجى ملء رقم الهاتف وكلمة المرور قبل تسجيل الدخول.",
     "loginSuccessful": "تم تسجيل الدخول بنجاح",
@@ -1258,7 +1258,7 @@
   "signup": {
     "title": "إنشاء حساب",
     "welcomeMessage": "استمر في استخدام ميزاتنا الرائعة وابحث عما تحتاجه.",
-    "phonePlaceholder": "xxxxxxxxx",
+    "phonePlaceholder": "5XXXXXXXX",
     "fullNamePlaceholder": "الاسم الكامل",
     "emailPlaceholder": "البريد الإلكتروني",
     "passwordPlaceholder": "كلمة المرور",
