@@ -4922,35 +4922,34 @@ const AddLisiting = () => {
                     }}
                   >
                     <div className="container mt-3 p-0">
-                      <div className="row">
-                        {/* District Select */}
-                        <div className="col-12 col-md-4 mb-3">
-                          <h6 className="mb-2">{t("addListing.selectDistrict")}</h6>
+                      <div className="row" style={{ direction: 'ltr', display: 'flex' }}>
+                        {/* Region Select */}
+                        <div className="col-12 col-md-4 mb-3" style={{ order: 1 }}>
+                          <h6 className="mb-2">{t("addListing.selectRegion")}</h6>
                           <WindowedSelect
-                            options={districtOptions}
-                            onChange={handleDistrictChange}
-                            placeholder={t("addListing.chooseDistrict")}
+                            options={regionOptions}
+                            onChange={handleChangeRegion}
+                            placeholder={t("addListing.chooseRegion")}
                             classNamePrefix="select"
                             isSearchable
                             value={
-                              districtOptions.find(
-                                (d) =>
-                                  d.District_ID === selectedDistrict.districtId
+                              regionOptions.find(
+                                (r) => r.regionId === selectedRegionId
                               ) || null
                             }
-                          />{" "}
-                          {districtSelectedErrMsg && (
+                          />
+                          {galleryselectedRegionIdErrMsg && (
                             <div
                               className="text-danger mt-1"
                               style={{ fontSize: "14px" }}
                             >
-                              {districtSelectedErrMsg}
+                              {galleryselectedRegionIdErrMsg}
                             </div>
                           )}
                         </div>
 
                         {/* City Select */}
-                        <div className="col-12 col-md-4 mb-3">
+                        <div className="col-12 col-md-4 mb-3" style={{ order: 2 }}>
                           <h6 className="mb-2">{t("addListing.selectCity")}</h6>
                           <WindowedSelect
                             options={cityOptions}
@@ -4974,27 +4973,28 @@ const AddLisiting = () => {
                           )}
                         </div>
 
-                        {/* Region Select */}
-                        <div className="col-12 col-md-4 mb-3">
-                          <h6 className="mb-2">{t("addListing.selectRegion")}</h6>
+                        {/* District Select */}
+                        <div className="col-12 col-md-4 mb-3" style={{ order: 3 }}>
+                          <h6 className="mb-2">{t("addListing.selectDistrict")}</h6>
                           <WindowedSelect
-                            options={regionOptions}
-                            onChange={handleChangeRegion}
-                            placeholder={t("addListing.chooseRegion")}
+                            options={districtOptions}
+                            onChange={handleDistrictChange}
+                            placeholder={t("addListing.chooseDistrict")}
                             classNamePrefix="select"
                             isSearchable
                             value={
-                              regionOptions.find(
-                                (r) => r.regionId === selectedRegionId
+                              districtOptions.find(
+                                (d) =>
+                                  d.District_ID === selectedDistrict.districtId
                               ) || null
                             }
-                          />
-                          {galleryselectedRegionIdErrMsg && (
+                          />{" "}
+                          {districtSelectedErrMsg && (
                             <div
                               className="text-danger mt-1"
                               style={{ fontSize: "14px" }}
                             >
-                              {galleryselectedRegionIdErrMsg}
+                              {districtSelectedErrMsg}
                             </div>
                           )}
                         </div>
@@ -5036,9 +5036,33 @@ const AddLisiting = () => {
                         >
                           <div
                             className="d-flex flex-column flex-md-row justify-content-between gap-2"
-                            style={{ width: "100%", marginTop: "-1rem" }}
+                            style={{ width: "100%", marginTop: "-1rem", direction: 'ltr', display: 'flex' }}
                           >
-                            <div className="w-100 w-md-50">
+                            <div className="w-100 w-md-50" style={{ order: 1 }}>
+                              <div className="form-group">
+                                <label className="col-form-label label-heading">
+                                  {t("addListing.category")}
+                                </label>
+                                <div className="row category-listing">
+                                  <Select
+                                    options={categoryOptions}
+                                    value={categoryOptions.find(
+                                      (option) =>
+                                        option.value === formData.category
+                                    )}
+                                    onChange={handleCategoryChange}
+                                    className="basic-single"
+                                    classNamePrefix="select"
+                                    placeholder={t("addListing.selectCategory")}
+                                  />
+                                </div>
+                                {error && (
+                                  <p style={{ color: "red" }}>{error}</p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="w-100 w-md-50" style={{ order: 2 }}>
                               <div className="form-group">
                                 <label className="col-form-label label-heading">
                                   {t("addListing.selectSubCategory")}
@@ -5079,30 +5103,6 @@ const AddLisiting = () => {
                               >
                                 {SubCategoryErrMsg}
                               </span>
-                            </div>
-
-                            <div className="w-100 w-md-50">
-                              <div className="form-group">
-                                <label className="col-form-label label-heading">
-                                  {t("addListing.category")}
-                                </label>
-                                <div className="row category-listing">
-                                  <Select
-                                    options={categoryOptions}
-                                    value={categoryOptions.find(
-                                      (option) =>
-                                        option.value === formData.category
-                                    )}
-                                    onChange={handleCategoryChange}
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    placeholder={t("addListing.selectCategory")}
-                                  />
-                                </div>
-                                {error && (
-                                  <p style={{ color: "red" }}>{error}</p>
-                                )}
-                              </div>
                             </div>
 
                             {Category.SubCategory === "Spare Parts" ? (
