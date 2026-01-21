@@ -1275,12 +1275,15 @@ const AddLisiting = () => {
       District_ID: district.District_ID,
       CITY_ID: district.CITY_ID,
       REGION_ID: district.REGION_ID,
+      // ✅ Include coordinates from Locations Index.json
+      Latitude: district.Latitude,
+      Longitude: district.Longitude,
     }));
   }, [uniqueDistricts, i18n.language]);
 
   const handleDistrictChange = (selectedOption) => {
     if (selectedOption) {
-      const { District_ID, CITY_ID, REGION_ID, label } = selectedOption;
+      const { District_ID, CITY_ID, REGION_ID, label, Latitude, Longitude } = selectedOption;
 
       setSelectedDistrict({
         districtId: District_ID,
@@ -1288,6 +1291,16 @@ const AddLisiting = () => {
         regionId: REGION_ID,
         label: label,
       });
+
+      // ✅ Auto-populate latitude and longitude from Locations Index.json via API
+      if (Latitude && Longitude) {
+        setFormData(prevData => ({
+          ...prevData,
+          latitude: Latitude,
+          longitude: Longitude,
+        }));
+        console.log("📍 Auto-populated coordinates from district:", { Latitude, Longitude });
+      }
 
       console.log("Selected District_ID:selectedOption", selectedOption);
       console.log("Selected CITY_ID:", CITY_ID);
@@ -1508,6 +1521,19 @@ const AddLisiting = () => {
     if (selectedOption) {
       setSelectedRegionId(selectedOption.regionId);
       setSelectedRegionName(selectedOption.label);
+
+      // ✅ Set region-level coordinates as fallback
+      if (selectedOption.latitude && selectedOption.longitude) {
+        setFormData(prevData => ({
+          ...prevData,
+          latitude: selectedOption.latitude.toString(),
+          longitude: selectedOption.longitude.toString(),
+        }));
+        console.log("📍 Set region coordinates:", {
+          latitude: selectedOption.latitude,
+          longitude: selectedOption.longitude
+        });
+      }
     } else {
       setSelectedRegionId(null);
       setSelectedRegionName(null);
