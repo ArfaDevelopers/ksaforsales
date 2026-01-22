@@ -56,21 +56,21 @@ const CommercialAdscom = () => {
   // Helper function to translate category names
   const translateCategoryName = (categoryName) => {
     const categoryMap = {
-      "Commercial": "categories.commercial",
-      "Electronics": "categories.electronics",
+      Commercial: "categories.commercial",
+      Electronics: "categories.electronics",
       "Fashion Style": "categories.fashionStyle",
       "Home & Furniture": "categories.homeFurniture",
       "Home and Furniture": "categories.homeFurniture",
-      "Motor": "categories.motors",
-      "Motors": "categories.motors",
-      "Services": "categories.services",
+      Motor: "categories.motors",
+      Motors: "categories.motors",
+      Services: "categories.services",
       "Job Board": "categories.jobBoard",
       "Real Estate": "categories.realEstate",
-      "RealEstate": "categories.realEstate",
-      "Realestate": "categories.realEstate",
+      RealEstate: "categories.realEstate",
+      Realestate: "categories.realEstate",
       "Sport & Game": "categories.sportGame",
       "Pet & Animals": "categories.petAnimals",
-      "Other": "categories.other"
+      Other: "categories.other",
     };
     return t(categoryMap[categoryName] || categoryName);
   };
@@ -126,24 +126,24 @@ const CommercialAdscom = () => {
           callingFrom === "AutomotiveComp"
             ? "Cars"
             : callingFrom === "ElectronicComp"
-            ? "ELECTRONICS"
-            : callingFrom === "FashionStyle"
-            ? "FASHION"
-            : callingFrom === "HealthCareComp"
-            ? "HEALTHCARE"
-            : callingFrom === "JobBoard"
-            ? "JOBBOARD"
-            : callingFrom === "Education"
-            ? "Education"
-            : callingFrom === "RealEstateComp"
-            ? "REALESTATECOMP"
-            : callingFrom === "TravelComp"
-            ? "TRAVEL"
-            : callingFrom === "SportGamesComp"
-            ? "SPORTSGAMESComp"
-            : callingFrom === "PetAnimalsComp"
-            ? "PETANIMALCOMP"
-            : "books";
+              ? "ELECTRONICS"
+              : callingFrom === "FashionStyle"
+                ? "FASHION"
+                : callingFrom === "HealthCareComp"
+                  ? "HEALTHCARE"
+                  : callingFrom === "JobBoard"
+                    ? "JOBBOARD"
+                    : callingFrom === "Education"
+                      ? "Education"
+                      : callingFrom === "RealEstateComp"
+                        ? "REALESTATECOMP"
+                        : callingFrom === "TravelComp"
+                          ? "TRAVEL"
+                          : callingFrom === "SportGamesComp"
+                            ? "SPORTSGAMESComp"
+                            : callingFrom === "PetAnimalsComp"
+                              ? "PETANIMALCOMP"
+                              : "books";
         // Determine collection based on `callingFrom`
         // const collectionName = callingFrom === "automotive" ? "carData" : "books";
         const adsCollection = collection(db, "CommercialAdscom"); // Reference to dynamic collection
@@ -231,7 +231,9 @@ const CommercialAdscom = () => {
       Swal.fire({
         icon: "warning",
         title: t("common.loginRequired") || "Login Required",
-        text: t("common.loginToFavorite") || "Please login to add items to favorites",
+        text:
+          t("common.loginToFavorite") ||
+          "Please login to add items to favorites",
         timer: 2000,
         showConfirmButton: false,
         toast: true,
@@ -255,7 +257,7 @@ const CommercialAdscom = () => {
             };
           }
           return item;
-        })
+        }),
       );
 
       // Update database
@@ -284,18 +286,23 @@ const CommercialAdscom = () => {
           removed: isAlreadyHearted,
           timestamp: Date.now(),
         };
-        sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+        sessionStorage.setItem(
+          "last_bookmark_change",
+          JSON.stringify(bookmarkChange),
+        );
 
         console.log(
           `User ${
             isAlreadyHearted ? "removed from" : "added to"
-          } heartedby for item ${itemId}`
+          } heartedby for item ${itemId}`,
         );
 
         // Show success message
         Swal.fire({
           icon: "success",
-          title: isAlreadyHearted ? t("common.removedFromFavorites") || "Removed from favorites" : t("common.addedToFavorites") || "Added to favorites",
+          title: isAlreadyHearted
+            ? t("common.removedFromFavorites") || "Removed from favorites"
+            : t("common.addedToFavorites") || "Added to favorites",
           timer: 1500,
           showConfirmButton: false,
           toast: true,
@@ -385,24 +392,24 @@ const CommercialAdscom = () => {
       callingFrom === "AutomotiveComp"
         ? "Cars"
         : callingFrom === "ElectronicComp"
-        ? "ELECTRONICS"
-        : callingFrom === "FashionStyle"
-        ? "FASHION"
-        : callingFrom === "HealthCareComp"
-        ? "HEALTHCARE"
-        : callingFrom === "JobBoard"
-        ? "JOBBOARD"
-        : callingFrom === "Education"
-        ? "Education"
-        : callingFrom === "RealEstateComp"
-        ? "REALESTATECOMP"
-        : callingFrom === "TravelComp"
-        ? "TRAVEL"
-        : callingFrom === "SportGamesComp"
-        ? "SPORTSGAMESComp"
-        : callingFrom === "PetAnimalsComp"
-        ? "PETANIMALCOMP"
-        : "books";
+          ? "ELECTRONICS"
+          : callingFrom === "FashionStyle"
+            ? "FASHION"
+            : callingFrom === "HealthCareComp"
+              ? "HEALTHCARE"
+              : callingFrom === "JobBoard"
+                ? "JOBBOARD"
+                : callingFrom === "Education"
+                  ? "Education"
+                  : callingFrom === "RealEstateComp"
+                    ? "REALESTATECOMP"
+                    : callingFrom === "TravelComp"
+                      ? "TRAVEL"
+                      : callingFrom === "SportGamesComp"
+                        ? "SPORTSGAMESComp"
+                        : callingFrom === "PetAnimalsComp"
+                          ? "PETANIMALCOMP"
+                          : "books";
 
     try {
       const adsCollection = collection(db, "CommercialAdscom");
@@ -457,7 +464,10 @@ const CommercialAdscom = () => {
         return false;
       }
 
-      console.log("🔄 Commercial Ads: Applying bookmark change:", bookmarkChange);
+      console.log(
+        "🔄 Commercial Ads: Applying bookmark change:",
+        bookmarkChange,
+      );
 
       // Mark as processed
       lastProcessedTimestampRef.current = bookmarkChange.timestamp;
@@ -466,7 +476,9 @@ const CommercialAdscom = () => {
       setCategories((prevCategories) =>
         prevCategories.map((item) => {
           if (item.id === bookmarkChange.id) {
-            console.log(`✅ Updating item ${item.id} - removed: ${bookmarkChange.removed}`);
+            console.log(
+              `✅ Updating item ${item.id} - removed: ${bookmarkChange.removed}`,
+            );
             return {
               ...item,
               heartedby: bookmarkChange.removed
@@ -475,7 +487,7 @@ const CommercialAdscom = () => {
             };
           }
           return item;
-        })
+        }),
       );
 
       // Clear the bookmark change flag
@@ -532,13 +544,14 @@ const CommercialAdscom = () => {
         const cachedTime = sessionStorage.getItem(cacheTimestamp);
 
         // Check if there's a pending bookmark change - if so, skip cache
-        const hasPendingBookmarkChange = sessionStorage.getItem("last_bookmark_change") !== null;
+        const hasPendingBookmarkChange =
+          sessionStorage.getItem("last_bookmark_change") !== null;
 
         if (cachedData && cachedTime && !hasPendingBookmarkChange) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             // Add 400ms delay for smooth transition
-            await new Promise(resolve => setTimeout(resolve, 400));
+            await new Promise((resolve) => setTimeout(resolve, 400));
             const parsedData = JSON.parse(cachedData);
 
             setCategories(parsedData.categories);
@@ -552,7 +565,7 @@ const CommercialAdscom = () => {
 
         // Fetch fresh data
         const response = await axios.get(
-          "http://168.231.80.24:9002/route/commercial-ads"
+          "http://168.231.80.24:9002/route/commercial-ads",
         );
 
         setCategories(response.data);
@@ -574,13 +587,18 @@ const CommercialAdscom = () => {
         // Only cache if there's no pending bookmark change
         // This ensures we don't cache potentially stale data
         if (!hasPendingBookmarkChange) {
-          sessionStorage.setItem(cacheKey, JSON.stringify({
-            categories: response.data,
-            uniqueCategories: uniqueSorted
-          }));
+          sessionStorage.setItem(
+            cacheKey,
+            JSON.stringify({
+              categories: response.data,
+              uniqueCategories: uniqueSorted,
+            }),
+          );
           sessionStorage.setItem(cacheTimestamp, Date.now().toString());
         } else {
-          console.log("⚠️ Skipping cache storage due to pending bookmark change");
+          console.log(
+            "⚠️ Skipping cache storage due to pending bookmark change",
+          );
         }
 
         setLoading(false);
@@ -757,7 +775,7 @@ const CommercialAdscom = () => {
             });
             setVisitCount((prev) => prev + 1);
             console.log(
-              "✅ Visit counted (after 24h or first after missing timestamp)"
+              "✅ Visit counted (after 24h or first after missing timestamp)",
             );
           } else {
             console.log("🕒 Already visited in the last 24 hours.");
@@ -813,7 +831,7 @@ const CommercialAdscom = () => {
     setSelectedReports((prev) =>
       prev.includes(type)
         ? prev.filter((item) => item !== type)
-        : [...prev, type]
+        : [...prev, type],
     );
   };
   const handleWhatsappMouseLeave = () => {
@@ -836,7 +854,7 @@ const CommercialAdscom = () => {
             className="parent-main category"
             style={{
               color: "black", // Text color
-              marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
+              marginTop: window.innerWidth <= 768 ? "10rem" : "12rem",
             }}
           >
             <div className="d-flex align-items-center justify-content-between my-4 flex-wrap">
@@ -880,7 +898,7 @@ const CommercialAdscom = () => {
                 className=""
                 style={{
                   width: window.innerWidth <= 576 ? "47%" : "220px",
-                  marginTop: window.innerWidth <= 576 ? "15px" : "15px"
+                  marginTop: window.innerWidth <= 576 ? "15px" : "15px",
                 }}
               >
                 <option value="All">{t("common.allCategories")}</option>
@@ -892,9 +910,6 @@ const CommercialAdscom = () => {
                 ))}
               </Form.Select>
             </div>
-
-
-
 
             {showModal1 && (
               <div
@@ -941,9 +956,9 @@ const CommercialAdscom = () => {
                           onClick={() =>
                             window.open(
                               `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                                link
+                                link,
                               )}`,
-                              "_blank"
+                              "_blank",
                             )
                           }
                         />
@@ -956,7 +971,7 @@ const CommercialAdscom = () => {
                           onClick={() =>
                             window.open(
                               `https://wa.me/?text=${encodeURIComponent(link)}`,
-                              "_blank"
+                              "_blank",
                             )
                           }
                         />
@@ -968,7 +983,7 @@ const CommercialAdscom = () => {
                           onClick={async () => {
                             if (/Mobi|Android/i.test(navigator.userAgent)) {
                               window.location.href = `instagram://share?text=${encodeURIComponent(
-                                link
+                                link,
                               )}`;
                             } else {
                               try {
@@ -1133,7 +1148,7 @@ const CommercialAdscom = () => {
             {loading && (
               <Row className="g-4">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <Col key={i} xxl={3} xl={4} md={6} sm={6}>
+                  <Col key={i} xxl={3} xl={4} md={6}>
                     <Card
                       className="shadow-lg"
                       style={{
@@ -1175,155 +1190,157 @@ const CommercialAdscom = () => {
 
             {/* Actual Content with Fade-in */}
             {!loading && (
-              <Row className="g-4 fade-in-ads">
+              <Row className="g-2 md:g-4 fade-in-ads">
                 {categories
                   .filter((item) =>
                     selectedCategory === "All"
                       ? true
-                      : item.Title === selectedCategory
+                      : item.Title === selectedCategory,
                   )
 
                   .map((item) => (
-                  <Col key={item.id} xxl={3} xl={4} md={6} sm={6}>
-                    <Card
-                      className="shadow-lg"
-                      onClick={() => {
-                        navigate(`/CategoryDetail/${item.id}`);
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        padding: "20px",
-                      }}
-                    >
-                      <div
+                    <Col key={item.id} xxl={3} xl={4} md={6} xs={6} style={{}}>
+                      <Card
+                        className="shadow-lg"
+                        onClick={() => {
+                          navigate(`/CategoryDetail/${item.id}`);
+                        }}
                         style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          width: "100%", // Use full width or adjust as needed
-                          marginBottom: "5px",
+                          cursor: "pointer",
+                          padding: window.innerWidth < 768 ? "10px" : "20px",
                         }}
                       >
-                        {/* Left Side - Views */}
-                        <div className="d-flex gap-2 align-items-center">
-                          <FaRegEye />
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "100%", // Use full width or adjust as needed
+                            marginBottom: "5px",
+                          }}
+                        >
+                          {/* Left Side - Views */}
+                          <div className="d-flex gap-2 align-items-center">
+                            <FaRegEye />
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "15px" }}
+                            >
+                              {item?.visitCount}
+                              <span style={{ marginLeft: "3px" }}>
+                                {t("common.views")}
+                              </span>
+                            </span>
+                          </div>
+
+                          {/* Right Side - Share Icon */}
                           <span
-                            style={{ fontWeight: "bold", fontSize: "15px" }}
+                            style={{
+                              fontWeight: "bold",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => handleShareClick(e, item.id)}
                           >
-                            {item?.visitCount}
-                            <span style={{ marginLeft: "3px" }}>{t("common.views")}</span>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: "40px",
+                                height: "40px",
+                                backgroundColor: "#f7f8fa",
+                                color: "var(--shades_0)",
+                                border: "none",
+                                borderRadius: "50%",
+                              }}
+                            >
+                              <MdIosShare
+                                style={{
+                                  fontWeight: "bold",
+                                  fontSize: "1.4rem",
+                                  color: "black",
+                                }}
+                              />
+                            </div>
                           </span>
                         </div>
 
-                        {/* Right Side - Share Icon */}
-                        <span
+                        <Card.Img
+                          variant="top"
+                          src={item.image}
+                          alt={item.title}
+                          loading="lazy"
                           style={{
-                            fontWeight: "bold",
-                            cursor: "pointer",
+                            height: window.innerWidth < 768 ? "150px" : "350px",
+                            objectFit: "cover",
+                            width: "100%",
                           }}
-                          onClick={(e) => handleShareClick(e, item.id)}
+                        />
+                        <Card.Body
+                          style={{
+                            paddingBottom: "0",
+                            paddingLeft: "0",
+                            paddingRight: "0",
+                          }}
                         >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "40px",
-                              height: "40px",
-                              backgroundColor: "#f7f8fa",
-                              color: "var(--shades_0)",
-                              border: "none",
-                              borderRadius: "50%",
-                            }}
-                          >
-                            <MdIosShare
-                              style={{
-                                fontWeight: "bold",
-                                fontSize: "1.4rem",
-                                color: "black",
+                          <div className="d-flex justify-content-between gap-1 mt-1">
+                            <button
+                              className="d-flex align-items-center blue_btn list_btn categories commercial"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleShowselectedPhone(item.phone);
+                                setSelectedPhone(item.phone);
                               }}
-                            />
+                            >
+                              <FaPhoneAlt
+                                style={{
+                                  fontSize: "0.8rem",
+                                  color: "#fff",
+                                }}
+                                // className="fill-white text-white mt-1"
+                              />
+                              <span>{t("listing.call")}</span>
+                            </button>
+
+                            <button
+                              className="d-flex align-items-center blue_btn list_btn categories"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleShowWhatsApp(item.phone);
+                                setSelectedPhone(item.phone);
+                              }}
+                            >
+                              <FaWhatsapp />
+                              <span>{t("listing.whatsapp")}</span>
+                            </button>
+                            <Button
+                              type="button"
+                              variant="primary"
+                              className="d-flex align-items-center gap-1 bg-white"
+                              style={{
+                                transition: "all 0.2s ease",
+                                padding: "0.375rem 0.75rem",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                favoritiesadded(item.id); // Call your function with the clicked item's ID
+                              }}
+                            >
+                              <FaHeart
+                                style={{
+                                  fontSize: "1.5rem",
+                                  // color: "#2d4495",
+                                  color: item.heartedby?.includes(userClickedId)
+                                    ? "red"
+                                    : "#2d4495",
+                                }}
+                              />
+                            </Button>
                           </div>
-                        </span>
-                      </div>
-
-                      <Card.Img
-                        variant="top"
-                        src={item.image}
-                        alt={item.title}
-                        loading="lazy"
-                        style={{
-                          height: "350px",
-                          objectFit: "cover",
-                          width: "100%",
-                        }}
-                      />
-                      <Card.Body
-                        style={{
-                          paddingBottom: "0",
-                          paddingLeft: "0",
-                          paddingRight: "0",
-                        }}
-                      >
-                        <div className="d-flex justify-content-between gap-1 mt-1">
-                          <button
-                            className="d-flex align-items-center blue_btn list_btn categories"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleShowselectedPhone(item.phone);
-                              setSelectedPhone(item.phone);
-                            }}
-                          >
-                            <FaPhoneAlt
-                              style={{
-                                fontSize: "0.8rem",
-                                color: "#fff",
-                              }}
-                              // className="fill-white text-white mt-1"
-                            />
-                            <span>{t("listing.call")}</span>
-                          </button>
-
-                          <button
-                            className="d-flex align-items-center blue_btn list_btn categories"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleShowWhatsApp(item.phone);
-                              setSelectedPhone(item.phone);
-                            }}
-                          >
-                            <FaWhatsapp />
-                            <span>{t("listing.whatsapp")}</span>
-                          </button>
-                          <Button
-                            type="button"
-                            variant="primary"
-                            className="d-flex align-items-center gap-1 bg-white"
-                            style={{
-                              transition: "all 0.2s ease",
-                              padding: "0.375rem 0.75rem",
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                              favoritiesadded(item.id); // Call your function with the clicked item's ID
-                            }}
-                          >
-                            <FaHeart
-                              style={{
-                                fontSize: "1.5rem",
-                                // color: "#2d4495",
-                                color: item.heartedby?.includes(userClickedId)
-                                  ? "red"
-                                  : "#2d4495",
-                              }}
-                            />
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
               </Row>
             )}
           </Container>

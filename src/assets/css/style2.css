@@ -306,10 +306,13 @@
     padding: 170px 0 10px;
   }
   .parent-main.category {
-    margin-top: 7rem !important;
+    margin-top: 10rem !important;
   }
   .blue_btn.list_btn {
     width: auto !important;
+  }
+  .blue_btn.list_btn.categories {
+    width: 33% !important;
   }
   .blue_btn.list_btn svg {
     margin: 0 !important;

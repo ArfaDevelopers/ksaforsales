@@ -39,7 +39,7 @@ import { generateListingDescription } from "../../../utils/openaiService";
 import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(
-  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
+  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1",
 );
 
 const AddLisiting = () => {
@@ -89,7 +89,7 @@ const AddLisiting = () => {
         saudiStates.map((state) => ({
           value: state.name,
           label: state.name,
-        }))
+        })),
       );
     }
   }, []);
@@ -1183,7 +1183,7 @@ const AddLisiting = () => {
     query === ""
       ? carBrands
       : carBrands.filter((brand) =>
-          brand.toLowerCase().includes(query.toLowerCase())
+          brand.toLowerCase().includes(query.toLowerCase()),
         );
 
   const handleSelect = (brand) => {
@@ -1233,7 +1233,7 @@ const AddLisiting = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
   const [selectedRegionId, setSelectedRegionId] = useState(null);
   const [RegionName, setSelectedRegionName] = useState(null);
@@ -1271,7 +1271,10 @@ const AddLisiting = () => {
   const districtOptions = useMemo(() => {
     return uniqueDistricts.map((district) => ({
       value: district.District_ID,
-      label: i18n.language === 'ar' ? district["District Ar Name"] : district["District En Name"],
+      label:
+        i18n.language === "ar"
+          ? district["District Ar Name"]
+          : district["District En Name"],
       District_ID: district.District_ID,
       CITY_ID: district.CITY_ID,
       REGION_ID: district.REGION_ID,
@@ -1283,7 +1286,8 @@ const AddLisiting = () => {
 
   const handleDistrictChange = (selectedOption) => {
     if (selectedOption) {
-      const { District_ID, CITY_ID, REGION_ID, label, Latitude, Longitude } = selectedOption;
+      const { District_ID, CITY_ID, REGION_ID, label, Latitude, Longitude } =
+        selectedOption;
 
       setSelectedDistrict({
         districtId: District_ID,
@@ -1294,12 +1298,15 @@ const AddLisiting = () => {
 
       // ✅ Auto-populate latitude and longitude from Locations Index.json via API
       if (Latitude && Longitude) {
-        setFormData(prevData => ({
+        setFormData((prevData) => ({
           ...prevData,
           latitude: Latitude,
           longitude: Longitude,
         }));
-        console.log("📍 Auto-populated coordinates from district:", { Latitude, Longitude });
+        console.log("📍 Auto-populated coordinates from district:", {
+          Latitude,
+          Longitude,
+        });
       }
 
       console.log("Selected District_ID:selectedOption", selectedOption);
@@ -1424,9 +1431,9 @@ const AddLisiting = () => {
 
   // Create translated regionOptions based on current language
   const regionOptions = useMemo(() => {
-    return regionOptionsBase.map(region => ({
+    return regionOptionsBase.map((region) => ({
       ...region,
-      label: i18n.language === 'ar' ? region.regionAr : region.regionEn
+      label: i18n.language === "ar" ? region.regionAr : region.regionEn,
     }));
   }, [i18n.language]);
 
@@ -1434,7 +1441,7 @@ const AddLisiting = () => {
     const fetchCities = async () => {
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegionId}`
+          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegionId}`,
         );
         const data = await response.json();
 
@@ -1467,7 +1474,7 @@ const AddLisiting = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${selectedCityData.regionId}&CITY_ID=${selectedCityData.cityId}`
+          `http://168.231.80.24:9002/api/districts?REGION_ID=${selectedCityData.regionId}&CITY_ID=${selectedCityData.cityId}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -1485,7 +1492,8 @@ const AddLisiting = () => {
   const cityOptions = useMemo(() => {
     return cities.map((city) => ({
       value: city.CITY_ID,
-      label: i18n.language === 'ar' ? city["City Ar Name"] : city["City En Name"],
+      label:
+        i18n.language === "ar" ? city["City Ar Name"] : city["City En Name"],
       REGION_ID: city.REGION_ID,
       CITY_ID: city.CITY_ID,
     }));
@@ -1524,14 +1532,14 @@ const AddLisiting = () => {
 
       // ✅ Set region-level coordinates as fallback
       if (selectedOption.latitude && selectedOption.longitude) {
-        setFormData(prevData => ({
+        setFormData((prevData) => ({
           ...prevData,
           latitude: selectedOption.latitude.toString(),
           longitude: selectedOption.longitude.toString(),
         }));
         console.log("📍 Set region coordinates:", {
           latitude: selectedOption.latitude,
-          longitude: selectedOption.longitude
+          longitude: selectedOption.longitude,
         });
       }
     } else {
@@ -1563,7 +1571,7 @@ const AddLisiting = () => {
         saudiCities.map((city) => ({
           value: city.name,
           label: city.name,
-        }))
+        })),
       );
     }
   }, []);
@@ -1584,7 +1592,7 @@ const AddLisiting = () => {
 
   const isFormValid = () => {
     const nonEmptyFields = Object.values(formData).filter(
-      (value) => value !== "" && value !== "$$$"
+      (value) => value !== "" && value !== "$$$",
     );
     const totalFields = Object.values(formData).length;
     return nonEmptyFields.length > 2 / 2;
@@ -1640,7 +1648,7 @@ const AddLisiting = () => {
       acc[formattedKey] = categoryMapping[key];
       return acc;
     },
-    {}
+    {},
   );
 
   useEffect(() => {
@@ -1848,14 +1856,14 @@ const AddLisiting = () => {
             label: data.District || null,
           });
           const selectedCategory = subcategoriesMapping.categories.find(
-            (category) => category.name === data.category
+            (category) => category.name === data.category,
           );
           if (selectedCategory) {
             setSubcategories(
               selectedCategory.subcategories.map((sub) => ({
                 value: sub.name,
                 label: t(getSubcategoryTranslation(sub.name)),
-              }))
+              })),
             );
           } else {
             setSubcategories([]);
@@ -1891,7 +1899,7 @@ const AddLisiting = () => {
     setError,
     isFormValid,
     MySwal,
-    navigate
+    navigate,
   ) => {
     try {
       // Get the current user from Firebase Auth
@@ -1957,28 +1965,28 @@ const AddLisiting = () => {
           Category1 === "Motors"
             ? "Cars"
             : Category1 === "Electronics"
-            ? "ELECTRONICS"
-            : Category1 === "Fashion Style"
-            ? "FASHION"
-            : Category1 === "Home & Furnituer"
-            ? "HEALTHCARE"
-            : Category1 === "Job Board"
-            ? "JOBBOARD"
-            : Category1 === "Other"
-            ? "Education"
-            : Category1 === "Real Estate"
-            ? "REALESTATECOMP"
-            : Category1 === "Services"
-            ? "TRAVEL"
-            : Category1 === "Sports & Game"
-            ? "SPORTSGAMESComp"
-            : Category1 === "Pet & Animals"
-            ? "PETANIMALCOMP"
-            : Category1 === "Magazines"
-            ? "Magazines"
-            : Category1 === "Household"
-            ? "Household"
-            : "books";
+              ? "ELECTRONICS"
+              : Category1 === "Fashion Style"
+                ? "FASHION"
+                : Category1 === "Home & Furnituer"
+                  ? "HEALTHCARE"
+                  : Category1 === "Job Board"
+                    ? "JOBBOARD"
+                    : Category1 === "Other"
+                      ? "Education"
+                      : Category1 === "Real Estate"
+                        ? "REALESTATECOMP"
+                        : Category1 === "Services"
+                          ? "TRAVEL"
+                          : Category1 === "Sports & Game"
+                            ? "SPORTSGAMESComp"
+                            : Category1 === "Pet & Animals"
+                              ? "PETANIMALCOMP"
+                              : Category1 === "Magazines"
+                                ? "Magazines"
+                                : Category1 === "Household"
+                                  ? "Household"
+                                  : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
           // Save form data to Firestore under the specified collection
@@ -2020,7 +2028,10 @@ const AddLisiting = () => {
           console.log("Data added successfully to Firestore!");
 
           // Set flag to invalidate search page cache
-          sessionStorage.setItem("listing_status_changed", Date.now().toString());
+          sessionStorage.setItem(
+            "listing_status_changed",
+            Date.now().toString(),
+          );
           console.log("✅ Set listing_status_changed flag for new listing");
 
           MySwal.fire({
@@ -2063,7 +2074,7 @@ const AddLisiting = () => {
     setError,
     isFormValid,
     MySwal,
-    navigate
+    navigate,
   ) => {
     try {
       // Get the current user from Firebase Auth
@@ -2080,28 +2091,28 @@ const AddLisiting = () => {
           Category1 === "Motors"
             ? "Cars"
             : Category1 === "Electronics"
-            ? "ELECTRONICS"
-            : Category1 === "Fashion Style"
-            ? "FASHION"
-            : Category1 === "Home & Furnituer"
-            ? "HEALTHCARE"
-            : Category1 === "Job Board"
-            ? "JOBBOARD"
-            : Category1 === "Other"
-            ? "Education"
-            : Category1 === "Real Estate"
-            ? "REALESTATECOMP"
-            : Category1 === "Services"
-            ? "TRAVEL"
-            : Category1 === "Sports & Game"
-            ? "SPORTSGAMESComp"
-            : Category1 === "Pet & Animals"
-            ? "PETANIMALCOMP"
-            : Category1 === "Magazines"
-            ? "Magazines"
-            : Category1 === "Household"
-            ? "Household"
-            : "books";
+              ? "ELECTRONICS"
+              : Category1 === "Fashion Style"
+                ? "FASHION"
+                : Category1 === "Home & Furnituer"
+                  ? "HEALTHCARE"
+                  : Category1 === "Job Board"
+                    ? "JOBBOARD"
+                    : Category1 === "Other"
+                      ? "Education"
+                      : Category1 === "Real Estate"
+                        ? "REALESTATECOMP"
+                        : Category1 === "Services"
+                          ? "TRAVEL"
+                          : Category1 === "Sports & Game"
+                            ? "SPORTSGAMESComp"
+                            : Category1 === "Pet & Animals"
+                              ? "PETANIMALCOMP"
+                              : Category1 === "Magazines"
+                                ? "Magazines"
+                                : Category1 === "Household"
+                                  ? "Household"
+                                  : "books";
         console.log("Category is required!_____11", Collection); // Set error message if no category is selected
 
         // Check if more than half of the form fields are filled
@@ -2173,7 +2184,7 @@ const AddLisiting = () => {
         setError,
         isFormValid,
         MySwal,
-        navigate
+        navigate,
       );
     } else {
       saveToFirestore(
@@ -2191,7 +2202,7 @@ const AddLisiting = () => {
         setError,
         isFormValid,
         MySwal,
-        navigate
+        navigate,
       );
     }
   };
@@ -2204,7 +2215,7 @@ const AddLisiting = () => {
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload", // Your Cloudinary URL
-        formData
+        formData,
       );
 
       const uploadedUrl = response.data.secure_url;
@@ -2217,7 +2228,7 @@ const AddLisiting = () => {
   };
   const handleDeleteImage = (indexToDelete) => {
     setGalleryImages((prevImages) =>
-      prevImages.filter((_, index) => index !== indexToDelete)
+      prevImages.filter((_, index) => index !== indexToDelete),
     );
   };
   const ALLOWED_IMAGE_TYPES = [
@@ -2250,7 +2261,7 @@ const AddLisiting = () => {
     const validImages = files.filter((file) => {
       const isValidType = ALLOWED_IMAGE_TYPES.includes(file.type);
       const isValidExt = ALLOWED_EXTENSIONS.some((ext) =>
-        file.name.toLowerCase().endsWith(ext)
+        file.name.toLowerCase().endsWith(ext),
       );
 
       const isUnder2MB = file.size <= MAX_SIZE_MB * 1024 * 1024;
@@ -2286,7 +2297,7 @@ const AddLisiting = () => {
       try {
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
-          formData
+          formData,
         );
 
         if (response.data.secure_url) {
@@ -2328,7 +2339,7 @@ const AddLisiting = () => {
       try {
         const response = await axios.post(
           "https://api.cloudinary.com/v1_1/dv26wjoay/image/upload",
-          formData
+          formData,
         );
         setMediaImgLogo(response.data.secure_url);
         console.log("Image uploaded:", response.data);
@@ -2396,7 +2407,9 @@ const AddLisiting = () => {
         MySwal.fire({
           icon: "warning",
           title: t("addListing.missingInformation") || "Missing Information",
-          text: t("addListing.missingInformationMessage") || "Please fill in at least the title, category, or some details before generating a description.",
+          text:
+            t("addListing.missingInformationMessage") ||
+            "Please fill in at least the title, category, or some details before generating a description.",
         });
         return;
       }
@@ -2410,7 +2423,9 @@ const AddLisiting = () => {
       MySwal.fire({
         icon: "success",
         title: t("addListing.descriptionGenerated") || "Description Generated!",
-        text: t("addListing.descriptionGeneratedMessage") || "AI has created a description based on your listing details.",
+        text:
+          t("addListing.descriptionGeneratedMessage") ||
+          "AI has created a description based on your listing details.",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -2419,7 +2434,10 @@ const AddLisiting = () => {
       MySwal.fire({
         icon: "error",
         title: t("addListing.generationFailed") || "Generation Failed",
-        text: error.message || t("addListing.generationFailedMessage") || "Failed to generate description. Please try again.",
+        text:
+          error.message ||
+          t("addListing.generationFailedMessage") ||
+          "Failed to generate description. Please try again.",
       });
     } finally {
       setIsGeneratingDescription(false);
@@ -2939,7 +2957,7 @@ const AddLisiting = () => {
       setSaudinummsg("Phone number cannot exceed 13 digits");
     } else if (!phone.startsWith("+966") || phone.length !== 13) {
       setSaudinummsg(
-        "Please enter a valid Saudi Mobile Number (e.g., +9665XXXXXXXX)"
+        "Please enter a valid Saudi Mobile Number (e.g., +9665XXXXXXXX)",
       );
     } else {
       setSaudinummsg("");
@@ -4111,21 +4129,21 @@ const AddLisiting = () => {
   // Helper function to get category translation key
   const getCategoryTranslation = (categoryName) => {
     const categoryMap = {
-      "Motors": "addListing.categories.motors",
-      "Electronics": "addListing.categories.electronics",
+      Motors: "addListing.categories.motors",
+      Electronics: "addListing.categories.electronics",
       "Fashion Style": "addListing.categories.fashionStyle",
       "Health Care": "addListing.categories.healthCare",
       "Job Board": "addListing.categories.jobBoard",
-      "Education": "addListing.categories.education",
+      Education: "addListing.categories.education",
       "Real Estate": "addListing.categories.realEstate",
-      "Travel": "addListing.categories.travel",
+      Travel: "addListing.categories.travel",
       "Sports & Game": "addListing.categories.sportsGame",
-      "Magazines": "addListing.categories.magazines",
+      Magazines: "addListing.categories.magazines",
       "Pet & Animal": "addListing.categories.petAnimal",
-      "Household": "addListing.categories.household",
+      Household: "addListing.categories.household",
       "Home & Furniture": "addListing.categories.home",
-      "Services": "addListing.categories.services",
-      "Other": "addListing.categories.other"
+      Services: "addListing.categories.services",
+      Other: "addListing.categories.other",
     };
     return categoryMap[categoryName] || categoryName;
   };
@@ -4137,21 +4155,22 @@ const AddLisiting = () => {
       "Car Rental": "addListing.subcategories.carRental",
       "Plates Number": "addListing.subcategories.platesNumber",
       "Spare Parts": "addListing.subcategories.spareParts",
-      "Accessories": "addListing.subcategories.accessories",
+      Accessories: "addListing.subcategories.accessories",
       "Wheels & Rims": "addListing.subcategories.wheelsRims",
-      "Trucks & Heavy Machinery": "addListing.subcategories.trucksHeavyMachinery",
-      "Tshaleeh": "addListing.subcategories.tshaleeh",
-      "Recovery": "addListing.subcategories.recovery",
+      "Trucks & Heavy Machinery":
+        "addListing.subcategories.trucksHeavyMachinery",
+      Tshaleeh: "addListing.subcategories.tshaleeh",
+      Recovery: "addListing.subcategories.recovery",
       "Food Truck": "addListing.subcategories.foodTruck",
-      "Caravans": "addListing.subcategories.caravans",
-      "Reports": "addListing.subcategories.reports",
+      Caravans: "addListing.subcategories.caravans",
+      Reports: "addListing.subcategories.reports",
       "Car Cleaning": "addListing.subcategories.carCleaning",
       "Vehicle Services": "addListing.subcategories.vehicleServices",
       "Mobile Phones": "addListing.subcategories.mobilePhones",
-      "Smartphones": "addListing.subcategories.smartphones",
+      Smartphones: "addListing.subcategories.smartphones",
       "Computers & Laptops": "addListing.subcategories.computers",
-      "Tablets": "addListing.subcategories.tablets",
-      "Watches": "addListing.subcategories.watches",
+      Tablets: "addListing.subcategories.tablets",
+      Watches: "addListing.subcategories.watches",
       "Administrative Jobs": "addListing.subcategories.administrativeJobs",
       "Apartments for Rent": "addListing.subcategories.apartmentsForRent",
       "Apartments for Sale": "addListing.subcategories.apartmentsForSale",
@@ -4159,13 +4178,17 @@ const AddLisiting = () => {
       "Houses for Sale": "addListing.subcategories.housesForSale",
       "Other Services": "addListing.subcategories.otherServices",
       "Contracting Services": "addListing.subcategories.contractingServices",
-      "Government Paperwork Services": "addListing.subcategories.governmentPaperworkServices",
+      "Government Paperwork Services":
+        "addListing.subcategories.governmentPaperworkServices",
       "Delivery Services": "addListing.subcategories.deliveryServices",
-      "Furniture Moving Services": "addListing.subcategories.furnitureMovingServices",
+      "Furniture Moving Services":
+        "addListing.subcategories.furnitureMovingServices",
       "Cleaning Services": "addListing.subcategories.cleaningServices",
-      "International Shopping Services": "addListing.subcategories.internationalShoppingServices",
+      "International Shopping Services":
+        "addListing.subcategories.internationalShoppingServices",
       "Legal Services": "addListing.subcategories.legalServices",
-      "Accounting & Financial Services": "addListing.subcategories.accountingFinancialServices"
+      "Accounting & Financial Services":
+        "addListing.subcategories.accountingFinancialServices",
     };
     return subcategoryMap[subcategoryName] || subcategoryName;
   };
@@ -4173,53 +4196,53 @@ const AddLisiting = () => {
   // Helper function to translate common field labels
   const translateLabel = (label) => {
     const labelMap = {
-      "New": t("addListing.new"),
-      "Used": t("addListing.used"),
-      "Manual": t("addListing.manual"),
+      New: t("addListing.new"),
+      Used: t("addListing.used"),
+      Manual: t("addListing.manual"),
       "GCC Specs": t("addListing.gccSpecs"),
       "Japanese Specs": t("addListing.japaneseSpecs"),
       "American Specs": t("addListing.americanSpecs"),
       "European Specs": t("addListing.europeanSpecs"),
-      "Petrol": t("addListing.petrol"),
-      "Electric": t("addListing.electric"),
-      "LPG": t("addListing.lpg"),
-      "Diesel": t("addListing.diesel"),
-      "Hybrid": t("addListing.hybrid"),
-      "CNG": t("addListing.cng"),
+      Petrol: t("addListing.petrol"),
+      Electric: t("addListing.electric"),
+      LPG: t("addListing.lpg"),
+      Diesel: t("addListing.diesel"),
+      Hybrid: t("addListing.hybrid"),
+      CNG: t("addListing.cng"),
       "Comprehensive Insurance": t("addListing.comprehensiveInsurance"),
       "Third-Party Insurance": t("addListing.thirdPartyInsurance"),
       "No Insurance": t("addListing.noInsurance"),
-      "White": t("addListing.white"),
-      "Grey": t("addListing.grey"),
-      "Yellow": t("addListing.yellow"),
-      "Black": t("addListing.black"),
-      "Red": t("addListing.red"),
-      "Sell": t("addListing.sell"),
-      "Rent": t("addListing.rent"),
-      "Wanted": t("addListing.wanted"),
-      "Coupe": t("addListing.coupe"),
+      White: t("addListing.white"),
+      Grey: t("addListing.grey"),
+      Yellow: t("addListing.yellow"),
+      Black: t("addListing.black"),
+      Red: t("addListing.red"),
+      Sell: t("addListing.sell"),
+      Rent: t("addListing.rent"),
+      Wanted: t("addListing.wanted"),
+      Coupe: t("addListing.coupe"),
       "Sedan (Saloon)": t("addListing.sedan"),
-      "SUV": t("addListing.suv"),
-      "Hatchback": t("addListing.hatchback"),
-      "Convertible": t("addListing.convertible"),
+      SUV: t("addListing.suv"),
+      Hatchback: t("addListing.hatchback"),
+      Convertible: t("addListing.convertible"),
       "Wagon (Estate)": t("addListing.wagonEstate"),
       "Pickup Truck": t("addListing.pickupTruck"),
-      "Crossover": t("addListing.crossover"),
+      Crossover: t("addListing.crossover"),
       "Minivan (MPV)": t("addListing.minivanMPV"),
-      "Roadster": t("addListing.roadster"),
-      "Fastback": t("addListing.fastback"),
-      "Liftback": t("addListing.liftback"),
-      "Van": t("addListing.van"),
-      "Microcar": t("addListing.microcar"),
-      "Cash": t("addListing.cash"),
-      "Mortgage": t("addListing.mortgage"),
+      Roadster: t("addListing.roadster"),
+      Fastback: t("addListing.fastback"),
+      Liftback: t("addListing.liftback"),
+      Van: t("addListing.van"),
+      Microcar: t("addListing.microcar"),
+      Cash: t("addListing.cash"),
+      Mortgage: t("addListing.mortgage"),
       "Installments without bank": t("addListing.installmentsWithoutBank"),
-      "Dealers": t("addListing.dealers"),
-      "Individuals": t("addListing.individuals"),
+      Dealers: t("addListing.dealers"),
+      Individuals: t("addListing.individuals"),
       "Full option": t("addListing.fullOption"),
       "Sunroof/Moonroof": t("addListing.sunroofMoonroof"),
       "Touchscreen Display": t("addListing.touchscreenDisplay"),
-      "Insured": t("addListing.insured"),
+      Insured: t("addListing.insured"),
       "Leather Seats": t("addListing.leatherSeats"),
       "Apple CarPlay/Android Auto": t("addListing.appleCarPlay"),
       "Self Parking": t("addListing.selfParking"),
@@ -4228,24 +4251,26 @@ const AddLisiting = () => {
       "Alarm System": t("addListing.alarmSystem"),
       "Heated Seats": t("addListing.heatedSeats"),
       "Tow Package": t("addListing.towPackage"),
-      "Dealership": t("addListing.dealership"),
+      Dealership: t("addListing.dealership"),
       "Keyless Entry": t("addListing.keylessEntry"),
       "Power Liftgate": t("addListing.powerLiftgate"),
       "Quick Selling": t("addListing.quickSelling"),
       "Remote Start": t("addListing.remoteStart"),
       "Head-Up Display": t("addListing.headUpDisplay"),
-      "Navigation": t("addListing.navigation"),
+      Navigation: t("addListing.navigation"),
       "Adaptive Cruise Control": t("addListing.adaptiveCruiseControl"),
       "Rain-Sensing Wipers": t("addListing.rainSensingWipers"),
-      "Temperature Controlled Seats": t("addListing.temperatureControlledSeats"),
+      "Temperature Controlled Seats": t(
+        "addListing.temperatureControlledSeats",
+      ),
       "Lane Departure Warning": t("addListing.laneDepartureWarning"),
       "Automatic Emergency Braking": t("addListing.automaticEmergencyBraking"),
-      "Inspected": t("addListing.inspected"),
+      Inspected: t("addListing.inspected"),
       "Blind Spot Monitoring": t("addListing.blindSpotMonitoring"),
       "Ambient Lighting": t("addListing.ambientLighting"),
       "Parking Sensors": t("addListing.parkingSensors"),
       "Premium Sound System": t("addListing.premiumSoundSystem"),
-      "Bluetooth": t("addListing.bluetooth"),
+      Bluetooth: t("addListing.bluetooth"),
       "All-Wheel Drive": t("addListing.allWheelDrive"),
     };
     return labelMap[label] || label;
@@ -4266,7 +4291,7 @@ const AddLisiting = () => {
     }));
 
     const selectedCategory = subcategoriesMapping.categories.find(
-      (category) => category.name === selectedValue
+      (category) => category.name === selectedValue,
     );
 
     if (selectedCategory) {
@@ -4274,7 +4299,7 @@ const AddLisiting = () => {
         selectedCategory.subcategories.map((sub) => ({
           value: sub.name,
           label: t(getSubcategoryTranslation(sub.name)),
-        }))
+        })),
       );
     } else {
       setSubcategories([]);
@@ -4677,13 +4702,13 @@ const AddLisiting = () => {
     // Update iframe URL whenever the latitude or longitude changes
     if (formData.latitude && formData.longitude) {
       setMapUrl(
-        `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.6461688381!2d${formData.longitude}!3d${formData.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9a862f9831459%3A0xafcb9384c02e8b75!2s8697%20Stirling%20Rd%2C%20Cooper%20City%2C%20FL%2033328%2C%20USA`
+        `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.6461688381!2d${formData.longitude}!3d${formData.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9a862f9831459%3A0xafcb9384c02e8b75!2s8697%20Stirling%20Rd%2C%20Cooper%20City%2C%20FL%2033328%2C%20USA`,
       );
     }
   }, [formData.latitude, formData.longitude]);
 
   const [mapUrl, setMapUrl] = useState(
-    `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.6461688381!2d${formData.longitude}!3d${formData.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9a862f9831459%3A0xafcb9384c02e8b75!2s8697%20Stirling%20Rd%2C%20Cooper%20City%2C%20FL%2033328%2C%20USA`
+    `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3584.6461688381!2d${formData.longitude}!3d${formData.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9a862f9831459%3A0xafcb9384c02e8b75!2s8697%20Stirling%20Rd%2C%20Cooper%20City%2C%20FL%2033328%2C%20USA`,
   );
 
   const geocodeAddress = (address) => {
@@ -4714,7 +4739,11 @@ const AddLisiting = () => {
   // Helper function to check if subcategory is land/plot type
   const isLandOrPlotType = () => {
     const subCat = (Category?.SubCategory || "").toLowerCase();
-    return subCat.includes("land") || subCat.includes("plot") || subCat.includes("farm");
+    return (
+      subCat.includes("land") ||
+      subCat.includes("plot") ||
+      subCat.includes("farm")
+    );
   };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -4746,7 +4775,10 @@ const AddLisiting = () => {
           }}
         >
           <div className="container">
-            <div className="">
+            <div
+              className=""
+              style={{ display: window.innerWidth < 768 ? "none" : "block" }}
+            >
               <ul className="dashborad-menus">
                 <li>
                   <Link to="/dashboard">
@@ -4788,7 +4820,7 @@ const AddLisiting = () => {
                 <li>
                   <Link to="/login">
                     <TbLogout2 />
-                    <span>{t('common.logout')}</span>
+                    <span>{t("common.logout")}</span>
                   </Link>
                 </li>
               </ul>
@@ -4823,7 +4855,9 @@ const AddLisiting = () => {
                         marginBottom: "10px",
                       }}
                     >
-                      <h4 style={{ margin: "0" }}>{t("addListing.mediaInformation")}</h4>
+                      <h4 style={{ margin: "0" }}>
+                        {t("addListing.mediaInformation")}
+                      </h4>
                     </div>
 
                     <div
@@ -4931,7 +4965,9 @@ const AddLisiting = () => {
                           marginTop: "-2rem",
                         }}
                       >
-                        {uploading ? "Uploading..." : t("addListing.uploadFiles")}
+                        {uploading
+                          ? "Uploading..."
+                          : t("addListing.uploadFiles")}
                       </label>
                       <p
                         style={{
@@ -4963,10 +4999,18 @@ const AddLisiting = () => {
                     }}
                   >
                     <div className="container mt-3 p-0">
-                      <div className="row" style={{ direction: 'ltr', display: 'flex' }}>
+                      <div
+                        className="row"
+                        style={{ direction: "ltr", display: "flex" }}
+                      >
                         {/* Region Select */}
-                        <div className="col-12 col-md-4 mb-3" style={{ order: 1 }}>
-                          <h6 className="mb-2">{t("addListing.selectRegion")}</h6>
+                        <div
+                          className="col-12 col-md-4 mb-3"
+                          style={{ order: 1 }}
+                        >
+                          <h6 className="mb-2">
+                            {t("addListing.selectRegion")}
+                          </h6>
                           <WindowedSelect
                             options={regionOptions}
                             onChange={handleChangeRegion}
@@ -4975,7 +5019,7 @@ const AddLisiting = () => {
                             isSearchable
                             value={
                               regionOptions.find(
-                                (r) => r.regionId === selectedRegionId
+                                (r) => r.regionId === selectedRegionId,
                               ) || null
                             }
                           />
@@ -4990,7 +5034,10 @@ const AddLisiting = () => {
                         </div>
 
                         {/* City Select */}
-                        <div className="col-12 col-md-4 mb-3" style={{ order: 2 }}>
+                        <div
+                          className="col-12 col-md-4 mb-3"
+                          style={{ order: 2 }}
+                        >
                           <h6 className="mb-2">{t("addListing.selectCity")}</h6>
                           <WindowedSelect
                             options={cityOptions}
@@ -5000,7 +5047,7 @@ const AddLisiting = () => {
                             isSearchable
                             value={
                               cityOptions.find(
-                                (c) => c.CITY_ID === selectedCityData.cityId
+                                (c) => c.CITY_ID === selectedCityData.cityId,
                               ) || null
                             }
                           />
@@ -5015,8 +5062,13 @@ const AddLisiting = () => {
                         </div>
 
                         {/* District Select */}
-                        <div className="col-12 col-md-4 mb-3" style={{ order: 3 }}>
-                          <h6 className="mb-2">{t("addListing.selectDistrict")}</h6>
+                        <div
+                          className="col-12 col-md-4 mb-3"
+                          style={{ order: 3 }}
+                        >
+                          <h6 className="mb-2">
+                            {t("addListing.selectDistrict")}
+                          </h6>
                           <WindowedSelect
                             options={districtOptions}
                             onChange={handleDistrictChange}
@@ -5026,7 +5078,7 @@ const AddLisiting = () => {
                             value={
                               districtOptions.find(
                                 (d) =>
-                                  d.District_ID === selectedDistrict.districtId
+                                  d.District_ID === selectedDistrict.districtId,
                               ) || null
                             }
                           />{" "}
@@ -5077,7 +5129,12 @@ const AddLisiting = () => {
                         >
                           <div
                             className="d-flex flex-column flex-md-row justify-content-between gap-2"
-                            style={{ width: "100%", marginTop: "-1rem", direction: 'ltr', display: 'flex' }}
+                            style={{
+                              width: "100%",
+                              marginTop: "-1rem",
+                              direction: "ltr",
+                              display: "flex",
+                            }}
                           >
                             <div className="w-100 w-md-50" style={{ order: 1 }}>
                               <div className="form-group">
@@ -5089,7 +5146,7 @@ const AddLisiting = () => {
                                     options={categoryOptions}
                                     value={categoryOptions.find(
                                       (option) =>
-                                        option.value === formData.category
+                                        option.value === formData.category,
                                     )}
                                     onChange={handleCategoryChange}
                                     className="basic-single"
@@ -5114,13 +5171,15 @@ const AddLisiting = () => {
                                     value={
                                       subcategories.find(
                                         (option) =>
-                                          option.value === formData.SubCategory
+                                          option.value === formData.SubCategory,
                                       ) || null
                                     } // ✅ Set null when not found to clear it visually
                                     onChange={handleSubcategoryChange}
                                     className="basic-single"
                                     classNamePrefix="select"
-                                    placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                    placeholder={t(
+                                      "addListing.selectSubcategoryPlaceholder",
+                                    )}
                                   />
                                   {/* <Select
                                   options={subcategories}
@@ -5158,12 +5217,14 @@ const AddLisiting = () => {
                                       value={SpareParts.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5184,12 +5245,14 @@ const AddLisiting = () => {
                                       value={TrucksHeavyMachinery.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5209,12 +5272,14 @@ const AddLisiting = () => {
                                       value={BoatsJetSki.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5234,12 +5299,14 @@ const AddLisiting = () => {
                                       value={MobilePhones.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5259,12 +5326,14 @@ const AddLisiting = () => {
                                       value={TabletDevices.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5284,12 +5353,14 @@ const AddLisiting = () => {
                                       value={VideoGames.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5311,12 +5382,14 @@ const AddLisiting = () => {
                                       value={AccountsSubscriptions.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5337,12 +5410,14 @@ const AddLisiting = () => {
                                       value={SpecialNumber.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5364,12 +5439,14 @@ const AddLisiting = () => {
                                       value={HomeKitchenAppliance.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5389,12 +5466,14 @@ const AddLisiting = () => {
                                       value={Watches.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5414,12 +5493,14 @@ const AddLisiting = () => {
                                       value={PerfumesIncense.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5440,12 +5521,14 @@ const AddLisiting = () => {
                                       value={Cameras.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5465,12 +5548,14 @@ const AddLisiting = () => {
                                       value={SportsEquipment.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5490,12 +5575,14 @@ const AddLisiting = () => {
                                       value={MenFashion.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5515,12 +5602,14 @@ const AddLisiting = () => {
                                       value={WomenFashion.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5541,12 +5630,14 @@ const AddLisiting = () => {
                                       value={ChildrenClothingAccessories.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5566,12 +5657,14 @@ const AddLisiting = () => {
                                       value={HealthBeauty.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5591,12 +5684,14 @@ const AddLisiting = () => {
                                       value={AdministrativeJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5617,12 +5712,14 @@ const AddLisiting = () => {
                                       value={FashionBeautyJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5643,12 +5740,14 @@ const AddLisiting = () => {
                                       value={SecuritySafetyJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5668,12 +5767,14 @@ const AddLisiting = () => {
                                       value={ITDesignJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5694,12 +5795,14 @@ const AddLisiting = () => {
                                       value={AgricultureFarmingJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5719,12 +5822,14 @@ const AddLisiting = () => {
                                       value={IndustrialJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5746,12 +5851,14 @@ const AddLisiting = () => {
                                       value={MedicalNursingJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5772,12 +5879,14 @@ const AddLisiting = () => {
                                       value={ArchitectureConstructionJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5797,12 +5906,14 @@ const AddLisiting = () => {
                                       value={HousekeepingJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5822,12 +5933,14 @@ const AddLisiting = () => {
                                       value={RestaurantJobs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5847,12 +5960,14 @@ const AddLisiting = () => {
                                       value={Sheep.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5872,12 +5987,14 @@ const AddLisiting = () => {
                                       value={Goats.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5897,12 +6014,14 @@ const AddLisiting = () => {
                                       value={Parrot.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5922,12 +6041,14 @@ const AddLisiting = () => {
                                       value={DovePigeon.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5947,12 +6068,14 @@ const AddLisiting = () => {
                                       value={Cats.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5972,12 +6095,14 @@ const AddLisiting = () => {
                                       value={Chickens.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -5997,12 +6122,14 @@ const AddLisiting = () => {
                                       value={Camels.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6022,12 +6149,14 @@ const AddLisiting = () => {
                                       value={Horses.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6048,12 +6177,14 @@ const AddLisiting = () => {
                                       value={Dogs.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6074,12 +6205,14 @@ const AddLisiting = () => {
                                       value={Cows.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6099,12 +6232,14 @@ const AddLisiting = () => {
                                       value={Hamsters.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6124,12 +6259,14 @@ const AddLisiting = () => {
                                       value={Squirrels.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6149,12 +6286,14 @@ const AddLisiting = () => {
                                       value={Ducks.find(
                                         (option) =>
                                           option.value ===
-                                          formData.NestedSubCategory
+                                          formData.NestedSubCategory,
                                       )}
                                       onChange={SparePartsChange}
                                       className="basic-single"
                                       classNamePrefix="select"
-                                      placeholder={t("addListing.selectSubcategoryPlaceholder")}
+                                      placeholder={t(
+                                        "addListing.selectSubcategoryPlaceholder",
+                                      )}
                                     />
                                   </div>
                                 </div>
@@ -6182,7 +6321,7 @@ const AddLisiting = () => {
                         ].some(
                           (item) =>
                             item === Category.SubCategory ||
-                            item === DataCatorgySHow
+                            item === DataCatorgySHow,
                         ) ? (
                           <>
                             <div className="add_type_block">
@@ -6193,9 +6332,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -6312,7 +6460,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             <div className="basic_info_wrap gap-2">
@@ -8037,7 +8185,10 @@ const AddLisiting = () => {
                                             name: "Automatic",
                                             label: t("addListing.automatic"),
                                           },
-                                          { name: "Manual", label: t("addListing.manual") },
+                                          {
+                                            name: "Manual",
+                                            label: t("addListing.manual"),
+                                          },
                                         ].map((feature) => (
                                           <li key={feature.name}>
                                             <label className="custom_check">
@@ -8078,7 +8229,10 @@ const AddLisiting = () => {
                                             name: "Used",
                                             label: translateLabel("Used"),
                                           },
-                                          { name: "Manual", label: translateLabel("Manual") },
+                                          {
+                                            name: "Manual",
+                                            label: translateLabel("Manual"),
+                                          },
                                         ].map((feature) => (
                                           <li key={feature.name}>
                                             <label className="custom_check">
@@ -8112,7 +8266,10 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "GCC", label: translateLabel("GCC Specs") },
+                                      {
+                                        name: "GCC",
+                                        label: translateLabel("GCC Specs"),
+                                      },
                                       {
                                         name: "American",
                                         label: translateLabel("American Specs"),
@@ -8155,12 +8312,30 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "petrol", label: translateLabel("Petrol") },
-                                      { name: "diesel", label: translateLabel("Diesel") },
-                                      { name: "electric", label: translateLabel("Electric") },
-                                      { name: "hybrid", label: translateLabel("Hybrid") },
-                                      { name: "lpg", label: translateLabel("LPG") },
-                                      { name: "cng", label: translateLabel("CNG") },
+                                      {
+                                        name: "petrol",
+                                        label: translateLabel("Petrol"),
+                                      },
+                                      {
+                                        name: "diesel",
+                                        label: translateLabel("Diesel"),
+                                      },
+                                      {
+                                        name: "electric",
+                                        label: translateLabel("Electric"),
+                                      },
+                                      {
+                                        name: "hybrid",
+                                        label: translateLabel("Hybrid"),
+                                      },
+                                      {
+                                        name: "lpg",
+                                        label: translateLabel("LPG"),
+                                      },
+                                      {
+                                        name: "cng",
+                                        label: translateLabel("CNG"),
+                                      },
                                     ].map((spec) => (
                                       <li key={spec.name}>
                                         <label className="custom_check">
@@ -8168,7 +8343,7 @@ const AddLisiting = () => {
                                             type="checkbox"
                                             name={spec.name}
                                             checked={formData.Fueltype.includes(
-                                              spec.name
+                                              spec.name,
                                             )}
                                             onChange={handleFueltype}
                                           />
@@ -8192,11 +8367,15 @@ const AddLisiting = () => {
                                     {[
                                       {
                                         name: "Comprehensive",
-                                        label: translateLabel("Comprehensive Insurance"),
+                                        label: translateLabel(
+                                          "Comprehensive Insurance",
+                                        ),
                                       },
                                       {
                                         name: "ThirdParty",
-                                        label: translateLabel("Third-Party Insurance"),
+                                        label: translateLabel(
+                                          "Third-Party Insurance",
+                                        ),
                                       },
                                       {
                                         name: "No Insurance",
@@ -8265,11 +8444,26 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "White", label: translateLabel("White") },
-                                      { name: "Black", label: translateLabel("Black") },
-                                      { name: "Grey", label: translateLabel("Grey") },
-                                      { name: "Red", label: translateLabel("Red") },
-                                      { name: "Yellow", label: translateLabel("Yellow") },
+                                      {
+                                        name: "White",
+                                        label: translateLabel("White"),
+                                      },
+                                      {
+                                        name: "Black",
+                                        label: translateLabel("Black"),
+                                      },
+                                      {
+                                        name: "Grey",
+                                        label: translateLabel("Grey"),
+                                      },
+                                      {
+                                        name: "Red",
+                                        label: translateLabel("Red"),
+                                      },
+                                      {
+                                        name: "Yellow",
+                                        label: translateLabel("Yellow"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8300,9 +8494,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8332,11 +8535,26 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "White", label: translateLabel("White") },
-                                      { name: "Black", label: translateLabel("Black") },
-                                      { name: "Grey", label: translateLabel("Grey") },
-                                      { name: "Red", label: translateLabel("Red") },
-                                      { name: "Yellow", label: translateLabel("Yellow") },
+                                      {
+                                        name: "White",
+                                        label: translateLabel("White"),
+                                      },
+                                      {
+                                        name: "Black",
+                                        label: translateLabel("Black"),
+                                      },
+                                      {
+                                        name: "Grey",
+                                        label: translateLabel("Grey"),
+                                      },
+                                      {
+                                        name: "Red",
+                                        label: translateLabel("Red"),
+                                      },
+                                      {
+                                        name: "Yellow",
+                                        label: translateLabel("Yellow"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8370,7 +8588,10 @@ const AddLisiting = () => {
                                         name: "fullOption",
                                         label: translateLabel("Full option"),
                                       },
-                                      { name: "insured", label: translateLabel("Insured") },
+                                      {
+                                        name: "insured",
+                                        label: translateLabel("Insured"),
+                                      },
                                       {
                                         name: "selfParking",
                                         label: translateLabel("Self Parking"),
@@ -8393,17 +8614,27 @@ const AddLisiting = () => {
                                       },
                                       {
                                         name: "temperatureSeats",
-                                        label: translateLabel("Temperature Controlled Seats"),
+                                        label: translateLabel(
+                                          "Temperature Controlled Seats",
+                                        ),
                                       },
-                                      { name: "inspected", label: translateLabel("Inspected") },
+                                      {
+                                        name: "inspected",
+                                        label: translateLabel("Inspected"),
+                                      },
                                       {
                                         name: "parkingSensors",
-                                        label: translateLabel("Parking Sensors"),
+                                        label:
+                                          translateLabel("Parking Sensors"),
                                       },
-                                      { name: "bluetooth", label: translateLabel("Bluetooth") },
+                                      {
+                                        name: "bluetooth",
+                                        label: translateLabel("Bluetooth"),
+                                      },
                                       {
                                         name: "sunroof",
-                                        label: translateLabel("Sunroof/Moonroof"),
+                                        label:
+                                          translateLabel("Sunroof/Moonroof"),
                                       },
                                       {
                                         name: "leatherSeats",
@@ -8427,28 +8658,44 @@ const AddLisiting = () => {
                                       },
                                       {
                                         name: "adaptiveCruise",
-                                        label: translateLabel("Adaptive Cruise Control"),
+                                        label: translateLabel(
+                                          "Adaptive Cruise Control",
+                                        ),
                                       },
                                       {
                                         name: "laneDeparture",
-                                        label: translateLabel("Lane Departure Warning"),
+                                        label: translateLabel(
+                                          "Lane Departure Warning",
+                                        ),
                                       },
                                       {
                                         name: "blindSpot",
-                                        label: translateLabel("Blind Spot Monitoring"),
+                                        label: translateLabel(
+                                          "Blind Spot Monitoring",
+                                        ),
                                       },
                                       {
                                         name: "premiumSound",
-                                        label: translateLabel("Premium Sound System"),
+                                        label: translateLabel(
+                                          "Premium Sound System",
+                                        ),
                                       },
-                                      { name: "awd", label: translateLabel("All-Wheel Drive") },
+                                      {
+                                        name: "awd",
+                                        label:
+                                          translateLabel("All-Wheel Drive"),
+                                      },
                                       {
                                         name: "touchscreen",
-                                        label: translateLabel("Touchscreen Display"),
+                                        label: translateLabel(
+                                          "Touchscreen Display",
+                                        ),
                                       },
                                       {
                                         name: "carPlay",
-                                        label: translateLabel("Apple CarPlay/Android Auto"),
+                                        label: translateLabel(
+                                          "Apple CarPlay/Android Auto",
+                                        ),
                                       },
                                       {
                                         name: "ledHeadlights",
@@ -8464,19 +8711,25 @@ const AddLisiting = () => {
                                       },
                                       {
                                         name: "headUpDisplay",
-                                        label: translateLabel("Head-Up Display"),
+                                        label:
+                                          translateLabel("Head-Up Display"),
                                       },
                                       {
                                         name: "rainWipers",
-                                        label: translateLabel("Rain-Sensing Wipers"),
+                                        label: translateLabel(
+                                          "Rain-Sensing Wipers",
+                                        ),
                                       },
                                       {
                                         name: "emergencyBraking",
-                                        label: translateLabel("Automatic Emergency Braking"),
+                                        label: translateLabel(
+                                          "Automatic Emergency Braking",
+                                        ),
                                       },
                                       {
                                         name: "ambientLighting",
-                                        label: translateLabel("Ambient Lighting"),
+                                        label:
+                                          translateLabel("Ambient Lighting"),
                                       },
                                     ].map((feature) => (
                                       <li key={feature.name}>
@@ -8485,7 +8738,7 @@ const AddLisiting = () => {
                                             type="checkbox"
                                             name={feature.name}
                                             checked={formData.AdditionalFeatures?.includes(
-                                              feature.name
+                                              feature.name,
                                             )}
                                             onChange={handleAdditionalFeatures}
                                           />
@@ -8508,7 +8761,10 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-2">
                                     {[
-                                      { name: "Dealers", label: translateLabel("Dealers") },
+                                      {
+                                        name: "Dealers",
+                                        label: translateLabel("Dealers"),
+                                      },
                                       {
                                         name: "Individuals",
                                         label: translateLabel("Individuals"),
@@ -8543,11 +8799,19 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Cash", label: translateLabel("Cash") },
-                                      { name: "Mortgage", label: translateLabel("Mortgage") },
+                                      {
+                                        name: "Cash",
+                                        label: translateLabel("Cash"),
+                                      },
+                                      {
+                                        name: "Mortgage",
+                                        label: translateLabel("Mortgage"),
+                                      },
                                       {
                                         name: "Installments without bank",
-                                        label: translateLabel("Installments without bank"),
+                                        label: translateLabel(
+                                          "Installments without bank",
+                                        ),
                                       },
                                     ].map((area) => (
                                       <li key={area.name}>
@@ -8556,7 +8820,8 @@ const AddLisiting = () => {
                                             type="checkbox"
                                             name={area.name}
                                             checked={
-                                              formData.PaymentMethod === area.name
+                                              formData.PaymentMethod ===
+                                              area.name
                                             }
                                             onChange={handlePaymentMethodChange}
                                           />
@@ -8664,7 +8929,6 @@ const AddLisiting = () => {
                                       { name: "5", label: "5" },
                                       { name: "2", label: "2" },
                                       { name: "3", label: "3" },
-                  
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8747,13 +9011,22 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Coupe", label: translateLabel("Coupe") },
+                                      {
+                                        name: "Coupe",
+                                        label: translateLabel("Coupe"),
+                                      },
                                       {
                                         name: "Sedan (Saloon)",
                                         label: translateLabel("Sedan (Saloon)"),
                                       },
-                                      { name: "SUV", label: translateLabel("SUV") },
-                                      { name: "Hatchback", label: translateLabel("Hatchback") },
+                                      {
+                                        name: "SUV",
+                                        label: translateLabel("SUV"),
+                                      },
+                                      {
+                                        name: "Hatchback",
+                                        label: translateLabel("Hatchback"),
+                                      },
                                       {
                                         name: "Convertible",
                                         label: translateLabel("Convertible"),
@@ -8766,16 +9039,34 @@ const AddLisiting = () => {
                                         name: "Pickup Truck",
                                         label: translateLabel("Pickup Truck"),
                                       },
-                                      { name: "Crossover", label: translateLabel("Crossover") },
+                                      {
+                                        name: "Crossover",
+                                        label: translateLabel("Crossover"),
+                                      },
                                       {
                                         name: "Minivan (MPV)",
                                         label: translateLabel("Minivan (MPV)"),
                                       },
-                                      { name: "Roadster", label: translateLabel("Roadster") },
-                                      { name: "Fastback", label: translateLabel("Fastback") },
-                                      { name: "Liftback", label: translateLabel("Liftback") },
-                                      { name: "Van", label: translateLabel("Van") },
-                                      { name: "Microcar", label: translateLabel("Microcar") },
+                                      {
+                                        name: "Roadster",
+                                        label: translateLabel("Roadster"),
+                                      },
+                                      {
+                                        name: "Fastback",
+                                        label: translateLabel("Fastback"),
+                                      },
+                                      {
+                                        name: "Liftback",
+                                        label: translateLabel("Liftback"),
+                                      },
+                                      {
+                                        name: "Van",
+                                        label: translateLabel("Van"),
+                                      },
+                                      {
+                                        name: "Microcar",
+                                        label: translateLabel("Microcar"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8840,7 +9131,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             <div className="add_type_block">
@@ -8851,9 +9142,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -8935,7 +9235,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             <div className="add_type_block">
@@ -8946,9 +9246,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -9025,7 +9334,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {" "}
@@ -9424,7 +9733,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {" "}
@@ -9703,7 +10012,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {" "}
@@ -9825,9 +10134,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -9928,57 +10246,57 @@ const AddLisiting = () => {
                             {/* Number of Rooms - Hide for land/plot properties */}
                             {!isLandOrPlotType() && (
                               <div className="numroom_block">
-                              <div className="card-header">
-                                <h4>Number of rooms </h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "1 Bedroom",
-                                        label: "1 Bedroom",
-                                      },
-                                      {
-                                        name: "2 Bedroom",
-                                        label: "2 Bedroom",
-                                      },
-                                      {
-                                        name: "3 Bedroom",
-                                        label: "3 Bedroom",
-                                      },
-                                      {
-                                        name: "4 Bedroom",
-                                        label: "4 Bedroom",
-                                      },
-                                      {
-                                        name: "5 Bedroom",
-                                        label: "5 Bedroom",
-                                      },
-                                      {
-                                        name: "5+ Bedrooms",
-                                        label: "5+ Bedrooms",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.Bedroom === area.name
-                                            }
-                                            onChange={handleBedroomChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                                <div className="card-header">
+                                  <h4>Number of rooms </h4>
                                 </div>
-                              </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "1 Bedroom",
+                                          label: "1 Bedroom",
+                                        },
+                                        {
+                                          name: "2 Bedroom",
+                                          label: "2 Bedroom",
+                                        },
+                                        {
+                                          name: "3 Bedroom",
+                                          label: "3 Bedroom",
+                                        },
+                                        {
+                                          name: "4 Bedroom",
+                                          label: "4 Bedroom",
+                                        },
+                                        {
+                                          name: "5 Bedroom",
+                                          label: "5 Bedroom",
+                                        },
+                                        {
+                                          name: "5+ Bedrooms",
+                                          label: "5+ Bedrooms",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.Bedroom === area.name
+                                              }
+                                              onChange={handleBedroomChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
+                                </div>
                               </div>
                             )}
                             {/* Number of Bathrooms - Hide for land/plot properties */}
@@ -9987,54 +10305,54 @@ const AddLisiting = () => {
                                 <div className="card-header">
                                   <h4>Number of bathrooms </h4>
                                 </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "1 bathrooms",
-                                        label: "1 bathrooms",
-                                      },
-                                      {
-                                        name: "2 bathrooms",
-                                        label: "2 bathrooms",
-                                      },
-                                      {
-                                        name: "3 bathrooms",
-                                        label: "3 bathrooms",
-                                      },
-                                      {
-                                        name: "4 bathrooms",
-                                        label: "4 bathrooms",
-                                      },
-                                      {
-                                        name: "5 bathrooms",
-                                        label: "5 bathrooms",
-                                      },
-                                      {
-                                        name: "5+ bathroomss",
-                                        label: "5+ bathroomss",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.bathrooms === area.name
-                                            }
-                                            onChange={handlebathroomsChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "1 bathrooms",
+                                          label: "1 bathrooms",
+                                        },
+                                        {
+                                          name: "2 bathrooms",
+                                          label: "2 bathrooms",
+                                        },
+                                        {
+                                          name: "3 bathrooms",
+                                          label: "3 bathrooms",
+                                        },
+                                        {
+                                          name: "4 bathrooms",
+                                          label: "4 bathrooms",
+                                        },
+                                        {
+                                          name: "5 bathrooms",
+                                          label: "5 bathrooms",
+                                        },
+                                        {
+                                          name: "5+ bathroomss",
+                                          label: "5+ bathroomss",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.bathrooms === area.name
+                                              }
+                                              onChange={handlebathroomsChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
                                 </div>
-                              </div>
                               </div>
                             )}
                             <div className="area_block">
@@ -10134,65 +10452,65 @@ const AddLisiting = () => {
                             {/* Facade - Hide for land/plot properties */}
                             {!isLandOrPlotType() && (
                               <div className="facade_block">
-                              <div className="card-header">
-                                <h4>Facade </h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "East Facing",
-                                        label: "East Facing",
-                                      },
-                                      {
-                                        name: "West Facing",
-                                        label: "West Facing",
-                                      },
-                                      {
-                                        name: "North Facing",
-                                        label: "North Facing",
-                                      },
-                                      {
-                                        name: "South Facing",
-                                        label: "South Facing",
-                                      },
-                                      {
-                                        name: "North-East Facing",
-                                        label: "North-East Facing",
-                                      },
-                                      {
-                                        name: "North-West Facing",
-                                        label: "North-West Facing",
-                                      },
-                                      {
-                                        name: "South-East Facing",
-                                        label: "South-East Facing",
-                                      },
-                                      {
-                                        name: "South-West Facing",
-                                        label: "South-West Facing",
-                                      },
-                                    ].map((area) => (
-                                      <li key={area.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={area.name}
-                                            checked={
-                                              formData.Facade === area.name
-                                            }
-                                            onChange={handleFacadeChange}
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {area.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                                <div className="card-header">
+                                  <h4>Facade </h4>
                                 </div>
-                              </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "East Facing",
+                                          label: "East Facing",
+                                        },
+                                        {
+                                          name: "West Facing",
+                                          label: "West Facing",
+                                        },
+                                        {
+                                          name: "North Facing",
+                                          label: "North Facing",
+                                        },
+                                        {
+                                          name: "South Facing",
+                                          label: "South Facing",
+                                        },
+                                        {
+                                          name: "North-East Facing",
+                                          label: "North-East Facing",
+                                        },
+                                        {
+                                          name: "North-West Facing",
+                                          label: "North-West Facing",
+                                        },
+                                        {
+                                          name: "South-East Facing",
+                                          label: "South-East Facing",
+                                        },
+                                        {
+                                          name: "South-West Facing",
+                                          label: "South-West Facing",
+                                        },
+                                      ].map((area) => (
+                                        <li key={area.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={area.name}
+                                              checked={
+                                                formData.Facade === area.name
+                                              }
+                                              onChange={handleFacadeChange}
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {area.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
+                                </div>
                               </div>
                             )}
                             {!isLandOrPlotType() && (
@@ -10212,8 +10530,12 @@ const AddLisiting = () => {
                                         }))
                                       }
                                     >
-                                      <option value="">Select Street Width</option>
-                                      <option value="Less than 5m">Less than 5m</option>
+                                      <option value="">
+                                        Select Street Width
+                                      </option>
+                                      <option value="Less than 5m">
+                                        Less than 5m
+                                      </option>
                                       <option value="5–10m">5–10m</option>
                                       <option value="10–15m">10–15m</option>
                                       <option value="15–20m">15–20m</option>
@@ -10410,42 +10732,42 @@ const AddLisiting = () => {
                             {/* Condition - Hide for land/plot properties */}
                             {!isLandOrPlotType() && (
                               <div className="condition_block">
-                              <div className="card-header">
-                                <h4>{t("addListing.condition")}</h4>
-                              </div>
-                              <div className="card-body">
-                                <div className="form-group featuresform-list mb-0">
-                                  <ul className="colu-3">
-                                    {[
-                                      {
-                                        name: "New",
-                                        label: "New",
-                                      },
-                                      {
-                                        name: "Used",
-                                        label: "Used",
-                                      },
-                                    ].map((feature) => (
-                                      <li key={feature.name}>
-                                        <label className="custom_check">
-                                          <input
-                                            type="checkbox"
-                                            name={feature.name}
-                                            checked={
-                                              formData.Condition ===
-                                              feature.name
-                                            }
-                                            onChange={handleCondition} // ✅ Fixed function name
-                                          />
-                                          <span className="checkmark" />{" "}
-                                          {feature.label}
-                                        </label>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <div className="clearfix" />
+                                <div className="card-header">
+                                  <h4>{t("addListing.condition")}</h4>
                                 </div>
-                              </div>
+                                <div className="card-body">
+                                  <div className="form-group featuresform-list mb-0">
+                                    <ul className="colu-3">
+                                      {[
+                                        {
+                                          name: "New",
+                                          label: "New",
+                                        },
+                                        {
+                                          name: "Used",
+                                          label: "Used",
+                                        },
+                                      ].map((feature) => (
+                                        <li key={feature.name}>
+                                          <label className="custom_check">
+                                            <input
+                                              type="checkbox"
+                                              name={feature.name}
+                                              checked={
+                                                formData.Condition ===
+                                                feature.name
+                                              }
+                                              onChange={handleCondition} // ✅ Fixed function name
+                                            />
+                                            <span className="checkmark" />{" "}
+                                            {feature.label}
+                                          </label>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="clearfix" />
+                                  </div>
+                                </div>
                               </div>
                             )}
                             {/* Property Age - Hide for land/plot properties */}
@@ -10497,7 +10819,8 @@ const AddLisiting = () => {
                                               type="checkbox"
                                               name={area.name}
                                               checked={
-                                                formData.PropertyAge === area.name
+                                                formData.PropertyAge ===
+                                                area.name
                                               }
                                               onChange={handlePropertyAgeChange}
                                             />
@@ -10640,7 +10963,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {" "}
@@ -10840,7 +11163,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {/* <div className="card">
@@ -11194,9 +11517,18 @@ const AddLisiting = () => {
                                 <div className="form-group featuresform-list mb-0">
                                   <ul className="colu-3">
                                     {[
-                                      { name: "Sell", label: translateLabel("Sell") },
-                                      { name: "Rent", label: translateLabel("Rent") },
-                                      { name: "Wanted", label: translateLabel("Wanted") },
+                                      {
+                                        name: "Sell",
+                                        label: translateLabel("Sell"),
+                                      },
+                                      {
+                                        name: "Rent",
+                                        label: translateLabel("Rent"),
+                                      },
+                                      {
+                                        name: "Wanted",
+                                        label: translateLabel("Wanted"),
+                                      },
                                     ].map((area) => (
                                       <li key={area.name}>
                                         <label className="custom_check">
@@ -11320,7 +11652,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {" "}
@@ -11792,7 +12124,7 @@ const AddLisiting = () => {
                           ].some(
                             (item) =>
                               item === Category.SubCategory ||
-                              item === DataCatorgySHow
+                              item === DataCatorgySHow,
                           ) ? (
                           <>
                             {/* <div className="card">
@@ -12614,7 +12946,14 @@ const AddLisiting = () => {
 
                     <div className="card-body">
                       <div className="form-group mt-3">
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "10px",
+                          }}
+                        >
                           <label
                             className="col-form-label"
                             style={{
@@ -12644,16 +12983,53 @@ const AddLisiting = () => {
                               </>
                             ) : (
                               <>
-                                <svg className="sparkle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg
+                                  className="sparkle-icon"
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
                                   <defs>
-                                    <linearGradient id="sparkleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                      <stop offset="0%" style={{stopColor: '#06b6d4', stopOpacity: 1}} />
-                                      <stop offset="50%" style={{stopColor: '#8b5cf6', stopOpacity: 1}} />
-                                      <stop offset="100%" style={{stopColor: '#ec4899', stopOpacity: 1}} />
+                                    <linearGradient
+                                      id="sparkleGradient"
+                                      x1="0%"
+                                      y1="0%"
+                                      x2="100%"
+                                      y2="100%"
+                                    >
+                                      <stop
+                                        offset="0%"
+                                        style={{
+                                          stopColor: "#06b6d4",
+                                          stopOpacity: 1,
+                                        }}
+                                      />
+                                      <stop
+                                        offset="50%"
+                                        style={{
+                                          stopColor: "#8b5cf6",
+                                          stopOpacity: 1,
+                                        }}
+                                      />
+                                      <stop
+                                        offset="100%"
+                                        style={{
+                                          stopColor: "#ec4899",
+                                          stopOpacity: 1,
+                                        }}
+                                      />
                                     </linearGradient>
                                   </defs>
-                                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#sparkleGradient)"/>
-                                  <path d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z" fill="url(#sparkleGradient)"/>
+                                  <path
+                                    d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"
+                                    fill="url(#sparkleGradient)"
+                                  />
+                                  <path
+                                    d="M19 4L19.5 5.5L21 6L19.5 6.5L19 8L18.5 6.5L17 6L18.5 5.5L19 4Z"
+                                    fill="url(#sparkleGradient)"
+                                  />
                                 </svg>
                                 <span>{t("addListing.writeWithAI")}</span>
                               </>
@@ -12704,7 +13080,6 @@ const AddLisiting = () => {
                         )}
                       </div>
                     </div>
-                    
                   </div>
                   <div className="" style={{ borderRadius: "0 0 6px 6px" }}>
                     <div className="card-header">
@@ -12714,7 +13089,10 @@ const AddLisiting = () => {
                       <div className="form-group featuresform-list mb-0">
                         <ul className="colu-2">
                           {[
-                            { name: "Featured Ads", label: t("addListing.featuredAds") },
+                            {
+                              name: "Featured Ads",
+                              label: t("addListing.featuredAds"),
+                            },
                             {
                               name: "Not Featured Ads",
                               label: t("addListing.notFeaturedAds"),
