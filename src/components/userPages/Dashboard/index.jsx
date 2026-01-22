@@ -479,10 +479,15 @@ const Dashboard = () => {
       const collectionsCount = await Promise.all(
         collectionNames.map(async (collectionName) => {
           const collectionRef = collection(db, collectionName);
+          // ⚠️ IMPORTANT: REVERSED LOGIC DUE TO BACKEND BUG
+          // Backend carousel endpoints return isActive !== true (inactive), so we store:
+          // - isActive: false = "Active/Enabled" listings ✅
+          // - isActive: true = "Not Active/Disabled" listings ❌
+          // TODO: Fix backend, then change this to where("isActive", "==", true)
           const q = query(
             collectionRef,
             where("userId", "==", auth.currentUser.uid),
-            where("isActive", "==", true)
+            where("isActive", "==", false) // REVERSED: Counting false = Active
           );
           const activeSnapshotCount = (await getDocs(q)).size;
           console.log("totallistings", activeSnapshotCount);

@@ -76,6 +76,17 @@ export default function AutomativeCarousel() {
     setSubcategories(cats);
   }, []);
 
+  // ⚠️ IMPORTANT: NO FILTERING HERE - Backend returns wrong data due to bug
+  // The backend carousel endpoint at /route/carsCarousal filters and returns listings
+  // where isActive !== true (inactive) instead of isActive === true (active).
+  //
+  // WORKAROUND: The entire app uses REVERSED isActive logic to work with this bug:
+  // - New listings are created with isActive: false (meaning "Active/Enabled")
+  // - Backend returns these listings (because it looks for isActive !== true)
+  // - We display them without additional filtering here
+  //
+  // TODO: When backend bug is fixed, update AddListing.jsx, MyListing.jsx, and Dashboard.jsx
+  //
   // Fetch ads from API
   useEffect(() => {
     const fetchAds = async () => {
@@ -86,7 +97,7 @@ export default function AutomativeCarousel() {
         const data = await response.json();
         if (!response.ok) return;
         console.log(data, "data from carsCarousal");
-        setAds(data); // Set the state with API data
+        setAds(data); // Set the state with API data (no filtering needed - see comment above)
         setLoading(false); // Stop loading
       } catch (error) {
         console.error("Error fetching ads from API:", error);

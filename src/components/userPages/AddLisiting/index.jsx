@@ -2005,7 +2005,17 @@ const AddLisiting = () => {
 
             userId: user.uid,
             createdAt: new Date(),
-            isActive: true, // Set listing as active by default
+            // ⚠️ IMPORTANT: REVERSED LOGIC DUE TO BACKEND BUG
+            // The backend carousel endpoints (at http://168.231.80.24:9002) have a bug where they return
+            // listings with isActive !== true (inactive listings) instead of isActive === true (active listings).
+            //
+            // WORKAROUND: We set isActive: false for new listings so they appear in home carousels.
+            // - isActive: false = "Active/Enabled" (will show in carousels) ✅
+            // - isActive: true = "Not Active/Disabled" (hidden from carousels) ❌
+            //
+            // TODO: Fix backend carousel endpoints in route.js to return active listings,
+            // then change this back to isActive: true
+            isActive: false, // REVERSED: false = Active (due to backend bug)
           });
           console.log("Data added successfully to Firestore!");
           MySwal.fire({

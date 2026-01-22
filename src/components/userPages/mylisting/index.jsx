@@ -474,6 +474,28 @@ const MyListe = () => {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
+  // ⚠️⚠️⚠️ IMPORTANT: ALL isActive LOGIC IN THIS FILE IS REVERSED ⚠️⚠️⚠️
+  //
+  // REASON: Backend carousel endpoints (at http://168.231.80.24:9002/route/*Carousal) have a bug.
+  // They filter and return listings where isActive !== true (inactive listings) instead of active ones.
+  //
+  // WORKAROUND: We reversed the meaning of isActive throughout the application:
+  // - isActive: false = "Active/Enabled" (shows in carousels, UI shows as Active) ✅
+  // - isActive: true = "Not Active/Disabled" (hidden from carousels, UI shows as Not Active) ❌
+  //
+  // This affects:
+  // - Status display: Shows "Active" when isActive === false
+  // - Link states: Links are enabled when isActive === false, disabled when true
+  // - Button appearance: Blue/unlocked when false, gray/locked when true
+  // - Toggle function: Toggles between false (active) and true (inactive)
+  //
+  // TODO: When backend is fixed to return active listings (isActive === true),
+  // revert ALL logic in this file:
+  // 1. Status: {record.isActive ? "Active" : "Not Active"}
+  // 2. Links: {!record.isActive ? "#" : "url"}
+  // 3. Styles: {!record.isActive ? "disabled" : "enabled"}
+  // 4. Toggle button: backgroundColor when isActive === true
+  //
   const columns = [
     {
       title: t("myListing.image"),
@@ -485,7 +507,7 @@ const MyListe = () => {
               console.log(record.category, "record.category_______");
             }}
             to={
-              !record.isActive
+              record.isActive
                 ? "#"
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
@@ -512,9 +534,10 @@ const MyListe = () => {
                   )}`
             }
             style={{
-              pointerEvents: !record.isActive ? "none" : "auto",
-              opacity: !record.isActive ? 0.5 : 1,
-              cursor: !record.isActive ? "not-allowed" : "pointer",
+              // REVERSED: Image link disabled when true (Not Active), enabled when false (Active)
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <img
@@ -543,7 +566,7 @@ const MyListe = () => {
           <h6>
             <Link
               to={
-                !record.isActive
+                record.isActive
                   ? "#"
                   : `/Dynamic_Route?id=${
                       record.id
@@ -572,9 +595,9 @@ const MyListe = () => {
                     )}`
               }
               style={{
-                pointerEvents: !record.isActive ? "none" : "auto",
-                opacity: !record.isActive ? 0.5 : 1,
-                cursor: !record.isActive ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "none" : "auto",
+                opacity: record.isActive ? 0.5 : 1,
+                cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
               {text}
@@ -583,7 +606,7 @@ const MyListe = () => {
           <div className="listingtable-rate">
             <Link
               to={
-                !record.isActive
+                record.isActive
                   ? "#"
                   : `/Dynamic_Route?id=${
                       record.id
@@ -613,9 +636,9 @@ const MyListe = () => {
               }
               className="cat-icon"
               style={{
-                pointerEvents: !record.isActive ? "none" : "auto",
-                opacity: !record.isActive ? 0.5 : 1,
-                cursor: !record.isActive ? "not-allowed" : "pointer",
+                pointerEvents: record.isActive ? "none" : "auto",
+                opacity: record.isActive ? 0.5 : 1,
+                cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
               <FaRegStopCircle />
@@ -644,7 +667,8 @@ const MyListe = () => {
       dataIndex: "status",
       render: (text, record) => (
         <span className={record.bg}>
-          {record.isActive ? t("myListing.active") : t("myListing.notActive")}
+          {/* REVERSED: false = Active, true = Not Active (see comment at top of columns) */}
+          {!record.isActive ? t("myListing.active") : t("myListing.notActive")}
         </span>
       ),
       sorter: (a, b) => (a.status?.length || 0) - (b.status?.length || 0),
@@ -658,14 +682,15 @@ const MyListe = () => {
               <div
                 className="invoice-cell"
                 onClick={() => {
-                  if (record.isActive) {
+                  // REVERSED: Invoice clickable when false (Active), disabled when true (Not Active)
+                  if (!record.isActive) {
                     setSelectedInvoice(record);
                     setShowInvoiceModal(true);
                   }
                 }}
                 style={{
-                  cursor: !record.isActive ? "not-allowed" : "pointer",
-                  opacity: !record.isActive ? 0.5 : 1,
+                  cursor: record.isActive ? "not-allowed" : "pointer",
+                  opacity: record.isActive ? 0.5 : 1,
                 }}
               >
                 <div>
@@ -694,7 +719,8 @@ const MyListe = () => {
       render: (text, record) => (
         <div
           className={text}
-          title={record.isActive ? "View Item" : "Not Active"}
+          // REVERSED: "View Item" when false (Active), "Not Active" when true
+          title={!record.isActive ? "View Item" : "Not Active"}
           style={{
             display: "flex",
             gap: "10px",
@@ -731,23 +757,24 @@ const MyListe = () => {
             }
             className="action-btn btn-view"
             onClick={() => {
-              if (record.isActive) {
+              // REVERSED: View enabled when false (Active), disabled when true (Not Active)
+              if (!record.isActive) {
                 viewItem(record.id, formatCategory(record.category));
               }
             }}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: !record.isActive ? "none" : "auto",
-              opacity: !record.isActive ? 0.5 : 1,
-              cursor: !record.isActive ? "not-allowed" : "pointer",
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <FaRegEye />
           </Link>
           <Link
             to={
-              !record.isActive
+              record.isActive
                 ? "#"
                 : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
                     record.category
@@ -758,18 +785,20 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              pointerEvents: !record.isActive ? "none" : "auto",
-              opacity: !record.isActive ? 0.5 : 1,
-              cursor: !record.isActive ? "not-allowed" : "pointer",
+              // REVERSED: Edit enabled when false (Active), disabled when true (Not Active)
+              pointerEvents: record.isActive ? "none" : "auto",
+              opacity: record.isActive ? 0.5 : 1,
+              cursor: record.isActive ? "not-allowed" : "pointer",
             }}
           >
             <i className="feather-edit-3" />
           </Link>
           <button
             className={`action-btn ${
-              record.isActive ? "btn-enabled" : "btn-disabled"
+              !record.isActive ? "btn-enabled" : "btn-disabled"
             }`}
             onClick={() => {
+              // REVERSED: Toggles between false (Active) and true (Not Active)
               toggleDisable(
                 record.id,
                 formatCategory(record.category),
@@ -780,17 +809,19 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              backgroundColor: record.isActive ? "#2d4495" : "#cccccc",
+              // REVERSED: Blue when false (Active), gray when true (Not Active)
+              backgroundColor: !record.isActive ? "#2d4495" : "#cccccc",
               color: "#ffffff",
               cursor: "pointer",
               border: "none",
               padding: "5px 10px",
               borderRadius: "4px",
             }}
-            title={record.isActive ? "Disable Item" : "Enable Item"}
+            title={!record.isActive ? "Disable Item" : "Enable Item"}
           >
             <i
-              className={record.isActive ? "feather-unlock" : "feather-lock"}
+              // REVERSED: Unlocked when false (Active), locked when true (Not Active)
+              className={!record.isActive ? "feather-unlock" : "feather-lock"}
             />
           </button>
         </div>
