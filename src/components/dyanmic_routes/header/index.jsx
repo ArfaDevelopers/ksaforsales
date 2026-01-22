@@ -126,7 +126,7 @@ const Header = ({ parms }) => {
                 >
                   <Offcanvas.Header className="border-bottom">
                     <Offcanvas.Title className="fs-5 fw-bold">
-                      Contrast Light
+                      Menu
                     </Offcanvas.Title>
                     <FaTimes
                       className="close-icon"
@@ -217,6 +217,97 @@ const Header = ({ parms }) => {
                         >
                           New
                         </span>
+                      </NavLink>
+
+                      {/* My Account Section */}
+                      <div className="sidebar-section-divider mt-3 mb-2">
+                        <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
+                          MY ACCOUNT
+                        </span>
+                      </div>
+                      <NavLink
+                        to="/dashboard"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Dashboard</span>
+                      </NavLink>
+                      <NavLink
+                        to="/my-profile"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Profile</span>
+                      </NavLink>
+                      <NavLink
+                        to="/my-listing"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">My Listing</span>
+                      </NavLink>
+                      <NavLink
+                        to="/BookMark"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Bookmarks</span>
+                      </NavLink>
+                      <NavLink
+                        to="/messages"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Messages</span>
+                      </NavLink>
+
+                      {/* Ksa4sale Section */}
+                      <div className="sidebar-section-divider mt-3 mb-2">
+                        <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
+                          KSA4SALE
+                        </span>
+                      </div>
+                      <NavLink
+                        to="/about"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">About Us</span>
+                      </NavLink>
+                      <NavLink
+                        to="/terms-condition"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Terms & Conditions</span>
+                      </NavLink>
+                      <NavLink
+                        to="/privacy-policy"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Privacy Policy</span>
+                      </NavLink>
+                      <NavLink
+                        to="/copy_right_text"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Copyrights</span>
+                      </NavLink>
+
+                      {/* Useful Links Section */}
+                      <div className="sidebar-section-divider mt-3 mb-2">
+                        <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
+                          USEFUL LINKS
+                        </span>
+                      </div>
+                      <NavLink
+                        to="/blog-list"
+                        className="sidebar-item d-flex align-items-center"
+                      >
+                        <FaStickyNote className="sidebar-icon me-2" />
+                        <span className="fw-semibold">Blog</span>
                       </NavLink>
                     </nav>
                     <div className="sidebar-footer text-center py-3 mt-3 border-top">
