@@ -433,6 +433,10 @@ const MyListe = () => {
         `Firestore updated: ${id} in ${tableName} to isActive=${isActive}`
       );
 
+      // Set flag to invalidate search page cache
+      sessionStorage.setItem("listing_status_changed", Date.now().toString());
+      console.log("✅ Set listing_status_changed flag for cache invalidation");
+
       // Update local state
       setFilteredCars((prevData) => {
         const updated = prevData.map((item) =>

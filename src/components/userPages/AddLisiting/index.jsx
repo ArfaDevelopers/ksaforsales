@@ -2018,6 +2018,11 @@ const AddLisiting = () => {
             isActive: false, // REVERSED: false = Active (due to backend bug)
           });
           console.log("Data added successfully to Firestore!");
+
+          // Set flag to invalidate search page cache
+          sessionStorage.setItem("listing_status_changed", Date.now().toString());
+          console.log("✅ Set listing_status_changed flag for new listing");
+
           MySwal.fire({
             title: "Added!",
             text: "Your listing has been added.",
