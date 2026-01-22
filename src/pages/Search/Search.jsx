@@ -510,11 +510,12 @@ const Search = () => {
         const cachedData = sessionStorage.getItem(cacheKey);
         const cachedTime = sessionStorage.getItem(cacheTimestamp);
 
-        // Check if there's a pending bookmark change or listing status change - if so, skip cache
+        // Check if there's a pending bookmark change, listing status change, or profile photo update - if so, skip cache
         const hasPendingBookmarkChange = sessionStorage.getItem("last_bookmark_change") !== null;
         const hasListingStatusChange = sessionStorage.getItem("listing_status_changed") !== null;
+        const hasProfilePhotoUpdate = sessionStorage.getItem("profile_photo_updated") !== null;
 
-        if (cachedData && cachedTime && !hasPendingBookmarkChange && !hasListingStatusChange) {
+        if (cachedData && cachedTime && !hasPendingBookmarkChange && !hasListingStatusChange && !hasProfilePhotoUpdate) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             await new Promise(resolve => setTimeout(resolve, 400));
@@ -527,6 +528,14 @@ const Search = () => {
           }
         } else if (hasPendingBookmarkChange) {
           console.log("⚡ Pending bookmark change detected, skipping cache");
+        } else if (hasProfilePhotoUpdate) {
+          console.log("⚡ Profile photo updated, clearing cache and reloading");
+          sessionStorage.removeItem("profile_photo_updated");
+          Object.keys(sessionStorage).forEach(key => {
+            if (key.startsWith("ads_")) {
+              sessionStorage.removeItem(key);
+            }
+          });
         } else if (hasListingStatusChange) {
           console.log("⚡ Listing status changed, clearing cache and reloading");
           // Clear the flag after detecting it

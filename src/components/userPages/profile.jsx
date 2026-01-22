@@ -22,6 +22,9 @@ import {
   doc,
   setDoc,
   getDoc,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import { getDatabase, ref, get, child } from "firebase/database";
 
@@ -104,6 +107,56 @@ const Profile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
 
+  // All collections that store user listings with photoURL
+  const ALL_LISTING_COLLECTIONS = [
+    "Cars",
+    "ELECTRONICS",
+    "TRAVEL",
+    "Education",
+    "PETANIMALCOMP",
+    "SPORTSGAMESComp",
+    "FASHION",
+    "JOBBOARD",
+    "REALESTATECOMP",
+    "HEALTHCARE",
+    "ComercialsAds",
+  ];
+
+  // Function to update photoURL in all user's listings across all collections
+  const updatePhotoURLInAllListings = async (userId, newPhotoURL) => {
+    try {
+      const updatePromises = ALL_LISTING_COLLECTIONS.map(async (collectionName) => {
+        const listingsRef = collection(db, collectionName);
+        const q = query(listingsRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        const updateOps = querySnapshot.docs.map((docSnapshot) => {
+          return updateDoc(doc(db, collectionName, docSnapshot.id), {
+            photoURL: newPhotoURL,
+          });
+        });
+
+        return Promise.all(updateOps);
+      });
+
+      await Promise.all(updatePromises);
+
+      // Clear the search cache so updated photos appear immediately
+      Object.keys(sessionStorage).forEach((key) => {
+        if (key.startsWith("ads_")) {
+          sessionStorage.removeItem(key);
+        }
+      });
+
+      // Set a flag to force the search page to reload fresh data
+      sessionStorage.setItem("profile_photo_updated", Date.now().toString());
+
+      console.log("Updated photoURL in all user listings");
+    } catch (error) {
+      console.error("Error updating photoURL in listings:", error);
+    }
+  };
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -130,6 +183,9 @@ const Profile = () => {
       if (user) {
         const userDocRef = doc(db, "users", user.uid);
         await updateDoc(userDocRef, { photoURL: imageURL });
+
+        // Update photoURL in all user's existing listings
+        await updatePhotoURLInAllListings(user.uid, imageURL);
 
         Swal.fire({
           title: "Success",
@@ -159,6 +215,9 @@ const Profile = () => {
       await updateDoc(userDocRef, {
         photoURL: "",
       });
+
+      // Update photoURL in all user's existing listings (set to empty)
+      await updatePhotoURLInAllListings(user.uid, "");
 
       setphotoURL("");
 
@@ -412,6 +471,9 @@ const Profile = () => {
         },
         { merge: true }
       );
+
+      // Sync photoURL and displayName in all user's existing listings
+      await updatePhotoURLInAllListings(auth.currentUser.uid, photoURL);
 
       console.log("Profile updated successfully!");
       Swal.fire({
