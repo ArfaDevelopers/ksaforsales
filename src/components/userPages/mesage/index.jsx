@@ -13,24 +13,28 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/FirebaseConfig";
 import {
-  Row,
-  Col,
-  Button,
-  Form,
-  InputGroup,
-  Alert,
-  Container,
-} from "react-bootstrap";
-import { FaPaperPlane } from "react-icons/fa";
+  FaPaperPlane,
+  FaArrowLeft,
+  FaSearch,
+  FaTimes,
+  FaEllipsisV,
+  FaPlus,
+  FaPaperclip,
+  FaCamera,
+  FaVideo,
+  FaPhone
+} from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 import Header from "../../home/header";
 import Footer from "../../home/footer/Footer";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { FaUserAlt, FaListUl, FaHeart, FaBullhorn } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import "./whatsapp-chat.css";
 
 export default function Message() {
   const { t } = useTranslation();
@@ -42,37 +46,40 @@ export default function Message() {
   const [unreadCounts, setUnreadCounts] = useState({});
   const dummy = useRef();
   const navigate = useNavigate();
-  const location = useLocation();
-  const [productData, setProductData] = useState(null); // 🔹 Step 1: State for product data
+  const [productData, setProductData] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 992);
+  const [showChatList, setShowChatList] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("all");
 
-  console.log(productData, "No such __messagesmessages");
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 992);
+      if (window.innerWidth > 992) {
+        setShowChatList(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const messageWithProductId = messages.find((msg) => msg.productIds);
     if (messageWithProductId) {
-      console.log("Product ID:", messageWithProductId.productIds);
-
       fetch("http://168.231.80.24:9002/api/dataofmessager", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: messageWithProductId.productIds }),
       })
         .then((res) => res.json())
-        .then((data) => {
-          setProductData(data); // 🔹 Step 2: Set product data in state
-          console.log("Filtered product data:", data);
-        })
-        .catch((error) => {
-          console.error("Error fetching product data:", error);
-        });
+        .then((data) => setProductData(data))
+        .catch((error) => console.error("Error fetching product data:", error));
     }
   }, [messages]);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      console.log("User logged out successfully!");
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error.message);
@@ -84,11 +91,9 @@ export default function Message() {
     return () => unsub();
   }, []);
 
-  // Track which messages have been seen by the current user
   useEffect(() => {
     if (!user || !selected) return;
 
-    // Mark messages as seen when opening a chat
     const updateSeenStatus = async () => {
       const messagesToUpdate = messages.filter(
         (msg) => msg.recieverId === user.uid && !msg.seen
@@ -104,7 +109,6 @@ export default function Message() {
     updateSeenStatus();
   }, [selected, messages, user]);
 
-  // Fetch and track unread counts for each conversation
   useEffect(() => {
     if (!user) return;
 
@@ -116,12 +120,10 @@ export default function Message() {
           ...doc.data(),
         }));
 
-        // Filter messages that belong to current user
         const userMessages = allMessages.filter(
           (msg) => msg.uid === user.uid || msg.recieverId === user.uid
         );
 
-        // Calculate unread counts per conversation
         const counts = {};
         userMessages.forEach((msg) => {
           const otherUserId = msg.uid === user.uid ? msg.recieverId : msg.uid;
@@ -133,7 +135,6 @@ export default function Message() {
 
         setUnreadCounts(counts);
 
-        // Get unique chat partners
         const chatPartners = [
           ...new Set(
             userMessages.map((msg) =>
@@ -142,27 +143,48 @@ export default function Message() {
           ),
         ];
 
-        // Fetch user data
         const fetchUsers = async () => {
           const usersSnapshot = await getDocs(collection(db, "users"));
           const usersMap = {};
           usersSnapshot.forEach((doc) => {
             const u = doc.data();
-            usersMap[u.uid] = u.fullName || u.name || "Unknown";
+            usersMap[doc.id] = u.displayName || u.fullName || u.name || "Unknown";
+          });
+
+          // Get last message for each chat
+          const lastMessages = {};
+          chatPartners.forEach((partnerId) => {
+            const partnerMessages = userMessages.filter(
+              (msg) =>
+                (msg.uid === user.uid && msg.recieverId === partnerId) ||
+                (msg.uid === partnerId && msg.recieverId === user.uid)
+            );
+            if (partnerMessages.length > 0) {
+              lastMessages[partnerId] =
+                partnerMessages[partnerMessages.length - 1];
+            }
           });
 
           const userList = chatPartners.map((uid) => ({
             id: uid,
             name: usersMap[uid] || "Unknown",
             unread: counts[uid] || 0,
+            lastMessage: lastMessages[uid]?.text || "",
+            lastMessageTime: lastMessages[uid]?.createdAt,
           }));
+
+          // Sort by last message time
+          userList.sort((a, b) => {
+            if (!a.lastMessageTime) return 1;
+            if (!b.lastMessageTime) return -1;
+            return b.lastMessageTime.seconds - a.lastMessageTime.seconds;
+          });
 
           setChatUsers(userList);
         };
 
         fetchUsers();
 
-        // Update current chat messages if needed
         if (selected) {
           const filtered = allMessages.filter(
             (msg) =>
@@ -185,26 +207,58 @@ export default function Message() {
       uid: user.uid,
       recieverId: selected.id,
       text: input.trim(),
-      name: user.fullName || user.displayName || "Anonymous",
+      name: user.displayName || user.email || "Anonymous",
       createdAt: serverTimestamp(),
-      seen: false, // New messages are unread by default
+      seen: false,
     });
     setInput("");
+    setTimeout(() => dummy.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
-  const formatTime = (ts) =>
-    ts?.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const formatTime = (ts) => {
+    if (!ts) return "";
+    const date = ts.toDate();
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const formatListTime = (ts) => {
+    if (!ts) return "";
+    const date = ts.toDate();
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+
+    if (isToday) {
+      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (date.toDateString() === yesterday.toDateString()) {
+      return "Yesterday";
+    }
+
+    return date.toLocaleDateString([], { month: "short", day: "numeric" });
+  };
+
+  const handleChatSelect = (chatUser) => {
+    setSelected(chatUser);
+    if (isMobile) {
+      setShowChatList(false);
+    }
+  };
+
+  const handleBack = () => {
+    setShowChatList(true);
+    setSelected(null);
+  };
 
   return (
     <>
-      <Header />
+      {(!isMobile || showChatList) && <Header />}
 
-      <div
-        className="dashboard-content"
-        style={{ marginTop: "5rem", paddingBottom: "0px" }}
-      >
-        <div className="container">
-          <div className="">
+      {(!isMobile || showChatList) && (
+        <div className="dashboard-content" style={{ marginTop: "5rem" }}>
+          <div className="container">
             <ul className="dashborad-menus">
               <li>
                 <Link to="/dashboard">
@@ -245,60 +299,150 @@ export default function Message() {
             </ul>
           </div>
         </div>
-      </div>
-      <Container className="mb-3">
-        <Row className="gap-3 gap-lg-0">
-          {/* Sidebar */}
-          <Col lg={3}>
-            <div className="chats_btn_wrap_main">
-              <h5 className="chat_heading">{t("messages.chats")}</h5>
-              <div className="chat_btns_wrap">
-                {chatUsers.length === 0 ? (
-                  <Alert>{t("messages.noChatsYet")}</Alert>
-                ) : (
-                  chatUsers.map((u) => (
-                    <Button
-                      key={u.id}
-                      variant={
-                        selected?.id === u.id ? "primary" : "outline-primary"
-                      }
-                      className="w-100 text-start mb-2 d-flex justify-content-between align-items-center"
-                      onClick={() => setSelected(u)}
-                    >
-                      <span>{u.name}</span>
-                      {u.unread > 0 && (
-                        <span className="badge bg-danger rounded-pill">
-                          {u.unread}
-                        </span>
-                      )}
-                    </Button>
-                  ))
-                )}
-              </div>
+      )}
+
+      <div className={`whatsapp-chat-container ${isMobile ? "mobile" : ""}`}>
+        {/* Chat List */}
+        <div className={`chat-list-panel ${isMobile && !showChatList ? "hidden" : ""}`}>
+          <div className="chat-list-header">
+            <h2>{t("messages.chats")}</h2>
+          </div>
+
+          {/* Search Bar */}
+          <div className="chat-search-container">
+            <div className="chat-search-bar">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search or start new chat"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button
+                  className="clear-search-btn"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                >
+                  <FaTimes />
+                </button>
+              )}
             </div>
-          </Col>
+          </div>
 
-          {/* Main Chat Area */}
-          <Col lg={9} className="d-flex flex-column">
-            <div className="chat_messages_main_wrap">
-              <div className="title_wrap">
-                <h5>{t("messages.chatWith")} {selected ? selected.name : "..."}</h5>
+          {/* Filter Tabs */}
+          <div className="chat-filter-tabs">
+            <button
+              className={`filter-tab ${activeTab === "all" ? "active" : ""}`}
+              onClick={() => setActiveTab("all")}
+            >
+              All
+            </button>
+            <button
+              className={`filter-tab ${activeTab === "unread" ? "active" : ""}`}
+              onClick={() => setActiveTab("unread")}
+            >
+              Unread
+            </button>
+          </div>
+
+          <div className="chat-list-body">
+            {chatUsers.length === 0 ? (
+              <div className="no-chats">
+                <p>{t("messages.noChatsYet")}</p>
+              </div>
+            ) : (() => {
+                let filteredChats = chatUsers;
+
+                // Apply tab filter
+                if (activeTab === "unread") {
+                  filteredChats = filteredChats.filter((chatUser) => chatUser.unread > 0);
+                }
+
+                // Apply search filter
+                if (searchQuery) {
+                  filteredChats = filteredChats.filter((chatUser) =>
+                    chatUser.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    chatUser.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
+                  );
+                }
+
+                if (filteredChats.length === 0) {
+                  return (
+                    <div className="no-chats">
+                      <p>No chats found matching "{searchQuery}"</p>
+                    </div>
+                  );
+                }
+
+                return filteredChats.map((chatUser) => (
+                <div
+                  key={chatUser.id}
+                  className={`chat-list-item ${selected?.id === chatUser.id ? "active" : ""}`}
+                  onClick={() => handleChatSelect(chatUser)}
+                >
+                  <div className="chat-avatar">
+                    {chatUser.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="chat-info">
+                    <div className="chat-header-row">
+                      <h4 className="chat-name">{chatUser.name}</h4>
+                      <span className="chat-time">
+                        {formatListTime(chatUser.lastMessageTime)}
+                      </span>
+                    </div>
+                    <div className="chat-preview-row">
+                      <p className="chat-preview">
+                        {chatUser.lastMessage.length > 40
+                          ? chatUser.lastMessage.substring(0, 40) + "..."
+                          : chatUser.lastMessage}
+                      </p>
+                      {chatUser.unread > 0 && (
+                        <span className="unread-badge">{chatUser.unread}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ));
+            })()}
+          </div>
+        </div>
+
+        {/* Conversation Panel */}
+        <div className={`conversation-panel ${isMobile && showChatList ? "hidden" : ""}`}>
+          {!selected ? (
+            <div className="no-chat-selected">
+              <p>{t("messages.selectChat")}</p>
+            </div>
+          ) : (
+            <>
+              {/* Chat Header */}
+              <div className="conversation-header">
+                {isMobile && (
+                  <button className="back-button" onClick={handleBack}>
+                    <FaArrowLeft />
+                  </button>
+                )}
+                <div className="chat-avatar">
+                  {selected.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="header-info">
+                  <h3>{selected.name}</h3>
+                </div>
               </div>
 
-              <div
-                className="flex-grow-1 p-3 bg-light overflow-auto"
-                style={{ height: "600px" }}
-              >
-                {!selected ? (
-                  <Alert>{t("messages.selectChat")}</Alert>
-                ) : messages.length === 0 ? (
-                  <Alert>{t("messages.noMessagesYet")}</Alert>
+              {/* Messages Area */}
+              <div className="messages-area">
+                {messages.length === 0 ? (
+                  <div className="no-messages">
+                    <p>{t("messages.noMessagesYet")}</p>
+                  </div>
                 ) : (
                   <>
-                    {/* 🔹 Product Data Display (only once) */}
+                    {/* Product Info Card */}
                     {productData && (
                       <div
-                        // onClick={() => navigate("/AutomotiveComp")}
+                        className="product-card"
                         onClick={() => {
                           navigate(
                             `/Dynamic_Route?id=${productData.id}&callingFrom=${
@@ -325,97 +469,65 @@ export default function Message() {
                                 : ""
                             }`
                           );
-                          console.log(
-                            "Product clickedcategory",
-                            productData.category
-                          );
                         }}
-                        className="mb-3 p-3 border bg-white rounded shadow-sm"
                       >
-                        <h6 className="mb-2 text-primary">
-                          📦 Linked Product Info
-                        </h6>
-                        <div>
-                          <strong>Title:</strong> {productData.title}
-                        </div>
-                        <div>
-                          <strong>Category:</strong> {productData.category}
-                        </div>
-                        <div>
-                          <strong>Price:</strong> {productData.Price}
-                        </div>
+                        <h6>📦 Linked Product</h6>
+                        <div><strong>Title:</strong> {productData.title}</div>
+                        <div><strong>Category:</strong> {productData.category}</div>
+                        <div><strong>Price:</strong> {productData.Price}</div>
                         {productData.galleryImages?.length > 0 && (
-                          <img
-                            src={productData.galleryImages[0]}
-                            alt="Product"
-                            style={{
-                              width: "120px",
-                              height: "auto",
-                              marginTop: "10px",
-                              borderRadius: "6px",
-                            }}
-                          />
+                          <img src={productData.galleryImages[0]} alt="Product" />
                         )}
                       </div>
                     )}
 
-                    {/* 🔹 Chat Messages */}
+                    {/* Messages */}
                     {messages.map((msg) => (
                       <div
                         key={msg.id}
-                        className={`d-flex mb-2 ${
-                          msg.uid === user.uid
-                            ? "justify-content-end"
-                            : "justify-content-start"
+                        className={`message-wrapper ${
+                          msg.uid === user.uid ? "sent" : "received"
                         }`}
                       >
-                        <div
-                          className={`p-2 rounded ${
-                            msg.uid === user.uid
-                              ? "bg-primary text-white"
-                              : "bg-white border"
-                          }`}
-                        >
-                          <div>
-                            <small className="fw-bold">{msg.name}</small>{" "}
-                            <small className="ms-2">
+                        <div className="message-bubble">
+                          <div className="message-text">{msg.text}</div>
+                          <div className="message-meta">
+                            <span className="message-time">
                               {formatTime(msg.createdAt)}
-                              {msg.uid !== user.uid && msg.seen && (
-                                <span className="ms-2">✓✓</span>
-                              )}
-                            </small>
+                            </span>
+                            {msg.uid === user.uid && msg.seen && (
+                              <span className="message-status">✓✓</span>
+                            )}
                           </div>
-                          <div>{msg.text}</div>
                         </div>
                       </div>
                     ))}
+                    <div ref={dummy} />
                   </>
                 )}
-
-                <div ref={dummy} />
               </div>
 
-              {/* Input Field */}
-              <div className="p-3 border-top bg-white">
-                <Form onSubmit={handleSend}>
-                  <InputGroup>
-                    <Form.Control
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="Type a message…"
-                      disabled={!selected}
-                    />
-                    <Button type="submit" disabled={!input.trim() || !selected}>
-                      <FaPaperPlane />
-                    </Button>
-                  </InputGroup>
-                </Form>
+              {/* Message Input */}
+              <div className="message-input-area">
+                <form onSubmit={handleSend}>
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type a message"
+                    disabled={!selected}
+                  />
+                  <button type="submit" className="send-btn" disabled={!input.trim() || !selected}>
+                    <IoSend />
+                  </button>
+                </form>
               </div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-      <Footer />
+            </>
+          )}
+        </div>
+      </div>
+
+      {(!isMobile || showChatList) && <Footer />}
     </>
   );
 }

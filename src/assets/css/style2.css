@@ -146,6 +146,11 @@
   width: 100%;
   z-index: 99;
   padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(0);
+}
+.mobile_header_bottom.mobile_nav_hidden {
+  transform: translateY(100%);
 }
 .mobile_header_bottom .mobile_nav ul {
   display: flex;
@@ -306,10 +311,13 @@
     padding: 170px 0 10px;
   }
   .parent-main.category {
-    margin-top: 7rem !important;
+    margin-top: 10rem !important;
   }
   .blue_btn.list_btn {
     width: auto !important;
+  }
+  .blue_btn.list_btn.categories {
+    width: 33% !important;
   }
   .blue_btn.list_btn svg {
     margin: 0 !important;

@@ -82,10 +82,10 @@ const cityCoordinates = {
 };
 
 // LocationMap Component using Dynamic Map Image
-const LocationMap = ({ city, district }) => {
-  console.log("LocationMap Rendered - City:", city, "District:", district);
-  
-  if (!city) {
+const LocationMap = ({ city, district, latitude, longitude }) => {
+  console.log("LocationMap Rendered - City:", city, "District:", district, "Lat:", latitude, "Lng:", longitude);
+
+  if (!city && !latitude && !longitude) {
     return (
       <div style={{
         width: "100%",
@@ -103,12 +103,20 @@ const LocationMap = ({ city, district }) => {
     );
   }
 
-  const coords = cityCoordinates[city] || { lat: 24.7136, lng: 46.6753 };
-  console.log("Using coordinates for", city, ":", coords);
+  // Prioritize listing's specific coordinates, then fall back to city lookup, then default to Riyadh
+  let coords;
+  if (latitude && longitude) {
+    coords = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
+    console.log("Using listing-specific coordinates:", coords);
+  } else {
+    coords = cityCoordinates[city] || { lat: 24.7136, lng: 46.6753 };
+    console.log("Using city lookup coordinates for", city, ":", coords);
+  }
+
   const padding = 0.05;
   const bbox = `${coords.lng - padding},${coords.lat - padding},${coords.lng + padding},${coords.lat + padding}`;
-  
-  // Dynamic URL for each city
+
+  // Dynamic URL for each location
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${coords.lat},${coords.lng}`;
   console.log("Map URL:", mapUrl);
   
@@ -5871,7 +5879,12 @@ console.log(
 <h4 className="mt-2 mb-2">{t("listing.location")}</h4>
 
 {!loading && itemData ? (
-  <LocationMap city={itemData?.City} district={itemData?.District} />
+  <LocationMap
+    city={itemData?.City}
+    district={itemData?.District}
+    latitude={itemData?.latitude}
+    longitude={itemData?.longitude}
+  />
 ) : loading ? (
   <div style={{ textAlign: "center", color: "#999", padding: "2rem 0" }}>
     Loading location...

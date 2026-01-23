@@ -504,18 +504,22 @@ const Search = () => {
         const currentCategory = categoryEnglishName;
         const cacheKey = currentCategory ? `ads_${currentCategory}` : "ads_all";
         const cacheTimestamp = `${cacheKey}_timestamp`;
-        const CACHE_DURATION = 5 * 60 * 1000;
+        // Reduced cache duration to 30 seconds for faster updates when listings are enabled/disabled
+        const CACHE_DURATION = 30 * 1000; // 30 seconds
 
         const cachedData = sessionStorage.getItem(cacheKey);
         const cachedTime = sessionStorage.getItem(cacheTimestamp);
 
-        // Check if there's a pending bookmark change - if so, skip cache
+        // Check if there's a pending bookmark change, listing status change, or profile photo update - if so, skip cache
         const hasPendingBookmarkChange = sessionStorage.getItem("last_bookmark_change") !== null;
+        const hasListingStatusChange = sessionStorage.getItem("listing_status_changed") !== null;
+        const hasProfilePhotoUpdate = sessionStorage.getItem("profile_photo_updated") !== null;
 
-        if (cachedData && cachedTime && !hasPendingBookmarkChange) {
+        if (cachedData && cachedTime && !hasPendingBookmarkChange && !hasListingStatusChange && !hasProfilePhotoUpdate) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             await new Promise(resolve => setTimeout(resolve, 400));
+            // ℹ️ Note: Cached data already has disabled listings filtered out
             const parsedData = JSON.parse(cachedData);
             setAllAds(parsedData);
             setFilteredAds(parsedData);
@@ -524,6 +528,24 @@ const Search = () => {
           }
         } else if (hasPendingBookmarkChange) {
           console.log("⚡ Pending bookmark change detected, skipping cache");
+        } else if (hasProfilePhotoUpdate) {
+          console.log("⚡ Profile photo updated, clearing cache and reloading");
+          sessionStorage.removeItem("profile_photo_updated");
+          Object.keys(sessionStorage).forEach(key => {
+            if (key.startsWith("ads_")) {
+              sessionStorage.removeItem(key);
+            }
+          });
+        } else if (hasListingStatusChange) {
+          console.log("⚡ Listing status changed, clearing cache and reloading");
+          // Clear the flag after detecting it
+          sessionStorage.removeItem("listing_status_changed");
+          // Clear all cached ads to force fresh fetch
+          Object.keys(sessionStorage).forEach(key => {
+            if (key.startsWith("ads_")) {
+              sessionStorage.removeItem(key);
+            }
+          });
         }
 
         const collectionsToLoad = currentCategory
@@ -559,17 +581,27 @@ const Search = () => {
           return ad;
         });
 
+        // ⚠️ IMPORTANT: REVERSED LOGIC - Filter out disabled listings
+        // Due to backend bug, we use reversed isActive logic:
+        // - isActive: false = Active (show in search) ✅
+        // - isActive: true = Not Active/Disabled (hide from search) ❌
+        // Only show listings where isActive !== true (active listings in reversed logic)
+        const activeAdsOnly = adsWithPurpose.filter((ad) => {
+          const isActive = ad.isActive;
+          return isActive !== true && isActive !== "true";
+        });
+
         // Only cache if there's no pending bookmark change
         // This ensures we don't cache potentially stale data
         if (!hasPendingBookmarkChange) {
-          sessionStorage.setItem(cacheKey, JSON.stringify(adsWithPurpose));
+          sessionStorage.setItem(cacheKey, JSON.stringify(activeAdsOnly));
           sessionStorage.setItem(cacheTimestamp, Date.now().toString());
         } else {
           console.log("⚠️ Skipping cache storage due to pending bookmark change");
         }
 
-        setAllAds(adsWithPurpose);
-        setFilteredAds(adsWithPurpose);
+        setAllAds(activeAdsOnly);
+        setFilteredAds(activeAdsOnly);
       } catch (error) {
         alert("Failed to load ads: " + error.message);
       } finally {
