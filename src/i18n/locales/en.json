@@ -252,6 +252,7 @@
     "passwordPlaceholder": "Password",
     "forgotPassword": "Forgot your password?",
     "signIn": "Sign in",
+    "signingIn": "Signing in...",
     "noAccount": "Don't have an account?",
     "signUp": "Sign Up",
     "qrTitle": "Visit our site with QR Code",

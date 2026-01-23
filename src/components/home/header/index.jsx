@@ -85,6 +85,12 @@ const Header = ({ parms }) => {
   ).length;
 
   const fetchNotifications = async () => {
+    // Only fetch if user is logged in
+    if (!useraa) {
+      setNotifications([]);
+      return;
+    }
+
     try {
       const response = await fetch(
         "http://168.231.80.24:9002/currentUserData/receivedMessages",
@@ -99,6 +105,12 @@ const Header = ({ parms }) => {
         },
       );
 
+      // Check if response is ok before parsing
+      if (!response.ok) {
+        console.error("Notifications API error:", response.status);
+        return;
+      }
+
       const data = await response.json();
       setNotifications(data?.messages || []);
     } catch (error) {
@@ -108,6 +120,12 @@ const Header = ({ parms }) => {
   };
 
   useEffect(() => {
+    // Only set up polling if user is logged in
+    if (!useraa) {
+      setNotifications([]);
+      return;
+    }
+
     // Fetch once on load
     fetchNotifications();
 
@@ -118,7 +136,7 @@ const Header = ({ parms }) => {
 
     // Cleanup when component unmounts
     return () => clearInterval(intervalId);
-  }, []);
+  }, [useraa]); // Add useraa as dependency
 
   // Filter for unseen messages
   const unseenNotifications = notifications.filter((note) => !note.seen);

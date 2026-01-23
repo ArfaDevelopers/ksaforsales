@@ -1240,6 +1240,7 @@
     "passwordPlaceholder": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
     "noAccount": "ليس لديك حساب؟",
     "signUp": "إنشاء حساب",
     "qrTitle": "قم بزيارة موقعنا باستخدام رمز QR",

@@ -67,10 +67,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+
     // ✅ Check for empty fields
     if (!phoneNumber.trim() || !password.trim()) {
-      setLoading(false);
       MySwal.fire({
         icon: "warning",
         title: t("login.missingFields"),
@@ -78,6 +77,12 @@ const Login = () => {
       });
       return;
     }
+
+    setLoading(true);
+
+    // Small delay to ensure loading state renders
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     try {
       const usersRef = collection(db, "users");
 
@@ -392,15 +397,29 @@ const Login = () => {
                   <button
                     className="btn w-100 login-btn"
                     type="submit"
+                    disabled={loading}
                     style={{
-                      backgroundColor: "#2d4495",
+                      backgroundColor: loading ? "#5a6fb8" : "#2d4495",
                       color: "#fff",
                       border: "none",
                       fontWeight: "bold",
                       borderRadius: "10px",
+                      cursor: loading ? "not-allowed" : "pointer",
+                      opacity: loading ? 0.8 : 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
                     }}
                   >
-                    {t("login.signIn")}
+                    {loading && (
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    )}
+                    {loading ? (t("login.signingIn") || "Signing in...") : t("login.signIn")}
                   </button>
 
                   <div className="register-link text-center">

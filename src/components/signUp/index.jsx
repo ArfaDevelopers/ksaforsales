@@ -37,6 +37,7 @@ const SignUp = () => {
   const [imgUrl, setImgUrl] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [Saudinummsg, setSaudinummsg] = useState(null);
+  const [sendingOtp, setSendingOtp] = useState(false);
 
   const handlePhoneNumberChange = (e) => {
     setPhoneNumber(e.target.value);
@@ -114,7 +115,11 @@ const SignUp = () => {
       return;
     }
 
+    setSendingOtp(true);
+
     try {
+      console.log("Checking if phone number exists:", fullPhoneNumber);
+
       // ✅ Step 1: Check if phone number already exists
       const q = query(
         collection(db, "users"),
@@ -124,6 +129,7 @@ const SignUp = () => {
 
       if (!querySnapshot.empty) {
         // ✅ If phone exists, show alert and stop here
+        setSendingOtp(false);
         await MySwal.fire({
           icon: "warning",
           title: "Phone Number Exists",
@@ -131,6 +137,8 @@ const SignUp = () => {
         });
         return;
       }
+
+      console.log("Phone number is available. Sending OTP to:", fullPhoneNumber);
 
       // ✅ Step 2: Send OTP if number doesn't exist
       const response = await fetch(
@@ -142,9 +150,19 @@ const SignUp = () => {
         }
       );
 
+      console.log("OTP API Response Status:", response.status);
+
+      if (!response.ok) {
+        console.error("API returned error status:", response.status);
+        throw new Error(`API returned status ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log("OTP API Response Data:", data);
+
       if (data.success) {
         setOtpSent(true);
+        setSendingOtp(false);
         await MySwal.fire({
           icon: "success",
           title: "OTP Sent",
@@ -153,18 +171,21 @@ const SignUp = () => {
           showConfirmButton: false,
         });
       } else {
+        setSendingOtp(false);
+        console.error("OTP sending failed. Response:", data);
         await MySwal.fire({
           icon: "error",
           title: "Sending Failed",
-          text: "Error sending OTP.",
+          text: data.message || "Error sending OTP. Please check your phone number and try again.",
         });
       }
     } catch (error) {
-      console.error("Error:", error);
+      setSendingOtp(false);
+      console.error("Error sending OTP:", error);
       await MySwal.fire({
         icon: "error",
         title: "Network Error",
-        text: "Failed to send OTP. Please try again.",
+        text: "Failed to send OTP. Please check your internet connection and try again.",
       });
     }
   };
@@ -493,16 +514,30 @@ const SignUp = () => {
                     <button
                       type="button"
                       className="btn w-100 login-btn"
+                      disabled={sendingOtp}
                       style={{
-                        backgroundColor: "#2d4495",
+                        backgroundColor: sendingOtp ? "#5a6fb8" : "#2d4495",
                         color: "#fff",
                         border: "none",
                         fontWeight: "bold",
                         borderRadius: "10px",
+                        cursor: sendingOtp ? "not-allowed" : "pointer",
+                        opacity: sendingOtp ? 0.8 : 1,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "10px",
                       }}
                       onClick={sendOtp}
                     >
-                      Send OTP
+                      {sendingOtp && (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      )}
+                      {sendingOtp ? "Sending OTP..." : "Send OTP"}
                     </button>
                   ) : (
                     <>
