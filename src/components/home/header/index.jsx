@@ -66,6 +66,8 @@ const Header = ({ parms }) => {
   var useraa = localStorage.getItem("user");
   const token = auth.currentUser;
   const [isOpen, setIsOpen] = useState(false);
+  const [showBottomNav, setShowBottomNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   // Function to toggle the modal's visibility.
   const toggleModal = () => {
@@ -146,6 +148,30 @@ const Header = ({ parms }) => {
     // Clean up auth listener
     return () => unsubscribe();
   }, []);
+
+  // Handle scroll to show/hide bottom navigation on mobile
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Show nav when scrolling up, hide when scrolling down
+      if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setShowBottomNav(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down and not at the very top
+        setShowBottomNav(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
 
   // Prevent background scroll when notification modal is open
   useEffect(() => {
@@ -3220,7 +3246,7 @@ const Header = ({ parms }) => {
       /> */}
         {!['/login', '/signup', '/forgot-password'].includes(location.pathname) && <HeaderLower />}
       </header>
-      <div className="mobile_header_bottom shadow-xl">
+      <div className={`mobile_header_bottom shadow-xl ${!showBottomNav ? 'mobile_nav_hidden' : ''}`}>
         <nav className="mobile_nav">
           <ul>
             <li>

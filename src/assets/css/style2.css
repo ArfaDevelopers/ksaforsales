@@ -146,6 +146,11 @@
   width: 100%;
   z-index: 99;
   padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(0);
+}
+.mobile_header_bottom.mobile_nav_hidden {
+  transform: translateY(100%);
 }
 .mobile_header_bottom .mobile_nav ul {
   display: flex;
