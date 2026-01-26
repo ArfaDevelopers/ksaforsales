@@ -148,6 +148,7 @@ const Login = () => {
       );
       const user = userCredential.user;
       localStorage.setItem("user", user.uid);
+      setLoading(false); // Stop loading before showing success modal
       await MySwal.fire({
         icon: "success",
         title: t("login.loginSuccessful"),
@@ -159,14 +160,13 @@ const Login = () => {
     } catch (err) {
       console.error("Login error:", err.message);
       setError(err.message);
+      setLoading(false); // Stop loading immediately when error occurs
 
       await MySwal.fire({
         icon: "error",
         title: t("login.loginFailed"),
         text: err.message || t("login.loginFailedMessage"),
       });
-    } finally {
-      setLoading(false);
     }
   };
   const handleChange = (e) => {
