@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Mesagedeals from "../userPages/mesagedeals";
 import {Divider } from 'antd';
 import { useTranslation } from "react-i18next";
+import "../../assets/css/mobile-search-card.css";
 
 const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
 
@@ -22,6 +23,7 @@ const SearchResultCard = ({
   const [productIds, setProductIds] = useState(null);
   const [activePhoneIndex, setActivePhoneIndex] = useState(null);
   const [popoverCarId, setPopoverCarId] = useState(null);
+  const [activeButton, setActiveButton] = useState("call"); // Track which button is active
 
   const handleShowModal = (userId, productId) => {
     setReceiverId(userId);
@@ -152,17 +154,160 @@ const SearchResultCard = ({
   const isActive = activePhoneIndex === ad.id;
 
   return (
-    <Card
-  key={ad.id}
-  style={{
-    padding: window.innerWidth <= 576 ? "10px 10px" : "0px 20px",
-    marginBottom: "0px",
-    paddingBottom: "0px",
-    boxShadow: "none",
-  }}
->
-  
-      <Row className="g-0">
+    <>
+      {/* Mobile Compact Card */}
+      <div className="mobile-search-card">
+        {popoverCarId === ad.id && (
+          <div className="mobile-search-card-popover">
+            Please log in to bookmark
+          </div>
+        )}
+
+        <div className="mobile-search-card-content">
+          {/* Image with Heart */}
+          <div className="mobile-search-card-image">
+            <div className="mobile-search-card-heart" onClick={handleBookmarkClick}>
+              <FaHeart
+                style={{
+                  color:
+                    isBookmarked ||
+                    (currentUserId && ad.heartedby?.includes(currentUserId))
+                      ? "red"
+                      : "white",
+                }}
+              />
+            </div>
+            <Link
+              to={`/Dynamic_Route?id=${ad.id}&callingFrom=${getCallingFrom(
+                ad.ModalCategory || ad.category || ad.SubCategory || "Automotive"
+              )}`}
+            >
+              <img
+                src={imageUrl}
+                alt={ad.title || "Ad"}
+                loading="lazy"
+              />
+            </Link>
+          </div>
+
+          {/* Details */}
+          <div className="mobile-search-card-details">
+            <Link
+              to={`/Dynamic_Route?id=${ad.id}&callingFrom=${getCallingFrom(
+                ad.ModalCategory || ad.category || ad.SubCategory || "Automotive"
+              )}`}
+              style={{ textDecoration: "none" }}
+            >
+              <h3 className="mobile-search-card-title">{ad.title || "No Title"}</h3>
+            </Link>
+
+            <div className="mobile-search-card-price-location">
+              <p className="mobile-search-card-price">
+                {ad.Price ? (
+                  <>
+                    <img
+                      src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                      alt="SAR"
+                    />
+                    {ad.Price}
+                  </>
+                ) : (
+                  "Contact Us..."
+                )}
+              </p>
+
+              <p className="mobile-search-card-location">
+                <IoLocationOutline />
+                <span>{ad.City || "Location"}</span>
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mobile-search-card-actions" style={{ position: 'relative' }}>
+              {/* Phone Number Tooltip */}
+              {isActive && ad.Phone && (
+                <div className="mobile-search-card-phone-tooltip">
+                  <span>{ad.Phone}</span>
+                  <div className="tooltip-arrow"></div>
+                </div>
+              )}
+
+              {/* Call Button */}
+              {ad.showNumberChecked ? (
+                ""
+              ) : (
+                <a href={`tel:${ad.Phone}`}>
+                  <button
+                    className={`mobile-search-card-btn mobile-search-card-btn-call ${
+                      activeButton === "call" ? "active" : ""
+                    }`}
+                    onClick={(e) => {
+                      setActiveButton("call");
+                      if (!isActive) {
+                        e.preventDefault();
+                        setActivePhoneIndex(ad.id);
+                      }
+                    }}
+                  >
+                    <FaPhoneAlt />
+                    <span>Call</span>
+                  </button>
+                </a>
+              )}
+
+              {/* Message Button */}
+              <button
+                className={`mobile-search-card-btn mobile-search-card-btn-message ${
+                  activeButton === "message" ? "active" : ""
+                }`}
+                onClick={() => {
+                  setActiveButton("message");
+                  handleShowModal(ad.userId, ad.id);
+                }}
+              >
+                <MdMessage /> Message
+              </button>
+
+              {/* WhatsApp Button */}
+              {ad.showNumberChecked ? (
+                ""
+              ) : (
+                <a
+                  href={`https://wa.me/${ad.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button
+                    className={`mobile-search-card-btn mobile-search-card-btn-whatsapp ${
+                      activeButton === "whatsapp" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveButton("whatsapp")}
+                  >
+                    <FaWhatsapp /> WhatsApp
+                  </button>
+                </a>
+              )}
+            </div>
+
+            <p className="mobile-search-card-time">
+              {timeAgo(ad.timestamp || ad.createdAt)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Card */}
+      <Card
+        key={ad.id}
+        className="desktop-search-card"
+        style={{
+          padding: window.innerWidth <= 576 ? "10px 10px" : "0px 20px",
+          marginBottom: "0px",
+          paddingBottom: "0px",
+          boxShadow: "none",
+        }}
+      >
+        <Row className="g-0">
         <Col md={4} style={{ position: "relative" }}>
           {/* Featured Label */}
           {ad.FeaturedAds === "Featured Ads" && (
@@ -487,81 +632,81 @@ const SearchResultCard = ({
                 }
               `}</style>
             </div>
-            <div>
-              {/* Modal */}
-              <div
-                className={`modal fade ${
-                  showModal ? "show d-block" : "d-none"
-                }`}
-                tabIndex="-1"
-                role="dialog"
-                style={{
-                  pointerEvents: showModal ? "auto" : "none",
-                }}
-              >
-                <div
-                  className="modal-dialog modal-dialog-centered"
-                  role="document"
-                  style={{
-                    maxWidth: "500px",
-                  }}
-                >
-                  <div
-                    className="modal-content"
-                    style={{
-                      borderRadius: "15px",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
-                    }}
-                  >
-                    <div
-                      className="modal-header"
-                      style={{
-                        backgroundColor: "#2D4495",
-                        color: "white",
-                        borderTopLeftRadius: "15px",
-                        borderTopRightRadius: "15px",
-                      }}
-                    >
-                      <h5 className="modal-title">Send Message</h5>
-                      <button
-                        type="button"
-                        className="btn-close btn-close-white"
-                        onClick={handleCloseModal}
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div className="modal-body">
-                      {currentUserId && receiverId ? (
-                        <Mesagedeals
-                          productId={ad.id}
-                          productIds={productIds}
-                          userId={currentUserId}
-                          recieverId={receiverId}
-                        />
-                      ) : (
-                        <p>Please log in to send messages.</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {showModal && (
-                <div
-                  className="modal-backdrop fade show"
-                  onClick={handleCloseModal}
-                ></div>
-              )}
-            </div>
           </Card.Body>
         </Col>
       </Row>
 
         <Divider style={{
-    margin: '20px 0',
-    borderColor: '#e0e0e0',
-    borderWidth: '1px'
-  }} />
-    </Card>
+          margin: '20px 0',
+          borderColor: '#e0e0e0',
+          borderWidth: '1px'
+        }} />
+      </Card>
+
+      {/* Shared Message Modal for both Mobile and Desktop */}
+      <div
+        className={`modal fade ${
+          showModal ? "show d-block" : "d-none"
+        }`}
+        tabIndex="-1"
+        role="dialog"
+        style={{
+          pointerEvents: showModal ? "auto" : "none",
+        }}
+      >
+        <div
+          className="modal-dialog modal-dialog-centered"
+          role="document"
+          style={{
+            maxWidth: "500px",
+          }}
+        >
+          <div
+            className="modal-content"
+            style={{
+              borderRadius: "15px",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+            }}
+          >
+            <div
+              className="modal-header"
+              style={{
+                backgroundColor: "#2D4495",
+                color: "white",
+                borderTopLeftRadius: "15px",
+                borderTopRightRadius: "15px",
+              }}
+            >
+              <h5 className="modal-title">Send Message</h5>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                onClick={handleCloseModal}
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              {currentUserId && receiverId ? (
+                <Mesagedeals
+                  productId={ad.id}
+                  productIds={productIds}
+                  userId={currentUserId}
+                  recieverId={receiverId}
+                />
+              ) : (
+                <p>Please log in to send messages.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      {showModal && (
+        <div
+          className="modal-backdrop fade show"
+          onClick={handleCloseModal}
+        ></div>
+      )}
+    </>
   );
 };
 

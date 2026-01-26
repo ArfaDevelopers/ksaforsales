@@ -2349,7 +2349,7 @@ if (displaySearchKeyword) {
           className="parent-main category"
           style={{
             color: "black",
-          marginTop: window.innerWidth < 990 ? "3rem" : "12rem",
+          marginTop: window.innerWidth < 990 ? "1rem" : "12rem",
           }}
         >
  <h1
@@ -2374,8 +2374,8 @@ if (displaySearchKeyword) {
               display: "flex",
               flexWrap: "wrap",
               gap: "15px",
-              marginTop: "40px",
-              marginBottom: "20px",
+              marginTop: window.innerWidth < 768 ? "-17px" : "15px",
+              marginBottom: "10px",
               alignItems: "center",
             }}
           >
@@ -4405,10 +4405,10 @@ if (displaySearchKeyword) {
                       ))}
                     </div>
                     {totalPages > 1 && (
-                      <div className="d-flex align-items-center justify-content-center my-4">
+                      <div className="d-flex align-items-center justify-content-center my-4 search-pagination">
                         <Button
                           variant="#2d4495"
-                          className="d-flex align-items-center mx-2"
+                          className="d-flex align-items-center mx-2 pagination-prev-btn"
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}
                           style={{
@@ -4418,7 +4418,7 @@ if (displaySearchKeyword) {
                             transition: "none",
                           }}
                         >
-                          <FaArrowLeft className="me-1" /> {t("pagination.previous")}
+                          <FaArrowLeft className="me-1" /> <span className="pagination-text">{t("pagination.previous")}</span>
                         </Button>
 
                         <ButtonGroup>
@@ -4474,7 +4474,7 @@ if (displaySearchKeyword) {
 
                         <Button
                           variant="#2d4495"
-                          className="d-flex align-items-center mx-2"
+                          className="d-flex align-items-center mx-2 pagination-next-btn"
                           disabled={currentPage === totalPages}
                           onClick={() => handlePageChange(currentPage + 1)}
                           style={{
@@ -4484,7 +4484,7 @@ if (displaySearchKeyword) {
                             transition: "none",
                           }}
                         >
-                          {t("pagination.next")} <FaArrowRight className="ms-1" />
+                          <span className="pagination-text">{t("pagination.next")}</span> <FaArrowRight className="ms-1" />
                         </Button>
                       </div>
                     )}
