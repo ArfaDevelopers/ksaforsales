@@ -311,7 +311,7 @@
     padding: 170px 0 10px;
   }
   .parent-main.category {
-    margin-top: 10rem !important;
+    margin-top: 0rem !important;
   }
   .blue_btn.list_btn {
     width: auto !important;

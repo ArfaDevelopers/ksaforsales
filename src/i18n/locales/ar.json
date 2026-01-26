@@ -51,7 +51,9 @@
     "searchResultsFor": "نتائج البحث عن",
     "in": "في",
     "selectCity": "اختر المدينة",
-    "selectDistrict": "اختر الحي"
+    "selectDistrict": "اختر الحي",
+    "filters": "الفلاتر",
+    "showResults": "عرض النتائج"
   },
   "listing": {
     "call": "اتصال",
@@ -929,7 +931,13 @@
       "searchBrands": "ابحث عن الماركات...",
       "brandsSelected": "ماركة مختارة",
       "clearSelection": "مسح الاختيار",
-      "done": "تم"
+      "done": "تم",
+      "from": "من",
+      "to": "إلى",
+      "price": "السعر",
+      "year": "السنة",
+      "brand": "الماركة",
+      "region": "المنطقة"
     },
     "options": {
       "brands": {
@@ -1240,6 +1248,7 @@
     "passwordPlaceholder": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
     "noAccount": "ليس لديك حساب؟",
     "signUp": "إنشاء حساب",
     "qrTitle": "قم بزيارة موقعنا باستخدام رمز QR",
