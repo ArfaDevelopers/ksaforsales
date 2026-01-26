@@ -51,7 +51,9 @@
     "searchResultsFor": "Search results for",
     "in": "in",
     "selectCity": "Select City",
-    "selectDistrict": "Select District"
+    "selectDistrict": "Select District",
+    "filters": "Filters",
+    "showResults": "Show Results"
   },
   "listing": {
     "call": "Call",
@@ -977,7 +979,13 @@
       "searchBrands": "Search brands...",
       "brandsSelected": "brand(s) selected",
       "clearSelection": "Clear Selection",
-      "done": "Done"
+      "done": "Done",
+      "from": "From",
+      "to": "To",
+      "price": "Price",
+      "year": "Year",
+      "brand": "Brand",
+      "region": "Region"
     },
     "options": {
       "brands": {

@@ -26,7 +26,7 @@ import {
   Button,
   ButtonGroup,
 } from "react-bootstrap";
-import { FaSearch, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaSearch, FaArrowLeft, FaArrowRight, FaTimes, FaFilter, FaChevronDown } from "react-icons/fa";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { storage } from "../../components/Firebase/FirebaseConfig";
 import { db, auth } from "../../components/Firebase/FirebaseConfig";
@@ -51,6 +51,7 @@ import {
   fetchDistricts,
 } from "../../utils/locationApi";
 import Swal from "sweetalert2";
+import "../../assets/css/mobile-filters.css";
 
 const Search = () => {
   const { t, i18n } = useTranslation();
@@ -130,6 +131,7 @@ const Search = () => {
     currentCategoryFilters = translatedData.find((page) => page.path === `/search`);
   }
   const [allAds, setAllAds] = useState([]);
+  const [allAdsForCounts, setAllAdsForCounts] = useState([]); // Unfiltered ads for count calculations
   const [filteredAds, setFilteredAds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -249,11 +251,15 @@ const Search = () => {
   const [availableBrandModels, setAvailableBrandModels] = useState([]);
   const [showBrandModal, setShowBrandModal] = useState(false);
   const [searchTermBrand, setSearchTermBrand] = useState("");
+
+  // Mobile Filters State - Track which filter modal is open
+  const [activeFilterModal, setActiveFilterModal] = useState(null); // null, 'category', 'subcategory', 'region', 'city', 'price', 'year', 'brand'
   const filterSectionRef = useRef(null);
 
   const location = useLocation();
   const parms = location.pathname;
   const navigate = useNavigate();
+
   useEffect(() => {
     const loadCities = async () => {
       if (selectedRegions.length > 0) {
@@ -552,6 +558,26 @@ const Search = () => {
           ? allCollections.filter((col) => col.category === currentCategory)
           : allCollections;
 
+        // Fetch ALL ads from ALL collections for accurate count calculations
+        const fetchAllForCounts = allCollections.map(async (col) => {
+          try {
+            const adsCollection = collection(db, col.name);
+            const adsSnapshot = await getDocs(adsCollection);
+            return adsSnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+              category:
+                doc.data().category || doc.data().ModalCategory || col.category,
+              ModalCategory:
+                doc.data().ModalCategory || doc.data().category || col.category,
+              collectionSource: col.name,
+            }));
+          } catch (error) {
+            console.error(`Error fetching from ${col.name}:`, error);
+            return [];
+          }
+        });
+
         const fetchPromises = collectionsToLoad.map(async (col) => {
           try {
             const adsCollection = collection(db, col.name);
@@ -573,6 +599,20 @@ const Search = () => {
 
         const results = await Promise.all(fetchPromises);
         const allAdsArray = results.flat();
+
+        // Process ALL ads for count calculations
+        const resultsForCounts = await Promise.all(fetchAllForCounts);
+        const allAdsArrayForCounts = resultsForCounts.flat();
+        const adsWithPurposeForCounts = allAdsArrayForCounts.map((ad) => {
+          if (!ad.Purpose && !ad.AdType) {
+            return { ...ad, Purpose: "Sell" };
+          }
+          return ad;
+        });
+        const activeAdsForCounts = adsWithPurposeForCounts.filter((ad) => {
+          const isActive = ad.isActive;
+          return isActive !== true && isActive !== "true";
+        });
 
         const adsWithPurpose = allAdsArray.map((ad) => {
           if (!ad.Purpose && !ad.AdType) {
@@ -601,6 +641,7 @@ const Search = () => {
         }
 
         setAllAds(activeAdsOnly);
+        setAllAdsForCounts(activeAdsForCounts); // Set unfiltered ads for count calculations
         setFilteredAds(activeAdsOnly);
       } catch (error) {
         alert("Failed to load ads: " + error.message);
@@ -1479,6 +1520,7 @@ const Search = () => {
     });
   };
 
+
   useEffect(() => {
     const selectedBrands = searchParams.getAll("brand");
     if (selectedBrands.length > 0 && currentCategoryFilters.filters?.brand) {
@@ -1586,11 +1628,728 @@ if (displaySearchKeyword) {
       <div className="main-wrapper">
         <Header parms={parms} />
 
+        {/* Mobile Filter Chips */}
+        <div className="mobile-filter-chips-container">
+          {/* Results Count & Clear All Section */}
+          <div className="mobile-filters-results-bar">
+            <div className="mobile-filters-results-count">
+              <span className="results-label">{t("search.showResults")}: </span>
+              <span className="results-number">{filteredAds.length}</span>
+            </div>
+            {(category || selectedRegions.length > 0 || selectedCities.length > 0 ||
+              selectedDistricts.length > 0 || searchParams.toString()) && (
+              <button
+                className="mobile-filters-clear-all-btn"
+                onClick={() => {
+                  setSearchParams({});
+                  setSearchKeyword("");
+                  setSelectedRegions([]);
+                  setSelectedCities([]);
+                  setSelectedDistricts([]);
+                }}
+              >
+                {t("search.clear")}
+              </button>
+            )}
+          </div>
+
+          <div className="mobile-filter-chips-wrapper">
+            {/* Category Filter Chip */}
+            <div
+              className={`filter-chip ${category ? 'active' : ''}`}
+              onClick={() => setActiveFilterModal('category')}
+            >
+              <span>{t("filters.labels.category")}</span>
+              {category && <span className="filter-chip-count">1</span>}
+              <FaChevronDown className="filter-chip-arrow" />
+            </div>
+
+            {/* Subcategory Filter Chip */}
+            {currentCategoryFilters.subcategories && currentCategoryFilters.subcategories.length > 0 && (
+              <div
+                className={`filter-chip ${searchParams.get("subcategory") ? 'active' : ''}`}
+                onClick={() => setActiveFilterModal('subcategory')}
+              >
+                <span>{t("filters.labels.subCategories")}</span>
+                {searchParams.get("subcategory") && <span className="filter-chip-count">1</span>}
+                <FaChevronDown className="filter-chip-arrow" />
+              </div>
+            )}
+
+            {/* Region Filter Chip */}
+            <div
+              className={`filter-chip ${selectedRegions.length > 0 ? 'active' : ''}`}
+              onClick={() => setActiveFilterModal('region')}
+            >
+              <span>{t("filters.labels.selectRegion")}</span>
+              {selectedRegions.length > 0 && <span className="filter-chip-count">{selectedRegions.length}</span>}
+              <FaChevronDown className="filter-chip-arrow" />
+            </div>
+
+            {/* City Filter Chip - Only show if regions are selected */}
+            {selectedRegions.length > 0 && cities.length > 0 && (
+              <div
+                className={`filter-chip ${selectedCities.length > 0 ? 'active' : ''}`}
+                onClick={() => setActiveFilterModal('city')}
+              >
+                <span>{t("filters.labels.selectCity")}</span>
+                {selectedCities.length > 0 && <span className="filter-chip-count">{selectedCities.length}</span>}
+                <FaChevronDown className="filter-chip-arrow" />
+              </div>
+            )}
+
+            {/* District Filter Chip - Only show if cities are selected */}
+            {selectedCities.length > 0 && districts.length > 0 && (
+              <div
+                className={`filter-chip ${selectedDistricts.length > 0 ? 'active' : ''}`}
+                onClick={() => setActiveFilterModal('district')}
+              >
+                <span>{t("filters.labels.selectDistrict")}</span>
+                {selectedDistricts.length > 0 && <span className="filter-chip-count">{selectedDistricts.length}</span>}
+                <FaChevronDown className="filter-chip-arrow" />
+              </div>
+            )}
+
+            {/* Featured Ads Filter Chip */}
+            <div
+              className={`filter-chip ${searchParams.get("featuredAds") ? 'active' : ''}`}
+              onClick={() => setActiveFilterModal('featuredAds')}
+            >
+              <span>Featured Ads</span>
+              <FaChevronDown className="filter-chip-arrow" />
+            </div>
+
+            {/* Dynamic Category-Specific Filter Chips */}
+            {Object.entries(currentCategoryFilters.filters || {}).map(([filterKey, filterValue]) => {
+              const isLandSubcategory = searchParams.get("subcategory") === "lands-for-sale" || searchParams.get("subcategory") === "commercial-lands-for-sale";
+              const isRentSubcategory = searchParams.get("subcategory")?.includes("rent");
+              const filtersToHideForLand = ["residenceType", "noOfRooms", "noOfBathrooms", "furnished", "facade", "licenseNumber", "streetWidth", "floor", "amenities", "condition", "propertyAge"];
+
+              if (isLandSubcategory && filtersToHideForLand.includes(filterKey)) {
+                return null;
+              }
+
+              if (filterKey === "frequency" && !isRentSubcategory) {
+                return null;
+              }
+
+              const isRangeFilter = filterValue.type === "range";
+              const isCheckboxFilter = filterValue.type === "checkbox";
+              let activeCount = 0;
+              let isActive = false;
+
+              if (isRangeFilter) {
+                const fromParam = searchParams.get(`from${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                const toParam = searchParams.get(`to${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                isActive = !!(fromParam || toParam);
+              } else if (isCheckboxFilter) {
+                activeCount = searchParams.getAll(filterKey).length;
+                isActive = activeCount > 0;
+              }
+
+              return (
+                <div
+                  key={filterKey}
+                  className={`filter-chip ${isActive ? 'active' : ''}`}
+                  onClick={() => setActiveFilterModal(filterKey)}
+                >
+                  <span>{filterValue.name}</span>
+                  {activeCount > 0 && <span className="filter-chip-count">{activeCount}</span>}
+                  <FaChevronDown className="filter-chip-arrow" />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Category Filter Modal */}
+        {activeFilterModal === 'category' && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.category")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                <div className="mobile-filter-options">
+                  {["Motors", "Electronics", "Fashion Style", "Home & Furniture", "Job Board", "Real Estate", "Services", "Sport & Game", "Pet & Animals", "Other"].map((cat) => {
+                    const categoryTranslationMap = {
+                      "Motors": "categories.motors",
+                      "Electronics": "categories.electronics",
+                      "Fashion Style": "categories.fashionStyle",
+                      "Home & Furniture": "categories.homeFurniture",
+                      "Job Board": "categories.jobBoard",
+                      "Real Estate": "categories.realEstate",
+                      "Services": "categories.services",
+                      "Sport & Game": "categories.sportGame",
+                      "Pet & Animals": "categories.petAnimals",
+                      "Other": "categories.other"
+                    };
+                    const translatedCategoryName = t(categoryTranslationMap[cat] || cat);
+
+                    // Calculate count for this category using unfiltered ads
+                    const categoryCount = allAdsForCounts.filter((ad) => {
+                      const categoryVariations = [cat];
+                      if (cat === "Sport & Game") {
+                        categoryVariations.push("Sports & Game");
+                      }
+                      if (cat === "Home & Furniture") {
+                        categoryVariations.push("Home & Furnituer");
+                      }
+                      return categoryVariations.some(
+                        (variation) => ad.category === variation || ad.ModalCategory === variation
+                      );
+                    }).length;
+
+                    return (
+                      <div className="mobile-filter-option" key={cat}>
+                        <input
+                          type="radio"
+                          id={`mobile-cat-${cat}`}
+                          name="category"
+                          checked={getUrlText(cat) === searchParams.get("category")}
+                          onChange={() => {
+                            navigate(`/search?category=${getUrlText(cat)}`);
+                            setActiveFilterModal(null);
+                          }}
+                        />
+                        <label htmlFor={`mobile-cat-${cat}`}>
+                          {translatedCategoryName}
+                          <span className="mobile-filter-option-count">({categoryCount})</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  navigate("/search");
+                  setActiveFilterModal(null);
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Subcategory Filter Modal */}
+        {activeFilterModal === 'subcategory' && currentCategoryFilters.subcategories && currentCategoryFilters.subcategories.length > 0 && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.subCategories")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                <div className="mobile-filter-options">
+                  {currentCategoryFilters.subcategories.map((subcat) => {
+                    const englishName = subcat.name;
+                    const urlSubCategory = getUrlText(englishName);
+                    const selectedSubCategories = searchParams.getAll("subcategory");
+                    const isSelected = selectedSubCategories.includes(urlSubCategory);
+                    const displayName = subcat.displayName || subcat.name;
+
+                    // Calculate count for this subcategory using unfiltered ads
+                    const subcategoryCount = allAdsForCounts.filter((ad) => {
+                      const adSubCategory = getUrlText(ad.SubCategory || "");
+                      return adSubCategory === urlSubCategory;
+                    }).length;
+
+                    return (
+                      <div className="mobile-filter-option" key={englishName}>
+                        <input
+                          type="radio"
+                          id={`mobile-subcat-${englishName}`}
+                          name="subcategory"
+                          checked={isSelected}
+                          onChange={(e) => {
+                            handleSubcategoryChange(e);
+                            setTimeout(() => setActiveFilterModal(null), 100);
+                          }}
+                          value={urlSubCategory}
+                        />
+                        <label htmlFor={`mobile-subcat-${englishName}`}>
+                          {displayName}
+                          <span className="mobile-filter-option-count">({subcategoryCount})</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("subcategory");
+                    newParams.delete("nestedSubCategory");
+                    return newParams;
+                  });
+                  setActiveFilterModal(null);
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Region Filter Modal */}
+        {activeFilterModal === 'region' && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.selectRegion")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+
+              <div className="mobile-filters-body">
+                <div className="mobile-filter-options">
+                  {saudiRegions.map((region) => {
+                    const regionCount = allAdsForCounts.filter((ad) =>
+                      String(ad.regionId) === String(region.id) ||
+                      String(ad.REGION_ID) === String(region.id)
+                    ).length;
+                    return (
+                      <div className="mobile-filter-option" key={region.id}>
+                        <input
+                          type="checkbox"
+                          id={`mobile-region-${region.id}`}
+                          checked={selectedRegions.includes(region.id)}
+                          onChange={() => handleRegionChange(region.id)}
+                        />
+                        <label htmlFor={`mobile-region-${region.id}`}>
+                          {i18n.language === 'ar' ? region.nameAr : region.nameEn}
+                          <span className="mobile-filter-option-count">({regionCount})</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSelectedRegions([]);
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("region");
+                    return newParams;
+                  });
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
+        {/* Brand Filter Modal */}
+        {activeFilterModal === 'brand' && currentCategoryFilters.filters?.brand && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.brand")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                <div className="mobile-filter-options">
+                  {currentCategoryFilters.filters.brand.options.map((brandOption, index) => {
+                    const label = typeof brandOption === 'object' ? brandOption.name : brandOption;
+                    const displayLabel = typeof brandOption === 'object'
+                      ? (brandOption.displayName || brandOption.name)
+                      : brandOption;
+                    const brandCount = typeof brandOption === 'object' ? brandOption.count : 0;
+                    const isChecked = searchParams.getAll("brand").includes(getUrlText(label));
+
+                    return (
+                      <div className="mobile-filter-option" key={`brand-${index}`}>
+                        <input
+                          type="checkbox"
+                          id={`mobile-brand-${index}`}
+                          checked={isChecked}
+                          onChange={(e) => handleFiltersChange(e, "multiple")}
+                          name="brand"
+                          value={getUrlText(label)}
+                        />
+                        <label htmlFor={`mobile-brand-${index}`}>
+                          {displayLabel}
+                          <span className="mobile-filter-option-count">({brandCount})</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("brand");
+                    return newParams;
+                  });
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* City Filter Modal */}
+        {activeFilterModal === 'city' && cities.length > 0 && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.selectCity")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                {loadingCities ? (
+                  <div className="mobile-filter-loading">
+                    <div className="mobile-filter-loading-spinner"></div>
+                    <span>Loading cities...</span>
+                  </div>
+                ) : (
+                  <div className="mobile-filter-options">
+                    {getCitiesWithCounts.map((city) => {
+                      const isChecked = selectedCities.some((c) => c.CITY_ID === city.CITY_ID);
+                      return (
+                        <div className="mobile-filter-option" key={city.CITY_ID}>
+                          <input
+                            type="checkbox"
+                            id={`mobile-city-${city.CITY_ID}`}
+                            checked={isChecked}
+                            onChange={() => handleCityChange({ CITY_ID: city.CITY_ID, REGION_ID: city.REGION_ID })}
+                          />
+                          <label htmlFor={`mobile-city-${city.CITY_ID}`}>
+                            {i18n.language === 'ar' ? city["City Ar Name"] : city["City En Name"]}
+                            <span className="mobile-filter-option-count">({city.count})</span>
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSelectedCities([]);
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("city");
+                    return newParams;
+                  });
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* District Filter Modal */}
+        {activeFilterModal === 'district' && districts.length > 0 && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>{t("filters.labels.selectDistrict")}</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                {loadingDistricts ? (
+                  <div className="mobile-filter-loading">
+                    <div className="mobile-filter-loading-spinner"></div>
+                    <span>Loading districts...</span>
+                  </div>
+                ) : (
+                  <div className="mobile-filter-options">
+                    {getDistrictsWithCounts.map((district) => {
+                      const idsToCheck = district.allDistrictIds || [district.District_ID];
+                      const isChecked = selectedDistricts.some((d) => idsToCheck.includes(d.District_ID));
+                      return (
+                        <div className="mobile-filter-option" key={district.District_ID}>
+                          <input
+                            type="checkbox"
+                            id={`mobile-district-${district.District_ID}`}
+                            checked={isChecked}
+                            onChange={() => handleDistrictChange({
+                              District_ID: district.District_ID,
+                              CITY_ID: district.CITY_ID,
+                              REGION_ID: district.REGION_ID,
+                              allDistrictIds: district.allDistrictIds,
+                            })}
+                          />
+                          <label htmlFor={`mobile-district-${district.District_ID}`}>
+                            {i18n.language === 'ar' ? district["District Ar Name"] : district["District En Name"]}
+                            <span className="mobile-filter-option-count">({district.count})</span>
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSelectedDistricts([]);
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("district");
+                    return newParams;
+                  });
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Featured Ads Filter Modal */}
+        {activeFilterModal === 'featuredAds' && (
+          <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+            <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-filters-header">
+                <h2>Featured Ads</h2>
+                <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="mobile-filters-body">
+                <div className="mobile-filter-options">
+                  <div className="mobile-filter-option">
+                    <input
+                      type="checkbox"
+                      id="mobile-featured-ads"
+                      checked={searchParams.get("featuredAds") === "true"}
+                      onChange={(e) => {
+                        setSearchParams((params) => {
+                          const newParams = new URLSearchParams(params);
+                          if (e.target.checked) {
+                            newParams.set("featuredAds", "true");
+                          } else {
+                            newParams.delete("featuredAds");
+                          }
+                          return newParams;
+                        });
+                      }}
+                    />
+                    <label htmlFor="mobile-featured-ads">Show Featured Ads Only</label>
+                  </div>
+                </div>
+              </div>
+              <div className="mobile-filters-footer">
+                <button className="mobile-filters-clear-btn" onClick={() => {
+                  setSearchParams((params) => {
+                    const newParams = new URLSearchParams(params);
+                    newParams.delete("featuredAds");
+                    return newParams;
+                  });
+                }}>
+                  {t("search.clear")}
+                </button>
+                <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                  {t("filters.labels.done")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Dynamic Category-Specific Filter Modals */}
+        {Object.entries(currentCategoryFilters.filters || {}).map(([filterKey, filterValue]) => {
+          if (activeFilterModal !== filterKey) return null;
+
+          // Known range filters
+          const knownRangeFilters = ['price', 'year', 'mileage', 'kilometer', 'kilometers'];
+
+          // Check if it's a range filter (case-insensitive type check or known range filter)
+          const isRangeFilter =
+            filterValue.type?.toLowerCase() === "range" ||
+            knownRangeFilters.includes(filterKey.toLowerCase());
+
+          // Check if it's a checkbox filter or has options array
+          const isCheckboxFilter =
+            filterValue.type?.toLowerCase() === "checkbox" ||
+            (Array.isArray(filterValue.options) && filterValue.options.length > 0);
+
+          return (
+            <div key={filterKey} className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+              <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="mobile-filters-header">
+                  <h2>{filterValue.name || filterKey}</h2>
+                  <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                    <FaTimes />
+                  </button>
+                </div>
+                <div className="mobile-filters-body">
+                  {isRangeFilter ? (
+                    <div className="mobile-filter-range">
+                      <input
+                        type="number"
+                        placeholder={t("filters.labels.from")}
+                        value={searchParams.get(`from${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`) || ""}
+                        onChange={(e) => {
+                          setSearchParams((params) => {
+                            const newParams = new URLSearchParams(params);
+                            if (e.target.value) {
+                              newParams.set(`from${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`, e.target.value);
+                            } else {
+                              newParams.delete(`from${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                            }
+                            return newParams;
+                          });
+                        }}
+                      />
+                      <span className="mobile-filter-range-separator">-</span>
+                      <input
+                        type="number"
+                        placeholder={t("filters.labels.to")}
+                        value={searchParams.get(`to${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`) || ""}
+                        onChange={(e) => {
+                          setSearchParams((params) => {
+                            const newParams = new URLSearchParams(params);
+                            if (e.target.value) {
+                              newParams.set(`to${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`, e.target.value);
+                            } else {
+                              newParams.delete(`to${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                            }
+                            return newParams;
+                          });
+                        }}
+                      />
+                    </div>
+                  ) : isCheckboxFilter ? (
+                    <div className="mobile-filter-options">
+                      {filterValue.options?.map((opt, index) => {
+                        const isString = typeof opt === "string";
+                        const englishValue = opt.originalValue || (isString ? opt : opt.name || opt);
+                        const displayName = isString ? (opt.displayName || opt) : (opt.displayName || opt.name || opt);
+                        const isChecked = searchParams.getAll(filterKey).includes(getUrlText(englishValue));
+
+                        // Calculate count for this option
+                        const fieldNames =
+                          filterKey === "brand" ? ["Brand", "Make", "brand", "manufacturer", "Manufacturer"] :
+                          filterKey === "brandModel" ? ["Model", "model"] :
+                          filterKey === "transmission" ? ["Transmission"] :
+                          filterKey === "fuelType" ? ["Fueltype", "FuelType"] :
+                          filterKey === "bodyType" ? ["BodyType", "bodyType"] :
+                          filterKey === "exteriorColor" ? ["Color", "ExteriorColor"] :
+                          filterKey === "interiorColor" ? ["InteriorColor"] :
+                          filterKey === "sellerType" ? ["SellerType", "sellerType"] :
+                          filterKey === "paymentMethod" ? ["PaymentMethod"] :
+                          filterKey === "regionalSpec" ? ["RegionalSpec"] :
+                          filterKey === "insurance" ? ["Insurance"] :
+                          filterKey === "addType" ? ["Purpose", "AdType"] :
+                          filterKey === "additionalFeatures" ? ["AdditionalFeatures", "Features"] :
+                          filterKey === "noOfDoors" ? ["NumberofDoors", "NumberOfDoors", "Doors"] :
+                          filterKey === "seatingCapacity" ? ["SeatingCapacity"] :
+                          filterKey === "condition" ? ["Condition", "condition"] :
+                          filterKey === "age" ? ["Age", "age"] :
+                          filterKey === "frequency" ? ["Frequency", "frequency"] :
+                          filterKey === "residenceType" ? ["ResidenceType", "residenceType"] :
+                          filterKey === "noOfRooms" ? ["Bedroom", "NumberofRooms", "NumberOfRooms", "noOfRooms"] :
+                          filterKey === "noOfBathrooms" ? ["bathrooms", "NumberofBathrooms", "NumberOfBathrooms", "noOfBathrooms"] :
+                          filterKey === "area" ? ["Area", "area"] :
+                          filterKey === "furnished" ? ["Furnished", "furnished"] :
+                          filterKey === "licenseNumber" ? ["LicenseNumber", "licenseNumber", "LicenceNumber"] :
+                          filterKey === "streetWidth" ? ["streetWidth", "StreetWidth"] :
+                          filterKey === "floor" ? ["Floor", "floor"] :
+                          filterKey === "amenities" ? ["Amenities", "amenities"] :
+                          filterKey === "propertyAge" ? ["PropertyAge", "propertyAge"] :
+                          filterKey === "facade" ? ["Facade", "facade"] :
+                          [filterKey.charAt(0).toUpperCase() + filterKey.slice(1), filterKey, filterKey.toUpperCase()];
+
+                        const optionCount = getCountForOption(fieldNames, englishValue);
+
+                        return (
+                          <div className="mobile-filter-option" key={`${filterKey}-${index}`}>
+                            <input
+                              type="checkbox"
+                              id={`mobile-${filterKey}-${index}`}
+                              checked={isChecked}
+                              onChange={(e) => handleFiltersChange(e, "multiple")}
+                              name={filterKey}
+                              value={getUrlText(englishValue)}
+                            />
+                            <label htmlFor={`mobile-${filterKey}-${index}`}>
+                              {displayName}
+                              <span className="mobile-filter-option-count">({optionCount})</span>
+                            </label>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="mobile-filter-options">
+                      <p style={{ color: "#999", textAlign: "center", padding: "20px" }}>
+                        No options available
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="mobile-filters-footer">
+                  <button className="mobile-filters-clear-btn" onClick={() => {
+                    setSearchParams((params) => {
+                      const newParams = new URLSearchParams(params);
+                      if (isRangeFilter) {
+                        newParams.delete(`from${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                        newParams.delete(`to${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}`);
+                      } else {
+                        newParams.delete(filterKey);
+                      }
+                      return newParams;
+                    });
+                  }}>
+                    {t("search.clear")}
+                  </button>
+                  <button className="mobile-filters-apply-btn" onClick={() => setActiveFilterModal(null)}>
+                    {t("filters.labels.done")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
         <Container
           className="parent-main category"
           style={{
             color: "black",
-            marginTop: window.innerWidth <= 768 ? "8rem" : "12rem",
+          marginTop: window.innerWidth < 990 ? "3rem" : "12rem",
           }}
         >
  <h1
@@ -3459,7 +4218,7 @@ if (displaySearchKeyword) {
               </div>
             </Col>
 
-            <Col lg={9}>
+            <Col xs={12} lg={9}>
               <div className="results_section">
                 {loading && (
                   <div style={{ padding: "20px 0" }}>

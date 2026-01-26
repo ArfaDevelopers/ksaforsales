@@ -20783,7 +20783,7 @@ font-size: 28px;
   }
 
   .header {
-    position: fixed;
+    position: relative;
   }
   .footermidinfo-container {
     gap: 10px !important;

@@ -1,0 +1,772 @@
+/* Mobile Filters Stylesheet */
+
+/* ============================================
+   MOBILE FILTER CHIPS (Horizontal Scroll)
+   ============================================ */
+
+.mobile-filter-chips-container {
+  display: none;
+  background: white;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease-out;
+  max-height: 500px;
+  opacity: 1;
+  transform-origin: top;
+}
+
+.mobile-filter-chips-container.collapsed {
+  padding: 0;
+  min-height: 0;
+  max-height: 0;
+  border-bottom: none;
+  opacity: 0;
+}
+
+.mobile-filter-chips-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.mobile-filter-chips-wrapper {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.mobile-filter-chips-wrapper.hidden {
+  transform: translateY(-15px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.filter-chip:hover {
+  background: #ebebeb;
+  border-color: #d0d0d0;
+}
+
+.filter-chip.active {
+  background: #2d4495;
+  color: white;
+  border-color: #2d4495;
+}
+
+.filter-chip-icon {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-chip-count {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.filter-chip.active .filter-chip-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.filter-chip-arrow {
+  font-size: 12px;
+  margin-left: 4px;
+  transition: transform 0.2s;
+}
+
+.filter-chip.active .filter-chip-arrow {
+  transform: rotate(180deg);
+}
+
+.filters-icon-chip {
+  background: #2d4495;
+  color: white;
+  border-color: #2d4495;
+  font-weight: 600;
+}
+
+.filters-icon-chip:hover {
+  background: #1e2f6e;
+  border-color: #1e2f6e;
+}
+
+/* ============================================
+   RESULTS BAR (Count & Clear All)
+   ============================================ */
+
+.mobile-filters-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 15px 12px 15px;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 12px;
+  position: relative;
+  left: 0;
+  background: white;
+  z-index: 10;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.mobile-filters-results-bar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  margin-bottom: 0;
+}
+
+.mobile-filters-results-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.mobile-filters-results-count .results-label {
+  color: #666;
+  font-weight: 400;
+}
+
+.mobile-filters-results-count .results-number {
+  color: #2d4495;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.mobile-filters-clear-all-btn {
+  background: none;
+  border: none;
+  color: #2d4495;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.mobile-filters-clear-all-btn:hover {
+  background: rgba(45, 68, 149, 0.08);
+}
+
+.mobile-filters-clear-all-btn:active {
+  background: rgba(45, 68, 149, 0.15);
+}
+
+/* ============================================
+   FILTER DROPDOWN MODAL (Not Full-Screen)
+   ============================================ */
+
+.mobile-filter-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-filters-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 80vh;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideInUp 0.3s ease-out;
+  position: relative;
+  z-index: 9999;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobile-filters-modal.closing {
+  animation: slideOut 0.2s ease-out;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+
+/* Modal Header */
+.mobile-filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-filters-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.mobile-filters-close-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 24px;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-left: 15px;
+}
+
+.mobile-filters-close-btn:hover {
+  color: #333;
+}
+
+/* Modal Body */
+.mobile-filters-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: white;
+  max-height: calc(80vh - 140px);
+}
+
+/* Simple Modal Content - No Sections */
+.mobile-filter-modal-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Search Input inside Filter Section */
+.mobile-filter-search {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.mobile-filter-search input {
+  width: 100%;
+  padding: 10px 15px 10px 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.mobile-filter-search input:focus {
+  border-color: #2d4495;
+}
+
+.mobile-filter-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+}
+
+/* Filter Options */
+.mobile-filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.mobile-filter-option input[type="checkbox"],
+.mobile-filter-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #2d4495;
+}
+
+.mobile-filter-option label {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-filter-option-count {
+  color: #888;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+/* Range Inputs (Price, Year) */
+.mobile-filter-range {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.mobile-filter-range input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #f8f9fa;
+  color: #333;
+  width: 100%;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.mobile-filter-range input::-webkit-outer-spin-button,
+.mobile-filter-range input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mobile-filter-range input::placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+.mobile-filter-range input:focus {
+  border-color: #2d4495;
+  background: white;
+}
+
+.mobile-filter-range-separator {
+  color: #666;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Show More Button */
+.mobile-filter-show-more {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  color: #2d4495;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.mobile-filter-show-more:hover {
+  background: #f5f5f5;
+  border-color: #2d4495;
+}
+
+/* Modal Footer */
+.mobile-filters-footer {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+.mobile-filters-clear-btn {
+  flex: 1;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobile-filters-clear-btn:hover {
+  background: #f5f5f5;
+  border-color: #2d4495;
+  color: #2d4495;
+}
+
+.mobile-filters-apply-btn {
+  flex: 2;
+  padding: 12px 16px;
+  background: #2d4495;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mobile-filters-apply-btn:hover {
+  background: #1e2f6e;
+}
+
+.mobile-filters-apply-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+@media (max-width: 991px) {
+  /* Show mobile filter chips on tablets and phones */
+  .mobile-filter-chips-container {
+    display: block;
+    position: relative;
+    top: auto;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-filter-chips-container.collapsed {
+    box-shadow: none;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  /* Hide desktop sidebar filters */
+  .filter_main_wrap {
+    display: none !important;
+  }
+
+  /* Add space below filter chips for content */
+  .mobile-filter-chips-container ~ .container.parent-main {
+    padding-top: 20px !important;
+    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Remove padding when filters are collapsed */
+  .mobile-filter-chips-container.collapsed ~ .container.parent-main {
+    padding-top: 0 !important;
+  }
+
+  /* Ensure results column is visible on mobile */
+  .filter_outterwrap {
+    margin-top: 0 !important;
+  }
+
+  /* Make sure results section is displayed properly */
+  .results_section {
+    width: 100%;
+    display: block;
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Filters scroll naturally with content on mobile */
+  .mobile-filter-chips-container {
+    position: relative;
+    top: auto;
+    margin-top: 115px;
+  }
+
+  /* Reduce padding since filters scroll with content */
+  .mobile-filter-chips-container ~ .container.parent-main {
+    padding-top: 20px !important;
+  }
+
+  /* Improve range inputs on small mobile screens */
+  .mobile-filter-range {
+    gap: 8px;
+  }
+
+  .mobile-filter-range input {
+    padding: 12px 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .mobile-filter-range-separator {
+    font-size: 14px;
+  }
+
+  /* Make modal take more space on small screens */
+  .mobile-filters-modal {
+    max-width: 95%;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 426px) {
+  .mobile-filter-chips-container {
+    margin-top: 0px;
+  }
+}
+
+/* Tablet specific adjustments */
+@media (min-width: 769px) and (max-width: 991px) {
+  /* Make filters scroll with header on tablets */
+  .mobile-filter-chips-container {
+    position: relative !important;
+    top: 112px;
+    margin-top: 0;
+    box-shadow: none !important; /* Remove shadow when scrolling */
+  }
+
+  /* Reduce padding since filters scroll with content */
+  .mobile-filter-chips-container ~ .container.parent-main {
+    padding-top: 20px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Hide mobile filters on desktop */
+  .mobile-filter-chips-container {
+    display: none;
+  }
+
+  .mobile-filters-modal {
+    display: none;
+  }
+}
+
+/* ============================================
+   CATEGORY PILLS (Alternative Design)
+   ============================================ */
+
+.mobile-category-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0;
+  scrollbar-width: none;
+}
+
+.mobile-category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.mobile-category-pill:hover {
+  border-color: #2d4495;
+  color: #2d4495;
+}
+
+.mobile-category-pill.selected {
+  background: #2d4495;
+  color: white;
+  border-color: #2d4495;
+}
+
+/* ============================================
+   NESTED SUBCATEGORIES
+   ============================================ */
+
+.mobile-nested-subcategories {
+  margin-left: 30px;
+  margin-top: 10px;
+  padding-left: 15px;
+  border-left: 2px solid #e0e0e0;
+}
+
+.mobile-nested-subcategory-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.mobile-filter-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.mobile-filter-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #2d4495;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.mobile-filters-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-filters-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.mobile-filters-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.mobile-filters-body::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ============================================
+   ACTIVE FILTER INDICATOR
+   ============================================ */
+
+.filter-active-indicator {
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+/* ============================================
+   CLEAR INDIVIDUAL FILTER
+   ============================================ */
+
+.mobile-filter-clear-section {
+  color: #2d4495;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.mobile-filter-clear-section:hover {
+  text-decoration: underline;
+}
+@media (max-width: 376px) {
+  /* Filters scroll naturally on very small mobile screens */
+  .mobile-filter-chips-container {
+    position: relative;
+    top: auto;
+  }
+}
