@@ -427,18 +427,22 @@ const Header = ({ parms }) => {
                   </span>
                 </Link> */}
                   {token ? (
-                    <Link
+                    <button
                       id="mobile_btn"
-                      to="#"
+                      type="button"
                       onClick={toggleMobileMenu}
                       className="menu-btn"
+                      style={{
+                        border: "none",
+                        background: "#36a680",
+                      }}
                     >
                       <span className="bar-icon">
                         <span></span>
                         <span></span>
                         <span></span>
                       </span>
-                    </Link>
+                    </button>
                   ) : (
                     ""
                   )}

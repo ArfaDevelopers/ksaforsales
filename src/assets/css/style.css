@@ -6966,6 +6966,12 @@ margin-bottom: 26px;
   padding: 110px 0 0px;
   background: white;
 }
+@media screen and (max-width:575px) 
+{
+.dashboard-content  {
+margin-top: -4rem !important;
+}
+}
 .dashboard-content ul.dashborad-menus {
   background: #fff;
   border-radius: 10px;
