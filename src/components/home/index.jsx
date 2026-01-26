@@ -767,6 +767,9 @@ const Home = () => {
           id="carouselExampleIndicators"
           className="carousel slide container hero_slider"
           data-bs-ride="carousel"
+          style={{
+            marginTop: window.innerWidth < 575 ? "-150px" : "0px",
+          }}
         >
           {/* Indicators */}
           <div className="carousel-indicators">

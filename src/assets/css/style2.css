@@ -330,6 +330,6 @@
     max-width: 50px;
   }
   .parent-main.container {
-    margin-top: 200px;
+    margin-top: 0px !important;
   }
 }

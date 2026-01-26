@@ -204,6 +204,11 @@ export default function AutomativeCarousel() {
 
   const slider = useRef();
 
+  // Don't render the section if there are no ads
+  if (loading || ads.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className="featured-section-color automotive_card_section"
