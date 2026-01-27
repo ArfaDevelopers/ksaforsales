@@ -373,17 +373,121 @@ const MyListe = () => {
 
   const renderPaginationItems = () => {
     const items = [];
-    for (let i = 1; i <= totalPages; i++) {
-      items.push(
-        <li
-          key={i}
-          className={`page-item ${currentPage === i ? "active" : ""}`}
-        >
-          <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
-            {i}
-          </Link>
-        </li>
-      );
+    const isMobile = window.innerWidth <= 768;
+    const maxButtons = isMobile ? 4 : 7; // Show 4 buttons on mobile, 7 on desktop
+
+    if (totalPages <= maxButtons) {
+      // Show all pages if total is less than max buttons
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <li
+            key={i}
+            className={`page-item ${currentPage === i ? "active" : ""}`}
+          >
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+              {i}
+            </Link>
+          </li>
+        );
+      }
+    } else {
+      // Smart pagination with ellipsis
+      const showFirst = currentPage > 2;
+      const showLast = currentPage < totalPages - 1;
+
+      if (currentPage <= 3) {
+        // Show first 4 pages + ellipsis + last
+        for (let i = 1; i <= Math.min(maxButtons, totalPages); i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+        if (totalPages > maxButtons) {
+          items.push(
+            <li key="ellipsis-end" className="page-item disabled">
+              <span className="page-link">...</span>
+            </li>
+          );
+          items.push(
+            <li key={totalPages} className="page-item">
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+                {totalPages}
+              </Link>
+            </li>
+          );
+        }
+      } else if (currentPage >= totalPages - 2) {
+        // Show first + ellipsis + last 4 pages
+        items.push(
+          <li key={1} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+              1
+            </Link>
+          </li>
+        );
+        items.push(
+          <li key="ellipsis-start" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        for (let i = totalPages - (maxButtons - 1); i <= totalPages; i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+      } else {
+        // Show first + ellipsis + current-1, current, current+1 + ellipsis + last
+        items.push(
+          <li key={1} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+              1
+            </Link>
+          </li>
+        );
+        items.push(
+          <li key="ellipsis-start" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+        items.push(
+          <li key="ellipsis-end" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        items.push(
+          <li key={totalPages} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+              {totalPages}
+            </Link>
+          </li>
+        );
+      }
     }
     return items;
   };
@@ -1522,6 +1626,9 @@ const MyListe = () => {
                                       !record.isActive
                                     );
                                   }}
+                                  style={{
+                                    backgroundColor: !record.isActive ? "#2d4495" : "#cccccc",
+                                  }}
                                 >
                                   {!record.isActive ? (
                                     <i className="feather-unlock" />
@@ -1561,7 +1668,7 @@ const MyListe = () => {
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                         >
-                          <FaArrowLeft /> {t("myListing.prev")}
+                          <FaArrowLeft /> <span>{t("myListing.prev")}</span>
                         </Link>
                       </li>
                       <li className="justify-content-center pagination-center">
@@ -1583,7 +1690,7 @@ const MyListe = () => {
                             )
                           }
                         >
-                          {t("myListing.next")} <FaArrowRight />
+                          <span>{t("myListing.next")}</span> <FaArrowRight />
                         </Link>
                       </li>
                     </ul>
