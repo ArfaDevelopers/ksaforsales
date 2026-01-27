@@ -685,7 +685,6 @@ const Search = () => {
     }
     const subCategoryParams = searchParams.getAll("subcategory");
     if (subCategoryParams.length > 0) {
-      console.log("Filtering by subcategories:", subCategoryParams);
       filtered = filtered.filter((ad) => {
         const adSubCategory = getUrlText(ad.SubCategory || "");
 
@@ -702,17 +701,12 @@ const Search = () => {
           });
         }
 
-        if (ad.SubCategory) {
-          console.log(`Ad SubCategory: "${ad.SubCategory}" -> URL: "${adSubCategory}" -> Match: ${matches}`);
-        }
         return matches;
       });
-      console.log("After subcategory filter, ads remaining:", filtered.length);
     }
     // Check both camelCase and lowercase versions of the parameter for backward compatibility
     const nestedSubCategoryParam = searchParams.get("nestedSubCategory") || searchParams.get("nestedsubcategory");
     if (nestedSubCategoryParam) {
-      console.log("Filtering by nested subcategory:", nestedSubCategoryParam);
       filtered = filtered.filter((ad) => {
         const adNestedSubCategory = getUrlText(ad.NestedSubCategory || "");
 
@@ -726,12 +720,8 @@ const Search = () => {
           matches = normalizeText(nestedSubCategoryParam) === normalizeText(adNestedSubCategory);
         }
 
-        if (ad.NestedSubCategory) {
-          console.log(`Ad NestedSubCategory: "${ad.NestedSubCategory}" -> URL: "${adNestedSubCategory}" -> Match: ${matches}`);
-        }
         return matches;
       });
-      console.log("After nested subcategory filter, ads remaining:", filtered.length);
     }
     // Use searchKeyword from state if available, otherwise use URL parameter
     const activeSearchKeyword = (typeof searchKeyword === 'string' ? searchKeyword.trim() : '') || searchParams.get("q") || "";
