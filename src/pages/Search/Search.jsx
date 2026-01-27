@@ -687,14 +687,40 @@ const Search = () => {
     if (subCategoryParams.length > 0) {
       filtered = filtered.filter((ad) => {
         const adSubCategory = getUrlText(ad.SubCategory || "");
-        return subCategoryParams.includes(adSubCategory);
+
+        // Try exact match first
+        let matches = subCategoryParams.includes(adSubCategory);
+
+        // If no match, try flexible matching to handle apostrophe variations
+        // e.g., "Women's Fashion" -> "womens-fashion" should match "women-fashion"
+        if (!matches && ad.SubCategory) {
+          matches = subCategoryParams.some(param => {
+            // Normalize both by removing standalone 's' after hyphens
+            const normalizeText = (text) => text.replace(/s-/g, '-');
+            return normalizeText(param) === normalizeText(adSubCategory);
+          });
+        }
+
+        return matches;
       });
     }
-    const nestedSubCategoryParam = searchParams.get("nestedSubCategory");
+    // Check both camelCase and lowercase versions of the parameter for backward compatibility
+    const nestedSubCategoryParam = searchParams.get("nestedSubCategory") || searchParams.get("nestedsubcategory");
     if (nestedSubCategoryParam) {
       filtered = filtered.filter((ad) => {
         const adNestedSubCategory = getUrlText(ad.NestedSubCategory || "");
-        return adNestedSubCategory === nestedSubCategoryParam;
+
+        // Try exact match first
+        let matches = adNestedSubCategory === nestedSubCategoryParam;
+
+        // If no match, try flexible matching to handle apostrophe variations
+        // e.g., "Women's Bags" -> "womens-bags" should match "women-bags"
+        if (!matches && ad.NestedSubCategory) {
+          const normalizeText = (text) => text.replace(/s-/g, '-');
+          matches = normalizeText(nestedSubCategoryParam) === normalizeText(adNestedSubCategory);
+        }
+
+        return matches;
       });
     }
     // Use searchKeyword from state if available, otherwise use URL parameter
@@ -1353,6 +1379,7 @@ const Search = () => {
           newParams.delete(name);
           if (name === "subcategory") {
             newParams.delete("nestedSubCategory");
+            newParams.delete("nestedsubcategory");
           }
         }
       }
@@ -1892,6 +1919,7 @@ if (displaySearchKeyword) {
                     const newParams = new URLSearchParams(params);
                     newParams.delete("subcategory");
                     newParams.delete("nestedSubCategory");
+                    newParams.delete("nestedsubcategory");
                     return newParams;
                   });
                   setActiveFilterModal(null);
@@ -2449,6 +2477,27 @@ if (displaySearchKeyword) {
                   }}
                 >
                   {getTextFromURL(subCategoryParam)}
+                </button>{" "}
+              </>
+            )}
+
+            {/* Nested Subcategory Breadcrumb */}
+            {(searchParams.get("nestedsubcategory") || searchParams.get("nestedSubCategory")) && (
+              <>
+                {" "}
+                <span>
+                  <MdKeyboardArrowRight />
+                </span>
+                <button
+                  className="btn"
+                  style={{
+                    background: window.innerWidth <= 576 ? "none" : "#E9EEFF",
+                    fontWeight: "500",
+                    pointerEvents: "none",
+                    padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
+                  }}
+                >
+                  {getTextFromURL(searchParams.get("nestedsubcategory") || searchParams.get("nestedSubCategory"))}
                 </button>{" "}
               </>
             )}

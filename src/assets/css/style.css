@@ -7037,6 +7037,11 @@ margin-top: -4rem !important;
 .dashboard-info .card.dash-cards .card-body {
   padding: 25px;
 }
+@media screen and (max-width:768px) {
+  .dashboard-info .card.dash-cards .card-body{
+    padding: 10px !important;
+  }
+}
 .dashboard-info .card.dash-cards .card-body {
   padding: 25px;
 }

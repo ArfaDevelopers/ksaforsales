@@ -33,11 +33,15 @@ import {
   FaArrowLeft,
   FaRegStopCircle,
   FaRegEye,
+  FaEdit,
+  FaTrash,
+  FaTag,
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import "../../../assets/css/mobile-my-listing.css";
 
 const MyListe = () => {
   const { t } = useTranslation();
@@ -733,7 +737,7 @@ const MyListe = () => {
         >
           <Link
             to={
-              !record.isActive
+              record.isActive
                 ? "#"
                 : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
                     record.category.trim() === "Pet & Animals"
@@ -760,10 +764,10 @@ const MyListe = () => {
                   )}`
             }
             className="action-btn btn-view"
-            onClick={() => {
-              // REVERSED: View enabled when false (Active), disabled when true (Not Active)
-              if (!record.isActive) {
-                viewItem(record.id, formatCategory(record.category));
+            onClick={(e) => {
+              // Prevent navigation if inactive
+              if (record.isActive) {
+                e.preventDefault();
               }
             }}
             style={{
@@ -1306,15 +1310,6 @@ const MyListe = () => {
                       <div className="flex justify-center items-center h-screen">
                         <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
-                      {/* <img
-                        src={Loading1}
-                        alt="Loading..."
-                        style={{
-                          width: "200px",
-                          height: "200px",
-                          animation: "spin 1s linear infinite",
-                        }}
-                      /> */}
                       <style>
                         {`
                           @keyframes spin {
@@ -1329,13 +1324,226 @@ const MyListe = () => {
                       </style>
                     </div>
                   ) : (
-                    <Table
-                      className="listing-table datatable"
-                      columns={columns}
-                      dataSource={filteredCars}
-                      rowKey={(record) => record.id}
-                      pagination={false}
-                    />
+                    <>
+                      {/* Mobile Cards View */}
+                      <div className="mobile-listing-cards">
+                        {filteredCars.length === 0 ? (
+                          <div className="mobile-listing-empty">
+                            <FaListUl />
+                            <p>{t("myListing.noListings") || "No listings found"}</p>
+                          </div>
+                        ) : (
+                          filteredCars.map((record) => (
+                            <div key={record.id} className="mobile-listing-card">
+                              <div className="mobile-listing-card-content">
+                                <Link
+                                  to={
+                                    record.isActive
+                                      ? "#"
+                                      : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+                                          record.category.trim() === "Pet & Animals"
+                                            ? "PetAnimalsComp"
+                                            : record.category.trim() === "Motors"
+                                            ? "AutomotiveComp"
+                                            : record.category.trim() === "Other"
+                                            ? "Education"
+                                            : record.category.trim() === "Services"
+                                            ? "TravelComp"
+                                            : record.category.trim() === "JobBoard"
+                                            ? "JobBoard"
+                                            : record.category.trim() === "FashionStyle"
+                                            ? "FashionStyle"
+                                            : record.category.trim() === "Electronics"
+                                            ? "ElectronicComp"
+                                            : record.category.trim() === "Home & Furnituer"
+                                            ? "HealthCareComp"
+                                            : record.category.trim() === "Sports & Game"
+                                            ? "SportGamesComp"
+                                            : record.category.trim() === "Real Estate"
+                                            ? "RealEstateComp"
+                                            : formatCategory(record.category.trim())
+                                        )}`
+                                  }
+                                  style={{
+                                    pointerEvents: record.isActive ? "none" : "auto",
+                                  }}
+                                >
+                                  <div className={`mobile-listing-card-image ${record.isActive ? 'inactive' : ''}`}>
+                                    <img
+                                      src={record.galleryImages?.[0] || "placeholder.jpg"}
+                                      alt={record.title}
+                                    />
+                                  </div>
+                                </Link>
+
+                                <div className="mobile-listing-card-details">
+                                  <div className="mobile-listing-card-info">
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                                      <p className="mobile-listing-card-category" style={{
+                                        opacity: record.isActive ? 0.5 : 1,
+                                      }}>
+                                        <FaRegStopCircle />
+                                        {formatCategory(record.category)}
+                                      </p>
+                                      <span className={`mobile-listing-card-status ${record.isActive ? 'inactive' : 'active'}`}>
+                                        {record.isActive ? t("myListing.notActive") || "Not Active" : t("myListing.active") || "Active"}
+                                      </span>
+                                    </div>
+
+                                    <h3 className="mobile-listing-card-title">
+                                      <Link
+                                        to={
+                                          record.isActive
+                                            ? "#"
+                                            : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+                                                record.category.trim() === "Pet & Animals"
+                                                  ? "PetAnimalsComp"
+                                                  : record.category.trim() === "Motors"
+                                                  ? "AutomotiveComp"
+                                                  : record.category.trim() === "Other"
+                                                  ? "Education"
+                                                  : record.category.trim() === "Services"
+                                                  ? "TravelComp"
+                                                  : record.category.trim() === "JobBoard"
+                                                  ? "JobBoard"
+                                                  : record.category.trim() === "FashionStyle"
+                                                  ? "FashionStyle"
+                                                  : record.category.trim() === "Electronics"
+                                                  ? "ElectronicComp"
+                                                  : record.category.trim() === "Home & Furnituer"
+                                                  ? "HealthCareComp"
+                                                  : record.category.trim() === "Sports & Game"
+                                                  ? "SportGamesComp"
+                                                  : record.category.trim() === "Real Estate"
+                                                  ? "RealEstateComp"
+                                                  : formatCategory(record.category.trim())
+                                              )}`
+                                        }
+                                        style={{
+                                          pointerEvents: record.isActive ? "none" : "auto",
+                                          opacity: record.isActive ? 0.5 : 1,
+                                          cursor: record.isActive ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        {record.title}
+                                      </Link>
+                                    </h3>
+
+                                    <div className="mobile-listing-card-meta" style={{
+                                      opacity: record.isActive ? 0.5 : 1,
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                    }}>
+                                      {record.Price && (
+                                        <p className="mobile-listing-card-price" style={{ margin: 0 }}>
+                                          <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg" alt="SAR" />
+                                          {record.Price}
+                                        </p>
+                                      )}
+                                      <div className="mobile-listing-card-views">
+                                        <FaRegEye />
+                                        {record.views ?? 0} {t("myListing.views") || "views"}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="mobile-listing-card-actions">
+                                <Link
+                                  to={
+                                    record.isActive
+                                      ? "#"
+                                      : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
+                                          record.category.trim() === "Pet & Animals"
+                                            ? "PetAnimalsComp"
+                                            : record.category.trim() === "Motors"
+                                            ? "AutomotiveComp"
+                                            : record.category.trim() === "Other"
+                                            ? "Education"
+                                            : record.category.trim() === "Services"
+                                            ? "TravelComp"
+                                            : record.category.trim() === "JobBoard"
+                                            ? "JobBoard"
+                                            : record.category.trim() === "FashionStyle"
+                                            ? "FashionStyle"
+                                            : record.category.trim() === "Electronics"
+                                            ? "ElectronicComp"
+                                            : record.category.trim() === "Home & Furnituer"
+                                            ? "HealthCareComp"
+                                            : record.category.trim() === "Sports & Game"
+                                            ? "SportGamesComp"
+                                            : record.category.trim() === "Real Estate"
+                                            ? "RealEstateComp"
+                                            : formatCategory(record.category.trim())
+                                        )}`
+                                  }
+                                  onClick={(e) => {
+                                    if (record.isActive) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                >
+                                  <button
+                                    className="mobile-listing-card-action-btn view"
+                                    disabled={record.isActive}
+                                  >
+                                    <FaRegEye />
+                                  </button>
+                                </Link>
+                                <Link
+                                  to={
+                                    record.isActive
+                                      ? "#"
+                                      : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
+                                          record.category
+                                        )}`
+                                  }
+                                  onClick={(e) => {
+                                    if (record.isActive) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                >
+                                  <button
+                                    className="mobile-listing-card-action-btn edit"
+                                    disabled={record.isActive}
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                </Link>
+                                <button
+                                  className="mobile-listing-card-action-btn lock"
+                                  onClick={() => {
+                                    toggleDisable(
+                                      record.id,
+                                      formatCategory(record.category),
+                                      !record.isActive
+                                    );
+                                  }}
+                                >
+                                  {!record.isActive ? (
+                                    <i className="feather-unlock" />
+                                  ) : (
+                                    <i className="feather-lock" />
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+
+                      {/* Desktop Table View */}
+                      <Table
+                        className="listing-table datatable"
+                        columns={columns}
+                        dataSource={filteredCars}
+                        rowKey={(record) => record.id}
+                        pagination={false}
+                      />
+                    </>
                   )}
                 </div>
                 <div className="blog-pagination">
