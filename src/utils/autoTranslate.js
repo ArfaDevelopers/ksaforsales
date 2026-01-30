@@ -16,19 +16,34 @@ export const translateText = async (text, targetLang = 'ar', sourceLang = 'auto'
     const encodedText = encodeURIComponent(text);
     const url = `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`;
 
-    const response = await fetch(url);
+    console.log('Attempting translation request to:', url.substring(0, 100) + '...');
+
+    const response = await fetch(url).catch(err => {
+      console.error('Fetch error:', err);
+      throw new Error(`Network error: ${err.message}`);
+    });
+
+    console.log('Response received. Status:', response.status, 'OK:', response.ok);
 
     if (!response.ok) {
-      throw new Error(`Translation failed: ${response.statusText}`);
+      throw new Error(`Translation failed: HTTP ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
 
-    if (data.responseStatus === 200 && data.responseData && data.responseData.translatedText) {
+    // Log full response for debugging
+    console.log('MyMemory API Response:', data);
+    console.log('Response Status:', data.responseStatus);
+    console.log('Translated Text:', data.responseData?.translatedText);
+
+    if (data.responseData && data.responseData.translatedText) {
       return data.responseData.translatedText;
     }
 
-    throw new Error('Translation response invalid');
+    // More detailed error
+    console.error('Translation failed. Full response:', JSON.stringify(data));
+    throw new Error(`Translation response invalid: ${data.responseDetails || 'No details'}`);
+
   } catch (error) {
     console.error('Translation error:', error);
     console.error('Falling back to original text');

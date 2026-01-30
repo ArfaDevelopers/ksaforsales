@@ -292,6 +292,7 @@
     "generationFailedMessage": "فشل إنشاء الوصف. يرجى المحاولة مرة أخرى.",
     "addType": "نوع الإضافة",
     "condition": "الحالة",
+    "sellerType": "نوع البائع",
     "brand": "العلامة التجارية",
     "selectCarBrand": "اختر ماركة السيارة",
     "mileage": "المسافة المقطوعة",

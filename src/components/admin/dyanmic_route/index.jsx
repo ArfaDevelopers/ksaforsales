@@ -1124,6 +1124,7 @@ console.log(
           "RealEstateComp": "REALESTATECOMP",
           "ELECTRONICS": "ELECTRONICS",
           "JOBBOARD": "JOBBOARD",
+          "JobBoard": "JOBBOARD",
           "JobBoardComp": "JOBBOARD",
           "HealthCare": "HEALTHCARE",
           "HealthCareComp": "HEALTHCARE",
@@ -1136,6 +1137,7 @@ console.log(
           "FashionStyle": "FASHION",
           "Education": "Education",
           "EducationComp": "Education",
+          "Commercial": "ComercialsAds",
         };
 
         const actualCollection = collectionMapping[callingFrom] || callingFrom;

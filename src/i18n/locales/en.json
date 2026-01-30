@@ -451,6 +451,7 @@
     "generationFailedMessage": "Failed to generate description. Please try again.",
     "addType": "Add Type",
     "condition": "Condition",
+    "sellerType": "Seller Type",
     "brand": "Brand",
     "selectCarBrand": "Select car brand",
     "mileage": "Mileage",
