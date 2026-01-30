@@ -730,7 +730,11 @@ const Search = () => {
       filtered = filtered.filter(
         (ad) =>
           (ad.title && ad.title.toLowerCase().includes(keyword)) ||
+          (ad.title_en && ad.title_en.toLowerCase().includes(keyword)) ||
+          (ad.title_ar && ad.title_ar.toLowerCase().includes(keyword)) ||
           (ad.description && ad.description.toLowerCase().includes(keyword)) ||
+          (ad.description_en && ad.description_en.toLowerCase().includes(keyword)) ||
+          (ad.description_ar && ad.description_ar.toLowerCase().includes(keyword)) ||
           (ad.Make && ad.Make.toLowerCase().includes(keyword)) ||
           (ad.Model && ad.Model.toLowerCase().includes(keyword)) ||
           (ad.brand && ad.brand.toLowerCase().includes(keyword)) ||
@@ -1217,8 +1221,12 @@ const Search = () => {
           const searchableText = [
             ad.Title,
             ad.title,
+            ad.title_en,
+            ad.title_ar,
             ad.Description,
             ad.description,
+            ad.description_en,
+            ad.description_ar,
             ad.Brand,
             ad.Make,
             ad.Model,

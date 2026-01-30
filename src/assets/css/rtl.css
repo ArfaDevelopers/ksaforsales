@@ -887,3 +887,90 @@ body.rtl .dash-cards .toggle-password {
   z-index: 10 !important;
   cursor: pointer;
 }
+/* My Listing Desktop Table RTL Support */
+[dir="rtl"] .listing-table,
+body.rtl .listing-table {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .listing-table .ant-table,
+body.rtl .listing-table .ant-table {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .listing-table .ant-table-thead > tr > th,
+[dir="rtl"] .listing-table .ant-table-tbody > tr > td,
+body.rtl .listing-table .ant-table-thead > tr > th,
+body.rtl .listing-table .ant-table-tbody > tr > td {
+  text-align: right !important;
+}
+
+[dir="rtl"] .listing-table .listingtable-rate,
+body.rtl .listing-table .listingtable-rate {
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .listing-table .listingtable-rate .cat-icon,
+body.rtl .listing-table .listingtable-rate .cat-icon {
+  flex-direction: row-reverse !important;
+  display: inline-flex !important;
+  gap: 5px !important;
+}
+
+[dir="rtl"] .listing-table .listingtable-rate .discount-amt,
+body.rtl .listing-table .listingtable-rate .discount-amt {
+  flex-direction: row-reverse !important;
+  display: inline-flex !important;
+  gap: 5px !important;
+}
+
+[dir="rtl"] .listing-table h6,
+[dir="rtl"] .listing-table p,
+body.rtl .listing-table h6,
+body.rtl .listing-table p {
+  text-align: right !important;
+}
+
+[dir="rtl"] .table-responsive,
+body.rtl .table-responsive {
+  direction: rtl !important;
+}
+
+/* Bookmarks/Favorites Page RTL Support */
+[dir="rtl"] .bookmarks-content,
+body.rtl .bookmarks-content {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .bookmarks-content .blog-widget,
+body.rtl .bookmarks-content .blog-widget {
+  text-align: right !important;
+}
+
+[dir="rtl"] .bookmarks-content h6,
+[dir="rtl"] .bookmarks-content p,
+[dir="rtl"] .bookmarks-content .blog-location-details,
+[dir="rtl"] .bookmarks-content .amount-details,
+body.rtl .bookmarks-content h6,
+body.rtl .bookmarks-content p,
+body.rtl .bookmarks-content .blog-location-details,
+body.rtl .bookmarks-content .amount-details {
+  text-align: right !important;
+}
+
+[dir="rtl"] .bookmarks-content .location-info,
+body.rtl .bookmarks-content .location-info {
+  flex-direction: row-reverse !important;
+  display: flex !important;
+  gap: 5px !important;
+}
+
+[dir="rtl"] .bookmarks-content .validrate,
+body.rtl .bookmarks-content .validrate {
+  flex-direction: row-reverse !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}

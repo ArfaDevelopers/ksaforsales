@@ -8,6 +8,7 @@ import Mesagedeals from "../userPages/mesagedeals";
 import {Divider } from 'antd';
 import { useTranslation } from "react-i18next";
 import "../../assets/css/mobile-search-card.css";
+import { getTranslatedField } from "../../utils/autoTranslate";
 
 const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E";
 
@@ -17,13 +18,20 @@ const SearchResultCard = ({
   isBookmarked,
   currentUserId,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [receiverId, setReceiverId] = useState(null);
   const [productIds, setProductIds] = useState(null);
   const [activePhoneIndex, setActivePhoneIndex] = useState(null);
   const [popoverCarId, setPopoverCarId] = useState(null);
   const [activeButton, setActiveButton] = useState("call"); // Track which button is active
+
+  // Get translated fields based on current language
+  const currentLanguage = i18n.language;
+  const title = getTranslatedField(ad, 'title', currentLanguage);
+  const description = getTranslatedField(ad, 'description', currentLanguage);
+  const city = getTranslatedField(ad, 'City', currentLanguage);
+  const district = getTranslatedField(ad, 'District', currentLanguage);
 
   const handleShowModal = (userId, productId) => {
     setReceiverId(userId);
@@ -38,7 +46,7 @@ const SearchResultCard = ({
   };
 
   function timeAgo(timestamp) {
-    if (!timestamp) return "recently";
+    if (!timestamp) return t("time.recently");
 
     // console.log("Timestamp received:", timestamp, "Type:", typeof timestamp);
     let date;
@@ -70,13 +78,13 @@ const SearchResultCard = ({
     // Unknown format
     else {
       console.log("Unknown timestamp format:", timestamp);
-      return "recently";
+      return t("time.recently");
     }
 
     // Validate date
     if (isNaN(date.getTime())) {
       console.log("Invalid date:", timestamp);
-      return "recently";
+      return t("time.recently");
     }
 
     const now = new Date();
@@ -86,10 +94,10 @@ const SearchResultCard = ({
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-    return "Just now";
+    if (days > 0) return days === 1 ? t("time.dayAgo") : t("time.daysAgo", { count: days });
+    if (hours > 0) return hours === 1 ? t("time.hourAgo") : t("time.hoursAgo", { count: hours });
+    if (minutes > 0) return minutes === 1 ? t("time.minuteAgo") : t("time.minutesAgo", { count: minutes });
+    return t("time.justNow");
   }
 
   const imageUrl =
@@ -184,7 +192,7 @@ const SearchResultCard = ({
             >
               <img
                 src={imageUrl}
-                alt={ad.title || "Ad"}
+                alt={title || "Ad"}
                 loading="lazy"
               />
             </Link>
@@ -198,7 +206,7 @@ const SearchResultCard = ({
               )}`}
               style={{ textDecoration: "none" }}
             >
-              <h3 className="mobile-search-card-title">{ad.title || "No Title"}</h3>
+              <h3 className="mobile-search-card-title">{title || "No Title"}</h3>
             </Link>
 
             <div className="mobile-search-card-price-location">
@@ -218,7 +226,7 @@ const SearchResultCard = ({
 
               <p className="mobile-search-card-location">
                 <IoLocationOutline />
-                <span>{ad.City || "Location"}</span>
+                <span>{city || t("common.location") || "Location"}</span>
               </p>
             </div>
 
@@ -250,7 +258,7 @@ const SearchResultCard = ({
                     }}
                   >
                     <FaPhoneAlt />
-                    <span>Call</span>
+                    <span>{t("listing.call")}</span>
                   </button>
                 </a>
               )}
@@ -265,7 +273,7 @@ const SearchResultCard = ({
                   handleShowModal(ad.userId, ad.id);
                 }}
               >
-                <MdMessage /> Message
+                <MdMessage /> {t("listing.message")}
               </button>
 
               {/* WhatsApp Button */}
@@ -283,7 +291,7 @@ const SearchResultCard = ({
                     }`}
                     onClick={() => setActiveButton("whatsapp")}
                   >
-                    <FaWhatsapp /> WhatsApp
+                    <FaWhatsapp /> {t("listing.whatsapp")}
                   </button>
                 </a>
               )}
@@ -382,7 +390,7 @@ const SearchResultCard = ({
             {/* Image */}
             <Card.Img
               src={imageUrl}
-              alt={ad.title || "Ad"}
+              alt={title || "Ad"}
               loading="lazy"
               style={{
                 width: "100%",
@@ -409,7 +417,7 @@ const SearchResultCard = ({
                   ad.ModalCategory || ad.category || ad.SubCategory || "Automotive"
                 )}`}
               >
-                {ad.title || "No Title"}
+                {title || "No Title"}
               </Link>
               <p
                 style={{
@@ -444,12 +452,12 @@ const SearchResultCard = ({
                     color: "#6c757d",
                   }}
                 />
-                <span style={{ color: "black" }}>{ad.City || "Location"}</span>
+                <span style={{ color: "black" }}>{city || t("common.location") || "Location"}</span>
               </small>
 
               <br />
               <p className="car_desc">
-                {ad.description || "Description not available."}
+                {description || "Description not available."}
               </p>
             </Card.Text>
             <Col
@@ -493,7 +501,7 @@ const SearchResultCard = ({
                   color: "black",
                 }}
               >
-                Updated {timeAgo(ad.createdAt || ad.timestamp || ad.created_at)}
+                {t("detailsPage.updated")} {timeAgo(ad.createdAt || ad.timestamp || ad.created_at)}
               </p>
               {/* Responsive layout for small screens */}
             </Col>

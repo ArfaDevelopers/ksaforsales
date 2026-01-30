@@ -41,10 +41,11 @@ import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 import "../../../assets/css/mobile-my-listing.css";
 
 const MyListe = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
@@ -576,11 +577,35 @@ const MyListe = () => {
     }
   };
 
+  // Helper function to translate category names
+  const translateCategory = (category) => {
+    if (!category) return "";
+    const trimmedCategory = category.trim();
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "FashionStyle": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Home & Furnituer": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "JobBoard": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "RealEstate": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "Sports & Game": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "Other": t("categories.other"),
+      "Commercial": t("categories.commercial")
+    };
+    return categoryMap[trimmedCategory] || trimmedCategory;
+  };
+
   const formatCategory = (category) => {
-    return category
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join("");
+    // Return translated category instead of formatting
+    return translateCategory(category);
   };
 
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
@@ -712,10 +737,17 @@ const MyListe = () => {
                 cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
-              {text}
+              {getTranslatedField(record, 'title', i18n.language) || text}
             </Link>
           </h6>
-          <div className="listingtable-rate">
+          <div className="listingtable-rate" style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+            flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row',
+            justifyContent: i18n.language.startsWith('ar') ? 'flex-start' : 'flex-start'
+          }}>
             <Link
               to={
                 record.isActive
@@ -751,25 +783,34 @@ const MyListe = () => {
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
                 cursor: record.isActive ? "not-allowed" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
               }}
             >
               <FaRegStopCircle />
               {formatCategory(record.category)}
-            </Link>{" "}
-            <span className="discount-amt" style={{ color: "#2d4495" }}>
+            </Link>
+            <span className="discount-amt" style={{
+              color: "#2d4495",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
+            }}>
               <img
                 src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
                 alt="Saudi Riyal Symbol"
                 style={{
                   height: "1em",
                   verticalAlign: "middle",
-                  marginRight: "5px",
                 }}
               />
               {record.Price}
             </span>
           </div>
-          <p>{record.tagline}.</p>
+          <p>{getTranslatedField(record, 'description', i18n.language) || record.tagline}.</p>
         </>
       ),
       sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0),
@@ -1529,7 +1570,7 @@ const MyListe = () => {
                                           cursor: record.isActive ? "not-allowed" : "pointer",
                                         }}
                                       >
-                                        {record.title}
+                                        {getTranslatedField(record, 'title', i18n.language) || record.title}
                                       </Link>
                                     </h3>
 
@@ -1643,13 +1684,18 @@ const MyListe = () => {
                       </div>
 
                       {/* Desktop Table View */}
-                      <Table
-                        className="listing-table datatable"
-                        columns={columns}
-                        dataSource={filteredCars}
-                        rowKey={(record) => record.id}
-                        pagination={false}
-                      />
+                      <div dir={i18n.language.startsWith('ar') ? 'rtl' : 'ltr'} style={{
+                        direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+                        textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
+                      }}>
+                        <Table
+                          className="listing-table datatable"
+                          columns={columns}
+                          dataSource={filteredCars}
+                          rowKey={(record) => record.id}
+                          pagination={false}
+                        />
+                      </div>
                     </>
                   )}
                 </div>

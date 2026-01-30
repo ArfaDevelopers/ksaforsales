@@ -7,6 +7,8 @@ import "swiper/css/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../../utils/autoTranslate";
 
 const carData = [
   {
@@ -52,6 +54,7 @@ const carData = [
 ];
 
 export default function Relateddata(props) {
+  const { t, i18n } = useTranslation();
   const [relatedCars, setRelatedCars] = useState([]);
   console.log(relatedCars, "relatedCars______________");
 
@@ -81,9 +84,13 @@ export default function Relateddata(props) {
     <>
       {" "}
       {relatedCars.length === 0 ? (
-        <h2 className="similarads">No Similar Ads Found</h2>
+        <h2 className="similarads" style={{ textAlign: i18n.language.startsWith('ar') ? 'right' : 'left' }}>
+          {t("detailsPage.noSimilarAds") || "No Similar Ads Found"}
+        </h2>
       ) : (
-        <h2 className="similarads">SIMILAR ADS</h2>
+        <h2 className="similarads" style={{ textAlign: i18n.language.startsWith('ar') ? 'right' : 'left' }}>
+          {t("detailsPage.similarAds") || "SIMILAR ADS"}
+        </h2>
       )}
       <div className="position-relative w-full px-12 pb-10 relative_swiper">
         <Swiper
@@ -150,22 +157,27 @@ export default function Relateddata(props) {
                     : "Other"
                 }`}
               >
-                <div className="relateable_card_wrap_main">
+                <div className="relateable_card_wrap_main" style={{
+                  direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+                  textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
+                }}>
                   <img
                     src={
                       car.galleryImages?.length > 0
                         ? car.galleryImages[0]
                         : car.photoURL || "/default-car.jpg"
                     }
-                    alt={car.title}
+                    alt={getTranslatedField(car, 'title', i18n.language) || car.title}
                     className="relateable_image"
                   />
                   <div className="relateable_content_wrap_main">
-                    <h3 className="title">{car.title || "No Title"}</h3>
+                    <h3 className="title">{getTranslatedField(car, 'title', i18n.language) || car.title || "No Title"}</h3>
                     <p className="location">
-                      {car.location || car.City || "N/A"}
+                      {getTranslatedField(car, 'City', i18n.language) || car.location || car.City || "N/A"}
                     </p>
-                    <div className="content_footer">
+                    <div className="content_footer" style={{
+                      flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
+                    }}>
                       <p className="price">
                         {car.Price ? `${car.Price} SAR` : "—"}
                       </p>

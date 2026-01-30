@@ -37,6 +37,7 @@ import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { generateListingDescription } from "../../../utils/openaiService";
 import { useTranslation } from "react-i18next";
+import { autoTranslate } from "../../../utils/autoTranslate";
 
 const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1",
@@ -1639,17 +1640,31 @@ const AddLisiting = () => {
     "Pet & Animal": "PETANIMALCOMP",
     Home: "HEALTHCARE",
   };
-  const reverseCategoryMapping = Object.keys(categoryMapping).reduce(
-    (acc, key) => {
-      const formattedKey = key
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join("");
-      acc[formattedKey] = categoryMapping[key];
-      return acc;
-    },
-    {},
-  );
+  const reverseCategoryMapping = {
+    // Standard mappings
+    ...Object.keys(categoryMapping).reduce(
+      (acc, key) => {
+        const formattedKey = key
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join("");
+        acc[formattedKey] = categoryMapping[key];
+        return acc;
+      },
+      {},
+    ),
+    // Additional mappings for callingFrom variations used in other pages
+    "ElectronicComp": "ELECTRONICS",
+    "AutomotiveComp": "Cars",
+    "PetAnimalsComp": "PETANIMALCOMP",
+    "TravelComp": "TRAVEL",
+    "HealthCareComp": "HEALTHCARE",
+    "SportGamesComp": "SPORTSGAMESComp",
+    "RealEstateComp": "REALESTATECOMP",
+    "FashionStyle": "FASHION",
+    "JobBoard": "JOBBOARD",
+    "Education": "Education",
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -1989,9 +2004,40 @@ const AddLisiting = () => {
                                   : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
+          // Auto-translate title and description to both English and Arabic
+          console.log('🔄 Starting translation...');
+          console.log('Original title:', formData.title);
+          console.log('Original description:', formData.description);
+
+          const titleTranslations = await autoTranslate(formData.title);
+          const descriptionTranslations = await autoTranslate(formData.description);
+
+          // Auto-translate City and District if they exist
+          const cityTranslations = selectedCityData.label
+            ? await autoTranslate(selectedCityData.label)
+            : { en: '', ar: '' };
+          const districtTranslations = selectedDistrict.label
+            ? await autoTranslate(selectedDistrict.label)
+            : { en: '', ar: '' };
+
+          console.log('✅ Translation completed!');
+          console.log('Title translations:', titleTranslations);
+          console.log('Description translations:', descriptionTranslations);
+          console.log('City translations:', cityTranslations);
+          console.log('District translations:', districtTranslations);
+
           // Save form data to Firestore under the specified collection
           await addDoc(collection(db, Collection), {
             ...formData,
+            // Add bilingual fields
+            title_en: titleTranslations.en,
+            title_ar: titleTranslations.ar,
+            description_en: descriptionTranslations.en,
+            description_ar: descriptionTranslations.ar,
+            City_en: cityTranslations.en,
+            City_ar: cityTranslations.ar,
+            District_en: districtTranslations.en,
+            District_ar: districtTranslations.ar,
             mediaImgLogo,
             category: Category1,
             photoURL,
@@ -2117,10 +2163,41 @@ const AddLisiting = () => {
 
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
+          // Auto-translate title and description to both English and Arabic
+          console.log('🔄 Starting translation (update mode)...');
+          console.log('Original title:', formData.title);
+          console.log('Original description:', formData.description);
+
+          const titleTranslations = await autoTranslate(formData.title);
+          const descriptionTranslations = await autoTranslate(formData.description);
+
+          // Auto-translate City and District if they exist
+          const cityTranslations = selectedCityData.label
+            ? await autoTranslate(selectedCityData.label)
+            : { en: '', ar: '' };
+          const districtTranslations = selectedDistrict.label
+            ? await autoTranslate(selectedDistrict.label)
+            : { en: '', ar: '' };
+
+          console.log('✅ Translation completed!');
+          console.log('Title translations:', titleTranslations);
+          console.log('Description translations:', descriptionTranslations);
+          console.log('City translations:', cityTranslations);
+          console.log('District translations:', districtTranslations);
+
           // Update the existing document in Firestore
           const docRef = doc(db, Collection, _Id);
           await updateDoc(docRef, {
             ...formData,
+            // Add bilingual fields
+            title_en: titleTranslations.en,
+            title_ar: titleTranslations.ar,
+            description_en: descriptionTranslations.en,
+            description_ar: descriptionTranslations.ar,
+            City_en: cityTranslations.en,
+            City_ar: cityTranslations.ar,
+            District_en: districtTranslations.en,
+            District_ar: districtTranslations.ar,
             mediaImgLogo,
             category: Category1,
             photoURL,

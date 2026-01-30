@@ -32,11 +32,12 @@ import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
 const MySwal = withReactContent(Swal);
 
 const Bookmarks = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -596,7 +597,10 @@ const Bookmarks = () => {
             </div>
           )}
 
-          <div className="bookmarks-content grid-view featured-slider">
+          <div className="bookmarks-content grid-view featured-slider" dir={i18n.language.startsWith('ar') ? 'rtl' : 'ltr'} style={{
+            direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+            textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
+          }}>
             <div className="row">
               {loading ? (
                 <div
@@ -823,7 +827,7 @@ const Bookmarks = () => {
                                       )}`
                                 }
                               >
-                                {car.title}
+                                {getTranslatedField(car, 'title', i18n.language) || getTranslatedField(car, 'Title', i18n.language) || car.title || car.Title}
                               </Link>
                             </h6>
                             <h6>
@@ -868,7 +872,7 @@ const Bookmarks = () => {
                             </h6>
                             <div className="blog-location-details">
                               <div className="location-info">
-                                <i className="feather-map-pin" /> {car.City}
+                                <i className="feather-map-pin" /> {getTranslatedField(car, 'City', i18n.language) || car.City}
                               </div>
                               <div className="location-info">
                                 <i className="fa-solid fa-calendar-days" />{" "}

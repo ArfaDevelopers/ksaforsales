@@ -7,9 +7,10 @@ import { db } from "../../Firebase/FirebaseConfig"; // Adjust path as needed
 import { getDocs, collection } from "firebase/firestore";
 import Spinner from "react-bootstrap/Spinner";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
 const SuggestedAds = ({ callingFrom, currentAdId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [suggestedAds, setSuggestedAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const slider = useRef();
@@ -108,7 +109,7 @@ const SuggestedAds = ({ callingFrom, currentAdId }) => {
                   )}
                   <div className="bloglist-content">
                     <div className="card-body">
-                      <h6>{ad.title}</h6>
+                      <h6>{getTranslatedField(ad, 'title', i18n.language)}</h6>
                       <p>${ad.Price || "N/A"}</p>
                     </div>
                   </div>

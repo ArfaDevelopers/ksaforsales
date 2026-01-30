@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../utils/autoTranslate";
 import Footer from "./../home/footer/Footer";
 import Header from "../home/header";
 import img from "./home-07.jpg";
@@ -65,9 +66,220 @@ const stripePromise = loadStripe(
   "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
 );
 const Dynamic_Routes = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
+
+  // Helper function to translate field labels
+  const translateFieldLabel = (fieldName) => {
+    // Map field names to translation keys
+    const fieldMap = {
+      "Seller Type": t("detailsPage.sellerType"),
+      "Duration": t("detailsPage.duration"),
+      "Registered City": t("detailsPage.registeredCity"),
+      "Assembly": t("detailsPage.assembly"),
+      "Accuracy": t("detailsPage.accuracy"),
+      "Battery Type": t("detailsPage.batteryType"),
+      "Compatibility": t("detailsPage.compatibility"),
+      "CuffSize": t("detailsPage.cuffSize"),
+      "Display Type": t("detailsPage.displayType"),
+      "Features": t("detailsPage.features"),
+      "MeasurementRange": t("detailsPage.measurementRange"),
+      "MeasurementUnits": t("detailsPage.measurementUnits"),
+      "Wash Type": t("detailsPage.washType"),
+      "Type": t("detailsPage.type"),
+      "RAM": t("detailsPage.ram"),
+      "bodyType": t("detailsPage.bodyType"),
+      "Brand": t("detailsPage.brand"),
+      "Operating System": t("detailsPage.operatingSystem"),
+      "type": t("detailsPage.type"),
+      "Screen Size": t("detailsPage.screenSize"),
+      "Registeredin": t("detailsPage.registeredin"),
+      "EngineCapacity": t("detailsPage.engineCapacity"),
+      "BodyType": t("detailsPage.bodyType"),
+      "ExteriorColor": t("detailsPage.exteriorColor"),
+      "Condition": t("detailsPage.condition"),
+      "Purpose": t("detailsPage.purpose"),
+      "ClosureType": t("detailsPage.closureType"),
+      "Material": t("detailsPage.material"),
+      "CollarType": t("detailsPage.collarType"),
+      "Season": t("detailsPage.season"),
+      "StyleDesign": t("detailsPage.styleDesign"),
+      "Fit": t("detailsPage.fit"),
+      "City": t("detailsPage.city"),
+      "District": t("detailsPage.district"),
+      "Company": t("detailsPage.company"),
+      "EmploymentType": t("detailsPage.employmentType"),
+      "ExperienceLevel": t("detailsPage.experienceLevel"),
+      "Industry": t("detailsPage.industry"),
+      "SalaryRange": t("detailsPage.salaryRange"),
+      "Sallary From": t("detailsPage.sallaryFrom"),
+      "Sallary To": t("detailsPage.sallaryTo"),
+      "Content Type": t("detailsPage.contentType"),
+      "Language": t("detailsPage.language"),
+      "SkillLevel": t("detailsPage.skillLevel"),
+      "States": t("detailsPage.states"),
+      "Subject Categories": t("detailsPage.subjectCategories"),
+      "assembly": t("detailsPage.assembly"),
+      "purpose": t("detailsPage.purpose"),
+      "Accessibility": t("detailsPage.accessibility"),
+      "Amenities": t("detailsPage.amenities"),
+      "Building Type": t("detailsPage.buildingType"),
+      "Property Features": t("detailsPage.propertyFeatures"),
+      "Property Type": t("detailsPage.propertyType"),
+      "Size": t("detailsPage.size"),
+      "Checkin": t("detailsPage.checkin"),
+      "RoomType": t("detailsPage.roomType"),
+      "Availability": t("detailsPage.availability"),
+      "ColorOptions": t("detailsPage.colorOptions"),
+      "Age": t("detailsPage.age"),
+      "Breed": t("detailsPage.breed"),
+      "Color": t("detailsPage.color"),
+      "Dietary Preferences": t("detailsPage.dietaryPreferences"),
+      "Health Status": t("detailsPage.healthStatus"),
+      "Temperament": t("detailsPage.temperament"),
+      "Training Level": t("detailsPage.trainingLevel"),
+      "Engine Capacity": t("detailsPage.engineCapacity"),
+      "Make": t("detailsPage.make"),
+      "Body Type": t("detailsPage.bodyType"),
+      "ContentType": t("detailsPage.contentType"),
+      "Last Updated": t("detailsPage.lastUpdated"),
+      "Exterior Color": t("detailsPage.exteriorColor"),
+      "Model": t("detailsPage.model"),
+      "Price From": t("detailsPage.priceFrom"),
+      "Price To": t("detailsPage.priceTo"),
+      "Skill Level": t("detailsPage.skillLevel"),
+      "Website": t("detailsPage.website"),
+      "Phone": t("detailsPage.phone"),
+      "Email": t("detailsPage.email"),
+      "Address": t("detailsPage.address"),
+      "Location": t("detailsPage.location"),
+      "Manufacture Year": t("detailsPage.manufactureYear"),
+      "Processor": t("detailsPage.processor"),
+      "Display Quality": t("detailsPage.displayQuality"),
+      "Storage Capacity": t("detailsPage.storageCapacity"),
+      "Storage Type": t("detailsPage.storageType"),
+      "Battery Life": t("detailsPage.batteryLife"),
+      "Connectivity": t("detailsPage.connectivity"),
+      "Graphics Card": t("detailsPage.graphicsCard"),
+      "Special Features": t("detailsPage.specialFeatures"),
+      "Picture Availability": t("detailsPage.pictureAvailability"),
+      "Video Availability": t("detailsPage.videoAvailability"),
+      "Featured Ads": t("detailsPage.featuredAds"),
+      "Category": t("detailsPage.category"),
+      "State": t("detailsPage.state"),
+      "Created At": t("detailsPage.createdAt"),
+      "Regional Spec": t("detailsPage.regionalSpec"),
+      "Insurance": t("detailsPage.insurance"),
+      "Interior Color": t("detailsPage.interiorColor"),
+      "Transmission": t("detailsPage.transmission"),
+      "transmission": t("detailsPage.transmission"),
+      "SeatingCapacity": t("detailsPage.seatingCapacity"),
+      "Seating Capacity": t("detailsPage.seatingCapacity"),
+      "NumberOfDoors": t("detailsPage.numberOfDoors"),
+      "Number of Doors": t("detailsPage.numberOfDoors"),
+      "Mileage": t("detailsPage.mileage"),
+      "mileage": t("detailsPage.mileage"),
+      "PaymentMethod": t("detailsPage.paymentMethod"),
+      "Payment Method": t("detailsPage.paymentMethod")
+    };
+    return fieldMap[fieldName] || fieldName;
+  };
+
+  // Helper function to translate field values (for dropdown/enum values)
+  const translateFieldValue = (value) => {
+    if (!value) return value;
+
+    const valueStr = String(value).trim();
+    const valueLower = valueStr.toLowerCase();
+
+    // Condition values
+    if (valueLower === "new") return t("filters.options.condition.new");
+    if (valueLower === "used") return t("filters.options.condition.used");
+
+    // Seller Type values
+    if (valueLower === "dealers") return t("filters.options.sellerType.dealers");
+    if (valueLower === "individuals") return t("filters.options.sellerType.individuals");
+
+    // Purpose/Ad Type values
+    if (valueLower === "sell") return t("filters.options.adType.sell");
+    if (valueLower === "rent") return t("filters.options.adType.rent");
+    if (valueLower === "wanted") return t("filters.options.adType.wanted");
+
+    // Payment Method values
+    if (valueLower === "cash") return t("filters.options.paymentMethod.cash");
+    if (valueLower === "mortgage") return t("filters.options.paymentMethod.mortgage");
+    if (valueLower.includes("installment") && valueLower.includes("without")) return t("filters.options.paymentMethod.installmentsWithoutBank");
+
+    // Transmission values
+    if (valueLower === "manual") return t("filters.options.transmission.manual");
+    if (valueLower === "automatic") return t("filters.options.transmission.automatic");
+
+    // Color values
+    if (valueLower === "white") return t("filters.options.colors.white");
+    if (valueLower === "black") return t("filters.options.colors.black");
+    if (valueLower === "grey" || valueLower === "gray") return t("filters.options.colors.grey");
+    if (valueLower === "red") return t("filters.options.colors.red");
+    if (valueLower === "yellow") return t("filters.options.colors.yellow");
+    if (valueLower === "blue") return t("filters.options.colors.blue");
+    if (valueLower === "green") return t("filters.options.colors.green");
+    if (valueLower === "silver") return t("filters.options.colors.silver");
+
+    // Regional Spec values
+    if (valueLower === "gcc") return t("filters.options.regionalSpec.gcc");
+    if (valueLower === "european") return t("filters.options.regionalSpec.european");
+    if (valueLower === "japanese") return t("filters.options.regionalSpec.japanese");
+    if (valueLower === "american") return t("filters.options.regionalSpec.american");
+
+    // Fuel Type values
+    if (valueLower === "petrol") return t("filters.options.fuelType.petrol");
+    if (valueLower === "diesel") return t("filters.options.fuelType.diesel");
+    if (valueLower === "electric") return t("filters.options.fuelType.electric");
+    if (valueLower === "hybrid") return t("filters.options.fuelType.hybrid");
+    if (valueLower === "lpg") return t("filters.options.fuelType.lpg");
+    if (valueLower === "cng") return t("filters.options.fuelType.cng");
+
+    // Insurance values
+    if (valueLower === "no insurance") return t("filters.options.insurance.noInsurance");
+    if (valueLower === "thirdparty" || valueLower === "third party") return t("filters.options.insurance.thirdParty");
+    if (valueLower === "comprehensive") return t("filters.options.insurance.comprehensive");
+
+    // Body Type values
+    if (valueLower === "coupe") return t("filters.options.bodyType.coupe");
+    if (valueLower === "sedan") return t("filters.options.bodyType.sedan");
+    if (valueLower === "suv") return t("filters.options.bodyType.suv");
+    if (valueLower === "hatchback") return t("filters.options.bodyType.hatchback");
+    if (valueLower === "convertible") return t("filters.options.bodyType.convertible");
+    if (valueLower === "wagon") return t("filters.options.bodyType.wagon");
+    if (valueLower.includes("pickup")) return t("filters.options.bodyType.pickupTruck");
+    if (valueLower === "crossover") return t("filters.options.bodyType.crossover");
+    if (valueLower === "minivan") return t("filters.options.bodyType.minivan");
+
+    // Additional Features values
+    if (valueLower.includes("fulloption") || valueLower.includes("full option")) return t("filters.options.additionalFeatures.fullOption");
+    if (valueLower === "insured") return t("filters.options.additionalFeatures.insured");
+    if (valueLower.includes("self") && valueLower.includes("park")) return t("filters.options.additionalFeatures.selfParking");
+    if (valueLower.includes("alarm")) return t("filters.options.additionalFeatures.alarmSystem");
+    if (valueLower === "dealership") return t("filters.options.additionalFeatures.dealership");
+    if (valueLower.includes("quick") && valueLower.includes("sell")) return t("filters.options.additionalFeatures.quickSelling");
+    if (valueLower === "navigation") return t("filters.options.additionalFeatures.navigation");
+    if (valueLower === "inspected") return t("filters.options.additionalFeatures.inspected");
+    if (valueLower.includes("parking") && valueLower.includes("sensor")) return t("filters.options.additionalFeatures.parkingSensors");
+    if (valueLower === "bluetooth") return t("filters.options.additionalFeatures.bluetooth");
+    if (valueLower.includes("sunroof") || valueLower.includes("moonroof")) return t("filters.options.additionalFeatures.sunroofMoonroof");
+    if (valueLower.includes("leather") && valueLower.includes("seat")) return t("filters.options.additionalFeatures.leatherSeats");
+    if (valueLower.includes("backup") && valueLower.includes("camera")) return t("filters.options.additionalFeatures.backupCamera");
+    if (valueLower.includes("heated") && valueLower.includes("seat")) return t("filters.options.additionalFeatures.heatedSeats");
+    if (valueLower.includes("keyless")) return t("filters.options.additionalFeatures.keylessEntry");
+    if (valueLower.includes("remote") && valueLower.includes("start")) return t("filters.options.additionalFeatures.remoteStart");
+    if (valueLower.includes("touchscreen")) return t("filters.options.additionalFeatures.touchscreenDisplay");
+    if (valueLower.includes("carplay") || valueLower.includes("android auto")) return t("filters.options.additionalFeatures.appleCarplayAndroidAuto");
+    if (valueLower.includes("led") && valueLower.includes("headlight")) return t("filters.options.additionalFeatures.ledHeadlights");
+    if (valueLower.includes("all") && valueLower.includes("wheel")) return t("filters.options.additionalFeatures.allWheelDrive");
+
+    // Return original value if no translation found
+    return value;
+  };
 
   // Helper function to translate category names
   const translateCategory = (category) => {
@@ -883,23 +1095,32 @@ const Dynamic_Routes = () => {
     const fetchItem = async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `http://168.231.80.24:9002/route/getItemById?callingFrom=${callingFrom}&id=${_Id}`
-        );
+        // Fetch directly from Firestore to get all fields including translations
+        const docRef = doc(db, callingFrom, _Id);
+        const docSnap = await getDoc(docRef);
 
-        const item = await res.json();
-
-        if (item?.id) {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          console.log("🔍 Details page - Fetched data from Firestore:", {
+            title: data.title,
+            title_en: data.title_en,
+            title_ar: data.title_ar,
+            description: data.description,
+            description_en: data.description_en,
+            description_ar: data.description_ar,
+          });
           setItemData({
-            ...item,
-            timeAgo: item.createdAt?._seconds
-              ? formatDistanceToNow(new Date(item.createdAt._seconds * 1000), {
+            id: docSnap.id,
+            ...data,
+            timeAgo: data.createdAt
+              ? formatDistanceToNow(data.createdAt.toDate(), {
                   addSuffix: true,
                 })
               : "Unknown time",
           });
         } else {
           setItemData(null);
+          console.log("No document found!");
         }
 
         setLoading(false);
@@ -911,7 +1132,7 @@ const Dynamic_Routes = () => {
     };
 
     if (_Id && callingFrom) fetchItem();
-  }, [_Id, callingFrom, refresh]);
+  }, [_Id, callingFrom, refresh, db]);
 
   if (loading) {
     return (
@@ -1364,7 +1585,7 @@ const Dynamic_Routes = () => {
                 marginBottom: "10px",
               }}
             >
-              Posted {itemData?.timeAgo || "Loading..."}
+              {t("detailsPage.posted")} {itemData?.timeAgo || "Loading..."}
             </p>
           </div>
           <Row>
@@ -1429,7 +1650,7 @@ const Dynamic_Routes = () => {
                             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                           }}
                         >
-                          {itemData?.title || "آلة غسيل أطباق"}
+                          {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                         </h2>
                         <p
                           style={{
@@ -1614,6 +1835,7 @@ const Dynamic_Routes = () => {
                       <ul className="product_Detail_inner">
                         {Object.entries({
                           "Seller Type": itemData?.SellerType,
+                          District: itemData?.District,
                           Duration: itemData?.Duration,
                           "Registered City": itemData?.Registeredin,
                           Assembly: itemData?.Assembly,
@@ -1636,6 +1858,14 @@ const Dynamic_Routes = () => {
                           Registeredin: itemData?.Registeredin,
                           EngineCapacity: itemData?.EngineCapacity,
                           BodyType: itemData?.BodyType,
+                          Transmission: itemData?.Transmission,
+                          "Regional Spec": itemData?.RegionalSpec,
+                          Insurance: itemData?.Insurance,
+                          "Seating Capacity": itemData?.SeatingCapacity,
+                          "Number of Doors": itemData?.NumberOfDoors,
+                          Mileage: itemData?.Mileage,
+                          "Payment Method": itemData?.PaymentMethod,
+                          "Interior Color": itemData?.InteriorColor,
                           ExteriorColor: itemData?.ExteriorColor,
                           Condition: itemData?.Condition,
                           Purpose: itemData?.Purpose,
@@ -1724,8 +1954,8 @@ const Dynamic_Routes = () => {
                           ) // Strict filter
                           .map(([label, value], index) => (
                             <li key={index} className="product_Detail_block">
-                              <span className="detail_text">{label}:</span>
-                              <span className="detail_text">{value}</span>
+                              <span className="detail_text">{translateFieldLabel(label)}:</span>
+                              <span className="detail_text">{translateFieldValue(value)}</span>
                             </li>
                           ))}
                       </ul>
@@ -1734,12 +1964,12 @@ const Dynamic_Routes = () => {
                   <div className="dynamic-route-container">
                     {/* Features Section */}
                     <div className="section">
-                      <h1 className="section-title dynamic_route">Features</h1>
+                      <h1 className="section-title dynamic_route">{t("detailsPage.features")}</h1>
                       <ul className="descriptions-wrapper">
                         {itemData?.AdditionalFeatures?.length > 0 ? (
                           itemData.AdditionalFeatures.map((feature, index) => (
                             <li key={index} className="feature-item">
-                              {feature}
+                              {translateFieldValue(feature)}
                             </li>
                           ))
                         ) : (
@@ -1751,10 +1981,10 @@ const Dynamic_Routes = () => {
                     {/* Description Section */}
                     <div className="section m-0">
                       <h1 className="section-title section-title-description dynamic_route">
-                        Description
+                        {t("detailsPage.description")}
                       </h1>
                       <pre className="descriptions-para">
-                        {itemData?.description?.trim() || "No description"}
+                        {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                       </pre>
                     </div>
                   </div>

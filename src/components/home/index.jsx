@@ -73,9 +73,10 @@ import {
 } from "firebase/firestore";
 import { db } from "./../Firebase/FirebaseConfig.jsx";
 import react from "@heroicons/react";
+import { getTranslatedField } from "../../utils/autoTranslate";
 import { useRef } from "react";
 const Home = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const scrollRef = useRef(null);
   const navigate = useNavigate();
 
@@ -972,7 +973,7 @@ const Home = () => {
                   textDecoration: "none", // Ensure Link looks like a button
                 }}
               >
-                {product.title}
+                {getTranslatedField(product, 'title', i18n.language)}
               </Link>
             ))}
           </div>
