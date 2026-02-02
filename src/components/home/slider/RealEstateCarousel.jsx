@@ -55,18 +55,18 @@ export default function AutomativeCarousel() {
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState(
-    "Residential For Sale"
+    "Houses for Sale"
   );
 
   // Helper function to translate real estate subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
-      "Residential For Sale": t("subcategories.realEstate.housesForSale"),
-      "Residential For Rent": t("subcategories.realEstate.housesForRent"),
-      "Commercial For Sale": t("subcategories.realEstate.commercialLandsForSale"),
-      "Commercial For Rent": t("subcategories.realEstate.shopsForRent"),
-      "Land For Sale": t("subcategories.realEstate.landsForSale"),
-      "Land For Rent": t("subcategories.realEstate.landsForRent")
+      "Houses for Sale": t("subcategories.realEstate.housesForSale"),
+      "Houses for Rent": t("subcategories.realEstate.housesForRent"),
+      "Commercial Lands for Sale": t("subcategories.realEstate.commercialLandsForSale"),
+      "Shops for Rent": t("subcategories.realEstate.shopsForRent"),
+      "Lands for Sale": t("subcategories.realEstate.landsForSale"),
+      "Villas for Rent": t("subcategories.realEstate.villasForRent")
     };
     return subcategoryMap[name] || name;
   };

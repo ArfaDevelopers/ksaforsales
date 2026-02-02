@@ -60,11 +60,11 @@ export default function AutomativeCarousel() {
   const translateSubcategory = (name) => {
     const subcategoryMap = {
       "Mobile Phones": t("subcategories.electronics.mobilePhones"),
-      "Tablets": t("subcategories.electronics.tabletDevices"),
-      "Laptops": t("subcategories.electronics.computersAndLaptops"),
-      "Gaming": t("subcategories.electronics.videoGames"),
+      "Tablet Devices": t("subcategories.electronics.tabletDevices"),
+      "Computers & Laptops": t("subcategories.electronics.computersAndLaptops"),
+      "Video Games": t("subcategories.electronics.videoGames"),
       "Cameras": t("subcategories.electronics.cameras"),
-      "Appliances": t("subcategories.electronics.homeAndKitchenAppliance")
+      "Home & Kitchen Appliance": t("subcategories.electronics.homeAndKitchenAppliance")
     };
     return subcategoryMap[name] || name;
   };

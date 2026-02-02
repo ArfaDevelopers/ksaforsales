@@ -53,7 +53,7 @@ export default function AutomativeCarousel() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
-  const [activeSubcategory, setActiveSubcategory] = useState("Furniture");
+  const [activeSubcategory, setActiveSubcategory] = useState("Majlis & Sofas");
 
   // Helper function to translate home & furniture subcategory names
   const translateSubcategory = (name) => {

@@ -54,17 +54,18 @@ export default function AutomativeCarousel() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
-  const [activeSubcategory, setActiveSubcategory] = useState("Ball Sports");
+  const [activeSubcategory, setActiveSubcategory] = useState("Gaming Consoles");
 
   // Helper function to translate subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
-      "Ball Sports": t("subcategories.sportGame.ballSports"),
-      "Football": t("subcategories.sportGame.football"),
-      "Basketball": t("subcategories.sportGame.basketball"),
-      "Tennis": t("subcategories.sportGame.tennis"),
-      "Gaming": t("subcategories.sportGame.gaming"),
-      "Fitness": t("subcategories.sportGame.fitness")
+      "Gaming Consoles": t("subcategories.sportGame.gamingConsoles"),
+      "Video Games": t("subcategories.sportGame.videoGames"),
+      "Controllers": t("subcategories.sportGame.controllers"),
+      "Gaming Accessories": t("subcategories.sportGame.gamingAccessories"),
+      "Gift Cards": t("subcategories.sportGame.giftCards"),
+      "Accounts": t("subcategories.sportGame.accounts"),
+      "Toys": t("subcategories.sportGame.toys")
     };
     return subcategoryMap[name] || name;
   };
