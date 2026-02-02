@@ -23727,10 +23727,11 @@ height: 400px;
     display: none;
   }
   .latest_blog_box .image_box2 img {
-    height: auto !important;
+    height: 160px !important;
+    object-fit: cover;
   }
   .latest_blog_box .image_box1 img {
-    height: auto !important;
+    height: 160px !important;
   }
   .header .dropdown-toggle:after {
     margin-left: 0px !important;
