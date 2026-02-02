@@ -7038,6 +7038,13 @@ margin-top: -4rem !important;
   padding: 25px;
 }
 @media screen and (max-width:768px) {
+.profile-userlink img {
+  width: 33px;
+  height: 33px;
+}
+.profile-userlink {
+  font-size: 13px;
+}
   .dashboard-info .card.dash-cards .card-body{
     padding: 10px !important;
   }
@@ -23717,6 +23724,8 @@ height: 400px;
   }
   .header .dropdown-toggle:after {
     margin-left: 0px !important;
+    height: 6px;
+    width: 6px;
   }
 }
 .updatedel_wrap {
