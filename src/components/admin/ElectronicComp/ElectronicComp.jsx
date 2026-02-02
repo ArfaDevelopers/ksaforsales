@@ -1555,7 +1555,18 @@ const ElectronicComp = () => {
         heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
         bookmarked: !alreadyHearted,
         [`userBookmarks.${uid}`]: !alreadyHearted,
+        [`bookmarkedAt.${uid}`]: !alreadyHearted ? Date.now() : null,
       });
+
+      // ✅ FIX: Store bookmark change for bookmarks page cache invalidation
+      const bookmarkChange = {
+        id: carId,
+        category: "Electronics",
+        tableName: "ELECTRONICS",
+        removed: alreadyHearted,
+        timestamp: Date.now(),
+      };
+      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
 
       // Optimistically update local state
       setCars((prevCars) =>

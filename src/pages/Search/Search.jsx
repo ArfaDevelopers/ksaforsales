@@ -1068,6 +1068,7 @@ const Search = () => {
           : arrayUnion(currentUser.uid),
         bookmarked: !isBookmarked, // Update bookmarked field
         [`userBookmarks.${currentUser.uid}`]: !isBookmarked, // Track per-user bookmark status
+        [`bookmarkedAt.${currentUser.uid}`]: !isBookmarked ? Date.now() : null, // ✅ Store bookmark timestamp
       });
 
       // Verify the update by reading back

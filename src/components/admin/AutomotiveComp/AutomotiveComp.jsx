@@ -3707,6 +3707,7 @@ const AutomotiveComp = () => {
           heartedby: alreadyHearted ? arrayRemove(uid) : arrayUnion(uid),
           bookmarked: !alreadyHearted, // Update bookmarked field
           [`userBookmarks.${uid}`]: !alreadyHearted, // Track per-user bookmark status
+          [`bookmarkedAt.${uid}`]: !alreadyHearted ? Date.now() : null,
         });
 
         // Store the bookmark change for other pages

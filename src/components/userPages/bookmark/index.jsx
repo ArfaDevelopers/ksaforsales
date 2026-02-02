@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Table } from "antd";
 import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
@@ -36,13 +36,152 @@ import { getTranslatedField } from "../../../utils/autoTranslate";
 
 const MySwal = withReactContent(Swal);
 
+// ✅ PERFORMANCE: Move constant mapping outside component to prevent recreation
+const categoryMapping = {
+  "Sports & Game": "SPORTSGAMESComp",
+  Electronics: "ELECTRONICS",
+  "Fashion Style": "FASHION",
+  "Job board": "JOBBOARD",
+  "Real Estate": "REALESTATECOMP",
+  Education: "Education",
+  Travel: "TRAVEL",
+  "Pet & Animal": "PETANIMALCOMP",
+  "Health Care": "HEALTHCARE",
+  Commercial: "CommercialAdscom",
+  Automotive: "Cars",
+  Other: "Education",
+  Services: "TRAVEL",
+  "Home & Furnituer": "HEALTHCARE",
+};
+
+// ✅ PERFORMANCE: Memoized card component to prevent unnecessary re-renders
+const BookmarkCard = React.memo(({ car, getCarRoute, toggleBookmark, t, i18n, getTranslatedField, eye }) => {
+  // ✅ Precompute expensive values once per card
+  const route = useMemo(() => getCarRoute(car), [car, getCarRoute]);
+  const title = useMemo(
+    () => getTranslatedField(car, 'title', i18n.language) || getTranslatedField(car, 'Title', i18n.language) || car.title || car.Title,
+    [car, i18n.language, getTranslatedField]
+  );
+  const city = useMemo(
+    () => getTranslatedField(car, 'City', i18n.language) || car.City,
+    [car, i18n.language, getTranslatedField]
+  );
+  const formattedDate = useMemo(
+    () => car.createdAt ? new Date(car.createdAt.seconds * 1000).toLocaleDateString() : "N/A",
+    [car.createdAt]
+  );
+
+  return (
+    <>
+      <div className="card aos aos-init aos-animate" data-aos="fade-up">
+        <div className="blog-widget shadow-sm">
+          <div className="blog-img">
+            <Link to={route}>
+              <img
+                style={{ height: "322px" }}
+                src={car.galleryImages?.[0] || "placeholder.jpg"}
+                className="img-fluid"
+                alt="car-img"
+                loading="lazy"
+              />
+            </Link>
+            <div className="fav-item">
+              {car.FeaturedAds === "Featured Ads" && (
+                <span className="Featured-text">{t("common.featured")}</span>
+              )}
+              <Link
+                to="#"
+                className="fav-icon"
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleBookmark(car.id, car.category, car.collectionName);
+                }}
+              >
+                <FaHeart
+                  style={{
+                    color: car.bookmarked ? "red" : "white",
+                    fontSize: "30px",
+                  }}
+                />
+              </Link>
+            </div>
+          </div>
+          <div className="bloglist-content">
+            <div className="card-body">
+              <div className="blogfeaturelink">
+                <div className="grid-author">
+                  <img src={car.photoURL} alt="author" loading="lazy" />
+                </div>
+                <div className="blog-features">
+                  <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+                    <i className="fa-regular fa-circle-stop" /> {car.displayName}
+                  </span>
+                </div>
+                <div className="blog-author text-end">
+                  <span>
+                    <Link to={route}>
+                      <img src={eye} alt="views" style={{ width: "25px" }} />
+                    </Link>
+                    4000
+                  </span>
+                </div>
+              </div>
+              <h6>
+                <Link to={route}>{title}</Link>
+              </h6>
+              <h6>
+                <Link to={route}>
+                  {t("bookmarks.productId")}: {car.id}
+                </Link>
+              </h6>
+              <div className="blog-location-details">
+                <div className="location-info">
+                  <i className="feather-map-pin" /> {city}
+                </div>
+                <div className="location-info">
+                  <i className="fa-solid fa-calendar-days" /> {formattedDate}
+                </div>
+              </div>
+              <div className="amount-details">
+                <div className="amount">
+                  <span className="validrate">
+                    {car.Price ? (
+                      <>
+                        <img
+                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                          alt="Saudi Riyal Symbol"
+                          style={{ height: "1em", verticalAlign: "middle", marginRight: "0.25em" }}
+                        />
+                        {car.Price}
+                      </>
+                    ) : (
+                      t("common.priceNotAvailable")
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}, (prevProps, nextProps) => {
+  // Custom comparison for better performance
+  return (
+    prevProps.car.id === nextProps.car.id &&
+    prevProps.car.bookmarked === nextProps.car.bookmarked &&
+    prevProps.i18n.language === nextProps.i18n.language
+  );
+});
+
 const Bookmarks = () => {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(9);
+  const [pageSize, setPageSize] = useState(12); // ✅ Increased to 12 cards per page (3 rows of 4 cards)
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
@@ -67,22 +206,6 @@ const Bookmarks = () => {
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
-  };
-  const categoryMapping = {
-    "Sports & Game": "SPORTSGAMESComp",
-    Electronics: "ELECTRONICS",
-    "Fashion Style": "FASHIONComp",
-    "Job board": "JOBBOARD",
-    "Real Estate": "REALESTATECOMP",
-    Education: "Education",
-    Travel: "TRAVEL",
-    "Pet & Animal": "PETANIMALCOMP",
-    "Health Care": "HEALTHCARE",
-    Commercial: "CommercialAdscom",
-    Automotive: "Cars",
-    Other: "Education",
-    Services: "TRAVEL",
-    "Home & Furnituer": "HEALTHCARE",
   };
 
   useEffect(() => {
@@ -114,13 +237,17 @@ const Bookmarks = () => {
         console.log("🔖 Current page:", currentPage, "Sort order:", sortOrder);
 
         // Define all collections to check for bookmarked items
+        // ✅ FIXED: Added missing collections that were causing bookmarks not to show
         const collections = [
           { name: "Cars", category: "Automotive" },
           { name: "ELECTRONICS", category: "Electronics" },
-          { name: "FASHIONComp", category: "Fashion Style" },
+          { name: "FASHION", category: "Fashion Style" },
+          { name: "BodyContentFashion", category: "Fashion Style" },
           { name: "HEALTHCARE", category: "Home & Furnituer" },
+          { name: "HomeFurnitureContent", category: "Home & Furnituer" },
           { name: "JOBBOARD", category: "Job board" },
           { name: "Education", category: "Other" },
+          { name: "OtherContent", category: "Other" },
           { name: "REALESTATECOMP", category: "Real Estate" },
           { name: "TRAVEL", category: "Services" },
           { name: "SPORTSGAMESComp", category: "Sports & Game" },
@@ -128,10 +255,8 @@ const Bookmarks = () => {
           { name: "CommercialAdscom", category: "Commercial" },
         ];
 
-        let allBookmarkedItems = [];
-
-        // Fetch from all collections
-        for (const { name: collectionName, category } of collections) {
+        // ✅ PERFORMANCE FIX: Fetch from ALL collections in PARALLEL using Promise.all
+        const fetchPromises = collections.map(async ({ name: collectionName, category }) => {
           try {
             const collectionRef = collection(db, collectionName);
             const q = query(collectionRef, where("heartedby", "array-contains", currentUserId));
@@ -142,36 +267,30 @@ const Bookmarks = () => {
               ...doc.data(),
               category: category,
               collectionName: collectionName,
-              bookmarked: true, // Mark as bookmarked since we fetched it via heartedby
+              bookmarked: true,
             }));
 
             console.log(`🔖 ${collectionName}: Found ${items.length} bookmarked items`);
-            if (items.length > 0) {
-              console.log(`🔖 ${collectionName} items:`, items.map(i => ({ id: i.id, title: i.title || i.Title })));
-            }
-            allBookmarkedItems = [...allBookmarkedItems, ...items];
+            return items;
           } catch (error) {
             console.error(`Error fetching from ${collectionName}:`, error);
-            // Continue with other collections even if one fails
+            return []; // Return empty array on error
           }
-        }
+        });
+
+        // Wait for ALL queries to complete in parallel
+        const results = await Promise.all(fetchPromises);
+        const allBookmarkedItems = results.flat();
 
         console.log("🔖 ============================================");
         console.log("🔖 Total bookmarked items found:", allBookmarkedItems.length);
-        if (allBookmarkedItems.length > 0) {
-          console.log("🔖 All items:", allBookmarkedItems.map(i => ({
-            id: i.id,
-            title: i.title || i.Title,
-            collection: i.collectionName,
-            heartedby: i.heartedby
-          })));
-        }
         console.log("🔖 ============================================");
 
-        // Sort the items based on sortOrder
+        // ✅ UPDATED: Sort by bookmark timestamp (most recently bookmarked first)
         const sortedItems = allBookmarkedItems.sort((a, b) => {
-          const dateA = a.createdAt?.seconds || 0;
-          const dateB = b.createdAt?.seconds || 0;
+          // Use bookmarkedAt timestamp if available, otherwise fall back to createdAt
+          const dateA = a.bookmarkedAt?.[currentUserId] || a.createdAt?.seconds * 1000 || 0;
+          const dateB = b.bookmarkedAt?.[currentUserId] || b.createdAt?.seconds * 1000 || 0;
           return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
         });
 
@@ -233,7 +352,8 @@ const Bookmarks = () => {
     setSearchQuery(event.target.value);
   };
 
-  const toggleBookmark = async (id, category, collectionName) => {
+  // ✅ PERFORMANCE: Memoize toggleBookmark to prevent unnecessary re-renders
+  const toggleBookmark = useCallback(async (id, category, collectionName) => {
     // Get current user ID
     const currentUserId = auth.currentUser?.uid;
     if (!currentUserId) {
@@ -301,6 +421,7 @@ const Bookmarks = () => {
           ? arrayRemove(currentUserId)
           : arrayUnion(currentUserId),
         [`userBookmarks.${currentUserId}`]: !isCurrentlyBookmarked,
+        [`bookmarkedAt.${currentUserId}`]: !isCurrentlyBookmarked ? Date.now() : null, // ✅ Store bookmark timestamp
       });
 
       // Verify the update by reading back (like Search.jsx does)
@@ -393,7 +514,7 @@ const Bookmarks = () => {
       });
       setError("Failed to update bookmark");
     }
-  };
+  }, []); // ✅ Empty deps - categoryMapping is now a constant outside component
 
   const viewItem = async (id, category) => {
     try {
@@ -538,6 +659,51 @@ const Bookmarks = () => {
       .join("");
   };
 
+  // ✅ PERFORMANCE: Precompute route to avoid repeated logic in render
+  const getCarRoute = useCallback((car) => {
+    if (car.isActive) return "#";
+
+    const trimmedCategory = car.category.trim();
+    let callingFrom;
+
+    switch (trimmedCategory) {
+      case "Pet & Animals":
+        callingFrom = "PetAnimalsComp";
+        break;
+      case "Automotive":
+        callingFrom = "AutomotiveComp";
+        break;
+      case "Other":
+        callingFrom = "Education";
+        break;
+      case "Services":
+        callingFrom = "TravelComp";
+        break;
+      case "JobBoard":
+        callingFrom = "JobBoard";
+        break;
+      case "FashionStyle":
+        callingFrom = "FashionStyle";
+        break;
+      case "Electronics":
+        callingFrom = "ElectronicComp";
+        break;
+      case "Home & Furnituer":
+        callingFrom = "HealthCareComp";
+        break;
+      case "Sports & Game":
+        callingFrom = "SportGamesComp";
+        break;
+      case "Real Estate":
+        callingFrom = "RealEstateComp";
+        break;
+      default:
+        callingFrom = formatCategory(trimmedCategory);
+    }
+
+    return `/Dynamic_Route?id=${car.id}&callingFrom=${callingFrom}`;
+  }, []);
+
   const parms = useLocation().pathname;
 
   return (
@@ -603,314 +769,144 @@ const Bookmarks = () => {
           }}>
             <div className="row">
               {loading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                  }}
-                >
-                  <div className="flex justify-center items-center h-screen">
-                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                  {/* <img
-                    src={Loading1}
-                    alt="Loading..."
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      animation: "spin 1s linear infinite", // Apply the spin animation
-                    }}
-                  /> */}
-                  <style>
-                    {`
-                    @keyframes spin {
-                      from {
-                        transform: rotate(0deg);
-                      }
-                      to {
-                        transform: rotate(360deg);
-                      }
-                    }
-                  `}
-                  </style>
-                </div>
+                <>
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="col-lg-4 col-md-6 col-sm-12">
+                      <div
+                        style={{
+                          backgroundColor: "#fff",
+                          borderRadius: "20px",
+                          padding: "0",
+                          marginBottom: "30px",
+                          border: "1px solid #e0e0e0",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {/* Image Skeleton */}
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "250px",
+                            backgroundColor: "#f0f0f0",
+                            animation: "pulse 1.5s ease-in-out infinite",
+                          }}
+                        />
+                        {/* Content Skeleton */}
+                        <div style={{ padding: "20px" }}>
+                          {/* Title */}
+                          <div
+                            style={{
+                              height: "24px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "15px",
+                              width: "80%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          {/* Price */}
+                          <div
+                            style={{
+                              height: "28px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              marginBottom: "15px",
+                              width: "50%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                          {/* Author and Details */}
+                          <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                            <div
+                              style={{
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                                backgroundColor: "#f0f0f0",
+                                animation: "pulse 1.5s ease-in-out infinite",
+                              }}
+                            />
+                            <div style={{ flex: 1 }}>
+                              <div
+                                style={{
+                                  height: "16px",
+                                  backgroundColor: "#f0f0f0",
+                                  borderRadius: "8px",
+                                  marginBottom: "8px",
+                                  width: "60%",
+                                  animation: "pulse 1.5s ease-in-out infinite",
+                                }}
+                              />
+                              <div
+                                style={{
+                                  height: "14px",
+                                  backgroundColor: "#f0f0f0",
+                                  borderRadius: "8px",
+                                  width: "40%",
+                                  animation: "pulse 1.5s ease-in-out infinite",
+                                }}
+                              />
+                            </div>
+                          </div>
+                          {/* Button */}
+                          <div
+                            style={{
+                              height: "45px",
+                              backgroundColor: "#f0f0f0",
+                              borderRadius: "8px",
+                              width: "100%",
+                              animation: "pulse 1.5s ease-in-out infinite",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
               ) : filteredCars.length === 0 ? (
                 <div className="col-12 text-center">
                   <p>No bookmarked items found.</p>
                 </div>
               ) : (
-                filteredCars.map((car) => (
-                  <div
-                    className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
-                    key={`${car.id}-${car.category}`}
-                  >
+                <>
+                  <style>
+                    {`
+                      @keyframes fadeInUp {
+                        from {
+                          opacity: 0;
+                          transform: translateY(20px);
+                        }
+                        to {
+                          opacity: 1;
+                          transform: translateY(0);
+                        }
+                      }
+                      .bookmark-card-animate {
+                        animation: fadeInUp 0.5s ease-out forwards;
+                        opacity: 0;
+                      }
+                    `}
+                  </style>
+                  {filteredCars.map((car, index) => (
                     <div
-                      className="card aos aos-init aos-animate"
-                      data-aos="fade-up"
+                      key={`${car.id}-${car.category}`}
+                      className="col-xl-3 col-lg-4 col-md-6 col-sm-6 bookmark-card-animate"
+                      style={{
+                        animationDelay: `${index * 0.05}s`
+                      }}
                     >
-                      <div className="blog-widget shadow-sm">
-                        <div className="blog-img">
-                          <Link
-                            to={
-                              car.isActive
-                                ? "#"
-                                : `/Dynamic_Route?id=${
-                                    car.id
-                                  }&callingFrom=${formatCategory(
-                                    car.category.trim() === "Pet & Animals"
-                                      ? "PetAnimalsComp"
-                                      : car.category.trim() === "Automotive"
-                                      ? "AutomotiveComp"
-                                      : car.category.trim() === "Other"
-                                      ? "Education"
-                                      : car.category.trim() === "Services"
-                                      ? "TravelComp"
-                                      : car.category.trim() === "JobBoard"
-                                      ? "JobBoard"
-                                      : car.category.trim() === "FashionStyle"
-                                      ? "FashionStyle"
-                                      : car.category.trim() === "Electronics"
-                                      ? "ElectronicComp"
-                                      : car.category.trim() ===
-                                        "Home & Furnituer"
-                                      ? "HealthCareComp"
-                                      : car.category.trim() === "Sports & Game"
-                                      ? "SportGamesComp"
-                                      : car.category.trim() === "Real Estate"
-                                      ? "RealEstateComp"
-                                      : formatCategory(car.category.trim())
-                                  )}`
-                            }
-                          >
-                            <img
-                              style={{ height: "322px" }}
-                              src={car.galleryImages?.[0] || "placeholder.jpg"}
-                              className="img-fluid"
-                              alt="car-img"
-                            />
-                          </Link>
-                          <div className="fav-item">
-                            {car.FeaturedAds === "Featured Ads" && (
-                              <span className="Featured-text">{t("common.featured")}</span>
-                            )}
-                            <Link
-                              to="#"
-                              className="fav-icon"
-                              onClick={() =>
-                                toggleBookmark(
-                                  car.id,
-                                  car.category,
-                                  car.collectionName
-                                )
-                              }
-                            >
-                              <FaHeart
-                                style={{
-                                  color: car.bookmarked ? "red" : "white",
-                                  fontSize: "30px",
-                                }}
-                              />
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="bloglist-content">
-                          <div className="card-body">
-                            <div className="blogfeaturelink">
-                              <div className="grid-author">
-                                <img src={car.photoURL} alt="author" />
-                              </div>
-                              <div className="blog-features">
-                                {/* <Link to="#"> */}
-                                <span
-                                  style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  <i className="fa-regular fa-circle-stop" />{" "}
-                                  {car.displayName}
-                                </span>
-                                {/* </Link> */}
-                              </div>
-                              <div className="blog-author text-end">
-                                <span>
-                                  <Link
-                                    to={
-                                      car.isActive
-                                        ? "#"
-                                        : `/Dynamic_Route?id=${
-                                            car.id
-                                          }&callingFrom=${formatCategory(
-                                            car.category.trim() ===
-                                              "Pet & Animals"
-                                              ? "PetAnimalsComp"
-                                              : car.category.trim() ===
-                                                "Automotive"
-                                              ? "AutomotiveComp"
-                                              : car.category.trim() === "Other"
-                                              ? "Education"
-                                              : car.category.trim() ===
-                                                "Services"
-                                              ? "TravelComp"
-                                              : car.category.trim() ===
-                                                "JobBoard"
-                                              ? "JobBoard"
-                                              : car.category.trim() ===
-                                                "FashionStyle"
-                                              ? "FashionStyle"
-                                              : car.category.trim() ===
-                                                "Electronics"
-                                              ? "ElectronicComp"
-                                              : car.category.trim() ===
-                                                "Home & Furnituer"
-                                              ? "HealthCareComp"
-                                              : car.category.trim() ===
-                                                "Sports & Game"
-                                              ? "SportGamesComp"
-                                              : car.category.trim() ===
-                                                "Real Estate"
-                                              ? "RealEstateComp"
-                                              : formatCategory(
-                                                  car.category.trim()
-                                                )
-                                          )}`
-                                    }
-                                  >
-                                    <img
-                                      src={eye}
-                                      alt="views"
-                                      style={{
-                                        width: "25px",
-                                      }}
-                                    />
-                                  </Link>
-                                  4000
-                                </span>
-                              </div>
-                            </div>
-                            <h6>
-                              <Link
-                                to={
-                                  car.isActive
-                                    ? "#"
-                                    : `/Dynamic_Route?id=${
-                                        car.id
-                                      }&callingFrom=${formatCategory(
-                                        car.category.trim() === "Pet & Animals"
-                                          ? "PetAnimalsComp"
-                                          : car.category.trim() === "Automotive"
-                                          ? "AutomotiveComp"
-                                          : car.category.trim() === "Other"
-                                          ? "Education"
-                                          : car.category.trim() === "Services"
-                                          ? "TravelComp"
-                                          : car.category.trim() === "JobBoard"
-                                          ? "JobBoard"
-                                          : car.category.trim() ===
-                                            "FashionStyle"
-                                          ? "FashionStyle"
-                                          : car.category.trim() ===
-                                            "Electronics"
-                                          ? "ElectronicComp"
-                                          : car.category.trim() ===
-                                            "Home & Furnituer"
-                                          ? "HealthCareComp"
-                                          : car.category.trim() ===
-                                            "Sports & Game"
-                                          ? "SportGamesComp"
-                                          : car.category.trim() ===
-                                            "Real Estate"
-                                          ? "RealEstateComp"
-                                          : formatCategory(car.category.trim())
-                                      )}`
-                                }
-                              >
-                                {getTranslatedField(car, 'title', i18n.language) || getTranslatedField(car, 'Title', i18n.language) || car.title || car.Title}
-                              </Link>
-                            </h6>
-                            <h6>
-                              <Link
-                                to={
-                                  car.isActive
-                                    ? "#"
-                                    : `/Dynamic_Route?id=${
-                                        car.id
-                                      }&callingFrom=${formatCategory(
-                                        car.category.trim() === "Pet & Animals"
-                                          ? "PetAnimalsComp"
-                                          : car.category.trim() === "Automotive"
-                                          ? "AutomotiveComp"
-                                          : car.category.trim() === "Other"
-                                          ? "Education"
-                                          : car.category.trim() === "Services"
-                                          ? "TravelComp"
-                                          : car.category.trim() === "JobBoard"
-                                          ? "JobBoard"
-                                          : car.category.trim() ===
-                                            "FashionStyle"
-                                          ? "FashionStyle"
-                                          : car.category.trim() ===
-                                            "Electronics"
-                                          ? "ElectronicComp"
-                                          : car.category.trim() ===
-                                            "Home & Furnituer"
-                                          ? "HealthCareComp"
-                                          : car.category.trim() ===
-                                            "Sports & Game"
-                                          ? "SportGamesComp"
-                                          : car.category.trim() ===
-                                            "Real Estate"
-                                          ? "RealEstateComp"
-                                          : formatCategory(car.category.trim())
-                                      )}`
-                                }
-                              >
-                                {t("bookmarks.productId")}: {car.id}
-                              </Link>
-                            </h6>
-                            <div className="blog-location-details">
-                              <div className="location-info">
-                                <i className="feather-map-pin" /> {getTranslatedField(car, 'City', i18n.language) || car.City}
-                              </div>
-                              <div className="location-info">
-                                <i className="fa-solid fa-calendar-days" />{" "}
-                                {car.createdAt
-                                  ? new Date(
-                                      car.createdAt.seconds * 1000
-                                    ).toLocaleDateString()
-                                  : "N/A"}
-                              </div>
-                            </div>
-                            <div className="amount-details">
-                              <div className="amount">
-                                <span className="validrate">
-                                  {car.Price ? (
-                                    <>
-                                      <img
-                                        src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
-                                        alt="Saudi Riyal Symbol"
-                                        style={{
-                                          height: "1em",
-                                          verticalAlign: "middle",
-                                          marginRight: "5px",
-                                        }}
-                                      />
-                                      {car.Price}
-                                    </>
-                                  ) : (
-                                    "N/A"
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <BookmarkCard
+                        car={car}
+                        getCarRoute={getCarRoute}
+                        toggleBookmark={toggleBookmark}
+                        t={t}
+                        i18n={i18n}
+                        getTranslatedField={getTranslatedField}
+                        eye={eye}
+                      />
                     </div>
-                  </div>
-                ))
+                  ))}
+                </>
               )}
             </div>
 
@@ -979,5 +975,6 @@ const Bookmarks = () => {
     </>
   );
 };
+
 
 export default Bookmarks;
