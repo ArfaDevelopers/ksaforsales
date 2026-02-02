@@ -23988,10 +23988,6 @@ height: 400px;
     width: 90px !important;
     height: 90px !important;
   }
-  .align-items-center {
-    justify-content: start;
-    padding: 0px 10px;
-  }
    .download_icon {
     gap: 0px !important;
    }
@@ -24010,3 +24006,24 @@ height: 400px;
   }
 }
 
+
+@media screen and (max-width: 576px) {
+
+  .commercial_slider_wrap .blog-img img {
+    height: 200px !important;
+  }
+  
+  .commercial_slider_wrap .slick-prev,
+  .commercial_slider_wrap .slick-next {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .commercial_slider_wrap .slick-prev {
+    left: 10px !important;
+  }
+  
+  .commercial_slider_wrap .slick-next {
+    right: 10px !important;
+  }
+}
