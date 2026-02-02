@@ -1479,8 +1479,14 @@ const AddLisiting = () => {
         );
         const data = await response.json();
         if (data.districts) {
-          setDistricts(data.districts);
-          console.log("Districts fetched:", data.districts);
+          // ✅ CRITICAL FIX: Filter districts to ONLY include those matching the selected CITY_ID
+          // This prevents showing "Al Wurud" from Eafif when Riyadh is selected
+          const filteredDistricts = data.districts.filter(
+            district => district.CITY_ID === selectedCityData.cityId
+          );
+          setDistricts(filteredDistricts);
+          console.log("Districts fetched and filtered by CITY_ID:", selectedCityData.cityId);
+          console.log("Filtered districts count:", filteredDistricts.length);
         }
       } catch (error) {
         console.error("Error fetching districts:", error);
