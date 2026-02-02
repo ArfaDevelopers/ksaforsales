@@ -23956,3 +23956,57 @@ height: 400px;
 .dashboard-details {
   margin-bottom: 30px;
 }
+
+
+@media screen and (max-width: 576px) {
+  
+  .midfooterinfo-icon svg {
+    width: 45px !important;
+    height: 45px !important;
+    min-width: 45px;
+  }
+  
+  .footermidgmailheading {
+    font-size: 14px !important;
+  }
+  
+  .footermid-para {
+    font-size: 13px !important;
+  }
+  
+  /* Logo and App Section */
+  .logoInfo_wrapper {
+    text-align: center;
+  }
+  
+  .footer-logo img {
+    max-width: 120px !important;
+  }
+  
+  
+  .topfooter-qr {
+    width: 90px !important;
+    height: 90px !important;
+  }
+  .align-items-center {
+    justify-content: start;
+    padding: 0px 10px;
+  }
+   .download_icon {
+    gap: 0px !important;
+   }
+  .download_icon svg {
+    max-width: 140px !important;
+  }
+  
+  .footer-title {
+    font-size: 18px !important;
+  }
+  .footer-menu ul li a {
+    font-size: 14px !important;
+  }
+  .footerend_para {
+    font-size: 13px !important;
+  }
+}
+
