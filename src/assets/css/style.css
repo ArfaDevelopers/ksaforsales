@@ -22516,10 +22516,11 @@ border-radius: 16px !important;
     display: none;
   }
 
-  /* .footermid-heading {
-	margin-top: 2rem;
-	margin-right: -2rem;
-} */
+  .footermid-heading {
+ font-size: 20px !important;
+ text-align: center !important;
+ margin-left: 2rem !important;
+}
 
   .topfooter_heading2 {
     margin-bottom: 12px;

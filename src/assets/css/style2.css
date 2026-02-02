@@ -287,7 +287,8 @@
     gap: 20px;
   }
   .info-list li {
-    font-size: 14px;
+    font-size: 12px !important;
+    padding: 5px 7px !important;
   }
   .top_log_header .blue_btn {
     font-size: 12px;
