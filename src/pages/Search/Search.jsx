@@ -1665,9 +1665,7 @@ if (displaySearchKeyword) {
         <Header parms={parms} />
 
         {/* Mobile Filter Chips */}
-        <div className="mobile-filter-chips-container">
-          {/* Results Count & Clear All Section */}
-          <div className="mobile-filters-results-bar">
+            <div className="mobile-filters-results-bar p-10">
             <div className="mobile-filters-results-count">
               <span className="results-label">{t("search.showResults")}: </span>
               <span className="results-number">{filteredAds.length}</span>
@@ -1688,6 +1686,10 @@ if (displaySearchKeyword) {
               </button>
             )}
           </div>
+        <div className="mobile-filter-chips-container">
+          
+          {/* Results Count & Clear All Section */}
+
 
           <div className="mobile-filter-chips-wrapper">
             {/* Category Filter Chip */}
