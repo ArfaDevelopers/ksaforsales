@@ -1663,7 +1663,8 @@ if (displaySearchKeyword) {
     <>
       <div className="main-wrapper">
         <Header parms={parms} />
-
+        <div className="search-header-spacer"></div>
+  <div className="mobile-seach--filters mb-3">  
         {/* Mobile Filter Chips */}
             <div className="mobile-filters-results-bar p-10">
             <div className="mobile-filters-results-count">
@@ -1799,7 +1800,7 @@ if (displaySearchKeyword) {
             })}
           </div>
         </div>
-
+</div>
         {/* Category Filter Modal */}
         {activeFilterModal === 'category' && (
           <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
