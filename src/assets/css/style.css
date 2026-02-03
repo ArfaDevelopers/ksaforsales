@@ -20816,8 +20816,53 @@ font-size: 28px;
     columns: 1;
     gap: 0px;
   }
+
+  /* Reduce details table size on mobile */
+  .product_Detail_main .product_Detail_inner .product_Detail_block {
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+
+  .product_Detail_main .product_Detail_inner .product_Detail_block .detail_text {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .info_wrapper {
+    padding: 12px;
+    margin: 10px 0 !important;
+  }
+
+  /* Reduce Safety Tips and Seller Information text on mobile */
+  .sallerinfo_para {
+    font-size: 16px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .sallerInfo_para {
+    font-size: 14px !important;
+  }
+
+  .safteytip_para {
+    font-size: 13px !important;
+    margin-top: 5px !important;
+  }
+
+  /* Reduce Location and Similar Ads headings on mobile */
+  h4.mt-2 {
+    font-size: 18px !important;
+  }
+
+  .similarads {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+    margin-top: 25px !important;
+    padding-top: 15px !important;
+  }
+
   .descriptions-wrapper {
-    columns: 1 !important;
+    columns: 2 !important;
+    gap: 10px;
   }
   .footermidinfo-container {
     gap: 10px;
@@ -21047,15 +21092,41 @@ font-size: 28px;
     width: 100%;
   }
   .authordetails h5 {
-    font-size: 22px;
+    font-size: 16px !important;
   }
+
+  /* Reduce author/seller image size on mobile */
+  .about-headings .author-img img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  /* Reduce other author section text */
+  .authordetails p {
+    font-size: 14px !important;
+  }
+
+  /* Reduce sidebar headings (Safety Tips, Seller Information, etc.) */
+  .listings-sidebar .card h4,
+  .rightsidebar .card h4 {
+    font-size: 16px !important;
+    padding: 0 0 12px 0 !important;
+    margin: 0 0 15px !important;
+  }
+
+  /* Reduce sidebar list items text size */
+  .card .info-list li {
+    font-size: 13px !important;
+    margin-bottom: 8px !important;
+  }
+
   .rate-details {
     width: 100%;
     text-align: center;
     margin: 20px 0 0;
   }
   .rate-details h2 {
-    font-size: 32px;
+    font-size: 24px !important;
   }
   .descriptionlinks ul li {
     margin: 0 0 15px;
@@ -23596,12 +23667,34 @@ height: 400px;
     margin-bottom: 10px;
   }
 
+  .section-title.dynamic_route {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
   .descriptions-para {
     font-size: 14px;
   }
 
+  /* Features section - 2 columns on mobile */
+  .descriptions-wrapper {
+    columns: 2;
+    gap: 10px;
+  }
+
   /* Replace inline style selectors with class-based selectors */
-  .feature-item,
+  .feature-item {
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 22px;
+    margin-bottom: 10px;
+  }
+
+  .feature-item::before {
+    width: 16px;
+    height: 16px;
+  }
+
   .descriptions-para {
     margin-bottom: 8px;
   }

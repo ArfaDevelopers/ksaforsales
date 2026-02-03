@@ -1254,7 +1254,7 @@ const Dynamic_Routes = () => {
               style={{
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
                 marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-                fontSize: "40px",
+                fontSize: window.innerWidth <= 768 ? "24px" : "40px",
                 fontWeight: "bold",
               }}
             >

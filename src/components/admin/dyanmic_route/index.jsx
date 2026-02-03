@@ -1362,7 +1362,7 @@ console.log(
               style={{
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
                 marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-                fontSize: "40px",
+                fontSize: window.innerWidth <= 768 ? "24px" : "40px",
                 fontWeight: "bold",
               }}
             >
@@ -1373,10 +1373,11 @@ console.log(
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
+              flexWrap: window.innerWidth <= 576 ? "nowrap" : "wrap",
+              gap: window.innerWidth <= 576 ? "5px" : "10px",
               marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
+              overflowX: window.innerWidth <= 576 ? "auto" : "visible",
             }}
           >
             <button
@@ -1385,9 +1386,12 @@ console.log(
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
+                width: window.innerWidth <= 576 ? "auto" : "auto",
+                fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
               onClick={(e) => handleFavourite(e, itemData?.id, callingFrom)}
             >
@@ -1414,9 +1418,12 @@ console.log(
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
+                  width: window.innerWidth <= 576 ? "auto" : "auto",
+                  fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 <span>
@@ -1542,9 +1549,12 @@ console.log(
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
+                  width: window.innerWidth <= 576 ? "auto" : "auto",
+                  fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 <span>
@@ -1615,9 +1625,12 @@ console.log(
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
+                width: window.innerWidth <= 576 ? "auto" : "auto",
+                fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
               onClick={handleShow}
             >
@@ -5777,7 +5790,7 @@ console.log(
                   >
                     <div
                       style={{
-                        fontSize: "60px",
+                        fontSize: window.innerWidth <= 768 ? "24px" : "60px",
                         fontWeight: "bold",
                         textAlign: "center",
                         color: "#2d4495",
@@ -5840,8 +5853,8 @@ console.log(
                               alt="Profile"
                               className="img-fluid rounded-circle"
                               style={{
-                                width: "100px",
-                                height: "100px",
+                                width: window.innerWidth <= 768 ? "70px" : "100px",
+                                height: window.innerWidth <= 768 ? "70px" : "100px",
                                 objectFit: "cover",
                               }} // Adjust size as needed
                             />
