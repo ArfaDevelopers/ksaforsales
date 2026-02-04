@@ -16,6 +16,130 @@ const HeaderLower = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
+  // Helper function to translate subcategory names
+  const translateSubcategory = (name) => {
+    if (!name) return "";
+    const subcategoryTranslations = {
+      // Motors subcategories
+      "Cars For Sale": t("subcategories.motors.carsForSale"),
+      "Car Rental": t("subcategories.motors.carRental"),
+      "Plates Number": t("subcategories.motors.platesNumber"),
+      "Spare Parts": t("subcategories.motors.spareParts"),
+      "Accessories": t("subcategories.motors.accessories"),
+      "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
+      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
+      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
+      "Classic Cars": t("subcategories.motors.classicCars"),
+      // Home & Furniture subcategories
+      "Outdoor Furniture": t("subcategories.homeFurniture.outdoorFurniture"),
+      "Majlis & Sofas": t("subcategories.homeFurniture.majlisAndSofas"),
+      "Cabinets & Wardrobes": t("subcategories.homeFurniture.cabinetsAndWardrobes"),
+      "Beds & Mattresses": t("subcategories.homeFurniture.bedsAndMattresses"),
+      "Tables & Chairs": t("subcategories.homeFurniture.tablesAndChairs"),
+      "Kitchens": t("subcategories.homeFurniture.kitchens"),
+      "Bathrooms": t("subcategories.homeFurniture.bathrooms"),
+      "Carpets": t("subcategories.homeFurniture.carpets"),
+      "Curtains": t("subcategories.homeFurniture.curtains"),
+      "Decoration & Accessories": t("subcategories.homeFurniture.decorationAndAccessories"),
+      "Lighting": t("subcategories.homeFurniture.lighting"),
+      "Household Items": t("subcategories.homeFurniture.householdItems"),
+      "Garden - Plants": t("subcategories.homeFurniture.gardenPlants"),
+      "Office Furniture": t("subcategories.homeFurniture.officeFurniture"),
+      "Doors - Windows - Aluminium": t("subcategories.homeFurniture.doorsWindowsAluminium"),
+      "Tiles & Flooring": t("subcategories.homeFurniture.tilesAndFlooring"),
+      // Electronics subcategories
+      "Mobile Phones": t("subcategories.electronics.mobilePhones"),
+      "Tablet Devices": t("subcategories.electronics.tabletDevices"),
+      "Computers & Laptops": t("subcategories.electronics.computersAndLaptops"),
+      "Video Games": t("subcategories.electronics.videoGames"),
+      "Television & Audio System": t("subcategories.electronics.televisionAndAudioSystem"),
+      "Accounts & Subscriptions": t("subcategories.electronics.accountsAndSubscriptions"),
+      "Special Number": t("subcategories.electronics.specialNumber"),
+      "Home & Kitchen Appliance": t("subcategories.electronics.homeAndKitchenAppliance"),
+      "Motors & Generators": t("subcategories.electronics.motorsAndGenerators"),
+      "Cameras": t("subcategories.electronics.cameras"),
+      "Networking Devices": t("subcategories.electronics.networkingDevices"),
+      "Screens & Projectors": t("subcategories.electronics.screensAndProjectors"),
+      "Printer & Scanner": t("subcategories.electronics.printerAndScanner"),
+      "Computer Accessories": t("subcategories.electronics.computerAccessories"),
+      // Fashion subcategories
+      "Women's Fashion": t("subcategories.fashion.womensFashion"),
+      "Men's Fashion": t("subcategories.fashion.mensFashion"),
+      "Children's Clothing & Accessories": t("subcategories.fashion.childrensClothing"),
+      "Women's Accessories & Jewelry": t("subcategories.fashion.womensAccessories"),
+      "Women's Blouses & T-Shirts": t("subcategories.fashion.womensBlouses"),
+      "Women's Skirts & Trousers": t("subcategories.fashion.womensSkirts"),
+      "Women's Jackets": t("subcategories.fashion.womensJackets"),
+      "Women's Bags": t("subcategories.fashion.womensBags"),
+      "Women's Sportswear": t("subcategories.fashion.womensSportswear"),
+      "Kaftans": t("subcategories.fashion.kaftans"),
+      "Abayas": t("subcategories.fashion.abayas"),
+      "Dresses": t("subcategories.fashion.dresses"),
+      "Lingerie": t("subcategories.fashion.lingerie"),
+      "Baby Care Products": t("subcategories.fashion.babyCareProducts"),
+      "Children's Accessories": t("subcategories.fashion.childrensAccessories"),
+      "Toys for Kids": t("subcategories.fashion.toysForKids"),
+      "Children's Cribs & Chairs": t("subcategories.fashion.childrensCribs"),
+      "Children's Bags": t("subcategories.fashion.childrensBags"),
+      "Strollers": t("subcategories.fashion.strollers"),
+      "Car Seats for Kids": t("subcategories.fashion.carSeatsForKids"),
+      "Watches": t("subcategories.fashionStyle.watches"),
+      "Perfumes & Incense": t("subcategories.fashionStyle.perfumesAndIncense"),
+      "Sports Equipment": t("subcategories.fashionStyle.sportsEquipment"),
+      "Gifts": t("subcategories.fashionStyle.gifts"),
+      "Luggage": t("subcategories.fashionStyle.luggage"),
+      "Health & Beauty": t("subcategories.fashionStyle.healthAndBeauty"),
+      // Job Board subcategories
+      "Administrative Jobs": t("subcategories.jobBoard.administrativeJobs"),
+      "Fashion & Beauty Jobs": t("subcategories.jobBoard.fashionAndBeautyJobs"),
+      "Security & Safety Jobs": t("subcategories.jobBoard.securityAndSafetyJobs"),
+      "Teaching Jobs": t("subcategories.jobBoard.teachingJobs"),
+      "IT & Design Jobs": t("subcategories.jobBoard.itAndDesignJobs"),
+      "Agriculture & Farming Jobs": t("subcategories.jobBoard.agricultureAndFarmingJobs"),
+      "Industrial Jobs": t("subcategories.jobBoard.industrialJobs"),
+      "Medical & Nursing Jobs": t("subcategories.jobBoard.medicalAndNursingJobs"),
+      "Architecture & Construction Jobs": t("subcategories.jobBoard.architectureAndConstructionJobs"),
+      "Housekeeping Jobs": t("subcategories.jobBoard.housekeepingJobs"),
+      "Restaurant Jobs": t("subcategories.jobBoard.restaurantJobs"),
+      // Real Estate subcategories
+      "Apartments for Rent": t("subcategories.realEstate.apartmentsForRent"),
+      "Apartments for Sale": t("subcategories.realEstate.apartmentsForSale"),
+      "Building for Rent": t("subcategories.realEstate.buildingForRent"),
+      "Building for Sale": t("subcategories.realEstate.buildingForSale"),
+      "Camps for Rent": t("subcategories.realEstate.campsForRent"),
+      "Chalets for Sale": t("subcategories.realEstate.chaletsForSale"),
+      "Commercial Lands for Sale": t("subcategories.realEstate.commercialLandsForSale"),
+      "Compound for Rent": t("subcategories.realEstate.compoundForRent"),
+      "Compound for Sale": t("subcategories.realEstate.compoundForSale"),
+      "Farm for Rent": t("subcategories.realEstate.farmForRent"),
+      "Farms for Sale": t("subcategories.realEstate.farmsForSale"),
+      "Floor for Sale": t("subcategories.realEstate.floorForSale"),
+      "Floors for Rent": t("subcategories.realEstate.floorsForRent"),
+      "Hall for Rent": t("subcategories.realEstate.hallForRent"),
+      "Houses for Rent": t("subcategories.realEstate.housesForRent"),
+      "Houses for Sale": t("subcategories.realEstate.housesForSale"),
+      "Lands for Sale": t("subcategories.realEstate.landsForSale"),
+      "Lands for Rent": t("subcategories.realEstate.landsForRent"),
+      "Offices for Rent": t("subcategories.realEstate.officesForRent"),
+      // Other category subcategories
+      "Hunting & Trips": t("subcategories.other.huntingAndTrips"),
+      "Gardening & Agriculture": t("subcategories.other.gardeningAndAgriculture"),
+      "Parties & Events": t("subcategories.other.partiesAndEvents"),
+      "Travel & Tourism": t("subcategories.other.travelAndTourism"),
+      "Roommate": t("subcategories.other.roommate"),
+      "Books": t("subcategories.other.books"),
+      "Business & Industrial": t("subcategories.other.businessAndIndustrial"),
+      "Music & Musical Instruments": t("subcategories.other.musicAndMusicalInstruments"),
+      "Food & Restaurants": t("subcategories.other.foodAndRestaurants"),
+      "Miscellaneous": t("subcategories.other.miscellaneous"),
+      "Lost & Found": t("subcategories.other.lostAndFound"),
+      "Freebies": t("subcategories.other.freebies"),
+      "Free Stuff": t("subcategories.other.freeStuff"),
+    };
+    return subcategoryTranslations[name] || name;
+  };
+
   // Firebase category data states (now storing full objects with name_en and name_ar)
   const [OurCategoryAutomativeData, setOurCategoryAutomativeData] =
     useState(null);
@@ -227,7 +351,7 @@ const HeaderLower = () => {
                               : "submenu-link"
                           }
                         >
-                          {subcategory.displayName || subcategory.name}
+                          {translateSubcategory(subcategory.displayName || subcategory.name)}
                           {subcategory.nestedSubcategories &&
                             subcategory.nestedSubcategories.length > 0 && (
                               <span className="arrow"> </span>
@@ -263,7 +387,7 @@ const HeaderLower = () => {
                                             : "submenu-link"
                                         }
                                       >
-                                        {nestedSubcategory.displayName || nestedSubcategory.name}
+                                        {translateSubcategory(nestedSubcategory.displayName || nestedSubcategory.name)}
                                       </NavLink>
                                     </li>
                                   )

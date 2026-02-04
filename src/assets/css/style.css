@@ -3821,6 +3821,11 @@ h2.trendingproduct_heading {
   cursor: pointer;
   padding: 10px 23px;
 }
+@media screen and (max-width:495px) {
+  .blue_btn {
+    font-size: 12px;
+  }
+}
 .blue_btn.list_btn {
   font-size: 14px;
   padding: 12px 18px;
@@ -7038,6 +7043,13 @@ margin-top: -4rem !important;
   padding: 25px;
 }
 @media screen and (max-width:768px) {
+.profile-userlink img {
+  width: 33px;
+  height: 33px;
+}
+.profile-userlink {
+  font-size: 13px;
+}
   .dashboard-info .card.dash-cards .card-body{
     padding: 10px !important;
   }
@@ -20792,6 +20804,7 @@ font-size: 28px;
   .banner-seven .search-box .search-input {
     margin: 0 10px 10px 0;
   }
+ 
 
   .header {
     position: relative;
@@ -20803,8 +20816,53 @@ font-size: 28px;
     columns: 1;
     gap: 0px;
   }
+
+  /* Reduce details table size on mobile */
+  .product_Detail_main .product_Detail_inner .product_Detail_block {
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+
+  .product_Detail_main .product_Detail_inner .product_Detail_block .detail_text {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .info_wrapper {
+    padding: 12px;
+    margin: 10px 0 !important;
+  }
+
+  /* Reduce Safety Tips and Seller Information text on mobile */
+  .sallerinfo_para {
+    font-size: 16px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .sallerInfo_para {
+    font-size: 14px !important;
+  }
+
+  .safteytip_para {
+    font-size: 13px !important;
+    margin-top: 5px !important;
+  }
+
+  /* Reduce Location and Similar Ads headings on mobile */
+  h4.mt-2 {
+    font-size: 18px !important;
+  }
+
+  .similarads {
+    font-size: 18px !important;
+    margin-bottom: 20px !important;
+    margin-top: 25px !important;
+    padding-top: 15px !important;
+  }
+
   .descriptions-wrapper {
-    columns: 1 !important;
+    columns: 2 !important;
+    gap: 10px;
   }
   .footermidinfo-container {
     gap: 10px;
@@ -20961,7 +21019,7 @@ font-size: 28px;
   .section-heading h2,
   h2.featuresection_header,
   .latestblog-wrapper h2 {
-    font-size: 20px !important;
+    font-size: 18px !important;
     font-weight: 600;
   }
 
@@ -21034,15 +21092,41 @@ font-size: 28px;
     width: 100%;
   }
   .authordetails h5 {
-    font-size: 22px;
+    font-size: 16px !important;
   }
+
+  /* Reduce author/seller image size on mobile */
+  .about-headings .author-img img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  /* Reduce other author section text */
+  .authordetails p {
+    font-size: 14px !important;
+  }
+
+  /* Reduce sidebar headings (Safety Tips, Seller Information, etc.) */
+  .listings-sidebar .card h4,
+  .rightsidebar .card h4 {
+    font-size: 16px !important;
+    padding: 0 0 12px 0 !important;
+    margin: 0 0 15px !important;
+  }
+
+  /* Reduce sidebar list items text size */
+  .card .info-list li {
+    font-size: 13px !important;
+    margin-bottom: 8px !important;
+  }
+
   .rate-details {
     width: 100%;
     text-align: center;
     margin: 20px 0 0;
   }
   .rate-details h2 {
-    font-size: 32px;
+    font-size: 24px !important;
   }
   .descriptionlinks ul li {
     margin: 0 0 15px;
@@ -22466,6 +22550,7 @@ border-radius: 16px !important;
 
   h2.trendingproduct_heading {
     margin-bottom: 20px !important;
+    font-size: 19px !important;
   }
   .feature_section_carosel {
     padding-bottom: 20px;
@@ -22502,10 +22587,11 @@ border-radius: 16px !important;
     display: none;
   }
 
-  /* .footermid-heading {
-	margin-top: 2rem;
-	margin-right: -2rem;
-} */
+  .footermid-heading {
+ font-size: 20px !important;
+ text-align: center !important;
+ margin-left: 2rem !important;
+}
 
   .topfooter_heading2 {
     margin-bottom: 12px;
@@ -23581,12 +23667,34 @@ height: 400px;
     margin-bottom: 10px;
   }
 
+  .section-title.dynamic_route {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
   .descriptions-para {
     font-size: 14px;
   }
 
+  /* Features section - 2 columns on mobile */
+  .descriptions-wrapper {
+    columns: 2;
+    gap: 10px;
+  }
+
   /* Replace inline style selectors with class-based selectors */
-  .feature-item,
+  .feature-item {
+    font-size: 14px;
+    line-height: 18px;
+    padding-left: 22px;
+    margin-bottom: 10px;
+  }
+
+  .feature-item::before {
+    width: 16px;
+    height: 16px;
+  }
+
   .descriptions-para {
     margin-bottom: 8px;
   }
@@ -23688,6 +23796,8 @@ height: 400px;
     justify-content: center;
     text-transform: capitalize;
     width: auto !important;
+    font-size: 10px;
+    padding: 5px;
   }
   .category-section .section-heading h2 {
     margin-top: 0 !important;
@@ -23710,13 +23820,16 @@ height: 400px;
     display: none;
   }
   .latest_blog_box .image_box2 img {
-    height: auto !important;
+    height: 160px !important;
+    object-fit: cover;
   }
   .latest_blog_box .image_box1 img {
-    height: auto !important;
+    height: 160px !important;
   }
   .header .dropdown-toggle:after {
     margin-left: 0px !important;
+    height: 6px;
+    width: 6px;
   }
 }
 .updatedel_wrap {
@@ -23769,6 +23882,7 @@ height: 400px;
 
 .fade-in-ads {
   animation: fadeIn 0.5s ease-in;
+  padding: 5px !important;
 }
 
 @keyframes fadeIn {
@@ -23926,5 +24040,85 @@ height: 400px;
   40% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+@media screen and (max-width:424px) {
+  .ai-write-button  {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+.dashboard-details {
+  margin-bottom: 30px;
+}
+
+
+@media screen and (max-width: 576px) {
+  
+  .midfooterinfo-icon svg {
+    width: 45px !important;
+    height: 45px !important;
+    min-width: 45px;
+  }
+  
+  .footermidgmailheading {
+    font-size: 14px !important;
+  }
+  
+  .footermid-para {
+    font-size: 13px !important;
+  }
+  
+  /* Logo and App Section */
+  .logoInfo_wrapper {
+    text-align: center;
+  }
+  
+  .footer-logo img {
+    max-width: 120px !important;
+  }
+  
+  
+  .topfooter-qr {
+    width: 90px !important;
+    height: 90px !important;
+  }
+   .download_icon {
+    gap: 0px !important;
+   }
+  .download_icon svg {
+    max-width: 140px !important;
+  }
+  
+  .footer-title {
+    font-size: 18px !important;
+  }
+  .footer-menu ul li a {
+    font-size: 14px !important;
+  }
+  .footerend_para {
+    font-size: 13px !important;
+  }
+}
+
+
+@media screen and (max-width: 576px) {
+
+  .commercial_slider_wrap .blog-img img {
+    height: 200px !important;
+  }
+  
+  .commercial_slider_wrap .slick-prev,
+  .commercial_slider_wrap .slick-next {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .commercial_slider_wrap .slick-prev {
+    left: 10px !important;
+  }
+  
+  .commercial_slider_wrap .slick-next {
+    right: 10px !important;
   }
 }

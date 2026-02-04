@@ -8,12 +8,13 @@ import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
-// Function to calculate the difference in days
-function timeAgo(timestamp) {
+// Function to calculate the difference in days with translation support
+function timeAgo(timestamp, t) {
   let seconds;
 
-  if (!timestamp) return "Unknown time";
+  if (!timestamp) return t ? t("common.unknownTime") : "Unknown time";
 
   if (timestamp._seconds) {
     // Firestore format (from backend response)
@@ -22,7 +23,7 @@ function timeAgo(timestamp) {
     // Client format
     seconds = timestamp.seconds;
   } else {
-    return "Invalid date";
+    return t ? t("common.invalidDate") : "Invalid date";
   }
 
   const date = new Date(seconds * 1000);
@@ -33,6 +34,13 @@ function timeAgo(timestamp) {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
+  if (t) {
+    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    return t("common.justNow");
+  }
+
   if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
   if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -40,25 +48,25 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
   const [activeSubcategory, setActiveSubcategory] = useState(
-    "Residential For Sale"
+    "Houses for Sale"
   );
 
   // Helper function to translate real estate subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
-      "Residential For Sale": t("subcategories.realEstate.housesForSale"),
-      "Residential For Rent": t("subcategories.realEstate.housesForRent"),
-      "Commercial For Sale": t("subcategories.realEstate.commercialLandsForSale"),
-      "Commercial For Rent": t("subcategories.realEstate.shopsForRent"),
-      "Land For Sale": t("subcategories.realEstate.landsForSale"),
-      "Land For Rent": t("subcategories.realEstate.landsForRent")
+      "Houses for Sale": t("subcategories.realEstate.housesForSale"),
+      "Houses for Rent": t("subcategories.realEstate.housesForRent"),
+      "Commercial Lands for Sale": t("subcategories.realEstate.commercialLandsForSale"),
+      "Shops for Rent": t("subcategories.realEstate.shopsForRent"),
+      "Lands for Sale": t("subcategories.realEstate.landsForSale"),
+      "Villas for Rent": t("subcategories.realEstate.villasForRent")
     };
     return subcategoryMap[name] || name;
   };
@@ -335,7 +343,7 @@ export default function AutomativeCarousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {item.title}
+                                  {getTranslatedField(item, 'title', i18n.language)}
                                 </Link>
                               </h6>
                               <p
@@ -348,7 +356,7 @@ export default function AutomativeCarousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {item.District}, {item.City}
+                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
                               </p>
                               <div
                                 className="blog-location-details"
@@ -410,7 +418,7 @@ export default function AutomativeCarousel() {
                                     fontSize: "0.7rem",
                                   }}
                                 >
-                                  {timeAgo(item.createdAt)}
+                                  {timeAgo(item.createdAt, t)}
                                 </div>
                               </div>
                             </div>

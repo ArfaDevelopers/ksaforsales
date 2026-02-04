@@ -6,9 +6,9 @@ import arTranslations from "./locales/ar.json";
 // Get initial language safely
 const getInitialLanguage = () => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("language") || "en";
+    return localStorage.getItem("language") || "ar";
   }
-  return "en";
+  return "ar";
 };
 
 i18n

@@ -6,6 +6,7 @@ import {
   FaTimes,
   FaChevronDown,
   FaChevronRight,
+  FaFolderOpen,
 } from "react-icons/fa";
 import { FiBell } from "react-icons/fi"; // or FaBell from 'react-icons/fa'
 import {
@@ -2494,6 +2495,22 @@ const Header = ({ parms }) => {
                           <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
                             USEFUL LINKS
                           </span>
+                        </div>
+                        <div className="sidebar-item-wrapper">
+                          <div className="sidebar-item d-flex align-items-center">
+                            <NavLink
+                              to="https://blogs.ksa4sale.net/directory/"
+                              className="d-flex align-items-center w-100 text-decoration-none"
+                              activeClassName="active"
+      
+                              rel="noopener noreferrer"
+                            >
+                              <span className="sidebar-icon me-2">
+                                <FaFolderOpen />
+                              </span>
+                              <span className="fw-semibold">Directory</span>
+                            </NavLink>
+                          </div>
                         </div>
                         <div className="sidebar-item-wrapper">
                           <div className="sidebar-item d-flex align-items-center">

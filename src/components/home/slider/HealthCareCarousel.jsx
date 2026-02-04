@@ -8,11 +8,12 @@ import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
-function timeAgo(timestamp) {
+function timeAgo(timestamp, t) {
   let seconds;
 
-  if (!timestamp) return "Unknown time";
+  if (!timestamp) return t ? t("common.unknownTime") : "Unknown time";
 
   if (timestamp._seconds) {
     // Firestore format (from backend response)
@@ -21,7 +22,7 @@ function timeAgo(timestamp) {
     // Client format
     seconds = timestamp.seconds;
   } else {
-    return "Invalid date";
+    return t ? t("common.invalidDate") : "Invalid date";
   }
 
   const date = new Date(seconds * 1000);
@@ -32,6 +33,13 @@ function timeAgo(timestamp) {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
+  if (t) {
+    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    return t("common.justNow");
+  }
+
   if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
   if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -39,13 +47,13 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
-  const [activeSubcategory, setActiveSubcategory] = useState("Furniture");
+  const [activeSubcategory, setActiveSubcategory] = useState("Majlis & Sofas");
 
   // Helper function to translate home & furniture subcategory names
   const translateSubcategory = (name) => {
@@ -54,7 +62,23 @@ export default function AutomativeCarousel() {
       "Decorations": t("subcategories.homeFurniture.decorationAndAccessories"),
       "Bedding": t("subcategories.homeFurniture.bedsAndMattresses"),
       "Kitchen": t("subcategories.homeFurniture.kitchens"),
-      "Lighting": t("subcategories.homeFurniture.lighting")
+      "Lighting": t("subcategories.homeFurniture.lighting"),
+      // Full subcategory names from database
+      "Outdoor Furniture": t("subcategories.homeFurniture.outdoorFurniture"),
+      "Majlis & Sofas": t("subcategories.homeFurniture.majlisAndSofas"),
+      "Cabinets & Wardrobes": t("subcategories.homeFurniture.cabinetsAndWardrobes"),
+      "Beds & Mattresses": t("subcategories.homeFurniture.bedsAndMattresses"),
+      "Tables & Chairs": t("subcategories.homeFurniture.tablesAndChairs"),
+      "Kitchens": t("subcategories.homeFurniture.kitchens"),
+      "Bathrooms": t("subcategories.homeFurniture.bathrooms"),
+      "Carpets": t("subcategories.homeFurniture.carpets"),
+      "Curtains": t("subcategories.homeFurniture.curtains"),
+      "Decoration & Accessories": t("subcategories.homeFurniture.decorationAndAccessories"),
+      "Household Items": t("subcategories.homeFurniture.householdItems"),
+      "Garden - Plants": t("subcategories.homeFurniture.gardenPlants"),
+      "Office Furniture": t("subcategories.homeFurniture.officeFurniture"),
+      "Doors - Windows - Aluminium": t("subcategories.homeFurniture.doorsWindowsAluminium"),
+      "Tiles & Flooring": t("subcategories.homeFurniture.tilesAndFlooring"),
     };
     return subcategoryMap[name] || name;
   };
@@ -332,7 +356,7 @@ export default function AutomativeCarousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {item.title}
+                                  {getTranslatedField(item, 'title', i18n.language)}
                                 </Link>
                               </h6>
                               <p
@@ -345,7 +369,7 @@ export default function AutomativeCarousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {item.District}, {item.City}
+                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
                               </p>
                               <div
                                 className="blog-location-details"
@@ -407,7 +431,7 @@ export default function AutomativeCarousel() {
                                     fontSize: "0.7rem",
                                   }}
                                 >
-                                  {timeAgo(item.createdAt)}
+                                  {timeAgo(item.createdAt, t)}
                                 </div>
                               </div>
                             </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 import Footer from "../../home/footer/Footer";
 import Header from "../../home/header";
 import img from "./home-07.jpg";
@@ -53,6 +54,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
+import { ar } from "date-fns/locale";
 import Spinner from "react-bootstrap/Spinner";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Container, Row, Col, Card, ButtonGroup, Badge } from "react-bootstrap";
@@ -180,10 +182,99 @@ const stripePromise = loadStripe(
 
 let socket;
 const Dynamic_Route = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const location = useLocation(); // Access the full location object
   const navigate = useNavigate();
+
+  // Helper function to translate field labels
+  const translateFieldLabel = (fieldName) => {
+    const fieldMap = {
+      "Seller Type": t("detailsPage.sellerType"),
+      "SellerType": t("detailsPage.sellerType"),
+      "District": t("detailsPage.district"),
+      "Duration": t("detailsPage.duration"),
+      "Registered City": t("detailsPage.registeredCity"),
+      "Assembly": t("detailsPage.assembly"),
+      "Accuracy": t("detailsPage.accuracy"),
+      "Battery Type": t("detailsPage.batteryType"),
+      "Compatibility": t("detailsPage.compatibility"),
+      "CuffSize": t("detailsPage.cuffSize"),
+      "Display Type": t("detailsPage.displayType"),
+      "Features": t("detailsPage.features"),
+      "MeasurementRange": t("detailsPage.measurementRange"),
+      "MeasurementUnits": t("detailsPage.measurementUnits"),
+      "Wash Type": t("detailsPage.washType"),
+      "Type": t("detailsPage.type"),
+      "RAM": t("detailsPage.ram"),
+      "bodyType": t("detailsPage.bodyType"),
+      "Brand": t("detailsPage.brand"),
+      "Operating System": t("detailsPage.operatingSystem"),
+      "type": t("detailsPage.type"),
+      "Screen Size": t("detailsPage.screenSize"),
+      "Registeredin": t("detailsPage.registeredin"),
+      "EngineCapacity": t("detailsPage.engineCapacity"),
+      "BodyType": t("detailsPage.bodyType"),
+      "Body Type": t("detailsPage.bodyType"),
+      "ExteriorColor": t("detailsPage.exteriorColor"),
+      "Exterior Color": t("detailsPage.exteriorColor"),
+      "Condition": t("detailsPage.condition"),
+      "Purpose": t("detailsPage.purpose"),
+      "Transmission": t("detailsPage.transmission"),
+      "Regional Spec": t("detailsPage.regionalSpec"),
+      "RegionalSpec": t("detailsPage.regionalSpec"),
+      "Insurance": t("detailsPage.insurance"),
+      "Seating Capacity": t("detailsPage.seatingCapacity"),
+      "SeatingCapacity": t("detailsPage.seatingCapacity"),
+      "Interior Color": t("detailsPage.interiorColor"),
+      "InteriorColor": t("detailsPage.interiorColor"),
+      "City": t("detailsPage.city"),
+      "Model": t("detailsPage.model"),
+      "Color": t("detailsPage.color"),
+      "Last Updated": t("detailsPage.lastUpdated"),
+    };
+    return fieldMap[fieldName] || fieldName;
+  };
+
+  // Helper function to translate field values
+  const translateFieldValue = (value) => {
+    if (!value) return value;
+    const valueStr = String(value).trim();
+    const valueLower = valueStr.toLowerCase();
+
+    if (valueLower === "new") return t("filters.options.condition.new");
+    if (valueLower === "used") return t("filters.options.condition.used");
+    if (valueLower === "dealers") return t("filters.options.sellerType.dealers");
+    if (valueLower === "individuals") return t("filters.options.sellerType.individuals");
+    if (valueLower === "sell") return t("filters.options.adType.sell");
+    if (valueLower === "rent") return t("filters.options.adType.rent");
+    if (valueLower === "wanted") return t("filters.options.adType.wanted");
+    if (valueLower === "manual") return t("filters.options.transmission.manual");
+    if (valueLower === "automatic") return t("filters.options.transmission.automatic");
+    if (valueLower === "white") return t("filters.options.colors.white");
+    if (valueLower === "black") return t("filters.options.colors.black");
+    if (valueLower === "grey" || valueLower === "gray") return t("filters.options.colors.grey");
+    if (valueLower === "red") return t("filters.options.colors.red");
+    if (valueLower === "yellow") return t("filters.options.colors.yellow");
+    if (valueLower === "blue") return t("filters.options.colors.blue");
+    if (valueLower === "green") return t("filters.options.colors.green");
+    if (valueLower === "silver") return t("filters.options.colors.silver");
+    if (valueLower === "gcc") return t("filters.options.regionalSpec.gcc");
+    if (valueLower === "european") return t("filters.options.regionalSpec.european");
+    if (valueLower === "japanese") return t("filters.options.regionalSpec.japanese");
+    if (valueLower === "american") return t("filters.options.regionalSpec.american");
+    if (valueLower === "thirdparty" || valueLower === "third party") return t("filters.options.insurance.thirdParty");
+    if (valueLower === "comprehensive") return t("filters.options.insurance.comprehensive");
+    if (valueLower === "coupe") return t("filters.options.bodyType.coupe");
+    if (valueLower === "sedan") return t("filters.options.bodyType.sedan");
+    if (valueLower === "suv") return t("filters.options.bodyType.suv");
+    if (valueLower === "hatchback") return t("filters.options.bodyType.hatchback");
+    if (valueLower.includes("fulloption") || valueLower.includes("full option")) return t("filters.options.additionalFeatures.fullOption");
+    if (valueLower === "insured") return t("filters.options.additionalFeatures.insured");
+    if (valueLower.includes("self") && valueLower.includes("park")) return t("filters.options.additionalFeatures.selfParking");
+
+    return value;
+  };
 
   // Helper function to translate subcategory names
   const translateSubcategory = (name) => {
@@ -214,7 +305,29 @@ const Dynamic_Route = () => {
       "Lost & Found": t("subcategories.other.lostAndFound"),
       "Freebies": t("subcategories.other.freebies"),
       "Free Stuff": t("subcategories.other.freeStuff"),
-      // Add more as needed
+      // Fashion subcategories
+      "Women's Fashion": t("subcategories.fashion.womensFashion"),
+      "Men's Fashion": t("subcategories.fashion.mensFashion"),
+      "Children's Clothing & Accessories": t("subcategories.fashion.childrensClothing"),
+      // Fashion nested subcategories - Women's
+      "Women's Accessories & Jewelry": t("subcategories.fashion.womensAccessories"),
+      "Women's Blouses & T-Shirts": t("subcategories.fashion.womensBlouses"),
+      "Women's Skirts & Trousers": t("subcategories.fashion.womensSkirts"),
+      "Women's Jackets": t("subcategories.fashion.womensJackets"),
+      "Women's Bags": t("subcategories.fashion.womensBags"),
+      "Women's Sportswear": t("subcategories.fashion.womensSportswear"),
+      "Kaftans": t("subcategories.fashion.kaftans"),
+      "Abayas": t("subcategories.fashion.abayas"),
+      "Dresses": t("subcategories.fashion.dresses"),
+      "Lingerie": t("subcategories.fashion.lingerie"),
+      // Fashion nested subcategories - Children's
+      "Baby Care Products": t("subcategories.fashion.babyCareProducts"),
+      "Children's Accessories": t("subcategories.fashion.childrensAccessories"),
+      "Toys for Kids": t("subcategories.fashion.toysForKids"),
+      "Children's Cribs & Chairs": t("subcategories.fashion.childrensCribs"),
+      "Children's Bags": t("subcategories.fashion.childrensBags"),
+      "Strollers": t("subcategories.fashion.strollers"),
+      "Car Seats for Kids": t("subcategories.fashion.carSeatsForKids"),
     };
     return subcategoryTranslations[name] || name;
   };
@@ -1003,26 +1116,63 @@ console.log(
       setLoading(true);
       console.log("🚀 Fetching item with ID:", _Id, "Category:", callingFrom);
       try {
-        const res = await fetch(
-          `http://168.231.80.24:9002/route/getItemById?callingFrom=${callingFrom}&id=${_Id}`
-        );
+        // Map component names to actual Firestore collection names
+        const collectionMapping = {
+          "AutomotiveComp": "Cars",
+          "ElectronicComp": "ELECTRONICS",
+          "REALESTATECOMP": "REALESTATECOMP",
+          "RealEstateComp": "REALESTATECOMP",
+          "ELECTRONICS": "ELECTRONICS",
+          "JOBBOARD": "JOBBOARD",
+          "JobBoard": "JOBBOARD",
+          "JobBoardComp": "JOBBOARD",
+          "HealthCare": "HEALTHCARE",
+          "HealthCareComp": "HEALTHCARE",
+          "Travel": "TRAVEL",
+          "TravelComp": "TRAVEL",
+          "SportGamesComp": "SPORTSGAMESComp",
+          "PetAnimalsComp": "PETANIMALCOMP",
+          "Fashion": "FASHION",
+          "FashionComp": "FASHION",
+          "FashionStyle": "FASHION",
+          "Education": "Education",
+          "EducationComp": "Education",
+          "Commercial": "ComercialsAds",
+        };
 
-        const item = await res.json();
-        console.log("✅ Fetched item:", item);
-        console.log("📍 Item City:", item?.City, "District:", item?.District);
+        const actualCollection = collectionMapping[callingFrom] || callingFrom;
+        console.log("📦 Collection mapping:", callingFrom, "→", actualCollection);
 
-        if (item?.id) {
+        // Fetch directly from Firestore to get all fields including translations
+        const docRef = doc(db, actualCollection, _Id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const item = docSnap.data();
+          console.log("✅ Fetched item:", item);
+          console.log("📍 Item City:", item?.City, "District:", item?.District);
+          console.log("🔍 Translation fields:", {
+            title: item.title,
+            title_en: item.title_en,
+            title_ar: item.title_ar,
+            description: item.description,
+            description_en: item.description_en,
+            description_ar: item.description_ar,
+          });
+
           setItemData({
+            id: docSnap.id,
             ...item,
-            timeAgo: item.createdAt?._seconds
-              ? formatDistanceToNow(new Date(item.createdAt._seconds * 1000), {
+            timeAgo: item.createdAt
+              ? formatDistanceToNow(item.createdAt.toDate(), {
                   addSuffix: true,
+                  locale: i18n.language.startsWith('ar') ? ar : undefined,
                 })
               : "Unknown time",
           });
           console.log("✅ ItemData updated with City:", item?.City);
         } else {
-          console.log("❌ No item data returned");
+          console.log("❌ No document found");
           setItemData(null);
         }
 
@@ -1037,7 +1187,7 @@ console.log(
       console.log("📌 Effect triggered - _Id:", _Id, "callingFrom:", callingFrom);
       fetchItem();
     }
-  }, [_Id, callingFrom]);
+  }, [_Id, callingFrom, i18n.language]);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -1054,7 +1204,10 @@ console.log(
     ? itemData.createdAt.toDate()
     : null;
   const timeAgo = postedTime
-    ? formatDistanceToNow(postedTime, { addSuffix: true })
+    ? formatDistanceToNow(postedTime, {
+        addSuffix: true,
+        locale: i18n.language.startsWith('ar') ? ar : undefined,
+      })
     : "Unknown time";
 
   const images = itemData?.galleryImages || [];
@@ -1191,7 +1344,7 @@ console.log(
                     padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                   }}
                 >
-                  {itemData.NestedSubCategory}{" "}
+                  {translateSubcategory(itemData.NestedSubCategory)}{" "}
                 </button>
               </>
             )}
@@ -1209,21 +1362,22 @@ console.log(
               style={{
                 marginTop: window.innerWidth <= 576 ? "10px" : "20px",
                 marginBottom: window.innerWidth <= 576 ? "10px" : "20px",
-                fontSize: "40px",
+                fontSize: window.innerWidth <= 768 ? "24px" : "40px",
                 fontWeight: "bold",
               }}
             >
-              {itemData?.title || "Default Title"}{" "}
+              {getTranslatedField(itemData, 'title', i18n.language) || "Default Title"}{" "}
             </div>
           </div>
           <div
             className="CategoryInfodiv_btn2container"
             style={{
               display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
+              flexWrap: window.innerWidth <= 576 ? "nowrap" : "wrap",
+              gap: window.innerWidth <= 576 ? "5px" : "10px",
               marginBottom: window.innerWidth <= 576 ? "10px" : "0px",
               marginTop: window.innerWidth <= 576 ? "10px" : "0px",
+              overflowX: window.innerWidth <= 576 ? "auto" : "visible",
             }}
           >
             <button
@@ -1232,9 +1386,12 @@ console.log(
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
+                width: window.innerWidth <= 576 ? "auto" : "auto",
+                fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
               onClick={(e) => handleFavourite(e, itemData?.id, callingFrom)}
             >
@@ -1261,9 +1418,12 @@ console.log(
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
+                  width: window.innerWidth <= 576 ? "auto" : "auto",
+                  fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 <span>
@@ -1389,9 +1549,12 @@ console.log(
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #2D4495",
-                  padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                  padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
-                  width: window.innerWidth <= 576 ? "47%" : "auto",
+                  width: window.innerWidth <= 576 ? "auto" : "auto",
+                  fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 <span>
@@ -1462,9 +1625,12 @@ console.log(
               style={{
                 backgroundColor: "white",
                 border: "1px solid #2D4495",
-                padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
+                padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
-                width: window.innerWidth <= 576 ? "47%" : "auto",
+                width: window.innerWidth <= 576 ? "auto" : "auto",
+                fontSize: window.innerWidth <= 576 ? "12px" : "14px",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
               onClick={handleShow}
             >
@@ -1579,7 +1745,7 @@ console.log(
                 marginBottom: "10px",
               }}
             >
-              Posted {itemData?.timeAgo || "Loading..."}
+              {t("detailsPage.posted")} {itemData?.timeAgo || "Loading..."}
             </p>
           </div>
           <Row>
@@ -1647,7 +1813,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -1928,14 +2094,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -1948,8 +2114,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -1960,14 +2126,14 @@ console.log(
                         {/* Features Section */}
                         <div className="section">
                           <h1 className="section-title dynamic_route">
-                            Features
+                            {t("detailsPage.features")}
                           </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -1980,10 +2146,10 @@ console.log(
                         {/* Description Section */}
                         <div className="section m-0">
                           <h1 className="section-title section-title-description dynamic_route">
-                            Description
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -2054,7 +2220,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -2335,14 +2501,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -2355,8 +2521,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -2366,13 +2532,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -2384,11 +2550,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -2459,7 +2625,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -2740,14 +2906,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -2760,8 +2926,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -2771,13 +2937,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section m-0">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -2789,11 +2955,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -2864,7 +3030,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -3140,14 +3306,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3160,8 +3326,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -3171,13 +3337,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -3189,11 +3355,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -3264,7 +3430,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -3540,14 +3706,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3560,8 +3726,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -3571,13 +3737,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -3589,11 +3755,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -3664,7 +3830,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -3940,14 +4106,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3960,8 +4126,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -3971,13 +4137,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -3989,11 +4155,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4064,7 +4230,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -4340,14 +4506,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -4360,8 +4526,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -4371,13 +4537,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -4389,11 +4555,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4464,7 +4630,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -4740,14 +4906,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -4760,8 +4926,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -4771,13 +4937,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -4789,11 +4955,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4864,7 +5030,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -5140,14 +5306,14 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: itemData?.City || "N/A",
+                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: itemData?.District || "N/A",
+                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -5160,8 +5326,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -5171,13 +5337,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -5189,11 +5355,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -5264,7 +5430,7 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {itemData?.title || "آلة غسيل أطباق"}
+                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -5560,8 +5726,8 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{label}:</span>
-                                  <span className="detail_text">{value}</span>
+                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
+                                  <span className="detail_text">{translateFieldValue(value)}</span>
                                 </li>
                               ))}
                           </ul>
@@ -5571,13 +5737,13 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">Features</h1>
+                          <h1 className="section-title">{t("detailsPage.features")}</h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
                                 (feature, index) => (
                                   <li key={index} className="feature-item">
-                                    {feature}
+                                    {translateFieldValue(feature)}
                                   </li>
                                 )
                               )
@@ -5589,11 +5755,11 @@ console.log(
 
                         {/* Description Section */}
                         <div className="section m-0">
-                          <h1 className="section-title section-title-description">
-                            Description
+                          <h1 className="section-title section-title-description dynamic_route">
+                            {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {itemData?.description?.trim() || "No description"}
+                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -5624,7 +5790,7 @@ console.log(
                   >
                     <div
                       style={{
-                        fontSize: "60px",
+                        fontSize: window.innerWidth <= 768 ? "24px" : "60px",
                         fontWeight: "bold",
                         textAlign: "center",
                         color: "#2d4495",
@@ -5687,8 +5853,8 @@ console.log(
                               alt="Profile"
                               className="img-fluid rounded-circle"
                               style={{
-                                width: "100px",
-                                height: "100px",
+                                width: window.innerWidth <= 768 ? "70px" : "100px",
+                                height: window.innerWidth <= 768 ? "70px" : "100px",
                                 objectFit: "cover",
                               }} // Adjust size as needed
                             />

@@ -5,7 +5,7 @@ export const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(
-    localStorage.getItem("language") || "en"
+    localStorage.getItem("language") || "ar"
   );
 
   console.log("🟣 LanguageProvider render - current language:", language);
@@ -19,8 +19,8 @@ export const LanguageProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Set initial language from localStorage or default to 'en'
-    const savedLanguage = localStorage.getItem("language") || "en";
+    // Set initial language from localStorage or default to 'ar'
+    const savedLanguage = localStorage.getItem("language") || "ar";
     i18n.changeLanguage(savedLanguage);
 
     // Set HTML lang attribute

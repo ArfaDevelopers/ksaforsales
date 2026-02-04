@@ -9,6 +9,7 @@ import Loading1 from "../../../../public/Progress circle.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
 // Function to format posted time (e.g., "2 days ago")
 const formatPostedTime = (timestamp) => {
@@ -21,30 +22,9 @@ const formatPostedTime = (timestamp) => {
     ? "Today"
     : `${diffDays} day${diffDays > 1 ? "s" : ""} ago`; // Return formatted string
 };
-function timeAgo(timestamp) {
-  let date;
-  if (timestamp instanceof Date) {
-    date = timestamp;
-  } else if (timestamp?._seconds) {
-    date = new Date(timestamp._seconds * 1000);
-  } else if (typeof timestamp === "number") {
-    date = new Date(timestamp);
-  } else {
-    return "Invalid time";
-  }
-  const now = new Date();
-  const diff = now - date;
-  const seconds = Math.floor(diff / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
-  if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-  return "Just now";
-}
+// Removed duplicate - using timeAgo inside component
 export default function AutomativeCarousel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
@@ -111,7 +91,7 @@ export default function AutomativeCarousel() {
   function timeAgo(timestamp) {
     let seconds;
 
-    if (!timestamp) return "Unknown time";
+    if (!timestamp) return t("common.unknownTime");
 
     if (timestamp._seconds) {
       // Firestore format (from backend response)
@@ -120,7 +100,7 @@ export default function AutomativeCarousel() {
       // Client format
       seconds = timestamp.seconds;
     } else {
-      return "Invalid date";
+      return t("common.invalidDate");
     }
 
     const date = new Date(seconds * 1000);
@@ -131,10 +111,10 @@ export default function AutomativeCarousel() {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-    return "Just now";
+    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    return t("common.justNow");
   }
 
   // Update slidesToShow on screen resize
@@ -422,7 +402,7 @@ export default function AutomativeCarousel() {
                                       textDecoration: "none",
                                     }}
                                   >
-                                    {item.title}
+                                    {getTranslatedField(item, 'title', i18n.language)}
                                   </Link>
                                 </h6>
                                 <p
@@ -435,7 +415,7 @@ export default function AutomativeCarousel() {
                                     textOverflow: "ellipsis",
                                   }}
                                 >
-                                  {item.District}, {item.City}
+                                  {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
                                 </p>
                                 <div
                                   className="blog-location-details"

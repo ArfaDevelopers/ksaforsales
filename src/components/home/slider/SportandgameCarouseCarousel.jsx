@@ -8,12 +8,13 @@ import { getDocs, collection } from "firebase/firestore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getSubcategoriesByName } from "../../../utils/categoriesData";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 
-// Helper function to calculate time difference and return a human-readable format
-function timeAgo(timestamp) {
+// Helper function to calculate time difference and return a human-readable format with translation
+function timeAgo(timestamp, t) {
   let seconds;
 
-  if (!timestamp) return "Unknown time";
+  if (!timestamp) return t ? t("common.unknownTime") : "Unknown time";
 
   if (timestamp._seconds) {
     // Firestore format (from backend response)
@@ -22,7 +23,7 @@ function timeAgo(timestamp) {
     // Client format
     seconds = timestamp.seconds;
   } else {
-    return "Invalid date";
+    return t ? t("common.invalidDate") : "Invalid date";
   }
 
   const date = new Date(seconds * 1000);
@@ -33,6 +34,13 @@ function timeAgo(timestamp) {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
+  if (t) {
+    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    return t("common.justNow");
+  }
+
   if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
   if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -40,23 +48,24 @@ function timeAgo(timestamp) {
 }
 
 export default function AutomativeCarousel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
-  const [activeSubcategory, setActiveSubcategory] = useState("Ball Sports");
+  const [activeSubcategory, setActiveSubcategory] = useState("Gaming Consoles");
 
   // Helper function to translate subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
-      "Ball Sports": t("subcategories.sportGame.ballSports"),
-      "Football": t("subcategories.sportGame.football"),
-      "Basketball": t("subcategories.sportGame.basketball"),
-      "Tennis": t("subcategories.sportGame.tennis"),
-      "Gaming": t("subcategories.sportGame.gaming"),
-      "Fitness": t("subcategories.sportGame.fitness")
+      "Gaming Consoles": t("subcategories.sportGame.gamingConsoles"),
+      "Video Games": t("subcategories.sportGame.videoGames"),
+      "Controllers": t("subcategories.sportGame.controllers"),
+      "Gaming Accessories": t("subcategories.sportGame.gamingAccessories"),
+      "Gift Cards": t("subcategories.sportGame.giftCards"),
+      "Accounts": t("subcategories.sportGame.accounts"),
+      "Toys": t("subcategories.sportGame.toys")
     };
     return subcategoryMap[name] || name;
   };
@@ -330,7 +339,7 @@ export default function AutomativeCarousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {item.title}
+                                  {getTranslatedField(item, 'title', i18n.language)}
                                 </Link>
                               </h6>
                               <p
@@ -343,7 +352,7 @@ export default function AutomativeCarousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {item.District}, {item.City}
+                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
                               </p>
                               <div
                                 className="blog-location-details"
@@ -405,7 +414,7 @@ export default function AutomativeCarousel() {
                                     fontSize: "0.7rem",
                                   }}
                                 >
-                                  {timeAgo(item.createdAt)}
+                                  {timeAgo(item.createdAt, t)}
                                 </div>
                               </div>
                             </div>

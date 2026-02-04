@@ -27,19 +27,19 @@ export const categoriesData = [
       },
       {
         name: "Wheels & Rims",
-        path: "/search?category=motors&subcategory=wheels-rims",
+        path: "/search?category=motors&subcategory=wheels-and-rims",
       },
       {
         name: "Trucks & Heavy Machinery",
-        path: "/search?category=motors&subcategory=trucks-heavy-machinery",
+        path: "/search?category=motors&subcategory=trucks-and-heavy-machinery",
       },
       {
         name: "Tshaleeh",
         path: "/search?category=motors&subcategory=tshaleeh",
       },
       {
-        name: "Boats & Jet Ski",
-        path: "/search?category=motors&subcategory=boats-jet-ski",
+        name: "Boats & JetSki",
+        path: "/search?category=motors&subcategory=boats-and-jetski",
       },
       {
         name: "Classic Cars",
@@ -53,28 +53,28 @@ export const categoriesData = [
     collectionName: "REALESTATECOMP",
     subcategories: [
       {
-        name: "Residential For Sale",
-        path: "/search?category=real-estate&subcategory=residential-for-sale",
+        name: "Houses for Sale",
+        path: "/search?category=real-estate&subcategory=houses-for-sale",
       },
       {
-        name: "Residential For Rent",
-        path: "/search?category=real-estate&subcategory=residential-for-rent",
+        name: "Houses for Rent",
+        path: "/search?category=real-estate&subcategory=houses-for-rent",
       },
       {
-        name: "Commercial For Sale",
-        path: "/search?category=real-estate&subcategory=commercial-for-sale",
+        name: "Commercial Lands for Sale",
+        path: "/search?category=real-estate&subcategory=commercial-lands-for-sale",
       },
       {
-        name: "Commercial For Rent",
-        path: "/search?category=real-estate&subcategory=commercial-for-rent",
+        name: "Shops for Rent",
+        path: "/search?category=real-estate&subcategory=shops-for-rent",
       },
       {
-        name: "Land For Sale",
-        path: "/search?category=real-estate&subcategory=land-for-sale",
+        name: "Lands for Sale",
+        path: "/search?category=real-estate&subcategory=lands-for-sale",
       },
       {
-        name: "Land For Rent",
-        path: "/search?category=real-estate&subcategory=land-for-rent",
+        name: "Villas for Rent",
+        path: "/search?category=real-estate&subcategory=villas-for-rent",
       },
     ],
   },
@@ -88,24 +88,24 @@ export const categoriesData = [
         path: "/search?category=electronics&subcategory=mobile-phones",
       },
       {
-        name: "Tablets",
-        path: "/search?category=electronics&subcategory=tablets",
+        name: "Tablet Devices",
+        path: "/search?category=electronics&subcategory=tablet-devices",
       },
       {
-        name: "Laptops",
-        path: "/search?category=electronics&subcategory=laptops",
+        name: "Computers & Laptops",
+        path: "/search?category=electronics&subcategory=computers-and-laptops",
       },
       {
-        name: "Gaming",
-        path: "/search?category=electronics&subcategory=gaming",
+        name: "Video Games",
+        path: "/search?category=electronics&subcategory=video-games",
       },
       {
         name: "Cameras",
         path: "/search?category=electronics&subcategory=cameras",
       },
       {
-        name: "Appliances",
-        path: "/search?category=electronics&subcategory=appliances",
+        name: "Home & Kitchen Appliance",
+        path: "/search?category=electronics&subcategory=home-and-kitchen-appliance",
       },
     ],
   },
@@ -115,28 +115,40 @@ export const categoriesData = [
     collectionName: "FASHION",
     subcategories: [
       {
-        name: "Men's Clothing",
-        path: "/search?category=fashion-style&subcategory=mens-clothing",
-      },
-      {
-        name: "Women's Clothing",
-        path: "/search?category=fashion-style&subcategory=womens-clothing",
-      },
-      {
-        name: "Shoes",
-        path: "/search?category=fashion-style&subcategory=shoes",
-      },
-      {
-        name: "Accessories",
-        path: "/search?category=fashion-style&subcategory=accessories",
-      },
-      {
         name: "Watches",
         path: "/search?category=fashion-style&subcategory=watches",
       },
       {
-        name: "Perfumes",
-        path: "/search?category=fashion-style&subcategory=perfumes",
+        name: "Perfumes & Incense",
+        path: "/search?category=fashion-style&subcategory=perfumes-and-incense",
+      },
+      {
+        name: "Sports Equipment",
+        path: "/search?category=fashion-style&subcategory=sports-equipment",
+      },
+      {
+        name: "Men Fashion",
+        path: "/search?category=fashion-style&subcategory=men-fashion",
+      },
+      {
+        name: "Women Fashion",
+        path: "/search?category=fashion-style&subcategory=women-fashion",
+      },
+      {
+        name: "Children Clothing & Accessories",
+        path: "/search?category=fashion-style&subcategory=children-clothing-and-accessories",
+      },
+      {
+        name: "Gifts",
+        path: "/search?category=fashion-style&subcategory=gifts",
+      },
+      {
+        name: "Luggage",
+        path: "/search?category=fashion-style&subcategory=luggage",
+      },
+      {
+        name: "Health & Beauty",
+        path: "/search?category=fashion-style&subcategory=health-and-beauty",
       },
     ],
   },
@@ -200,24 +212,32 @@ export const categoriesData = [
     collectionName: "SPORTSGAMESComp",
     subcategories: [
       {
-        name: "Football",
-        path: "/search?category=sport-and-game&subcategory=football",
+        name: "Gaming Consoles",
+        path: "/search?category=sport-and-game&subcategory=gaming-consoles",
       },
       {
-        name: "Basketball",
-        path: "/search?category=sport-and-game&subcategory=basketball",
+        name: "Video Games",
+        path: "/search?category=sport-and-game&subcategory=video-games",
       },
       {
-        name: "Tennis",
-        path: "/search?category=sport-and-game&subcategory=tennis",
+        name: "Controllers",
+        path: "/search?category=sport-and-game&subcategory=controllers",
       },
       {
-        name: "Gaming",
-        path: "/search?category=sport-and-game&subcategory=gaming",
+        name: "Gaming Accessories",
+        path: "/search?category=sport-and-game&subcategory=gaming-accessories",
       },
       {
-        name: "Fitness",
-        path: "/search?category=sport-and-game&subcategory=fitness",
+        name: "Gift Cards",
+        path: "/search?category=sport-and-game&subcategory=gift-cards",
+      },
+      {
+        name: "Accounts",
+        path: "/search?category=sport-and-game&subcategory=accounts",
+      },
+      {
+        name: "Toys",
+        path: "/search?category=sport-and-game&subcategory=toys",
       },
     ],
   },

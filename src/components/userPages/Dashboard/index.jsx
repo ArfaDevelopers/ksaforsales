@@ -23,7 +23,8 @@ import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language?.startsWith('ar');
   const [filter, setFilter] = useState("All Listing");
   const [visitorReviews, setVisitorReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -581,7 +582,7 @@ const Dashboard = () => {
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
-                  <div className="card-body">
+                  <div className="card-body" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div className="dash-top-content">
                       <div className="dashcard-img">
                         <img src={verified} className="img-fluid" alt="" />
@@ -614,14 +615,10 @@ const Dashboard = () => {
               </div> */}
               <div
                 className="col-lg-6 col-md-6 col-6"
-                // style={{
-                // 	flex: "0 0 auto",
-                // 	minWidth: "100px",
-                // 	marginTop: windowWidth <= 576 ? "-15px" : "8px",
-                // }}
+                style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
-                  <div className="card-body">
+                  <div className="card-body" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div className="dash-top-content">
                       <div className="dashcard-img">
                         <img src={chat} className="img-fluid" alt="" />

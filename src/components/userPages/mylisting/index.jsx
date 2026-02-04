@@ -41,10 +41,11 @@ import { MdDashboard } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import { TbLogout2 } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import { getTranslatedField } from "../../../utils/autoTranslate";
 import "../../../assets/css/mobile-my-listing.css";
 
 const MyListe = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
@@ -373,17 +374,121 @@ const MyListe = () => {
 
   const renderPaginationItems = () => {
     const items = [];
-    for (let i = 1; i <= totalPages; i++) {
-      items.push(
-        <li
-          key={i}
-          className={`page-item ${currentPage === i ? "active" : ""}`}
-        >
-          <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
-            {i}
-          </Link>
-        </li>
-      );
+    const isMobile = window.innerWidth <= 768;
+    const maxButtons = isMobile ? 4 : 7; // Show 4 buttons on mobile, 7 on desktop
+
+    if (totalPages <= maxButtons) {
+      // Show all pages if total is less than max buttons
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <li
+            key={i}
+            className={`page-item ${currentPage === i ? "active" : ""}`}
+          >
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+              {i}
+            </Link>
+          </li>
+        );
+      }
+    } else {
+      // Smart pagination with ellipsis
+      const showFirst = currentPage > 2;
+      const showLast = currentPage < totalPages - 1;
+
+      if (currentPage <= 3) {
+        // Show first 4 pages + ellipsis + last
+        for (let i = 1; i <= Math.min(maxButtons, totalPages); i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+        if (totalPages > maxButtons) {
+          items.push(
+            <li key="ellipsis-end" className="page-item disabled">
+              <span className="page-link">...</span>
+            </li>
+          );
+          items.push(
+            <li key={totalPages} className="page-item">
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+                {totalPages}
+              </Link>
+            </li>
+          );
+        }
+      } else if (currentPage >= totalPages - 2) {
+        // Show first + ellipsis + last 4 pages
+        items.push(
+          <li key={1} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+              1
+            </Link>
+          </li>
+        );
+        items.push(
+          <li key="ellipsis-start" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        for (let i = totalPages - (maxButtons - 1); i <= totalPages; i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+      } else {
+        // Show first + ellipsis + current-1, current, current+1 + ellipsis + last
+        items.push(
+          <li key={1} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+              1
+            </Link>
+          </li>
+        );
+        items.push(
+          <li key="ellipsis-start" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          items.push(
+            <li
+              key={i}
+              className={`page-item ${currentPage === i ? "active" : ""}`}
+            >
+              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+                {i}
+              </Link>
+            </li>
+          );
+        }
+        items.push(
+          <li key="ellipsis-end" className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+        items.push(
+          <li key={totalPages} className="page-item">
+            <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+              {totalPages}
+            </Link>
+          </li>
+        );
+      }
     }
     return items;
   };
@@ -472,11 +577,35 @@ const MyListe = () => {
     }
   };
 
+  // Helper function to translate category names
+  const translateCategory = (category) => {
+    if (!category) return "";
+    const trimmedCategory = category.trim();
+    const categoryMap = {
+      "Motors": t("categories.motors"),
+      "Automotive": t("categories.motors"),
+      "Electronics": t("categories.electronics"),
+      "Fashion Style": t("categories.fashionStyle"),
+      "FashionStyle": t("categories.fashionStyle"),
+      "Home & Furniture": t("categories.homeFurniture"),
+      "Home & Furnituer": t("categories.homeFurniture"),
+      "Job Board": t("categories.jobBoard"),
+      "JobBoard": t("categories.jobBoard"),
+      "Real Estate": t("categories.realEstate"),
+      "RealEstate": t("categories.realEstate"),
+      "Services": t("categories.services"),
+      "Sport & Game": t("categories.sportGame"),
+      "Sports & Game": t("categories.sportGame"),
+      "Pet & Animals": t("categories.petAnimals"),
+      "Other": t("categories.other"),
+      "Commercial": t("categories.commercial")
+    };
+    return categoryMap[trimmedCategory] || trimmedCategory;
+  };
+
   const formatCategory = (category) => {
-    return category
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join("");
+    // Return translated category instead of formatting
+    return translateCategory(category);
   };
 
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
@@ -608,10 +737,17 @@ const MyListe = () => {
                 cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
-              {text}
+              {getTranslatedField(record, 'title', i18n.language) || text}
             </Link>
           </h6>
-          <div className="listingtable-rate">
+          <div className="listingtable-rate" style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+            flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row',
+            justifyContent: i18n.language.startsWith('ar') ? 'flex-start' : 'flex-start'
+          }}>
             <Link
               to={
                 record.isActive
@@ -647,25 +783,34 @@ const MyListe = () => {
                 pointerEvents: record.isActive ? "none" : "auto",
                 opacity: record.isActive ? 0.5 : 1,
                 cursor: record.isActive ? "not-allowed" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
               }}
             >
               <FaRegStopCircle />
               {formatCategory(record.category)}
-            </Link>{" "}
-            <span className="discount-amt" style={{ color: "#2d4495" }}>
+            </Link>
+            <span className="discount-amt" style={{
+              color: "#2d4495",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
+            }}>
               <img
                 src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
                 alt="Saudi Riyal Symbol"
                 style={{
                   height: "1em",
                   verticalAlign: "middle",
-                  marginRight: "5px",
                 }}
               />
               {record.Price}
             </span>
           </div>
-          <p>{record.tagline}.</p>
+          <p>{getTranslatedField(record, 'description', i18n.language) || record.tagline}.</p>
         </>
       ),
       sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0),
@@ -1425,7 +1570,7 @@ const MyListe = () => {
                                           cursor: record.isActive ? "not-allowed" : "pointer",
                                         }}
                                       >
-                                        {record.title}
+                                        {getTranslatedField(record, 'title', i18n.language) || record.title}
                                       </Link>
                                     </h3>
 
@@ -1522,6 +1667,9 @@ const MyListe = () => {
                                       !record.isActive
                                     );
                                   }}
+                                  style={{
+                                    backgroundColor: !record.isActive ? "#2d4495" : "#cccccc",
+                                  }}
                                 >
                                   {!record.isActive ? (
                                     <i className="feather-unlock" />
@@ -1536,13 +1684,18 @@ const MyListe = () => {
                       </div>
 
                       {/* Desktop Table View */}
-                      <Table
-                        className="listing-table datatable"
-                        columns={columns}
-                        dataSource={filteredCars}
-                        rowKey={(record) => record.id}
-                        pagination={false}
-                      />
+                      <div dir={i18n.language.startsWith('ar') ? 'rtl' : 'ltr'} style={{
+                        direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
+                        textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
+                      }}>
+                        <Table
+                          className="listing-table datatable"
+                          columns={columns}
+                          dataSource={filteredCars}
+                          rowKey={(record) => record.id}
+                          pagination={false}
+                        />
+                      </div>
                     </>
                   )}
                 </div>
@@ -1561,7 +1714,7 @@ const MyListe = () => {
                             setCurrentPage((prev) => Math.max(prev - 1, 1))
                           }
                         >
-                          <FaArrowLeft /> {t("myListing.prev")}
+                          <FaArrowLeft /> <span>{t("myListing.prev")}</span>
                         </Link>
                       </li>
                       <li className="justify-content-center pagination-center">
@@ -1583,7 +1736,7 @@ const MyListe = () => {
                             )
                           }
                         >
-                          {t("myListing.next")} <FaArrowRight />
+                          <span>{t("myListing.next")}</span> <FaArrowRight />
                         </Link>
                       </li>
                     </ul>

@@ -730,7 +730,11 @@ const Search = () => {
       filtered = filtered.filter(
         (ad) =>
           (ad.title && ad.title.toLowerCase().includes(keyword)) ||
+          (ad.title_en && ad.title_en.toLowerCase().includes(keyword)) ||
+          (ad.title_ar && ad.title_ar.toLowerCase().includes(keyword)) ||
           (ad.description && ad.description.toLowerCase().includes(keyword)) ||
+          (ad.description_en && ad.description_en.toLowerCase().includes(keyword)) ||
+          (ad.description_ar && ad.description_ar.toLowerCase().includes(keyword)) ||
           (ad.Make && ad.Make.toLowerCase().includes(keyword)) ||
           (ad.Model && ad.Model.toLowerCase().includes(keyword)) ||
           (ad.brand && ad.brand.toLowerCase().includes(keyword)) ||
@@ -1064,6 +1068,7 @@ const Search = () => {
           : arrayUnion(currentUser.uid),
         bookmarked: !isBookmarked, // Update bookmarked field
         [`userBookmarks.${currentUser.uid}`]: !isBookmarked, // Track per-user bookmark status
+        [`bookmarkedAt.${currentUser.uid}`]: !isBookmarked ? Date.now() : null, // ✅ Store bookmark timestamp
       });
 
       // Verify the update by reading back
@@ -1217,8 +1222,12 @@ const Search = () => {
           const searchableText = [
             ad.Title,
             ad.title,
+            ad.title_en,
+            ad.title_ar,
             ad.Description,
             ad.description,
+            ad.description_en,
+            ad.description_ar,
             ad.Brand,
             ad.Make,
             ad.Model,
@@ -1654,11 +1663,10 @@ if (displaySearchKeyword) {
     <>
       <div className="main-wrapper">
         <Header parms={parms} />
-
+        <div className="search-header-spacer"></div>
+  <div className="mobile-seach--filters mb-3">  
         {/* Mobile Filter Chips */}
-        <div className="mobile-filter-chips-container">
-          {/* Results Count & Clear All Section */}
-          <div className="mobile-filters-results-bar">
+            <div className="mobile-filters-results-bar p-10">
             <div className="mobile-filters-results-count">
               <span className="results-label">{t("search.showResults")}: </span>
               <span className="results-number">{filteredAds.length}</span>
@@ -1679,6 +1687,10 @@ if (displaySearchKeyword) {
               </button>
             )}
           </div>
+        <div className="mobile-filter-chips-container">
+          
+          {/* Results Count & Clear All Section */}
+
 
           <div className="mobile-filter-chips-wrapper">
             {/* Category Filter Chip */}
@@ -1788,7 +1800,7 @@ if (displaySearchKeyword) {
             })}
           </div>
         </div>
-
+</div>
         {/* Category Filter Modal */}
         {activeFilterModal === 'category' && (
           <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>

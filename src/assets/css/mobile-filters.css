@@ -20,6 +20,9 @@
   max-height: 500px;
   opacity: 1;
   transform-origin: top;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .mobile-filter-chips-container.collapsed {
@@ -35,9 +38,12 @@
 }
 
 .mobile-filter-chips-wrapper {
-  display: inline-flex;
+  display: flex;
   gap: 10px;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0) scale(1);
@@ -56,11 +62,11 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 8px;
   background: #f5f5f5;
   border: 1px solid #e0e0e0;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: #333;
   white-space: nowrap;
@@ -123,18 +129,39 @@
 /* ============================================
    RESULTS BAR (Count & Clear All)
    ============================================ */
+   @media screen and (min-width:992px) {
+    .mobile-seach--filters {
+     display:none;
+    }
+   }
+
+/* Mobile filters visibility rule is handled in responsive breakpoints below */
+
+/* Header spacer - pushes content below the absolute-positioned header on tablets */
+.search-header-spacer {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .search-header-spacer {
+    display: block;
+    height: 125px;
+  }
+}
 
 .mobile-filters-results-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 15px 12px 15px;
+  padding: 15px 25px;
   border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 12px;
   position: relative;
   left: 0;
   background: white;
   z-index: 10;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -501,14 +528,33 @@
    ============================================ */
 
 @media (max-width: 991px) {
+  /* Only clip .main-wrapper, not body (body needs to scroll) */
+
+  /* Override overflow:hidden from style.css - use clip instead */
+  .main-wrapper {
+    overflow: clip !important;
+    overflow-x: clip !important;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Sticky filters - stick when scrolling reaches top */
+  .mobile-seach--filters {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: white;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
   /* Show mobile filter chips on tablets and phones */
   .mobile-filter-chips-container {
     display: block;
-    position: relative;
-    top: auto;
-    left: 0;
-    right: 0;
-    z-index: 10;
+    width: 100%;
+    max-width: 100vw;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                 max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -530,17 +576,6 @@
     display: none !important;
   }
 
-  /* Add space below filter chips for content */
-  .mobile-filter-chips-container ~ .container.parent-main {
-    padding-top: 20px !important;
-    transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Remove padding when filters are collapsed */
-  .mobile-filter-chips-container.collapsed ~ .container.parent-main {
-    padding-top: 0 !important;
-  }
-
   /* Ensure results column is visible on mobile */
   .filter_outterwrap {
     margin-top: 0 !important;
@@ -555,16 +590,32 @@
 }
 
 @media (max-width: 768px) {
-  /* Filters scroll naturally with content on mobile */
-  .mobile-filter-chips-container {
-    position: relative;
-    top: auto;
-    margin-top: 115px;
+  /* Only clip .main-wrapper, not body (body needs to scroll) */
+
+  /* Override overflow:hidden from style.css line 22610 - use clip */
+  .main-wrapper {
+    overflow: clip !important;
+    overflow-x: clip !important;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
 
-  /* Reduce padding since filters scroll with content */
-  .mobile-filter-chips-container ~ .container.parent-main {
-    padding-top: 20px !important;
+  /* Sticky filters - stick when scrolling reaches top */
+  .mobile-seach--filters {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: white;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Filters on mobile */
+  .mobile-filter-chips-container {
+    width: 100%;
+    max-width: 100vw;
   }
 
   /* Improve range inputs on small mobile screens */
@@ -588,24 +639,61 @@
   }
 }
 @media screen and (max-width: 426px) {
+  /* Only clip .main-wrapper, not body (body needs to scroll) */
+
+  .main-wrapper {
+    overflow: clip !important;
+    overflow-x: clip !important;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Sticky filters - stick when scrolling reaches top */
+  .mobile-seach--filters {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: white;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
   .mobile-filter-chips-container {
-    margin-top: 0px;
+    width: 100%;
+    max-width: 100vw;
   }
 }
 
 /* Tablet specific adjustments */
 @media (min-width: 769px) and (max-width: 991px) {
-  /* Make filters scroll with header on tablets */
-  .mobile-filter-chips-container {
-    position: relative !important;
-    top: 112px;
-    margin-top: 0;
-    box-shadow: none !important; /* Remove shadow when scrolling */
+  /* Only clip .main-wrapper, not body (body needs to scroll) */
+
+  .main-wrapper {
+    overflow: clip !important;
+    overflow-x: clip !important;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
 
-  /* Reduce padding since filters scroll with content */
-  .mobile-filter-chips-container ~ .container.parent-main {
-    padding-top: 20px !important;
+  /* Sticky filters on tablets - z-index below header (99) so header stays visible */
+  .mobile-seach--filters {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 98 !important;
+    background: white;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Make filters visible and properly styled on tablets */
+  .mobile-filter-chips-container {
+    width: 100%;
+    max-width: 100vw;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   }
 }
 
@@ -764,9 +852,29 @@
   text-decoration: underline;
 }
 @media (max-width: 376px) {
-  /* Filters scroll naturally on very small mobile screens */
+  /* Only clip .main-wrapper, not body (body needs to scroll) */
+
+  .main-wrapper {
+    overflow: clip !important;
+    overflow-x: clip !important;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  /* Sticky filters - stick when scrolling reaches top on very small screens */
+  .mobile-seach--filters {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: white;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
   .mobile-filter-chips-container {
-    position: relative;
-    top: auto;
+    width: 100%;
+    max-width: 100vw;
   }
 }

@@ -79,11 +79,25 @@ export default function SwiperSlider(props) {
         style={{ marginTop: "20px" }}
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
-        slidesPerView={7}
+        slidesPerView={4}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper thumbnail_wrapper"
+        breakpoints={{
+          480: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 6,
+            spaceBetween: 10,
+          },
+          1024: {
+            slidesPerView: 7,
+            spaceBetween: 10,
+          },
+        }}
       >
         {imageList.map((image, index) => (
           <SwiperSlide key={index}>
@@ -96,6 +110,7 @@ export default function SwiperSlider(props) {
                 objectFit: "cover",
                 cursor: "pointer",
                 borderRadius: "12px",
+                display: "block",
               }}
             />
           </SwiperSlide>
