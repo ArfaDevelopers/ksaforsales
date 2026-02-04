@@ -7,6 +7,49 @@
   .mobile-listing-cards {
     display: block;
   }
+
+  /* Modern horizontal dashboard menu on mobile */
+  .dashboard-content ul.dashborad-menus {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    padding: 15px 3px 0px 3px !important;
+    gap: 8px !important;
+    margin: 0 0 15px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .dashboard-content ul.dashborad-menus::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dashboard-content ul.dashborad-menus li {
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .dashboard-content ul.dashborad-menus li a {
+    font-size: 13px !important;
+    padding: 8px 8px !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    border-radius: 8px !important;
+  }
+
+  .dashboard-content ul.dashborad-menus li a svg {
+    font-size: 14px !important;
+    margin-right: 0 !important;
+  }
+
+  .dashboard-content ul.dashborad-menus li a span {
+    font-size: 13px !important;
+  }
 }
 
 @media (min-width: 769px) {
