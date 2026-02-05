@@ -7678,6 +7678,12 @@ fieldset:disabled .btn {
 .text-center {
   text-align: center !important;
 }
+@media screen and (max-width:575px) {
+  .text-center {
+  margin-top: 50px;
+  font-size: 19px;
+}
+}
 .text-decoration-none {
   text-decoration: none !important;
 }
