@@ -7677,11 +7677,16 @@ fieldset:disabled .btn {
 }
 .text-center {
   text-align: center !important;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #2d4494;
 }
 @media screen and (max-width:575px) {
   .text-center {
   margin-top: 50px;
   font-size: 19px;
+  margin-bottom: 10px;
+  text-align: center !important;
 }
 }
 .text-decoration-none {
