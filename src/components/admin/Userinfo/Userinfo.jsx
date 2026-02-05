@@ -72,7 +72,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { FaHeart, FaPhone, FaSearch, FaWhatsapp } from "react-icons/fa";
+import { FaHeart, FaPhone, FaSearch, FaWhatsapp, FaFilter, FaTimes, FaChevronDown } from "react-icons/fa";
 import {
   Container,
   Row,
@@ -86,6 +86,8 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
+import "../../../assets/css/mobile-search-card.css";
+import "../../../assets/css/mobile-filters.css";
 
 const Userinfo = () => {
   const { t } = useTranslation();
@@ -174,6 +176,9 @@ const Userinfo = () => {
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   console.log(selectedDistricts, "selectedDistricts___________");
   const [isCityModalVisible, setIsCityModalVisible] = useState(false);
+
+  // Mobile Filters State
+  const [activeFilterModal, setActiveFilterModal] = useState(null); // null, 'subcategory', 'region', 'city', 'district', 'price', 'year', 'adType'
   const cityModalRef = useRef(null);
   useEffect(() => {
     const modalEl = cityModalRef.current;
@@ -3920,15 +3925,137 @@ const Userinfo = () => {
                 </Form>
               </div>
             </Col>
-            <Col lg={9} className="filter_card_main_wrap">
-              <Row className="mb-3">
+            <Col lg={9} className="">
+              {/* Mobile Filters - Same structure as Search page */}
+              <div className="mobile-seach--filters mb-3">
+                {/* Mobile Filter Chips */}
+                <div className="mobile-filters-results-bar p-10">
+                  <div className="mobile-filters-results-count">
+                    <span className="results-label">{t("search.showResults")}: </span>
+                    <span className="results-number">{filteredCars.length}</span>
+                  </div>
+                  {(selectedSubCategory || selectedRegion || selectedCities.length > 0 ||
+                    selectedDistricts.length > 0 || fromValue || toValue || fromDate || toDate ||
+                    logSelectedPurpose.length > 0 || selectedOptionisFeatured || searchQuery) && (
+                    <button
+                      className="mobile-filters-clear-all-btn"
+                      onClick={() => {
+                        setSearchQuery("");
+                        setselectedSubCategory("");
+                        setSelectedRegionId("");
+                        setSelectedCities([]);
+                        setSelectedDistricts([]);
+                        setFromValue("");
+                        setToValue("");
+                        setFromDate("");
+                        setToDate("");
+                        setlogSelectedPurpose([]);
+                        setSelectedOptionisFeatured("");
+                      }}
+                    >
+                      {t("search.clear")}
+                    </button>
+                  )}
+                </div>
+
+                <div className="mobile-filter-chips-container">
+                  <div className="mobile-filter-chips-wrapper">
+                    {/* Subcategory Filter Chip */}
+                    {categories.length > 0 && (
+                      <div
+                        className={`filter-chip ${selectedSubCategory ? 'active' : ''}`}
+                        onClick={() => setActiveFilterModal('subcategory')}
+                      >
+                        <span>{t("filters.labels.subCategories")}</span>
+                        {selectedSubCategory && <span className="filter-chip-count">1</span>}
+                        <FaChevronDown className="filter-chip-arrow" />
+                      </div>
+                    )}
+
+                    {/* Region Filter Chip */}
+                    <div
+                      className={`filter-chip ${selectedRegion ? 'active' : ''}`}
+                      onClick={() => setActiveFilterModal('region')}
+                    >
+                      <span>{t("filters.labels.selectRegion")}</span>
+                      {selectedRegion && <span className="filter-chip-count">1</span>}
+                      <FaChevronDown className="filter-chip-arrow" />
+                    </div>
+
+                    {/* City Filter Chip - Only show if region is selected */}
+                    {selectedRegion && cityOptions.length > 0 && (
+                      <div
+                        className={`filter-chip ${selectedCities.length > 0 ? 'active' : ''}`}
+                        onClick={() => setActiveFilterModal('city')}
+                      >
+                        <span>{t("filters.labels.selectCity")}</span>
+                        {selectedCities.length > 0 && <span className="filter-chip-count">{selectedCities.length}</span>}
+                        <FaChevronDown className="filter-chip-arrow" />
+                      </div>
+                    )}
+
+                    {/* District Filter Chip - Only show if cities are selected */}
+                    {selectedCities.length > 0 && districtOptions.length > 0 && (
+                      <div
+                        className={`filter-chip ${selectedDistricts.length > 0 ? 'active' : ''}`}
+                        onClick={() => setActiveFilterModal('district')}
+                      >
+                        <span>{t("filters.labels.selectDistrict")}</span>
+                        {selectedDistricts.length > 0 && <span className="filter-chip-count">{selectedDistricts.length}</span>}
+                        <FaChevronDown className="filter-chip-arrow" />
+                      </div>
+                    )}
+
+                    {/* Featured Ads Filter Chip */}
+                    <div
+                      className={`filter-chip ${selectedOptionisFeatured ? 'active' : ''}`}
+                      onClick={() => setActiveFilterModal('featuredAds')}
+                    >
+                      <span>Featured Ads</span>
+                      <FaChevronDown className="filter-chip-arrow" />
+                    </div>
+
+                    {/* Price Filter Chip */}
+                    <div
+                      className={`filter-chip ${fromValue || toValue ? 'active' : ''}`}
+                      onClick={() => setActiveFilterModal('price')}
+                    >
+                      <span>{t("filters.labels.price")}</span>
+                      {(fromValue || toValue) && <span className="filter-chip-count">1</span>}
+                      <FaChevronDown className="filter-chip-arrow" />
+                    </div>
+
+                    {/* Year Filter Chip */}
+                    <div
+                      className={`filter-chip ${fromDate || toDate ? 'active' : ''}`}
+                      onClick={() => setActiveFilterModal('year')}
+                    >
+                      <span>{t("filters.labels.year")}</span>
+                      {(fromDate || toDate) && <span className="filter-chip-count">1</span>}
+                      <FaChevronDown className="filter-chip-arrow" />
+                    </div>
+
+                    {/* Ad Type Filter Chip */}
+                    <div
+                      className={`filter-chip ${logSelectedPurpose.length > 0 ? 'active' : ''}`}
+                      onClick={() => setActiveFilterModal('adType')}
+                    >
+                      <span>{t("filters.names.adType")}</span>
+                      {logSelectedPurpose.length > 0 && <span className="filter-chip-count">{logSelectedPurpose.length}</span>}
+                      <FaChevronDown className="filter-chip-arrow" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Row className="mb-1">
                 <Col>
                   {/* <Form.Check type="checkbox" label="With Photos" /> */}
                 </Col>
                 <Col>
                   {/* <Form.Check type="checkbox" label="With Price" /> */}
                 </Col>
-                <Col xs={12} sm={6} md={4} className="text-end">
+                <Col xs={12} sm={6} md={4} className="">
                   <Form.Select
                     aria-label="Sort options"
                     onChange={(e) => {
@@ -3977,18 +4104,156 @@ const Userinfo = () => {
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
+                    const imageUrl = car?.galleryImages?.[0] || "https://via.placeholder.com/150";
 
                     return (
-                      <Card
-                        key={index}
-                        className="mt-3"
-                        style={{
-                          padding:
-                            window.innerWidth <= 576
-                              ? "10px 10px"
-                              : "30px 20px",
-                        }}
-                      >
+                      <React.Fragment key={`card-${car.id}-${index}`}>
+                        {/* Mobile Compact Card */}
+                        <div className="mobile-search-card">
+                          {popoverCarId === car.id && (
+                            <div className="mobile-search-card-popover">
+                              Please log in to bookmark
+                            </div>
+                          )}
+
+                          <div className="mobile-search-card-content">
+                            {/* Image with Heart */}
+                            <div className="mobile-search-card-image">
+                              <div
+                                className="mobile-search-card-heart"
+                                onClick={() => toggleBookmark(car.id, car.category)}
+                              >
+                                <FaHeart
+                                  style={{
+                                    color: car.bookmarked === true && car.userId === userId ? "red" : "white",
+                                  }}
+                                />
+                              </div>
+                              <Link
+                                onClick={() => handleView(car.id)}
+                                to={`/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+                                  car.category === "Motors" ? "AutomotiveComp" :
+                                  car.category === "Automotive" ? "AutomotiveComp" :
+                                  car.category === "Services" ? "TravelComp" :
+                                  car.category === "RealEstate" || car.category === "Real Estate" ? "RealEstateComp" :
+                                  car.category === "Other" ? "Education" :
+                                  car.category === "Electronics" ? "ElectronicComp" :
+                                  car.category === "Sports&Game" ? "SportGamesComp" :
+                                  car.category === "Home & Furnituer" ? "HealthCareComp" :
+                                  car.category
+                                )}`}
+                              >
+                                <img
+                                  src={imageUrl}
+                                  alt={car.title || "Ad"}
+                                  loading="lazy"
+                                />
+                              </Link>
+                            </div>
+
+                            {/* Details */}
+                            <div className="mobile-search-card-details">
+                              <Link
+                                to={`/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
+                                  car.category === "Motors" ? "AutomotiveComp" :
+                                  car.category === "Automotive" ? "AutomotiveComp" :
+                                  car.category === "Services" ? "TravelComp" :
+                                  car.category === "RealEstate" || car.category === "Real Estate" ? "RealEstateComp" :
+                                  car.category === "Other" ? "Education" :
+                                  car.category === "Electronics" ? "ElectronicComp" :
+                                  car.category === "Sports&Game" ? "SportGamesComp" :
+                                  car.category === "Home & Furnituer" ? "HealthCareComp" :
+                                  car.category
+                                )}`}
+                                style={{ textDecoration: "none" }}
+                              >
+                                <h3 className="mobile-search-card-title">{car.title || "No Title"}</h3>
+                              </Link>
+
+                              <div className="mobile-search-card-price-location">
+                                <p className="mobile-search-card-price">
+                                  {car.Price ? (
+                                    <>
+                                      <img
+                                        src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                        alt="SAR"
+                                      />
+                                      {car.Price}
+                                    </>
+                                  ) : (
+                                    "Contact Us..."
+                                  )}
+                                </p>
+
+                                <p className="mobile-search-card-location">
+                                  <IoLocationOutline />
+                                  <span>{car.City || "Location"}</span>
+                                </p>
+                              </div>
+
+                              {/* Action Buttons */}
+                              <div className="mobile-search-card-actions" style={{ position: 'relative' }}>
+                                {/* Phone Number Tooltip */}
+                                {isActive && car.Phone && (
+                                  <div className="mobile-search-card-phone-tooltip">
+                                    <span>{car.Phone}</span>
+                                    <div className="tooltip-arrow"></div>
+                                  </div>
+                                )}
+
+                                {/* Call Button */}
+                                <a href={`tel:${car.Phone}`}>
+                                  <button
+                                    className="mobile-search-card-btn mobile-search-card-btn-call"
+                                    onClick={(e) => {
+                                      if (!isActive) {
+                                        e.preventDefault();
+                                        setActivePhoneIndex(index);
+                                      }
+                                    }}
+                                  >
+                                    <FaPhoneAlt />
+                                    <span>{t("listing.call")}</span>
+                                  </button>
+                                </a>
+
+                                {/* Message Button */}
+                                <button
+                                  className="mobile-search-card-btn mobile-search-card-btn-message"
+                                  onClick={() => handleShowModal(car.userId)}
+                                >
+                                  <MdMessage /> {t("listing.message")}
+                                </button>
+
+                                {/* WhatsApp Button */}
+                                <a
+                                  href={`https://wa.me/${car.whatsapp}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <button className="mobile-search-card-btn mobile-search-card-btn-whatsapp">
+                                    <FaWhatsapp /> {t("listing.whatsapp")}
+                                  </button>
+                                </a>
+                              </div>
+
+                              <p className="mobile-search-card-time">
+                                Updated {timeAgo(car.createdAt)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Desktop Card */}
+                        <Card
+                          className="desktop-search-card mt-3"
+                          style={{
+                            padding:
+                              window.innerWidth <= 576
+                                ? "10px 10px"
+                                : "30px 20px",
+                          }}
+                        >
                         <Row className="g-0">
                           <Col md={4} style={{ position: "relative" }}>
                             {/* Featured Label */}
@@ -4536,6 +4801,7 @@ const Userinfo = () => {
                           </Col>
                         </Row>
                       </Card>
+                      </React.Fragment>
                     );
                   })
                 ) : (
@@ -4577,6 +4843,409 @@ const Userinfo = () => {
               </div>
 
               {/*           parent div end here                                    */}
+
+              {/* Mobile Filter Modals - Same structure as Search page */}
+
+              {/* Subcategory Filter Modal */}
+              {activeFilterModal === 'subcategory' && categories.length > 0 && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.subCategories")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        {categories.map((category, index) => (
+                          <div className="mobile-filter-option" key={index}>
+                            <input
+                              type="radio"
+                              id={`mobile-cat-${index}`}
+                              name="subcategory"
+                              checked={selectedSubCategory === category}
+                              onChange={() => {
+                                handleCategoryCheck(category);
+                                setTimeout(() => setActiveFilterModal(null), 100);
+                              }}
+                            />
+                            <label htmlFor={`mobile-cat-${index}`}>
+                              {category}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setselectedSubCategory("");
+                          setActiveFilterModal(null);
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Region Filter Modal */}
+              {activeFilterModal === 'region' && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.selectRegion")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        {regionOptions.map((region) => (
+                          <div className="mobile-filter-option" key={region.regionId}>
+                            <input
+                              type="checkbox"
+                              id={`mobile-region-${region.regionId}`}
+                              checked={selectedRegion === region.regionId}
+                              onChange={() => {
+                                setSelectedRegionId(
+                                  selectedRegion === region.regionId ? "" : region.regionId
+                                );
+                              }}
+                            />
+                            <label htmlFor={`mobile-region-${region.regionId}`}>
+                              {region.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setSelectedRegionId("");
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* City Filter Modal */}
+              {activeFilterModal === 'city' && cityOptions.length > 0 && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.selectCity")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        {cityOptions.map((option) => (
+                          <div className="mobile-filter-option" key={option.value}>
+                            <input
+                              type="checkbox"
+                              id={`mobile-city-${option.value}`}
+                              checked={selectedCities.some((city) => city.CITY_ID === option.cityId)}
+                              onChange={() => handleCheckboxChange1(option)}
+                            />
+                            <label htmlFor={`mobile-city-${option.value}`}>
+                              {option.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setSelectedCities([]);
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* District Filter Modal */}
+              {activeFilterModal === 'district' && districtOptions.length > 0 && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.selectDistrict")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        {districtOptions.map((option) => (
+                          <div className="mobile-filter-option" key={option.value}>
+                            <input
+                              type="checkbox"
+                              id={`mobile-district-${option.value}`}
+                              checked={selectedDistricts.some((district) => district.DISTRICT_ID === option.value)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedDistricts((prev) => [
+                                    ...prev,
+                                    {
+                                      REGION_ID: option.regionId,
+                                      CITY_ID: option.cityId,
+                                      DISTRICT_ID: option.value,
+                                    },
+                                  ]);
+                                } else {
+                                  setSelectedDistricts((prev) =>
+                                    prev.filter((district) => district.DISTRICT_ID !== option.value)
+                                  );
+                                }
+                              }}
+                            />
+                            <label htmlFor={`mobile-district-${option.value}`}>
+                              {option.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setSelectedDistricts([]);
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Featured Ads Filter Modal */}
+              {activeFilterModal === 'featuredAds' && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>Featured Ads</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        <div className="mobile-filter-option">
+                          <input
+                            type="checkbox"
+                            id="mobile-featured-ads"
+                            checked={selectedOptionisFeatured === "Featured Ad"}
+                            onChange={handleCheckboxChangeisFeatured}
+                          />
+                          <label htmlFor="mobile-featured-ads">Show Featured Ads Only</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setSelectedOptionisFeatured("");
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Price Filter Modal */}
+              {activeFilterModal === 'price' && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.price")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-range">
+                        <input
+                          type="number"
+                          placeholder={t("filters.labels.from")}
+                          value={fromValue}
+                          onChange={(e) => setFromValue(e.target.value)}
+                          min="0"
+                        />
+                        <span className="mobile-filter-range-separator">-</span>
+                        <input
+                          type="number"
+                          placeholder={t("filters.labels.to")}
+                          value={toValue}
+                          onChange={(e) => setToValue(e.target.value)}
+                          min="0"
+                        />
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setFromValue("");
+                          setToValue("");
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Year Filter Modal */}
+              {activeFilterModal === 'year' && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.labels.year")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-range">
+                        <input
+                          type="date"
+                          placeholder={t("filters.labels.from")}
+                          value={fromDate}
+                          onChange={(e) => setFromDate(e.target.value)}
+                        />
+                        <span className="mobile-filter-range-separator">-</span>
+                        <input
+                          type="date"
+                          placeholder={t("filters.labels.to")}
+                          value={toDate}
+                          onChange={(e) => setToDate(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setFromDate("");
+                          setToDate("");
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Ad Type Filter Modal */}
+              {activeFilterModal === 'adType' && (
+                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
+                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+                    <div className="mobile-filters-header">
+                      <h2>{t("filters.names.adType")}</h2>
+                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <div className="mobile-filters-body">
+                      <div className="mobile-filter-options">
+                        {["Rent", "Sell", "Wanted"].map((type) => (
+                          <div className="mobile-filter-option" key={type}>
+                            <input
+                              type="checkbox"
+                              id={`mobile-adtype-${type}`}
+                              checked={logSelectedPurpose.includes(type)}
+                              onChange={() => handleCheckboxPurpose(type)}
+                            />
+                            <label htmlFor={`mobile-adtype-${type}`}>
+                              {type}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-filters-footer">
+                      <button
+                        className="mobile-filters-clear-btn"
+                        onClick={() => {
+                          setlogSelectedPurpose([]);
+                        }}
+                      >
+                        {t("search.clear")}
+                      </button>
+                      <button
+                        className="mobile-filters-apply-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
+                        {t("filters.labels.done")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </Col>
           </Row>
         </Container>
