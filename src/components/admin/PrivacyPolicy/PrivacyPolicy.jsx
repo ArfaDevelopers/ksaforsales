@@ -77,7 +77,7 @@ const PrivacyPolicy = () => {
         className="dashboard-content"
         style={{
           marginTop: windowWidth <= 576 ? "8rem" : "10rem",
-          marginBottom: windowWidth <= 576 ? "8rem" : "0rem",
+          marginBottom: windowWidth <= 576 ? "0rem" : "0rem",
         }}
       >
         <section className="bg-gray-50 min-h-screen py-16">

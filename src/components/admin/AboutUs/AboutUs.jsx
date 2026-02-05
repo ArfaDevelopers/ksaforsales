@@ -46,7 +46,7 @@ const AboutUs = () => {
         className="dashboard-content bg-gray-50 min-h-screen"
         style={{
           marginTop: windowWidth <= 576 ? "8rem" : "12rem",
-          marginBottom: windowWidth <= 576 ? "8rem" : "0rem",
+          marginBottom: windowWidth <= 576 ? "0rem" : "0rem",
           padding: "2rem",
         }}
       >

@@ -1359,7 +1359,6 @@ progress {
   .col-xl-3 {
     flex: 0 0 auto;
     width: 25%;
-    margin-bottom: 30px;
   }
   .col-xl-4 {
     flex: 0 0 auto;
@@ -6928,6 +6927,11 @@ fieldset:disabled .btn {
 .shadow {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
+@media screen and (max-width: 575.98px) {
+  .shadow {
+  box-shadow: none !important;
+}
+}
 .shadow-sm {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
@@ -7666,9 +7670,24 @@ fieldset:disabled .btn {
 }
 .text-end {
   text-align: right !important;
+  margin-right: 0px !important;
+  position: absolute !important;
+  right: 15px !important;
+
 }
 .text-center {
   text-align: center !important;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #2d4494;
+}
+@media screen and (max-width:575px) {
+  .text-center {
+  margin-top: 50px;
+  font-size: 19px;
+  margin-bottom: 10px;
+  text-align: center !important;
+}
 }
 .text-decoration-none {
   text-decoration: none !important;

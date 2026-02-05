@@ -5,6 +5,8 @@ import { Modal, Button, Row, Col, Card, Form } from "react-bootstrap";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../Firebase/FirebaseConfig";
 import Loading1 from "../../../../public/Progress circle.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import {
   collection,
   getDocs,
@@ -55,125 +57,151 @@ const categoryMapping = {
 };
 
 // ✅ PERFORMANCE: Memoized card component to prevent unnecessary re-renders
-const BookmarkCard = React.memo(({ car, getCarRoute, toggleBookmark, t, i18n, getTranslatedField, eye }) => {
-  // ✅ Precompute expensive values once per card
-  const route = useMemo(() => getCarRoute(car), [car, getCarRoute]);
-  const title = useMemo(
-    () => getTranslatedField(car, 'title', i18n.language) || getTranslatedField(car, 'Title', i18n.language) || car.title || car.Title,
-    [car, i18n.language, getTranslatedField]
-  );
-  const city = useMemo(
-    () => getTranslatedField(car, 'City', i18n.language) || car.City,
-    [car, i18n.language, getTranslatedField]
-  );
-  const formattedDate = useMemo(
-    () => car.createdAt ? new Date(car.createdAt.seconds * 1000).toLocaleDateString() : "N/A",
-    [car.createdAt]
-  );
+const BookmarkCard = React.memo(
+  ({ car, getCarRoute, toggleBookmark, t, i18n, getTranslatedField, eye }) => {
+    // ✅ Precompute expensive values once per card
+    const route = useMemo(() => getCarRoute(car), [car, getCarRoute]);
+    const title = useMemo(
+      () =>
+        getTranslatedField(car, "title", i18n.language) ||
+        getTranslatedField(car, "Title", i18n.language) ||
+        car.title ||
+        car.Title,
+      [car, i18n.language, getTranslatedField],
+    );
+    const city = useMemo(
+      () => getTranslatedField(car, "City", i18n.language) || car.City,
+      [car, i18n.language, getTranslatedField],
+    );
+    const formattedDate = useMemo(
+      () =>
+        car.createdAt
+          ? new Date(car.createdAt.seconds * 1000).toLocaleDateString()
+          : "N/A",
+      [car.createdAt],
+    );
 
-  return (
-    <>
-      <div className="card aos aos-init aos-animate" data-aos="fade-up">
-        <div className="blog-widget shadow-sm">
-          <div className="blog-img">
-            <Link to={route}>
-              <img
-                style={{ height: "322px" }}
-                src={car.galleryImages?.[0] || "placeholder.jpg"}
-                className="img-fluid"
-                alt="car-img"
-                loading="lazy"
-              />
-            </Link>
-            <div className="fav-item">
-              {car.FeaturedAds === "Featured Ads" && (
-                <span className="Featured-text">{t("common.featured")}</span>
-              )}
-              <Link
-                to="#"
-                className="fav-icon"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleBookmark(car.id, car.category, car.collectionName);
-                }}
-              >
-                <FaHeart
-                  style={{
-                    color: car.bookmarked ? "red" : "white",
-                    fontSize: "30px",
-                  }}
+    return (
+      <>
+        <div className="card aos aos-init aos-animate" data-aos="fade-up">
+          <div className="blog-widget shadow-sm">
+            <div className="blog-img">
+              <Link to={route}>
+                <img
+                  style={{ height: "200px", objectFit: "cover" }}
+                  src={car.galleryImages?.[0] || "placeholder.jpg"}
+                  className="img-fluid"
+                  alt="car-img"
+                  loading="lazy"
                 />
               </Link>
-            </div>
-          </div>
-          <div className="bloglist-content">
-            <div className="card-body">
-              <div className="blogfeaturelink">
-                <div className="grid-author">
-                  <img src={car.photoURL} alt="author" loading="lazy" />
-                </div>
-                <div className="blog-features">
-                  <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                    <i className="fa-regular fa-circle-stop" /> {car.displayName}
-                  </span>
-                </div>
-                <div className="blog-author text-end">
-                  <span>
-                    <Link to={route}>
-                      <img src={eye} alt="views" style={{ width: "25px" }} />
-                    </Link>
-                    4000
-                  </span>
-                </div>
-              </div>
-              <h6>
-                <Link to={route}>{title}</Link>
-              </h6>
-              <h6>
-                <Link to={route}>
-                  {t("bookmarks.productId")}: {car.id}
+              <div className="fav-item">
+                {car.FeaturedAds === "Featured Ads" && (
+                  <span className="Featured-text">{t("common.featured")}</span>
+                )}
+                <Link
+                  to="#"
+                  className="fav-icon"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleBookmark(car.id, car.category, car.collectionName);
+                  }}
+                >
+                  <FaHeart
+                    style={{
+                      color: car.bookmarked ? "red" : "white",
+                      fontSize: "30px",
+                    }}
+                  />
                 </Link>
-              </h6>
-              <div className="blog-location-details">
-                <div className="location-info">
-                  <i className="feather-map-pin" /> {city}
-                </div>
-                <div className="location-info">
-                  <i className="fa-solid fa-calendar-days" /> {formattedDate}
-                </div>
               </div>
-              <div className="amount-details">
-                <div className="amount">
-                  <span className="validrate">
-                    {car.Price ? (
-                      <>
-                        <img
-                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
-                          alt="Saudi Riyal Symbol"
-                          style={{ height: "1em", verticalAlign: "middle", marginRight: "0.25em" }}
-                        />
-                        {car.Price}
-                      </>
-                    ) : (
-                      t("common.priceNotAvailable")
-                    )}
-                  </span>
+            </div>
+            <div className="bloglist-content">
+              <div className="card-body">
+                <div className="blogfeaturelink author--info">
+                  <div className="bookmark-author">
+                    <img src={car.photoURL} alt="author" loading="lazy" />
+                  </div>
+                  <div className="blog-features">
+                    <span>
+                      {car.displayName}
+                    </span>
+                  </div>
+                  <div className="blog-author text-end">
+                    <span>
+                      <Link to={route}>
+                        <img src={eye} alt="views" style={{ width: "25px" }} />
+                      </Link>
+                      4000
+                    </span>
+                  </div>
+                </div>
+                <h6>
+                  <Link
+                    to={route}
+                    style={{ color: "#2d4495", fontWeight:"600" }}
+                  >
+                    {title}
+                  </Link>
+                </h6>
+
+                <h6
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "100",
+                    padding: "10px 0px",
+                  }}
+                >
+                  <Link to={route}>
+                    {t("bookmarks.productId")}: {car.id}
+                  </Link>
+                </h6>
+                <div className="blog-location-details">
+                  <div className="location-info">
+                    <i className="feather-map-pin" /> {city}
+                  </div>
+                  <div className="location-info">
+                    <i className="fa-solid fa-calendar-days" /> {formattedDate}
+                  </div>
+                </div>
+                <div className="amount-details">
+                  <div className="amount">
+                    <span className="validrate">
+                      {car.Price ? (
+                        <>
+                          <img
+                            src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                            alt="Saudi Riyal Symbol"
+                            style={{
+                              height: "1em",
+                              verticalAlign: "middle",
+                              marginRight: "0.25em",
+                            }}
+                          />
+                          {car.Price}
+                        </>
+                      ) : (
+                        t("common.priceNotAvailable")
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
-}, (prevProps, nextProps) => {
-  // Custom comparison for better performance
-  return (
-    prevProps.car.id === nextProps.car.id &&
-    prevProps.car.bookmarked === nextProps.car.bookmarked &&
-    prevProps.i18n.language === nextProps.i18n.language
-  );
-});
+      </>
+    );
+  },
+  (prevProps, nextProps) => {
+    // Custom comparison for better performance
+    return (
+      prevProps.car.id === nextProps.car.id &&
+      prevProps.car.bookmarked === nextProps.car.bookmarked &&
+      prevProps.i18n.language === nextProps.i18n.language
+    );
+  },
+);
 
 const Bookmarks = () => {
   const { t, i18n } = useTranslation();
@@ -256,41 +284,53 @@ const Bookmarks = () => {
         ];
 
         // ✅ PERFORMANCE FIX: Fetch from ALL collections in PARALLEL using Promise.all
-        const fetchPromises = collections.map(async ({ name: collectionName, category }) => {
-          try {
-            const collectionRef = collection(db, collectionName);
-            const q = query(collectionRef, where("heartedby", "array-contains", currentUserId));
-            const querySnapshot = await getDocs(q);
+        const fetchPromises = collections.map(
+          async ({ name: collectionName, category }) => {
+            try {
+              const collectionRef = collection(db, collectionName);
+              const q = query(
+                collectionRef,
+                where("heartedby", "array-contains", currentUserId),
+              );
+              const querySnapshot = await getDocs(q);
 
-            const items = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-              category: category,
-              collectionName: collectionName,
-              bookmarked: true,
-            }));
+              const items = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+                category: category,
+                collectionName: collectionName,
+                bookmarked: true,
+              }));
 
-            console.log(`🔖 ${collectionName}: Found ${items.length} bookmarked items`);
-            return items;
-          } catch (error) {
-            console.error(`Error fetching from ${collectionName}:`, error);
-            return []; // Return empty array on error
-          }
-        });
+              console.log(
+                `🔖 ${collectionName}: Found ${items.length} bookmarked items`,
+              );
+              return items;
+            } catch (error) {
+              console.error(`Error fetching from ${collectionName}:`, error);
+              return []; // Return empty array on error
+            }
+          },
+        );
 
         // Wait for ALL queries to complete in parallel
         const results = await Promise.all(fetchPromises);
         const allBookmarkedItems = results.flat();
 
         console.log("🔖 ============================================");
-        console.log("🔖 Total bookmarked items found:", allBookmarkedItems.length);
+        console.log(
+          "🔖 Total bookmarked items found:",
+          allBookmarkedItems.length,
+        );
         console.log("🔖 ============================================");
 
         // ✅ UPDATED: Sort by bookmark timestamp (most recently bookmarked first)
         const sortedItems = allBookmarkedItems.sort((a, b) => {
           // Use bookmarkedAt timestamp if available, otherwise fall back to createdAt
-          const dateA = a.bookmarkedAt?.[currentUserId] || a.createdAt?.seconds * 1000 || 0;
-          const dateB = b.bookmarkedAt?.[currentUserId] || b.createdAt?.seconds * 1000 || 0;
+          const dateA =
+            a.bookmarkedAt?.[currentUserId] || a.createdAt?.seconds * 1000 || 0;
+          const dateB =
+            b.bookmarkedAt?.[currentUserId] || b.createdAt?.seconds * 1000 || 0;
           return sortOrder === "Newest" ? dateB - dateA : dateA - dateB;
         });
 
@@ -325,7 +365,7 @@ const Bookmarks = () => {
     const filteredResults = cars.filter(
       (car) =>
         car.title?.toLowerCase().includes(lowercasedQuery) ||
-        car.description?.toLowerCase().includes(lowercasedQuery)
+        car.description?.toLowerCase().includes(lowercasedQuery),
     );
 
     // Apply pagination to search results
@@ -421,32 +461,52 @@ const Bookmarks = () => {
           ? arrayRemove(currentUserId)
           : arrayUnion(currentUserId),
         [`userBookmarks.${currentUserId}`]: !isCurrentlyBookmarked,
-        [`bookmarkedAt.${currentUserId}`]: !isCurrentlyBookmarked ? Date.now() : null, // ✅ Store bookmark timestamp
+        [`bookmarkedAt.${currentUserId}`]: !isCurrentlyBookmarked
+          ? Date.now()
+          : null, // ✅ Store bookmark timestamp
       });
 
       // Verify the update by reading back (like Search.jsx does)
       const verifyDoc = await getDoc(docRef);
       const verifyData = verifyDoc.data();
-      console.log("✅ Verification - Ad heartedby array:", verifyData.heartedby);
+      console.log(
+        "✅ Verification - Ad heartedby array:",
+        verifyData.heartedby,
+      );
       console.log("✅ Verification - Ad bookmarked:", verifyData.bookmarked);
-      console.log("✅ User still in ad heartedby:", verifyData.heartedby?.includes(currentUserId));
+      console.log(
+        "✅ User still in ad heartedby:",
+        verifyData.heartedby?.includes(currentUserId),
+      );
 
       // Clear all cached data to force refetch on other pages
       const cacheKeys = [
-        "commercial_ads_data", "commercial_ads_timestamp",
-        "ads_all", "ads_all_timestamp",
-        "ads_Motors", "ads_Motors_timestamp",
-        "ads_Electronics", "ads_Electronics_timestamp",
-        "ads_Fashion Style", "ads_Fashion Style_timestamp",
-        "ads_Home & Furniture", "ads_Home & Furniture_timestamp",
-        "ads_Job Board", "ads_Job Board_timestamp",
-        "ads_Other", "ads_Other_timestamp",
-        "ads_Real Estate", "ads_Real Estate_timestamp",
-        "ads_Services", "ads_Services_timestamp",
-        "ads_Sport & Game", "ads_Sport & Game_timestamp",
-        "ads_Pet & Animals", "ads_Pet & Animals_timestamp",
+        "commercial_ads_data",
+        "commercial_ads_timestamp",
+        "ads_all",
+        "ads_all_timestamp",
+        "ads_Motors",
+        "ads_Motors_timestamp",
+        "ads_Electronics",
+        "ads_Electronics_timestamp",
+        "ads_Fashion Style",
+        "ads_Fashion Style_timestamp",
+        "ads_Home & Furniture",
+        "ads_Home & Furniture_timestamp",
+        "ads_Job Board",
+        "ads_Job Board_timestamp",
+        "ads_Other",
+        "ads_Other_timestamp",
+        "ads_Real Estate",
+        "ads_Real Estate_timestamp",
+        "ads_Services",
+        "ads_Services_timestamp",
+        "ads_Sport & Game",
+        "ads_Sport & Game_timestamp",
+        "ads_Pet & Animals",
+        "ads_Pet & Animals_timestamp",
       ];
-      cacheKeys.forEach(key => sessionStorage.removeItem(key));
+      cacheKeys.forEach((key) => sessionStorage.removeItem(key));
       console.log("🧹 All caches cleared");
 
       // Store the bookmark change in sessionStorage so other pages can detect it
@@ -457,7 +517,10 @@ const Bookmarks = () => {
         removed: isCurrentlyBookmarked,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Update local state
       setCars((prevCars) =>
@@ -478,13 +541,15 @@ const Bookmarks = () => {
             };
           }
           return car;
-        })
+        }),
       );
 
       // Remove from filtered list if unbookmarking
       if (isCurrentlyBookmarked) {
         setFilteredCars((prevCars) =>
-          prevCars.filter((car) => !(car.id === id && car.category === category))
+          prevCars.filter(
+            (car) => !(car.id === id && car.category === category),
+          ),
         );
       } else {
         setFilteredCars((prevCars) =>
@@ -501,7 +566,7 @@ const Bookmarks = () => {
               };
             }
             return car;
-          })
+          }),
         );
       }
 
@@ -526,8 +591,8 @@ const Bookmarks = () => {
         const data = docSnap.data();
         const filteredData = Object.fromEntries(
           Object.entries(data).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
 
         setFormDataView(filteredData);
@@ -554,8 +619,8 @@ const Bookmarks = () => {
         const data = docSnap.data();
         const filteredData = Object.fromEntries(
           Object.entries(data).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
 
         setFormData(filteredData);
@@ -582,15 +647,15 @@ const Bookmarks = () => {
         prevCars.map((car) =>
           car.id === itemId && car.category === itemCategory
             ? { ...car, ...formData }
-            : car
-        )
+            : car,
+        ),
       );
       setFilteredCars((prevCars) =>
         prevCars.map((car) =>
           car.id === itemId && car.category === itemCategory
             ? { ...car, ...formData }
-            : car
-        )
+            : car,
+        ),
       );
 
       setShow(false);
@@ -622,13 +687,13 @@ const Bookmarks = () => {
 
           setCars((prevCars) =>
             prevCars.filter(
-              (car) => !(car.id === id && car.category === category)
-            )
+              (car) => !(car.id === id && car.category === category),
+            ),
           );
           setFilteredCars((prevCars) =>
             prevCars.filter(
-              (car) => !(car.id === id && car.category === category)
-            )
+              (car) => !(car.id === id && car.category === category),
+            ),
           );
 
           MySwal.fire({
@@ -763,10 +828,14 @@ const Bookmarks = () => {
             </div>
           )}
 
-          <div className="bookmarks-content grid-view featured-slider" dir={i18n.language.startsWith('ar') ? 'rtl' : 'ltr'} style={{
-            direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
-            textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
-          }}>
+          <div
+            className="bookmarks-content grid-view featured-slider"
+            dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}
+            style={{
+              direction: i18n.language.startsWith("ar") ? "rtl" : "ltr",
+              textAlign: i18n.language.startsWith("ar") ? "right" : "left",
+            }}
+          >
             <div className="row">
               {loading ? (
                 <>
@@ -816,7 +885,13 @@ const Bookmarks = () => {
                             }}
                           />
                           {/* Author and Details */}
-                          <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "10px",
+                              marginBottom: "15px",
+                            }}
+                          >
                             <div
                               style={{
                                 width: "40px",
@@ -884,6 +959,7 @@ const Bookmarks = () => {
                       .bookmark-card-animate {
                         animation: fadeInUp 0.5s ease-out forwards;
                         opacity: 0;
+                        padding-bottom: 20px;
                       }
                     `}
                   </style>
@@ -892,7 +968,7 @@ const Bookmarks = () => {
                       key={`${car.id}-${car.category}`}
                       className="col-xl-3 col-lg-4 col-md-6 col-sm-6 bookmark-card-animate"
                       style={{
-                        animationDelay: `${index * 0.05}s`
+                        animationDelay: `${index * 0.05}s`,
                       }}
                     >
                       <BookmarkCard
@@ -975,6 +1051,5 @@ const Bookmarks = () => {
     </>
   );
 };
-
 
 export default Bookmarks;
