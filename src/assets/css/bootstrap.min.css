@@ -1359,7 +1359,6 @@ progress {
   .col-xl-3 {
     flex: 0 0 auto;
     width: 25%;
-    margin-bottom: 30px;
   }
   .col-xl-4 {
     flex: 0 0 auto;
@@ -7666,6 +7665,10 @@ fieldset:disabled .btn {
 }
 .text-end {
   text-align: right !important;
+  margin-right: 0px !important;
+  position: absolute !important;
+  right: 15px !important;
+
 }
 .text-center {
   text-align: center !important;
