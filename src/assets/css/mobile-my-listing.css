@@ -229,7 +229,6 @@
 @media screen and (max-width: 768px) {
   .table-responsive {
   padding:10px;
-  border: 1px solid #dee2e7 !important;
 }
 }
 
