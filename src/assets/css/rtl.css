@@ -481,21 +481,20 @@ body.rtl .sub-submenu {
   text-align: right;
 }
 
-/* Fix arrow icon in submenu - should appear AFTER text in RTL */
+/* Fix arrow icon in submenu - should appear on LEFT side in RTL (after text visually) */
 [dir="rtl"] .submenu-link .arrow,
 body.rtl .submenu-link .arrow {
-  float: left !important;
-  margin-left: 0 !important;
-  margin-right: 8px !important;
-  font-size: 0 !important; /* Hide the original < character */
+  position: absolute !important;
+  left: 10px !important; /* Distance from left edge in RTL */
+  right: auto !important; /* Override LTR right positioning */
+  top: 50% !important; /* Vertically center */
+  transform: translateY(-50%) !important; /* Adjust for vertical centering */
 }
 
-/* Add arrow AFTER text in RTL using ::after pseudo-element */
+/* Change arrow direction for RTL */
 [dir="rtl"] .submenu-link .arrow::after,
 body.rtl .submenu-link .arrow::after {
-  content: "<" !important;
-  font-size: 14px !important; /* Restore font size for the arrow */
-  display: inline-block !important;
+  content: ">" !important; /* Keep same arrow, visual flip happens naturally in RTL */
 }
 
 /* Fix dropdown toggle */

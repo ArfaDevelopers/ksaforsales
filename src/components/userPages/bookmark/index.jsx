@@ -732,6 +732,7 @@ const Bookmarks = () => {
     let callingFrom;
 
     switch (trimmedCategory) {
+      case "Pet & Animal":
       case "Pet & Animals":
         callingFrom = "PetAnimalsComp";
         break;
