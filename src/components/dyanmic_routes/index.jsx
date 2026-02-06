@@ -42,6 +42,7 @@ import {
   doc,
   updateDoc,
   onSnapshot,
+  or,
 } from "firebase/firestore";
 import { auth, db } from "../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
@@ -744,6 +745,9 @@ const Dynamic_Routes = () => {
   // }, [refresh, userId]);
   useEffect(() => {
     const fetchChatIdAndMessages = async () => {
+      if (!userId || !itemData?.userId) {
+        return; // Don't fetch if userId or itemData.userId is not available
+      }
       try {
         const { data: chatData } = await axios.get(
           `http://168.231.80.24:9002/api/chat-id/${userId}/${itemData.userId}`
@@ -779,11 +783,26 @@ const Dynamic_Routes = () => {
         );
         setUsers(data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        // Only log once to avoid console flooding
+        if (error.response?.status === 404) {
+          console.warn("Users API endpoint not available (404)");
+        } else {
+          console.error("Error fetching users:", error);
+        }
       }
     };
 
-    socket = io("http://168.231.80.24:9002/route");
+    // Connect socket with reconnection limits to prevent 404 flooding
+    socket = io("http://168.231.80.24:9002", {
+      reconnectionAttempts: 3,
+      reconnectionDelay: 5000,
+      timeout: 10000,
+    });
+
+    socket.on("connect_error", (error) => {
+      console.warn("Socket connection failed:", error.message);
+    });
+
     socket.on("message", (msg) => {
       setReceivedMessages((prevMessages) => [
         ...prevMessages,
@@ -866,6 +885,11 @@ const Dynamic_Routes = () => {
   const [show, setShow] = useState(false);
   const [reportText, setReportText] = useState("");
   const [selectedReports, setSelectedReports] = useState([]);
+
+  // Sticky header state for mobile
+  const [showStickyHeader, setShowStickyHeader] = useState(false); // Hidden initially, shows on scroll
+  const [heroSectionPassed, setHeroSectionPassed] = useState(false);
+
   const reportTypes = [
     t("listing.reportTypes.sexual"),
     t("listing.reportTypes.illegal"),
@@ -1015,6 +1039,30 @@ const Dynamic_Routes = () => {
 
     return () => unsubscribe(); // Cleanup on unmount
   }, []);
+
+  // Sticky header scroll handling for mobile
+  // Sticky header scroll handling for mobile
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      console.log("Scroll position:", currentScrollY, "showStickyHeader:", currentScrollY > 300);
+
+      // Show sticky header when scrolled past 100px
+      if (currentScrollY > 300) {
+        setShowStickyHeader(true);
+      } else {
+        setShowStickyHeader(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array - only run once on mount
 
   console.log(userData, "userDataitem Data__________-");
   // const NewId = callingFrom === "automotive" || "RealEstate" ? _Id : id;
@@ -1194,6 +1242,21 @@ const Dynamic_Routes = () => {
     <>
       <div className="main-wrapper">
         <Header />
+
+        {/* Mobile Sticky Header - Shows title and price when scrolled */}
+        {console.log("showStickyHeader state:", showStickyHeader, "itemData:", itemData?.title)}
+        {showStickyHeader && (
+          <div className="mobile-sticky-price-header">
+            <h6 className="sticky-title">{itemData?.title || "Test Title"}</h6>
+            <div className="sticky-price">
+              <img
+                src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                alt="SAR"
+              />
+              {itemData?.Price || itemData?.price || "999"}
+            </div>
+          </div>
+        )}
 
         <Container
           className="parent-main"
@@ -2168,7 +2231,7 @@ const Dynamic_Routes = () => {
                               <MdMessage />
                               <span className="button-text">{t("listing.message")}</span>
                             </button>
-                            <style jsx>{`
+                            <style>{`
                               .sign-in-button {
                                 background-color: #0055a5; /* Blue background color matching the image */
                                 color: white; /* White text color */

@@ -465,6 +465,7 @@ const Header = ({ parms }) => {
                         backgroundColor: "#fff",
                         // border: "1px solid #ddd",
                         cursor: "pointer",
+                         gap:"2px",
                       }}
                     >
                       <Flag

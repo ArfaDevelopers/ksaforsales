@@ -21,12 +21,10 @@ import {
   updateDoc,
   doc,
   setDoc,
-  getDoc,
   getDocs,
   query,
   where,
 } from "firebase/firestore";
-import { getDatabase, ref, get, child } from "firebase/database";
 
 import { db } from "./../Firebase/FirebaseConfig.jsx";
 import { auth } from "./../Firebase/FirebaseConfig";
@@ -235,21 +233,41 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const fetchUserData = async (uid) => {
+    const fetchUserData = async (user) => {
       try {
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
+        // First, set basic info from Firebase Auth
+        setUserId(user.uid);
+        setdisplayName(user.displayName || "");
+        setEmail(user.email || "");
+        setcreationTime(user.metadata.creationTime);
 
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          console.log("User data:", userData);
+        // Query Firestore by uid field (since signUp uses addDoc with auto-generated ID)
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
 
-          // Set the phoneNumber state
-          setPhoneNumber(userData.phoneNumber || "");
-          setphotoURL(userData.photoURL || "");
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          console.log("User data from Firestore:", userData);
+
+          // Set phoneNumber from Firestore
+          if (userData.phoneNumber) {
+            setPhoneNumber(userData.phoneNumber);
+          }
+          // Set photoURL from Firestore (priority) or fallback to Auth
+          if (userData.photoURL) {
+            setphotoURL(userData.photoURL);
+          } else if (user.photoURL) {
+            setphotoURL(user.photoURL);
+          }
+          // Set displayName from Firestore if available
+          if (userData.displayName || userData.fullName) {
+            setdisplayName(userData.displayName || userData.fullName);
+          }
         } else {
-          console.log("No such user document!");
-          setError("No such user!");
+          console.log("No Firestore user document found, using Auth data");
+          // Fallback to Firebase Auth photoURL
+          setphotoURL(user.photoURL || "");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -259,53 +277,19 @@ const Profile = () => {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, get their Firestore data
-        fetchUserData(user.uid);
+        // User is signed in, get their data
+        fetchUserData(user);
       } else {
         // User is signed out
         setUserData(null);
         setError("User is not authenticated.");
         console.log("No user is signed in.");
-        navigate("/login"); // Optional: redirect to login if no user
+        navigate("/login");
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [navigate]);
-
-  useEffect(() => {
-    if (auth.currentUser) {
-      const uid = auth.currentUser.uid;
-      const fetchData = async () => {
-        const dbRef = ref(getDatabase());
-
-        try {
-          const snapshot = await get(child(dbRef, `users/${uid}`));
-
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-
-            // ✅ Log the user data to console
-            console.log("User Data from Realtime DB:", data);
-
-            setdisplayName(data.displayName || "");
-            setEmail(data.email || "");
-            setPhoneNumber(data.phoneNumber || "");
-            setphotoURL(data.photoURL || "");
-          } else {
-            console.log("No data available for UID:", uid);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchData();
-    } else {
-      console.log("No authenticated user.");
-    }
-  }, []);
   const handleDeleteUser = async () => {
     const user = auth.currentUser;
     if (!user) {
@@ -369,27 +353,6 @@ const Profile = () => {
       alert(error.message);
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log("User UID:", user);
-        console.log("User Display Name:", user.displayName);
-        console.log("User Display creationTime:", user.metadata.creationTime);
-
-        setUserId(user.uid);
-        setdisplayName(user.displayName || "");
-        setEmail(user.email || "");
-        setphotoURL(user.photoURL || "");
-        setPhoneNumber(user.phoneNumber || "");
-        setcreationTime(user.metadata.creationTime);
-      } else {
-        console.log("No user is logged in.");
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -458,19 +421,37 @@ const Profile = () => {
         photoURL,
       });
 
-      // Update Firestore fields (including custom fields like phoneNumber)
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      await setDoc(
-        userRef,
-        {
+      // Query for existing user document by uid field
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("uid", "==", auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Update existing document
+        const userDocRef = querySnapshot.docs[0].ref;
+        await updateDoc(userDocRef, {
           email,
           phoneNumber,
           displayName,
           photoURL,
           updatedAt: new Date(),
-        },
-        { merge: true }
-      );
+        });
+      } else {
+        // Create new document with uid as document ID (fallback)
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        await setDoc(
+          userRef,
+          {
+            uid: auth.currentUser.uid,
+            email,
+            phoneNumber,
+            displayName,
+            photoURL,
+            updatedAt: new Date(),
+          },
+          { merge: true }
+        );
+      }
 
       // Sync photoURL and displayName in all user's existing listings
       await updatePhotoURLInAllListings(auth.currentUser.uid, photoURL);
