@@ -43,6 +43,7 @@ import {
   arrayRemove,
   getDoc,
   setDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -134,6 +135,32 @@ const Search = () => {
   const [allAdsForCounts, setAllAdsForCounts] = useState([]); // Unfiltered ads for count calculations
   const [filteredAds, setFilteredAds] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categoryContent, setCategoryContent] = useState(null); // Dynamic content from admin
+  const [contentLoading, setContentLoading] = useState(false);
+
+  // Mapping category to Firebase collection for content
+  const categoryToContentCollection = {
+    "motors": "BodyContent",
+    "automotive": "BodyContent",
+    "electronics": "BodyContentElectronic",
+    "fashion-style": "BodyContentFashion",
+    "home-furniture": "HomeFurnitureContent",
+    "job-board": "JobBoardcontent",
+    "jobboard": "JobBoardcontent",
+    "realestate": "RealEstateContent",
+    "real-estate": "RealEstateContent",
+    "services": "ServicesContent",
+    "travel": "ServicesContent",
+    "sport-game": "SportGamesContent",
+    "sport-&-game": "SportGamesContent",
+    "sport-and-game": "SportGamesContent",
+    "games": "SportGamesContent",
+    "other": "PetAnimalsContent",
+    "education": "PetAnimalsContent",
+    "pet-animals": "OtherContent",
+    "pet-&-animals": "OtherContent",
+    "pet-and-animals": "OtherContent",
+  };
   const [currentUser, setCurrentUser] = useState(null);
   const [bookmarkedAds, setBookmarkedAds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -159,6 +186,49 @@ const Search = () => {
       setSearchKeyword("");
     }
   }, [searchParams.toString(), searchKeyword]);
+
+  // Fetch category content from Firebase with real-time updates
+  useEffect(() => {
+    if (!category) {
+      setCategoryContent(null);
+      return;
+    }
+
+    const collectionName = categoryToContentCollection[category.toLowerCase()];
+    if (!collectionName) {
+      setCategoryContent(null);
+      return;
+    }
+
+    setContentLoading(true);
+    console.log("Fetching content from collection:", collectionName, "for category:", category);
+
+    const contentRef = collection(db, collectionName);
+    const unsubscribe = onSnapshot(
+      contentRef,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const contentData = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setCategoryContent(contentData);
+          console.log("Fetched category content:", contentData);
+        } else {
+          setCategoryContent(null);
+          console.log("No content found for collection:", collectionName);
+        }
+        setContentLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching category content:", error);
+        setCategoryContent(null);
+        setContentLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [category]);
 
   const getUrlText = (text) => {
     if (!text) return "";
@@ -4556,6 +4626,60 @@ if (displaySearchKeyword) {
             </Col>
           </Row>
         </Container>
+
+        {/* Dynamic Category Content from Admin */}
+        {categoryContent && categoryContent.length > 0 && (
+          <Container className="category-content-section" style={{ marginTop: "40px", marginBottom: "40px" }}>
+            {categoryContent.map((content, index) => (
+              <div key={content.id || index} className="category-content-item" style={{
+                backgroundColor: "#f8f9fa",
+                borderRadius: "10px",
+                padding: "30px",
+                marginBottom: "20px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)"
+              }}>
+                {content.title && (
+                  <h2 style={{
+                    fontSize: "24px",
+                    fontWeight: "700",
+                    color: "#2D4495",
+                    marginBottom: "15px"
+                  }}>
+                    {i18n.language === 'ar' ? (content.title_ar || content.title) : (content.title_en || content.title)}
+                  </h2>
+                )}
+                {content.description && (
+                  <div
+                    style={{
+                      fontSize: "16px",
+                      lineHeight: "1.8",
+                      color: "#555"
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: i18n.language === 'ar'
+                        ? (content.description_ar || content.description)
+                        : (content.description_en || content.description)
+                    }}
+                  />
+                )}
+                {content.content && (
+                  <div
+                    style={{
+                      fontSize: "16px",
+                      lineHeight: "1.8",
+                      color: "#555"
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: i18n.language === 'ar'
+                        ? (content.content_ar || content.content)
+                        : (content.content_en || content.content)
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </Container>
+        )}
 
         <ComercialsAds />
         <LatestBlog />
