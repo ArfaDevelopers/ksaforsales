@@ -5257,21 +5257,9 @@ const Userinfo = () => {
             paddingBottom: "30px",
           }}
         >
-          <Row>
-            <Col>
-              <div className="cars data">
-                {adsDetailImages.map((item) => (
-                  <div
-                    key={item.id}
-                    dangerouslySetInnerHTML={{ __html: item.content }}
-                  />
-                ))}
-              </div>
-            </Col>
-          </Row>
         </div>
 
-        <style jsx>{`
+        <style>{`
           @media (max-width: 768px) {
             .container-parent {
               padding-left: 5%; // Reduce padding on smaller screens
