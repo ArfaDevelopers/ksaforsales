@@ -51,6 +51,9 @@ import {
   onSnapshot,
   arrayUnion,
   arrayRemove,
+  query,
+  where,
+  or,
 } from "firebase/firestore";
 import { db, auth } from "../../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
@@ -618,6 +621,7 @@ const Dynamic_Route = () => {
   const [selectedReports, setSelectedReports] = useState([]);
   const [reportText, setReportText] = useState("");
   const [itemData, setItemData] = useState(null); // State to store ads
+  const [showStickyHeader, setShowStickyHeader] = useState(false); // Sticky header on scroll
 
   console.log(itemData, "itemData111111111111111");
   const [showPhone, setShowPhone] = useState(false);
@@ -853,6 +857,30 @@ console.log(
     );
     return () => unsubscribe();
   }, []);
+
+  // Sticky header scroll handling
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      console.log("Scroll position:", currentScrollY, "showStickyHeader:", currentScrollY > 300);
+
+      // Show sticky header when scrolled past 100px
+      if (currentScrollY > 300) {
+        setShowStickyHeader(true);
+      } else {
+        setShowStickyHeader(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchChatIds = async () => {
       try {
@@ -892,6 +920,9 @@ console.log(
 
   useEffect(() => {
     const fetchChatIdAndMessages = async () => {
+      if (!userId || !itemData?.userId) {
+        return; // Don't fetch if userId or itemData.userId is not available
+      }
       try {
         const { data: chatData } = await axios.get(
           `http://168.231.80.24:9002/api/chat-id/${userId}/${itemData.userId}`
@@ -1267,6 +1298,20 @@ console.log(
     <>
       <div className="main-wrapper ">
         <Header />
+
+        {/* Sticky Header - Shows title and price when scrolled */}
+        {showStickyHeader && (
+          <div className="mobile-sticky-price-header">
+            <h6 className="sticky-title">{itemData?.title || "Loading..."}</h6>
+            <div className="sticky-price">
+              <img
+                src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                alt="SAR"
+              />
+              {itemData?.Price || itemData?.price || "0"}
+            </div>
+          </div>
+        )}
 
         <Container
           className="parent-main"
@@ -5937,7 +5982,7 @@ console.log(
                               <MdMessage />
                               <span className="button-text">{t("listing.message")}</span>
                             </button>
-                            <style jsx>{`
+                            <style>{`
                               .blue_btn list_btn {
                                 background-color: #0055a5; /* Blue background color matching the image */
                                 color: white; /* White text color */
