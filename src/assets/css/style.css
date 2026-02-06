@@ -3684,7 +3684,6 @@ form.filter_innerwrap .accordion-item {
   height: 69px !important;
   border-radius: 8px !important;
   object-fit: cover;
-  object-position: top;
 }
 .filter_card_main .card-body .user_profile_block p {
   margin-top: 49px;
@@ -12963,6 +12962,7 @@ section.home-six-trending-search {
 .footermidinfo-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .midfooterinfo {

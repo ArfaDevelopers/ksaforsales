@@ -2536,6 +2536,7 @@ if (displaySearchKeyword) {
                     height: "49.66px",
                     paddingLeft: "12px",
                     paddingTop: "12px",
+                    paddingRight: "12px",
                   }}
                 >
                   {t("search.showResultsBy")} <strong>{filteredAds.length}</strong>

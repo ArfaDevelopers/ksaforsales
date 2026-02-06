@@ -166,6 +166,217 @@ body.rtl .form-check-label {
   padding-left: 0;
 }
 
+/* Filter Sidebar Dropdowns - RTL: text right, arrow left */
+[dir="rtl"] .filter_main_wrap .form-select,
+[dir="rtl"] .filter_main_wrap select,
+[dir="rtl"] .side_bar_main_wrap .form-select,
+[dir="rtl"] .side_bar_main_wrap select,
+[dir="rtl"] .accordion .form-select,
+[dir="rtl"] .accordion select,
+body.rtl .filter_main_wrap .form-select,
+body.rtl .filter_main_wrap select,
+body.rtl .side_bar_main_wrap .form-select,
+body.rtl .side_bar_main_wrap select,
+body.rtl .accordion .form-select,
+body.rtl .accordion select {
+  text-align: right !important;
+  direction: rtl !important;
+  padding-right: 0.75rem !important;
+  padding-left: 2.25rem !important;
+  background-position: left 0.75rem center !important;
+}
+
+/* Filter Sidebar Input Fields - RTL alignment */
+[dir="rtl"] .filter_main_wrap .form-control,
+[dir="rtl"] .filter_main_wrap input[type="text"],
+[dir="rtl"] .filter_main_wrap input[type="number"],
+[dir="rtl"] .side_bar_main_wrap .form-control,
+[dir="rtl"] .accordion .form-control,
+body.rtl .filter_main_wrap .form-control,
+body.rtl .filter_main_wrap input[type="text"],
+body.rtl .filter_main_wrap input[type="number"],
+body.rtl .side_bar_main_wrap .form-control,
+body.rtl .accordion .form-control {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Filter Labels - RTL alignment */
+[dir="rtl"] .filter_main_wrap .form-label,
+[dir="rtl"] .filter_main_wrap label,
+[dir="rtl"] .side_bar_main_wrap .form-label,
+[dir="rtl"] .accordion .form-label,
+body.rtl .filter_main_wrap .form-label,
+body.rtl .filter_main_wrap label,
+body.rtl .side_bar_main_wrap .form-label,
+body.rtl .accordion .form-label {
+  text-align: right !important;
+  display: block !important;
+  direction: rtl !important;
+}
+
+/* ===== BOOTSTRAP ACCORDION - RTL: text right, arrow left ===== */
+[dir="rtl"] .accordion-button,
+body.rtl .accordion-button {
+  text-align: right !important;
+  direction: rtl !important;
+  position: relative !important;
+  padding-right: 1.25rem !important;
+  padding-left: 2.5rem !important;
+}
+
+/* Move accordion arrow to LEFT side in RTL */
+[dir="rtl"] .accordion-button::after,
+body.rtl .accordion-button::after {
+  position: absolute !important;
+  left: 1.25rem !important;
+  right: auto !important;
+  margin-left: 0 !important;
+}
+
+/* Accordion body text alignment */
+[dir="rtl"] .accordion-body,
+body.rtl .accordion-body {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* ===== FILTER SIDEBAR SEARCH BAR - RTL ===== */
+[dir="rtl"] .filter_innerwrap .position-relative,
+[dir="rtl"] .side_bar_main_wrap .position-relative,
+body.rtl .filter_innerwrap .position-relative,
+body.rtl .side_bar_main_wrap .position-relative {
+  direction: rtl !important;
+}
+
+/* Search input - text on right, icon on left */
+[dir="rtl"] .filter_innerwrap .search_by_keyword,
+[dir="rtl"] .filter_innerwrap input[type="search"],
+[dir="rtl"] .side_bar_main_wrap input[type="search"],
+[dir="rtl"] .filter_innerwrap .form-control.rounded-pill,
+body.rtl .filter_innerwrap .search_by_keyword,
+body.rtl .filter_innerwrap input[type="search"],
+body.rtl .side_bar_main_wrap input[type="search"],
+body.rtl .filter_innerwrap .form-control.rounded-pill {
+  text-align: right !important;
+  direction: rtl !important;
+  padding-right: 1rem !important;
+  padding-left: 2.5rem !important;
+}
+
+/* Search icon - move to left side */
+[dir="rtl"] .filter_innerwrap .position-relative svg,
+[dir="rtl"] .filter_innerwrap .position-relative .fa-search,
+[dir="rtl"] .side_bar_main_wrap .position-relative svg,
+body.rtl .filter_innerwrap .position-relative svg,
+body.rtl .filter_innerwrap .position-relative .fa-search,
+body.rtl .side_bar_main_wrap .position-relative svg {
+  right: auto !important;
+  left: 0.75rem !important;
+}
+
+/* ===== ACCORDION ITEMS SPACING - match English layout ===== */
+[dir="rtl"] .filter_main_wrap .accordion.mt-3,
+[dir="rtl"] .side_bar_main_wrap .accordion.mt-3,
+[dir="rtl"] .filter_innerwrap .accordion.mt-3,
+body.rtl .filter_main_wrap .accordion.mt-3,
+body.rtl .side_bar_main_wrap .accordion.mt-3,
+body.rtl .filter_innerwrap .accordion.mt-3 {
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+[dir="rtl"] .filter_main_wrap .accordion-item,
+[dir="rtl"] .side_bar_main_wrap .accordion-item,
+[dir="rtl"] .filter_innerwrap .accordion-item,
+body.rtl .filter_main_wrap .accordion-item,
+body.rtl .side_bar_main_wrap .accordion-item,
+body.rtl .filter_innerwrap .accordion-item {
+  margin-bottom: 12px !important;
+}
+
+/* Horizontal line spacing */
+[dir="rtl"] .filter_innerwrap hr,
+[dir="rtl"] .side_bar_main_wrap hr,
+body.rtl .filter_innerwrap hr,
+body.rtl .side_bar_main_wrap hr {
+  margin: 15px 0 !important;
+}
+
+/* ===== MOBILE FILTER CHIPS - RTL: text right, arrow left ===== */
+[dir="rtl"] .filter-chip,
+body.rtl .filter-chip {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .filter-chip-arrow,
+body.rtl .filter-chip-arrow {
+  margin-left: 0 !important;
+  margin-right: 4px !important;
+}
+
+/* Mobile filter chips container - enable RTL scroll */
+[dir="rtl"] .mobile-filter-chips-container,
+body.rtl .mobile-filter-chips-container {
+  direction: rtl !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+[dir="rtl"] .mobile-filter-chips-wrapper,
+body.rtl .mobile-filter-chips-wrapper {
+  direction: rtl !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+}
+
+/* Mobile filter modal - RTL */
+[dir="rtl"] .mobile-filters-modal,
+body.rtl .mobile-filters-modal {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .mobile-filters-header,
+body.rtl .mobile-filters-header {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-filters-header h2,
+body.rtl .mobile-filters-header h2 {
+  text-align: right !important;
+}
+
+[dir="rtl"] .mobile-filters-close-btn,
+body.rtl .mobile-filters-close-btn {
+  margin-left: 0 !important;
+  margin-right: 15px !important;
+}
+
+[dir="rtl"] .mobile-filter-options,
+body.rtl .mobile-filter-options {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .mobile-filter-option,
+body.rtl .mobile-filter-option {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-filter-option label,
+body.rtl .mobile-filter-option label {
+  text-align: right !important;
+}
+
+[dir="rtl"] .mobile-filters-results-bar,
+body.rtl .mobile-filters-results-bar {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-filters-results-count,
+body.rtl .mobile-filters-results-count {
+  flex-direction: row-reverse !important;
+}
+
 /* Keep flex containers in LTR to maintain layout structure */
 [dir="rtl"] .d-flex,
 [dir="rtl"] .btn-group,
@@ -635,7 +846,6 @@ body.rtl .search-container {
 body.rtl .navbar .btn,
 body.rtl .navbar button {
   margin-left: 0;
-  margin-right: 10px;
 }
 
 /* Fix navbar icons */
@@ -658,7 +868,6 @@ body.rtl .navbar-brand {
 [dir="rtl"] .navbar .lang_dropdown,
 body.rtl .navbar .lang_dropdown {
   margin-left: 0;
-  margin-right: 15px;
 }
 
 /* Fix "Posted X ago" timestamp alignment in details page */
@@ -972,4 +1181,373 @@ body.rtl .bookmarks-content .validrate {
   display: flex !important;
   align-items: center !important;
   gap: 5px !important;
+}
+
+/* ========================================
+   Search Result Cards RTL Support
+   ======================================== */
+
+/* Mobile Search Card RTL */
+[dir="rtl"] .mobile-search-card-content,
+body.rtl .mobile-search-card-content {
+  flex-direction: row-reverse !important;
+}
+
+/* Mobile card - Heart icon should be on right in RTL */
+[dir="rtl"] .mobile-search-card-heart,
+body.rtl .mobile-search-card-heart {
+  left: auto !important;
+  right: 5px !important;
+}
+
+/* Mobile card - Price and location layout RTL */
+[dir="rtl"] .mobile-search-card-price-location,
+body.rtl .mobile-search-card-price-location {
+  flex-direction: row-reverse !important;
+}
+
+/* Mobile card - Price icon spacing RTL */
+[dir="rtl"] .mobile-search-card-price,
+body.rtl .mobile-search-card-price {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-search-card-price img,
+body.rtl .mobile-search-card-price img {
+  margin-right: 0 !important;
+  margin-left: 3px !important;
+}
+
+/* Mobile card - Location icon spacing RTL */
+[dir="rtl"] .mobile-search-card-location,
+body.rtl .mobile-search-card-location {
+  flex-direction: row-reverse !important;
+}
+
+/* Mobile card - Action buttons RTL */
+[dir="rtl"] .mobile-search-card-actions,
+body.rtl .mobile-search-card-actions {
+  flex-direction: row-reverse !important;
+}
+
+/* Mobile card - Text alignment only (keep LTR layout) */
+[dir="rtl"] .mobile-search-card-title,
+body.rtl .mobile-search-card-title {
+  text-align: right !important;
+}
+
+/* ========================================
+   Desktop Search Card RTL - Custom Layout
+   Layout: Image RIGHT | Content LEFT
+   ======================================== */
+
+/* Swap columns: Image to right, Content to left */
+[dir="rtl"] .desktop-search-card .row,
+body.rtl .desktop-search-card .row {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}
+
+/* Image column - rounded corners on right */
+[dir="rtl"] .desktop-search-card .card-img,
+body.rtl .desktop-search-card .card-img {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+}
+
+/* Heart icon - stays on image column */
+[dir="rtl"] .desktop-search-card [style*="left: 90%"],
+body.rtl .desktop-search-card [style*="left: 90%"] {
+  left: 10% !important;
+  right: auto !important;
+}
+
+/* Featured label - on right side of image */
+[dir="rtl"] .desktop-search-card [style*="left: 10px"][style*="top: 10px"],
+body.rtl .desktop-search-card [style*="left: 10px"][style*="top: 10px"] {
+  left: auto !important;
+  right: 10px !important;
+}
+
+/* Card body - set up for custom positioning and RTL alignment */
+[dir="rtl"] .desktop-search-card .card-body,
+body.rtl .desktop-search-card .card-body {
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  text-align: right !important;
+  direction: rtl !important;
+  align-items: flex-start !important;
+}
+
+/* Title container - ROW layout: Natural order with row-reverse */
+[dir="rtl"] .desktop-search-card .card-title,
+[dir="rtl"] .desktop-search-card .title_head,
+body.rtl .desktop-search-card .card-title,
+body.rtl .desktop-search-card .title_head {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  gap: 20px !important;
+  width: 100% !important;
+}
+
+/* TITLE (Link) - First child in DOM = appears on RIGHT in row-reverse */
+[dir="rtl"] .desktop-search-card .card-title > a:first-child,
+[dir="rtl"] .desktop-search-card .title_head > a:first-child,
+body.rtl .desktop-search-card .card-title > a:first-child,
+body.rtl .desktop-search-card .title_head > a:first-child {
+  text-align: right !important;
+  flex: 1 !important;
+  display: inline-block !important;
+}
+
+/* PRICE (p) - Second child in DOM = appears on LEFT in row-reverse */
+[dir="rtl"] .desktop-search-card .card-title > p,
+[dir="rtl"] .desktop-search-card .title_head > p,
+body.rtl .desktop-search-card .card-title > p,
+body.rtl .desktop-search-card .title_head > p {
+  display: inline-flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+[dir="rtl"] .desktop-search-card .card-title img[alt="Saudi Riyal Symbol"],
+body.rtl .desktop-search-card .card-title img[alt="Saudi Riyal Symbol"] {
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+/* CARD TEXT (location + description) - aligned to right */
+[dir="rtl"] .desktop-search-card .card-text,
+body.rtl .desktop-search-card .card-text {
+  order: 2 !important;
+  text-align: right !important;
+  width: 100% !important;
+  direction: rtl !important;
+}
+
+/* CARD TEXT - Container for location and description */
+[dir="rtl"] .desktop-search-card .card-text,
+[dir="rtl"] .desktop-search-card .card-body .card-text,
+[dir="rtl"] .desktop-search-card .filter_card_main .card-text,
+[dir="rtl"] .card .card-body .card-text,
+body.rtl .desktop-search-card .card-text,
+body.rtl .desktop-search-card .card-body .card-text,
+body.rtl .desktop-search-card .filter_card_main .card-text,
+body.rtl .card .card-body .card-text {
+  text-align: right !important;
+  direction: rtl !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* LOCATION - Maximum specificity to override everything */
+[dir="rtl"] .desktop-search-card .card-body .card-text > small.text-muted,
+[dir="rtl"] .desktop-search-card .card-text > small.text-muted,
+[dir="rtl"] .desktop-search-card .card-body > small.text-muted,
+[dir="rtl"] .desktop-search-card small.text-muted,
+[dir="rtl"] .filter_card_main small.text-muted,
+[dir="rtl"] .card .card-body small.text-muted,
+body.rtl .desktop-search-card .card-body .card-text > small.text-muted,
+body.rtl .desktop-search-card .card-text > small.text-muted,
+body.rtl .desktop-search-card .card-body > small.text-muted,
+body.rtl .desktop-search-card small.text-muted,
+body.rtl .filter_card_main small.text-muted,
+body.rtl .card .card-body small.text-muted {
+  display: inline-flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  text-align: right !important;
+  direction: rtl !important;
+  width: auto !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: right !important;
+  clear: right !important;
+}
+
+/* Override ALL icon margins in RTL */
+[dir="rtl"] .desktop-search-card svg[style*="margin"],
+[dir="rtl"] .desktop-search-card .text-muted svg,
+[dir="rtl"] .desktop-search-card small.text-muted svg,
+[dir="rtl"] .desktop-search-card .card-text svg,
+[dir="rtl"] .card .card-body svg,
+body.rtl .desktop-search-card svg[style*="margin"],
+body.rtl .desktop-search-card .text-muted svg,
+body.rtl .desktop-search-card small.text-muted svg,
+body.rtl .desktop-search-card .card-text svg,
+body.rtl .card .card-body svg {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  margin: 0 !important;
+}
+
+/* Text span in location */
+[dir="rtl"] .desktop-search-card .text-muted span,
+[dir="rtl"] .desktop-search-card small.text-muted span,
+[dir="rtl"] .desktop-search-card .card-text span,
+body.rtl .desktop-search-card .text-muted span,
+body.rtl .desktop-search-card small.text-muted span,
+body.rtl .desktop-search-card .card-text span {
+  text-align: right !important;
+  direction: rtl !important;
+  display: inline-block !important;
+}
+
+/* DESCRIPTION - starts from right side, constrained width to match English */
+[dir="rtl"] .desktop-search-card .card-text > p.car_desc,
+[dir="rtl"] .desktop-search-card .card-text .car_desc,
+[dir="rtl"] .desktop-search-card .car_desc,
+[dir="rtl"] .desktop-search-card p.car_desc,
+[dir="rtl"] .filter_card_main p.car_desc,
+[dir="rtl"] .card .card-body p.car_desc,
+body.rtl .desktop-search-card .card-text > p.car_desc,
+body.rtl .desktop-search-card .card-text .car_desc,
+body.rtl .desktop-search-card .car_desc,
+body.rtl .desktop-search-card p.car_desc,
+body.rtl .filter_card_main p.car_desc,
+body.rtl .card .card-body p.car_desc {
+  text-align: right !important;
+  width: calc(100% - 150px) !important;
+  max-width: 62% !important;
+  direction: rtl !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  -webkit-line-clamp: 4 !important;
+  line-clamp: 4 !important;
+  margin: 10px 0 0 0 !important;
+  padding: 0 !important;
+  padding-left: 20px !important;
+  clear: both !important;
+  box-sizing: border-box !important;
+  float: right !important;
+}
+
+
+/* USER PROFILE BLOCK - positioned at bottom left (aligned with price) */
+[dir="rtl"] .desktop-search-card .user_profile_block,
+body.rtl .desktop-search-card .user_profile_block {
+  order: 4 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  width: auto !important;
+  margin-top: auto !important;
+  gap: 15px !important;
+  position: absolute !important;
+  bottom: 90px !important;
+  left: 0px !important;
+}
+
+/* USER IMAGE - below price on left, aligned */
+[dir="rtl"] .desktop-search-card .profile_image_block,
+body.rtl .desktop-search-card .profile_image_block {
+  order: 1 !important;
+  margin: 0 !important;
+}
+
+/* POST DATE - at the very bottom of the card */
+[dir="rtl"] .desktop-search-card .user_profile_block > p,
+body.rtl .desktop-search-card .user_profile_block > p {
+  position: absolute !important;
+  bottom: -95px !important;
+  left: 0 !important;
+  text-align: left !important;
+  margin: 0 !important;
+}
+
+/* BUTTONS CONTAINER - order 3, buttons on right, heart on left */
+[dir="rtl"] .desktop-search-card .innerContainer2,
+[dir="rtl"] .desktop-search-card .card_btn_wrap,
+[dir="rtl"] .desktop-search-card .head2btflex,
+body.rtl .desktop-search-card .innerContainer2,
+body.rtl .desktop-search-card .card_btn_wrap,
+body.rtl .desktop-search-card .head2btflex {
+  order: 3 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  flex-direction: row-reverse !important;
+  gap: 10px !important;
+  margin-top: -7px !important;
+}
+
+/* Button icons - reverse direction */
+[dir="rtl"] .desktop-search-card .list_btn,
+body.rtl .desktop-search-card .list_btn {
+  flex-direction: row-reverse !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+[dir="rtl"] .desktop-search-card .list_btn svg,
+body.rtl .desktop-search-card .list_btn svg {
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+/* ========================================
+   Search Page Top Filter Bar RTL
+   Swap: Checkboxes RIGHT | Dropdown LEFT
+   ======================================== */
+
+/* Reverse the filter bar layout - swap children */
+[dir="rtl"] .image-price0-filter,
+body.rtl .image-price0-filter {
+  flex-direction: row-reverse !important;
+  justify-content: space-between !important;
+}
+
+/* Checkboxes container - appears on right (order 2) */
+[dir="rtl"] .image-price0-filter > div.d-flex,
+body.rtl .image-price0-filter > div.d-flex {
+  order: 2 !important;
+  flex-direction: row-reverse !important;
+}
+
+/* Dropdown Col container - appears on left (order 1) */
+[dir="rtl"] .image-price0-filter > .col,
+[dir="rtl"] .image-price0-filter > [class*="col-"],
+body.rtl .image-price0-filter > .col,
+body.rtl .image-price0-filter > [class*="col-"] {
+  order: 1 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Override Bootstrap ms-auto for RTL */
+[dir="rtl"] .image-price0-filter .ms-auto,
+body.rtl .image-price0-filter .ms-auto {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Checkbox styling - reverse checkbox and label */
+[dir="rtl"] .image-price0-filter .form-check,
+body.rtl .image-price0-filter .form-check {
+  flex-direction: row-reverse !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+[dir="rtl"] .image-price0-filter .form-check-input,
+body.rtl .image-price0-filter .form-check-input {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .image-price0-filter .form-check-label,
+body.rtl .image-price0-filter .form-check-label {
+  text-align: right !important;
 }
