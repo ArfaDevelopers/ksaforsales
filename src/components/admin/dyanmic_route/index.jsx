@@ -1300,8 +1300,8 @@ console.log(
         <Header />
 
         {/* Sticky Header - Shows title and price when scrolled */}
-        {showStickyHeader && (
-          <div className="mobile-sticky-price-header">
+        <div className={`mobile-sticky-price-header ${showStickyHeader ? 'show' : ''}`}>
+          <div className="sticky-header-top">
             <h6 className="sticky-title">{itemData?.title || "Loading..."}</h6>
             <div className="sticky-price">
               <img
@@ -1311,7 +1311,30 @@ console.log(
               {itemData?.Price || itemData?.price || "0"}
             </div>
           </div>
-        )}
+          <div className="sticky-header-actions">
+            <a
+              href={`tel:${itemData?.Phone}`}
+              className="sticky-action-btn mobile-cell--sticky"
+              style={{ pointerEvents: itemData?.showNumberChecked ? 'none' : 'auto', opacity: itemData?.showNumberChecked ? 0.5 : 1 }}
+            >
+              <FaPhoneAlt />
+            </a>
+            <a
+              href={`https://wa.me/${itemData?.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sticky-action-btn"
+            >
+              <FaWhatsapp />
+            </a>
+            <button
+              className="sticky-action-btn"
+              onClick={() => setShowModal(true)}
+            >
+              <MdMessage />
+            </button>
+          </div>
+        </div>
 
         <Container
           className="parent-main"

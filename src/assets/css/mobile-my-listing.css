@@ -116,14 +116,10 @@
   font-weight: 600;
   margin: 0 0 6px 0;
   line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
   white-space: nowrap;
+  max-width: 100%;
 }
 
 .mobile-listing-card-title a {
@@ -131,6 +127,10 @@
   text-decoration: none;
   transition: opacity 0.2s;
   font-weight: 100;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mobile-listing-card-title a:hover {

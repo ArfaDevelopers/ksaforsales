@@ -14,7 +14,8 @@
     "listings": "القوائم",
     "pages": "الصفحات",
     "blog": "المدونة",
-    "contact": "اتصل بنا"
+    "contact": "اتصل بنا",
+    "menu": "القائمة"
   },
   "categories": {
     "motors": "السيارات",
@@ -267,7 +268,9 @@
     "chooseCity": "-- اختر المدينة --",
     "chooseDistrict": "-- اختر الحي --",
     "listingTitle": "عنوان الإعلان",
+    "listingTitleAr": "عنوان الإعلان (عربي)",
     "title": "العنوان",
+    "titleAr": "أدخل العنوان بالعربية",
     "category": "الفئة",
     "selectCategory": "اختر الفئة",
     "selectSubCategory": "اختر الفئة الفرعية",
@@ -277,7 +280,9 @@
     "checkToHideMobile": "ضع علامة لإخفاء رقم الهاتف المحمول في صفحة الإعلان",
     "price": "السعر",
     "listingDescription": "وصف الإعلان :",
+    "listingDescriptionAr": "وصف الإعلان (عربي) :",
     "message": "رسالة",
+    "messageAr": "أدخل الوصف بالعربية",
     "characters": "الأحرف:",
     "featured": "مميز",
     "featuredAds": "إعلانات مميزة",

@@ -14,7 +14,8 @@
     "listings": "Listings",
     "pages": "Pages",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu"
   },
   "categories": {
     "motors": "Motors",
@@ -426,7 +427,9 @@
     "chooseCity": "-- Choose City --",
     "chooseDistrict": "-- Choose District --",
     "listingTitle": "Listing Title",
+    "listingTitleAr": "Listing Title (Arabic)",
     "title": "Title",
+    "titleAr": "Enter title in Arabic",
     "category": "Category",
     "selectCategory": "Select Category",
     "selectSubCategory": "Select SubCategory",
@@ -436,7 +439,9 @@
     "checkToHideMobile": "Check to hide mobile number on Ad page",
     "price": "Price",
     "listingDescription": "Listing Description :",
+    "listingDescriptionAr": "Listing Description (Arabic) :",
     "message": "Message",
+    "messageAr": "Enter description in Arabic",
     "characters": "Characters:",
     "featured": "Featured",
     "featuredAds": "Featured Ads",

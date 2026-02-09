@@ -63,6 +63,10 @@ const AddLisiting = () => {
 
   const [galleryListingTitleErrMsg, setgalleryListingTitleErrMsg] =
     useState(""); // State for image preview
+  const [galleryListingTitleArErrMsg, setgalleryListingTitleArErrMsg] =
+    useState("");
+  const [gallerydescriptionArErrMsg, setgallerydescriptionArErrMsg] =
+    useState("");
 
   const [galleryselectedCityDataErrMsg, setgalleryselectedCityDataErrMsg] =
     useState(""); // State for image preview
@@ -124,7 +128,9 @@ const AddLisiting = () => {
   const [formData, setFormData] = useState({
     showNumberChecked: false, // default value
     title: "",
+    title_ar: "",
     description: "",
+    description_ar: "",
     category: "",
     streetWidth: "",
     Floor: "",
@@ -1825,6 +1831,8 @@ const AddLisiting = () => {
             category: data.category || "",
             creationTime: data.creationTime || "",
             description: data.description || "",
+            title_ar: data.title_ar || "",
+            description_ar: data.description_ar || "",
             displayName: data.displayName || "",
             facebook: data.facebook || "",
             googlePlus: data.googlePlus || "",
@@ -1952,10 +1960,15 @@ const AddLisiting = () => {
       setDistrictSelectedErrMsg("");
 
       if (!formData.title || formData.title.length === 0) {
-        setgalleryListingTitleErrMsg("Listing Title is required!"); // Set error message if no category is selected
+        setgalleryListingTitleErrMsg("Listing Title is required!");
         return;
       }
       setgalleryListingTitleErrMsg("");
+      if (!formData.title_ar || formData.title_ar.length === 0) {
+        setgalleryListingTitleArErrMsg("Arabic Title is required! (العنوان بالعربية مطلوب)");
+        return;
+      }
+      setgalleryListingTitleArErrMsg("");
       if (!Category1) {
         setError("Category is required!"); // Set error message if no category is selected
         return;
@@ -1971,10 +1984,15 @@ const AddLisiting = () => {
       }
       setgalleryPriceErrMsg("");
       if (!formData.description || formData.description.length === 0) {
-        setgallerydescriptionErrMsg("Description is required!"); // Set error message if no category is selected
+        setgallerydescriptionErrMsg("Description is required!");
         return;
       }
       setgallerydescriptionErrMsg("");
+      if (!formData.description_ar || formData.description_ar.length === 0) {
+        setgallerydescriptionArErrMsg("Arabic Description is required! (الوصف بالعربية مطلوب)");
+        return;
+      }
+      setgallerydescriptionArErrMsg("");
       if (!formData.FeaturedAds || formData.FeaturedAds.length === 0) {
         setFeaturedAdsErrMsg("Featured Ads is required!"); // Set error message if no category is selected
         return;
@@ -2010,14 +2028,6 @@ const AddLisiting = () => {
                                   : "books";
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
-          // Auto-translate title and description to both English and Arabic
-          console.log('🔄 Starting translation...');
-          console.log('Original title:', formData.title);
-          console.log('Original description:', formData.description);
-
-          const titleTranslations = await autoTranslate(formData.title);
-          const descriptionTranslations = await autoTranslate(formData.description);
-
           // Auto-translate City and District if they exist
           const cityTranslations = selectedCityData.label
             ? await autoTranslate(selectedCityData.label)
@@ -2026,20 +2036,14 @@ const AddLisiting = () => {
             ? await autoTranslate(selectedDistrict.label)
             : { en: '', ar: '' };
 
-          console.log('✅ Translation completed!');
-          console.log('Title translations:', titleTranslations);
-          console.log('Description translations:', descriptionTranslations);
-          console.log('City translations:', cityTranslations);
-          console.log('District translations:', districtTranslations);
-
           // Save form data to Firestore under the specified collection
           await addDoc(collection(db, Collection), {
             ...formData,
-            // Add bilingual fields
-            title_en: titleTranslations.en,
-            title_ar: titleTranslations.ar,
-            description_en: descriptionTranslations.en,
-            description_ar: descriptionTranslations.ar,
+            // Bilingual fields - title & description entered manually by user
+            title_en: formData.title,
+            title_ar: formData.title_ar,
+            description_en: formData.description,
+            description_ar: formData.description_ar,
             City_en: cityTranslations.en,
             City_ar: cityTranslations.ar,
             District_en: districtTranslations.en,
@@ -2169,14 +2173,6 @@ const AddLisiting = () => {
 
         // Check if more than half of the form fields are filled
         if (isFormValid()) {
-          // Auto-translate title and description to both English and Arabic
-          console.log('🔄 Starting translation (update mode)...');
-          console.log('Original title:', formData.title);
-          console.log('Original description:', formData.description);
-
-          const titleTranslations = await autoTranslate(formData.title);
-          const descriptionTranslations = await autoTranslate(formData.description);
-
           // Auto-translate City and District if they exist
           const cityTranslations = selectedCityData.label
             ? await autoTranslate(selectedCityData.label)
@@ -2185,21 +2181,15 @@ const AddLisiting = () => {
             ? await autoTranslate(selectedDistrict.label)
             : { en: '', ar: '' };
 
-          console.log('✅ Translation completed!');
-          console.log('Title translations:', titleTranslations);
-          console.log('Description translations:', descriptionTranslations);
-          console.log('City translations:', cityTranslations);
-          console.log('District translations:', districtTranslations);
-
           // Update the existing document in Firestore
           const docRef = doc(db, Collection, _Id);
           await updateDoc(docRef, {
             ...formData,
-            // Add bilingual fields
-            title_en: titleTranslations.en,
-            title_ar: titleTranslations.ar,
-            description_en: descriptionTranslations.en,
-            description_ar: descriptionTranslations.ar,
+            // Bilingual fields - title & description entered manually by user
+            title_en: formData.title,
+            title_ar: formData.title_ar,
+            description_en: formData.description,
+            description_ar: formData.description_ar,
             City_en: cityTranslations.en,
             City_ar: cityTranslations.ar,
             District_en: districtTranslations.en,
@@ -2973,6 +2963,10 @@ const AddLisiting = () => {
     if (name === "title") {
       // Allow letters, numbers, and spaces, limit to 200 characters
       const cleanedValue = value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 200);
+      setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
+    } else if (name === "title_ar") {
+      // Allow Arabic characters, numbers, and spaces, limit to 200 characters
+      const cleanedValue = value.replace(/[^\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF0-9 ]/g, "").slice(0, 200);
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "kmDriven" || name === "mileage") {
       // Only allow digits, limit to 10 characters
@@ -5198,6 +5192,31 @@ const AddLisiting = () => {
                               style={{ fontSize: "14px" }}
                             >
                               {galleryListingTitleErrMsg}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Arabic Title Field */}
+                        <div className="form-group" style={{ marginTop: "1rem" }}>
+                          <label className="col-form-label">
+                            {t("addListing.listingTitleAr", "عنوان الإعلان (عربي)")} <span>*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="title_ar"
+                            className="form-control pass-input input-margin"
+                            placeholder={t("addListing.titleAr", "أدخل العنوان بالعربية")}
+                            value={formData.title_ar}
+                            onChange={handleChange}
+                            dir="rtl"
+                            style={{ textAlign: "right" }}
+                          />
+                          {galleryListingTitleArErrMsg && (
+                            <div
+                              className="text-danger ml-4 mt-1 "
+                              style={{ fontSize: "14px" }}
+                            >
+                              {galleryListingTitleArErrMsg}
                             </div>
                           )}
                         </div>
@@ -13159,6 +13178,61 @@ const AddLisiting = () => {
                             style={{ fontSize: "14px" }}
                           >
                             {gallerydescriptionErrMsg}
+                          </div>
+                        )}
+
+                        {/* Arabic Description Field */}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "10px",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <label
+                            className="col-form-label"
+                            style={{
+                              padding: "0",
+                              fontWeight: "bold",
+                              fontSize: "20px",
+                              color: "#374b5c",
+                              margin: "0",
+                            }}
+                          >
+                            {t("addListing.listingDescriptionAr", "وصف الإعلان (عربي)")} <span style={{ color: "red" }}>*</span>
+                          </label>
+                        </div>
+                        <textarea
+                          rows={6}
+                          name="description_ar"
+                          className="form-control listingdescription"
+                          placeholder={t("addListing.messageAr", "أدخل الوصف بالعربية")}
+                          value={formData.description_ar}
+                          dir="rtl"
+                          style={{ textAlign: "right" }}
+                          onChange={(e) => {
+                            const text = e.target.value;
+                            // Count only Arabic alphabetic characters
+                            const arabicCount = (text.match(/[\u0600-\u06FF]/g) || []).length;
+                            if (arabicCount <= 1000) {
+                              handleChange(e);
+                            }
+                          }}
+                        />
+                        <div style={{ marginTop: "5px", fontSize: "12px" }}>
+                          <span>
+                            {t("addListing.characters", "Characters:")}{" "}
+                            {(formData.description_ar.match(/[\u0600-\u06FF]/g) || []).length}/1000
+                          </span>
+                        </div>
+                        {gallerydescriptionArErrMsg && (
+                          <div
+                            className="text-danger mt-1 "
+                            style={{ fontSize: "14px" }}
+                          >
+                            {gallerydescriptionArErrMsg}
                           </div>
                         )}
                       </div>

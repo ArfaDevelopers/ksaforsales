@@ -24172,6 +24172,17 @@ height: 400px;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-sticky-price-header.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .mobile-sticky-price-header .sticky-title {
@@ -24179,7 +24190,7 @@ height: 400px;
   min-width: 0;
   margin-right: 10px;
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   font-weight: 400;
   overflow: hidden;
@@ -24201,9 +24212,59 @@ height: 400px;
   height: 0.9em;
   filter: brightness(0) invert(1);
 }
-@media screen and (max-width:500px) {
+@media screen and (max-width:767px) {
   .mobile-sticky-price-header {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 15px;
   }
+}
+
+/* Sticky Header Top Row - Title and Price */
+.mobile-sticky-price-header .sticky-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+/* Sticky Header Actions Row - Phone, WhatsApp, Message */
+.mobile-sticky-price-header .sticky-header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Individual Action Buttons */
+.mobile-sticky-price-header .sticky-action-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-sticky-price-header .sticky-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+.mobile-sticky-price-header .sticky-action-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.mobile-cell--sticky svg {
+  width: 11px !important;
+  height: 11px !important;
 }
