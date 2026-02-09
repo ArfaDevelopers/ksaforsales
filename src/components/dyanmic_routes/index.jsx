@@ -1260,7 +1260,7 @@ const Dynamic_Routes = () => {
             <div className="sticky-header-actions">
               <a
                 href={`tel:${itemData?.Phone}`}
-                className="sticky-action-btn"
+                className="sticky-action-btn mobile-cell--sticky"
                 style={{ pointerEvents: itemData?.showNumberChecked ? 'none' : 'auto', opacity: itemData?.showNumberChecked ? 0.5 : 1 }}
               >
                 <FaPhoneAlt />

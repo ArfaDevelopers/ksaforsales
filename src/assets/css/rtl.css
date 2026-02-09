@@ -1552,3 +1552,119 @@ body.rtl .image-price0-filter .form-check-input {
 body.rtl .image-price0-filter .form-check-label {
   text-align: right !important;
 }
+
+/* ========================================
+   My Listing Mobile Cards - RTL Support
+   ======================================== */
+
+/* Reverse the flex direction so image appears on right */
+[dir="rtl"] .mobile-listing-card-content,
+body.rtl .mobile-listing-card-content {
+  flex-direction: row-reverse !important;
+}
+
+/* Right-align all text content in cards */
+[dir="rtl"] .mobile-listing-card-title,
+[dir="rtl"] .mobile-listing-card-category,
+[dir="rtl"] .mobile-listing-card-price,
+[dir="rtl"] .mobile-listing-card-meta,
+[dir="rtl"] .mobile-listing-card-info,
+body.rtl .mobile-listing-card-title,
+body.rtl .mobile-listing-card-category,
+body.rtl .mobile-listing-card-price,
+body.rtl .mobile-listing-card-meta,
+body.rtl .mobile-listing-card-info {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Align title link to right */
+[dir="rtl"] .mobile-listing-card-title a,
+body.rtl .mobile-listing-card-title a {
+  text-align: right !important;
+  direction: rtl !important;
+  display: block !important;
+}
+
+/* Reverse icon positioning in category */
+[dir="rtl"] .mobile-listing-card-category,
+body.rtl .mobile-listing-card-category {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-listing-card-category svg,
+body.rtl .mobile-listing-card-category svg {
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+/* Reverse price icon positioning */
+[dir="rtl"] .mobile-listing-card-price,
+body.rtl .mobile-listing-card-price {
+  flex-direction: row-reverse !important;
+}
+
+/* Reverse meta information flex direction */
+[dir="rtl"] .mobile-listing-card-meta,
+body.rtl .mobile-listing-card-meta {
+  flex-direction: row-reverse !important;
+}
+
+/* Reverse views icon positioning */
+[dir="rtl"] .mobile-listing-card-views,
+body.rtl .mobile-listing-card-views {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-listing-card-views svg,
+body.rtl .mobile-listing-card-views svg {
+  margin-right: 0 !important;
+  margin-left: 6px !important;
+}
+
+/* Align actions to the left in RTL (start of line) */
+[dir="rtl"] .mobile-listing-card-actions,
+body.rtl .mobile-listing-card-actions {
+  justify-content: flex-start !important;
+  flex-direction: row-reverse !important;
+}
+
+/* Status badge positioning */
+[dir="rtl"] .mobile-listing-card-info,
+body.rtl .mobile-listing-card-info {
+  align-items: flex-end !important;
+}
+
+/* Status badge dot positioning */
+[dir="rtl"] .mobile-listing-card-status,
+body.rtl .mobile-listing-card-status {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .mobile-listing-card-status::before,
+body.rtl .mobile-listing-card-status::before {
+  margin-right: 0 !important;
+  margin-left: 4px !important;
+}
+
+/* Dashboard menu RTL support */
+[dir="rtl"] .dashboard-content ul.dashborad-menus li a,
+body.rtl .dashboard-content ul.dashborad-menus li a {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .dashboard-content ul.dashborad-menus li a svg,
+body.rtl .dashboard-content ul.dashborad-menus li a svg {
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+/* Pagination RTL support for mobile */
+@media (max-width: 768px) {
+  [dir="rtl"] .blog-pagination .previtem .page-link svg,
+  [dir="rtl"] .blog-pagination .nextlink .page-link svg,
+  body.rtl .blog-pagination .previtem .page-link svg,
+  body.rtl .blog-pagination .nextlink .page-link svg {
+    transform: scaleX(-1);
+  }
+}

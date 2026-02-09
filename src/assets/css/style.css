@@ -24222,7 +24222,7 @@ height: 400px;
 /* Sticky Header Actions Row - Phone, WhatsApp, Message */
 .mobile-sticky-price-header .sticky-header-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 15px;
   width: 100%;
@@ -24252,4 +24252,8 @@ height: 400px;
 .mobile-sticky-price-header .sticky-action-btn svg {
   width: 14px;
   height: 14px;
+}
+.mobile-cell--sticky svg {
+  width: 11px !important;
+  height: 11px !important;
 }
