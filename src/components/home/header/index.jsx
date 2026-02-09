@@ -570,7 +570,7 @@ const Header = ({ parms }) => {
                   >
                     <Offcanvas.Header className="border-bottom">
                       <Offcanvas.Title className="fs-5 fw-bold">
-                        Menu
+                        {t("nav.menu")}
                       </Offcanvas.Title>
                       <FaTimes
                         className="close-icon"
@@ -581,614 +581,614 @@ const Header = ({ parms }) => {
                       <nav className="sidenav" style={{ marginTop: 70 }}>
                         {[
                           {
-                            name: "Automotive",
+                            name: t("categories.motors"),
                             path: "/AutomotiveComp",
                             icon: <FaCar />,
                             subcategories: [
                               {
-                                name: "Cars For Sale",
+                                name: t("subcategories.motors.carsForSale"),
                                 path: "/AutomotiveComp?subCatgory=Cars For Sale",
                               },
                               {
-                                name: "Car Rental",
+                                name: t("subcategories.motors.carRental"),
                                 path: "/AutomotiveComp?subCatgory=Car Rental",
                               },
                               {
-                                name: "Plates Number",
+                                name: t("subcategories.motors.platesNumber"),
                                 path: "/AutomotiveComp?subCatgory=Plates Number",
                               },
                               {
-                                name: "Spare Parts",
+                                name: t("subcategories.motors.spareParts"),
                                 path: "/AutomotiveComp?subCatgory=Spare Parts",
                                 subSubcategories: [
                                   {
-                                    name: "Body Parts",
+                                    name: t("nestedSubcategories.motors.bodyParts"),
                                     path: "/AutomotiveComp?NestedSubCategory=Body Parts",
                                   },
                                   {
-                                    name: "Mechanical Parts",
+                                    name: t("nestedSubcategories.motors.mechanicalParts"),
                                     path: "/AutomotiveComp?NestedSubCategory=Mechanical Parts",
                                   },
                                   {
-                                    name: "Spare Parts",
+                                    name: t("nestedSubcategories.motors.spareParts"),
                                     path: "/AutomotiveComp?NestedSubCategory=Spare Parts",
                                   },
                                   {
-                                    name: "Batteries",
+                                    name: t("nestedSubcategories.motors.batteries"),
                                     path: "/AutomotiveComp/?NestedSubCategory=Batteries",
                                   },
                                   {
-                                    name: "Others",
+                                    name: t("nestedSubcategories.motors.others"),
                                     path: "/AutomotiveComp/?NestedSubCategory=Others",
                                   },
                                 ],
                               },
                               {
-                                name: "Accessories",
+                                name: t("subcategories.motors.accessories"),
                                 path: "/AutomotiveComp?subCatgory=Accessories",
                               },
                               {
-                                name: "Wheels & Rims",
+                                name: t("subcategories.motors.wheelsAndRims"),
                                 path: "/AutomotiveComp?subCatgory=Wheels Rims",
                               },
                               {
-                                name: "Trucks & Heavy Machinery",
+                                name: t("subcategories.motors.trucksAndHeavyMachinery"),
                                 path: "/AutomotiveComp?subCatgory=Trucks Heavy Machinery",
                                 subSubcategories: [
                                   {
-                                    name: "Trucks",
+                                    name: t("nestedSubcategories.motors.trucks"),
                                     path: "/AutomotiveComp?NestedSubCategory=Trucks",
                                   },
                                   {
-                                    name: "Dump Truck",
+                                    name: t("nestedSubcategories.motors.dumpTruck"),
                                     path: "/AutomotiveComp?NestedSubCategory=Dump Truck",
                                   },
                                   {
-                                    name: "Wheel Loader",
+                                    name: t("nestedSubcategories.motors.wheelLoader"),
                                     path: "/AutomotiveComp?NestedSubCategory=Wheel Loader",
                                   },
                                   {
-                                    name: "Recovery",
+                                    name: t("nestedSubcategories.motors.recovery"),
                                     path: "/AutomotiveComp?NestedSubCategory=Recovery",
                                   },
                                   {
-                                    name: "Agricultural Equipment",
+                                    name: t("nestedSubcategories.motors.agriculturalEquipment"),
                                     path: "/AutomotiveComp?NestedSubCategory=Agricultural Equipment",
                                   },
                                   {
-                                    name: "Crane",
+                                    name: t("nestedSubcategories.motors.crane"),
                                     path: "/AutomotiveComp?NestedSubCategory=Crane",
                                   },
                                   {
-                                    name: "Bulldozer",
+                                    name: t("nestedSubcategories.motors.bulldozer"),
                                     path: "/AutomotiveComp?NestedSubCategory=Bulldozer",
                                   },
                                   {
-                                    name: "Crusher",
+                                    name: t("nestedSubcategories.motors.crusher"),
                                     path: "/AutomotiveComp?NestedSubCategory=Crusher",
                                   },
                                   {
-                                    name: "Excavator",
+                                    name: t("nestedSubcategories.motors.excavator"),
                                     path: "/AutomotiveComp?NestedSubCategory=Excavator",
                                   },
                                   {
-                                    name: "Heavy Equipment",
+                                    name: t("nestedSubcategories.motors.heavyEquipment"),
                                     path: "/AutomotiveComp?NestedSubCategory=Heavy Equipment",
                                   },
                                 ],
                               },
                               {
-                                name: "Tshaleeh",
+                                name: t("subcategories.motors.tshaleeh"),
                                 path: "/AutomotiveComp?subCatgory=Tshaleeh",
                               },
                               {
-                                name: "Boats & Jet Ski",
+                                name: t("subcategories.motors.boatsAndJetski"),
                                 path: "/AutomotiveComp?subCatgory=Boats & Jet Ski",
                                 subSubcategories: [
                                   {
-                                    name: "Motorboats",
+                                    name: t("nestedSubcategories.motors.motorboats"),
                                     path: "/AutomotiveComp?NestedSubCategory=Motor boats",
                                   },
                                   {
-                                    name: "Jet-ski",
+                                    name: t("nestedSubcategories.motors.jetSki"),
                                     path: "/AutomotiveComp?NestedSubCategory=Jet-ski",
                                   },
                                   {
-                                    name: "Others",
+                                    name: t("nestedSubcategories.motors.others"),
                                     path: "/AutomotiveComp?NestedSubCategory=Others",
                                   },
                                 ],
                               },
                               {
-                                name: "Classic Cars",
+                                name: t("subcategories.motors.classicCars"),
                                 path: "/AutomotiveComp?subCatgory=Classic Cars",
                               },
                               {
-                                name: "Salvage Cars",
+                                name: t("subcategories.motors.salvageCars"),
                                 path: "/AutomotiveComp?subCatgory=Salvage Cars",
                               },
                               {
-                                name: "Mortgaged Cars",
+                                name: t("subcategories.motors.mortgagedCars"),
                                 path: "/AutomotiveComp?subCatgory=Mortgaged Cars",
                               },
                               {
-                                name: "Recovery",
+                                name: t("subcategories.motors.recovery"),
                                 path: "/AutomotiveComp?subCatgory=Recovery",
                               },
                               {
-                                name: "Food Truck",
+                                name: t("subcategories.motors.foodTruck"),
                                 path: "/AutomotiveComp?subCatgory=Food Truck",
                               },
                               {
-                                name: "Caravans",
+                                name: t("subcategories.motors.caravans"),
                                 path: "/AutomotiveComp?subCatgory=Caravans",
                               },
                               {
-                                name: "Reports",
+                                name: t("subcategories.motors.reports"),
                                 path: "/AutomotiveComp?subCatgory=Reports",
                               },
                               {
-                                name: "Car Cleaning",
+                                name: t("subcategories.motors.carCleaning"),
                                 path: "/AutomotiveComp?subCatgory=Car Cleaning",
                               },
                             ],
                           },
                           {
-                            name: "Electronics",
+                            name: t("categories.electronics"),
                             path: "/ElectronicComp",
                             icon: <FaMobileAlt />,
                             subcategories: [
                               {
-                                name: "Mobile Phones",
+                                name: t("subcategories.electronics.mobilePhones"),
                                 path: "/ElectronicComp?subCatgory=Mobile Phones",
                                 subSubcategories: [
                                   {
-                                    name: "Smart Watches",
+                                    name: t("nestedSubcategories.electronics.smartWatches"),
                                     path: "/ElectronicComp?NestedSubCategory=Smart Watches",
                                   },
                                   {
-                                    name: "Headsets",
+                                    name: t("nestedSubcategories.electronics.headsets"),
                                     path: "/ElectronicComp?NestedSubCategory=Headsets",
                                   },
                                   {
-                                    name: "Chargers & Cables",
+                                    name: t("nestedSubcategories.electronics.chargersAndCables"),
                                     path: "/ElectronicComp?NestedSubCategory=Chargers & Cables",
                                   },
                                   {
-                                    name: "Covers & Protectors",
+                                    name: t("nestedSubcategories.electronics.coversAndProtectors"),
                                     path: "/ElectronicComp?NestedSubCategory=Covers & Protectors",
                                   },
                                 ],
                               },
                               {
-                                name: "Tablet Devices",
+                                name: t("subcategories.electronics.tabletDevices"),
                                 path: "/ElectronicComp?subCatgory=Tablet Devices",
                                 subSubcategories: [
                                   {
-                                    name: "iPad",
+                                    name: t("nestedSubcategories.electronics.iPad"),
                                     path: "/ElectronicComp?NestedSubCategory=iPad",
                                   },
                                   {
-                                    name: "Galaxy Tab",
+                                    name: t("nestedSubcategories.electronics.galaxyTab"),
                                     path: "/ElectronicComp?NestedSubCategory=Galaxy Tab",
                                   },
                                 ],
                               },
                               {
-                                name: "Computers & Laptops",
+                                name: t("subcategories.electronics.computersAndLaptops"),
                                 path: "/ElectronicComp?subCatgory=Computers & Laptops",
                               },
                               {
-                                name: "Video Games",
+                                name: t("subcategories.electronics.videoGames"),
                                 path: "/ElectronicComp?subCatgory=Video Games",
                                 subSubcategories: [
                                   {
-                                    name: "VR Glasses",
+                                    name: t("nestedSubcategories.electronics.vrGlasses"),
                                     path: "/ElectronicComp?NestedSubCategory=VR Glasses",
                                   },
                                   {
-                                    name: "PlayStation (PS) Devices",
+                                    name: t("nestedSubcategories.electronics.playstationDevices"),
                                     path: "/ElectronicComp?NestedSubCategory=PlayStation (PS) Devices",
                                   },
                                   {
-                                    name: "PlayStation (PS) Games",
+                                    name: t("nestedSubcategories.electronics.playstationGames"),
                                     path: "/ElectronicComp?NestedSubCategory=PlayStation (PS) Games",
                                   },
                                   {
-                                    name: "Xbox Devices",
+                                    name: t("nestedSubcategories.electronics.xboxDevices"),
                                     path: "/ElectronicComp?NestedSubCategory=Xbox Devices",
                                   },
                                   {
-                                    name: "Xbox Games",
+                                    name: t("nestedSubcategories.electronics.xboxGames"),
                                     path: "/ElectronicComp?NestedSubCategory=Xbox Games",
                                   },
                                   {
-                                    name: "Nintendo",
+                                    name: t("nestedSubcategories.electronics.nintendo"),
                                     path: "/ElectronicComp?NestedSubCategory=Nintendo",
                                   },
                                 ],
                               },
                               {
-                                name: "Television & Audio System",
+                                name: t("subcategories.electronics.televisionAndAudioSystem"),
                                 path: "/ElectronicComp?subCatgory=Television & Audio System",
                               },
                               {
-                                name: "Accounts & Subscriptions",
+                                name: t("subcategories.electronics.accountsAndSubscriptions"),
                                 path: "/ElectronicComp?subCatgory=Accounts & Subscriptions",
                                 subSubcategories: [
                                   {
-                                    name: "PUBG",
+                                    name: t("nestedSubcategories.electronics.pubg"),
                                     path: "/ElectronicComp?NestedSubCategory=PUBG",
                                   },
                                   {
-                                    name: "Fortnite",
+                                    name: t("nestedSubcategories.electronics.fortnite"),
                                     path: "/ElectronicComp?NestedSubCategory=Fortnite",
                                   },
                                   {
-                                    name: "FIFA",
+                                    name: t("nestedSubcategories.electronics.fifa"),
                                     path: "/ElectronicComp?NestedSubCategory=FIFA",
                                   },
                                   {
-                                    name: "Clash of Clans",
+                                    name: t("nestedSubcategories.electronics.clashOfClans"),
                                     path: "/ElectronicComp?NestedSubCategory=Clash of Clans",
                                   },
                                   {
-                                    name: "Clash Royale",
+                                    name: t("nestedSubcategories.electronics.clashRoyale"),
                                     path: "/ElectronicComp?NestedSubCategory=Clash Royale",
                                   },
                                   {
-                                    name: "Instagram Accounts",
+                                    name: t("nestedSubcategories.electronics.instagramAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=Instagram Accounts",
                                   },
                                   {
-                                    name: "Twitter Accounts",
+                                    name: t("nestedSubcategories.electronics.twitterAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=Twitter Accounts",
                                   },
                                   {
-                                    name: "TikTok Accounts",
+                                    name: t("nestedSubcategories.electronics.tiktokAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=TikTok Accounts",
                                   },
                                   {
-                                    name: "Snapchat Accounts",
+                                    name: t("nestedSubcategories.electronics.snapchatAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=Snapchat Accounts",
                                   },
                                   {
-                                    name: "Facebook Accounts",
+                                    name: t("nestedSubcategories.electronics.facebookAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=Facebook Accounts",
                                   },
                                   {
-                                    name: "YouTube Accounts",
+                                    name: t("nestedSubcategories.electronics.youtubeAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=YouTub eAccounts",
                                   },
                                   {
-                                    name: "Other Accounts",
+                                    name: t("nestedSubcategories.electronics.otherAccounts"),
                                     path: "/ElectronicComp?NestedSubCategory=Other Accounts",
                                   },
                                 ],
                               },
                               {
-                                name: "Special Number",
+                                name: t("subcategories.electronics.specialNumber"),
                                 path: "/ElectronicComp?subCatgory=Special Number",
                                 subSubcategories: [
                                   {
-                                    name: "STC",
+                                    name: t("nestedSubcategories.electronics.stc"),
                                     path: "/ElectronicComp?NestedSubCategory=STC",
                                   },
                                   {
-                                    name: "Mobily",
+                                    name: t("nestedSubcategories.electronics.mobily"),
                                     path: "/ElectronicComp?NestedSubCategory=Mobily",
                                   },
                                   {
-                                    name: "Zain",
+                                    name: t("nestedSubcategories.electronics.zain"),
                                     path: "/ElectronicComp?NestedSubCategory=Zain",
                                   },
                                 ],
                               },
                               {
-                                name: "Home & Kitchen Appliance",
+                                name: t("subcategories.electronics.homeAndKitchenAppliance"),
                                 path: "/ElectronicComp?subCatgory=Home & Kitchen Appliance",
                                 subSubcategories: [
                                   {
-                                    name: "Stoves & Ovens",
+                                    name: t("nestedSubcategories.electronics.stovesAndOvens"),
                                     path: "/ElectronicComp?NestedSubCategory=Stoves & Ovens",
                                   },
                                   {
-                                    name: "Refrigerators & Coolers",
+                                    name: t("nestedSubcategories.electronics.refrigeratorsAndCoolers"),
                                     path: "/ElectronicComp?NestedSubCategory=Refrigerators & Coolers",
                                   },
                                   {
-                                    name: "Mixers & Blenders",
+                                    name: t("nestedSubcategories.electronics.mixersAndBlenders"),
                                     path: "/ElectronicComp?NestedSubCategory=Mixers & Blenders",
                                   },
                                   {
-                                    name: "Washing Machines",
+                                    name: t("nestedSubcategories.electronics.washingMachines"),
                                     path: "/ElectronicComp?NestedSubCategory=Washing Machines",
                                   },
                                   {
-                                    name: "Kettles",
+                                    name: t("nestedSubcategories.electronics.kettles"),
                                     path: "/ElectronicComp?NestedSubCategory=Kettles",
                                   },
                                   {
-                                    name: "Fryers",
+                                    name: t("nestedSubcategories.electronics.fryers"),
                                     path: "/ElectronicComp?NestedSubCategory=Fryers",
                                   },
                                   {
-                                    name: "Coffee Machines",
+                                    name: t("nestedSubcategories.electronics.coffeeMachines"),
                                     path: "/ElectronicComp?NestedSubCategory=Coffee Machines",
                                   },
                                   {
-                                    name: "Microwaves & Toasters",
+                                    name: t("nestedSubcategories.electronics.microwavesAndToasters"),
                                     path: "/ElectronicComp?NestedSubCategory=MicrowavesS & Toasters",
                                   },
                                   {
-                                    name: "Vacuum Cleaners",
+                                    name: t("nestedSubcategories.electronics.vacuumCleaners"),
                                     path: "/ElectronicComp?NestedSubCategory=Vacuum Cleaners",
                                   },
                                   {
-                                    name: "Clothing Irons",
+                                    name: t("nestedSubcategories.electronics.clothingIrons"),
                                     path: "/ElectronicComp?NestedSubCategory=Clothing Irons",
                                   },
                                   {
-                                    name: "Air Conditioners",
+                                    name: t("nestedSubcategories.electronics.airConditioners"),
                                     path: "/ElectronicComp?NestedSubCategory=Air Conditioners",
                                   },
                                 ],
                               },
                               {
-                                name: "Motors & Generators",
+                                name: t("subcategories.electronics.motorsAndGenerators"),
                                 path: "/ElectronicComp?subCatgory=Motors & Generators",
                               },
                               {
-                                name: "Cameras",
+                                name: t("subcategories.electronics.cameras"),
                                 path: "/ElectronicComp?subCatgory=Cameras",
                                 subSubcategories: [
                                   {
-                                    name: "Lenses",
+                                    name: t("nestedSubcategories.electronics.lenses"),
                                     path: "/ElectronicComp?NestedSubCategory=Lenses",
                                   },
                                   {
-                                    name: "Drone",
+                                    name: t("nestedSubcategories.electronics.drone"),
                                     path: "/ElectronicComp?NestedSubCategory=Drone",
                                   },
                                   {
-                                    name: "Camera Accessories",
+                                    name: t("nestedSubcategories.electronics.cameraAccessories"),
                                     path: "/ElectronicComp?NestedSubCategory=Camera Accessories",
                                   },
                                 ],
                               },
                               {
-                                name: "Networking Devices",
+                                name: t("subcategories.electronics.networkingDevices"),
                                 path: "/ElectronicComp?subCatgory=Networking Devices",
                               },
                               {
-                                name: "Screens & Projectors",
+                                name: t("subcategories.electronics.screensAndProjectors"),
                                 path: "/ElectronicComp?subCatgory=Screens & Projectors",
                               },
                               {
-                                name: "Printer & Scanner",
+                                name: t("subcategories.electronics.printerAndScanner"),
                                 path: "/ElectronicComp?subCatgory=Printer & Scanner",
                               },
                               {
-                                name: "Computer Accessories",
+                                name: t("subcategories.electronics.computerAccessories"),
                                 path: "/ElectronicComp?subCatgory=Computer Accessories",
                               },
                             ],
                           },
                           {
-                            name: "Fashion Style",
+                            name: t("categories.fashionStyle"),
                             path: "/FashionStyle",
                             icon: <FaTshirt />,
                             subcategories: [
                               {
-                                name: "Watches",
+                                name: t("subcategories.fashionStyle.watches"),
                                 path: "/FashionStyle?subCatgory=Watches",
                                 subSubcategories: [
                                   {
-                                    name: "Other Watches",
+                                    name: t("nestedSubcategories.fashionStyle.otherWatches"),
                                     path: "/FashionStyle?NestedSubCategory=Other Watches",
                                   },
                                   {
-                                    name: "Men's Watches",
+                                    name: t("nestedSubcategories.fashionStyle.mensWatches"),
                                     path: "/FashionStyle?NestedSubCategory=Men' sWatches",
                                   },
                                   {
-                                    name: "Women's Watches",
+                                    name: t("nestedSubcategories.fashionStyle.womensWatches"),
                                     path: "/FashionStyle?NestedSubCategory=Women' sWatches",
                                   },
                                 ],
                               },
                               {
-                                name: "Perfumes & Incense",
+                                name: t("subcategories.fashionStyle.perfumesAndIncense"),
                                 path: "/FashionStyle?subCatgory=Perfumes & Incense",
                                 subSubcategories: [
                                   {
-                                    name: "Other Perfumes",
+                                    name: t("nestedSubcategories.fashionStyle.otherPerfumes"),
                                     path: "/FashionStyle?NestedSubCategory=Other Perfumes",
                                   },
                                   {
-                                    name: "Men's Perfumes",
+                                    name: t("nestedSubcategories.fashionStyle.mensPerfumes"),
                                     path: "/FashionStyle?NestedSubCategory=Men's Perfumes",
                                   },
                                   {
-                                    name: "Women's Perfumes",
+                                    name: t("nestedSubcategories.fashionStyle.womensPerfumes"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Perfumes",
                                   },
                                   {
-                                    name: "Oud & Incense",
+                                    name: t("nestedSubcategories.fashionStyle.oudAndIncense"),
                                     path: "/FashionStyle?NestedSubCategory=Oud & Incense",
                                   },
                                 ],
                               },
                               {
-                                name: "Sports Equipment",
+                                name: t("subcategories.fashionStyle.sportsEquipment"),
                                 path: "/FashionStyle?subCatgory=Sports Equipment",
                                 subSubcategories: [
                                   {
-                                    name: "Eyeglasses",
+                                    name: t("nestedSubcategories.fashionStyle.eyeglasses"),
                                     path: "/FashionStyle?NestedSubCategory=Eyeglasses",
                                   },
                                   {
-                                    name: "Other Eyeglasses",
+                                    name: t("nestedSubcategories.fashionStyle.otherEyeglasses"),
                                     path: "/FashionStyle?NestedSubCategory=Other Eyeglasses",
                                   },
                                   {
-                                    name: "Men's Eyeglasses",
+                                    name: t("nestedSubcategories.fashionStyle.mensEyeglasses"),
                                     path: "/FashionStyle?NestedSubCategory=Men's Eyeglasses",
                                   },
                                   {
-                                    name: "Women's Eyeglasses",
+                                    name: t("nestedSubcategories.fashionStyle.womensEyeglasses"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Eyeglasses",
                                   },
                                 ],
                               },
                               {
-                                name: "Men's Fashion",
+                                name: t("subcategories.fashionStyle.mensFashion"),
                                 path: "/FashionStyle?subCatgory=Men's Fashion",
                                 subSubcategories: [
                                   {
-                                    name: "Men's Shemaghs",
+                                    name: t("nestedSubcategories.fashionStyle.mensShemaghs"),
                                     path: "/FashionStyle?subCatgory=Men's Shemaghs",
                                   },
                                   {
-                                    name: "Men's Accessories",
+                                    name: t("nestedSubcategories.fashionStyle.mensAccessories"),
                                     path: "/FashionStyle?subCatgory=Men's Accessories",
                                   },
                                   {
-                                    name: "Men's Clothing",
+                                    name: t("nestedSubcategories.fashionStyle.mensClothing"),
                                     path: "//FashionStyle?subCatgory=Men's Clothing",
                                   },
                                   {
-                                    name: "Men's Jackets",
+                                    name: t("nestedSubcategories.fashionStyle.mensJackets"),
                                     path: "/FashionStyle?subCatgory=Men's Jackets",
                                   },
                                   {
-                                    name: "Men's Bags",
+                                    name: t("nestedSubcategories.fashionStyle.mensBags"),
                                     path: "/FashionStyle?subCatgory=Men's Bags",
                                   },
                                   {
-                                    name: "Men's Shirts & Trousers",
+                                    name: t("nestedSubcategories.fashionStyle.mensShirtsAndTrousers"),
                                     path: "/FashionStyle?subCatgory=Men's Shirts & Trousers",
                                   },
                                   {
-                                    name: "Men's Sportswear",
+                                    name: t("nestedSubcategories.fashionStyle.mensSportswear"),
                                     path: "/FashionStyle?subCatgory=Men's Sportswear",
                                   },
                                 ],
                               },
                               {
-                                name: "Women's Fashion",
+                                name: t("subcategories.fashionStyle.womensFashion"),
                                 path: "/FashionStyle?subCatgory=Women's Fashion",
                                 subSubcategories: [
                                   {
-                                    name: "Women's Accessories & Jewelry",
+                                    name: t("nestedSubcategories.fashionStyle.womensAccessoriesAndJewelry"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Accessories & Jewelry",
                                   },
                                   {
-                                    name: "Women's Blouses & T-Shirts",
+                                    name: t("nestedSubcategories.fashionStyle.womensBlousesAndTshirts"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Blouses & T-Shirts",
                                   },
                                   {
-                                    name: "Women's Skirts & Trousers",
+                                    name: t("nestedSubcategories.fashionStyle.womensSkirtsAndTrousers"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Skirts & Trousers",
                                   },
                                   {
-                                    name: "Women's Jackets",
+                                    name: t("nestedSubcategories.fashionStyle.womensJackets"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Jackets",
                                   },
                                   {
-                                    name: "Kaftans",
+                                    name: t("nestedSubcategories.fashionStyle.kaftans"),
                                     path: "/FashionStyle?NestedSubCategory=Kaftans",
                                   },
                                   {
-                                    name: "Women's Bags",
+                                    name: t("nestedSubcategories.fashionStyle.womensBags"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Bags",
                                   },
                                   {
-                                    name: "Abayas",
+                                    name: t("nestedSubcategories.fashionStyle.abayas"),
                                     path: "/FashionStyle?NestedSubCategory=Abayas",
                                   },
                                   {
-                                    name: "Dresses",
+                                    name: t("nestedSubcategories.fashionStyle.dresses"),
                                     path: "/FashionStyle?NestedSubCategory=Dresses",
                                   },
                                   {
-                                    name: "Lingerie",
+                                    name: t("nestedSubcategories.fashionStyle.lingerie"),
                                     path: "/FashionStyle?NestedSubCategory=Lingerie",
                                   },
                                   {
-                                    name: "Women's Sportswear",
+                                    name: t("nestedSubcategories.fashionStyle.womensSportswear"),
                                     path: "/FashionStyle?NestedSubCategory=Women's Sportswear",
                                   },
                                 ],
                               },
                               {
-                                name: "Children's Clothing & Accessories",
+                                name: t("subcategories.fashionStyle.childrensClothingAndAccessories"),
                                 path: "/FashionStyle?subCatgory=Children's Clothing & Accessories",
                                 subSubcategories: [
                                   {
-                                    name: "Baby Care Products",
+                                    name: t("nestedSubcategories.fashionStyle.babyCareProducts"),
                                     path: "/FashionStyle?NestedSubCategory=Baby Care Products",
                                   },
                                   {
-                                    name: "Children's Accessories",
+                                    name: t("nestedSubcategories.fashionStyle.childrensAccessories"),
                                     path: "/FashionStyle?NestedSubCategory=Children's Accessories",
                                   },
                                   {
-                                    name: "Toys for Kids",
+                                    name: t("nestedSubcategories.fashionStyle.toysForKids"),
                                     path: "/FashionStyle?NestedSubCategory=Toys for Kids",
                                   },
                                   {
-                                    name: "Children's Cribs & Chairs",
+                                    name: t("nestedSubcategories.fashionStyle.childrensCribsAndChairs"),
                                     path: "/FashionStyle?NestedSubCategory=Children's Cribs & Chairs",
                                   },
                                   {
-                                    name: "Children's Bags",
+                                    name: t("nestedSubcategories.fashionStyle.childrensBags"),
                                     path: "/FashionStyle?NestedSubCategory=Children's Bags",
                                   },
                                   {
-                                    name: "Strollers",
+                                    name: t("nestedSubcategories.fashionStyle.strollers"),
                                     path: "/FashionStyle?NestedSubCategory=Strollers",
                                   },
                                   {
-                                    name: "Car Seats for Kids",
+                                    name: t("nestedSubcategories.fashionStyle.carSeatsForKids"),
                                     path: "/FashionStyle?NestedSubCategory=Car Seats for Kids",
                                   },
                                   {
-                                    name: "Girls' Clothing",
+                                    name: t("nestedSubcategories.fashionStyle.girlsClothing"),
                                     path: "/FashionStyle?NestedSubCategory=Girl's Clothing",
                                   },
                                   {
-                                    name: "Boys' Clothing",
+                                    name: t("nestedSubcategories.fashionStyle.boysClothing"),
                                     path: "/FashionStyle?NestedSubCategory=Boys's Clothing",
                                   },
                                 ],
                               },
                               {
-                                name: "Gifts",
+                                name: t("subcategories.fashionStyle.gifts"),
                                 path: "/FashionStyle?subCatgory=Gifts",
                               },
                               {
-                                name: "Luggage",
+                                name: t("subcategories.fashionStyle.luggage"),
                                 path: "/FashionStyle?subCatgory=Luggage",
                               },
                               {
-                                name: "Health & Beauty",
+                                name: t("subcategories.fashionStyle.healthAndBeauty"),
                                 path: "/FashionStyle?subCatgory=Health & Beauty",
                                 subSubcategories: [
                                   {
-                                    name: "Skincare",
+                                    name: t("nestedSubcategories.fashionStyle.skincare"),
                                     path: "/FashionStyle?NestedSubCategory=Skincare",
                                   },
                                   {
-                                    name: "Hair Care",
+                                    name: t("nestedSubcategories.fashionStyle.hairCare"),
                                     path: "/FashionStyle?NestedSubCategory=Hair Care",
                                   },
                                   {
-                                    name: "Makeup",
+                                    name: t("nestedSubcategories.fashionStyle.makeup"),
                                     path: "/FashionStyle?NestedSubCategory=Makeup",
                                   },
                                   {
-                                    name: "Other Beauty Products",
+                                    name: t("nestedSubcategories.fashionStyle.otherBeautyProducts"),
                                     path: "FashionStyle?NestedSubCategory=Other Beauty Products",
                                   },
                                 ],
@@ -1196,358 +1196,358 @@ const Header = ({ parms }) => {
                             ],
                           },
                           {
-                            name: "Home & Furniture",
+                            name: t("categories.homeFurniture"),
                             path: "/HealthCareComp",
                             icon: <FaCouch />,
                             icon: <FaStickyNote />,
                             subcategories: [
                               {
-                                name: "Outdoor Furniture",
+                                name: t("subcategories.homeFurniture.outdoorFurniture"),
                                 path: "/HealthCareComp?subCatgory=Outdoor Furniture",
                               },
                               {
-                                name: "Majlis & Sofas",
+                                name: t("subcategories.homeFurniture.majlisAndSofas"),
                                 path: "/HealthCareComp?subCatgory=Majlis & Sofas",
                               },
                               {
-                                name: "Cabinets & Wardrobes",
+                                name: t("subcategories.homeFurniture.cabinetsAndWardrobes"),
                                 path: "/HealthCareComp?subCatgory=Cabinets & Wardrobes",
                               },
                               {
-                                name: "Beds & Mattresses",
+                                name: t("subcategories.homeFurniture.bedsAndMattresses"),
                                 path: "/HealthCareComp?subCatgory=Beds & Mattresses",
                               },
                               {
-                                name: "Tables & Chairs",
+                                name: t("subcategories.homeFurniture.tablesAndChairs"),
                                 path: "/HealthCareComp?subCatgory=Tables & Chairs",
                               },
                               {
-                                name: "Kitchens",
+                                name: t("subcategories.homeFurniture.kitchens"),
                                 path: "/HealthCareComp?subCatgory=Kitchens",
                               },
                               {
-                                name: "Bathrooms",
+                                name: t("subcategories.homeFurniture.bathrooms"),
                                 path: "/HealthCareComp?subCatgory=Bathrooms",
                               },
                               {
-                                name: "Carpets",
+                                name: t("subcategories.homeFurniture.carpets"),
                                 path: "/HealthCareComp?subCatgory=Carpets",
                               },
                               {
-                                name: "Curtains",
+                                name: t("subcategories.homeFurniture.curtains"),
                                 path: "/HealthCareComp?subCatgory=Curtains",
                               },
                               {
-                                name: "Decoration & Accessories",
+                                name: t("subcategories.homeFurniture.decorationAndAccessories"),
                                 path: "/HealthCareComp?subCatgory=Decoration & Accessories",
                               },
                               {
-                                name: "Lighting",
+                                name: t("subcategories.homeFurniture.lighting"),
                                 path: "/HealthCareComp?subCatgory=Lighting",
                               },
                               {
-                                name: "Household Items",
+                                name: t("subcategories.homeFurniture.householdItems"),
                                 path: "/HealthCareComp?subCatgory=Household Items",
                               },
                               {
-                                name: "Garden - Plants",
+                                name: t("subcategories.homeFurniture.gardenPlants"),
                                 path: "/HealthCareComp?subCatgory=Garden Plants",
                               },
                               {
-                                name: "Office Furniture",
+                                name: t("subcategories.homeFurniture.officeFurniture"),
                                 path: "/HealthCareComp?subCatgory=Office Furniture",
                               },
                               {
-                                name: "Doors - Windows - Aluminium",
+                                name: t("subcategories.homeFurniture.doorsWindowsAluminium"),
                                 path: "/HealthCareComp?subCatgory=Doors Windows Aluminium",
                               },
                               {
-                                name: "Tiles & Flooring",
+                                name: t("subcategories.homeFurniture.tilesAndFlooring"),
                                 path: "/HealthCareComp?subCatgory=Tiles & Flooring",
                               },
                             ],
                           },
                           {
-                            name: "Job Board",
+                            name: t("categories.jobBoard"),
                             path: "/JobBoard",
                             icon: <FaBriefcase />,
                             subcategories: [
                               {
-                                name: "Administrative Jobs",
+                                name: t("subcategories.jobBoard.administrativeJobs"),
                                 path: "/JobBoard?subCatgory=Administrative Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Marketing & Sales",
+                                    name: t("nestedSubcategories.jobBoard.marketingAndSales"),
                                     path: "/JobBoard?NestedSubCategory=Marketing & Sales",
                                   },
                                   {
-                                    name: "Customer Service",
+                                    name: t("nestedSubcategories.jobBoard.customerService"),
                                     path: "/JobBoard?NestedSubCategory=Customer Service",
                                   },
                                   {
-                                    name: "Secretary",
+                                    name: t("nestedSubcategories.jobBoard.secretary"),
                                     path: "/JobBoard?NestedSubCategory=Secretary",
                                   },
                                   {
-                                    name: "Tourism & Hospitality",
+                                    name: t("nestedSubcategories.jobBoard.tourismAndHospitality"),
                                     path: "/JobBoard?NestedSubCategory=Tourism & Hospitality",
                                   },
                                   {
-                                    name: "Accountant",
+                                    name: t("nestedSubcategories.jobBoard.accountant"),
                                     path: "/JobBoard?NestedSubCategory=Accountant",
                                   },
                                   {
-                                    name: "Delivery Representative",
+                                    name: t("nestedSubcategories.jobBoard.deliveryRepresentative"),
                                     path: "/JobBoard?NestedSubCategory=Delivery Representative",
                                   },
                                   {
-                                    name: "Other Administrative Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherAdministrativeJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Administrative Jobs",
                                   },
                                   {
-                                    name: "Public Relations & Media",
+                                    name: t("nestedSubcategories.jobBoard.publicRelationsAndMedia"),
                                     path: "/JobBoard?NestedSubCategory=Public Relations & Media",
                                   },
                                   {
-                                    name: "Translator",
+                                    name: t("nestedSubcategories.jobBoard.translator"),
                                     path: "/JobBoard?NestedSubCategory=Translator",
                                   },
                                   {
-                                    name: "Lawyer & Legal Jobs",
+                                    name: t("nestedSubcategories.jobBoard.lawyerAndLegalJobs"),
                                     path: "/JobBoard?NestedSubCategory=Lawyer & LegalJobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Fashion & Beauty Jobs",
+                                name: t("subcategories.jobBoard.fashionAndBeautyJobs"),
                                 path: "/JobBoard?subCatgory=Fashion & Beauty Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Tailor",
+                                    name: t("nestedSubcategories.jobBoard.tailor"),
                                     path: "/JobBoard?NestedSubCategory=Tailor",
                                   },
                                   {
-                                    name: "Female Hairdresser",
+                                    name: t("nestedSubcategories.jobBoard.femaleHairdresser"),
                                     path: "/JobBoard?NestedSubCategory=Female Hair dresser",
                                   },
                                   {
-                                    name: "Fashion Designer",
+                                    name: t("nestedSubcategories.jobBoard.fashionDesigner"),
                                     path: "/JobBoard?NestedSubCategory=Fashion Designer",
                                   },
                                   {
-                                    name: "Model",
+                                    name: t("nestedSubcategories.jobBoard.model"),
                                     path: "/JobBoard?NestedSubCategory=Model",
                                   },
                                   {
-                                    name: "Makeup Artist",
+                                    name: t("nestedSubcategories.jobBoard.makeupArtist"),
                                     path: "/JobBoard?NestedSubCategory=Makeup Artist",
                                   },
                                   {
-                                    name: "Hair Stylist",
+                                    name: t("nestedSubcategories.jobBoard.hairStylist"),
                                     path: "/JobBoard?NestedSubCategory=Hair Stylist",
                                   },
                                   {
-                                    name: "Other Beauty Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherBeautyJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Beauty Jobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Security & Safety Jobs",
+                                name: t("subcategories.jobBoard.securityAndSafetyJobs"),
                                 path: "/JobBoard?subCatgory=Security & Safety Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Security Guard",
+                                    name: t("nestedSubcategories.jobBoard.securityGuard"),
                                     path: "/JobBoard?NestedSubCategory=Security Guard",
                                   },
                                   {
-                                    name: "Safety Technician",
+                                    name: t("nestedSubcategories.jobBoard.safetyTechnician"),
                                     path: "/JobBoard?NestedSubCategory=Safety Technician",
                                   },
                                 ],
                               },
                               {
-                                name: "Teaching Jobs",
+                                name: t("subcategories.jobBoard.teachingJobs"),
                                 path: "/JobBoard?subCatgory=Teaching Jobs",
                               },
                               {
-                                name: "IT & Design Jobs",
+                                name: t("subcategories.jobBoard.itAndDesignJobs"),
                                 path: "/JobBoard?subCatgory=IT & DesignJobs",
                                 subSubcategories: [
                                   {
-                                    name: "Other IT Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherItJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other IT Jobs",
                                   },
                                   {
-                                    name: "Network & Telecommunications Specialist",
+                                    name: t("nestedSubcategories.jobBoard.networkAndTelecommunicationsSpecialist"),
                                     path: "/JobBoard?NestedSubCategory=Network & Telecommunications Specialist",
                                   },
                                   {
-                                    name: "Content Writer",
+                                    name: t("nestedSubcategories.jobBoard.contentWriter"),
                                     path: "/JobBoard?NestedSubCategory=Content Writer",
                                   },
                                   {
-                                    name: "Programmer",
+                                    name: t("nestedSubcategories.jobBoard.programmer"),
                                     path: "/JobBoard?NestedSubCategory=Programmer",
                                   },
                                   {
-                                    name: "Media Designer",
+                                    name: t("nestedSubcategories.jobBoard.mediaDesigner"),
                                     path: "/JobBoard?NestedSubCategory=Media Designer",
                                   },
                                 ],
                               },
                               {
-                                name: "Agriculture & Farming Jobs",
+                                name: t("subcategories.jobBoard.agricultureAndFarmingJobs"),
                                 path: "/JobBoard?subCatgory=Agriculture & Farming Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Farm Worker",
+                                    name: t("nestedSubcategories.jobBoard.farmWorker"),
                                     path: "/JobBoard?NestedSubCategory=Farm Worker",
                                   },
                                   {
-                                    name: "Other Agricultural Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherAgriculturalJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Agricultural Jobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Industrial Jobs",
+                                name: t("subcategories.jobBoard.industrialJobs"),
                                 path: "/JobBoard?subCatgory=Industrial Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Bodywork Technician",
+                                    name: t("nestedSubcategories.jobBoard.bodyworkTechnician"),
                                     path: "/JobBoard?NestedSubCategory=Bodywork Technician",
                                   },
                                   {
-                                    name: "Auto Electrician",
+                                    name: t("nestedSubcategories.jobBoard.autoElectrician"),
                                     path: "/JobBoard?NestedSubCategory=Auto Electrician",
                                   },
                                   {
-                                    name: "Car Mechanic",
+                                    name: t("nestedSubcategories.jobBoard.carMechanic"),
                                     path: "/JobBoard?NestedSubCategory=Car Mechanic",
                                   },
                                   {
-                                    name: "Other Industrial Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherIndustrialJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Industrial Jobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Medical & Nursing Jobs",
+                                name: t("subcategories.jobBoard.medicalAndNursingJobs"),
                                 path: "/JobBoard?subCatgory=Medical & Nursing Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Pharmacist",
+                                    name: t("nestedSubcategories.jobBoard.pharmacist"),
                                     path: "/JobBoard?NestedSubCategory=Pharmacist",
                                   },
                                   {
-                                    name: "Doctor",
+                                    name: t("nestedSubcategories.jobBoard.doctor"),
                                     path: "/JobBoard?NestedSubCategory=Doctor",
                                   },
                                   {
-                                    name: "Physical Therapy Technician",
+                                    name: t("nestedSubcategories.jobBoard.physicalTherapyTechnician"),
                                     path: "/JobBoard?NestedSubCategory=Physical Therapy Technician",
                                   },
                                   {
-                                    name: "Massage Therapist",
+                                    name: t("nestedSubcategories.jobBoard.massageTherapist"),
                                     path: "/JobBoard?NestedSubCategory=Massage Therapist",
                                   },
                                   {
-                                    name: "Nurse",
+                                    name: t("nestedSubcategories.jobBoard.nurse"),
                                     path: "/JobBoard?NestedSubCategory=Nurse",
                                   },
                                   {
-                                    name: "Other Medical Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherMedicalJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Medical Jobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Architecture & Construction Jobs",
+                                name: t("subcategories.jobBoard.architectureAndConstructionJobs"),
                                 path: "/JobBoard?subCatgory=Architecture & Construction Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Building Painter",
+                                    name: t("nestedSubcategories.jobBoard.buildingPainter"),
                                     path: "/JobBoard?NestedSubCategory=Building Painter",
                                   },
                                   {
-                                    name: "AC Technician",
+                                    name: t("nestedSubcategories.jobBoard.acTechnician"),
                                     path: "/JobBoard?NestedSubCategory=AC Technician",
                                   },
                                   {
-                                    name: "Decorator",
+                                    name: t("nestedSubcategories.jobBoard.decorator"),
                                     path: "/JobBoard?NestedSubCategory=Decorator",
                                   },
                                   {
-                                    name: "Building Electrician",
+                                    name: t("nestedSubcategories.jobBoard.buildingElectrician"),
                                     path: "/JobBoard?NestedSubCategory=Building Electrician",
                                   },
                                   {
-                                    name: "Tiler",
+                                    name: t("nestedSubcategories.jobBoard.tiler"),
                                     path: "/JobBoard?NestedSubCategory=Tiler",
                                   },
                                   {
-                                    name: "Building Supervisor",
+                                    name: t("nestedSubcategories.jobBoard.buildingSupervisor"),
                                     path: "/JobBoard?NestedSubCategory=Building Supervisor",
                                   },
                                   {
-                                    name: "Building Contractor",
+                                    name: t("nestedSubcategories.jobBoard.buildingContractor"),
                                     path: "/JobBoard?NestedSubCategory=Building Contractor",
                                   },
                                   {
-                                    name: "Plasterer",
+                                    name: t("nestedSubcategories.jobBoard.plasterer"),
                                     path: "/JobBoard?NestedSubCategory=Plasterer",
                                   },
                                   {
-                                    name: "Carpenter",
+                                    name: t("nestedSubcategories.jobBoard.carpenter"),
                                     path: "/JobBoard?NestedSubCategory=Carpenter",
                                   },
                                   {
-                                    name: "Other Construction Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherConstructionJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Construction Jobs",
                                   },
                                   {
-                                    name: "Plumber",
+                                    name: t("nestedSubcategories.jobBoard.plumber"),
                                     path: "/JobBoard?NestedSubCategory=Plumber",
                                   },
                                 ],
                               },
                               {
-                                name: "Housekeeping Jobs",
+                                name: t("subcategories.jobBoard.housekeepingJobs"),
                                 path: "/JobBoard?subCatgory=Housekeeping Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Private Driver",
+                                    name: t("nestedSubcategories.jobBoard.privateDriver"),
                                     path: "/JobBoard?NestedSubCategory=Private Driver",
                                   },
                                   {
-                                    name: "Household Worker",
+                                    name: t("nestedSubcategories.jobBoard.householdWorker"),
                                     path: "/JobBoard?NestedSubCategory=Household Worker",
                                   },
                                   {
-                                    name: "Domestic Worker",
+                                    name: t("nestedSubcategories.jobBoard.domesticWorker"),
                                     path: "/JobBoard?NestedSubCategory=Domestic Worker",
                                   },
                                   {
-                                    name: "Other Labor Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherLaborJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Labor Jobs",
                                   },
                                 ],
                               },
                               {
-                                name: "Restaurant Jobs",
+                                name: t("subcategories.jobBoard.restaurantJobs"),
                                 path: "/JobBoard?subCatgory=Restaurant Jobs",
                                 subSubcategories: [
                                   {
-                                    name: "Chef & Cook Instructor",
+                                    name: t("nestedSubcategories.jobBoard.chefAndCookInstructor"),
                                     path: "/JobBoard?NestedSubCategory=Chef & Cook Instructor",
                                   },
                                   {
-                                    name: "Waiter & Host",
+                                    name: t("nestedSubcategories.jobBoard.waiterAndHost"),
                                     path: "/JobBoard?NestedSubCategory=Waiter & Host",
                                   },
                                   {
-                                    name: "Other Restaurant Jobs",
+                                    name: t("nestedSubcategories.jobBoard.otherRestaurantJobs"),
                                     path: "/JobBoard?NestedSubCategory=Other Restaurant Jobs",
                                   },
                                 ],
@@ -1555,699 +1555,699 @@ const Header = ({ parms }) => {
                             ],
                           },
                           {
-                            name: "Real Estate",
+                            name: t("categories.realEstate"),
                             path: "/RealEstateComp",
                             icon: <FaHome />,
                             subcategories: [
                               {
-                                name: "Apartments for Rent",
+                                name: t("subcategories.realEstate.apartmentsForRent"),
                                 path: "/RealEstateComp?subCatgory=Apartments for Rent",
                               },
                               {
-                                name: "Apartments for Sale",
+                                name: t("subcategories.realEstate.apartmentsForSale"),
                                 path: "/RealEstateComp?subCatgory=Apartments for Sale",
                               },
                               {
-                                name: "Building for Rent",
+                                name: t("subcategories.realEstate.buildingForRent"),
                                 path: "/RealEstateComp?subCatgory=Building for Rent",
                               },
                               {
-                                name: "Building for Sale",
+                                name: t("subcategories.realEstate.buildingForSale"),
                                 path: "/RealEstateComp?subCatgory=Building for Sale",
                               },
                               {
-                                name: "Camps for Rent",
+                                name: t("subcategories.realEstate.campsForRent"),
                                 path: "/RealEstateComp?subCatgory=Camps for Rent",
                               },
                               {
-                                name: "Chalets for Sale",
+                                name: t("subcategories.realEstate.chaletsForSale"),
                                 path: "/RealEstateComp?subCatgory=Chalets for Sale",
                               },
                               {
-                                name: "Commercial Lands for Sale",
+                                name: t("subcategories.realEstate.commercialLandsForSale"),
                                 path: "/RealEstateComp?subCatgory=Commercial Lands for Sale",
                               },
                               {
-                                name: "Compound for Rent",
+                                name: t("subcategories.realEstate.compoundForRent"),
                                 path: "/RealEstateComp?subCatgory=Compound for Rent",
                               },
                               {
-                                name: "Compound for Sale",
+                                name: t("subcategories.realEstate.compoundForSale"),
                                 path: "/RealEstateComp?subCatgory=Compound for Sale",
                               },
                               {
-                                name: "Farm for Rent",
+                                name: t("subcategories.realEstate.farmForRent"),
                                 path: "/RealEstateComp?subCatgory=Farm for Rent",
                               },
                               {
-                                name: "Farms for Sale",
+                                name: t("subcategories.realEstate.farmsForSale"),
                                 path: "/RealEstateComp?subCatgory=Farms for Sale",
                               },
                               {
-                                name: "Floor for Sale",
+                                name: t("subcategories.realEstate.floorForSale"),
                                 path: "/RealEstateComp?subCatgory=Floor for Sale",
                               },
                               {
-                                name: "Floors for Rent",
+                                name: t("subcategories.realEstate.floorsForRent"),
                                 path: "/RealEstateComp?subCatgory=Floors for Rent",
                               },
                               {
-                                name: "Hall for Rent",
+                                name: t("subcategories.realEstate.hallForRent"),
                                 path: "/RealEstateComp?subCatgory=Hall for Rent",
                               },
                               {
-                                name: "Houses for Rent",
+                                name: t("subcategories.realEstate.housesForRent"),
                                 path: "/RealEstateComp?subCatgory=Houses for Rent",
                               },
                               {
-                                name: "Houses for Sale",
+                                name: t("subcategories.realEstate.housesForSale"),
                                 path: "/RealEstateComp?subCatgory=Houses for Sale",
                               },
                               {
-                                name: "Lands for Sale",
+                                name: t("subcategories.realEstate.landsForSale"),
                                 path: "/RealEstateComp?subCatgory=Lands for Sale",
                               },
                               {
-                                name: "Offices for Rent",
+                                name: t("subcategories.realEstate.officesForRent"),
                                 path: "/RealEstateComp?subCatgory=Offices for Rent",
                               },
                               {
-                                name: "Rest Houses for Rent",
+                                name: t("subcategories.realEstate.restHousesForRent"),
                                 path: "/RealEstateComp?subCatgory=RestHouses for Rent",
                               },
                               {
-                                name: "Rest Houses for Sale",
+                                name: t("subcategories.realEstate.restHousesForSale"),
                                 path: "/RealEstateComp?subCatgory=RestHouses for Sale",
                               },
                               {
-                                name: "Rooms for Rent",
+                                name: t("subcategories.realEstate.roomsForRent"),
                                 path: "/RealEstateComp?subCatgory=Rooms for Rent",
                               },
                               {
-                                name: "Shops for Rent",
+                                name: t("subcategories.realEstate.shopsForRent"),
                                 path: "/RealEstateComp?subCatgory=Shops for Rent",
                               },
                               {
-                                name: "Shops for Transfer",
+                                name: t("subcategories.realEstate.shopsForTransfer"),
                                 path: "/RealEstateComp?subCatgory=Shops for Transfer",
                               },
                               {
-                                name: "Villas for Rent",
+                                name: t("subcategories.realEstate.villasForRent"),
                                 path: "/RealEstateComp?subCatgory=Villas for Rent",
                               },
                               {
-                                name: "Villas for Sale",
+                                name: t("subcategories.realEstate.villasForSale"),
                                 path: "/RealEstateComp?subCatgory=Villas for Sale",
                               },
                               {
-                                name: "Warehouse for Sale",
+                                name: t("subcategories.realEstate.warehouseForSale"),
                                 path: "/RealEstateComp?subCatgory=Warehouse for Sale",
                               },
                               {
-                                name: "Warehouse for Rent",
+                                name: t("subcategories.realEstate.warehouseForRent"),
                                 path: "/RealEstateComp?subCatgory=Warehouse for Rent",
                               },
                             ],
                           },
                           {
-                            name: "Services",
+                            name: t("categories.services"),
                             path: "/TravelComp",
                             icon: <FaTools />,
                             subcategories: [
                               {
-                                name: "Other Services",
+                                name: t("subcategories.services.otherServices"),
                                 path: "/TravelComp?subCatgory=Other Services",
                               },
                               {
-                                name: "Contracting Services",
+                                name: t("subcategories.services.contractingServices"),
                                 path: "/TravelComp?subCatgory=Contracting Services",
                               },
                               {
-                                name: "Government Paperwork Services",
+                                name: t("subcategories.services.governmentPaperworkServices"),
                                 path: "/TravelComp?subCatgory=Government Paperwork Services",
                               },
                               {
-                                name: "Delivery Services",
+                                name: t("subcategories.services.deliveryServices"),
                                 path: "/TravelComp?subCatgory=Delivery Services",
                               },
                               {
-                                name: "Furniture Moving Services",
+                                name: t("subcategories.services.furnitureMovingServices"),
                                 path: "/TravelComp?subCatgory=Furniture Moving Services",
                               },
                               {
-                                name: "Cleaning Services",
+                                name: t("subcategories.services.cleaningServices"),
                                 path: "/TravelComp?subCatgory=Cleaning Services",
                               },
                               {
-                                name: "International Shopping Services",
+                                name: t("subcategories.services.internationalShoppingServices"),
                                 path: "/TravelComp?subCatgory=International Shopping Services",
                               },
                               {
-                                name: "Legal Services",
+                                name: t("subcategories.services.legalServices"),
                                 path: "/TravelComp?subCatgory=Legal Services",
                               },
                               {
-                                name: "Accounting & Financial Services",
+                                name: t("subcategories.services.accountingAndFinancialServices"),
                                 path: "/TravelComp?subCatgory=Accounting & Financial Services",
                               },
                             ],
                           },
                           {
-                            name: "Sport & Games",
+                            name: t("categories.sportGame"),
                             path: "/SportGamesComp",
                             icon: <FaGamepad />,
                             subcategories: [
                               {
-                                name: "Gaming Consoles",
+                                name: t("subcategories.sportGame.gamingConsoles"),
                                 path: "/SportGamesComp?subCatgory=Gaming Consoles",
                               },
                               {
-                                name: "Video Games",
+                                name: t("subcategories.sportGame.videoGames"),
                                 path: "/SportGamesComp?subCatgory=Video Games",
                               },
                               {
-                                name: "Controllers",
+                                name: t("subcategories.sportGame.controllers"),
                                 path: "/SportGamesComp?subCatgory=Controllers",
                               },
                               {
-                                name: "Gaming Accessories",
+                                name: t("subcategories.sportGame.gamingAccessories"),
                                 path: "/SportGamesComp?subCatgory=Gaming Accessories",
                               },
                               {
-                                name: "Gift Cards",
+                                name: t("subcategories.sportGame.giftCards"),
                                 path: "/SportGamesComp?subCatgory=Gift Cards",
                               },
                               {
-                                name: "Accounts",
+                                name: t("subcategories.sportGame.accounts"),
                                 path: "/SportGamesComp?subCatgory=Accounts",
                               },
                               {
-                                name: "Toys",
+                                name: t("subcategories.sportGame.toys"),
                                 path: "/SportGamesComp?subCatgory=Toys",
                               },
                             ],
                           },
                           {
-                            name: "Pet & Animals",
+                            name: t("categories.petAnimals"),
                             path: "/PetAnimalsComp",
                             icon: <FaPaw />,
                             subcategories: [
                               {
-                                name: "Sheep",
+                                name: t("subcategories.petAnimals.sheep"),
                                 path: "/PetAnimalsComp?subCatgory=Sheep",
                                 subSubcategories: [
                                   {
-                                    name: "Barbary Sheep",
+                                    name: t("nestedSubcategories.petAnimals.barbarySheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Barbary Sheep",
                                   },
                                   {
-                                    name: "Hure Sheep",
+                                    name: t("nestedSubcategories.petAnimals.hureSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Hure Sheep",
                                   },
                                   {
-                                    name: "Romanian Sheep",
+                                    name: t("nestedSubcategories.petAnimals.romanianSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Romanian Sheep",
                                   },
                                   {
-                                    name: "Sawakni Sheep",
+                                    name: t("nestedSubcategories.petAnimals.sawakniSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sawakni Sheep",
                                   },
                                   {
-                                    name: "Najdi Sheep",
+                                    name: t("nestedSubcategories.petAnimals.najdiSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Najdi Sheep",
                                   },
                                   {
-                                    name: "Naemi Sheep",
+                                    name: t("nestedSubcategories.petAnimals.naemiSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Naemi Sheep",
                                   },
                                   {
-                                    name: "Rafidi Sheep",
+                                    name: t("nestedSubcategories.petAnimals.rafidiSheep"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Rafidi Sheep",
                                   },
                                   {
-                                    name: "Sheep Supplies",
+                                    name: t("nestedSubcategories.petAnimals.sheepSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sheep Supplies",
                                   },
                                   {
-                                    name: "Sheep Products",
+                                    name: t("nestedSubcategories.petAnimals.sheepProducts"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sheep Products",
                                   },
                                 ],
                               },
                               {
-                                name: "Goats",
+                                name: t("subcategories.petAnimals.goats"),
                                 path: "/PetAnimalsComp?subCatgory=Goats",
                                 subSubcategories: [
                                   {
-                                    name: "Local Goats",
+                                    name: t("nestedSubcategories.petAnimals.localGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Local Goats",
                                   },
                                   {
-                                    name: "Bishi Goats",
+                                    name: t("nestedSubcategories.petAnimals.bishiGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Bishi Goats",
                                   },
                                   {
-                                    name: "Southern Goats",
+                                    name: t("nestedSubcategories.petAnimals.southernGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Southern Goats",
                                   },
                                   {
-                                    name: "Hejaz Goats",
+                                    name: t("nestedSubcategories.petAnimals.hejazGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Hejaz Goats",
                                   },
                                   {
-                                    name: "Shami Goats",
+                                    name: t("nestedSubcategories.petAnimals.shamiGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Shami Goats",
                                   },
                                   {
-                                    name: "Ardi Goats",
+                                    name: t("nestedSubcategories.petAnimals.ardiGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Ardi Goats",
                                   },
                                   {
-                                    name: "Dutch Goats",
+                                    name: t("nestedSubcategories.petAnimals.dutchGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dutch Goats",
                                   },
                                   {
-                                    name: "Dwarf Goats",
+                                    name: t("nestedSubcategories.petAnimals.dwarfGoats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dwarf Goats",
                                   },
                                 ],
                               },
                               {
-                                name: "Parrot",
+                                name: t("subcategories.petAnimals.parrot"),
                                 path: "/PetAnimalsComp?subCatgory=Parrot",
                                 subSubcategories: [
                                   {
-                                    name: "Amazoni Parrot",
+                                    name: t("nestedSubcategories.petAnimals.amazoniParrot"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Amazoni Parrot",
                                   },
                                   {
-                                    name: "Congo African Grey Parrot",
+                                    name: t("nestedSubcategories.petAnimals.congoAfricanGreyParrot"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Congo African Grey Parrot",
                                   },
                                   {
-                                    name: "Cockatoo Parrot",
+                                    name: t("nestedSubcategories.petAnimals.cockatooParrot"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Cockatoo Parrot",
                                   },
                                   {
-                                    name: "Macaw Parrot",
+                                    name: t("nestedSubcategories.petAnimals.macawParrot"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Macaw Parrot",
                                   },
                                   {
-                                    name: "Pet Birds",
+                                    name: t("nestedSubcategories.petAnimals.petBirds"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Pet Birds",
                                   },
                                   {
-                                    name: "Bird Supplies",
+                                    name: t("nestedSubcategories.petAnimals.birdSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Bird Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Dove/Pigeon",
+                                name: t("subcategories.petAnimals.dovePigeon"),
                                 path: "/PetAnimalsComp?subCatgory=Dove & Pigeon",
                                 subSubcategories: [
                                   {
-                                    name: "Pakistani Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.pakistaniPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Pakistani Pigeon",
                                   },
                                   {
-                                    name: "Turkish Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.turkishPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Turkish Pigeon",
                                   },
                                   {
-                                    name: "Homers (Pigeons)",
+                                    name: t("nestedSubcategories.petAnimals.homersPigeons"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Homers",
                                   },
                                   {
-                                    name: "Sudanese Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.sudanesePigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sudanese Pigeon",
                                   },
                                   {
-                                    name: "Shami Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.shamiPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Shami Pigeon",
                                   },
                                   {
-                                    name: "Sanaani Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.sanaaniPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sanaani Pigeon",
                                   },
                                   {
-                                    name: "French Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.frenchPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=French Pigeon",
                                   },
                                   {
-                                    name: "Egyptian Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.egyptianPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Egyptian Pigeon",
                                   },
                                   {
-                                    name: "Indian Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.indianPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Indian Pigeon",
                                   },
                                   {
-                                    name: "Dutch Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.dutchPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dutch Pigeon",
                                   },
                                   {
-                                    name: "Qatifi Pigeon",
+                                    name: t("nestedSubcategories.petAnimals.qatifiPigeon"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Qatifi Pigeon",
                                   },
                                 ],
                               },
                               {
-                                name: "Cats",
+                                name: t("subcategories.petAnimals.cats"),
                                 path: "/PetAnimalsComp?subCatgory=Cats",
                                 subSubcategories: [
                                   {
-                                    name: "Scottish Cats",
+                                    name: t("nestedSubcategories.petAnimals.scottishCats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Scottish Cats",
                                   },
                                   {
-                                    name: "Persian Cats",
+                                    name: t("nestedSubcategories.petAnimals.persianCats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Persian Cats",
                                   },
                                   {
-                                    name: "Cats for Adoption",
+                                    name: t("nestedSubcategories.petAnimals.catsForAdoption"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Cats for Adoption",
                                   },
                                   {
-                                    name: "Himalayan Cats",
+                                    name: t("nestedSubcategories.petAnimals.himalayanCats"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Himalayan Cats",
                                   },
                                   {
-                                    name: "Cat Supplies",
+                                    name: t("nestedSubcategories.petAnimals.catSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Cat Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Chickens",
+                                name: t("subcategories.petAnimals.chickens"),
                                 path: "/PetAnimalsComp?subCatgory=Chickens",
                                 subSubcategories: [
                                   {
-                                    name: "Brahma Chickens",
+                                    name: t("nestedSubcategories.petAnimals.brahmaChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Brahma Chickens",
                                   },
                                   {
-                                    name: "Local Chickens",
+                                    name: t("nestedSubcategories.petAnimals.localChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Local Chickens",
                                   },
                                   {
-                                    name: "Turkish Chickens",
+                                    name: t("nestedSubcategories.petAnimals.turkishChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Turkish Chickens",
                                   },
                                   {
-                                    name: "Turkey Chickens",
+                                    name: t("nestedSubcategories.petAnimals.turkeyChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Turkey Chickens",
                                   },
                                   {
-                                    name: "Persian Chickens",
+                                    name: t("nestedSubcategories.petAnimals.persianChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Persian Chickens",
                                   },
                                   {
-                                    name: "French Chickens",
+                                    name: t("nestedSubcategories.petAnimals.frenchChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=French Chickens",
                                   },
                                   {
-                                    name: "Fayoumi Chickens",
+                                    name: t("nestedSubcategories.petAnimals.fayoumiChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Fayoumi Chickens",
                                   },
                                   {
-                                    name: "Pakistani Chickens",
+                                    name: t("nestedSubcategories.petAnimals.pakistaniChickens"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Pakistani Chickens",
                                   },
                                   {
-                                    name: "Poultry Supplies",
+                                    name: t("nestedSubcategories.petAnimals.poultrySupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Poultry Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Camels",
+                                name: t("subcategories.petAnimals.camels"),
                                 path: "/PetAnimalsComp?subCatgory=Camels",
                                 subSubcategories: [
                                   {
-                                    name: "Bakar Camels",
+                                    name: t("nestedSubcategories.petAnimals.bakarCamels"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Bakar Camels",
                                   },
                                   {
-                                    name: "Stud Camels",
+                                    name: t("nestedSubcategories.petAnimals.studCamels"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Stud Camels",
                                   },
                                   {
-                                    name: "Camel Stallions",
+                                    name: t("nestedSubcategories.petAnimals.camelStallions"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Camel Stallions",
                                   },
                                   {
-                                    name: "Female Camels",
+                                    name: t("nestedSubcategories.petAnimals.femaleCamels"),
                                     path: "/PetAnimalsComp?NestedSubCategory=FemaleCamels",
                                   },
                                   {
-                                    name: "Camel Supplies",
+                                    name: t("nestedSubcategories.petAnimals.camelSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Camel Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Horses",
+                                name: t("subcategories.petAnimals.horses"),
                                 path: "/PetAnimalsComp?subCatgory=Horses",
                                 subSubcategories: [
                                   {
-                                    name: "Popular Horses",
+                                    name: t("nestedSubcategories.petAnimals.popularHorses"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Popular Horses",
                                   },
                                   {
-                                    name: "Mixed Horses",
+                                    name: t("nestedSubcategories.petAnimals.mixedHorses"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Mixed Horses",
                                   },
                                   {
-                                    name: "Wahho Horses",
+                                    name: t("nestedSubcategories.petAnimals.wahhoHorses"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Wahho Horses",
                                   },
                                   {
-                                    name: "English Horses",
+                                    name: t("nestedSubcategories.petAnimals.englishHorses"),
                                     path: "/PetAnimalsComp?NestedSubCategory=English Horses",
                                   },
                                   {
-                                    name: "Horse Supplies",
+                                    name: t("nestedSubcategories.petAnimals.horseSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Horse Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Dogs",
+                                name: t("subcategories.petAnimals.dogs"),
                                 path: "/PetAnimalsComp?subCatgory=Dogs",
                                 subSubcategories: [
                                   {
-                                    name: "Pitbull Dogs",
+                                    name: t("nestedSubcategories.petAnimals.pitbullDogs"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Pitbull Dogs",
                                   },
                                   {
-                                    name: "Pomeranian Dogs",
+                                    name: t("nestedSubcategories.petAnimals.pomeranianDogs"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Pomeranian Dogs",
                                   },
                                   {
-                                    name: "Golden Retriever Dogs",
+                                    name: t("nestedSubcategories.petAnimals.goldenRetrieverDogs"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Golden Retriever Dogs",
                                   },
                                   {
-                                    name: "German Shepherd Dogs",
+                                    name: t("nestedSubcategories.petAnimals.germanShepherdDogs"),
                                     path: "/PetAnimalsComp?NestedSubCategory=German Shepherd Dogs",
                                   },
                                   {
-                                    name: "Shih Tzu Dog",
+                                    name: t("nestedSubcategories.petAnimals.shihTzuDog"),
                                     path: "/PetAnimalsComp?NestedSubCategory=ShihTzu Dog",
                                   },
                                   {
-                                    name: "Chihuahua Dog",
+                                    name: t("nestedSubcategories.petAnimals.chihuahuaDog"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Chihuahua Dog",
                                   },
                                   {
-                                    name: "Maltese Dog",
+                                    name: t("nestedSubcategories.petAnimals.malteseDog"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Maltese Dog",
                                   },
                                   {
-                                    name: "Husky Dog",
+                                    name: t("nestedSubcategories.petAnimals.huskyDog"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Husky Dog",
                                   },
                                   {
-                                    name: "Dog Supplies",
+                                    name: t("nestedSubcategories.petAnimals.dogSupplies"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dog Supplies",
                                   },
                                 ],
                               },
                               {
-                                name: "Cows",
+                                name: t("subcategories.petAnimals.cows"),
                                 path: "/PetAnimalsComp?subCatgory=Cows",
                                 subSubcategories: [
                                   {
-                                    name: "German Cows",
+                                    name: t("nestedSubcategories.petAnimals.germanCows"),
                                     path: "/PetAnimalsComp?NestedSubCategory=German Cows",
                                   },
                                   {
-                                    name: "Local Cows",
+                                    name: t("nestedSubcategories.petAnimals.localCows"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Local Cows",
                                   },
                                   {
-                                    name: "Jersey Cows",
+                                    name: t("nestedSubcategories.petAnimals.jerseyCows"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Jersey Cows",
                                   },
                                   {
-                                    name: "Swiss Cows",
+                                    name: t("nestedSubcategories.petAnimals.swissCows"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Swiss Cows",
                                   },
                                   {
-                                    name: "Dutch Cows",
+                                    name: t("nestedSubcategories.petAnimals.dutchCows"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dutch Cows",
                                   },
                                   {
-                                    name: "Dairy Products",
+                                    name: t("nestedSubcategories.petAnimals.dairyProducts"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Dairy Products",
                                   },
                                 ],
                               },
                               {
-                                name: "Fish & Turtles",
+                                name: t("subcategories.petAnimals.fishAndTurtles"),
                                 path: "/PetAnimalsComp?subCatgory=Fish & Turtles",
                               },
                               {
-                                name: "Rabbits",
+                                name: t("subcategories.petAnimals.rabbits"),
                                 path: "/PetAnimalsComp?subCatgory=Rabbits",
                               },
                               {
-                                name: "Ducks",
+                                name: t("subcategories.petAnimals.ducks"),
                                 path: "/PetAnimalsComp?subCatgory=Ducks",
                                 subSubcategories: [
                                   {
-                                    name: "Bikini Ducks",
+                                    name: t("nestedSubcategories.petAnimals.bikiniDucks"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Bikini Ducks",
                                   },
                                   {
-                                    name: "Sharshari Ducks",
+                                    name: t("nestedSubcategories.petAnimals.sharshariDucks"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sharshari Ducks",
                                   },
                                   {
-                                    name: "Geese",
+                                    name: t("nestedSubcategories.petAnimals.geese"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Geese",
                                   },
                                   {
-                                    name: "Fish",
+                                    name: t("nestedSubcategories.petAnimals.fish"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Fish",
                                   },
                                   {
-                                    name: "Bikini Ducks",
+                                    name: t("nestedSubcategories.petAnimals.bikiniDucks"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Bikini Ducks",
                                   },
                                 ],
                               },
                               {
-                                name: "Squirrels",
+                                name: t("subcategories.petAnimals.squirrels"),
                                 path: "/PetAnimalsComp?subCatgory=Squirrels",
                                 subSubcategories: [
                                   {
-                                    name: "Turtles",
+                                    name: t("nestedSubcategories.petAnimals.turtles"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Turtles",
                                   },
                                   {
-                                    name: "Sharshari Ducks",
+                                    name: t("nestedSubcategories.petAnimals.sharshariDucks"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Sharshari Ducks",
                                   },
                                 ],
                               },
                               {
-                                name: "Hamsters",
+                                name: t("subcategories.petAnimals.hamsters"),
                                 path: "/PetAnimalsComp?subCatgory=Hamsters",
                                 subSubcategories: [
                                   {
-                                    name: "Geese",
+                                    name: t("nestedSubcategories.petAnimals.geese"),
                                     path: "/PetAnimalsComp?NestedSubCategory=Geese",
                                   },
                                 ],
                               },
                               {
-                                name: "Fur",
+                                name: t("subcategories.petAnimals.fur"),
                                 path: "/PetAnimalsComp?subCatgory=Fur",
                               },
                             ],
                           },
                           {
-                            name: "Other",
+                            name: t("categories.other"),
                             path: "/Education",
                             icon: <FaBook />,
                             subcategories: [
                               {
-                                name: "Hunting & Trips",
+                                name: t("subcategories.other.huntingAndTrips"),
                                 path: "/Education?subCatgory=Hunting & Trips",
                               },
                               {
-                                name: "Gardening & Agriculture",
+                                name: t("subcategories.other.gardeningAndAgriculture"),
                                 path: "/Education?subCatgory=Gardening & Agriculture",
                               },
                               {
-                                name: "Parties & Events",
+                                name: t("subcategories.other.partiesAndEvents"),
                                 path: "/Education?subCatgory=Parties & Events",
                               },
                               {
-                                name: "Travel & Tourism",
+                                name: t("subcategories.other.travelAndTourism"),
                                 path: "/Education?subCatgory=Travel & Tourism",
                               },
                               {
-                                name: "Roommate",
+                                name: t("subcategories.other.roommate"),
                                 path: "/Education?subCatgory=Roommate",
                               },
                               {
-                                name: "Lost & Found",
+                                name: t("subcategories.other.lostAndFound"),
                                 path: "/Education?subCatgory=Lost & Found",
                               },
                               {
-                                name: "Education & Training",
+                                name: t("subcategories.other.educationAndTraining"),
                                 path: "/Education?subCatgory=Education & Training",
                               },
                               {
-                                name: "Sports Training",
+                                name: t("subcategories.other.sportsTraining"),
                                 path: "/Education?subCatgory=Sports Training",
                               },
                               {
-                                name: "Stock & Forex Education",
+                                name: t("subcategories.other.stockAndForexEducation"),
                                 path: "/Education?subCatgory=Stock & Forex Education",
                               },
                               {
-                                name: "Driving Lessons",
+                                name: t("subcategories.other.drivingLessons"),
                                 path: "/Education?subCatgory=Driving Lessons",
                               },
                               {
-                                name: "Private Tutoring",
+                                name: t("subcategories.other.privateTutoring"),
                                 path: "/Education?subCatgory=Private Tutoring",
                               },
                               {
-                                name: "Training Courses",
+                                name: t("subcategories.other.trainingCourses"),
                                 path: "/Education?subCatgory=Training Courses",
                               },
                               {
-                                name: "Antiques & Collectibles",
+                                name: t("subcategories.other.antiquesAndCollectibles"),
                                 path: "/Education?subCatgory=Antiques & Collectibles",
                               },
                               {
-                                name: "Projects & Investments",
+                                name: t("subcategories.other.projectsAndInvestments"),
                                 path: "/Education?subCatgory=Projects & Investments",
                               },
                               {
-                                name: "Books & Arts",
+                                name: t("subcategories.other.booksAndArts"),
                                 path: "/Education?subCatgory=Books&Arts",
                               },
                               {
-                                name: "Programming & Design",
+                                name: t("subcategories.other.programmingAndDesign"),
                                 path: "/Education?subCatgory=Programming & Design",
                               },
                               {
-                                name: "Food & Beverages",
+                                name: t("subcategories.other.foodAndBeverages"),
                                 path: "/Education?subCatgory=Food & Beverages",
                               },
                             ],
                           },
                           {
-                            name: "Commercial",
+                            name: t("categories.commercial"),
                             path: "/CommercialAdscom",
                             icon: <FaBullhorn />,
-                            badge: "New",
+                            badge: t("common.new") || "New",
                           },
                         ].map((category, index) => (
                           <div key={index} className="sidebar-item-wrapper">
@@ -2354,7 +2354,7 @@ const Header = ({ parms }) => {
                         {/* My Account Section */}
                         <div className="sidebar-section-divider mt-3 mb-2">
                           <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
-                            MY ACCOUNT
+                            {t("footer.myAccount")}
                           </span>
                         </div>
                         <div className="sidebar-item-wrapper">
@@ -2367,7 +2367,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Dashboard</span>
+                              <span className="fw-semibold">{t("footer.dashboard")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2381,7 +2381,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Profile</span>
+                              <span className="fw-semibold">{t("footer.profile")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2395,7 +2395,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">My Listing</span>
+                              <span className="fw-semibold">{t("footer.myListing")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2409,7 +2409,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Bookmarks</span>
+                              <span className="fw-semibold">{t("footer.myFavourite")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2423,7 +2423,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Messages</span>
+                              <span className="fw-semibold">{t("footer.messages")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2431,7 +2431,7 @@ const Header = ({ parms }) => {
                         {/* Ksa4sale Section */}
                         <div className="sidebar-section-divider mt-3 mb-2">
                           <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
-                            KSA4SALE
+                            {t("footer.ksa4sale")}
                           </span>
                         </div>
                         <div className="sidebar-item-wrapper">
@@ -2444,7 +2444,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">About Us</span>
+                              <span className="fw-semibold">{t("footer.aboutUs")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2458,7 +2458,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Terms & Conditions</span>
+                              <span className="fw-semibold">{t("footer.termsConditions")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2472,7 +2472,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Privacy Policy</span>
+                              <span className="fw-semibold">{t("footer.privacyPolicy")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2486,7 +2486,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Copyrights</span>
+                              <span className="fw-semibold">{t("footer.copyRights")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2494,7 +2494,7 @@ const Header = ({ parms }) => {
                         {/* Useful Links Section */}
                         <div className="sidebar-section-divider mt-3 mb-2">
                           <span className="fw-bold text-muted ps-3" style={{ fontSize: "12px" }}>
-                            USEFUL LINKS
+                            {t("footer.usefulLinks")}
                           </span>
                         </div>
                         <div className="sidebar-item-wrapper">
@@ -2503,13 +2503,13 @@ const Header = ({ parms }) => {
                               to="https://blogs.ksa4sale.net/directory/"
                               className="d-flex align-items-center w-100 text-decoration-none"
                               activeClassName="active"
-      
+
                               rel="noopener noreferrer"
                             >
                               <span className="sidebar-icon me-2">
                                 <FaFolderOpen />
                               </span>
-                              <span className="fw-semibold">Directory</span>
+                              <span className="fw-semibold">{t("footer.directory")}</span>
                             </NavLink>
                           </div>
                         </div>
@@ -2523,7 +2523,7 @@ const Header = ({ parms }) => {
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
-                              <span className="fw-semibold">Blog</span>
+                              <span className="fw-semibold">{t("footer.blog")}</span>
                             </NavLink>
                           </div>
                         </div>
