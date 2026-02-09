@@ -1302,7 +1302,7 @@ console.log(
         {/* Sticky Header - Shows title and price when scrolled */}
         <div className={`mobile-sticky-price-header ${showStickyHeader ? 'show' : ''}`}>
           <div className="sticky-header-top">
-            <h6 className="sticky-title">{itemData?.title || "Loading..."}</h6>
+            <h6 className="sticky-title">{getTranslatedField(itemData, 'title', i18n.language) || "Loading..."}</h6>
             <div className="sticky-price">
               <img
                 src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
