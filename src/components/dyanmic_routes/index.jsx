@@ -1247,13 +1247,38 @@ const Dynamic_Routes = () => {
         {console.log("showStickyHeader state:", showStickyHeader, "itemData:", itemData?.title)}
         {showStickyHeader && (
           <div className="mobile-sticky-price-header">
-            <h6 className="sticky-title">{itemData?.title || "Test Title"}</h6>
-            <div className="sticky-price">
-              <img
-                src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
-                alt="SAR"
-              />
-              {itemData?.Price || itemData?.price || "999"}
+            <div className="sticky-header-top">
+              <h6 className="sticky-title">{itemData?.title || "Test Title"}</h6>
+              <div className="sticky-price">
+                <img
+                  src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                  alt="SAR"
+                />
+                {itemData?.Price || itemData?.price || "999"}
+              </div>
+            </div>
+            <div className="sticky-header-actions">
+              <a
+                href={`tel:${itemData?.Phone}`}
+                className="sticky-action-btn"
+                style={{ pointerEvents: itemData?.showNumberChecked ? 'none' : 'auto', opacity: itemData?.showNumberChecked ? 0.5 : 1 }}
+              >
+                <FaPhoneAlt />
+              </a>
+              <a
+                href={`https://wa.me/${itemData?.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sticky-action-btn"
+              >
+                <FaWhatsapp />
+              </a>
+              <button
+                className="sticky-action-btn"
+                onClick={() => setShowModal(true)}
+              >
+                <MdMessage />
+              </button>
             </div>
           </div>
         )}
