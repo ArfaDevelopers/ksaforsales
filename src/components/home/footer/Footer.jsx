@@ -196,6 +196,7 @@ const Footer = () => {
                       style={{
                         gap: "1.5rem",
                         flexWrap: "wrap",
+                        justifyContent: "space-around",
                         // justifyContent: "center",
                         // marginLeft: window.innerWidth <= 576 ? "0rem" : "-3rem",
                       }}
