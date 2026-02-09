@@ -953,6 +953,7 @@ body.rtl .dashborad-menus li a {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 [dir="rtl"] .dashborad-menus li a i,
