@@ -23,23 +23,25 @@ body.rtl li {
   text-align: right;
 }
 
-/* Keep card layout in LTR direction (don't flip structure) */
-/* This keeps image on left, content on right in both LTR and RTL */
-[dir="rtl"] .card,
-body.rtl .card {
-  direction: ltr !important;
+/* Dashboard cards should inherit RTL direction */
+/* NOTE: Do NOT use .dash-cards * wildcard - it forces direction on flex containers */
+/* which causes double-reversal when combined with flex-direction: row-reverse */
+[dir="rtl"] .dash-cards,
+body.rtl .dash-cards {
+  direction: rtl !important;
+  text-align: right !important;
 }
 
-/* Keep everything inside card in LTR structure */
-[dir="rtl"] .card *,
-body.rtl .card * {
-  direction: ltr !important;
+[dir="rtl"] .dash-cards .card-body,
+body.rtl .dash-cards .card-body {
+  direction: rtl !important;
+  text-align: right !important;
 }
 
-/* Keep rows inside cards in LTR to prevent column reversal */
-[dir="rtl"] .card .row,
-body.rtl .card .row {
-  direction: ltr !important;
+[dir="rtl"] .dash-cards .card-header,
+body.rtl .dash-cards .card-header {
+  direction: rtl !important;
+  text-align: right !important;
 }
 
 /* Results section should stay LTR to maintain card stacking */
@@ -48,36 +50,21 @@ body.rtl .results_section {
   direction: ltr !important;
 }
 
-/* Card body should maintain LTR structure */
-[dir="rtl"] .card-body,
-body.rtl .card-body {
+/* Blog sidebar cards keep LTR structure */
+[dir="rtl"] .blog-widget .card,
+[dir="rtl"] .blog-widget .card *,
+body.rtl .blog-widget .card,
+body.rtl .blog-widget .card * {
   direction: ltr !important;
 }
 
-/* Text elements inside cards should align naturally based on content */
-/* Don't force right alignment - let text align based on its language */
-[dir="rtl"] .card-body p,
-[dir="rtl"] .card-body h1,
-[dir="rtl"] .card-body h2,
-[dir="rtl"] .card-body h3,
-[dir="rtl"] .card-body h4,
-[dir="rtl"] .card-body h5,
-[dir="rtl"] .card-body span,
-[dir="rtl"] .card-title,
-[dir="rtl"] .card-title a,
-[dir="rtl"] .card-title p,
-[dir="rtl"] .card-text,
-body.rtl .card-body p,
-body.rtl .card-body h1,
-body.rtl .card-body h2,
-body.rtl .card-body h3,
-body.rtl .card-body h4,
-body.rtl .card-body h5,
-body.rtl .card-body span,
-body.rtl .card-title,
-body.rtl .card-title a,
-body.rtl .card-title p,
-body.rtl .card-text {
+/* Blog card text alignment */
+[dir="rtl"] .blog-widget .card-body p,
+[dir="rtl"] .blog-widget .card-body span,
+[dir="rtl"] .blog-widget .card-title,
+body.rtl .blog-widget .card-body p,
+body.rtl .blog-widget .card-body span,
+body.rtl .blog-widget .card-title {
   text-align: left !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -1096,6 +1083,29 @@ body.rtl .dash-cards .toggle-password {
   z-index: 10 !important;
   cursor: pointer;
 }
+/* Dashboard listing content wrapper RTL */
+[dir="rtl"] .dash-listingcontent,
+body.rtl .dash-listingcontent {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .dash-listingcontent .listing-search,
+body.rtl .dash-listingcontent .listing-search {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .dash-listingcontent .listing-search .form-control,
+body.rtl .dash-listingcontent .listing-search .form-control {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .dash-listingcontent .sorting-div,
+body.rtl .dash-listingcontent .sorting-div {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
 /* My Listing Desktop Table RTL Support */
 [dir="rtl"] .listing-table,
 body.rtl .listing-table {
@@ -1107,30 +1117,79 @@ body.rtl .listing-table .ant-table {
   direction: rtl !important;
 }
 
+[dir="rtl"] .listing-table .ant-table-container,
+[dir="rtl"] .listing-table .ant-table-content,
+body.rtl .listing-table .ant-table-container,
+body.rtl .listing-table .ant-table-content {
+  direction: rtl !important;
+}
+
 [dir="rtl"] .listing-table .ant-table-thead > tr > th,
 [dir="rtl"] .listing-table .ant-table-tbody > tr > td,
 body.rtl .listing-table .ant-table-thead > tr > th,
 body.rtl .listing-table .ant-table-tbody > tr > td {
   text-align: right !important;
+  direction: rtl !important;
 }
 
+/* Right-align direct children of table cells */
+[dir="rtl"] .listing-table .ant-table-tbody > tr > td > *,
+[dir="rtl"] .listing-table .ant-table-thead > tr > th > *,
+body.rtl .listing-table .ant-table-tbody > tr > td > *,
+body.rtl .listing-table .ant-table-thead > tr > th > * {
+  text-align: right !important;
+}
+
+/* Image column alignment */
+[dir="rtl"] .listing-table .listingtable-img,
+body.rtl .listing-table .listingtable-img {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Links in table */
+[dir="rtl"] .listing-table h6,
+[dir="rtl"] .listing-table h6 a,
+body.rtl .listing-table h6,
+body.rtl .listing-table h6 a {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Action buttons RTL - flip margin and layout */
+[dir="rtl"] .listing-table .action-btn,
+body.rtl .listing-table .action-btn {
+  margin: 0 0 0 10px !important;
+  display: inline-flex !important;
+}
+
+[dir="rtl"] .listing-table .action-btn:last-child,
+body.rtl .listing-table .action-btn:last-child {
+  margin-left: 0 !important;
+}
+
+/* Paragraph text */
+[dir="rtl"] .listing-table p,
+body.rtl .listing-table p {
+  text-align: right !important;
+  direction: rtl !important;
+  margin: 0 !important;
+}
+
+/* listingtable-rate - direction: rtl from parent handles flex reversal naturally */
 [dir="rtl"] .listing-table .listingtable-rate,
 body.rtl .listing-table .listingtable-rate {
-  flex-direction: row-reverse !important;
-  justify-content: flex-start !important;
   text-align: right !important;
 }
 
 [dir="rtl"] .listing-table .listingtable-rate .cat-icon,
 body.rtl .listing-table .listingtable-rate .cat-icon {
-  flex-direction: row-reverse !important;
   display: inline-flex !important;
   gap: 5px !important;
 }
 
 [dir="rtl"] .listing-table .listingtable-rate .discount-amt,
 body.rtl .listing-table .listingtable-rate .discount-amt {
-  flex-direction: row-reverse !important;
   display: inline-flex !important;
   gap: 5px !important;
 }
@@ -1140,6 +1199,34 @@ body.rtl .listing-table .listingtable-rate .discount-amt {
 body.rtl .listing-table h6,
 body.rtl .listing-table p {
   text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Action buttons in table */
+[dir="rtl"] .listing-table .table-actions,
+[dir="rtl"] .listing-table .table-dropdown,
+body.rtl .listing-table .table-actions,
+body.rtl .listing-table .table-dropdown {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Dropdown menus */
+[dir="rtl"] .listing-table .dropdown-menu,
+body.rtl .listing-table .dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Status badges */
+[dir="rtl"] .listing-table .badge,
+[dir="rtl"] .listing-table span[class*="bg-"],
+body.rtl .listing-table .badge,
+body.rtl .listing-table span[class*="bg-"] {
+  direction: rtl !important;
+  text-align: right !important;
 }
 
 [dir="rtl"] .table-responsive,
@@ -1147,7 +1234,19 @@ body.rtl .table-responsive {
   direction: rtl !important;
 }
 
+/* Ant Design pagination RTL */
+[dir="rtl"] .ant-pagination,
+body.rtl .ant-pagination {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .ant-table-pagination,
+body.rtl .ant-table-pagination {
+  direction: rtl !important;
+}
+
 /* Bookmarks/Favorites Page RTL Support */
+/* NOTE: direction: rtl inherited from <html dir="rtl"> - do NOT use flex-direction: row-reverse */
 [dir="rtl"] .bookmarks-content,
 body.rtl .bookmarks-content {
   direction: rtl !important;
@@ -1156,8 +1255,21 @@ body.rtl .bookmarks-content {
 [dir="rtl"] .bookmarks-content .blog-widget,
 body.rtl .bookmarks-content .blog-widget {
   text-align: right !important;
+  overflow: hidden !important;
 }
 
+/* Prevent card-body from overflowing in RTL */
+[dir="rtl"] .bookmarks-content .card-body,
+body.rtl .bookmarks-content .card-body {
+  overflow: hidden !important;
+}
+
+[dir="rtl"] .bookmarks-content .bloglist-content,
+body.rtl .bookmarks-content .bloglist-content {
+  overflow: hidden !important;
+}
+
+/* Right-align text content */
 [dir="rtl"] .bookmarks-content h6,
 [dir="rtl"] .bookmarks-content p,
 [dir="rtl"] .bookmarks-content .blog-location-details,
@@ -1169,19 +1281,62 @@ body.rtl .bookmarks-content .amount-details {
   text-align: right !important;
 }
 
+/* Truncate bookmark card titles */
+[dir="rtl"] .bookmarks-content h6,
+body.rtl .bookmarks-content h6 {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+[dir="rtl"] .bookmarks-content h6 a,
+body.rtl .bookmarks-content h6 a {
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Flip margins for author info in RTL */
+[dir="rtl"] .bookmarks-content .blog-features,
+body.rtl .bookmarks-content .blog-features {
+  margin: 0 0 0 15px !important;
+}
+
+[dir="rtl"] .bookmarks-content .blogfeaturelink i,
+[dir="rtl"] .bookmarks-content .blogfeaturelink img,
+body.rtl .bookmarks-content .blogfeaturelink i,
+body.rtl .bookmarks-content .blogfeaturelink img {
+  margin: 0 0 0 5px !important;
+}
+
+/* Location info - just ensure gap, direction: rtl handles flex order */
 [dir="rtl"] .bookmarks-content .location-info,
 body.rtl .bookmarks-content .location-info {
-  flex-direction: row-reverse !important;
   display: flex !important;
   gap: 5px !important;
 }
 
+/* Price/rate - just ensure gap, direction: rtl handles flex order */
 [dir="rtl"] .bookmarks-content .validrate,
 body.rtl .bookmarks-content .validrate {
-  flex-direction: row-reverse !important;
   display: flex !important;
   align-items: center !important;
   gap: 5px !important;
+}
+
+/* Fav icon position flip */
+[dir="rtl"] .bookmarks-content .fav-item,
+body.rtl .bookmarks-content .fav-item {
+  text-align: left !important;
+}
+
+/* Blog author text-end should become text-start in RTL */
+[dir="rtl"] .bookmarks-content .blog-author.text-end,
+body.rtl .bookmarks-content .blog-author.text-end {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
 }
 
 /* ========================================
@@ -1556,95 +1711,24 @@ body.rtl .image-price0-filter .form-check-label {
 /* ========================================
    My Listing Mobile Cards - RTL Support
    ======================================== */
+/* NOTE: direction: rtl is inherited from <html dir="rtl"> set by LanguageContext.js */
+/* Do NOT use flex-direction: row-reverse here - direction: rtl already reverses */
+/* flex-direction: row naturally. Adding row-reverse causes double-reversal. */
 
-/* Reverse the flex direction so image appears on right */
-[dir="rtl"] .mobile-listing-card-content,
-body.rtl .mobile-listing-card-content {
-  flex-direction: row-reverse !important;
-}
-
-/* Right-align all text content in cards */
-[dir="rtl"] .mobile-listing-card-title,
-[dir="rtl"] .mobile-listing-card-category,
-[dir="rtl"] .mobile-listing-card-price,
-[dir="rtl"] .mobile-listing-card-meta,
-[dir="rtl"] .mobile-listing-card-info,
-body.rtl .mobile-listing-card-title,
-body.rtl .mobile-listing-card-category,
-body.rtl .mobile-listing-card-price,
-body.rtl .mobile-listing-card-meta,
-body.rtl .mobile-listing-card-info {
+/* Right-align text in cards */
+[dir="rtl"] .mobile-listing-card,
+body.rtl .mobile-listing-card {
   text-align: right !important;
-  direction: rtl !important;
 }
 
-/* Align title link to right */
+/* Title link truncation in RTL */
 [dir="rtl"] .mobile-listing-card-title a,
 body.rtl .mobile-listing-card-title a {
   text-align: right !important;
-  direction: rtl !important;
   display: block !important;
-}
-
-/* Reverse icon positioning in category */
-[dir="rtl"] .mobile-listing-card-category,
-body.rtl .mobile-listing-card-category {
-  flex-direction: row-reverse !important;
-}
-
-[dir="rtl"] .mobile-listing-card-category svg,
-body.rtl .mobile-listing-card-category svg {
-  margin-right: 0 !important;
-  margin-left: 5px !important;
-}
-
-/* Reverse price icon positioning */
-[dir="rtl"] .mobile-listing-card-price,
-body.rtl .mobile-listing-card-price {
-  flex-direction: row-reverse !important;
-}
-
-/* Reverse meta information flex direction */
-[dir="rtl"] .mobile-listing-card-meta,
-body.rtl .mobile-listing-card-meta {
-  flex-direction: row-reverse !important;
-}
-
-/* Reverse views icon positioning */
-[dir="rtl"] .mobile-listing-card-views,
-body.rtl .mobile-listing-card-views {
-  flex-direction: row-reverse !important;
-}
-
-[dir="rtl"] .mobile-listing-card-views svg,
-body.rtl .mobile-listing-card-views svg {
-  margin-right: 0 !important;
-  margin-left: 6px !important;
-}
-
-/* Align actions to the left in RTL (start of line) */
-[dir="rtl"] .mobile-listing-card-actions,
-body.rtl .mobile-listing-card-actions {
-  justify-content: flex-start !important;
-  flex-direction: row-reverse !important;
-}
-
-/* Status badge positioning */
-[dir="rtl"] .mobile-listing-card-info,
-body.rtl .mobile-listing-card-info {
-  align-items: flex-end !important;
-}
-
-/* Status badge dot positioning */
-[dir="rtl"] .mobile-listing-card-status,
-body.rtl .mobile-listing-card-status {
-  flex-direction: row-reverse !important;
-}
-
-[dir="rtl"] .mobile-listing-card-status::before,
-body.rtl .mobile-listing-card-status::before {
-  margin-right: 0 !important;
-  margin-left: 4px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 /* Dashboard menu RTL support */

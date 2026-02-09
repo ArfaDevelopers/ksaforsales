@@ -637,6 +637,7 @@ const MyListe = () => {
     {
       title: t("myListing.image"),
       dataIndex: "galleryImages",
+      align: i18n.language.startsWith('ar') ? 'right' : 'left',
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
@@ -698,6 +699,7 @@ const MyListe = () => {
     {
       title: t("myListing.details"),
       dataIndex: "title",
+      align: i18n.language.startsWith('ar') ? 'right' : 'left',
       render: (text, record) => (
         <>
           <h6>
@@ -818,6 +820,7 @@ const MyListe = () => {
     {
       title: t("myListing.status"),
       dataIndex: "status",
+      align: i18n.language.startsWith('ar') ? 'right' : 'left',
       render: (text, record) => (
         <span className={record.bg}>
           {/* REVERSED: false = Active, true = Not Active (see comment at top of columns) */}
@@ -831,6 +834,7 @@ const MyListe = () => {
           {
             title: t("myListing.invoice"),
             dataIndex: "invoiceNumber",
+            align: i18n.language.startsWith('ar') ? 'right' : 'left',
             render: (text, record) => (
               <div
                 className="invoice-cell"
@@ -863,12 +867,14 @@ const MyListe = () => {
     {
       title: t("myListing.views"),
       dataIndex: "views", // ✅ correct field
+      align: i18n.language.startsWith('ar') ? 'right' : 'left',
       render: (text, record) => <span>{record.views ?? 0}</span>,
       sorter: (a, b) => (a.views || 0) - (b.views || 0),
     },
     {
       title: t("myListing.action"),
       dataIndex: "class",
+      align: i18n.language.startsWith('ar') ? 'right' : 'left',
       render: (text, record) => (
         <div
           className={text}
@@ -918,6 +924,7 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
+              justifyContent: "center",
               pointerEvents: record.isActive ? "none" : "auto",
               opacity: record.isActive ? 0.5 : 1,
               cursor: record.isActive ? "not-allowed" : "pointer",
@@ -938,6 +945,7 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
+              justifyContent: "center",
               // REVERSED: Edit enabled when false (Active), disabled when true (Not Active)
               pointerEvents: record.isActive ? "none" : "auto",
               opacity: record.isActive ? 0.5 : 1,
@@ -962,13 +970,12 @@ const MyListe = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
+              justifyContent: "center",
               // REVERSED: Blue when false (Active), gray when true (Not Active)
               backgroundColor: !record.isActive ? "#2d4495" : "#cccccc",
               color: "#ffffff",
               cursor: "pointer",
               border: "none",
-              padding: "5px 10px",
-              borderRadius: "4px",
             }}
             title={!record.isActive ? "Disable Item" : "Enable Item"}
           >
