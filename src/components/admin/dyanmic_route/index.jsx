@@ -276,6 +276,52 @@ const Dynamic_Route = () => {
     if (valueLower === "insured") return t("filters.options.additionalFeatures.insured");
     if (valueLower.includes("self") && valueLower.includes("park")) return t("filters.options.additionalFeatures.selfParking");
 
+    // Additional features translation - normalize by removing spaces, hyphens, slashes
+    const normalized = valueLower.replace(/[\s\-\/]/g, "");
+    const featureMap = {
+      "alarmsystem": "alarmSystem",
+      "dealership": "dealership",
+      "quickselling": "quickSelling",
+      "navigation": "navigation",
+      "temperaturecontrolledseats": "temperatureControlledSeats",
+      "temperatureseats": "temperatureControlledSeats",
+      "inspected": "inspected",
+      "parkingsensors": "parkingSensors",
+      "bluetooth": "bluetooth",
+      "sunroofmoonroof": "sunroofMoonroof",
+      "sunroof": "sunroofMoonroof",
+      "moonroof": "sunroofMoonroof",
+      "leatherseats": "leatherSeats",
+      "backupcamera": "backupCamera",
+      "heatedseats": "heatedSeats",
+      "keylessentry": "keylessEntry",
+      "remotestart": "remoteStart",
+      "adaptivecruisecontrol": "adaptiveCruiseControl",
+      "adaptivecruise": "adaptiveCruiseControl",
+      "lanedeparturewarning": "laneDepartureWarning",
+      "lanedeparture": "laneDepartureWarning",
+      "blindspotmonitoring": "blindSpotMonitoring",
+      "blindspot": "blindSpotMonitoring",
+      "premiumsoundsystem": "premiumSoundSystem",
+      "premiumsound": "premiumSoundSystem",
+      "allwheeldrive": "allWheelDrive",
+      "awd": "allWheelDrive",
+      "touchscreendisplay": "touchscreenDisplay",
+      "touchscreen": "touchscreenDisplay",
+      "applecarplayandroidauto": "appleCarplayAndroidAuto",
+      "carplay": "appleCarplayAndroidAuto",
+      "ledheadlights": "ledHeadlights",
+      "towpackage": "towPackage",
+      "powerliftgate": "powerLiftgate",
+      "headupdisplay": "headUpDisplay",
+      "rainsensingwipers": "rainSensingWipers",
+      "rainwipers": "rainSensingWipers",
+      "automaticemergencybraking": "automaticEmergencyBraking",
+      "emergencybraking": "automaticEmergencyBraking",
+      "ambientlighting": "ambientLighting",
+    };
+    if (featureMap[normalized]) return t(`filters.options.additionalFeatures.${featureMap[normalized]}`);
+
     return value;
   };
 
