@@ -23,6 +23,15 @@ body.rtl li {
   text-align: right;
 }
 
+/* Flip .text-end absolute positioning for RTL */
+/* Bootstrap .text-end was customized with position: absolute; right: 15px */
+[dir="rtl"] .text-end,
+body.rtl .text-end {
+  text-align: left !important;
+  right: auto !important;
+  left: 15px !important;
+}
+
 /* Dashboard cards should inherit RTL direction */
 /* NOTE: Do NOT use .dash-cards * wildcard - it forces direction on flex containers */
 /* which causes double-reversal when combined with flex-direction: row-reverse */
@@ -1297,12 +1306,46 @@ body.rtl .bookmarks-content h6 a {
   white-space: nowrap !important;
 }
 
-/* Flip margins for author info in RTL */
+/* Constrain the author/views flex row so nothing overflows the card */
+[dir="rtl"] .bookmarks-content .blogfeaturelink,
+body.rtl .bookmarks-content .blogfeaturelink {
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+/* Avatar - fixed size, don't shrink */
+[dir="rtl"] .bookmarks-content .bookmark-author,
+body.rtl .bookmarks-content .bookmark-author {
+  flex-shrink: 0 !important;
+}
+
+/* Name - take remaining space and truncate if needed */
 [dir="rtl"] .bookmarks-content .blog-features,
 body.rtl .bookmarks-content .blog-features {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
   margin: 0 0 0 15px !important;
 }
 
+[dir="rtl"] .bookmarks-content .blog-features span,
+body.rtl .bookmarks-content .blog-features span {
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Views section - fixed size, don't shrink */
+[dir="rtl"] .bookmarks-content .blog-author,
+body.rtl .bookmarks-content .blog-author {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  margin-right: 0 !important;
+}
+
+/* Flip icon margins */
 [dir="rtl"] .bookmarks-content .blogfeaturelink i,
 [dir="rtl"] .bookmarks-content .blogfeaturelink img,
 body.rtl .bookmarks-content .blogfeaturelink i,
@@ -1310,14 +1353,21 @@ body.rtl .bookmarks-content .blogfeaturelink img {
   margin: 0 0 0 5px !important;
 }
 
-/* Location info - just ensure gap, direction: rtl handles flex order */
+/* Flip location info icon margin */
+[dir="rtl"] .bookmarks-content .location-info i,
+body.rtl .bookmarks-content .location-info i {
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+/* Location info - direction: rtl handles flex order */
 [dir="rtl"] .bookmarks-content .location-info,
 body.rtl .bookmarks-content .location-info {
   display: flex !important;
   gap: 5px !important;
 }
 
-/* Price/rate - just ensure gap, direction: rtl handles flex order */
+/* Price/rate - direction: rtl handles flex order */
 [dir="rtl"] .bookmarks-content .validrate,
 body.rtl .bookmarks-content .validrate {
   display: flex !important;
@@ -1329,14 +1379,6 @@ body.rtl .bookmarks-content .validrate {
 [dir="rtl"] .bookmarks-content .fav-item,
 body.rtl .bookmarks-content .fav-item {
   text-align: left !important;
-}
-
-/* Blog author text-end should become text-start in RTL */
-[dir="rtl"] .bookmarks-content .blog-author.text-end,
-body.rtl .bookmarks-content .blog-author.text-end {
-  text-align: left !important;
-  margin-left: 0 !important;
-  margin-right: auto !important;
 }
 
 /* ========================================
