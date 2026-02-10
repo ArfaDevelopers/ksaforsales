@@ -1794,3 +1794,26 @@ body.rtl .dashboard-content ul.dashborad-menus li a svg {
     transform: scaleX(-1);
   }
 }
+
+/* Feature items - RTL checkmark icon positioning */
+/* Move checkmark icons from left to right side for Arabic */
+[dir="rtl"] .feature-item,
+body.rtl .feature-item {
+  padding-right: 30px;      /* Space for checkmark on RIGHT */
+  padding-left: 0;          /* Remove left padding */
+}
+
+[dir="rtl"] .feature-item::before,
+body.rtl .feature-item::before {
+  left: auto;               /* Remove left positioning */
+  right: 0;                 /* Position checkmark on RIGHT side */
+}
+
+/* Mobile RTL - feature items */
+@media (max-width: 767.98px) {
+  [dir="rtl"] .feature-item,
+  body.rtl .feature-item {
+    padding-right: 22px;    /* Mobile spacing for checkmark */
+    padding-left: 0;
+  }
+}
