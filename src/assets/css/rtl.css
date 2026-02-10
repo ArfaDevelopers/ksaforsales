@@ -1519,7 +1519,6 @@ body.rtl .desktop-search-card .card-body {
 body.rtl .desktop-search-card .card-title,
 body.rtl .desktop-search-card .title_head {
   display: flex !important;
-  flex-direction: row-reverse !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
   gap: 20px !important;
@@ -1671,7 +1670,7 @@ body.rtl .card .card-body p.car_desc {
 body.rtl .desktop-search-card .user_profile_block {
   order: 4 !important;
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row-reverse !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
   width: auto !important;
