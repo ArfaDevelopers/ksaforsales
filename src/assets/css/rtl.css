@@ -38,19 +38,52 @@ body.rtl .text-end {
 [dir="rtl"] .dash-cards,
 body.rtl .dash-cards {
   direction: rtl !important;
-  text-align: right !important;
+  /* Removed text-align right to allow center alignment for intro cards */
 }
 
+/* Dashboard intro cards (Active Listing, Messages) should be centered in RTL */
 [dir="rtl"] .dash-cards .card-body,
 body.rtl .dash-cards .card-body {
   direction: rtl !important;
-  text-align: right !important;
+  /* Allow inline styles to control text-align (center for intro cards) */
 }
 
 [dir="rtl"] .dash-cards .card-header,
 body.rtl .dash-cards .card-header {
   direction: rtl !important;
   text-align: right !important;
+}
+
+/* Dashboard intro cards should be centered in RTL (icons, text, numbers) */
+[dir="rtl"] .dash-cards .dash-top-content,
+[dir="rtl"] .dash-cards .dash-widget-info,
+body.rtl .dash-cards .dash-top-content,
+body.rtl .dash-cards .dash-widget-info {
+  text-align: center !important;
+}
+
+[dir="rtl"] .dash-cards .dash-widget-info h6,
+[dir="rtl"] .dash-cards .dash-widget-info div,
+[dir="rtl"] .dash-cards .dashcard-img,
+body.rtl .dash-cards .dash-widget-info h6,
+body.rtl .dash-cards .dash-widget-info div,
+body.rtl .dash-cards .dashcard-img {
+  text-align: center !important;
+}
+
+/* Listing page selection boxes should be centered in RTL */
+[dir="rtl"] .listing-selection-box,
+body.rtl .listing-selection-box {
+  text-align: center !important;
+}
+
+[dir="rtl"] .listing-selection-box h3,
+[dir="rtl"] .listing-selection-box p,
+[dir="rtl"] .listing-selection-box span,
+body.rtl .listing-selection-box h3,
+body.rtl .listing-selection-box p,
+body.rtl .listing-selection-box span {
+  text-align: center !important;
 }
 
 /* Results section should stay LTR to maintain card stacking */
@@ -984,7 +1017,7 @@ body.rtl .dash-cards .card-header {
 
 [dir="rtl"] .dash-cards .card-body,
 body.rtl .dash-cards .card-body {
-  text-align: right;
+  /* Removed text-align right to allow inline center alignment for intro cards */
   direction: rtl;
 }
 
@@ -1486,7 +1519,6 @@ body.rtl .desktop-search-card .card-body {
 body.rtl .desktop-search-card .card-title,
 body.rtl .desktop-search-card .title_head {
   display: flex !important;
-  flex-direction: row-reverse !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
   gap: 20px !important;
@@ -1638,7 +1670,7 @@ body.rtl .card .card-body p.car_desc {
 body.rtl .desktop-search-card .user_profile_block {
   order: 4 !important;
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row-reverse !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
   width: auto !important;
