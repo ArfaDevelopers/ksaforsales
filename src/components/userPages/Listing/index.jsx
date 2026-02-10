@@ -75,6 +75,7 @@ const Listing = () => {
               }}
             >
               <div
+                className="listing-selection-box"
                 style={{
                   flex: 1,
                   minWidth: "250px",
@@ -142,6 +143,7 @@ const Listing = () => {
                 </p>
               </div>
               <div
+                className="listing-selection-box"
                 style={{
                   flex: 1,
                   minWidth: "250px",
