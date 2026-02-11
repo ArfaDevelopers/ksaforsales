@@ -111,6 +111,7 @@ const BookmarkCard = React.memo(
                     style={{
                       color: car.bookmarked ? "red" : "white",
                       fontSize: "30px",
+                      
                     }}
                   />
                 </Link>
