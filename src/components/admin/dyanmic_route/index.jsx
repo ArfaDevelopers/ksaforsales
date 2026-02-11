@@ -48,6 +48,7 @@ import {
   getDoc,
   doc,
   updateDoc,
+  increment,
   onSnapshot,
   arrayUnion,
   arrayRemove,
@@ -1265,6 +1266,70 @@ console.log(
       fetchItem();
     }
   }, [_Id, callingFrom, i18n.language]);
+
+  // Increment visit count with 24-hour check per user (using localStorage)
+  useEffect(() => {
+    const incrementAdVisit = async () => {
+      const userId = auth.currentUser?.uid;
+      if (!userId || !_Id || !callingFrom) return;
+
+      // 24-hour check using localStorage (avoids Firestore subcollection permission issues)
+      const visitKey = `visit_${_Id}_${userId}`;
+      const lastVisitTime = localStorage.getItem(visitKey);
+      const now = Date.now();
+
+      if (lastVisitTime && (now - parseInt(lastVisitTime)) < 24 * 60 * 60 * 1000) {
+        console.log("⏱️ Already visited within 24 hours (localStorage check)");
+        return;
+      }
+
+      // Map callingFrom to actual Firestore collection name
+      const visitCollectionMapping = {
+        "AutomotiveComp": "Cars",
+        "ElectronicComp": "ELECTRONICS",
+        "REALESTATECOMP": "REALESTATECOMP",
+        "RealEstateComp": "REALESTATECOMP",
+        "ELECTRONICS": "ELECTRONICS",
+        "JOBBOARD": "JOBBOARD",
+        "JobBoard": "JOBBOARD",
+        "JobBoardComp": "JOBBOARD",
+        "HealthCare": "HEALTHCARE",
+        "HealthCareComp": "HEALTHCARE",
+        "Travel": "TRAVEL",
+        "TravelComp": "TRAVEL",
+        "SportGamesComp": "SPORTSGAMESComp",
+        "PetAnimalsComp": "PETANIMALCOMP",
+        "Fashion": "FASHION",
+        "FashionComp": "FASHION",
+        "FashionStyle": "FASHION",
+        "Education": "Education",
+        "EducationComp": "Education",
+        "Commercial": "CommercialAdscom",
+      };
+
+      const actualCollection = visitCollectionMapping[callingFrom] || callingFrom;
+      console.log("👁️ Visit tracking - Collection:", callingFrom, "→", actualCollection, "ID:", _Id);
+
+      try {
+        const adDocRef = doc(db, actualCollection, _Id);
+
+        // Use atomic increment - no need to read the document first
+        await updateDoc(adDocRef, {
+          visitCount: increment(1),
+        });
+
+        // Save visit time to localStorage for 24-hour throttle
+        localStorage.setItem(visitKey, now.toString());
+        // Set flag so bookmark/listing pages know to refresh
+        sessionStorage.setItem("last_view_count_change", now.toString());
+        console.log("✅ visitCount incremented in", actualCollection, "for doc:", _Id);
+      } catch (err) {
+        console.error("❌ Error incrementing visit count:", err);
+      }
+    };
+
+    incrementAdVisit();
+  }, [_Id, callingFrom]);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">

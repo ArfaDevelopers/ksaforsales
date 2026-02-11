@@ -132,7 +132,7 @@ const BookmarkCard = React.memo(
                       <Link to={route}>
                         <img src={eye} alt="views" style={{ width: "25px" }} />
                       </Link>
-                      4000
+                      {car.visitCount || 0}
                     </span>
                   </div>
                 </div>
