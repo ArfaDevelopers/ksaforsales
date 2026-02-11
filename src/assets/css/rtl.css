@@ -1849,3 +1849,154 @@ body.rtl .feature-item::before {
     padding-left: 0;
   }
 }
+
+/* ========================================
+   Messages / WhatsApp Chat RTL Support
+   ======================================== */
+
+/* Main container: Chat list on RIGHT, conversation on LEFT */
+[dir="rtl"] .whatsapp-chat-container,
+body.rtl .whatsapp-chat-container {
+  direction: rtl !important;
+}
+
+/* Chat list panel: move border from right to left */
+[dir="rtl"] .chat-list-panel,
+body.rtl .chat-list-panel {
+  border-right: none !important;
+  border-left: 1px solid #e0e0e0 !important;
+}
+
+/* Search bar: keep LTR flex layout, just RTL text */
+[dir="rtl"] .chat-search-bar,
+body.rtl .chat-search-bar {
+  direction: ltr !important;
+}
+
+[dir="rtl"] .chat-search-bar .search-icon,
+body.rtl .chat-search-bar .search-icon {
+  margin-right: 10px !important;
+  margin-left: 0 !important;
+  order: 2 !important;
+}
+
+[dir="rtl"] .chat-search-bar input,
+body.rtl .chat-search-bar input {
+  text-align: right !important;
+  direction: rtl !important;
+  order: 1 !important;
+}
+
+[dir="rtl"] .chat-search-bar .clear-search-btn,
+body.rtl .chat-search-bar .clear-search-btn {
+  order: 0 !important;
+}
+/* Chat list items: avatar on RIGHT, info on LEFT */
+[dir="rtl"] .chat-list-item,
+body.rtl .chat-list-item {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .chat-info,
+body.rtl .chat-info {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .chat-name,
+body.rtl .chat-name {
+  text-align: right !important;
+}
+
+[dir="rtl"] .chat-time,
+body.rtl .chat-time {
+  margin-left: 0 !important;
+  margin-right: 8px !important;
+}
+
+[dir="rtl"] .chat-preview,
+body.rtl .chat-preview {
+  text-align: right !important;
+}
+
+[dir="rtl"] .unread-badge,
+body.rtl .unread-badge {
+  margin-left: 0 !important;
+  margin-right: 8px !important;
+}
+
+/* Conversation header: avatar + name, back button flipped */
+[dir="rtl"] .conversation-header,
+body.rtl .conversation-header {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .back-button,
+body.rtl .back-button {
+  padding: 8px 0 8px 12px !important;
+}
+
+[dir="rtl"] .header-info h3,
+body.rtl .header-info h3 {
+  text-align: right !important;
+}
+
+/* Message bubbles: Do NOT reverse - sent stays RIGHT, received stays LEFT */
+/* (Same as LTR: "my messages" on right, "their messages" on left) */
+[dir="rtl"] .messages-area,
+body.rtl .messages-area {
+  direction: ltr !important;
+}
+
+[dir="rtl"] .message-text,
+body.rtl .message-text {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .message-meta,
+body.rtl .message-meta {
+  direction: ltr !important;
+}
+
+/* Message input area: send button on LEFT (mirrored), input text right-aligned */
+[dir="rtl"] .message-input-area form,
+body.rtl .message-input-area form {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .message-input-area .send-btn,
+body.rtl .message-input-area .send-btn {
+  transform: scaleX(-1) !important;
+}
+
+[dir="rtl"] .message-input-area input,
+body.rtl .message-input-area input {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Product card in chat */
+[dir="rtl"] .product-card,
+body.rtl .product-card {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Online indicator: flip to left side in RTL */
+[dir="rtl"] .chat-avatar .online-indicator,
+body.rtl .chat-avatar .online-indicator {
+  right: auto !important;
+  left: 2px !important;
+}
+
+/* No chat selected message */
+[dir="rtl"] .no-chat-selected,
+body.rtl .no-chat-selected {
+  direction: rtl !important;
+}
+
+/* Chat list header */
+[dir="rtl"] .chat-list-header h2,
+body.rtl .chat-list-header h2 {
+  direction: rtl !important;
+}

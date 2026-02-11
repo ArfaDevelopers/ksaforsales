@@ -194,6 +194,42 @@ const ManageCommercialAds = () => {
     return items;
   };
 
+  // Helper function to translate category titles (handles both new keys and old English values)
+  const translateCategoryTitle = (title) => {
+    if (!title) return "N/A";
+
+    const validKeys = ['motors', 'electronics', 'fashionStyle', 'homeFurniture', 'jobBoard',
+                       'realEstate', 'services', 'sportGame', 'petAnimals', 'other', 'commercial'];
+
+    // If it's already a valid key, translate it
+    if (validKeys.includes(title)) {
+      return t(`categories.${title}`);
+    }
+
+    // Map old English values to keys for backward compatibility
+    const categoryReverseMap = {
+      "Fashion Style": "fashionStyle",
+      "Home & Furniture": "homeFurniture",
+      "Job Board": "jobBoard",
+      "Real Estate": "realEstate",
+      "Sport & Game": "sportGame",
+      "Pet & Animals": "petAnimals",
+      "Motors": "motors",
+      "Electronics": "electronics",
+      "Services": "services",
+      "Other": "other",
+      "Commercial": "commercial"
+    };
+
+    const key = categoryReverseMap[title];
+    if (key) {
+      return t(`categories.${key}`);
+    }
+
+    // If no match, return as-is
+    return title;
+  };
+
   // Define columns for the table
   const columns = [
     {
@@ -222,7 +258,7 @@ const ManageCommercialAds = () => {
       render: (text, record) => (
         <>
           <h6 style={{ margin: "0 0 10px 0", fontWeight: "600" }}>
-            {text || "N/A"}
+            {translateCategoryTitle(text)}
           </h6>
           <div className="listingtable-rate" style={{ marginBottom: "10px" }}>
             <span style={{ color: "#666", fontSize: "14px" }}>
@@ -258,7 +294,7 @@ const ManageCommercialAds = () => {
           style={{
             display: "flex",
             gap: "10px",
-            justifyContent: "flex-start",
+            justifyContent: "center",
           }}
         >
           <button
@@ -481,16 +517,139 @@ const ManageCommercialAds = () => {
                   </div>
                 ) : (
                   <>
-                    <div className="table-responsive">
-                      <Table
-                        className="listing-table datatable"
-                        columns={columns}
-                        dataSource={paginatedAds}
-                        rowKey={(record) => record.id}
-                        pagination={false}
-                        loading={loading}
-                      />
-                    </div>
+                    {isMobile ? (
+                      // Mobile Card View
+                      <div style={{ padding: "10px" }}>
+                        {paginatedAds.map((ad) => (
+                          <div
+                            key={ad.id}
+                            style={{
+                              backgroundColor: "#fff",
+                              border: "1px solid #e0e0e0",
+                              borderRadius: "8px",
+                              padding: "15px",
+                              marginBottom: "15px",
+                              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                            }}
+                          >
+                            <img
+                              src={ad.image || "https://via.placeholder.com/150x100"}
+                              alt="Ad"
+                              style={{
+                                width: "100%",
+                                height: "180px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                                marginBottom: "15px",
+                              }}
+                            />
+                            <h6
+                              style={{
+                                margin: "0 0 10px 0",
+                                fontWeight: "600",
+                                fontSize: "16px",
+                              }}
+                            >
+                              {translateCategoryTitle(ad.Title)}
+                            </h6>
+                            <div style={{ marginBottom: "8px" }}>
+                              <span style={{ color: "#666", fontSize: "14px" }}>
+                                <strong>{t("commercialAds.phone")}:</strong>{" "}
+                                {ad.phone || "N/A"}
+                              </span>
+                            </div>
+                            <div style={{ marginBottom: "8px" }}>
+                              <span style={{ color: "#666", fontSize: "14px" }}>
+                                <strong>{t("commercialAds.whatsapp")}:</strong>{" "}
+                                {ad.whatsapp || "N/A"}
+                              </span>
+                            </div>
+                            <div style={{ marginBottom: "15px" }}>
+                              <span style={{ color: "#666", fontSize: "14px" }}>
+                                <strong>{t("commercialAds.date")}:</strong>{" "}
+                                {ad.timeAgo
+                                  ? new Date(
+                                      ad.timeAgo.seconds
+                                        ? ad.timeAgo.seconds * 1000
+                                        : ad.timeAgo
+                                    ).toLocaleDateString()
+                                  : "N/A"}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "10px",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleView(ad.id);
+                                }}
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  width: "45%",
+                                  padding: "10px",
+                                  borderRadius: "4px",
+                                  backgroundColor: "#2d4495",
+                                  color: "white",
+                                  textDecoration: "none",
+                                  cursor: "pointer",
+                                  transition: "all 0.3s ease",
+                                  border: "none",
+                                  fontSize: "14px",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                <FaRegEye style={{ marginRight: "5px" }} />
+                                {t("common.view")}
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDelete(ad.id);
+                                }}
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  width: "45%",
+                                  padding: "10px",
+                                  borderRadius: "4px",
+                                  backgroundColor: "#dc3545",
+                                  color: "white",
+                                  textDecoration: "none",
+                                  cursor: "pointer",
+                                  transition: "all 0.3s ease",
+                                  border: "none",
+                                  fontSize: "14px",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                <FaTrash style={{ marginRight: "5px" }} />
+                                {t("common.delete")}
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      // Desktop Table View
+                      <div className="table-responsive">
+                        <Table
+                          className="listing-table datatable"
+                          columns={columns}
+                          dataSource={paginatedAds}
+                          rowKey={(record) => record.id}
+                          pagination={false}
+                          loading={loading}
+                        />
+                      </div>
+                    )}
                     <div className="blog-pagination">
                       <nav>
                         <ul className="pagination">

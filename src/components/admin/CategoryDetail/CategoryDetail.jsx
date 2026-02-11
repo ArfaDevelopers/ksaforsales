@@ -624,7 +624,7 @@ const CategoryDetail = () => {
               <span>
                 <MdKeyboardArrowRight />
               </span>
-              {categories?.Category && (
+              {(categories?.Category || categories?.Title) && (
                 <>
                   <button
                     className="btn"
@@ -634,7 +634,10 @@ const CategoryDetail = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateCategory(categories.Category)}
+                    {categories?.Category
+                      ? translateCategory(categories.Category)
+                      : translateCategory(categories.Title)
+                    }
                   </button>
                   <span>
                     <MdKeyboardArrowRight />
