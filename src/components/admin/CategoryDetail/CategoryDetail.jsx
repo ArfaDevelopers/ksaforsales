@@ -325,6 +325,9 @@ const CategoryDetail = () => {
             visitCount: currentVisitCount + 1,
           });
 
+          // Set flag to invalidate CommercialAdscom cache
+          sessionStorage.setItem("last_view_count_change", Date.now().toString());
+
           console.log(
             "✅ visitCount incremented for this user after 24 hours:",
             currentVisitCount + 1
@@ -342,8 +345,8 @@ const CategoryDetail = () => {
       }
     };
 
-    return () => incrementAdVisit();
-  }, []);
+    incrementAdVisit(); // Call immediately on component mount
+  }, [id]);
 
   if (!categories) {
     return (
@@ -624,7 +627,7 @@ const CategoryDetail = () => {
               <span>
                 <MdKeyboardArrowRight />
               </span>
-              {categories?.Category && (
+              {(categories?.Category || categories?.Title) && (
                 <>
                   <button
                     className="btn"
@@ -634,7 +637,10 @@ const CategoryDetail = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateCategory(categories.Category)}
+                    {categories?.Category
+                      ? translateCategory(categories.Category)
+                      : translateCategory(categories.Title)
+                    }
                   </button>
                   <span>
                     <MdKeyboardArrowRight />

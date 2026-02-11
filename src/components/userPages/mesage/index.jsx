@@ -314,7 +314,7 @@ export default function Message() {
               <FaSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search or start new chat"
+                placeholder={t("messages.searchOrStartChat")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -336,13 +336,13 @@ export default function Message() {
               className={`filter-tab ${activeTab === "all" ? "active" : ""}`}
               onClick={() => setActiveTab("all")}
             >
-              All
+              {t("messages.all")}
             </button>
             <button
               className={`filter-tab ${activeTab === "unread" ? "active" : ""}`}
               onClick={() => setActiveTab("unread")}
             >
-              Unread
+              {t("messages.unread")}
             </button>
           </div>
 
@@ -514,7 +514,7 @@ export default function Message() {
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type a message"
+                    placeholder={t("messages.typeMessage")}
                     disabled={!selected}
                   />
                   <button type="submit" className="send-btn" disabled={!input.trim() || !selected}>

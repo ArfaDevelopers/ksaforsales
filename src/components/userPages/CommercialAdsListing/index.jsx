@@ -41,6 +41,7 @@ const CommercialAdsListing = () => {
   // State for image preview
   const [imagePreview, setImagePreview] = useState(null);
   const [imagePreviewMessage, setimagePreviewMessage] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [showPayment, setshowPayment] = useState(true); // Store a single URL, initially null
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [uid, setUid] = useState(null);
@@ -182,8 +183,9 @@ const CommercialAdsListing = () => {
       return;
     }
 
-    // Set image preview
+    // Set image preview and start uploading
     setImagePreview(URL.createObjectURL(file));
+    setUploadingImage(true);
 
     // Upload to Cloudinary
     const formDataUpload = new FormData();
@@ -210,11 +212,16 @@ const CommercialAdsListing = () => {
           bannerImage: file,
           cloudinaryUrl: data.secure_url,
         }));
+        setUploadingImage(false);
       } else {
         throw new Error("Image upload failed");
       }
     } catch (error) {
       console.error("Cloudinary Upload Error:", error);
+      // Clear the preview if upload fails
+      setImagePreview(null);
+      setUrl("");
+      setUploadingImage(false);
       MySwal.fire({
         icon: "error",
         title: t("commercialAdsForm.uploadFailed"),
@@ -225,11 +232,18 @@ const CommercialAdsListing = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    if (!imagePreview && imagePreview === null) {
+    e.preventDefault();
+
+    // Validate that image preview exists and Cloudinary URL was set
+    if (!imagePreview || !Url) {
       setimagePreviewMessage(t("commercialAdsForm.uploadImageError"));
+      MySwal.fire({
+        icon: "error",
+        title: t("commercialAdsForm.uploadFailed"),
+        text: t("commercialAdsForm.uploadImageError"),
+      });
       return;
     }
-    e.preventDefault();
     try {
       // Save the form data to the CommercialAdscom collection
       const listingData = {
@@ -266,19 +280,19 @@ const CommercialAdsListing = () => {
     }
   };
 
-  // Categories for dropdown
+  // Categories for dropdown (using translation keys)
   const categories = [
-    "Motor",
-    "Electronics",
-    "Fashion Style",
-    "Home & Furniture",
-    "Job Board",
-    "Real Estate",
-    "Services",
-    "Sport & Game",
-    "Pet & Animals",
-    "Other",
-    "Commercial",
+    "motors",
+    "electronics",
+    "fashionStyle",
+    "homeFurniture",
+    "jobBoard",
+    "realEstate",
+    "services",
+    "sportGame",
+    "petAnimals",
+    "other",
+    "commercial",
   ];
 
   return (
@@ -427,7 +441,7 @@ const CommercialAdsListing = () => {
                           </option>
                           {categories.map((category) => (
                             <option key={category} value={category}>
-                              {t(`categories.${category.toLowerCase().replace(/\s+&\s+/g, '').replace(/\s+/g, '')}`)}
+                              {t(`categories.${category}`)}
                             </option>
                           ))}
                         </select>
@@ -582,11 +596,17 @@ const CommercialAdsListing = () => {
                               maxHeight: "200px",
                               objectFit: "contain",
                               borderRadius: "5px",
+                              opacity: uploadingImage ? 0.5 : 1,
                             }}
                           />
                           <p style={{ fontSize: "14px", color: "#555" }}>
                             {formData.bannerImage?.name}
                           </p>
+                          {uploadingImage && (
+                            <p style={{ fontSize: "14px", color: "#2d4495", marginTop: "10px" }}>
+                              {t("common.loading")}...
+                            </p>
+                          )}
                         </div>
                       ) : (
                         <>
@@ -656,14 +676,13 @@ const CommercialAdsListing = () => {
                       !formData.name ||
                       !formData.phone ||
                       !formData.whatsapp ||
-                      !imagePreview
-                      // ||
-                      // !Url ||
-                      // !paymentSuccess
+                      !imagePreview ||
+                      !Url ||
+                      uploadingImage
                     }
                     type="submit"
                   >
-                    {t("commercialAdsForm.addListing")}
+                    {uploadingImage ? t("common.loading") : t("commercialAdsForm.addListing")}
                   </button>
                 </form>
               </div>

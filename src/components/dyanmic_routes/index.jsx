@@ -43,6 +43,7 @@ import {
   updateDoc,
   onSnapshot,
   or,
+  setDoc,
 } from "firebase/firestore";
 import { auth, db } from "../Firebase/FirebaseConfig";
 import { formatDistanceToNow } from "date-fns";
@@ -1181,6 +1182,9 @@ const Dynamic_Routes = () => {
 
     if (_Id && callingFrom) fetchItem();
   }, [_Id, callingFrom, refresh, db]);
+
+  // Note: Visit count tracking is handled in admin/dyanmic_route/index.jsx
+  // which is the component that renders for /Dynamic_Route path
 
   if (loading) {
     return (

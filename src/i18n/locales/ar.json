@@ -226,7 +226,11 @@
     "linkedProductInfo": "معلومات المنتج المرتبط",
     "title": "العنوان:",
     "category": "الفئة:",
-    "price": "السعر:"
+    "price": "السعر:",
+    "searchOrStartChat": "ابحث أو ابدأ محادثة جديدة",
+    "typeMessage": "اكتب رسالة",
+    "all": "الكل",
+    "unread": "غير مقروءة"
   },
   "commercialAdsForm": {
     "pageTitle": "املأ التفاصيل أدناه لإنشاء إعلانك التجاري",

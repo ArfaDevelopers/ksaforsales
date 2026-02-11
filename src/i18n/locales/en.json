@@ -226,7 +226,11 @@
     "linkedProductInfo": "Linked Product Info",
     "title": "Title:",
     "category": "Category:",
-    "price": "Price:"
+    "price": "Price:",
+    "searchOrStartChat": "Search or start new chat",
+    "typeMessage": "Type a message",
+    "all": "All",
+    "unread": "Unread"
   },
   "commercialAdsForm": {
     "pageTitle": "Fill in the details below to create your commercial ad listing",
