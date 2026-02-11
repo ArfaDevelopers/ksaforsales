@@ -543,11 +543,13 @@ const CommercialAdscom = () => {
         const cachedData = sessionStorage.getItem(cacheKey);
         const cachedTime = sessionStorage.getItem(cacheTimestamp);
 
-        // Check if there's a pending bookmark change - if so, skip cache
+        // Check if there's a pending bookmark change or view count change - if so, skip cache
         const hasPendingBookmarkChange =
           sessionStorage.getItem("last_bookmark_change") !== null;
+        const hasPendingViewCountChange =
+          sessionStorage.getItem("last_view_count_change") !== null;
 
-        if (cachedData && cachedTime && !hasPendingBookmarkChange) {
+        if (cachedData && cachedTime && !hasPendingBookmarkChange && !hasPendingViewCountChange) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             // Add 400ms delay for smooth transition
@@ -561,11 +563,20 @@ const CommercialAdscom = () => {
           }
         } else if (hasPendingBookmarkChange) {
           console.log("⚡ Pending bookmark change detected, skipping cache");
+        } else if (hasPendingViewCountChange) {
+          console.log("⚡ Pending view count change detected, skipping cache");
         }
 
-        // Fetch fresh data
+        // Fetch fresh data with cache-busting parameter if needed
+        const cacheBuster = (hasPendingViewCountChange || hasPendingBookmarkChange)
+          ? `?_t=${Date.now()}`
+          : '';
+        const axiosConfig = (hasPendingViewCountChange || hasPendingBookmarkChange)
+          ? { headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } }
+          : {};
         const response = await axios.get(
-          "http://168.231.80.24:9002/route/commercial-ads",
+          `http://168.231.80.24:9002/route/commercial-ads${cacheBuster}`,
+          axiosConfig
         );
 
         setCategories(response.data);
@@ -584,22 +595,25 @@ const CommercialAdscom = () => {
 
         setUniqueCategories(uniqueSorted);
 
-        // Only cache if there's no pending bookmark change
-        // This ensures we don't cache potentially stale data
-        if (!hasPendingBookmarkChange) {
-          sessionStorage.setItem(
-            cacheKey,
-            JSON.stringify({
-              categories: response.data,
-              uniqueCategories: uniqueSorted,
-            }),
-          );
-          sessionStorage.setItem(cacheTimestamp, Date.now().toString());
-        } else {
-          console.log(
-            "⚠️ Skipping cache storage due to pending bookmark change",
-          );
+        // Clear the flags after fetching fresh data, BEFORE caching decision
+        if (hasPendingViewCountChange) {
+          sessionStorage.removeItem("last_view_count_change");
+          console.log("🔄 Cleared view count change flag");
         }
+        if (hasPendingBookmarkChange) {
+          sessionStorage.removeItem("last_bookmark_change");
+          console.log("🔄 Cleared bookmark change flag");
+        }
+
+        // Always cache the fresh data we just fetched
+        sessionStorage.setItem(
+          cacheKey,
+          JSON.stringify({
+            categories: response.data,
+            uniqueCategories: uniqueSorted,
+          }),
+        );
+        sessionStorage.setItem(cacheTimestamp, Date.now().toString());
 
         setLoading(false);
       } catch (error) {
@@ -1225,7 +1239,7 @@ const CommercialAdscom = () => {
                             <span
                               style={{ fontWeight: "bold", fontSize: "15px" }}
                             >
-                              {item?.visitCount}
+                              {item?.visitCount || 0}
                               <span style={{ marginLeft: "3px" }}>
                                 {t("common.views")}
                               </span>

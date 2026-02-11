@@ -325,6 +325,9 @@ const CategoryDetail = () => {
             visitCount: currentVisitCount + 1,
           });
 
+          // Set flag to invalidate CommercialAdscom cache
+          sessionStorage.setItem("last_view_count_change", Date.now().toString());
+
           console.log(
             "✅ visitCount incremented for this user after 24 hours:",
             currentVisitCount + 1
@@ -342,8 +345,8 @@ const CategoryDetail = () => {
       }
     };
 
-    return () => incrementAdVisit();
-  }, []);
+    incrementAdVisit(); // Call immediately on component mount
+  }, [id]);
 
   if (!categories) {
     return (
