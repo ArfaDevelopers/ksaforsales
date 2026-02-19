@@ -361,7 +361,7 @@ const SignUp = () => {
               <div className="login-wrap register-form">
                 <div className="login-header">
                   <h3>{t("signup.title")}</h3>
-                  <p style={{ fontWeight: "bold" }}>
+                  <p style={{}}>
                     {t("signup.welcomeMessage")}
                   </p>
                 </div>
