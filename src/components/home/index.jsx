@@ -214,8 +214,8 @@ const Home = () => {
   // Optimized combined data fetching with caching
   useEffect(() => {
     const fetchAllHomeData = async () => {
-      const cacheKey = "home_page_data";
-      const cacheTimestamp = "home_page_timestamp";
+      const cacheKey = "home_page_data_v2";
+      const cacheTimestamp = "home_page_timestamp_v2";
       const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
       try {
@@ -255,7 +255,6 @@ const Home = () => {
             setOurCategoryEducationTitle(parsedData.education.title);
             setOurCategoryHouseHold(parsedData.houseHold.image);
             setOurCategoryHouseHoldTitle(parsedData.houseHold.title);
-            setImageUrls(parsedData.sliderImages);
             setTrendingProducts(parsedData.trendingProducts);
 
             setLoading(false);
@@ -276,7 +275,6 @@ const Home = () => {
           petAnimalsRes,
           educationRes,
           houseHoldRes,
-          sliderRes,
           trendingRes
         ] = await Promise.all([
           fetch("http://168.231.80.24:9002/api/our-category-automative1").then(r => r.json()),
@@ -290,7 +288,6 @@ const Home = () => {
           fetch("http://168.231.80.24:9002/api/our-category-OurCategoryPetAnimalsAutomative").then(r => r.json()),
           fetch("http://168.231.80.24:9002/api/our-category-OurCategoryEducation").then(r => r.json()),
           fetch("http://168.231.80.24:9002/api/our-category-OurCategoryHouseHoldAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/slider-images").then(r => r.json()),
           fetch("http://168.231.80.24:9002/route/trendingProducts").then(r => r.json())
         ]);
 
@@ -307,7 +304,6 @@ const Home = () => {
           petAnimals: petAnimalsRes.items?.[0] || { image: "", title: "" },
           education: educationRes.items?.[0] || { image: "", title: "" },
           houseHold: houseHoldRes.items?.[0] || { image: "", title: "" },
-          sliderImages: sliderRes.images || [],
           trendingProducts: trendingRes || []
         };
 
@@ -334,7 +330,6 @@ const Home = () => {
         setOurCategoryEducationTitle(processedData.education.title);
         setOurCategoryHouseHold(processedData.houseHold.image);
         setOurCategoryHouseHoldTitle(processedData.houseHold.title);
-        setImageUrls(processedData.sliderImages);
         setTrendingProducts(processedData.trendingProducts);
 
         // Cache the results
@@ -350,6 +345,24 @@ const Home = () => {
 
     fetchAllHomeData();
   }, []);
+
+  // Fetch slider images from Firebase independently (separate from API calls)
+  useEffect(() => {
+    const fetchSliderImages = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "SliderImage"));
+        const urls = querySnapshot.docs.flatMap(doc => doc.data().imageUrls || []);
+        console.log("Slider images from Firebase:", urls);
+        if (urls.length > 0) {
+          setImageUrls(urls);
+        }
+      } catch (error) {
+        console.error("Error fetching slider images from Firebase:", error);
+      }
+    };
+    fetchSliderImages();
+  }, []);
+
   // useEffect(() => {
   //   const fetchAds = async () => {
   //     try {

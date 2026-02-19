@@ -19006,6 +19006,7 @@ section.advertisement {
   }
   .container {
     max-width: 100%;
+    margin-top: 2%;
   }
   .footer-widget {
     margin-bottom: 30px;

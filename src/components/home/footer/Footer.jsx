@@ -90,7 +90,7 @@ const Footer = () => {
                         fontFamily: "Inter",
                       }}
                     >
-                      Info@ksa4sale.com
+                      Info@mazhool.com
                     </a>
                   </div>
                 </div>
@@ -407,7 +407,7 @@ const Footer = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="https://blogs.ksa4sale.net/">{t("footer.blog")}</Link>
+                        <Link to="https://blog.mazhool.net/">{t("footer.blog")}</Link>
                       </li>
                     </ul>
                   </div>
@@ -430,7 +430,7 @@ const Footer = () => {
                   textAlign: "center",
                 }}
               >
-                {t("footer.copyright")} © <span>2025</span> - Ksa4sale
+                {t("footer.copyright")} © <span>2025</span> - Mazhool
               </div>
 
               {/* Social Media Icons */}
