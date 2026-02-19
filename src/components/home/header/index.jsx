@@ -2515,21 +2515,22 @@ const Header = ({ parms }) => {
                         </div>
                         <div className="sidebar-item-wrapper">
                           <div className="sidebar-item d-flex align-items-center">
-                            <NavLink
-                              to="/blog-list"
+                            <a
+                              href="https://blog.mazhool.net/"
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="d-flex align-items-center w-100 text-decoration-none"
-                              activeClassName="active"
                             >
                               <span className="sidebar-icon me-2">
                                 <FaStickyNote />
                               </span>
                               <span className="fw-semibold">{t("footer.blog")}</span>
-                            </NavLink>
+                            </a>
                           </div>
                         </div>
                       </nav>
                       <div className="sidebar-footer text-center py-3 mt-3 border-top">
-                        KSA4Sale
+                        Mazhool
                       </div>
                     </Offcanvas.Body>
                   </Offcanvas>

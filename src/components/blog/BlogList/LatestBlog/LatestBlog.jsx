@@ -13,7 +13,7 @@ const LatestBlog = () => {
 
         // Fetch posts with language parameter
         const res = await fetch(
-          `https://blogs.ksa4sale.net/wp-json/wp/v2/posts?_embed&lang=${langParam}`
+          `https://blog.mazhool.net/wp-json/wp/v2/posts?_embed&lang=${langParam}`
         );
         const posts = await res.json();
 
@@ -102,7 +102,7 @@ const LatestBlog = () => {
           </h2>
           <button
             className="blue_btn"
-            onClick={() => window.open("https://ksa4sale.net/blogs", "_blank")}
+            onClick={() => window.open("https://blog.mazhool.net/", "_blank")}
           >
             {t("home.exploreBlogs")}
           </button>
