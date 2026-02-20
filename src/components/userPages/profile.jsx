@@ -766,7 +766,7 @@ const Profile = () => {
                           className="blue_btn"
                           type="submit"
                           style={{
-                            backgroundColor: "#2d4495",
+                            backgroundColor: "#1E55B4",
                             color: "white",
                           }}
                         >

@@ -36,7 +36,7 @@ const HeaderLower = () => {
             style={{
               position: "relative",
               textDecoration: "none",
-              color: "black",
+              color: "#1E55B4",
               padding: "7px 7px",
               fontSize: "18px",
               display: "inline-block",
@@ -50,7 +50,7 @@ const HeaderLower = () => {
                 left: 0,
                 height: "2px",
                 width: "0%",
-                backgroundColor: "#007bff",
+                backgroundColor: "#1E55B4",
                 transition: "width 0.3s ease",
               }}
               className="hover-underline"

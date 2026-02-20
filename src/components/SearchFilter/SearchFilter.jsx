@@ -55,7 +55,7 @@ const SearchFilter = ({
         style={{
           borderTopLeftRadius: "5px",
           borderTopRightRadius: "5px",
-          backgroundColor: "#2D4495",
+          backgroundColor: "#1E55B4",
           color: "white",
           width: "auto",
           height: "49.66px",

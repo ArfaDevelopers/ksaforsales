@@ -634,8 +634,8 @@ const CommercialAdscom = () => {
   const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
   console.log(currentItems, "currentItems__________");
   const [callButtonStyles, setCallButtonStyles] = useState({
-    backgroundColor: "#2d4495",
-    borderColor: "#2d4495",
+    backgroundColor: "#1E55B4",
+    borderColor: "#1E55B4",
     color: "black",
   });
   const [showModal, setShowModal] = useState(false);
@@ -812,7 +812,7 @@ const CommercialAdscom = () => {
   // State to manage hover styles for WhatsApp button
   const [whatsappButtonStyles, setWhatsappButtonStyles] = useState({
     backgroundColor: "#0c9e6f",
-    borderColor: "#2d4495",
+    borderColor: "#1E55B4",
     color: "black",
   });
 
@@ -820,15 +820,15 @@ const CommercialAdscom = () => {
   const handleCallMouseEnter = () => {
     setCallButtonStyles({
       backgroundColor: "white",
-      borderColor: "#2d4495",
+      borderColor: "#1E55B4",
       color: "#2d4495",
     });
   };
 
   const handleCallMouseLeave = () => {
     setCallButtonStyles({
-      backgroundColor: "#2d4495",
-      borderColor: "#2d4495",
+      backgroundColor: "#1E55B4",
+      borderColor: "#1E55B4",
       color: "black",
     });
   };
@@ -1091,7 +1091,7 @@ const CommercialAdscom = () => {
                     width: "60px",
                     height: "60px",
                     borderRadius: "50%",
-                    background: "#2d4495",
+                    background: "#1E55B4",
                     color: "white",
                   }}
                 >
@@ -1146,7 +1146,7 @@ const CommercialAdscom = () => {
                   variant="primary"
                   onClick={handleCloseModal}
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     border: "none",
                     borderRadius: "6px",
                     padding: "10px 0",

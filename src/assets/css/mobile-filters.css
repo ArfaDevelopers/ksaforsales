@@ -81,9 +81,9 @@
 }
 
 .filter-chip.active {
-  background: #2d4495;
+  background: #1E55B4;
   color: white;
-  border-color: #2d4495;
+  border-color: #1E55B4;
 }
 
 .filter-chip-icon {
@@ -115,9 +115,9 @@
 }
 
 .filters-icon-chip {
-  background: #2d4495;
+  background: #1E55B4;
   color: white;
-  border-color: #2d4495;
+  border-color: #1E55B4;
   font-weight: 600;
 }
 
@@ -356,7 +356,7 @@
 }
 
 .mobile-filter-search input:focus {
-  border-color: #2d4495;
+  border-color: #1E55B4;
 }
 
 .mobile-filter-search-icon {
@@ -442,7 +442,7 @@
 }
 
 .mobile-filter-range input:focus {
-  border-color: #2d4495;
+  border-color: #1E55B4;
   background: white;
 }
 
@@ -470,7 +470,7 @@
 
 .mobile-filter-show-more:hover {
   background: #f5f5f5;
-  border-color: #2d4495;
+  border-color: #1E55B4;
 }
 
 /* Modal Footer */
@@ -497,14 +497,14 @@
 
 .mobile-filters-clear-btn:hover {
   background: #f5f5f5;
-  border-color: #2d4495;
+  border-color: #1E55B4;
   color: #2d4495;
 }
 
 .mobile-filters-apply-btn {
   flex: 2;
   padding: 12px 16px;
-  background: #2d4495;
+  background: #1E55B4;
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -743,14 +743,14 @@
 }
 
 .mobile-category-pill:hover {
-  border-color: #2d4495;
+  border-color: #1E55B4;
   color: #2d4495;
 }
 
 .mobile-category-pill.selected {
-  background: #2d4495;
+  background: #1E55B4;
   color: white;
-  border-color: #2d4495;
+  border-color: #1E55B4;
 }
 
 /* ============================================

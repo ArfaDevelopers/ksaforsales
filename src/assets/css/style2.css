@@ -23,7 +23,7 @@
   height: 100%;
 }
 .chats_btn_wrap_main h5.chat_heading {
-  background-color: #2d4495;
+  background-color: #1E55B4;
   color: #fff;
   padding: 20px 15px;
   border-radius: 10px 10px 0 0;
@@ -40,11 +40,11 @@
 }
 .chat_messages_main_wrap .btn-primary:hover {
   box-shadow: unset;
-  background-color: #2d4495;
+  background-color: #1E55B4;
   color: #fff;
 }
 .title_wrap {
-  background-color: #2d4495;
+  background-color: #1E55B4;
   color: #fff;
   padding: 20px 15px;
   border-radius: 10px 10px 0 0;

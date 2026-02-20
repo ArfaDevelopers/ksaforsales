@@ -5033,7 +5033,7 @@ const AddLisiting = () => {
                         className="file-upload"
                         style={{
                           padding: "8px 16px",
-                          backgroundColor: "#2d4495",
+                          backgroundColor: "#1E55B4",
                           color: "#fff",
                           borderRadius: "5px",
                           cursor: "pointer",

@@ -828,7 +828,7 @@ const Bikes = () => {
     setShowSuggestions(!showSuggestions);
   };
   const headingStyle = {
-    backgroundColor: "#2D4495",
+    backgroundColor: "#1E55B4",
     color: "white",
     fontSize: "30px",
     padding: "2px",

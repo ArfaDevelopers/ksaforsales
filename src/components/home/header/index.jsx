@@ -2858,7 +2858,7 @@ const Header = ({ parms }) => {
                       background: "transparent",
                       borderRadius: "6px",
                       padding: "14px 14px",
-                      backgroundColor: "#2d4495",
+                      backgroundColor: "#1E55B4",
                     }}
                   >
                     <FaSearch style={{ color: "#fff" }} />

@@ -2600,7 +2600,7 @@ if (displaySearchKeyword) {
                   style={{
                     borderTopLeftRadius: "5px",
                     borderTopRightRadius: "5px",
-                    backgroundColor: "#2D4495",
+                    backgroundColor: "#1E55B4",
                     color: "white",
                     width: "auto",
                     height: "49.66px",
@@ -4544,7 +4544,7 @@ if (displaySearchKeyword) {
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}
                           style={{
-                            backgroundColor: "#2d4495",
+                            backgroundColor: "#1E55B4",
                             color: "white",
                             border: "none",
                             transition: "none",
@@ -4567,18 +4567,19 @@ if (displaySearchKeyword) {
                                 <button
                                   key={pageNumber}
                                   onClick={() => handlePageChange(pageNumber)}
+                                  className="pagination-page-btn"
                                   style={{
                                     backgroundColor: isActive
-                                      ? "#2d4495"
+                                      ? "#1E55B4"
                                       : "#f8f9fa",
-                                    color: isActive ? "white" : "#2d4495",
-                                    border: "1px solid #2d4495",
+                                    color: isActive ? "white" : "#1E55B4",
+                                    border: "1px solid #1E55B4",
                                     padding: "8px 16px",
                                     margin: "0 2px",
                                     cursor: "pointer",
                                     borderRadius: "4px",
                                     fontWeight: isActive ? "bold" : "normal",
-                                    transition: "none",
+                                    transition: "background-color 0.3s, color 0.3s",
                                   }}
                                 >
                                   {pageNumber}
@@ -4610,7 +4611,7 @@ if (displaySearchKeyword) {
                           disabled={currentPage === totalPages}
                           onClick={() => handlePageChange(currentPage + 1)}
                           style={{
-                            backgroundColor: "#2d4495",
+                            backgroundColor: "#1E55B4",
                             color: "white",
                             border: "none",
                             transition: "none",

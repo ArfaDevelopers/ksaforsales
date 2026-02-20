@@ -103,7 +103,7 @@
 .mobile-search-card-price {
   font-size: 16px;
   font-weight: bold;
-  color: #2D4495;
+  color: #1E55B4;
   margin: 0;
   display: flex;
   align-items: center;
@@ -180,7 +180,7 @@
 
 /* Call button has filled background by default */
 .mobile-search-card-btn-call {
-  background: #2D4495;
+  background: #1E55B4;
   color: white;
 }
 
@@ -191,13 +191,13 @@
 /* Message and WhatsApp buttons change background when active/clicked */
 .mobile-search-card-btn-message:active,
 .mobile-search-card-btn-message.active {
-  background: #2D4495;
+  background: #1E55B4;
   color: white;
 }
 
 .mobile-search-card-btn-whatsapp:active,
 .mobile-search-card-btn-whatsapp.active {
-  background: #2D4495;
+  background: #1E55B4;
   color: white;
 }
 
@@ -227,7 +227,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #2D4495;
+  background: #1E55B4;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;

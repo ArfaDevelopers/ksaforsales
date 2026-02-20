@@ -399,7 +399,7 @@ const Login = () => {
                     type="submit"
                     disabled={loading}
                     style={{
-                      backgroundColor: loading ? "#5a6fb8" : "#2d4495",
+                      backgroundColor: loading ? "#1a4a9e" : "#1E55B4",
                       color: "#fff",
                       border: "none",
                       fontWeight: "bold",

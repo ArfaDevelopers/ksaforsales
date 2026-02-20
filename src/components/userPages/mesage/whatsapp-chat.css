@@ -32,7 +32,7 @@
 
 .chat-list-header {
   padding: 20px 20px 15px 20px;
-  background: #2d4495;
+  background: #1E55B4;
   border-bottom: none;
   text-align: center;
 }
@@ -47,7 +47,7 @@
 /* Search Bar */
 .chat-search-container {
   padding: 10px 15px;
-  background: #2d4495;
+  background: #1E55B4;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .filter-tab.active {
-  background: #2d4495;
+  background: #1E55B4;
   color: white;
 }
 
@@ -457,7 +457,7 @@
 }
 
 .message-input-area .send-btn {
-  background: #2d4495;
+  background: #1E55B4;
   border: none;
   width: 44px;
   height: 44px;
@@ -496,7 +496,7 @@
 
   .chat-list-header {
     padding: 25px 20px 15px 20px;
-    background: #2d4495;
+    background: #1E55B4;
   }
 
   .chat-list-header h2 {
@@ -505,7 +505,7 @@
 
   .chat-search-container {
     padding: 10px 15px 15px 15px;
-    background: #2d4495;
+    background: #1E55B4;
   }
 
   .chat-search-bar {
@@ -543,7 +543,7 @@
 
   .conversation-header {
     padding: 15px;
-    background: #2d4495;
+    background: #1E55B4;
     color: white;
     border-bottom: none;
   }

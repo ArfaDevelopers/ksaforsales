@@ -516,7 +516,7 @@ const SignUp = () => {
                       className="btn w-100 login-btn"
                       disabled={sendingOtp}
                       style={{
-                        backgroundColor: sendingOtp ? "#5a6fb8" : "#2d4495",
+                        backgroundColor: sendingOtp ? "#1a4a9e" : "#1E55B4",
                         color: "#fff",
                         border: "none",
                         fontWeight: "bold",
@@ -558,7 +558,7 @@ const SignUp = () => {
                         type="submit"
                         className="btn w-100 login-btn"
                         style={{
-                          backgroundColor: "#2d4495",
+                          backgroundColor: "#1E55B4",
                           color: "#fff",
                           border: "none",
                           fontWeight: "bold",
