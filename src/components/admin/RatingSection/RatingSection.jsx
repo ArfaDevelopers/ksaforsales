@@ -404,7 +404,7 @@ function UserReviews({
               <button
                 onClick={() => handleReplySubmit(index)}
                 style={{
-                  backgroundColor: "#2D4495",
+                  backgroundColor: "#1E55B4",
                   color: "#fff",
                   padding: "8px 16px",
                   border: "none",

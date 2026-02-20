@@ -423,7 +423,7 @@ const SearchResultCard = ({
                 style={{
                   fontWeight: "bold",
                   fontSize: "20px",
-                  color: "#2D4495",
+                  color: "#1E55B4",
                 }}
               >
                 {ad.Price ? (
@@ -679,7 +679,7 @@ const SearchResultCard = ({
             <div
               className="modal-header"
               style={{
-                backgroundColor: "#2D4495",
+                backgroundColor: "#1E55B4",
                 color: "white",
                 borderTopLeftRadius: "15px",
                 borderTopRightRadius: "15px",

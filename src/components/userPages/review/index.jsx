@@ -761,7 +761,7 @@ const Review = () => {
                       onClick={loadMoreReviews}
                       style={{
                         padding: "10px 20px",
-                        backgroundColor: "#2d4495",
+                        backgroundColor: "#1E55B4",
                         color: "white",
                         border: "none",
                         borderRadius: "4px",

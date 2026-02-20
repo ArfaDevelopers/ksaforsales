@@ -573,7 +573,7 @@ const ServiceDetails = () => {
                   type="button"
                   className="btn"
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",
@@ -587,7 +587,7 @@ const ServiceDetails = () => {
                   type="button"
                   className="btn"
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",

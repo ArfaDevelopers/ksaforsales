@@ -2252,7 +2252,7 @@ const Education = () => {
     setShowSuggestions(!showSuggestions);
   };
   const headingStyle = {
-    backgroundColor: "#2D4495",
+    backgroundColor: "#1E55B4",
     color: "white",
     fontSize: "30px",
     padding: "2px",
@@ -2489,7 +2489,7 @@ const Education = () => {
                   style={{
                     borderTopLeftRadius: "5px",
                     borderTopRightRadius: "5px",
-                    backgroundColor: "#2D4495",
+                    backgroundColor: "#1E55B4",
                     color: "white",
                     width: "auto",
                     height: "49.66px",
@@ -2542,7 +2542,7 @@ const Education = () => {
                   {/*  -------------                          */}
                   <style>{`
     .form-check-input:checked {
-      background-color: #2D4495 !important; 
+      background-color: #1E55B4 !important; 
       border-color: black !important; 
     }
   `}</style>
@@ -3988,7 +3988,7 @@ const Education = () => {
                     disabled={activePage === 1}
                     onClick={() => handlePageClick(activePage - 1)}
                     style={{
-                      backgroundColor: "#2d4495",
+                      backgroundColor: "#1E55B4",
                       color: "white",
                       border: "none",
                       transition: "none",
@@ -4005,7 +4005,7 @@ const Education = () => {
                     disabled={activePage === totalPages}
                     onClick={() => handlePageClick(activePage + 1)}
                     style={{
-                      backgroundColor: "#2d4495",
+                      backgroundColor: "#1E55B4",
                       color: "white",
                       border: "none",
                       transition: "none",

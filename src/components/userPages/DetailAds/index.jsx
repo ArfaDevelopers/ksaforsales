@@ -295,7 +295,7 @@ const DetailAds = () => {
                 <Card className="mb-4 shadow p-0">
                   <Card.Header
                     className="text-white"
-                    style={{ backgroundColor: "#2d4495" }}
+                    style={{ backgroundColor: "#1E55B4" }}
                   >
                     <h4 className="m-0 mb-2 d-flex align-items-center text-white">
                       <FiImage className="me-2" />
@@ -349,7 +349,7 @@ const DetailAds = () => {
                               <Form.Group controlId={`imgInput-${index}`}>
                                 <Form.Label
                                   className="btn w-100 text-white"
-                                  style={{ backgroundColor: "#2d4495" }}
+                                  style={{ backgroundColor: "#1E55B4" }}
                                 >
                                   <FiUpload className="me-1" />
                                   {src ? "Change Image" : "Select Image"}

@@ -552,8 +552,8 @@ const CategoryDetail = () => {
     trackUserVisit();
   }, []);
   const [callButtonStyles, setCallButtonStyles] = useState({
-    backgroundColor: "#2d4495",
-    borderColor: "#2d4495",
+    backgroundColor: "#1E55B4",
+    borderColor: "#1E55B4",
     color: "black",
   });
 
@@ -568,15 +568,15 @@ const CategoryDetail = () => {
   const handleCallMouseEnter = () => {
     setCallButtonStyles({
       backgroundColor: "white",
-      borderColor: "#2d4495",
+      borderColor: "#1E55B4",
       color: "#2d4495",
     });
   };
 
   const handleCallMouseLeave = () => {
     setCallButtonStyles({
-      backgroundColor: "#2d4495",
-      borderColor: "#2d4495",
+      backgroundColor: "#1E55B4",
+      borderColor: "#1E55B4",
       color: "black",
     });
   };
@@ -677,7 +677,7 @@ const CategoryDetail = () => {
             className="head2btn"
             style={{
               backgroundColor: "white",
-              border: "1px solid #2D4495",
+              border: "1px solid #1E55B4",
               padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
               textAlign: "center",
               width: window.innerWidth <= 576 ? "47%" : "auto",
@@ -701,7 +701,7 @@ const CategoryDetail = () => {
                 <FaRegHeart
                   style={{
                     fontSize: "20px",
-                    color: "#2d4495",
+                    color: "#1E55B4",
                   }}
                 />
               )}
@@ -717,7 +717,7 @@ const CategoryDetail = () => {
               style={{
                 marginLeft: "0.6rem",
                 backgroundColor: "white",
-                border: "1px solid #2D4495",
+                border: "1px solid #1E55B4",
                 padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "47%" : "auto",
@@ -729,7 +729,7 @@ const CategoryDetail = () => {
                     fontWeight: "bold",
                     fontSize: "20px",
                     marginRight: "5px",
-                    color: "black",
+                    color: "#1E55B4",
                   }}
                 />
 
@@ -851,7 +851,7 @@ const CategoryDetail = () => {
               marginLeft: "0.6rem",
 
               backgroundColor: "white",
-              border: "1px solid #2D4495",
+              border: "1px solid #1E55B4",
               padding: window.innerWidth <= 576 ? "5px" : "10px 15px",
               textAlign: "center",
               width: window.innerWidth <= 576 ? "47%" : "auto",
@@ -863,7 +863,7 @@ const CategoryDetail = () => {
                 style={{
                   fontSize: "20px",
                   marginRight: "5px",
-                  color: "#2d4495",
+                  color: "#1E55B4",
                   fontWeight: "bold",
                 }}
               />
@@ -909,7 +909,7 @@ const CategoryDetail = () => {
             <Modal.Footer>
               <Button
                 style={{
-                  backgroundColor: "#2d4495",
+                  backgroundColor: "#1E55B4",
                   color: "#fff",
                   border: "none",
                   fontWeight: "bold",
@@ -921,11 +921,11 @@ const CategoryDetail = () => {
                 }}
                 onClick={handleClose}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                  e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                   e.currentTarget.style.color = "#fff"; // Force same text color
                 }}
                 onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                  e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                   e.currentTarget.style.color = "#fff"; // Restore same text color
                 }}
               >
@@ -933,7 +933,7 @@ const CategoryDetail = () => {
               </Button>
               <Button
                 style={{
-                  backgroundColor: "#2d4495",
+                  backgroundColor: "#1E55B4",
                   color: "#fff",
                   border: "none",
                   fontWeight: "bold",
@@ -945,11 +945,11 @@ const CategoryDetail = () => {
                 }}
                 onClick={handleSubmit}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                  e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                   e.currentTarget.style.color = "#fff"; // Force same text color
                 }}
                 onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                  e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                   e.currentTarget.style.color = "#fff"; // Restore same text color
                 }}
                 // disabled={!reportText || selectedReports.length === 0}
@@ -1075,7 +1075,7 @@ const CategoryDetail = () => {
                     className="w-100 d-flex align-items-center justify-content-center"
                     style={{
                       borderWidth: "2px",
-                      borderColor: "#2d4495",
+                      borderColor: "#1E55B4",
                       height: "50px",
                       position: "relative",
                       overflow: "hidden",

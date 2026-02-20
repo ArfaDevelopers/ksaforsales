@@ -190,7 +190,7 @@ const ForgotPassword = () => {
                       style={{
                         boxShadow: "unset",
                         color: "#fff",
-                        backgroundColor: "#2d4495",
+                        backgroundColor: "#1E55B4",
                         marginTop: "10px"
                       }}
                       type="submit"

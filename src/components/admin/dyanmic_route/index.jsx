@@ -1564,7 +1564,7 @@ console.log(
               className="head2btn"
               style={{
                 backgroundColor: "white",
-                border: "1px solid #2D4495",
+                border: "1px solid #1E55B4",
                 padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "auto" : "auto",
@@ -1596,7 +1596,7 @@ console.log(
                 onClick={() => setShowModal1(true)}
                 style={{
                   backgroundColor: "white",
-                  border: "1px solid #2D4495",
+                  border: "1px solid #1E55B4",
                   padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
                   width: window.innerWidth <= 576 ? "auto" : "auto",
@@ -1727,7 +1727,7 @@ console.log(
                 onClick={handleShowReport}
                 style={{
                   backgroundColor: "white",
-                  border: "1px solid #2D4495",
+                  border: "1px solid #1E55B4",
                   padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                   textAlign: "center",
                   width: window.innerWidth <= 576 ? "auto" : "auto",
@@ -1803,7 +1803,7 @@ console.log(
               className="head2btn"
               style={{
                 backgroundColor: "white",
-                border: "1px solid #2D4495",
+                border: "1px solid #1E55B4",
                 padding: window.innerWidth <= 576 ? "5px 8px" : "10px 15px",
                 textAlign: "center",
                 width: window.innerWidth <= 576 ? "auto" : "auto",
@@ -1858,7 +1858,7 @@ console.log(
               <Modal.Footer>
                 <Button
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",
@@ -1870,11 +1870,11 @@ console.log(
                   }}
                   onClick={handleClose}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                     e.currentTarget.style.color = "#fff"; // Force same text color
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                 >
@@ -1882,7 +1882,7 @@ console.log(
                 </Button>
                 <Button
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",
@@ -1894,11 +1894,11 @@ console.log(
                   }}
                   onClick={handleSubmit}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                     e.currentTarget.style.color = "#fff"; // Force same text color
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                   // disabled={!reportText || selectedReports.length === 0}
@@ -5972,7 +5972,7 @@ console.log(
                         fontSize: window.innerWidth <= 768 ? "24px" : "60px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        color: "#2d4495",
+                        color: "#1E55B4",
                         marginBottom: 20,
                       }}
                     >

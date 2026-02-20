@@ -313,7 +313,7 @@ const ManageCommercialAds = () => {
               width: "40px",
               height: "40px",
               borderRadius: "4px",
-              backgroundColor: "#2d4495",
+              backgroundColor: "#1E55B4",
               color: "white",
               textDecoration: "none",
               cursor: "pointer",
@@ -428,7 +428,7 @@ const ManageCommercialAds = () => {
                   to="/commercial-ads"
                   className="nav-link header-login add-listing"
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     padding: isMobile ? "6px 10px" : "8px 12px",
                     borderRadius: "4px",
@@ -500,7 +500,7 @@ const ManageCommercialAds = () => {
                       to="/commercial-ads"
                       className="nav-link header-login"
                       style={{
-                        backgroundColor: "#2d4495",
+                        backgroundColor: "#1E55B4",
                         color: "#fff",
                         padding: "10px 20px",
                         borderRadius: "4px",
@@ -595,7 +595,7 @@ const ManageCommercialAds = () => {
                                   width: "45%",
                                   padding: "10px",
                                   borderRadius: "4px",
-                                  backgroundColor: "#2d4495",
+                                  backgroundColor: "#1E55B4",
                                   color: "white",
                                   textDecoration: "none",
                                   cursor: "pointer",

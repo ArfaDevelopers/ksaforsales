@@ -1612,7 +1612,7 @@ const Dynamic_Routes = () => {
               <Modal.Footer>
                 <Button
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",
@@ -1624,11 +1624,11 @@ const Dynamic_Routes = () => {
                   }}
                   onClick={handleClose}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                     e.currentTarget.style.color = "#fff"; // Force same text color
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                 >
@@ -1636,7 +1636,7 @@ const Dynamic_Routes = () => {
                 </Button>
                 <Button
                   style={{
-                    backgroundColor: "#2d4495",
+                    backgroundColor: "#1E55B4",
                     color: "#fff",
                     border: "none",
                     fontWeight: "bold",
@@ -1648,11 +1648,11 @@ const Dynamic_Routes = () => {
                   }}
                   onClick={handleSubmit}
                   onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Force same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Force same background
                     e.currentTarget.style.color = "#fff"; // Force same text color
                   }}
                   onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2d4495"; // Restore same background
+                    e.currentTarget.style.backgroundColor = "#1E55B4"; // Restore same background
                     e.currentTarget.style.color = "#fff"; // Restore same text color
                   }}
                   // disabled={!reportText || selectedReports.length === 0}
