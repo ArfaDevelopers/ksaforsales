@@ -72,7 +72,15 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 
 import { db } from "./../../Firebase/FirebaseConfig.jsx";
-import { FaHeart, FaPhone, FaSearch, FaWhatsapp, FaFilter, FaTimes, FaChevronDown } from "react-icons/fa";
+import {
+  FaHeart,
+  FaPhone,
+  FaSearch,
+  FaWhatsapp,
+  FaFilter,
+  FaTimes,
+  FaChevronDown,
+} from "react-icons/fa";
 import {
   Container,
   Row,
@@ -201,12 +209,12 @@ const Userinfo = () => {
 
   const handleCheckboxChange1 = (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
     let updatedCities;
     if (exists) {
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       updatedCities = [
@@ -225,7 +233,7 @@ const Userinfo = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -418,7 +426,7 @@ const Userinfo = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
@@ -550,7 +558,7 @@ const Userinfo = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -677,9 +685,7 @@ const Userinfo = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegion}`
-        );
+        const response = await fetch(`/api/cities?REGION_ID=${selectedRegion}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -1564,7 +1570,7 @@ const Userinfo = () => {
     query === ""
       ? carBrands
       : carBrands.filter((brand) =>
-          brand.toLowerCase().includes(query.toLowerCase())
+          brand.toLowerCase().includes(query.toLowerCase()),
         );
   console.log("Selected:______", filteredBrands);
   console.log("Selected:______1", selected);
@@ -1748,7 +1754,7 @@ const Userinfo = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1765,7 +1771,7 @@ const Userinfo = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1904,7 +1910,7 @@ const Userinfo = () => {
     setAdditionalFeatures((prevSelected) =>
       prevSelected.includes(name)
         ? prevSelected.filter((item) => item !== name)
-        : [...prevSelected, name]
+        : [...prevSelected, name],
     );
   };
 
@@ -2020,7 +2026,7 @@ const Userinfo = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -2098,9 +2104,7 @@ const Userinfo = () => {
 
         if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID); // ✅ Add DISTRICT_ID
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/fetchCars?${params.toString()}`
-        );
+        const response = await fetch(`/api/fetchCars?${params.toString()}`);
 
         const carsData = await response.json();
         setCars(carsData.data);
@@ -2136,7 +2140,7 @@ const Userinfo = () => {
   //       if (selectedRegion) params.append("regionId", selectedRegion);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/cars?${params.toString()}`
+  //         `/route/cars?${params.toString()}`
   //       );
 
   //       const carsData = await response.json();
@@ -2164,7 +2168,7 @@ const Userinfo = () => {
   //         ? `?searchText=${encodeURIComponent(searchText)}`
   //         : "";
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/cars${query}&regionId=&{selectedRegion}`
+  //         `/route/cars${query}&regionId=&{selectedRegion}`
   //       );
   //       const carsData = await response.json();
 
@@ -2194,18 +2198,15 @@ const Userinfo = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.post(
-          "http://168.231.80.24:9002/currentUserData/userData",
-          {
-            userId: "KP1YqEjam3gC3osBxSiQBzfMKq83",
-          }
-        );
+        const res = await axios.post("/currentUserData/userData", {
+          userId: "KP1YqEjam3gC3osBxSiQBzfMKq83",
+        });
 
         setUserData(res.data.user);
       } catch (error) {
         console.error(
           "Fetch user failed:",
-          error.response?.data || error.message
+          error.response?.data || error.message,
         );
       }
     };
@@ -2223,7 +2224,7 @@ const Userinfo = () => {
 
   //   // If never viewed OR 30 seconds (30000 ms) have passed
   //   if (!lastViewed || now - lastViewed > 30 * 1000) {
-  //     fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
+  //     fetch(`/route/cars/${carId}/view`, {
   //       method: "PATCH",
   //     });
 
@@ -2246,7 +2247,7 @@ const Userinfo = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
+      fetch(`/route/cars/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -2310,7 +2311,7 @@ const Userinfo = () => {
       "Toggling bookmark for itemnot found in :",
       itemId,
       "in collection:",
-      collectionName
+      collectionName,
     );
     try {
       const user = auth.currentUser;
@@ -2348,7 +2349,7 @@ const Userinfo = () => {
       const itemSnapshot = await getDoc(itemDocRef);
       if (!itemSnapshot.exists()) {
         console.warn(
-          `Toggling bookmark forItem ${itemId} not found in ${firestoreCollection}`
+          `Toggling bookmark forItem ${itemId} not found in ${firestoreCollection}`,
         );
         return;
       }
@@ -2369,7 +2370,7 @@ const Userinfo = () => {
       setRefresh((prev) => !prev);
 
       console.log(
-        `Toggling bookmark for ${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`
+        `Toggling bookmark for ${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`,
       );
     } catch (error) {
       console.error(`Error updating bookmark in ${collectionName}:`, error);
@@ -2424,7 +2425,7 @@ const Userinfo = () => {
       Fueltype,
       Condition,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   }, [
     selectedCities,
@@ -2519,7 +2520,7 @@ const Userinfo = () => {
       Fueltype,
       Condition,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   };
   const filterCars = (
@@ -2564,7 +2565,7 @@ const Userinfo = () => {
     Fueltype,
     Condition,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
   ) => {
     let filtered = carsData;
 
@@ -2609,7 +2610,7 @@ const Userinfo = () => {
         return fieldsToSearch.some(
           (field) =>
             typeof field === "string" &&
-            field.toLowerCase().includes(lowercasedQuery)
+            field.toLowerCase().includes(lowercasedQuery),
         );
       });
 
@@ -2677,29 +2678,29 @@ const Userinfo = () => {
     // Filter by selected cities
     if (selectedNumbersNumberofDoors?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedNumbersNumberofDoors.includes(car.NumberofDoors)
+        selectedNumbersNumberofDoors.includes(car.NumberofDoors),
       );
     }
 
     if (nestedSubCategory) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory),
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (AdditionalFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        AdditionalFeatures.includes(car.AdditionalFeatures)
+        AdditionalFeatures.includes(car.AdditionalFeatures),
       );
     }
     if (Condition?.length > 0) {
@@ -2717,12 +2718,12 @@ const Userinfo = () => {
     }
     if (InteriorColor?.length > 0) {
       filtered = filtered.filter((car) =>
-        InteriorColor.includes(car.InteriorColor)
+        InteriorColor.includes(car.InteriorColor),
       );
     }
     if (RegionalSpec?.length > 0) {
       filtered = filtered.filter((car) =>
-        RegionalSpec.includes(car.RegionalSpec)
+        RegionalSpec.includes(car.RegionalSpec),
       );
     }
     if (Insurance?.length > 0) {
@@ -2733,13 +2734,13 @@ const Userinfo = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
 
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (mileage?.length > 0) {
@@ -2748,50 +2749,50 @@ const Userinfo = () => {
     // Filter by selected cities
     else if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     // Filter by selected cities
     if (selectedOptionisFeatured?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
+        selectedOptionisFeatured.includes(car.AdType),
       );
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
 
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2800,18 +2801,18 @@ const Userinfo = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2916,7 +2917,7 @@ const Userinfo = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -3208,7 +3209,7 @@ const Userinfo = () => {
                                     setSelectedRegionId(
                                       selectedRegion === region.regionId
                                         ? ""
-                                        : region.regionId
+                                        : region.regionId,
                                     )
                                   }
                                 />
@@ -3287,7 +3288,7 @@ const Userinfo = () => {
                                                       selectedRegion ===
                                                         region.regionId
                                                         ? ""
-                                                        : region.regionId
+                                                        : region.regionId,
                                                     )
                                                   }
                                                 />
@@ -3390,7 +3391,7 @@ const Userinfo = () => {
                                   <input
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3446,7 +3447,7 @@ const Userinfo = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3518,7 +3519,7 @@ const Userinfo = () => {
                             {districtOptions.slice(0, 4).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3546,8 +3547,8 @@ const Userinfo = () => {
                                           prev.filter(
                                             (district) =>
                                               district.DISTRICT_ID !==
-                                              option.value
-                                          )
+                                              option.value,
+                                          ),
                                         );
                                       }
                                     }}
@@ -3605,7 +3606,7 @@ const Userinfo = () => {
                                               selectedDistricts.some(
                                                 (district) =>
                                                   district.DISTRICT_ID ===
-                                                  option.value
+                                                  option.value,
                                               );
 
                                             return (
@@ -3631,7 +3632,7 @@ const Userinfo = () => {
                                                               DISTRICT_ID:
                                                                 option.value,
                                                             },
-                                                          ]
+                                                          ],
                                                         );
                                                       } else {
                                                         setSelectedDistricts(
@@ -3639,8 +3640,8 @@ const Userinfo = () => {
                                                             prev.filter(
                                                               (district) =>
                                                                 district.DISTRICT_ID !==
-                                                                option.value
-                                                            )
+                                                                option.value,
+                                                            ),
                                                         );
                                                       }
                                                     }}
@@ -3931,12 +3932,24 @@ const Userinfo = () => {
                 {/* Mobile Filter Chips */}
                 <div className="mobile-filters-results-bar p-10">
                   <div className="mobile-filters-results-count">
-                    <span className="results-label">{t("search.showResults")}: </span>
-                    <span className="results-number">{filteredCars.length}</span>
+                    <span className="results-label">
+                      {t("search.showResults")}:{" "}
+                    </span>
+                    <span className="results-number">
+                      {filteredCars.length}
+                    </span>
                   </div>
-                  {(selectedSubCategory || selectedRegion || selectedCities.length > 0 ||
-                    selectedDistricts.length > 0 || fromValue || toValue || fromDate || toDate ||
-                    logSelectedPurpose.length > 0 || selectedOptionisFeatured || searchQuery) && (
+                  {(selectedSubCategory ||
+                    selectedRegion ||
+                    selectedCities.length > 0 ||
+                    selectedDistricts.length > 0 ||
+                    fromValue ||
+                    toValue ||
+                    fromDate ||
+                    toDate ||
+                    logSelectedPurpose.length > 0 ||
+                    selectedOptionisFeatured ||
+                    searchQuery) && (
                     <button
                       className="mobile-filters-clear-all-btn"
                       onClick={() => {
@@ -3963,53 +3976,66 @@ const Userinfo = () => {
                     {/* Subcategory Filter Chip */}
                     {categories.length > 0 && (
                       <div
-                        className={`filter-chip ${selectedSubCategory ? 'active' : ''}`}
-                        onClick={() => setActiveFilterModal('subcategory')}
+                        className={`filter-chip ${selectedSubCategory ? "active" : ""}`}
+                        onClick={() => setActiveFilterModal("subcategory")}
                       >
                         <span>{t("filters.labels.subCategories")}</span>
-                        {selectedSubCategory && <span className="filter-chip-count">1</span>}
+                        {selectedSubCategory && (
+                          <span className="filter-chip-count">1</span>
+                        )}
                         <FaChevronDown className="filter-chip-arrow" />
                       </div>
                     )}
 
                     {/* Region Filter Chip */}
                     <div
-                      className={`filter-chip ${selectedRegion ? 'active' : ''}`}
-                      onClick={() => setActiveFilterModal('region')}
+                      className={`filter-chip ${selectedRegion ? "active" : ""}`}
+                      onClick={() => setActiveFilterModal("region")}
                     >
                       <span>{t("filters.labels.selectRegion")}</span>
-                      {selectedRegion && <span className="filter-chip-count">1</span>}
+                      {selectedRegion && (
+                        <span className="filter-chip-count">1</span>
+                      )}
                       <FaChevronDown className="filter-chip-arrow" />
                     </div>
 
                     {/* City Filter Chip - Only show if region is selected */}
                     {selectedRegion && cityOptions.length > 0 && (
                       <div
-                        className={`filter-chip ${selectedCities.length > 0 ? 'active' : ''}`}
-                        onClick={() => setActiveFilterModal('city')}
+                        className={`filter-chip ${selectedCities.length > 0 ? "active" : ""}`}
+                        onClick={() => setActiveFilterModal("city")}
                       >
                         <span>{t("filters.labels.selectCity")}</span>
-                        {selectedCities.length > 0 && <span className="filter-chip-count">{selectedCities.length}</span>}
+                        {selectedCities.length > 0 && (
+                          <span className="filter-chip-count">
+                            {selectedCities.length}
+                          </span>
+                        )}
                         <FaChevronDown className="filter-chip-arrow" />
                       </div>
                     )}
 
                     {/* District Filter Chip - Only show if cities are selected */}
-                    {selectedCities.length > 0 && districtOptions.length > 0 && (
-                      <div
-                        className={`filter-chip ${selectedDistricts.length > 0 ? 'active' : ''}`}
-                        onClick={() => setActiveFilterModal('district')}
-                      >
-                        <span>{t("filters.labels.selectDistrict")}</span>
-                        {selectedDistricts.length > 0 && <span className="filter-chip-count">{selectedDistricts.length}</span>}
-                        <FaChevronDown className="filter-chip-arrow" />
-                      </div>
-                    )}
+                    {selectedCities.length > 0 &&
+                      districtOptions.length > 0 && (
+                        <div
+                          className={`filter-chip ${selectedDistricts.length > 0 ? "active" : ""}`}
+                          onClick={() => setActiveFilterModal("district")}
+                        >
+                          <span>{t("filters.labels.selectDistrict")}</span>
+                          {selectedDistricts.length > 0 && (
+                            <span className="filter-chip-count">
+                              {selectedDistricts.length}
+                            </span>
+                          )}
+                          <FaChevronDown className="filter-chip-arrow" />
+                        </div>
+                      )}
 
                     {/* Featured Ads Filter Chip */}
                     <div
-                      className={`filter-chip ${selectedOptionisFeatured ? 'active' : ''}`}
-                      onClick={() => setActiveFilterModal('featuredAds')}
+                      className={`filter-chip ${selectedOptionisFeatured ? "active" : ""}`}
+                      onClick={() => setActiveFilterModal("featuredAds")}
                     >
                       <span>Featured Ads</span>
                       <FaChevronDown className="filter-chip-arrow" />
@@ -4017,31 +4043,39 @@ const Userinfo = () => {
 
                     {/* Price Filter Chip */}
                     <div
-                      className={`filter-chip ${fromValue || toValue ? 'active' : ''}`}
-                      onClick={() => setActiveFilterModal('price')}
+                      className={`filter-chip ${fromValue || toValue ? "active" : ""}`}
+                      onClick={() => setActiveFilterModal("price")}
                     >
                       <span>{t("filters.labels.price")}</span>
-                      {(fromValue || toValue) && <span className="filter-chip-count">1</span>}
+                      {(fromValue || toValue) && (
+                        <span className="filter-chip-count">1</span>
+                      )}
                       <FaChevronDown className="filter-chip-arrow" />
                     </div>
 
                     {/* Year Filter Chip */}
                     <div
-                      className={`filter-chip ${fromDate || toDate ? 'active' : ''}`}
-                      onClick={() => setActiveFilterModal('year')}
+                      className={`filter-chip ${fromDate || toDate ? "active" : ""}`}
+                      onClick={() => setActiveFilterModal("year")}
                     >
                       <span>{t("filters.labels.year")}</span>
-                      {(fromDate || toDate) && <span className="filter-chip-count">1</span>}
+                      {(fromDate || toDate) && (
+                        <span className="filter-chip-count">1</span>
+                      )}
                       <FaChevronDown className="filter-chip-arrow" />
                     </div>
 
                     {/* Ad Type Filter Chip */}
                     <div
-                      className={`filter-chip ${logSelectedPurpose.length > 0 ? 'active' : ''}`}
-                      onClick={() => setActiveFilterModal('adType')}
+                      className={`filter-chip ${logSelectedPurpose.length > 0 ? "active" : ""}`}
+                      onClick={() => setActiveFilterModal("adType")}
                     >
                       <span>{t("filters.names.adType")}</span>
-                      {logSelectedPurpose.length > 0 && <span className="filter-chip-count">{logSelectedPurpose.length}</span>}
+                      {logSelectedPurpose.length > 0 && (
+                        <span className="filter-chip-count">
+                          {logSelectedPurpose.length}
+                        </span>
+                      )}
                       <FaChevronDown className="filter-chip-arrow" />
                     </div>
                   </div>
@@ -4104,7 +4138,9 @@ const Userinfo = () => {
                 ) : filteredCars.length > 0 ? (
                   getPaginatedCars().map((car, index) => {
                     const isActive = activePhoneIndex === index;
-                    const imageUrl = car?.galleryImages?.[0] || "https://via.placeholder.com/150";
+                    const imageUrl =
+                      car?.galleryImages?.[0] ||
+                      "https://via.placeholder.com/150";
 
                     return (
                       <React.Fragment key={`card-${car.id}-${index}`}>
@@ -4121,26 +4157,42 @@ const Userinfo = () => {
                             <div className="mobile-search-card-image">
                               <div
                                 className="mobile-search-card-heart"
-                                onClick={() => toggleBookmark(car.id, car.category)}
+                                onClick={() =>
+                                  toggleBookmark(car.id, car.category)
+                                }
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.bookmarked === true && car.userId === userId ? "red" : "white",
+                                    color:
+                                      car.bookmarked === true &&
+                                      car.userId === userId
+                                        ? "red"
+                                        : "white",
                                   }}
                                 />
                               </div>
                               <Link
                                 onClick={() => handleView(car.id)}
                                 to={`/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-                                  car.category === "Motors" ? "AutomotiveComp" :
-                                  car.category === "Automotive" ? "AutomotiveComp" :
-                                  car.category === "Services" ? "TravelComp" :
-                                  car.category === "RealEstate" || car.category === "Real Estate" ? "RealEstateComp" :
-                                  car.category === "Other" ? "Education" :
-                                  car.category === "Electronics" ? "ElectronicComp" :
-                                  car.category === "Sports&Game" ? "SportGamesComp" :
-                                  car.category === "Home & Furnituer" ? "HealthCareComp" :
-                                  car.category
+                                  car.category === "Motors"
+                                    ? "AutomotiveComp"
+                                    : car.category === "Automotive"
+                                      ? "AutomotiveComp"
+                                      : car.category === "Services"
+                                        ? "TravelComp"
+                                        : car.category === "RealEstate" ||
+                                            car.category === "Real Estate"
+                                          ? "RealEstateComp"
+                                          : car.category === "Other"
+                                            ? "Education"
+                                            : car.category === "Electronics"
+                                              ? "ElectronicComp"
+                                              : car.category === "Sports&Game"
+                                                ? "SportGamesComp"
+                                                : car.category ===
+                                                    "Home & Furnituer"
+                                                  ? "HealthCareComp"
+                                                  : car.category,
                                 )}`}
                               >
                                 <img
@@ -4155,19 +4207,31 @@ const Userinfo = () => {
                             <div className="mobile-search-card-details">
                               <Link
                                 to={`/Dynamic_Route?id=${car.id}&callingFrom=${formatCategory(
-                                  car.category === "Motors" ? "AutomotiveComp" :
-                                  car.category === "Automotive" ? "AutomotiveComp" :
-                                  car.category === "Services" ? "TravelComp" :
-                                  car.category === "RealEstate" || car.category === "Real Estate" ? "RealEstateComp" :
-                                  car.category === "Other" ? "Education" :
-                                  car.category === "Electronics" ? "ElectronicComp" :
-                                  car.category === "Sports&Game" ? "SportGamesComp" :
-                                  car.category === "Home & Furnituer" ? "HealthCareComp" :
-                                  car.category
+                                  car.category === "Motors"
+                                    ? "AutomotiveComp"
+                                    : car.category === "Automotive"
+                                      ? "AutomotiveComp"
+                                      : car.category === "Services"
+                                        ? "TravelComp"
+                                        : car.category === "RealEstate" ||
+                                            car.category === "Real Estate"
+                                          ? "RealEstateComp"
+                                          : car.category === "Other"
+                                            ? "Education"
+                                            : car.category === "Electronics"
+                                              ? "ElectronicComp"
+                                              : car.category === "Sports&Game"
+                                                ? "SportGamesComp"
+                                                : car.category ===
+                                                    "Home & Furnituer"
+                                                  ? "HealthCareComp"
+                                                  : car.category,
                                 )}`}
                                 style={{ textDecoration: "none" }}
                               >
-                                <h3 className="mobile-search-card-title">{car.title || "No Title"}</h3>
+                                <h3 className="mobile-search-card-title">
+                                  {car.title || "No Title"}
+                                </h3>
                               </Link>
 
                               <div className="mobile-search-card-price-location">
@@ -4192,7 +4256,10 @@ const Userinfo = () => {
                               </div>
 
                               {/* Action Buttons */}
-                              <div className="mobile-search-card-actions" style={{ position: 'relative' }}>
+                              <div
+                                className="mobile-search-card-actions"
+                                style={{ position: "relative" }}
+                              >
                                 {/* Phone Number Tooltip */}
                                 {isActive && car.Phone && (
                                   <div className="mobile-search-card-phone-tooltip">
@@ -4254,240 +4321,249 @@ const Userinfo = () => {
                                 : "30px 20px",
                           }}
                         >
-                        <Row className="g-0">
-                          <Col md={4} style={{ position: "relative" }}>
-                            {/* Featured Label */}
-                            {car.FeaturedAds === "Featured Ads" && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "10px",
-                                  left: "10px",
-                                  backgroundColor: "#36A680",
-                                  color: "white",
-                                  padding: "6px 12px",
-                                  fontWeight: "bold",
-                                  borderRadius: "8px",
-                                  border: "2px solid #2c8e6f",
-                                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
-                                  fontSize: "14px",
-                                  zIndex: 2,
-                                }}
-                              >
-                                Featured
-                              </div>
-                            )}
-                            {/* Heart Icon */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: "10%",
-                                left: "90%",
-                                transform: "translate(-50%, -50%)",
-                                borderRadius: "50%",
-                                padding: "10px",
-                                zIndex: 3,
-                                cursor: "pointer",
-                              }}
-                              // onClick={() => toggleBookmark(car.id)}
-                              onClick={() =>
-                                toggleBookmark(car.id, car.category)
-                              }
-                            >
-                              <FaHeart
-                                style={{
-                                  color:
-                                    car.bookmarked === true &&
-                                    car.userId === userId
-                                      ? "red"
-                                      : "gray",
-                                  fontSize: "30px",
-                                }}
-                              />{" "}
-                            </div>
-                            {popoverCarId === car.id && (
-                              <div
-                                style={{
-                                  position: "absolute",
-                                  top: "-30px",
-                                  left: "50%",
-                                  transform: "translateX(-50%)",
-                                  backgroundColor: "#333",
-                                  color: "#fff",
-                                  padding: "8px 12px",
-                                  borderRadius: "5px",
-                                  fontSize: "14px",
-                                  whiteSpace: "nowrap",
-                                  boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-                                }}
-                              >
-                                Please log in to bookmark
-                              </div>
-                            )}
-                            <Link
-                              onClick={() => handleView(car.id)}
-                              //  to={`/car-details/${ad.id}`}
-                              // to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
-                              to={`/Dynamic_Route?id=${
-                                car.id
-                              }&callingFrom=${formatCategory(
-                                car.category === "Motors"
-                                  ? "AutomotiveComp"
-                                  : car.category === "Automotive"
-                                  ? "AutomotiveComp"
-                                  : car.category === "Services"
-                                  ? "TravelComp"
-                                  : car.category == "RealEstate"
-                                  ? "RealEstateComp"
-                                  : car.category == "Real Estate"
-                                  ? "RealEstateComp"
-                                  : car.category === "Other"
-                                  ? "Education"
-                                  : car.category === "Electronics"
-                                  ? "ElectronicComp"
-                                  : car.category === "Electronics"
-                                  ? "ElectronicComp"
-                                  : car.category === "Sports&Game"
-                                  ? "SportGamesComp"
-                                  : car.category === "Home & Furnituer"
-                                  ? "HealthCareComp"
-                                  : car.category === "Home & Furnituer"
-                                  ? "HealthCareComp"
-                                  : car.category
-                              )}`}
-                            >
-                              {/* Image */}
-                              <Card.Img
-                                src={
-                                  car?.galleryImages[0] ||
-                                  "https://via.placeholder.com/150"
-                                }
-                                alt={car.title || "Car"}
-                                style={{
-                                  width: "100%",
-                                  height: "230px",
-                                  objectFit: "cover",
-                                  borderTopLeftRadius: "20px",
-                                  borderBottomLeftRadius: "20px",
-                                }}
-                              />
-                            </Link>
-                          </Col>
-
-                          <Col md={8} className="filter_card_main">
-                            <Card.Body>
-                              <Card.Title
-                                className="title_head"
-                                style={{
-                                  color: "#2D4495",
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-2px" : "0px",
-                                }}
-                              >
-                                <Link
-                                  //  to={`/car-details/${ad.id}`}
-                                  // to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
-                                  to={`/Dynamic_Route?id=${
-                                    car.id
-                                  }&callingFrom=${formatCategory(
-                                    // car.category === "Motors"
-                                    //   ? "AutomotiveComp"
-                                    //   : car.category
-                                    car.category === "Motors"
-                                      ? "AutomotiveComp"
-                                      : car.category === "Services"
-                                      ? "TravelComp"
-                                      : car.category == "RealEstate"
-                                      ? "RealEstateComp"
-                                      : car.category == "Real Estate"
-                                      ? "RealEstateComp"
-                                      : car.category === "Automotive"
-                                      ? "AutomotiveComp"
-                                      : car.category === "Other"
-                                      ? "Education"
-                                      : car.category === "Electronics"
-                                      ? "ElectronicComp"
-                                      : car.category.trim() === "Sports & Game"
-                                      ? "SportGamesComp"
-                                      : car.category === "Home & Furnituer"
-                                      ? "HealthCareComp"
-                                      : car.category
-                                  )}`}
-                                >
-                                  {car.title || "Car"}
-                                </Link>
-                                <p
+                          <Row className="g-0">
+                            <Col md={4} style={{ position: "relative" }}>
+                              {/* Featured Label */}
+                              {car.FeaturedAds === "Featured Ads" && (
+                                <div
                                   style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    left: "10px",
+                                    backgroundColor: "#36A680",
+                                    color: "white",
+                                    padding: "6px 12px",
                                     fontWeight: "bold",
-                                    fontSize: "20px",
-                                    color: "#2D4495",
+                                    borderRadius: "8px",
+                                    border: "2px solid #2c8e6f",
+                                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+                                    fontSize: "14px",
+                                    zIndex: 2,
                                   }}
                                 >
-                                  {car.Price ? (
-                                    <>
-                                      <img
-                                        src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
-                                        alt="Saudi Riyal Symbol"
-                                        style={{
-                                          height: "1em",
-                                          verticalAlign: "middle",
-                                          marginRight: "5px",
-                                        }}
-                                      />
-                                      {car.Price}
-                                    </>
-                                  ) : (
-                                    "Price not available"
-                                  )}
-                                </p>
-                              </Card.Title>
-                              <Card.Text style={{ color: "black" }}>
-                                <small className="text-muted">
-                                  <IoLocationOutline
-                                    style={{
-                                      marginRight: "5px",
-                                      color: "#6c757d",
-                                    }}
-                                  />
-                                  <span style={{ color: "black" }}>
-                                    {car.City || "Location"}
-                                  </span>
-                                </small>
+                                  Featured
+                                </div>
+                              )}
+                              {/* Heart Icon */}
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "10%",
+                                  left: "90%",
+                                  transform: "translate(-50%, -50%)",
+                                  borderRadius: "50%",
+                                  padding: "10px",
+                                  zIndex: 3,
+                                  cursor: "pointer",
+                                }}
+                                // onClick={() => toggleBookmark(car.id)}
+                                onClick={() =>
+                                  toggleBookmark(car.id, car.category)
+                                }
+                              >
+                                <FaHeart
+                                  style={{
+                                    color:
+                                      car.bookmarked === true &&
+                                      car.userId === userId
+                                        ? "red"
+                                        : "gray",
+                                    fontSize: "30px",
+                                  }}
+                                />{" "}
+                              </div>
+                              {popoverCarId === car.id && (
+                                <div
+                                  style={{
+                                    position: "absolute",
+                                    top: "-30px",
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                    backgroundColor: "#333",
+                                    color: "#fff",
+                                    padding: "8px 12px",
+                                    borderRadius: "5px",
+                                    fontSize: "14px",
+                                    whiteSpace: "nowrap",
+                                    boxShadow:
+                                      "0px 2px 10px rgba(0, 0, 0, 0.2)",
+                                  }}
+                                >
+                                  Please log in to bookmark
+                                </div>
+                              )}
+                              <Link
+                                onClick={() => handleView(car.id)}
+                                //  to={`/car-details/${ad.id}`}
+                                // to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
+                                to={`/Dynamic_Route?id=${
+                                  car.id
+                                }&callingFrom=${formatCategory(
+                                  car.category === "Motors"
+                                    ? "AutomotiveComp"
+                                    : car.category === "Automotive"
+                                      ? "AutomotiveComp"
+                                      : car.category === "Services"
+                                        ? "TravelComp"
+                                        : car.category == "RealEstate"
+                                          ? "RealEstateComp"
+                                          : car.category == "Real Estate"
+                                            ? "RealEstateComp"
+                                            : car.category === "Other"
+                                              ? "Education"
+                                              : car.category === "Electronics"
+                                                ? "ElectronicComp"
+                                                : car.category === "Electronics"
+                                                  ? "ElectronicComp"
+                                                  : car.category ===
+                                                      "Sports&Game"
+                                                    ? "SportGamesComp"
+                                                    : car.category ===
+                                                        "Home & Furnituer"
+                                                      ? "HealthCareComp"
+                                                      : car.category ===
+                                                          "Home & Furnituer"
+                                                        ? "HealthCareComp"
+                                                        : car.category,
+                                )}`}
+                              >
+                                {/* Image */}
+                                <Card.Img
+                                  src={
+                                    car?.galleryImages[0] ||
+                                    "https://via.placeholder.com/150"
+                                  }
+                                  alt={car.title || "Car"}
+                                  style={{
+                                    width: "100%",
+                                    height: "230px",
+                                    objectFit: "cover",
+                                    borderTopLeftRadius: "20px",
+                                    borderBottomLeftRadius: "20px",
+                                  }}
+                                />
+                              </Link>
+                            </Col>
 
-                                {/* <br /> */}
-                                {/* <small style={{ color: "black" }}>
+                            <Col md={8} className="filter_card_main">
+                              <Card.Body>
+                                <Card.Title
+                                  className="title_head"
+                                  style={{
+                                    color: "#2D4495",
+                                    marginTop:
+                                      window.innerWidth <= 576 ? "-2px" : "0px",
+                                  }}
+                                >
+                                  <Link
+                                    //  to={`/car-details/${ad.id}`}
+                                    // to={`/Dynamic_Route?id=${car.id}&callingFrom=AutomotiveComp`}
+                                    to={`/Dynamic_Route?id=${
+                                      car.id
+                                    }&callingFrom=${formatCategory(
+                                      // car.category === "Motors"
+                                      //   ? "AutomotiveComp"
+                                      //   : car.category
+                                      car.category === "Motors"
+                                        ? "AutomotiveComp"
+                                        : car.category === "Services"
+                                          ? "TravelComp"
+                                          : car.category == "RealEstate"
+                                            ? "RealEstateComp"
+                                            : car.category == "Real Estate"
+                                              ? "RealEstateComp"
+                                              : car.category === "Automotive"
+                                                ? "AutomotiveComp"
+                                                : car.category === "Other"
+                                                  ? "Education"
+                                                  : car.category ===
+                                                      "Electronics"
+                                                    ? "ElectronicComp"
+                                                    : car.category.trim() ===
+                                                        "Sports & Game"
+                                                      ? "SportGamesComp"
+                                                      : car.category ===
+                                                          "Home & Furnituer"
+                                                        ? "HealthCareComp"
+                                                        : car.category,
+                                    )}`}
+                                  >
+                                    {car.title || "Car"}
+                                  </Link>
+                                  <p
+                                    style={{
+                                      fontWeight: "bold",
+                                      fontSize: "20px",
+                                      color: "#2D4495",
+                                    }}
+                                  >
+                                    {car.Price ? (
+                                      <>
+                                        <img
+                                          src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                          alt="Saudi Riyal Symbol"
+                                          style={{
+                                            height: "1em",
+                                            verticalAlign: "middle",
+                                            marginRight: "5px",
+                                          }}
+                                        />
+                                        {car.Price}
+                                      </>
+                                    ) : (
+                                      "Price not available"
+                                    )}
+                                  </p>
+                                </Card.Title>
+                                <Card.Text style={{ color: "black" }}>
+                                  <small className="text-muted">
+                                    <IoLocationOutline
+                                      style={{
+                                        marginRight: "5px",
+                                        color: "#6c757d",
+                                      }}
+                                    />
+                                    <span style={{ color: "black" }}>
+                                      {car.City || "Location"}
+                                    </span>
+                                  </small>
+
+                                  {/* <br /> */}
+                                  {/* <small style={{ color: "black" }}>
                                 {car.ManufactureYear || "Year"} |{" "}
                                 {car.DrivenKm || "0"} Km |{" "}
                                 {car.EngineType || "Engine Type"} |{" "}
                                 {car.Transmission || "Transmission"}
                               </small> */}
 
-                                <br />
-                                <p className="car_desc">
-                                  {car.description ||
-                                    "Description not available."}
-                                </p>
-                              </Card.Text>
-                              <Col
-                                className="align-items-center user_profile_block"
-                                style={{
-                                  marginTop:
-                                    window.innerWidth <= 576 ? "-10px" : "30px",
-                                }}
-                              >
-                                {/* Price displayed above the image */}
-                                {/* Small Image on the Right with Top Margin */}
-                                <div>
-                                  {loading ? (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        height: "100vh",
-                                      }}
-                                    >
-                                      {/* <img
+                                  <br />
+                                  <p className="car_desc">
+                                    {car.description ||
+                                      "Description not available."}
+                                  </p>
+                                </Card.Text>
+                                <Col
+                                  className="align-items-center user_profile_block"
+                                  style={{
+                                    marginTop:
+                                      window.innerWidth <= 576
+                                        ? "-10px"
+                                        : "30px",
+                                  }}
+                                >
+                                  {/* Price displayed above the image */}
+                                  {/* Small Image on the Right with Top Margin */}
+                                  <div>
+                                    {loading ? (
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          height: "100vh",
+                                        }}
+                                      >
+                                        {/* <img
                                         src={Loading1}
                                         alt="Loading..."
                                         style={{
@@ -4496,8 +4572,8 @@ const Userinfo = () => {
                                           animation: "spin 1s linear infinite", // Apply the spin animation
                                         }}
                                       /> */}
-                                      <style>
-                                        {`
+                                        <style>
+                                          {`
                                           @keyframes spin {
                                             from {
                                               transform: rotate(0deg);
@@ -4507,115 +4583,94 @@ const Userinfo = () => {
                                             }
                                           }
                                         `}
-                                      </style>
-                                    </div>
-                                  ) : (
-                                    ads.map((cars) => "")
-                                  )}
-                                </div>
-                                <div
-                                  className="profile_image_block"
-                                  style={{
-                                    // position: "absolute",
-                                    // top: "-70px",
-                                    // left: "470px",
-                                    fontWeight: "bold",
-                                    fontSize: "20px",
-                                    zIndex: 2,
-                                    color: "#2D4495",
-                                  }}
-                                >
-                                  <img
-                                    src={userData?.photoURL || ImageURL}
-                                    alt="User profile"
-                                    onError={(e) => {
-                                      e.target.onerror = null; // prevent infinite loop
-                                      e.target.src = ImageURL;
-                                    }}
+                                        </style>
+                                      </div>
+                                    ) : (
+                                      ads.map((cars) => "")
+                                    )}
+                                  </div>
+                                  <div
+                                    className="profile_image_block"
                                     style={{
-                                      width: "100px",
-                                      height: "100px",
-                                      objectFit: "cover",
-                                      borderRadius: "50%",
-                                      border: "2px solid white",
-                                      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                                      display: "block",
-                                    }}
-                                  />
-                                </div>
-                                {/* Updated text at the bottom-right corner */}
-                                <p
-                                  style={{
-                                    marginTop:
-                                      window.innerWidth <= 1100
-                                        ? "5px"
-                                        : "54px",
-                                    // marginLeft:
-                                    // 	window.innerWidth <= 576
-                                    // 		? "10rem"
-                                    // 		: "0rem",
-                                    color: "black",
-                                  }}
-                                >
-                                  Updated {timeAgo(car.createdAt)}
-                                </p>
-                                {/* Responsive layout for small screens */}
-                              </Col>
-                              <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
-                                {/* Call Now Button */}
-                                <a href={`tel:${car.Phone}`}>
-                                  <button
-                                    className={`blue_btn list_btn ${
-                                      isActive ? "expanded" : ""
-                                    }`}
-                                    style={{
-                                      marginTop:
-                                        window.innerWidth <= 576
-                                          ? "10px"
-                                          : "50px",
-                                      width:
-                                        window.innerWidth <= 576
-                                          ? "150px"
-                                          : "auto",
-                                    }}
-                                    onClick={(e) => {
-                                      if (!isActive) {
-                                        e.preventDefault(); // Only prevent if not active
-                                        setActivePhoneIndex(index);
-                                      }
+                                      // position: "absolute",
+                                      // top: "-70px",
+                                      // left: "470px",
+                                      fontWeight: "bold",
+                                      fontSize: "20px",
+                                      zIndex: 2,
+                                      color: "#2D4495",
                                     }}
                                   >
-                                    <FaPhoneAlt />
-                                    <span>
-                                      {isActive ? car.Phone : t("listing.callNow")}
-                                    </span>
-                                  </button>
-                                </a>
+                                    <img
+                                      src={userData?.photoURL || ImageURL}
+                                      alt="User profile"
+                                      onError={(e) => {
+                                        e.target.onerror = null; // prevent infinite loop
+                                        e.target.src = ImageURL;
+                                      }}
+                                      style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        objectFit: "cover",
+                                        borderRadius: "50%",
+                                        border: "2px solid white",
+                                        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                                        display: "block",
+                                      }}
+                                    />
+                                  </div>
+                                  {/* Updated text at the bottom-right corner */}
+                                  <p
+                                    style={{
+                                      marginTop:
+                                        window.innerWidth <= 1100
+                                          ? "5px"
+                                          : "54px",
+                                      // marginLeft:
+                                      // 	window.innerWidth <= 576
+                                      // 		? "10rem"
+                                      // 		: "0rem",
+                                      color: "black",
+                                    }}
+                                  >
+                                    Updated {timeAgo(car.createdAt)}
+                                  </p>
+                                  {/* Responsive layout for small screens */}
+                                </Col>
+                                <div className="d-flex align-items-center gap-2 mt-3 innerContainer2 head2btflex card_btn_wrap">
+                                  {/* Call Now Button */}
+                                  <a href={`tel:${car.Phone}`}>
+                                    <button
+                                      className={`blue_btn list_btn ${
+                                        isActive ? "expanded" : ""
+                                      }`}
+                                      style={{
+                                        marginTop:
+                                          window.innerWidth <= 576
+                                            ? "10px"
+                                            : "50px",
+                                        width:
+                                          window.innerWidth <= 576
+                                            ? "150px"
+                                            : "auto",
+                                      }}
+                                      onClick={(e) => {
+                                        if (!isActive) {
+                                          e.preventDefault(); // Only prevent if not active
+                                          setActivePhoneIndex(index);
+                                        }
+                                      }}
+                                    >
+                                      <FaPhoneAlt />
+                                      <span>
+                                        {isActive
+                                          ? car.Phone
+                                          : t("listing.callNow")}
+                                      </span>
+                                    </button>
+                                  </a>
 
-                                {/* Message Button */}
-                                <button
-                                  className={`blue_btn list_btn ${
-                                    isActive ? "icon-only" : ""
-                                  }`}
-                                  style={{
-                                    marginTop:
-                                      window.innerWidth <= 576 ? "5px" : "50px",
-                                    width:
-                                      window.innerWidth <= 576
-                                        ? "150px"
-                                        : "auto",
-                                  }}
-                                  onClick={() => handleShowModal(car.userId)}
-                                >
-                                  <MdMessage />
-                                  <span className="button-text">Message</span>
-                                </button>
-                                {/* WhatsApp Button */}
-                                <a
-                                  href={`https://wa.me/${car.whatsapp}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
+                                  {/* Message Button */}
                                   <button
                                     className={`blue_btn list_btn ${
                                       isActive ? "icon-only" : ""
@@ -4630,146 +4685,173 @@ const Userinfo = () => {
                                           ? "150px"
                                           : "auto",
                                     }}
+                                    onClick={() => handleShowModal(car.userId)}
                                   >
-                                    <FaWhatsapp />
-                                    <span className="button-text">
-                                      {t("listing.whatsapp")}
-                                    </span>
+                                    <MdMessage />
+                                    <span className="button-text">Message</span>
                                   </button>
-                                </a>
+                                  {/* WhatsApp Button */}
+                                  <a
+                                    href={`https://wa.me/${car.whatsapp}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <button
+                                      className={`blue_btn list_btn ${
+                                        isActive ? "icon-only" : ""
+                                      }`}
+                                      style={{
+                                        marginTop:
+                                          window.innerWidth <= 576
+                                            ? "5px"
+                                            : "50px",
+                                        width:
+                                          window.innerWidth <= 576
+                                            ? "150px"
+                                            : "auto",
+                                      }}
+                                    >
+                                      <FaWhatsapp />
+                                      <span className="button-text">
+                                        {t("listing.whatsapp")}
+                                      </span>
+                                    </button>
+                                  </a>
 
-                                <button
-                                  className={`sign-in-button`}
-                                  style={{
-                                    border: "1px solid #2D4495",
-                                    backgroundColor: "white",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    color: "#2D4495",
-                                    width: "fit-content",
-                                    height: "fit-content",
-                                    padding: "9px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    margin: "5px",
-                                    marginBottom: "0px",
+                                  <button
+                                    className={`sign-in-button`}
+                                    style={{
+                                      border: "1px solid #2D4495",
+                                      backgroundColor: "white",
+                                      borderRadius: "5px",
+                                      cursor: "pointer",
+                                      color: "#2D4495",
+                                      width: "fit-content",
+                                      height: "fit-content",
+                                      padding: "9px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      margin: "5px",
+                                      marginBottom: "0px",
 
-                                    // marginRight:
-                                    // 	window.innerWidth <= 576
-                                    // 		? "20px"
-                                    // 		: "60px",
+                                      // marginRight:
+                                      // 	window.innerWidth <= 576
+                                      // 		? "20px"
+                                      // 		: "60px",
 
-                                    marginTop:
-                                      window.innerWidth <= 576 ? "5px" : "50px",
-                                  }}
-                                >
-                                  {/* <FaHeart
+                                      marginTop:
+                                        window.innerWidth <= 576
+                                          ? "5px"
+                                          : "50px",
+                                    }}
+                                  >
+                                    {/* <FaHeart
                                                             style={{
                                                               color:  "white",
                                                               fontSize: "30px",
                                                             }}
                                                           />{" "} */}
-                                  <FaRegHeart
-                                    onClick={() => toggleBookmark(car.id)}
-                                    style={{
-                                      color:
-                                        car.bookmarked === true &&
-                                        car.userId === userId
-                                          ? "red"
-                                          : "#2D4495",
-                                      fontSize: "20px",
-                                    }}
-                                  />
-                                </button>
+                                    <FaRegHeart
+                                      onClick={() => toggleBookmark(car.id)}
+                                      style={{
+                                        color:
+                                          car.bookmarked === true &&
+                                          car.userId === userId
+                                            ? "red"
+                                            : "#2D4495",
+                                        fontSize: "20px",
+                                      }}
+                                    />
+                                  </button>
 
-                                {/* Consolidated styles for all buttons */}
-                                <style jsx>{`
-                                  .sign-in-button {
-                                    background-color: #0055a5; /* Blue background color matching the image */
-                                    color: white; /* White text color */
-                                    font-size: 12px; /* Approximate font size */
-                                    font-weight: bold; /* Bold text */
-                                    // width: 90px; /* Default fixed width */
-                                    height: 40px; /* Fixed height */
-                                    border: none; /* No border */
-                                    border-radius: 10px; /* Rounded corners */
-                                    cursor: pointer; /* Hand cursor on hover */
-                                    text-transform: capitalize; /* Capitalize the text like in the image */
-                                    display: flex; /* Use flexbox to center icon and text */
-                                    align-items: center; /* Vertically center */
-                                    justify-content: center; /* Horizontally center */
-                                    gap: 8px; /* Space between icon and text */
-                                    transition: width 0.3s ease; /* Smooth transition for width change */
-                                  }
+                                  {/* Consolidated styles for all buttons */}
+                                  <style jsx>{`
+                                    .sign-in-button {
+                                      background-color: #0055a5; /* Blue background color matching the image */
+                                      color: white; /* White text color */
+                                      font-size: 12px; /* Approximate font size */
+                                      font-weight: bold; /* Bold text */
+                                      // width: 90px; /* Default fixed width */
+                                      height: 40px; /* Fixed height */
+                                      border: none; /* No border */
+                                      border-radius: 10px; /* Rounded corners */
+                                      cursor: pointer; /* Hand cursor on hover */
+                                      text-transform: capitalize; /* Capitalize the text like in the image */
+                                      display: flex; /* Use flexbox to center icon and text */
+                                      align-items: center; /* Vertically center */
+                                      justify-content: center; /* Horizontally center */
+                                      gap: 8px; /* Space between icon and text */
+                                      transition: width 0.3s ease; /* Smooth transition for width change */
+                                    }
 
-                                  .sign-in-button:hover {
-                                    background-color: #004080; /* Slightly darker blue on hover for feedback */
-                                  }
+                                    .sign-in-button:hover {
+                                      background-color: #004080; /* Slightly darker blue on hover for feedback */
+                                    }
 
-                                  /* Expanded state for Call Now button */
-                                  .expanded {
-                                    width: 200px; /* Larger width when showing phone number */
-                                    font-size: 16px; /* Slightly smaller font to fit the number */
-                                  }
+                                    /* Expanded state for Call Now button */
+                                    .expanded {
+                                      width: 200px; /* Larger width when showing phone number */
+                                      font-size: 16px; /* Slightly smaller font to fit the number */
+                                    }
 
-                                  /* Icon-only state for WhatsApp and Message buttons */
-                                  .icon-only {
-                                    width: 50px; /* Smaller width to fit just the icon */
-                                  }
+                                    /* Icon-only state for WhatsApp and Message buttons */
+                                    .icon-only {
+                                      width: 50px; /* Smaller width to fit just the icon */
+                                    }
 
-                                  /* Hide text in icon-only state */
-                                  .icon-only .button-text {
-                                    display: none; /* Hide the text */
-                                  }
+                                    /* Hide text in icon-only state */
+                                    .icon-only .button-text {
+                                      display: none; /* Hide the text */
+                                    }
 
-                                  /* Remove underline from <a> tags */
-                                  a {
-                                    text-decoration: none;
-                                  }
-                                `}</style>
-                              </div>
-                              <div>
-                                <div
-                                  className={`modal fade ${
-                                    showModal ? "show d-block" : "d-none"
-                                  }`}
-                                  tabIndex="-1"
-                                  role="dialog"
-                                  style={{
-                                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                    marginTop: 100,
-                                  }} // Backdrop effect
-                                >
+                                    /* Remove underline from <a> tags */
+                                    a {
+                                      text-decoration: none;
+                                    }
+                                  `}</style>
+                                </div>
+                                <div>
                                   <div
-                                    className="modal-dialog modal-dialog-centered"
-                                    role="document"
+                                    className={`modal fade ${
+                                      showModal ? "show d-block" : "d-none"
+                                    }`}
+                                    tabIndex="-1"
+                                    role="dialog"
+                                    style={{
+                                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                      marginTop: 100,
+                                    }} // Backdrop effect
                                   >
-                                    <div className="modal-content">
-                                      <div className="modal-header">
-                                        <h5 className="modal-title">
-                                          Send Message
-                                        </h5>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          onClick={() => setShowModal(false)}
-                                        ></button>
-                                      </div>
-                                      {userId && receiverId ? (
-                                        <Mesagedeals
-                                          userId={userId}
-                                          recieverId={receiverId}
-                                          fullWidth={true} // :point_left: Add this prop
-                                        />
-                                      ) : (
-                                        <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
-                                          <p className="text-lg font-semibold text-gray-600">
-                                            Please log in to start messaging.
-                                          </p>
+                                    <div
+                                      className="modal-dialog modal-dialog-centered"
+                                      role="document"
+                                    >
+                                      <div className="modal-content">
+                                        <div className="modal-header">
+                                          <h5 className="modal-title">
+                                            Send Message
+                                          </h5>
+                                          <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => setShowModal(false)}
+                                          ></button>
                                         </div>
-                                      )}
-                                      {/* <div className="modal-body">
+                                        {userId && receiverId ? (
+                                          <Mesagedeals
+                                            userId={userId}
+                                            recieverId={receiverId}
+                                            fullWidth={true} // :point_left: Add this prop
+                                          />
+                                        ) : (
+                                          <div className="flex items-center justify-center h-40 bg-gray-100 rounded-md">
+                                            <p className="text-lg font-semibold text-gray-600">
+                                              Please log in to start messaging.
+                                            </p>
+                                          </div>
+                                        )}
+                                        {/* <div className="modal-body">
                                         <div className="p-4 w-full max-w-lg mx-auto">
                                           {currentUserId && receiverId ? (
                                             <Chat
@@ -4786,21 +4868,21 @@ const Userinfo = () => {
                                           )}
                                         </div>
                                       </div> */}
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
 
-                                {showModal && (
-                                  <div
-                                    className="modal-backdrop fade show"
-                                    onClick={() => setShowModal(false)}
-                                  ></div>
-                                )}
-                              </div>
-                            </Card.Body>
-                          </Col>
-                        </Row>
-                      </Card>
+                                  {showModal && (
+                                    <div
+                                      className="modal-backdrop fade show"
+                                      onClick={() => setShowModal(false)}
+                                    ></div>
+                                  )}
+                                </div>
+                              </Card.Body>
+                            </Col>
+                          </Row>
+                        </Card>
                       </React.Fragment>
                     );
                   })
@@ -4847,12 +4929,21 @@ const Userinfo = () => {
               {/* Mobile Filter Modals - Same structure as Search page */}
 
               {/* Subcategory Filter Modal */}
-              {activeFilterModal === 'subcategory' && categories.length > 0 && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "subcategory" && categories.length > 0 && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.labels.subCategories")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -4867,7 +4958,10 @@ const Userinfo = () => {
                               checked={selectedSubCategory === category}
                               onChange={() => {
                                 handleCategoryCheck(category);
-                                setTimeout(() => setActiveFilterModal(null), 100);
+                                setTimeout(
+                                  () => setActiveFilterModal(null),
+                                  100,
+                                );
                               }}
                             />
                             <label htmlFor={`mobile-cat-${index}`}>
@@ -4899,26 +4993,40 @@ const Userinfo = () => {
               )}
 
               {/* Region Filter Modal */}
-              {activeFilterModal === 'region' && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "region" && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.labels.selectRegion")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
                     <div className="mobile-filters-body">
                       <div className="mobile-filter-options">
                         {regionOptions.map((region) => (
-                          <div className="mobile-filter-option" key={region.regionId}>
+                          <div
+                            className="mobile-filter-option"
+                            key={region.regionId}
+                          >
                             <input
                               type="checkbox"
                               id={`mobile-region-${region.regionId}`}
                               checked={selectedRegion === region.regionId}
                               onChange={() => {
                                 setSelectedRegionId(
-                                  selectedRegion === region.regionId ? "" : region.regionId
+                                  selectedRegion === region.regionId
+                                    ? ""
+                                    : region.regionId,
                                 );
                               }}
                             />
@@ -4950,23 +5058,37 @@ const Userinfo = () => {
               )}
 
               {/* City Filter Modal */}
-              {activeFilterModal === 'city' && cityOptions.length > 0 && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "city" && cityOptions.length > 0 && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.labels.selectCity")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
                     <div className="mobile-filters-body">
                       <div className="mobile-filter-options">
                         {cityOptions.map((option) => (
-                          <div className="mobile-filter-option" key={option.value}>
+                          <div
+                            className="mobile-filter-option"
+                            key={option.value}
+                          >
                             <input
                               type="checkbox"
                               id={`mobile-city-${option.value}`}
-                              checked={selectedCities.some((city) => city.CITY_ID === option.cityId)}
+                              checked={selectedCities.some(
+                                (city) => city.CITY_ID === option.cityId,
+                              )}
                               onChange={() => handleCheckboxChange1(option)}
                             />
                             <label htmlFor={`mobile-city-${option.value}`}>
@@ -4997,74 +5119,104 @@ const Userinfo = () => {
               )}
 
               {/* District Filter Modal */}
-              {activeFilterModal === 'district' && districtOptions.length > 0 && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
-                    <div className="mobile-filters-header">
-                      <h2>{t("filters.labels.selectDistrict")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
-                        <FaTimes />
-                      </button>
-                    </div>
-                    <div className="mobile-filters-body">
-                      <div className="mobile-filter-options">
-                        {districtOptions.map((option) => (
-                          <div className="mobile-filter-option" key={option.value}>
-                            <input
-                              type="checkbox"
-                              id={`mobile-district-${option.value}`}
-                              checked={selectedDistricts.some((district) => district.DISTRICT_ID === option.value)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setSelectedDistricts((prev) => [
-                                    ...prev,
-                                    {
-                                      REGION_ID: option.regionId,
-                                      CITY_ID: option.cityId,
-                                      DISTRICT_ID: option.value,
-                                    },
-                                  ]);
-                                } else {
-                                  setSelectedDistricts((prev) =>
-                                    prev.filter((district) => district.DISTRICT_ID !== option.value)
-                                  );
-                                }
-                              }}
-                            />
-                            <label htmlFor={`mobile-district-${option.value}`}>
-                              {option.label}
-                            </label>
-                          </div>
-                        ))}
+              {activeFilterModal === "district" &&
+                districtOptions.length > 0 && (
+                  <div
+                    className="mobile-filter-modal-backdrop"
+                    onClick={() => setActiveFilterModal(null)}
+                  >
+                    <div
+                      className="mobile-filters-modal"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="mobile-filters-header">
+                        <h2>{t("filters.labels.selectDistrict")}</h2>
+                        <button
+                          className="mobile-filters-close-btn"
+                          onClick={() => setActiveFilterModal(null)}
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                      <div className="mobile-filters-body">
+                        <div className="mobile-filter-options">
+                          {districtOptions.map((option) => (
+                            <div
+                              className="mobile-filter-option"
+                              key={option.value}
+                            >
+                              <input
+                                type="checkbox"
+                                id={`mobile-district-${option.value}`}
+                                checked={selectedDistricts.some(
+                                  (district) =>
+                                    district.DISTRICT_ID === option.value,
+                                )}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setSelectedDistricts((prev) => [
+                                      ...prev,
+                                      {
+                                        REGION_ID: option.regionId,
+                                        CITY_ID: option.cityId,
+                                        DISTRICT_ID: option.value,
+                                      },
+                                    ]);
+                                  } else {
+                                    setSelectedDistricts((prev) =>
+                                      prev.filter(
+                                        (district) =>
+                                          district.DISTRICT_ID !== option.value,
+                                      ),
+                                    );
+                                  }
+                                }}
+                              />
+                              <label
+                                htmlFor={`mobile-district-${option.value}`}
+                              >
+                                {option.label}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="mobile-filters-footer">
+                        <button
+                          className="mobile-filters-clear-btn"
+                          onClick={() => {
+                            setSelectedDistricts([]);
+                          }}
+                        >
+                          {t("search.clear")}
+                        </button>
+                        <button
+                          className="mobile-filters-apply-btn"
+                          onClick={() => setActiveFilterModal(null)}
+                        >
+                          {t("filters.labels.done")}
+                        </button>
                       </div>
                     </div>
-                    <div className="mobile-filters-footer">
-                      <button
-                        className="mobile-filters-clear-btn"
-                        onClick={() => {
-                          setSelectedDistricts([]);
-                        }}
-                      >
-                        {t("search.clear")}
-                      </button>
-                      <button
-                        className="mobile-filters-apply-btn"
-                        onClick={() => setActiveFilterModal(null)}
-                      >
-                        {t("filters.labels.done")}
-                      </button>
-                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Featured Ads Filter Modal */}
-              {activeFilterModal === 'featuredAds' && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "featuredAds" && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>Featured Ads</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -5077,7 +5229,9 @@ const Userinfo = () => {
                             checked={selectedOptionisFeatured === "Featured Ad"}
                             onChange={handleCheckboxChangeisFeatured}
                           />
-                          <label htmlFor="mobile-featured-ads">Show Featured Ads Only</label>
+                          <label htmlFor="mobile-featured-ads">
+                            Show Featured Ads Only
+                          </label>
                         </div>
                       </div>
                     </div>
@@ -5102,12 +5256,21 @@ const Userinfo = () => {
               )}
 
               {/* Price Filter Modal */}
-              {activeFilterModal === 'price' && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "price" && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.labels.price")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -5152,12 +5315,21 @@ const Userinfo = () => {
               )}
 
               {/* Year Filter Modal */}
-              {activeFilterModal === 'year' && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "year" && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.labels.year")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -5200,12 +5372,21 @@ const Userinfo = () => {
               )}
 
               {/* Ad Type Filter Modal */}
-              {activeFilterModal === 'adType' && (
-                <div className="mobile-filter-modal-backdrop" onClick={() => setActiveFilterModal(null)}>
-                  <div className="mobile-filters-modal" onClick={(e) => e.stopPropagation()}>
+              {activeFilterModal === "adType" && (
+                <div
+                  className="mobile-filter-modal-backdrop"
+                  onClick={() => setActiveFilterModal(null)}
+                >
+                  <div
+                    className="mobile-filters-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="mobile-filters-header">
                       <h2>{t("filters.names.adType")}</h2>
-                      <button className="mobile-filters-close-btn" onClick={() => setActiveFilterModal(null)}>
+                      <button
+                        className="mobile-filters-close-btn"
+                        onClick={() => setActiveFilterModal(null)}
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -5245,7 +5426,6 @@ const Userinfo = () => {
                   </div>
                 </div>
               )}
-
             </Col>
           </Row>
         </Container>
@@ -5256,8 +5436,7 @@ const Userinfo = () => {
             paddingTop: "20px",
             paddingBottom: "30px",
           }}
-        >
-        </div>
+        ></div>
 
         <style>{`
           @media (max-width: 768px) {

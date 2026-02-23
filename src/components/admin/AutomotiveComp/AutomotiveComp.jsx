@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Import Link from react-router-dom
 import Header from "../../home/header"; // Ensure Header is correctly implemented and imported
 import Footer from "../../../components/home/footer/Footer";
@@ -91,7 +97,10 @@ import Spinner from "react-bootstrap/Spinner";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const AutomotiveComp = () => {
   const { t } = useTranslation();
@@ -202,14 +211,14 @@ const AutomotiveComp = () => {
   }, [isCityModalVisible]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -268,7 +277,7 @@ const AutomotiveComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -464,7 +473,7 @@ const AutomotiveComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
@@ -491,7 +500,7 @@ const AutomotiveComp = () => {
   const filteredCities = cityOptions
     .slice(6)
     .filter((option) =>
-      option.label?.toLowerCase().includes(searchTerm?.toLowerCase())
+      option.label?.toLowerCase().includes(searchTerm?.toLowerCase()),
     );
   console.log("Selected City:", selectedCity);
 
@@ -604,7 +613,7 @@ const AutomotiveComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -676,7 +685,7 @@ const AutomotiveComp = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -707,7 +716,7 @@ const AutomotiveComp = () => {
   const [selectedSubCategory1, setSelectedSubCategory1] = useState("");
   useEffect(() => {
     axios
-      .get("http://168.231.80.24:9002/route/carsSubCategories")
+      .get("/route/carsSubCategories")
       .then((response) => {
         setCategories(response.data); // store all categories, including count === 0
       })
@@ -797,7 +806,7 @@ const AutomotiveComp = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -805,7 +814,7 @@ const AutomotiveComp = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -887,9 +896,7 @@ const AutomotiveComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -910,7 +917,7 @@ const AutomotiveComp = () => {
   //   const fetchCities = async () => {
   //     try {
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegion}`
+  //         `/api/cities?REGION_ID=${selectedRegion}`
   //       );
   //       const data = await response.json();
 
@@ -1005,10 +1012,9 @@ const AutomotiveComp = () => {
   const [searchTermDistrict, setSearchTermDistrict] = useState("");
 
   // Filter district options based on search term
-  const filteredDistricts = districtOptions
-    .filter((option) =>
-      option.label?.toLowerCase().includes(searchTermDistrict?.toLowerCase())
-    );
+  const filteredDistricts = districtOptions.filter((option) =>
+    option.label?.toLowerCase().includes(searchTermDistrict?.toLowerCase()),
+  );
 
   const carBrands = [
     "Toyota",
@@ -1727,7 +1733,7 @@ const AutomotiveComp = () => {
     "Regency",
     "Berlingo",
   ];
-  const cheryModels =[
+  const cheryModels = [
     "C3",
     "C4",
     "C6",
@@ -1864,7 +1870,7 @@ const AutomotiveComp = () => {
     query === ""
       ? carBrands
       : carBrands.filter((brand) =>
-          brand?.toLowerCase().includes(query?.toLowerCase())
+          brand?.toLowerCase().includes(query?.toLowerCase()),
         );
   console.log("Selected:______", filteredBrands);
   console.log("Selected:______1", selected);
@@ -2065,7 +2071,7 @@ const AutomotiveComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -2082,7 +2088,7 @@ const AutomotiveComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -2221,7 +2227,7 @@ const AutomotiveComp = () => {
     setAdditionalFeatures((prevSelected) =>
       prevSelected.includes(name)
         ? prevSelected.filter((item) => item !== name)
-        : [...prevSelected, name]
+        : [...prevSelected, name],
     );
   };
 
@@ -2330,7 +2336,7 @@ const AutomotiveComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -2400,7 +2406,7 @@ const AutomotiveComp = () => {
         setLoading(true);
 
         const params = new URLSearchParams();
-        console.log("Paramassss", params)
+        console.log("Paramassss", params);
 
         if (searchText) params.append("searchText", searchText);
 
@@ -2419,11 +2425,10 @@ const AutomotiveComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/cars?${params.toString()}`
-        );
+        const response = await fetch(`/route/cars?${params.toString()}`);
 
         const carsData = await response.json();
         setCars(carsData);
@@ -2480,7 +2485,9 @@ const AutomotiveComp = () => {
       setCars((prevCars) =>
         prevCars.map((car) => {
           if (car.id === bookmarkChange.id) {
-            console.log(`✅ Updating car ${car.id} - removed: ${bookmarkChange.removed}`);
+            console.log(
+              `✅ Updating car ${car.id} - removed: ${bookmarkChange.removed}`,
+            );
             return {
               ...car,
               heartedby: bookmarkChange.removed
@@ -2489,7 +2496,7 @@ const AutomotiveComp = () => {
             };
           }
           return car;
-        })
+        }),
       );
 
       setFilteredCars((prevCars) =>
@@ -2503,7 +2510,7 @@ const AutomotiveComp = () => {
             };
           }
           return car;
-        })
+        }),
       );
 
       // Clear the bookmark change flag
@@ -2561,7 +2568,7 @@ const AutomotiveComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID); // ✅ Add DISTRICT_ID
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/cars?${params.toString()}`
+  //         `/route/cars?${params.toString()}`
   //       );
 
   //       const carsData = await response.json();
@@ -2605,7 +2612,7 @@ const AutomotiveComp = () => {
 
   //   // If never viewed OR 30 seconds (30000 ms) have passed
   //   if (!lastViewed || now - lastViewed > 30 * 1000) {
-  //     fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
+  //     fetch(`/route/cars/${carId}/view`, {
   //       method: "PATCH",
   //     });
 
@@ -2621,7 +2628,7 @@ const AutomotiveComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/cars/${carId}/view`, {
+      fetch(`/route/cars/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -3681,7 +3688,8 @@ const AutomotiveComp = () => {
   console.log(Model, "Model___________");
   const toggleBookmark = async (carId) => {
     try {
-      const selectedCar = ads.find((car) => car.id === carId) ||
+      const selectedCar =
+        ads.find((car) => car.id === carId) ||
         carsData.find((car) => car.id === carId);
       if (!selectedCar) return;
 
@@ -3718,7 +3726,10 @@ const AutomotiveComp = () => {
           removed: alreadyHearted,
           timestamp: Date.now(),
         };
-        sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+        sessionStorage.setItem(
+          "last_bookmark_change",
+          JSON.stringify(bookmarkChange),
+        );
 
         // Optimistically update local state so UI is immediate
         setCars((prevCars) =>
@@ -3730,8 +3741,8 @@ const AutomotiveComp = () => {
                     ? (car.heartedby || []).filter((id) => id !== uid)
                     : [...(car.heartedby || []), uid],
                 }
-              : car
-          )
+              : car,
+          ),
         );
         // Also update filteredCars which is used by the rendered list
         setFilteredCars((prev) =>
@@ -3743,16 +3754,15 @@ const AutomotiveComp = () => {
                     ? (car.heartedby || []).filter((id) => id !== uid)
                     : [...(car.heartedby || []), uid],
                 }
-              : car
-          )
+              : car,
+          ),
         );
 
         // Keep the `refresh` toggle like CommercialAdscom to trigger any
         // dependent re-fetches elsewhere.
-        
 
         console.log(
-          `User ${alreadyHearted ? "removed from" : "added to"} heartedby for car ${carId}`
+          `User ${alreadyHearted ? "removed from" : "added to"} heartedby for car ${carId}`,
         );
       }
     } catch (error) {
@@ -3819,7 +3829,7 @@ const AutomotiveComp = () => {
       Fueltype,
       Condition,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   }, [
     selectedCities,
@@ -3942,7 +3952,7 @@ const AutomotiveComp = () => {
       Fueltype,
       Condition,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   };
   const filterCars = (
@@ -3987,7 +3997,7 @@ const AutomotiveComp = () => {
     Fueltype,
     Condition,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
   ) => {
     let filtered = carsData;
 
@@ -4033,7 +4043,7 @@ const AutomotiveComp = () => {
         return fieldsToSearch.some(
           (field) =>
             typeof field === "string" &&
-            field.toLowerCase().includes(lowercasedQuery)
+            field.toLowerCase().includes(lowercasedQuery),
         );
       });
     }
@@ -4089,29 +4099,29 @@ const AutomotiveComp = () => {
     // Filter by selected cities
     if (selectedNumbersNumberofDoors?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedNumbersNumberofDoors.includes(car.NumberofDoors)
+        selectedNumbersNumberofDoors.includes(car.NumberofDoors),
       );
     }
 
     if (nestedSubCategory) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory),
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (AdditionalFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        AdditionalFeatures.includes(car.AdditionalFeatures)
+        AdditionalFeatures.includes(car.AdditionalFeatures),
       );
     }
     if (Condition?.length > 0) {
@@ -4129,12 +4139,12 @@ const AutomotiveComp = () => {
     }
     if (InteriorColor?.length > 0) {
       filtered = filtered.filter((car) =>
-        InteriorColor.includes(car.InteriorColor)
+        InteriorColor.includes(car.InteriorColor),
       );
     }
     if (RegionalSpec?.length > 0) {
       filtered = filtered.filter((car) =>
-        RegionalSpec.includes(car.RegionalSpec)
+        RegionalSpec.includes(car.RegionalSpec),
       );
     }
     if (Insurance?.length > 0) {
@@ -4145,63 +4155,63 @@ const AutomotiveComp = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
 
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
 
     // Filter by selected cities
     else if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     // Filter by selected cities
     if (selectedOptionisFeatured?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
+        selectedOptionisFeatured.includes(car.AdType),
       );
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
 
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -4210,18 +4220,18 @@ const AutomotiveComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -4326,7 +4336,7 @@ const AutomotiveComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -4723,7 +4733,7 @@ const AutomotiveComp = () => {
                             {/* // Rendering */}
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -4741,8 +4751,8 @@ const AutomotiveComp = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -4813,7 +4823,7 @@ const AutomotiveComp = () => {
                                           .map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
-                                                region.regionId
+                                                region.regionId,
                                               );
 
                                             return (
@@ -4829,25 +4839,25 @@ const AutomotiveComp = () => {
                                                   onChange={() => {
                                                     if (isChecked) {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
                                                             (id) =>
                                                               id !==
-                                                              region.regionId
-                                                          )
+                                                              region.regionId,
+                                                          ),
                                                       );
                                                     } else {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
                                                           region.regionId,
-                                                        ]
+                                                        ],
                                                       );
                                                     }
                                                   }}
@@ -4953,7 +4963,7 @@ const AutomotiveComp = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -5027,7 +5037,7 @@ const AutomotiveComp = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -5168,7 +5178,7 @@ const AutomotiveComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -5183,7 +5193,7 @@ const AutomotiveComp = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -5252,7 +5262,7 @@ const AutomotiveComp = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -5274,7 +5284,7 @@ const AutomotiveComp = () => {
                                                             DISTRICT_ID:
                                                               option.value,
                                                           },
-                                                        ]
+                                                        ],
                                                       );
                                                     } else {
                                                       setSelectedDistricts(
@@ -5282,8 +5292,8 @@ const AutomotiveComp = () => {
                                                           prev.filter(
                                                             (district) =>
                                                               district.DISTRICT_ID !==
-                                                              option.value
-                                                          )
+                                                              option.value,
+                                                          ),
                                                       );
                                                     }
                                                   }}
@@ -5555,8 +5565,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -5631,8 +5641,8 @@ const AutomotiveComp = () => {
                                                 if (Model.includes(model)) {
                                                   setModel((prev) =>
                                                     prev.filter(
-                                                      (m) => m !== model
-                                                    )
+                                                      (m) => m !== model,
+                                                    ),
                                                   );
                                                 } else {
                                                   setModel((prev) => [
@@ -5685,7 +5695,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -5753,8 +5763,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -5805,7 +5815,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -5873,8 +5883,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -5924,7 +5934,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -5992,8 +6002,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6043,7 +6053,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6111,8 +6121,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6162,7 +6172,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6230,8 +6240,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6280,7 +6290,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6348,8 +6358,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6399,7 +6409,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6467,8 +6477,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6517,7 +6527,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6585,8 +6595,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6636,7 +6646,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6704,8 +6714,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6755,7 +6765,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6823,8 +6833,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -6873,7 +6883,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(brand)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== brand)
+                                              prev.filter((m) => m !== brand),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -6946,8 +6956,8 @@ const AutomotiveComp = () => {
                                                 if (Model.includes(brand)) {
                                                   setModel((prev) =>
                                                     prev.filter(
-                                                      (m) => m !== brand
-                                                    )
+                                                      (m) => m !== brand,
+                                                    ),
                                                   );
                                                 } else {
                                                   setModel((prev) => [
@@ -6996,7 +7006,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7064,8 +7074,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7115,7 +7125,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7183,8 +7193,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7233,7 +7243,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7301,8 +7311,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7352,7 +7362,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7420,8 +7430,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7471,7 +7481,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7543,8 +7553,8 @@ const AutomotiveComp = () => {
                                                 if (Model.includes(model)) {
                                                   setModel((prev) =>
                                                     prev.filter(
-                                                      (m) => m !== model
-                                                    )
+                                                      (m) => m !== model,
+                                                    ),
                                                   );
                                                 } else {
                                                   setModel((prev) => [
@@ -7594,7 +7604,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7661,8 +7671,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7712,7 +7722,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7779,8 +7789,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7830,7 +7840,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -7897,8 +7907,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -7948,7 +7958,7 @@ const AutomotiveComp = () => {
                                         onChange={() => {
                                           if (Model.includes(model)) {
                                             setModel((prev) =>
-                                              prev.filter((m) => m !== model)
+                                              prev.filter((m) => m !== model),
                                             );
                                           } else {
                                             setModel((prev) => [
@@ -8015,8 +8025,8 @@ const AutomotiveComp = () => {
                                               if (Model.includes(model)) {
                                                 setModel((prev) =>
                                                   prev.filter(
-                                                    (m) => m !== model
-                                                  )
+                                                    (m) => m !== model,
+                                                  ),
                                                 );
                                               } else {
                                                 setModel((prev) => [
@@ -8067,7 +8077,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           );
                                         }}
                                         id={`infiniti-check-${model}`}
@@ -8129,15 +8139,15 @@ const AutomotiveComp = () => {
                                                   className="form-check-input"
                                                   type="checkbox"
                                                   checked={Model.includes(
-                                                    model
+                                                    model,
                                                   )}
                                                   onChange={() => {
                                                     setModel((prev) =>
                                                       prev.includes(model)
                                                         ? prev.filter(
-                                                            (m) => m !== model
+                                                            (m) => m !== model,
                                                           )
-                                                        : [...prev, model]
+                                                        : [...prev, model],
                                                     );
                                                   }}
                                                   id={`modal-infiniti-check-${model}`}
@@ -8183,7 +8193,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           );
                                         }}
                                         id={`hummer-check-${model}`}
@@ -8245,15 +8255,15 @@ const AutomotiveComp = () => {
                                                   className="form-check-input"
                                                   type="checkbox"
                                                   checked={Model.includes(
-                                                    model
+                                                    model,
                                                   )}
                                                   onChange={() => {
                                                     setModel((prev) =>
                                                       prev.includes(model)
                                                         ? prev.filter(
-                                                            (m) => m !== model
+                                                            (m) => m !== model,
                                                           )
-                                                        : [...prev, model]
+                                                        : [...prev, model],
                                                     );
                                                   }}
                                                   id={`modal-hummer-check-${model}`}
@@ -8300,9 +8310,9 @@ const AutomotiveComp = () => {
                                             setModel((prev) =>
                                               prev.includes(model)
                                                 ? prev.filter(
-                                                    (m) => m !== model
+                                                    (m) => m !== model,
                                                   )
-                                                : [...prev, model]
+                                                : [...prev, model],
                                             )
                                           }
                                           id={`check-lincoln-${model}`}
@@ -8363,9 +8373,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-lincoln-${model}`}
@@ -8409,7 +8419,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-volkswagen-${model}`}
@@ -8476,9 +8486,9 @@ const AutomotiveComp = () => {
                                                 setModel((prev) =>
                                                   prev.includes(model)
                                                     ? prev.filter(
-                                                        (m) => m !== model
+                                                        (m) => m !== model,
                                                       )
-                                                    : [...prev, model]
+                                                    : [...prev, model],
                                                 )
                                               }
                                               id={`modal-check-volkswagen-${model}`}
@@ -8523,7 +8533,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-daihatsu-${model}`}
@@ -8585,9 +8595,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-daihatsu-${model}`}
@@ -8633,7 +8643,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-geely-${model}`}
@@ -8695,9 +8705,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-geely-${model}`}
@@ -8743,7 +8753,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-mercury-${model}`}
@@ -8805,9 +8815,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-mercury-${model}`}
@@ -8853,7 +8863,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-volvo-${model}`}
@@ -8915,9 +8925,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-volvo-${model}`}
@@ -8963,7 +8973,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-peugeot-${model}`}
@@ -9025,9 +9035,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-peugeot-${model}`}
@@ -9072,7 +9082,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-bentley-${model}`}
@@ -9134,9 +9144,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-bentley-${model}`}
@@ -9182,7 +9192,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-jaguar-${model}`}
@@ -9244,9 +9254,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-jaguar-${model}`}
@@ -9291,7 +9301,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-subaru-${model}`}
@@ -9353,9 +9363,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-subaru-${model}`}
@@ -9399,7 +9409,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-mg-${model}`}
@@ -9461,9 +9471,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-mg-${model}`}
@@ -9507,7 +9517,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-changan-${model}`}
@@ -9569,9 +9579,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-changan-${model}`}
@@ -9616,7 +9626,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-renault-${model}`}
@@ -9678,9 +9688,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-renault-${model}`}
@@ -9725,7 +9735,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-buick-${model}`}
@@ -9787,9 +9797,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-buick-${model}`}
@@ -9834,7 +9844,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-rolls-${model}`}
@@ -9901,9 +9911,9 @@ const AutomotiveComp = () => {
                                                 setModel((prev) =>
                                                   prev.includes(model)
                                                     ? prev.filter(
-                                                        (m) => m !== model
+                                                        (m) => m !== model,
                                                       )
-                                                    : [...prev, model]
+                                                    : [...prev, model],
                                                 )
                                               }
                                               id={`modal-check-rolls-${model}`}
@@ -9949,9 +9959,9 @@ const AutomotiveComp = () => {
                                             setModel((prev) =>
                                               prev.includes(model)
                                                 ? prev.filter(
-                                                    (m) => m !== model
+                                                    (m) => m !== model,
                                                   )
-                                                : [...prev, model]
+                                                : [...prev, model],
                                             )
                                           }
                                           id={`check-lamborghini-${model}`}
@@ -10018,9 +10028,9 @@ const AutomotiveComp = () => {
                                                 setModel((prev) =>
                                                   prev.includes(model)
                                                     ? prev.filter(
-                                                        (m) => m !== model
+                                                        (m) => m !== model,
                                                       )
-                                                    : [...prev, model]
+                                                    : [...prev, model],
                                                 )
                                               }
                                               id={`modal-check-lamborghini-${model}`}
@@ -10064,7 +10074,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-opel-${model}`}
@@ -10126,9 +10136,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-opel-${model}`}
@@ -10173,7 +10183,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-skoda-${model}`}
@@ -10235,9 +10245,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-skoda-${model}`}
@@ -10282,7 +10292,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-ferrari-${model}`}
@@ -10344,9 +10354,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-ferrari-${model}`}
@@ -10391,7 +10401,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-citroen-${model}`}
@@ -10453,9 +10463,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-citroen-${model}`}
@@ -10500,7 +10510,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-chery-${model}`}
@@ -10562,9 +10572,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-chery-${model}`}
@@ -10609,7 +10619,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-daewoo-${model}`}
@@ -10671,9 +10681,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-daewoo-${model}`}
@@ -10717,7 +10727,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-sabb-${model}`}
@@ -10779,9 +10789,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-sabb-${model}`}
@@ -10825,7 +10835,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-ssangyong-${model}`}
@@ -10887,9 +10897,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-ssangyong-${model}`}
@@ -10936,9 +10946,9 @@ const AutomotiveComp = () => {
                                             setModel((prev) =>
                                               prev.includes(model)
                                                 ? prev.filter(
-                                                    (m) => m !== model
+                                                    (m) => m !== model,
                                                   )
-                                                : [...prev, model]
+                                                : [...prev, model],
                                             )
                                           }
                                           id={`check-aston-${model}`}
@@ -11005,9 +11015,9 @@ const AutomotiveComp = () => {
                                                 setModel((prev) =>
                                                   prev.includes(model)
                                                     ? prev.filter(
-                                                        (m) => m !== model
+                                                        (m) => m !== model,
                                                       )
-                                                    : [...prev, model]
+                                                    : [...prev, model],
                                                 )
                                               }
                                               id={`modal-check-aston-${model}`}
@@ -11052,7 +11062,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-proton-${model}`}
@@ -11114,9 +11124,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-proton-${model}`}
@@ -11161,7 +11171,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-haval-${model}`}
@@ -11223,9 +11233,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-haval-${model}`}
@@ -11270,7 +11280,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-gac-${model}`}
@@ -11332,9 +11342,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-gac-${model}`}
@@ -11379,7 +11389,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-greatwall-${model}`}
@@ -11441,9 +11451,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-greatwall-${model}`}
@@ -11488,7 +11498,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-faw-${model}`}
@@ -11550,9 +11560,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-faw-${model}`}
@@ -11597,7 +11607,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-byd-${model}`}
@@ -11659,9 +11669,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-byd-${model}`}
@@ -11723,9 +11733,9 @@ const AutomotiveComp = () => {
                                             setModel((prev) =>
                                               prev.includes(model)
                                                 ? prev.filter(
-                                                    (m) => m !== model
+                                                    (m) => m !== model,
                                                   )
-                                                : [...prev, model]
+                                                : [...prev, model],
                                             )
                                           }
                                           id={`modal-check-alfa-${model}`}
@@ -11769,7 +11779,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-alfa-${model}`}
@@ -11831,9 +11841,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-alfa-${model}`}
@@ -11878,7 +11888,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-tata-${model}`}
@@ -11940,9 +11950,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-tata-${model}`}
@@ -11987,7 +11997,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-jetour-${model}`}
@@ -12049,9 +12059,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-jetour-${model}`}
@@ -12096,7 +12106,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-cmc-${model}`}
@@ -12158,9 +12168,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-cmc-${model}`}
@@ -12207,9 +12217,9 @@ const AutomotiveComp = () => {
                                             setModel((prev) =>
                                               prev.includes(model)
                                                 ? prev.filter(
-                                                    (m) => m !== model
+                                                    (m) => m !== model,
                                                   )
-                                                : [...prev, model]
+                                                : [...prev, model],
                                             )
                                           }
                                           id={`check-victoryauto-${model}`}
@@ -12276,9 +12286,9 @@ const AutomotiveComp = () => {
                                                 setModel((prev) =>
                                                   prev.includes(model)
                                                     ? prev.filter(
-                                                        (m) => m !== model
+                                                        (m) => m !== model,
                                                       )
-                                                    : [...prev, model]
+                                                    : [...prev, model],
                                                 )
                                               }
                                               id={`modal-check-victoryauto-${model}`}
@@ -12323,7 +12333,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-maxus-${model}`}
@@ -12385,9 +12395,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-maxus-${model}`}
@@ -12432,7 +12442,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-baic-${model}`}
@@ -12494,9 +12504,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-baic-${model}`}
@@ -12540,7 +12550,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-dongfeng-${model}`}
@@ -12602,9 +12612,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-dongfeng-${model}`}
@@ -12649,7 +12659,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-exeed-${model}`}
@@ -12711,9 +12721,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-exeed-${model}`}
@@ -12758,7 +12768,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-tank-${model}`}
@@ -12820,9 +12830,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-tank-${model}`}
@@ -12866,7 +12876,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-lynk-${model}`}
@@ -12928,9 +12938,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-lynk-${model}`}
@@ -12975,7 +12985,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-lucid-${model}`}
@@ -13037,9 +13047,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-lucid-${model}`}
@@ -13083,7 +13093,7 @@ const AutomotiveComp = () => {
                                           setModel((prev) =>
                                             prev.includes(model)
                                               ? prev.filter((m) => m !== model)
-                                              : [...prev, model]
+                                              : [...prev, model],
                                           )
                                         }
                                         id={`check-ineos-${model}`}
@@ -13145,9 +13155,9 @@ const AutomotiveComp = () => {
                                               setModel((prev) =>
                                                 prev.includes(model)
                                                   ? prev.filter(
-                                                      (m) => m !== model
+                                                      (m) => m !== model,
                                                     )
-                                                  : [...prev, model]
+                                                  : [...prev, model],
                                               )
                                             }
                                             id={`modal-check-ineos-${model}`}
@@ -13558,7 +13568,7 @@ const AutomotiveComp = () => {
                                     type="checkbox"
                                     label={option}
                                     checked={logSelectedPurpose.includes(
-                                      option
+                                      option,
                                     )} // ✅ keep state synced
                                     onChange={() =>
                                       handleCheckboxPurpose(option)
@@ -13810,7 +13820,7 @@ const AutomotiveComp = () => {
                                       12345
                                     </span>
                                   </div>
-                                )
+                                ),
                               )}
                             </Form.Group>
 
@@ -13863,11 +13873,11 @@ const AutomotiveComp = () => {
                                     type="checkbox"
                                     label={feature.label}
                                     checked={AdditionalFeatures.includes(
-                                      feature.name
+                                      feature.name,
                                     )}
                                     onChange={() =>
                                       handleCheckboxAdditionalFeatures(
-                                        feature.name
+                                        feature.name,
                                       )
                                     }
                                   />
@@ -14018,7 +14028,7 @@ const AutomotiveComp = () => {
                                       12345
                                     </span>
                                   </div>
-                                )
+                                ),
                               )}
                             </Form.Group>
 
@@ -14055,39 +14065,36 @@ const AutomotiveComp = () => {
                         <Accordion.Body>
                           <div style={{ maxWidth: "300px", margin: "20px" }}>
                             <Form.Group>
-                              {[
-                                "GCC",
-                                "European",
-                                "Japanese",
-                                "American",
-                              ].map((spec) => (
-                                <div
-                                  key={spec}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    padding: "8px 0",
-                                  }}
-                                >
-                                  <Form.Check
-                                    type="checkbox"
-                                    label={spec}
-                                    checked={RegionalSpec.includes(spec)} // ✅ controlled state
-                                    onChange={() =>
-                                      handleCheckboxChangeRegionalSpec(spec)
-                                    }
-                                  />
-                                  <span
+                              {["GCC", "European", "Japanese", "American"].map(
+                                (spec) => (
+                                  <div
+                                    key={spec}
                                     style={{
-                                      fontWeight: "bold",
-                                      color: "#333",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      padding: "8px 0",
                                     }}
                                   >
-                                    12345
-                                  </span>
-                                </div>
-                              ))}
+                                    <Form.Check
+                                      type="checkbox"
+                                      label={spec}
+                                      checked={RegionalSpec.includes(spec)} // ✅ controlled state
+                                      onChange={() =>
+                                        handleCheckboxChangeRegionalSpec(spec)
+                                      }
+                                    />
+                                    <span
+                                      style={{
+                                        fontWeight: "bold",
+                                        color: "#333",
+                                      }}
+                                    >
+                                      12345
+                                    </span>
+                                  </div>
+                                ),
+                              )}
                             </Form.Group>
 
                             {/* <p
@@ -14198,7 +14205,7 @@ const AutomotiveComp = () => {
                                     checked={Insurance.includes(insuranceType)} // ✅ controlled state
                                     onChange={() =>
                                       handleCheckboxChangeInsurance(
-                                        insuranceType
+                                        insuranceType,
                                       )
                                     }
                                   />
@@ -14336,7 +14343,7 @@ const AutomotiveComp = () => {
                                   type="checkbox"
                                   label={num}
                                   checked={selectedNumbersNumberofDoors.includes(
-                                    num
+                                    num,
                                   )} // ✅ controlled
                                   onChange={() =>
                                     handleCheckboxChangeNumberofDoors(num)
@@ -14802,18 +14809,18 @@ const AutomotiveComp = () => {
                                 fontSize: "30px",
                               }}
                             />{" "} */}
-                                      <FaRegHeart
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          toggleBookmark(car.id);
-                                        }}
-                                        style={{
-                                          color: car.heartedby?.includes(userId)
-                                            ? "red"
-                                            : "#2D4495",
-                                          fontSize: "20px",
-                                        }}
-                                      />
+                                    <FaRegHeart
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
+                                      style={{
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
+                                        fontSize: "20px",
+                                      }}
+                                    />
                                   </button>
                                   {/* Consolidated styles for all buttons */}
                                   <style jsx>{`

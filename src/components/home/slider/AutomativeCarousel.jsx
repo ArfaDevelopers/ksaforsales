@@ -39,13 +39,15 @@ export default function AutomativeCarousel() {
       "Car Rental": t("subcategories.motors.carRental"),
       "Plates Number": t("subcategories.motors.platesNumber"),
       "Spare Parts": t("subcategories.motors.spareParts"),
-      "Accessories": t("subcategories.motors.accessories"),
+      Accessories: t("subcategories.motors.accessories"),
       "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
-      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
-      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Trucks & Heavy Machinery": t(
+        "subcategories.motors.trucksAndHeavyMachinery",
+      ),
+      Tshaleeh: t("subcategories.motors.tshaleeh"),
       "Boats & JetSki": t("subcategories.motors.boatsAndJetski"),
       "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
-      "Classic Cars": t("subcategories.motors.classicCars")
+      "Classic Cars": t("subcategories.motors.classicCars"),
     };
     return subcategoryMap[name] || name;
   };
@@ -71,9 +73,7 @@ export default function AutomativeCarousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/carsCarousal"
-        );
+        const response = await fetch("/route/carsCarousal");
         const data = await response.json();
         if (!response.ok) return;
         console.log(data, "data from carsCarousal");
@@ -111,9 +111,12 @@ export default function AutomativeCarousel() {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
-    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
-    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    if (days > 0)
+      return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0)
+      return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0)
+      return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
     return t("common.justNow");
   }
 
@@ -402,7 +405,11 @@ export default function AutomativeCarousel() {
                                       textDecoration: "none",
                                     }}
                                   >
-                                    {getTranslatedField(item, 'title', i18n.language)}
+                                    {getTranslatedField(
+                                      item,
+                                      "title",
+                                      i18n.language,
+                                    )}
                                   </Link>
                                 </h6>
                                 <p
@@ -415,7 +422,17 @@ export default function AutomativeCarousel() {
                                     textOverflow: "ellipsis",
                                   }}
                                 >
-                                  {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
+                                  {getTranslatedField(
+                                    item,
+                                    "District",
+                                    i18n.language,
+                                  )}
+                                  ,{" "}
+                                  {getTranslatedField(
+                                    item,
+                                    "City",
+                                    i18n.language,
+                                  )}
                                 </p>
                                 <div
                                   className="blog-location-details"

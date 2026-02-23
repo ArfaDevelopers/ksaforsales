@@ -5,16 +5,13 @@ import axios from "axios";
 const FacebookShareButton = ({ item }) => {
   const handleShare = async () => {
     try {
-      const response = await axios.post(
-        "http://168.231.80.24:9002/route/api/share/facebook",
-        {
-          itemId: item.id,
-          itemName: item.name,
-          itemPrice: item.price,
-          itemImage: item.imageUrl,
-          itemUrl: window.location.href,
-        }
-      );
+      const response = await axios.post("/route/api/share/facebook", {
+        itemId: item.id,
+        itemName: item.name,
+        itemPrice: item.price,
+        itemImage: item.imageUrl,
+        itemUrl: window.location.href,
+      });
 
       if (response.data.success) {
         alert("Item shared successfully!");

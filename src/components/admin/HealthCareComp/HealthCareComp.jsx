@@ -85,7 +85,10 @@ import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const HealthCareComp = () => {
   const { t } = useTranslation();
@@ -165,7 +168,7 @@ const HealthCareComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -404,7 +407,7 @@ const HealthCareComp = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -412,7 +415,7 @@ const HealthCareComp = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -493,9 +496,7 @@ const HealthCareComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -513,14 +514,14 @@ const HealthCareComp = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -561,7 +562,7 @@ const HealthCareComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -628,7 +629,7 @@ const HealthCareComp = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -680,7 +681,7 @@ const HealthCareComp = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -703,7 +704,7 @@ const HealthCareComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [selectedConditions, setSelectedConditions] = useState([]);
 
@@ -723,7 +724,7 @@ const HealthCareComp = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
-      .get("http://168.231.80.24:9002/route/healthcareSubCategories")
+      .get("/route/healthcareSubCategories")
       .then((response) => {
         setCategories(response.data); // show all including count = 0
       })
@@ -1387,7 +1388,7 @@ const HealthCareComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1404,7 +1405,7 @@ const HealthCareComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1603,7 +1604,7 @@ const HealthCareComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1684,7 +1685,7 @@ const HealthCareComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/HEALTHCARE/${carId}/view`, {
+      fetch(`/route/HEALTHCARE/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1728,7 +1729,10 @@ const HealthCareComp = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1740,8 +1744,8 @@ const HealthCareComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1754,12 +1758,12 @@ const HealthCareComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1790,11 +1794,10 @@ const HealthCareComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
-        );
+        const response = await fetch(`/route/HEALTHCARE?${params.toString()}`);
 
         const healthcareData = await response.json();
         setCars(healthcareData);
@@ -1841,7 +1844,7 @@ const HealthCareComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/HEALTHCARE?${params.toString()}`
+  //         `/route/HEALTHCARE?${params.toString()}`
   //       );
 
   //       const carsData = await response.json();
@@ -1958,7 +1961,7 @@ const HealthCareComp = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   }, [
     selectedCities,
@@ -2107,7 +2110,7 @@ const HealthCareComp = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   };
   const filterCars = (
@@ -2179,7 +2182,7 @@ const HealthCareComp = () => {
     selectedCity,
     selectedDistrict,
     selectedConditions,
-    logSelectedPurpose
+    logSelectedPurpose,
   ) => {
     let filtered = carsData;
 
@@ -2244,7 +2247,7 @@ const HealthCareComp = () => {
           car.District?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2261,18 +2264,18 @@ const HealthCareComp = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (Array.isArray(selectedConditions) && selectedConditions.length > 0) {
@@ -2286,7 +2289,7 @@ const HealthCareComp = () => {
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (ScreenSize?.length > 0) {
@@ -2300,32 +2303,32 @@ const HealthCareComp = () => {
     }
     if (SpeedofMeasurement?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpeedofMeasurement.includes(car.SpeedofMeasurement)
+        SpeedofMeasurement.includes(car.SpeedofMeasurement),
       );
     }
     if (MeasurementUnits?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementUnits.includes(car.MeasurementUnits)
+        MeasurementUnits.includes(car.MeasurementUnits),
       );
     }
     if (StorageCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        StorageCapacity.includes(car.StorageCapacity)
+        StorageCapacity.includes(car.StorageCapacity),
       );
     }
     if (Compatibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Compatibility.includes(car.Compatibility)
+        Compatibility.includes(car.Compatibility),
       );
     }
     if (BatteryType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryType.includes(car.BatteryType)
+        BatteryType.includes(car.BatteryType),
       );
     }
     if (DisplayType?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayType.includes(car.DisplayType)
+        DisplayType.includes(car.DisplayType),
       );
     }
     if (CuffSize?.length > 0) {
@@ -2336,7 +2339,7 @@ const HealthCareComp = () => {
     }
     if (MeasurementRange?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementRange.includes(car.MeasurementRange)
+        MeasurementRange.includes(car.MeasurementRange),
       );
     }
     if (Type?.length > 0) {
@@ -2353,7 +2356,7 @@ const HealthCareComp = () => {
     }
     if (SleeveLength?.length > 0) {
       filtered = filtered.filter((car) =>
-        SleeveLength.includes(car.SleeveLength)
+        SleeveLength.includes(car.SleeveLength),
       );
     }
     if (CollarType?.length > 0) {
@@ -2361,12 +2364,12 @@ const HealthCareComp = () => {
     }
     if (ClosureType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ClosureType.includes(car.ClosureType)
+        ClosureType.includes(car.ClosureType),
       );
     }
     if (StyleDesign?.length > 0) {
       filtered = filtered.filter((car) =>
-        StyleDesign.includes(car.StyleDesign)
+        StyleDesign.includes(car.StyleDesign),
       );
     }
     if (Color?.length > 0) {
@@ -2386,37 +2389,37 @@ const HealthCareComp = () => {
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2427,12 +2430,12 @@ const HealthCareComp = () => {
     }
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     if (Brand?.length > 0) {
@@ -2452,22 +2455,22 @@ const HealthCareComp = () => {
     }
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     if (cities?.length > 0) {
@@ -2475,17 +2478,17 @@ const HealthCareComp = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     if (logSelectedColor?.length > 0) {
@@ -2493,17 +2496,17 @@ const HealthCareComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     if (emirates?.length > 0) {
@@ -2608,7 +2611,7 @@ const HealthCareComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2733,7 +2736,11 @@ const HealthCareComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "homeFurniture", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "homeFurniture",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -2912,7 +2919,7 @@ const HealthCareComp = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -2930,8 +2937,8 @@ const HealthCareComp = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -3001,7 +3008,7 @@ const HealthCareComp = () => {
                                             .map((region) => {
                                               const isChecked =
                                                 selectedRegion.includes(
-                                                  region.regionId
+                                                  region.regionId,
                                                 );
 
                                               return (
@@ -3017,25 +3024,25 @@ const HealthCareComp = () => {
                                                     onChange={() => {
                                                       if (isChecked) {
                                                         handleRegionClick(
-                                                          region?.regionId
+                                                          region?.regionId,
                                                         );
                                                         setSelectedRegionId(
                                                           (prev) =>
                                                             prev.filter(
                                                               (id) =>
                                                                 id !==
-                                                                region.regionId
-                                                            )
+                                                                region.regionId,
+                                                            ),
                                                         );
                                                       } else {
                                                         handleRegionClick(
-                                                          region?.regionId
+                                                          region?.regionId,
                                                         );
                                                         setSelectedRegionId(
                                                           (prev) => [
                                                             ...prev,
                                                             region.regionId,
-                                                          ]
+                                                          ],
                                                         );
                                                       }
                                                     }}
@@ -3141,7 +3148,7 @@ const HealthCareComp = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3212,8 +3219,8 @@ const HealthCareComp = () => {
                                               option.label
                                                 ?.toLowerCase()
                                                 .includes(
-                                                  searchCityText.toLowerCase()
-                                                )
+                                                  searchCityText.toLowerCase(),
+                                                ),
                                             )
                                             .map((option) => (
                                               <li>
@@ -3226,11 +3233,11 @@ const HealthCareComp = () => {
                                                     checked={selectedCities.some(
                                                       (city) =>
                                                         city.CITY_ID ===
-                                                        option.cityId
+                                                        option.cityId,
                                                     )}
                                                     onChange={() =>
                                                       handleCheckboxChange1(
-                                                        option
+                                                        option,
                                                       )
                                                     }
                                                   />
@@ -3330,7 +3337,7 @@ const HealthCareComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3345,7 +3352,7 @@ const HealthCareComp = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3403,7 +3410,7 @@ const HealthCareComp = () => {
                                         value={districtSearchTerm}
                                         onChange={(e) =>
                                           setDistrictSearchTerm(
-                                            e.target.value.toLowerCase()
+                                            e.target.value.toLowerCase(),
                                           )
                                         }
                                       />
@@ -3419,7 +3426,7 @@ const HealthCareComp = () => {
                                               selectedDistricts.some(
                                                 (district) =>
                                                   district.DISTRICT_ID ===
-                                                  option.value
+                                                  option.value,
                                               );
 
                                             return (
@@ -3434,7 +3441,7 @@ const HealthCareComp = () => {
                                                   onChange={(e) =>
                                                     handleDistrictCheckboxChange(
                                                       option,
-                                                      e.target.checked
+                                                      e.target.checked,
                                                     )
                                                   }
                                                 />
@@ -3746,11 +3753,16 @@ const HealthCareComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4084,9 +4096,14 @@ const HealthCareComp = () => {
                                                           }}
                                                         />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

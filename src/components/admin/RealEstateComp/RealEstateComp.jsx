@@ -81,7 +81,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const RealEstateComp = () => {
   const { t } = useTranslation();
@@ -186,7 +189,7 @@ const RealEstateComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -479,9 +482,7 @@ const RealEstateComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -499,12 +500,12 @@ const RealEstateComp = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
     let updatedCities;
     if (exists) {
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       updatedCities = [
@@ -523,7 +524,7 @@ const RealEstateComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -577,7 +578,7 @@ const RealEstateComp = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -600,17 +601,17 @@ const RealEstateComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [showAllRealEstate, setShowAllRealEstate] = useState(false);
   const [realEstateCategories, setRealEstateCategories] = useState([]);
 
   useEffect(() => {
-    fetch("http://168.231.80.24:9002/route/realEstateSubCategories")
+    fetch("/route/realEstateSubCategories")
       .then((res) => res.json())
       .then((data) => setRealEstateCategories(data))
       .catch((err) =>
-        console.error("Error fetching real estate categories:", err)
+        console.error("Error fetching real estate categories:", err),
       );
   }, []);
 
@@ -836,7 +837,7 @@ const RealEstateComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setAccessibility((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -848,7 +849,7 @@ const RealEstateComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setBuildingType((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -860,7 +861,7 @@ const RealEstateComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setPropertyFeatures((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -872,7 +873,7 @@ const RealEstateComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setAmenities((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -899,7 +900,7 @@ const RealEstateComp = () => {
     setPropertyAge((prevSelected) =>
       prevSelected.includes(label)
         ? prevSelected.filter((item) => item !== label)
-        : [...prevSelected, label]
+        : [...prevSelected, label],
     );
   };
   const handleCheckboxChangePropertyType = (event) => {
@@ -1378,7 +1379,7 @@ const RealEstateComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1395,7 +1396,7 @@ const RealEstateComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1577,7 +1578,7 @@ const RealEstateComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1730,7 +1731,7 @@ const RealEstateComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/REALESTATECOMP/${carId}/view`, {
+      fetch(`/route/REALESTATECOMP/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1774,7 +1775,10 @@ const RealEstateComp = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1786,8 +1790,8 @@ const RealEstateComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1800,12 +1804,12 @@ const RealEstateComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1828,7 +1832,7 @@ const RealEstateComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/REALESTATECOMP?${params.toString()}`
+  //         `/route/REALESTATECOMP?${params.toString()}`
   //       );
 
   //       const data = await response.json();
@@ -1871,10 +1875,11 @@ const RealEstateComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/REALESTATECOMP?${params.toString()}`
+          `/route/REALESTATECOMP?${params.toString()}`,
         );
 
         const realEstateData = await response.json();
@@ -2026,7 +2031,7 @@ const RealEstateComp = () => {
       streetWidth,
       Floor,
       Condition,
-      PropertyAge
+      PropertyAge,
     );
   }, [
     selectedCities,
@@ -2209,7 +2214,7 @@ const RealEstateComp = () => {
       streetWidth,
       Floor,
       Condition,
-      PropertyAge
+      PropertyAge,
     );
   };
   const filterCars = (
@@ -2298,7 +2303,7 @@ const RealEstateComp = () => {
     streetWidth,
     Floor,
     Condition,
-    PropertyAge
+    PropertyAge,
   ) => {
     let filtered = carsData;
 
@@ -2379,7 +2384,7 @@ const RealEstateComp = () => {
           car.Floor?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.PropertyAge?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2396,12 +2401,12 @@ const RealEstateComp = () => {
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (PropertyAge?.length > 0) {
       filtered = filtered.filter((car) =>
-        PropertyAge.includes(car.PropertyAge)
+        PropertyAge.includes(car.PropertyAge),
       );
     }
     if (Condition?.length > 0) {
@@ -2412,7 +2417,7 @@ const RealEstateComp = () => {
     }
     if (licenseNumber?.length > 0) {
       filtered = filtered.filter((car) =>
-        licenseNumber.includes(car.licenseNumber)
+        licenseNumber.includes(car.licenseNumber),
       );
     }
     if (Facade?.length > 0) {
@@ -2432,7 +2437,7 @@ const RealEstateComp = () => {
     }
     if (ResidenceType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ResidenceType.includes(car.ResidenceType)
+        ResidenceType.includes(car.ResidenceType),
       );
     }
     if (Frequency?.length > 0) {
@@ -2440,28 +2445,28 @@ const RealEstateComp = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (streetWidth) {
       filtered = filtered.filter(
-        (car) => car.streetWidth === streetWidth.streetWidth
+        (car) => car.streetWidth === streetWidth.streetWidth,
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (BuildingType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BuildingType.includes(car.BuildingType)
+        BuildingType.includes(car.BuildingType),
       );
     }
     if (subCatgory?.length > 0) {
@@ -2469,7 +2474,7 @@ const RealEstateComp = () => {
     }
     if (Accessibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Accessibility.includes(car.Accessibility)
+        Accessibility.includes(car.Accessibility),
       );
     }
     if (ScreenSize?.length > 0) {
@@ -2477,7 +2482,7 @@ const RealEstateComp = () => {
     }
     if (PropertyFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        PropertyFeatures.includes(car.PropertyFeatures)
+        PropertyFeatures.includes(car.PropertyFeatures),
       );
     }
     if (Amenities?.length > 0) {
@@ -2485,7 +2490,7 @@ const RealEstateComp = () => {
     }
     if (PropertyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        PropertyType.includes(car.PropertyType)
+        PropertyType.includes(car.PropertyType),
       );
     }
     if (SellerType?.length > 0) {
@@ -2493,32 +2498,32 @@ const RealEstateComp = () => {
     }
     if (SpeedofMeasurement?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpeedofMeasurement.includes(car.SpeedofMeasurement)
+        SpeedofMeasurement.includes(car.SpeedofMeasurement),
       );
     }
     if (MeasurementUnits?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementUnits.includes(car.MeasurementUnits)
+        MeasurementUnits.includes(car.MeasurementUnits),
       );
     }
     if (StorageCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        StorageCapacity.includes(car.StorageCapacity)
+        StorageCapacity.includes(car.StorageCapacity),
       );
     }
     if (Compatibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Compatibility.includes(car.Compatibility)
+        Compatibility.includes(car.Compatibility),
       );
     }
     if (BatteryType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryType.includes(car.BatteryType)
+        BatteryType.includes(car.BatteryType),
       );
     }
     if (DisplayType?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayType.includes(car.DisplayType)
+        DisplayType.includes(car.DisplayType),
       );
     }
     if (CuffSize?.length > 0) {
@@ -2529,7 +2534,7 @@ const RealEstateComp = () => {
     }
     if (MeasurementRange?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementRange.includes(car.MeasurementRange)
+        MeasurementRange.includes(car.MeasurementRange),
       );
     }
     if (Type?.length > 0) {
@@ -2546,7 +2551,7 @@ const RealEstateComp = () => {
     }
     if (SleeveLength?.length > 0) {
       filtered = filtered.filter((car) =>
-        SleeveLength.includes(car.SleeveLength)
+        SleeveLength.includes(car.SleeveLength),
       );
     }
     if (CollarType?.length > 0) {
@@ -2554,12 +2559,12 @@ const RealEstateComp = () => {
     }
     if (ClosureType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ClosureType.includes(car.ClosureType)
+        ClosureType.includes(car.ClosureType),
       );
     }
     if (StyleDesign?.length > 0) {
       filtered = filtered.filter((car) =>
-        StyleDesign.includes(car.StyleDesign)
+        StyleDesign.includes(car.StyleDesign),
       );
     }
     if (Color?.length > 0) {
@@ -2579,37 +2584,37 @@ const RealEstateComp = () => {
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2621,12 +2626,12 @@ const RealEstateComp = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2639,28 +2644,28 @@ const RealEstateComp = () => {
     // Filter by selected cities
     if (selectedOptionisFeatured?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
+        selectedOptionisFeatured.includes(car.AdType),
       );
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2669,17 +2674,17 @@ const RealEstateComp = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2688,18 +2693,18 @@ const RealEstateComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2816,7 +2821,7 @@ const RealEstateComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2924,7 +2929,11 @@ const RealEstateComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "realEstate", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "realEstate",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -3056,7 +3065,7 @@ const RealEstateComp = () => {
                                       setselectedSubCategory((prev) =>
                                         prev === item.category
                                           ? ""
-                                          : item.category
+                                          : item.category,
                                       )
                                     }
                                   />
@@ -3112,7 +3121,7 @@ const RealEstateComp = () => {
                           <div className="mb-3">
                             {regionOptions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -3129,8 +3138,8 @@ const RealEstateComp = () => {
                                       if (isChecked) {
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         setSelectedRegionId((prev) => [
@@ -3198,8 +3207,8 @@ const RealEstateComp = () => {
                                             region.regionEn
                                               .toLowerCase()
                                               .includes(
-                                                searchTerm.toLowerCase()
-                                              )
+                                                searchTerm.toLowerCase(),
+                                              ),
                                           )
                                           .map((region) => (
                                             <li key={region.regionId}>
@@ -3219,7 +3228,7 @@ const RealEstateComp = () => {
                                                       selectedRegion ===
                                                         region.regionId
                                                         ? ""
-                                                        : region.regionId
+                                                        : region.regionId,
                                                     )
                                                   }
                                                 />
@@ -3317,7 +3326,7 @@ const RealEstateComp = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3384,7 +3393,9 @@ const RealEstateComp = () => {
                                         .filter((option) =>
                                           option.label
                                             ?.toLowerCase()
-                                            .includes(searchTerm?.toLowerCase())
+                                            .includes(
+                                              searchTerm?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -3394,7 +3405,7 @@ const RealEstateComp = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3490,7 +3501,7 @@ const RealEstateComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3518,8 +3529,8 @@ const RealEstateComp = () => {
                                           prev.filter(
                                             (district) =>
                                               district.DISTRICT_ID !==
-                                              option.value
-                                          )
+                                              option.value,
+                                          ),
                                         );
                                       }
                                     }}
@@ -3587,15 +3598,15 @@ const RealEstateComp = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => {
                                           const isChecked =
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3617,7 +3628,7 @@ const RealEstateComp = () => {
                                                             DISTRICT_ID:
                                                               option.value,
                                                           },
-                                                        ]
+                                                        ],
                                                       );
                                                     } else {
                                                       setSelectedDistricts(
@@ -3625,8 +3636,8 @@ const RealEstateComp = () => {
                                                           prev.filter(
                                                             (district) =>
                                                               district.DISTRICT_ID !==
-                                                              option.value
-                                                          )
+                                                              option.value,
+                                                          ),
                                                       );
                                                     }
                                                   }}
@@ -3845,7 +3856,7 @@ const RealEstateComp = () => {
                                       checked={Frequency.includes(color)} // ✅ controlled
                                     />
                                   </div>
-                                )
+                                ),
                               )}
                             </Form.Group>
 
@@ -4380,7 +4391,7 @@ const RealEstateComp = () => {
                               "In a Villa",
                               "With Roof",
                               "AC",
-                              "Car Parking"
+                              "Car Parking",
                             ].map((engine) => (
                               <div
                                 key={engine}
@@ -4567,11 +4578,16 @@ const RealEstateComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4905,9 +4921,14 @@ const RealEstateComp = () => {
                               }}
                             />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

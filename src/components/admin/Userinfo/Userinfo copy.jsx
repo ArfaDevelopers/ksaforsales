@@ -137,7 +137,7 @@ const Userinfo = () => {
       "Toggling bookmark for itemnot found in :",
       itemId,
       "in collection:",
-      collectionName
+      collectionName,
     );
     try {
       const user = auth.currentUser;
@@ -177,7 +177,7 @@ const Userinfo = () => {
       const itemSnapshot = await getDoc(itemDocRef);
       if (!itemSnapshot.exists()) {
         console.warn(
-          `Toggling bookmark forItem ${itemId} not found in ${firestoreCollection}`
+          `Toggling bookmark forItem ${itemId} not found in ${firestoreCollection}`,
         );
         return;
       }
@@ -198,7 +198,7 @@ const Userinfo = () => {
       setRefresh((prev) => !prev);
 
       console.log(
-        `Toggling bookmark for ${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`
+        `Toggling bookmark for ${collectionName} (${firestoreCollection}) item ${itemId} bookmarked: ${newBookmarkedStatus}`,
       );
     } catch (error) {
       console.error(`Error updating bookmark in ${collectionName}:`, error);
@@ -231,8 +231,8 @@ const Userinfo = () => {
         // Filter out empty fields
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
         console.log("No document found with this ID.", filteredData);
 
@@ -257,7 +257,7 @@ const Userinfo = () => {
           "Invalid category:",
           category,
           "Mapped table:",
-          tableName
+          tableName,
         );
         return;
       }
@@ -268,7 +268,7 @@ const Userinfo = () => {
         "Table Name:",
         tableName,
         "ID:",
-        id
+        id,
       );
 
       const docRef = doc(db, tableName, id);
@@ -280,8 +280,8 @@ const Userinfo = () => {
         // Filter out empty fields
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
 
         setFormData(filteredData);
@@ -347,7 +347,7 @@ const Userinfo = () => {
           const docRef = doc(db, tableName, id);
           await deleteDoc(docRef);
           console.log(
-            `Deleted item with ID: ${id} from collection: ${tableName}`
+            `Deleted item with ID: ${id} from collection: ${tableName}`,
           );
 
           // Optionally, update the state or re-fetch the data after deletion
@@ -412,7 +412,7 @@ const Userinfo = () => {
   //     setLoading(true);
   //     try {
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${userId}&sortOrder=${sortOrder}`
+  //         `/api/fetchCars?searchQuery=${searchQuery}&id=${userId}&sortOrder=${sortOrder}`
   //       );
   //       const result = await response.json();
   //       if (result.success) {
@@ -433,7 +433,7 @@ const Userinfo = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/fetchCars?searchQuery=${searchQuery}&id=${_Id}&sortOrder=${sortOrder}&page=${currentPage}&limit=${pageSize}`
+          `/api/fetchCars?searchQuery=${searchQuery}&id=${_Id}&sortOrder=${sortOrder}&page=${currentPage}&limit=${pageSize}`,
         );
         const result = await response.json();
         if (result.success) {
@@ -464,14 +464,14 @@ const Userinfo = () => {
     const filteredResults = cars.filter(
       (car) =>
         car.name?.toLowerCase().includes(lowercasedQuery) ||
-        car.description?.toLowerCase().includes(lowercasedQuery)
+        car.description?.toLowerCase().includes(lowercasedQuery),
     );
 
     setFilteredCars(filteredResults);
   }, [searchQuery, cars]);
   const paginatedData = cars.slice(
     (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    currentPage * pageSize,
   );
   const formatCategory = (category) => {
     return category
@@ -491,24 +491,24 @@ const Userinfo = () => {
               record.category === "Motors"
                 ? "AutomotiveComp"
                 : record.category === "Services"
-                ? "TravelComp"
-                : record.category == "RealEstate"
-                ? "RealEstateComp"
-                : record.category == "Real Estate"
-                ? "RealEstateComp"
-                : record.category === "Other"
-                ? "Education"
-                : record.category === "Electronics"
-                ? "ElectronicComp"
-                : record.category === "Electronics"
-                ? "ElectronicComp"
-                : record.category === "Sports&Game"
-                ? "SportGamesComp"
-                : record.category === "Home & Furnituer"
-                ? "HealthCareComp"
-                : record.category === "Home & Furnituer"
-                ? "HealthCareComp"
-                : record.category
+                  ? "TravelComp"
+                  : record.category == "RealEstate"
+                    ? "RealEstateComp"
+                    : record.category == "Real Estate"
+                      ? "RealEstateComp"
+                      : record.category === "Other"
+                        ? "Education"
+                        : record.category === "Electronics"
+                          ? "ElectronicComp"
+                          : record.category === "Electronics"
+                            ? "ElectronicComp"
+                            : record.category === "Sports&Game"
+                              ? "SportGamesComp"
+                              : record.category === "Home & Furnituer"
+                                ? "HealthCareComp"
+                                : record.category === "Home & Furnituer"
+                                  ? "HealthCareComp"
+                                  : record.category,
             )}`}
           >
             <img
@@ -571,7 +571,7 @@ const Userinfo = () => {
                     </strong>
                     <span className="ms-2 text-muted">{value}</span>
                   </div>
-                ) : null
+                ) : null,
               )}
             </div>
             {FormDataView.galleryImages &&
@@ -642,7 +642,7 @@ const Userinfo = () => {
                       </strong>
                       <p className="text-muted mb-0">{value}</p>
                     </Col>
-                  ) : null
+                  ) : null,
                 )}
               </Row>
               {formData.galleryImages && formData.galleryImages.length > 0 && (
@@ -864,22 +864,24 @@ const Userinfo = () => {
                                 item.category === "Motors"
                                   ? "AutomotiveComp"
                                   : item.category === "Services"
-                                  ? "TravelComp"
-                                  : item.category == "RealEstate"
-                                  ? "RealEstateComp"
-                                  : item.category == "Real Estate"
-                                  ? "RealEstateComp"
-                                  : item.category === "Automotive"
-                                  ? "AutomotiveComp"
-                                  : item.category === "Other"
-                                  ? "Education"
-                                  : item.category === "Electronics"
-                                  ? "ElectronicComp"
-                                  : item.category.trim() === "Sports & Game"
-                                  ? "SportGamesComp"
-                                  : item.category === "Home & Furnituer"
-                                  ? "HealthCareComp"
-                                  : item.category
+                                    ? "TravelComp"
+                                    : item.category == "RealEstate"
+                                      ? "RealEstateComp"
+                                      : item.category == "Real Estate"
+                                        ? "RealEstateComp"
+                                        : item.category === "Automotive"
+                                          ? "AutomotiveComp"
+                                          : item.category === "Other"
+                                            ? "Education"
+                                            : item.category === "Electronics"
+                                              ? "ElectronicComp"
+                                              : item.category.trim() ===
+                                                  "Sports & Game"
+                                                ? "SportGamesComp"
+                                                : item.category ===
+                                                    "Home & Furnituer"
+                                                  ? "HealthCareComp"
+                                                  : item.category,
                               )}`}
                             >
                               <Card.Img
@@ -1091,7 +1093,7 @@ const Userinfo = () => {
                           className="page-link"
                           onClick={() =>
                             setCurrentPage((prev) =>
-                              Math.min(prev + 1, totalPages)
+                              Math.min(prev + 1, totalPages),
                             )
                           }
                         >

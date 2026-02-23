@@ -21,15 +21,14 @@ const ForgotPassword = () => {
     setMessage("");
     try {
       // Normalize phone number: remove leading 0 if present, then add +966
-      const normalizedPhone = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+      const normalizedPhone = phoneNumber.startsWith("0")
+        ? phoneNumber.substring(1)
+        : phoneNumber;
       const fullPhoneNumber = `+966${normalizedPhone}`;
 
-      const res = await axios.post(
-        "http://168.231.80.24:9002/route/forgot-password/send-otp",
-        {
-          phoneNumber: fullPhoneNumber,
-        }
-      );
+      const res = await axios.post("/route/forgot-password/send-otp", {
+        phoneNumber: fullPhoneNumber,
+      });
       if (res.data.success) {
         setStep(2);
         MySwal.fire({
@@ -66,17 +65,16 @@ const ForgotPassword = () => {
     }
     try {
       // Normalize phone number: remove leading 0 if present, then add +966
-      const normalizedPhone = phoneNumber.startsWith('0') ? phoneNumber.substring(1) : phoneNumber;
+      const normalizedPhone = phoneNumber.startsWith("0")
+        ? phoneNumber.substring(1)
+        : phoneNumber;
       const fullPhoneNumber = `+966${normalizedPhone}`;
 
-      const res = await axios.post(
-        "http://168.231.80.24:9002/route/verifyChangepasswdotp",
-        {
-          phoneNumber: fullPhoneNumber,
-          otp,
-          newPassword,
-        }
-      );
+      const res = await axios.post("/route/verifyChangepasswdotp", {
+        phoneNumber: fullPhoneNumber,
+        otp,
+        newPassword,
+      });
       if (res.data.success) {
         // setMessage("Password updated successfully!");
         MySwal.fire({
@@ -116,9 +114,7 @@ const ForgotPassword = () => {
               <div className="login-wrap password-form">
                 <div className="login-header">
                   <h3>{t("forgotPassword.title")}</h3>
-                  <p>
-                    {t("forgotPassword.subtitle")}
-                  </p>
+                  <p>{t("forgotPassword.subtitle")}</p>
                 </div>
 
                 {/* {message && <div className="alert alert-info">{message}</div>} */}
@@ -191,7 +187,7 @@ const ForgotPassword = () => {
                         boxShadow: "unset",
                         color: "#fff",
                         backgroundColor: "#1E55B4",
-                        marginTop: "10px"
+                        marginTop: "10px",
                       }}
                       type="submit"
                     >
@@ -239,7 +235,8 @@ const ForgotPassword = () => {
                 )}
 
                 <Link to="/" className="back-home mt-3 d-block text-center">
-                  <i className="fas fa-arrow-left me-1" /> {t("forgotPassword.backToHome")}
+                  <i className="fas fa-arrow-left me-1" />{" "}
+                  {t("forgotPassword.backToHome")}
                 </Link>
               </div>
             </div>

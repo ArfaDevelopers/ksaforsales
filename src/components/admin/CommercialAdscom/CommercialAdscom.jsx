@@ -549,7 +549,12 @@ const CommercialAdscom = () => {
         const hasPendingViewCountChange =
           sessionStorage.getItem("last_view_count_change") !== null;
 
-        if (cachedData && cachedTime && !hasPendingBookmarkChange && !hasPendingViewCountChange) {
+        if (
+          cachedData &&
+          cachedTime &&
+          !hasPendingBookmarkChange &&
+          !hasPendingViewCountChange
+        ) {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             // Add 400ms delay for smooth transition
@@ -568,15 +573,17 @@ const CommercialAdscom = () => {
         }
 
         // Fetch fresh data with cache-busting parameter if needed
-        const cacheBuster = (hasPendingViewCountChange || hasPendingBookmarkChange)
-          ? `?_t=${Date.now()}`
-          : '';
-        const axiosConfig = (hasPendingViewCountChange || hasPendingBookmarkChange)
-          ? { headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } }
-          : {};
+        const cacheBuster =
+          hasPendingViewCountChange || hasPendingBookmarkChange
+            ? `?_t=${Date.now()}`
+            : "";
+        const axiosConfig =
+          hasPendingViewCountChange || hasPendingBookmarkChange
+            ? { headers: { "Cache-Control": "no-cache", Pragma: "no-cache" } }
+            : {};
         const response = await axios.get(
-          `http://168.231.80.24:9002/route/commercial-ads${cacheBuster}`,
-          axiosConfig
+          `/route/commercial-ads${cacheBuster}`,
+          axiosConfig,
         );
 
         setCategories(response.data);

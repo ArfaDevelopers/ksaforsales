@@ -11,9 +11,7 @@ const useSearchStore = create((set) => ({
 
     if (text.trim() !== "") {
       try {
-        const response = await axios.get(
-          `http://168.231.80.24:9002/search?q=${text}`
-        );
+        const response = await axios.get(`/search?q=${text}`);
         set({ results: response.data.results });
         console.log("user1111____94", response.data.results);
       } catch (error) {

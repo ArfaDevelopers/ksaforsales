@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language?.startsWith('ar');
+  const isRTL = i18n.language?.startsWith("ar");
   const [filter, setFilter] = useState("All Listing");
   const [visitorReviews, setVisitorReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -47,7 +47,7 @@ const Dashboard = () => {
 
     // Filter reviews for the current user
     const userReviews = visitorReviews.filter(
-      (review) => review.listingUserId === auth.currentUser.uid
+      (review) => review.listingUserId === auth.currentUser.uid,
     );
 
     // Initialize counts for each day (Sunday to Saturday)
@@ -84,7 +84,7 @@ const Dashboard = () => {
         const lastMonthStart = new Date(
           now.getFullYear(),
           now.getMonth() - 1,
-          1
+          1,
         );
         const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
         isWithinTimeFrame =
@@ -207,7 +207,7 @@ const Dashboard = () => {
         "Scrolled to top for location:",
         location.pathname,
         "scrollY:",
-        window.scrollY
+        window.scrollY,
       );
     };
     scrollToTop();
@@ -242,7 +242,7 @@ const Dashboard = () => {
     const fetchTotalBookmarked = async () => {
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/total-favourite?userId=${auth.currentUser.uid}`
+          `/api/total-favourite?userId=${auth.currentUser.uid}`,
         );
         const data = await response.json();
         setuserReviews1(data.totalBookmarked);
@@ -278,13 +278,13 @@ const Dashboard = () => {
 
         if (auth.currentUser.uid) {
           const userReviews = reviewsList.filter(
-            (review) => review.listingUserId === auth.currentUser.uid
+            (review) => review.listingUserId === auth.currentUser.uid,
           );
           console.log(
             "Total Reviews for User ID",
             auth.currentUser.uid,
             ":",
-            userReviews.length
+            userReviews.length,
           );
           // setuserReviews1(userReviews.length)
         } else {
@@ -310,7 +310,7 @@ const Dashboard = () => {
       },
       (error) => {
         console.error("Error listening to reviews:", error);
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -464,7 +464,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/total-data-count?userId=${auth.currentUser.uid}`
+          `/api/total-data-count?userId=${auth.currentUser.uid}`,
         );
         const data = await response.json();
         console.log("data..", data);
@@ -488,17 +488,17 @@ const Dashboard = () => {
           const q = query(
             collectionRef,
             where("userId", "==", auth.currentUser.uid),
-            where("isActive", "==", false) // REVERSED: Counting false = Active
+            where("isActive", "==", false), // REVERSED: Counting false = Active
           );
           const activeSnapshotCount = (await getDocs(q)).size;
           console.log("totallistings", activeSnapshotCount);
           return activeSnapshotCount;
-        })
+        }),
       );
 
       totalListingsCount = collectionsCount.reduce(
         (acc, item) => acc + item,
-        0
+        0,
       );
       setActivelisting(totalListingsCount);
       return () => collectionsCount();
@@ -511,7 +511,7 @@ const Dashboard = () => {
       const q = query(
         messagesRef,
         where("uid", "==", auth.currentUser.uid),
-        where("seen", "==", false)
+        where("seen", "==", false),
       );
       const snapshot = await getDocs(q);
       setMessage(snapshot.size);
@@ -582,7 +582,15 @@ const Dashboard = () => {
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
-                  <div className="card-body" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div
+                    className="card-body"
+                    style={{
+                      textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
                     <div className="dash-top-content">
                       <div className="dashcard-img">
                         <img src={verified} className="img-fluid" alt="" />
@@ -618,7 +626,15 @@ const Dashboard = () => {
                 style={{ flex: "0 0 auto", minWidth: "100px" }}
               >
                 <div className="card dash-cards">
-                  <div className="card-body" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div
+                    className="card-body"
+                    style={{
+                      textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
                     <div className="dash-top-content">
                       <div className="dashcard-img">
                         <img src={chat} className="img-fluid" alt="" />

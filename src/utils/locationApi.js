@@ -1,5 +1,5 @@
 // Location API utility for fetching regions, cities, and districts
-const API_BASE_URL = "http://168.231.80.24:9002";
+const API_BASE_URL = "";
 
 // Saudi Arabia Regions data
 export const saudiRegions = [
@@ -33,7 +33,7 @@ export const fetchCities = async (regionIds) => {
     const idsArray = Array.isArray(regionIds) ? regionIds : [regionIds];
 
     // Create query string with multiple REGION_ID parameters
-    const queryString = idsArray.map(id => `REGION_ID=${id}`).join('&');
+    const queryString = idsArray.map((id) => `REGION_ID=${id}`).join("&");
 
     const response = await fetch(`${API_BASE_URL}/api/cities?${queryString}`);
 
@@ -65,7 +65,7 @@ export const fetchDistricts = async ({ REGION_ID, CITY_ID }) => {
     if (CITY_ID) queryParams.append("CITY_ID", CITY_ID);
 
     const response = await fetch(
-      `${API_BASE_URL}/api/districts?${queryParams.toString()}`
+      `${API_BASE_URL}/api/districts?${queryParams.toString()}`,
     );
 
     if (!response.ok) {
@@ -86,7 +86,7 @@ export const fetchDistricts = async ({ REGION_ID, CITY_ID }) => {
  * @returns {Object} Region object with id, nameEn, and nameAr
  */
 export const getRegionById = (regionId) => {
-  return saudiRegions.find(region => region.id === String(regionId));
+  return saudiRegions.find((region) => region.id === String(regionId));
 };
 
 /**

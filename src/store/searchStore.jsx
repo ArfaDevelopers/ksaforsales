@@ -26,9 +26,7 @@ const useSearchStore = create((set, get) => ({
 
     if (text.trim() !== "") {
       try {
-        const response = await axios.get(
-          `http://168.231.80.24:9002/search?q=${text}`
-        );
+        const response = await axios.get(`/search?q=${text}`);
         // Only set results if showSuggestions is still true and searchText hasn't changed
         const currentState = get();
         if (currentState.showSuggestions && currentState.searchText === text) {

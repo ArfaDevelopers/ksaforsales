@@ -145,16 +145,13 @@ const MyListe = () => {
 
         const userId = user.uid;
 
-        const response = await axios.get(
-          `http://168.231.80.24:9002/api/listings`,
-          {
-            params: {
-              userId,
-              page: currentPage,
-              sortOrder,
-            },
-          }
-        );
+        const response = await axios.get(`/api/listings`, {
+          params: {
+            userId,
+            page: currentPage,
+            sortOrder,
+          },
+        });
 
         const { data, totalPages: serverTotalPages } = response.data;
 
@@ -185,7 +182,7 @@ const MyListe = () => {
           const listingRef = collection(db, collectionName);
           const q = query(
             listingRef,
-            where("userId", "==", auth.currentUser.uid)
+            where("userId", "==", auth.currentUser.uid),
           );
           const listings = await getDocs(q);
           const totalListings = listings.docs.map((doc) => ({
@@ -226,7 +223,7 @@ const MyListe = () => {
       result = result.filter(
         (car) =>
           car.title?.toLowerCase().includes(lowercasedQuery) ||
-          car.description?.toLowerCase().includes(lowercasedQuery)
+          car.description?.toLowerCase().includes(lowercasedQuery),
       );
     }
 
@@ -238,7 +235,7 @@ const MyListe = () => {
 
     console.log(
       "Filtered Cars Count (after filter/search/sort):",
-      result.length
+      result.length,
     );
     setFilteredCars(result);
   }, [cars, filter, searchQuery, sortOrder]);
@@ -255,8 +252,8 @@ const MyListe = () => {
         console.log("Document Data:", docSnap.data());
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
         console.log("No document found with this ID.", filteredData);
         setFormDataView(filteredData);
@@ -281,7 +278,7 @@ const MyListe = () => {
           "Invalid category:",
           category,
           "Mapped table:",
-          tableName
+          tableName,
         );
         return;
       }
@@ -292,7 +289,7 @@ const MyListe = () => {
         "Table Name:",
         tableName,
         "ID:",
-        id
+        id,
       );
       const docRef = doc(db, tableName, id);
       const docSnap = await getDoc(docRef);
@@ -301,8 +298,8 @@ const MyListe = () => {
         console.log("Document Data:", docSnap.data());
         const filteredData = Object.fromEntries(
           Object.entries(docSnap.data()).filter(
-            ([_, value]) => value !== "" && value !== null
-          )
+            ([_, value]) => value !== "" && value !== null,
+          ),
         );
         setFormData(filteredData);
         setItemId(id);
@@ -355,7 +352,7 @@ const MyListe = () => {
           const docRef = doc(db, tableName, id);
           await deleteDoc(docRef);
           console.log(
-            `Deleted item with ID: ${id} from collection: ${tableName}`
+            `Deleted item with ID: ${id} from collection: ${tableName}`,
           );
         } catch (error) {
           console.error("Error deleting ad from Firestore:", error);
@@ -385,10 +382,14 @@ const MyListe = () => {
             key={i}
             className={`page-item ${currentPage === i ? "active" : ""}`}
           >
-            <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(i)}
+            >
               {i}
             </Link>
-          </li>
+          </li>,
         );
       }
     } else {
@@ -404,39 +405,51 @@ const MyListe = () => {
               key={i}
               className={`page-item ${currentPage === i ? "active" : ""}`}
             >
-              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+              <Link
+                className="page-link"
+                to="#"
+                onClick={() => setCurrentPage(i)}
+              >
                 {i}
               </Link>
-            </li>
+            </li>,
           );
         }
         if (totalPages > maxButtons) {
           items.push(
             <li key="ellipsis-end" className="page-item disabled">
               <span className="page-link">...</span>
-            </li>
+            </li>,
           );
           items.push(
             <li key={totalPages} className="page-item">
-              <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+              <Link
+                className="page-link"
+                to="#"
+                onClick={() => setCurrentPage(totalPages)}
+              >
                 {totalPages}
               </Link>
-            </li>
+            </li>,
           );
         }
       } else if (currentPage >= totalPages - 2) {
         // Show first + ellipsis + last 4 pages
         items.push(
           <li key={1} className="page-item">
-            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(1)}
+            >
               1
             </Link>
-          </li>
+          </li>,
         );
         items.push(
           <li key="ellipsis-start" className="page-item disabled">
             <span className="page-link">...</span>
-          </li>
+          </li>,
         );
         for (let i = totalPages - (maxButtons - 1); i <= totalPages; i++) {
           items.push(
@@ -444,25 +457,33 @@ const MyListe = () => {
               key={i}
               className={`page-item ${currentPage === i ? "active" : ""}`}
             >
-              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+              <Link
+                className="page-link"
+                to="#"
+                onClick={() => setCurrentPage(i)}
+              >
                 {i}
               </Link>
-            </li>
+            </li>,
           );
         }
       } else {
         // Show first + ellipsis + current-1, current, current+1 + ellipsis + last
         items.push(
           <li key={1} className="page-item">
-            <Link className="page-link" to="#" onClick={() => setCurrentPage(1)}>
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(1)}
+            >
               1
             </Link>
-          </li>
+          </li>,
         );
         items.push(
           <li key="ellipsis-start" className="page-item disabled">
             <span className="page-link">...</span>
-          </li>
+          </li>,
         );
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
           items.push(
@@ -470,23 +491,31 @@ const MyListe = () => {
               key={i}
               className={`page-item ${currentPage === i ? "active" : ""}`}
             >
-              <Link className="page-link" to="#" onClick={() => setCurrentPage(i)}>
+              <Link
+                className="page-link"
+                to="#"
+                onClick={() => setCurrentPage(i)}
+              >
                 {i}
               </Link>
-            </li>
+            </li>,
           );
         }
         items.push(
           <li key="ellipsis-end" className="page-item disabled">
             <span className="page-link">...</span>
-          </li>
+          </li>,
         );
         items.push(
           <li key={totalPages} className="page-item">
-            <Link className="page-link" to="#" onClick={() => setCurrentPage(totalPages)}>
+            <Link
+              className="page-link"
+              to="#"
+              onClick={() => setCurrentPage(totalPages)}
+            >
               {totalPages}
             </Link>
-          </li>
+          </li>,
         );
       }
     }
@@ -525,9 +554,9 @@ const MyListe = () => {
         tableName === "Pet&Animals"
           ? "PETANIMALCOMP"
           : tableName === "Motors"
-          ? "Cars"
-          : tableName,
-        id
+            ? "Cars"
+            : tableName,
+        id,
       );
 
       // Check if document exists
@@ -539,7 +568,7 @@ const MyListe = () => {
       // Update Firestore document
       await updateDoc(docRef, { isActive });
       console.log(
-        `Firestore updated: ${id} in ${tableName} to isActive=${isActive}`
+        `Firestore updated: ${id} in ${tableName} to isActive=${isActive}`,
       );
 
       // Set flag to invalidate search page cache
@@ -549,7 +578,7 @@ const MyListe = () => {
       // Update local state
       setFilteredCars((prevData) => {
         const updated = prevData.map((item) =>
-          item.id === id ? { ...item, isActive } : item
+          item.id === id ? { ...item, isActive } : item,
         );
         console.log("Updated filteredCars:", updated);
         return updated;
@@ -557,14 +586,14 @@ const MyListe = () => {
 
       setCars((prevData) => {
         const updated = prevData.map((item) =>
-          item.id === id ? { ...item, isActive } : item
+          item.id === id ? { ...item, isActive } : item,
         );
         console.log("Updated cars:", updated);
         return updated;
       });
 
       console.log(
-        `Toggled ${id} in ${category} to ${isActive ? "disabled" : "enabled"}`
+        `Toggled ${id} in ${category} to ${isActive ? "disabled" : "enabled"}`,
       );
     } catch (error) {
       console.error("Error toggling disable status:", error.message, error);
@@ -582,23 +611,23 @@ const MyListe = () => {
     if (!category) return "";
     const trimmedCategory = category.trim();
     const categoryMap = {
-      "Motors": t("categories.motors"),
-      "Automotive": t("categories.motors"),
-      "Electronics": t("categories.electronics"),
+      Motors: t("categories.motors"),
+      Automotive: t("categories.motors"),
+      Electronics: t("categories.electronics"),
       "Fashion Style": t("categories.fashionStyle"),
-      "FashionStyle": t("categories.fashionStyle"),
+      FashionStyle: t("categories.fashionStyle"),
       "Home & Furniture": t("categories.homeFurniture"),
       "Home & Furnituer": t("categories.homeFurniture"),
       "Job Board": t("categories.jobBoard"),
-      "JobBoard": t("categories.jobBoard"),
+      JobBoard: t("categories.jobBoard"),
       "Real Estate": t("categories.realEstate"),
-      "RealEstate": t("categories.realEstate"),
-      "Services": t("categories.services"),
+      RealEstate: t("categories.realEstate"),
+      Services: t("categories.services"),
       "Sport & Game": t("categories.sportGame"),
       "Sports & Game": t("categories.sportGame"),
       "Pet & Animals": t("categories.petAnimals"),
-      "Other": t("categories.other"),
-      "Commercial": t("categories.commercial")
+      Other: t("categories.other"),
+      Commercial: t("categories.commercial"),
     };
     return categoryMap[trimmedCategory] || trimmedCategory;
   };
@@ -613,7 +642,7 @@ const MyListe = () => {
 
   // ⚠️⚠️⚠️ IMPORTANT: ALL isActive LOGIC IN THIS FILE IS REVERSED ⚠️⚠️⚠️
   //
-  // REASON: Backend carousel endpoints (at http://168.231.80.24:9002/route/*Carousal) have a bug.
+  // REASON: Backend carousel endpoints (at /route/*Carousal) have a bug.
   // They filter and return listings where isActive !== true (inactive listings) instead of active ones.
   //
   // WORKAROUND: We reversed the meaning of isActive throughout the application:
@@ -637,7 +666,7 @@ const MyListe = () => {
     {
       title: t("myListing.image"),
       dataIndex: "galleryImages",
-      align: i18n.language.startsWith('ar') ? 'right' : 'left',
+      align: i18n.language.startsWith("ar") ? "right" : "left",
       render: (images, record) => (
         <div className="listingtable-img">
           <Link
@@ -651,24 +680,27 @@ const MyListe = () => {
                     record.category.trim() === "Pet & Animals"
                       ? "PetAnimalsComp"
                       : record.category.trim() === "Motors"
-                      ? "AutomotiveComp"
-                      : record.category.trim() === "Other"
-                      ? "Education"
-                      : record.category.trim() === "Services"
-                      ? "TravelComp"
-                      : record.category.trim() === "JobBoard"
-                      ? "JobBoard"
-                      : record.category.trim() === "FashionStyle"
-                      ? "FashionStyle"
-                      : record.category.trim() === "Electronics"
-                      ? "ElectronicComp"
-                      : record.category.trim() === "Home & Furnituer"
-                      ? "HealthCareComp"
-                      : record.category.trim() === "Sports & Game"
-                      ? "SportGamesComp"
-                      : record.category.trim() === "Real Estate"
-                      ? "RealEstateComp"
-                      : formatCategory(record.category.trim())
+                        ? "AutomotiveComp"
+                        : record.category.trim() === "Other"
+                          ? "Education"
+                          : record.category.trim() === "Services"
+                            ? "TravelComp"
+                            : record.category.trim() === "JobBoard"
+                              ? "JobBoard"
+                              : record.category.trim() === "FashionStyle"
+                                ? "FashionStyle"
+                                : record.category.trim() === "Electronics"
+                                  ? "ElectronicComp"
+                                  : record.category.trim() ===
+                                      "Home & Furnituer"
+                                    ? "HealthCareComp"
+                                    : record.category.trim() === "Sports & Game"
+                                      ? "SportGamesComp"
+                                      : record.category.trim() === "Real Estate"
+                                        ? "RealEstateComp"
+                                        : formatCategory(
+                                            record.category.trim(),
+                                          ),
                   )}`
             }
             style={{
@@ -699,7 +731,7 @@ const MyListe = () => {
     {
       title: t("myListing.details"),
       dataIndex: "title",
-      align: i18n.language.startsWith('ar') ? 'right' : 'left',
+      align: i18n.language.startsWith("ar") ? "right" : "left",
       render: (text, record) => (
         <>
           <h6>
@@ -713,24 +745,29 @@ const MyListe = () => {
                       record.category.trim() === "Pet & Animals"
                         ? "PetAnimalsComp"
                         : record.category.trim() === "Motors"
-                        ? "AutomotiveComp"
-                        : record.category.trim() === "Other"
-                        ? "Education"
-                        : record.category.trim() === "Services"
-                        ? "TravelComp"
-                        : record.category.trim() === "JobBoard"
-                        ? "JobBoard"
-                        : record.category.trim() === "FashionStyle"
-                        ? "FashionStyle"
-                        : record.category.trim() === "Electronics"
-                        ? "ElectronicComp"
-                        : record.category.trim() === "Home & Furnituer"
-                        ? "HealthCareComp"
-                        : record.category.trim() === "Sports & Game"
-                        ? "SportGamesComp"
-                        : record.category.trim() === "Real Estate"
-                        ? "RealEstateComp"
-                        : formatCategory(record.category.trim())
+                          ? "AutomotiveComp"
+                          : record.category.trim() === "Other"
+                            ? "Education"
+                            : record.category.trim() === "Services"
+                              ? "TravelComp"
+                              : record.category.trim() === "JobBoard"
+                                ? "JobBoard"
+                                : record.category.trim() === "FashionStyle"
+                                  ? "FashionStyle"
+                                  : record.category.trim() === "Electronics"
+                                    ? "ElectronicComp"
+                                    : record.category.trim() ===
+                                        "Home & Furnituer"
+                                      ? "HealthCareComp"
+                                      : record.category.trim() ===
+                                          "Sports & Game"
+                                        ? "SportGamesComp"
+                                        : record.category.trim() ===
+                                            "Real Estate"
+                                          ? "RealEstateComp"
+                                          : formatCategory(
+                                              record.category.trim(),
+                                            ),
                     )}`
               }
               style={{
@@ -739,17 +776,24 @@ const MyListe = () => {
                 cursor: record.isActive ? "not-allowed" : "pointer",
               }}
             >
-              {getTranslatedField(record, 'title', i18n.language) || text}
+              {getTranslatedField(record, "title", i18n.language) || text}
             </Link>
           </h6>
-          <div className="listingtable-rate" style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
-            flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row',
-            justifyContent: i18n.language.startsWith('ar') ? 'flex-start' : 'flex-start'
-          }}>
+          <div
+            className="listingtable-rate"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              direction: i18n.language.startsWith("ar") ? "rtl" : "ltr",
+              flexDirection: i18n.language.startsWith("ar")
+                ? "row-reverse"
+                : "row",
+              justifyContent: i18n.language.startsWith("ar")
+                ? "flex-start"
+                : "flex-start",
+            }}
+          >
             <Link
               to={
                 record.isActive
@@ -760,24 +804,29 @@ const MyListe = () => {
                       record.category.trim() === "Pet & Animals"
                         ? "PetAnimalsComp"
                         : record.category.trim() === "Motors"
-                        ? "AutomotiveComp"
-                        : record.category.trim() === "Other"
-                        ? "Education"
-                        : record.category.trim() === "Services"
-                        ? "TravelComp"
-                        : record.category.trim() === "JobBoard"
-                        ? "JobBoard"
-                        : record.category.trim() === "FashionStyle"
-                        ? "FashionStyle"
-                        : record.category.trim() === "Electronics"
-                        ? "ElectronicComp"
-                        : record.category.trim() === "Home & Furnituer"
-                        ? "HealthCareComp"
-                        : record.category.trim() === "Sports & Game"
-                        ? "SportGamesComp"
-                        : record.category.trim() === "Real Estate"
-                        ? "RealEstateComp"
-                        : formatCategory(record.category.trim())
+                          ? "AutomotiveComp"
+                          : record.category.trim() === "Other"
+                            ? "Education"
+                            : record.category.trim() === "Services"
+                              ? "TravelComp"
+                              : record.category.trim() === "JobBoard"
+                                ? "JobBoard"
+                                : record.category.trim() === "FashionStyle"
+                                  ? "FashionStyle"
+                                  : record.category.trim() === "Electronics"
+                                    ? "ElectronicComp"
+                                    : record.category.trim() ===
+                                        "Home & Furnituer"
+                                      ? "HealthCareComp"
+                                      : record.category.trim() ===
+                                          "Sports & Game"
+                                        ? "SportGamesComp"
+                                        : record.category.trim() ===
+                                            "Real Estate"
+                                          ? "RealEstateComp"
+                                          : formatCategory(
+                                              record.category.trim(),
+                                            ),
                     )}`
               }
               className="cat-icon"
@@ -788,19 +837,26 @@ const MyListe = () => {
                 display: "flex",
                 alignItems: "center",
                 gap: "5px",
-                flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
+                flexDirection: i18n.language.startsWith("ar")
+                  ? "row-reverse"
+                  : "row",
               }}
             >
               <FaRegStopCircle />
               {formatCategory(record.category)}
             </Link>
-            <span className="discount-amt" style={{
-              color: "#2d4495",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
-            }}>
+            <span
+              className="discount-amt"
+              style={{
+                color: "#2d4495",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                flexDirection: i18n.language.startsWith("ar")
+                  ? "row-reverse"
+                  : "row",
+              }}
+            >
               <img
                 src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
                 alt="Saudi Riyal Symbol"
@@ -812,7 +868,11 @@ const MyListe = () => {
               {record.Price}
             </span>
           </div>
-          <p>{getTranslatedField(record, 'description', i18n.language) || record.tagline}.</p>
+          <p>
+            {getTranslatedField(record, "description", i18n.language) ||
+              record.tagline}
+            .
+          </p>
         </>
       ),
       sorter: (a, b) => (a.title?.length || 0) - (b.title?.length || 0),
@@ -820,7 +880,7 @@ const MyListe = () => {
     {
       title: t("myListing.status"),
       dataIndex: "status",
-      align: i18n.language.startsWith('ar') ? 'right' : 'left',
+      align: i18n.language.startsWith("ar") ? "right" : "left",
       render: (text, record) => (
         <span className={record.bg}>
           {/* REVERSED: false = Active, true = Not Active (see comment at top of columns) */}
@@ -834,7 +894,7 @@ const MyListe = () => {
           {
             title: t("myListing.invoice"),
             dataIndex: "invoiceNumber",
-            align: i18n.language.startsWith('ar') ? 'right' : 'left',
+            align: i18n.language.startsWith("ar") ? "right" : "left",
             render: (text, record) => (
               <div
                 className="invoice-cell"
@@ -867,14 +927,14 @@ const MyListe = () => {
     {
       title: t("myListing.views"),
       dataIndex: "views", // ✅ correct field
-      align: i18n.language.startsWith('ar') ? 'right' : 'left',
+      align: i18n.language.startsWith("ar") ? "right" : "left",
       render: (text, record) => <span>{record.views ?? 0}</span>,
       sorter: (a, b) => (a.views || 0) - (b.views || 0),
     },
     {
       title: t("myListing.action"),
       dataIndex: "class",
-      align: i18n.language.startsWith('ar') ? 'right' : 'left',
+      align: i18n.language.startsWith("ar") ? "right" : "left",
       render: (text, record) => (
         <div
           className={text}
@@ -894,24 +954,27 @@ const MyListe = () => {
                     record.category.trim() === "Pet & Animals"
                       ? "PetAnimalsComp"
                       : record.category.trim() === "Motors"
-                      ? "AutomotiveComp"
-                      : record.category.trim() === "Other"
-                      ? "Education"
-                      : record.category.trim() === "Services"
-                      ? "TravelComp"
-                      : record.category.trim() === "JobBoard"
-                      ? "JobBoard"
-                      : record.category.trim() === "FashionStyle"
-                      ? "FashionStyle"
-                      : record.category.trim() === "Electronics"
-                      ? "ElectronicComp"
-                      : record.category.trim() === "Home & Furnituer"
-                      ? "HealthCareComp"
-                      : record.category.trim() === "Sports & Game"
-                      ? "SportGamesComp"
-                      : record.category.trim() === "Real Estate"
-                      ? "RealEstateComp"
-                      : formatCategory(record.category.trim())
+                        ? "AutomotiveComp"
+                        : record.category.trim() === "Other"
+                          ? "Education"
+                          : record.category.trim() === "Services"
+                            ? "TravelComp"
+                            : record.category.trim() === "JobBoard"
+                              ? "JobBoard"
+                              : record.category.trim() === "FashionStyle"
+                                ? "FashionStyle"
+                                : record.category.trim() === "Electronics"
+                                  ? "ElectronicComp"
+                                  : record.category.trim() ===
+                                      "Home & Furnituer"
+                                    ? "HealthCareComp"
+                                    : record.category.trim() === "Sports & Game"
+                                      ? "SportGamesComp"
+                                      : record.category.trim() === "Real Estate"
+                                        ? "RealEstateComp"
+                                        : formatCategory(
+                                            record.category.trim(),
+                                          ),
                   )}`
             }
             className="action-btn btn-view"
@@ -937,7 +1000,7 @@ const MyListe = () => {
               record.isActive
                 ? "#"
                 : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
-                    record.category
+                    record.category,
                   )}`
             }
             className="action-btn btn-edit"
@@ -963,7 +1026,7 @@ const MyListe = () => {
               toggleDisable(
                 record.id,
                 formatCategory(record.category),
-                !record.isActive
+                !record.isActive,
               );
               console.log(record, "record______");
             }}
@@ -1007,7 +1070,7 @@ const MyListe = () => {
 
   const paginatedData = filteredCars.slice(
     (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    currentPage * pageSize,
   );
 
   return (
@@ -1029,7 +1092,7 @@ const MyListe = () => {
                     </strong>
                     <span className="ms-2 text-muted">{value}</span>
                   </div>
-                ) : null
+                ) : null,
               )}
             </div>
             {FormDataView.galleryImages &&
@@ -1163,7 +1226,7 @@ const MyListe = () => {
                       </strong>
                       <p className="text-muted mb-0">{value}</p>
                     </Col>
-                  ) : null
+                  ) : null,
                 )}
               </Row>
               {formData.galleryImages && formData.galleryImages.length > 0 && (
@@ -1323,10 +1386,10 @@ const MyListe = () => {
                             {filter === "All Listing"
                               ? t("myListing.allListing")
                               : filter === "Featured Ads"
-                              ? t("myListing.featuredAds")
-                              : filter === "Not Featured Ads"
-                              ? t("myListing.notFeaturedAds")
-                              : filter}
+                                ? t("myListing.featuredAds")
+                                : filter === "Not Featured Ads"
+                                  ? t("myListing.notFeaturedAds")
+                                  : filter}
                           </span>
                         </Link>
                         <div
@@ -1435,15 +1498,21 @@ const MyListe = () => {
                   </div>
                   <div className="sorting-div">
                     <div className="sortbyset">
-                      <span className="sortbytitle">{t("myListing.sortBy")}</span>
+                      <span className="sortbytitle">
+                        {t("myListing.sortBy")}
+                      </span>
                       <div className="sorting-select">
                         <select
                           value={sortOrder}
                           onChange={handleSortChange}
                           className="form-control"
                         >
-                          <option value="Newest">{t("myListing.newestFirst")}</option>
-                          <option value="Oldest">{t("myListing.oldestFirst")}</option>
+                          <option value="Newest">
+                            {t("myListing.newestFirst")}
+                          </option>
+                          <option value="Oldest">
+                            {t("myListing.oldestFirst")}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -1482,47 +1551,71 @@ const MyListe = () => {
                         {filteredCars.length === 0 ? (
                           <div className="mobile-listing-empty">
                             <FaListUl />
-                            <p>{t("myListing.noListings") || "No listings found"}</p>
+                            <p>
+                              {t("myListing.noListings") || "No listings found"}
+                            </p>
                           </div>
                         ) : (
                           filteredCars.map((record) => (
-                            <div key={record.id} className="mobile-listing-card">
+                            <div
+                              key={record.id}
+                              className="mobile-listing-card"
+                            >
                               <div className="mobile-listing-card-content">
                                 <Link
                                   to={
                                     record.isActive
                                       ? "#"
                                       : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-                                          record.category.trim() === "Pet & Animals"
+                                          record.category.trim() ===
+                                            "Pet & Animals"
                                             ? "PetAnimalsComp"
-                                            : record.category.trim() === "Motors"
-                                            ? "AutomotiveComp"
-                                            : record.category.trim() === "Other"
-                                            ? "Education"
-                                            : record.category.trim() === "Services"
-                                            ? "TravelComp"
-                                            : record.category.trim() === "JobBoard"
-                                            ? "JobBoard"
-                                            : record.category.trim() === "FashionStyle"
-                                            ? "FashionStyle"
-                                            : record.category.trim() === "Electronics"
-                                            ? "ElectronicComp"
-                                            : record.category.trim() === "Home & Furnituer"
-                                            ? "HealthCareComp"
-                                            : record.category.trim() === "Sports & Game"
-                                            ? "SportGamesComp"
-                                            : record.category.trim() === "Real Estate"
-                                            ? "RealEstateComp"
-                                            : formatCategory(record.category.trim())
+                                            : record.category.trim() ===
+                                                "Motors"
+                                              ? "AutomotiveComp"
+                                              : record.category.trim() ===
+                                                  "Other"
+                                                ? "Education"
+                                                : record.category.trim() ===
+                                                    "Services"
+                                                  ? "TravelComp"
+                                                  : record.category.trim() ===
+                                                      "JobBoard"
+                                                    ? "JobBoard"
+                                                    : record.category.trim() ===
+                                                        "FashionStyle"
+                                                      ? "FashionStyle"
+                                                      : record.category.trim() ===
+                                                          "Electronics"
+                                                        ? "ElectronicComp"
+                                                        : record.category.trim() ===
+                                                            "Home & Furnituer"
+                                                          ? "HealthCareComp"
+                                                          : record.category.trim() ===
+                                                              "Sports & Game"
+                                                            ? "SportGamesComp"
+                                                            : record.category.trim() ===
+                                                                "Real Estate"
+                                                              ? "RealEstateComp"
+                                                              : formatCategory(
+                                                                  record.category.trim(),
+                                                                ),
                                         )}`
                                   }
                                   style={{
-                                    pointerEvents: record.isActive ? "none" : "auto",
+                                    pointerEvents: record.isActive
+                                      ? "none"
+                                      : "auto",
                                   }}
                                 >
-                                  <div className={`mobile-listing-card-image ${record.isActive ? 'inactive' : ''}`}>
+                                  <div
+                                    className={`mobile-listing-card-image ${record.isActive ? "inactive" : ""}`}
+                                  >
                                     <img
-                                      src={record.galleryImages?.[0] || "placeholder.jpg"}
+                                      src={
+                                        record.galleryImages?.[0] ||
+                                        "placeholder.jpg"
+                                      }
                                       alt={record.title}
                                     />
                                   </div>
@@ -1530,15 +1623,30 @@ const MyListe = () => {
 
                                 <div className="mobile-listing-card-details">
                                   <div className="mobile-listing-card-info">
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                                      <p className="mobile-listing-card-category" style={{
-                                        opacity: record.isActive ? 0.5 : 1,
-                                      }}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        marginBottom: "4px",
+                                      }}
+                                    >
+                                      <p
+                                        className="mobile-listing-card-category"
+                                        style={{
+                                          opacity: record.isActive ? 0.5 : 1,
+                                        }}
+                                      >
                                         <FaRegStopCircle />
                                         {formatCategory(record.category)}
                                       </p>
-                                      <span className={`mobile-listing-card-status ${record.isActive ? 'inactive' : 'active'}`}>
-                                        {record.isActive ? t("myListing.notActive") || "Not Active" : t("myListing.active") || "Active"}
+                                      <span
+                                        className={`mobile-listing-card-status ${record.isActive ? "inactive" : "active"}`}
+                                      >
+                                        {record.isActive
+                                          ? t("myListing.notActive") ||
+                                            "Not Active"
+                                          : t("myListing.active") || "Active"}
                                       </span>
                                     </div>
 
@@ -1548,54 +1656,84 @@ const MyListe = () => {
                                           record.isActive
                                             ? "#"
                                             : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-                                                record.category.trim() === "Pet & Animals"
+                                                record.category.trim() ===
+                                                  "Pet & Animals"
                                                   ? "PetAnimalsComp"
-                                                  : record.category.trim() === "Motors"
-                                                  ? "AutomotiveComp"
-                                                  : record.category.trim() === "Other"
-                                                  ? "Education"
-                                                  : record.category.trim() === "Services"
-                                                  ? "TravelComp"
-                                                  : record.category.trim() === "JobBoard"
-                                                  ? "JobBoard"
-                                                  : record.category.trim() === "FashionStyle"
-                                                  ? "FashionStyle"
-                                                  : record.category.trim() === "Electronics"
-                                                  ? "ElectronicComp"
-                                                  : record.category.trim() === "Home & Furnituer"
-                                                  ? "HealthCareComp"
-                                                  : record.category.trim() === "Sports & Game"
-                                                  ? "SportGamesComp"
-                                                  : record.category.trim() === "Real Estate"
-                                                  ? "RealEstateComp"
-                                                  : formatCategory(record.category.trim())
+                                                  : record.category.trim() ===
+                                                      "Motors"
+                                                    ? "AutomotiveComp"
+                                                    : record.category.trim() ===
+                                                        "Other"
+                                                      ? "Education"
+                                                      : record.category.trim() ===
+                                                          "Services"
+                                                        ? "TravelComp"
+                                                        : record.category.trim() ===
+                                                            "JobBoard"
+                                                          ? "JobBoard"
+                                                          : record.category.trim() ===
+                                                              "FashionStyle"
+                                                            ? "FashionStyle"
+                                                            : record.category.trim() ===
+                                                                "Electronics"
+                                                              ? "ElectronicComp"
+                                                              : record.category.trim() ===
+                                                                  "Home & Furnituer"
+                                                                ? "HealthCareComp"
+                                                                : record.category.trim() ===
+                                                                    "Sports & Game"
+                                                                  ? "SportGamesComp"
+                                                                  : record.category.trim() ===
+                                                                      "Real Estate"
+                                                                    ? "RealEstateComp"
+                                                                    : formatCategory(
+                                                                        record.category.trim(),
+                                                                      ),
                                               )}`
                                         }
                                         style={{
-                                          pointerEvents: record.isActive ? "none" : "auto",
+                                          pointerEvents: record.isActive
+                                            ? "none"
+                                            : "auto",
                                           opacity: record.isActive ? 0.5 : 1,
-                                          cursor: record.isActive ? "not-allowed" : "pointer",
+                                          cursor: record.isActive
+                                            ? "not-allowed"
+                                            : "pointer",
                                         }}
                                       >
-                                        {getTranslatedField(record, 'title', i18n.language) || record.title}
+                                        {getTranslatedField(
+                                          record,
+                                          "title",
+                                          i18n.language,
+                                        ) || record.title}
                                       </Link>
                                     </h3>
 
-                                    <div className="mobile-listing-card-meta" style={{
-                                      opacity: record.isActive ? 0.5 : 1,
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                    }}>
+                                    <div
+                                      className="mobile-listing-card-meta"
+                                      style={{
+                                        opacity: record.isActive ? 0.5 : 1,
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                      }}
+                                    >
                                       {record.Price && (
-                                        <p className="mobile-listing-card-price" style={{ margin: 0 }}>
-                                          <img src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg" alt="SAR" />
+                                        <p
+                                          className="mobile-listing-card-price"
+                                          style={{ margin: 0 }}
+                                        >
+                                          <img
+                                            src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
+                                            alt="SAR"
+                                          />
                                           {record.Price}
                                         </p>
                                       )}
                                       <div className="mobile-listing-card-views">
                                         <FaRegEye />
-                                        {record.views ?? 0} {t("myListing.views") || "views"}
+                                        {record.views ?? 0}{" "}
+                                        {t("myListing.views") || "views"}
                                       </div>
                                     </div>
                                   </div>
@@ -1608,27 +1746,39 @@ const MyListe = () => {
                                     record.isActive
                                       ? "#"
                                       : `/Dynamic_Route?id=${record.id}&callingFrom=${formatCategory(
-                                          record.category.trim() === "Pet & Animals"
+                                          record.category.trim() ===
+                                            "Pet & Animals"
                                             ? "PetAnimalsComp"
-                                            : record.category.trim() === "Motors"
-                                            ? "AutomotiveComp"
-                                            : record.category.trim() === "Other"
-                                            ? "Education"
-                                            : record.category.trim() === "Services"
-                                            ? "TravelComp"
-                                            : record.category.trim() === "JobBoard"
-                                            ? "JobBoard"
-                                            : record.category.trim() === "FashionStyle"
-                                            ? "FashionStyle"
-                                            : record.category.trim() === "Electronics"
-                                            ? "ElectronicComp"
-                                            : record.category.trim() === "Home & Furnituer"
-                                            ? "HealthCareComp"
-                                            : record.category.trim() === "Sports & Game"
-                                            ? "SportGamesComp"
-                                            : record.category.trim() === "Real Estate"
-                                            ? "RealEstateComp"
-                                            : formatCategory(record.category.trim())
+                                            : record.category.trim() ===
+                                                "Motors"
+                                              ? "AutomotiveComp"
+                                              : record.category.trim() ===
+                                                  "Other"
+                                                ? "Education"
+                                                : record.category.trim() ===
+                                                    "Services"
+                                                  ? "TravelComp"
+                                                  : record.category.trim() ===
+                                                      "JobBoard"
+                                                    ? "JobBoard"
+                                                    : record.category.trim() ===
+                                                        "FashionStyle"
+                                                      ? "FashionStyle"
+                                                      : record.category.trim() ===
+                                                          "Electronics"
+                                                        ? "ElectronicComp"
+                                                        : record.category.trim() ===
+                                                            "Home & Furnituer"
+                                                          ? "HealthCareComp"
+                                                          : record.category.trim() ===
+                                                              "Sports & Game"
+                                                            ? "SportGamesComp"
+                                                            : record.category.trim() ===
+                                                                "Real Estate"
+                                                              ? "RealEstateComp"
+                                                              : formatCategory(
+                                                                  record.category.trim(),
+                                                                ),
                                         )}`
                                   }
                                   onClick={(e) => {
@@ -1649,7 +1799,7 @@ const MyListe = () => {
                                     record.isActive
                                       ? "#"
                                       : `/add-listing?id=${record.id}&callingFrom=${formatCategory(
-                                          record.category
+                                          record.category,
                                         )}`
                                   }
                                   onClick={(e) => {
@@ -1671,11 +1821,13 @@ const MyListe = () => {
                                     toggleDisable(
                                       record.id,
                                       formatCategory(record.category),
-                                      !record.isActive
+                                      !record.isActive,
                                     );
                                   }}
                                   style={{
-                                    backgroundColor: !record.isActive ? "#2d4495" : "#cccccc",
+                                    backgroundColor: !record.isActive
+                                      ? "#2d4495"
+                                      : "#cccccc",
                                   }}
                                 >
                                   {!record.isActive ? (
@@ -1691,10 +1843,17 @@ const MyListe = () => {
                       </div>
 
                       {/* Desktop Table View */}
-                      <div dir={i18n.language.startsWith('ar') ? 'rtl' : 'ltr'} style={{
-                        direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
-                        textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
-                      }}>
+                      <div
+                        dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}
+                        style={{
+                          direction: i18n.language.startsWith("ar")
+                            ? "rtl"
+                            : "ltr",
+                          textAlign: i18n.language.startsWith("ar")
+                            ? "right"
+                            : "left",
+                        }}
+                      >
                         <Table
                           className="listing-table datatable"
                           columns={columns}
@@ -1739,7 +1898,7 @@ const MyListe = () => {
                           to="#"
                           onClick={() =>
                             setCurrentPage((prev) =>
-                              Math.min(prev + 1, totalPages)
+                              Math.min(prev + 1, totalPages),
                             )
                           }
                         >

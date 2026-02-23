@@ -18,6 +18,14 @@ module.exports = {
     },
     port: 3002,
     historyApiFallback: true,
+    proxy: [
+      {
+        context: ["/route", "/api", "/search", "/currentUserData", "/socket.io"],
+        target: "http://localhost:9002",
+        changeOrigin: true,
+        ws: true,
+      },
+    ],
     onAfterSetupMiddleware: function () {
       // Open the browser after the dev server is up and running
       opn(`http://localhost:${this.port}`);

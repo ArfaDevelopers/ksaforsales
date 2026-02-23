@@ -35,9 +35,12 @@ function timeAgo(timestamp, t) {
   const days = Math.floor(hours / 24);
 
   if (t) {
-    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
-    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
-    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    if (days > 0)
+      return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0)
+      return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0)
+      return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
     return t("common.justNow");
   }
 
@@ -54,19 +57,19 @@ export default function AutomativeCarousel() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
-  const [activeSubcategory, setActiveSubcategory] = useState(
-    "Houses for Sale"
-  );
+  const [activeSubcategory, setActiveSubcategory] = useState("Houses for Sale");
 
   // Helper function to translate real estate subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
       "Houses for Sale": t("subcategories.realEstate.housesForSale"),
       "Houses for Rent": t("subcategories.realEstate.housesForRent"),
-      "Commercial Lands for Sale": t("subcategories.realEstate.commercialLandsForSale"),
+      "Commercial Lands for Sale": t(
+        "subcategories.realEstate.commercialLandsForSale",
+      ),
       "Shops for Rent": t("subcategories.realEstate.shopsForRent"),
       "Lands for Sale": t("subcategories.realEstate.landsForSale"),
-      "Villas for Rent": t("subcategories.realEstate.villasForRent")
+      "Villas for Rent": t("subcategories.realEstate.villasForRent"),
     };
     return subcategoryMap[name] || name;
   };
@@ -80,9 +83,7 @@ export default function AutomativeCarousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/REALESTATECOMPCarousal"
-        );
+        const response = await fetch("/route/REALESTATECOMPCarousal");
         const data = await response.json();
         if (!response.ok) return;
 
@@ -312,7 +313,9 @@ export default function AutomativeCarousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">{t("common.featured")}</span>
+                                <span className="Featured-text">
+                                  {t("common.featured")}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -343,7 +346,11 @@ export default function AutomativeCarousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {getTranslatedField(item, 'title', i18n.language)}
+                                  {getTranslatedField(
+                                    item,
+                                    "title",
+                                    i18n.language,
+                                  )}
                                 </Link>
                               </h6>
                               <p
@@ -356,7 +363,17 @@ export default function AutomativeCarousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
+                                {getTranslatedField(
+                                  item,
+                                  "District",
+                                  i18n.language,
+                                )}
+                                ,{" "}
+                                {getTranslatedField(
+                                  item,
+                                  "City",
+                                  i18n.language,
+                                )}
                               </p>
                               <div
                                 className="blog-location-details"

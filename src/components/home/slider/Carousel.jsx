@@ -34,9 +34,12 @@ function timeAgo(timestamp, t) {
   const days = Math.floor(hours / 24);
 
   if (t) {
-    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
-    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
-    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    if (days > 0)
+      return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0)
+      return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0)
+      return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
     return t("common.justNow");
   }
 
@@ -55,9 +58,7 @@ export default function Carousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/EducationCarousal"
-        );
+        const response = await fetch("/route/EducationCarousal");
         const data = await response.json();
         if (!response.ok) return;
 
@@ -240,7 +241,9 @@ export default function Carousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">{t("common.featured")}</span>
+                                <span className="Featured-text">
+                                  {t("common.featured")}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -271,7 +274,11 @@ export default function Carousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {getTranslatedField(item, 'title', i18n.language)}
+                                  {getTranslatedField(
+                                    item,
+                                    "title",
+                                    i18n.language,
+                                  )}
                                 </Link>
                               </h6>
                               <p
@@ -284,7 +291,17 @@ export default function Carousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
+                                {getTranslatedField(
+                                  item,
+                                  "District",
+                                  i18n.language,
+                                )}
+                                ,{" "}
+                                {getTranslatedField(
+                                  item,
+                                  "City",
+                                  i18n.language,
+                                )}
                               </p>
                               <div
                                 className="blog-location-details"
